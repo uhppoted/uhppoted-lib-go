@@ -1,0 +1,68 @@
+CMD   = ./bin/cli --debug --bind 192.168.1.100 --broadcast 192.168.1.255 --listen 192.168.1.100:60001
+
+.DEFAULT_GOAL := build
+
+clean:
+	go clean
+	rm -rf bin
+	rm -rf dist
+
+update:
+	go get -u github.com/uhppoted/uhppote-lib-go
+	go mod tidy
+
+format: 
+	go fmt ./...
+
+build: format
+	mkdir -p bin
+	go build -trimpath -o bin  ./... 
+
+test: build
+	go test ./...
+
+benchmark: build
+	go test -bench=.  ./... 
+
+coverage: build
+	go test -cover ./...
+
+vet:
+	go vet ./...
+
+lint:
+	env GOOS=darwin  GOARCH=amd64 staticcheck ./...
+	env GOOS=linux   GOARCH=amd64 staticcheck ./...
+	env GOOS=windows GOARCH=amd64 staticcheck ./...
+
+vuln:
+	govulncheck ./...
+
+build-all: test vet lint
+	mkdir -p dist/$(DIST)/linux
+	mkdir -p dist/$(DIST)/arm
+	mkdir -p dist/$(DIST)/arm7
+	mkdir -p dist/$(DIST)/arm6
+	mkdir -p dist/$(DIST)/darwin-x64
+	mkdir -p dist/$(DIST)/darwin-arm64
+	mkdir -p dist/$(DIST)/windows
+	env GOOS=linux   GOARCH=amd64         GOWORK=off go build -trimpath -o dist/$(DIST)/linux        ./...
+	env GOOS=linux   GOARCH=arm64         GOWORK=off go build -trimpath -o dist/$(DIST)/arm          ./...
+	env GOOS=linux   GOARCH=arm   GOARM=7 GOWORK=off go build -trimpath -o dist/$(DIST)/arm7         ./...
+	env GOOS=linux   GOARCH=arm   GOARM=6 GOWORK=off go build -trimpath -o dist/$(DIST)/arm6         ./...
+	env GOOS=darwin  GOARCH=amd64         GOWORK=off go build -trimpath -o dist/$(DIST)/darwin-x64   ./...
+	env GOOS=darwin  GOARCH=arm64         GOWORK=off go build -trimpath -o dist/$(DIST)/darwin-arm64 ./...
+	env GOOS=windows GOARCH=amd64         GOWORK=off go build -trimpath -o dist/$(DIST)/windows      ./...
+
+godoc:
+	godoc -http=:80	-index_interval=60s
+
+debug: build
+	go test -v ./... 
+
+help: build
+	$(CMD) help
+
+get-all-controllers: build
+	$(CMD) get-all-controllers
+
