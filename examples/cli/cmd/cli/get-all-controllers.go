@@ -9,7 +9,7 @@ import (
 func GetAllControllers(args []string) error {
 	u := uhppoted.Uhppoted{}
 
-	if controllers, err := u.GetAllControllers(); err != nil {
+	if controllers, err := u.GetAllControllers(options.timeout); err != nil {
 		return err
 	} else {
 		fmt.Printf("get-all-controllers\n")
