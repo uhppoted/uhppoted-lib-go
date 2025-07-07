@@ -6,6 +6,9 @@ import (
 	"github.com/uhppoted/uhppoted-lib-go/uhppoted/codec"
 )
 
+//go:generate ../../../.codegen/bin/codegen
+
+
 // UHPPOTE request packet encoder.
 //
 // Encodes a UHPPOTE access controller request as a 64 byte UDP packet:

@@ -48,7 +48,7 @@ type uhppoted struct {
 }
 
 // NewUhppoted creates a new instance of the uhppoted service, configured with the supplied
-// local bind address, broadcast address, and listen address. The debug flag enables or 
+// local bind address, broadcast address, and listen address. The debug flag enables or
 // disables logging of the network packets to the console.
 //
 // The bind, broadcast, and listen parameters are expected to be valid netip.AddPort
