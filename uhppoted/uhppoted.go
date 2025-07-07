@@ -6,23 +6,24 @@
 //
 // Typical usage:
 //
-//     client := uhppoted.Uhppoted{
-//         BindAddr:      netip.MustParseAddrPort("0.0.0.0:0"),
-//         BroadcastAddr: netip.MustParseAddrPort("255.255.255.255:60000"),
-//         ListenAddr:    netip.MustParseAddrPort("0.0.0.0:60001"),
-//         Debug:         false,
-//     }
+//	client := uhppoted.Uhppoted{
+//	    BindAddr:      netip.MustParseAddrPort("0.0.0.0:0"),
+//	    BroadcastAddr: netip.MustParseAddrPort("255.255.255.255:60000"),
+//	    ListenAddr:    netip.MustParseAddrPort("0.0.0.0:60001"),
+//	    Debug:         false,
+//	}
 //
-//     if controllers, err := client.GetAllControllers(2 * time.Second); err != nil {
-//         log.Fatal(err)
-//     } else {
-//         for _, c := range controllers {
-//             fmt.Printf("Controller: %v\n", c.SerialNumber)
-//         }
-//     }
+//	if controllers, err := client.GetAllControllers(2 * time.Second); err != nil {
+//	    log.Fatal(err)
+//	} else {
+//	    for _, c := range controllers {
+//	        fmt.Printf("Controller: %v\n", c.SerialNumber)
+//	    }
+//	}
 package uhppoted
 
 import (
+	"net"
 	"net/netip"
 	"time"
 
@@ -33,13 +34,39 @@ import (
 
 type GetControllerResponse = codec.GetControllerResponse
 
-type Uhppoted struct {
-	BindAddr      netip.AddrPort
-	BroadcastAddr netip.AddrPort
-	ListenAddr    netip.AddrPort
-	Debug         bool
+type Uhppoted interface {
+	GetAllControllers(timeout time.Duration) ([]GetControllerResponse, error)
+}
+
+type uhppoted struct {
+	bindAddr      netip.AddrPort
+	broadcastAddr netip.AddrPort
+	listenAddr    netip.AddrPort
+	debug         bool
 
 	udp udp
+}
+
+// NewUhppoted creates a new instance of the uhppoted service, configured with the supplied
+// local bind address, broadcast address, and listen address. The debug flag enables or 
+// disables logging of the network packets to the console.
+//
+// The bind, broadcast, and listen parameters are expected to be valid netip.AddPort
+// addresses.
+func NewUhppoted(bind, broadcast, listen netip.AddrPort, debug bool) uhppoted {
+	return uhppoted{
+		bindAddr:      bind,
+		broadcastAddr: broadcast,
+		listenAddr:    listen,
+		debug:         debug,
+
+		udp: udp{
+			bindAddr:      net.UDPAddrFromAddrPort(bind),
+			broadcastAddr: net.UDPAddrFromAddrPort(broadcast),
+			listenAddr:    net.UDPAddrFromAddrPort(listen),
+			debug:         debug,
+		},
+	}
 }
 
 // GetAllControllers retrieves a list of all UHPPOTE controllers accessible on the local LAN.
@@ -56,20 +83,7 @@ type Uhppoted struct {
 //
 // Note: Responses that cannot be decoded are silently ignored.
 
-// GetAllControllers retrieves a list of all UHPPOTE controllers accessible on the local LAN.
-//
-// It broadcasts a `get controller` request to the local network and returns a list of
-// responses from devices that reply within the specified timeout.
-//
-// Parameters:
-//   - timeout: Optional operation timeout. If zero, a default of 2.5 seconds should be used.
-//
-// Returns:
-//   - A slice of GetControllerResponse objects (as `any`), one for each responding controller.
-//   - An error if the request could not be encoded or broadcast.
-//
-// Note: responses that cannot be decoded are silently ignored.
-func (u Uhppoted) GetAllControllers(timeout time.Duration) ([]GetControllerResponse, error) {
+func (u uhppoted) GetAllControllers(timeout time.Duration) ([]GetControllerResponse, error) {
 	if request, err := encode.GetControllerRequest(0); err != nil {
 		return nil, err
 	} else if replies, err := u.udp.broadcast(request, timeout); err != nil {

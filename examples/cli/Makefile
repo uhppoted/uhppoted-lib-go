@@ -1,4 +1,4 @@
-CMD   = ./bin/cli --debug --bind 192.168.1.100 --broadcast 192.168.1.255 --listen 192.168.1.100:60001
+CMD   = ./bin/cli --debug --bind 0.0.0.0 --broadcast 255.255.255.255:60000 --listen 0.0.0.0:60001
 
 .DEFAULT_GOAL := build
 

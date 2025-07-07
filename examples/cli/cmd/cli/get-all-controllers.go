@@ -6,9 +6,7 @@ import (
 	"github.com/uhppoted/uhppoted-lib-go/uhppoted"
 )
 
-func GetAllControllers(args []string) error {
-	u := uhppoted.Uhppoted{}
-
+func GetAllControllers(u uhppoted.Uhppoted, args []string) error {
 	if controllers, err := u.GetAllControllers(options.timeout); err != nil {
 		return err
 	} else {

@@ -1,3 +1,5 @@
+// Package codec defines the data structures and helper types for encoding and
+// decoding messages exchanged with UHPPOTE controllers.
 package codec
 
 import (
@@ -5,6 +7,9 @@ import (
 	"time"
 )
 
+// GetControllerResponse represents the response returned from a controller
+// when querying its network configuration, firmware version and firmeare release
+// date.
 type GetControllerResponse struct {
 	Controller uint32     `json:"controller"`
 	IpAddress  netip.Addr `json:"ip-address"`
