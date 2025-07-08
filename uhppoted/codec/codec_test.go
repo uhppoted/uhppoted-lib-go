@@ -3,9 +3,9 @@
 package codec
 
 import (
-    "testing"
+	"testing"
 )
 
 func TestGetControllerResponse_JSON(t *testing.T) {
-    // TODO: Add tests for JSON marshalling/unmarshalling of GetControllerResponse
+	// TODO: Add tests for JSON marshalling/unmarshalling of GetControllerResponse
 }

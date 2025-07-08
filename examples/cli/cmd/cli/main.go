@@ -9,7 +9,7 @@ import (
 	"slices"
 	"time"
 
-	"github.com/uhppoted/uhppoted-lib-go/uhppoted"
+	lib "github.com/uhppoted/uhppoted-lib-go/uhppoted"
 )
 
 var options = struct {
@@ -26,7 +26,7 @@ var options = struct {
 	debug:     false,
 }
 
-var commands = map[string]func(u uhppoted.Uhppoted, args []string) error{
+var commands = map[string]func(u lib.Uhppoted, args []string) error{
 	"get-all-controllers": GetAllControllers,
 }
 
@@ -57,7 +57,7 @@ func main() {
 		fmt.Printf("*** ERROR invalid listen address (%v)\n\n", err)
 		os.Exit(1)
 	} else {
-		u := uhppoted.NewUhppoted(bind, broadcast, listen, options.debug)
+		u := lib.NewUhppoted(bind, broadcast, listen, options.debug)
 
 		if err := cmd(u, args[1:]); err != nil {
 			fmt.Printf("*** ERROR %v\n\n", err)

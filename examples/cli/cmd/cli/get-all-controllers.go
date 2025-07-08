@@ -3,10 +3,10 @@ package main
 import (
 	"fmt"
 
-	"github.com/uhppoted/uhppoted-lib-go/uhppoted"
+	lib "github.com/uhppoted/uhppoted-lib-go/uhppoted"
 )
 
-func GetAllControllers(u uhppoted.Uhppoted, args []string) error {
+func GetAllControllers(u lib.Uhppoted, args []string) error {
 	if controllers, err := u.GetAllControllers(options.timeout); err != nil {
 		return err
 	} else {

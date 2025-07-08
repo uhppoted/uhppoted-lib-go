@@ -76,4 +76,3 @@ func dump(packet []byte) {
 
 	fmt.Println()
 }
-
