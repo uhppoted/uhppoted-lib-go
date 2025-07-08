@@ -9,6 +9,10 @@ clean:
 	rm -rf bin
 	rm -rf dist
 
+generate:
+	cd .codegen && make build
+	go generate ./...
+
 format: 
 	go fmt ./...
 
