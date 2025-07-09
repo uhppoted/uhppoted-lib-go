@@ -26,10 +26,6 @@ var options = struct {
 	debug:     false,
 }
 
-var commands = map[string]func(u lib.Uhppoted, args []string) error{
-	"get-all-controllers": GetAllControllers,
-}
-
 func main() {
 	flag.StringVar(&options.bind, "bind", options.bind, "Sets the local IP address and port to which to bind (e.g. 192.168.0.100)")
 	flag.StringVar(&options.broadcast, "broadcast", options.broadcast, "Sets the IP address and port for UDP broadcast (e.g. 192.168.0.255:60000)")

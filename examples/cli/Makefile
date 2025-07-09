@@ -66,3 +66,5 @@ help: build
 get-all-controllers: build
 	$(CMD) get-all-controllers
 
+get-controller: build
+	$(CMD) get-controller --controller 405419896

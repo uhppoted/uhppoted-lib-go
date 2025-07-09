@@ -26,7 +26,7 @@ build: format
 	go build -trimpath ./...
 
 debug: build
-	cd examples/cli && make get-all-controllers
+	cd examples/cli && make get-controller
 
 test: build
 	go test ./uhppoted/...
@@ -73,3 +73,5 @@ help:
 get-all-controllers: build
 	cd examples/cli && make get-all-controllers
 
+get-controller: build
+	cd examples/cli && make get-controller

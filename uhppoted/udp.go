@@ -41,10 +41,11 @@ func (u udp) broadcast(request []byte, timeout time.Duration) ([][]byte, error) 
 				if N, _, err := socket.ReadFromUDP(buffer); err != nil {
 					e <- err
 				} else if N == 64 {
-					replies = append(replies, buffer[0:64])
 					if u.debug {
 						dump(buffer[0:64])
 					}
+
+					replies = append(replies, buffer[0:64])
 				}
 			}
 		}()
@@ -57,6 +58,55 @@ func (u udp) broadcast(request []byte, timeout time.Duration) ([][]byte, error) 
 			return replies, err
 		}
 
+	}
+}
+
+func (u udp) broadcastTo(request []byte, timeout time.Duration) ([]byte, error) {
+	if socket, err := net.ListenUDP("udp", u.bindAddr); err != nil {
+		return nil, err
+	} else {
+		defer socket.Close()
+
+		endpoint := socket.LocalAddr().(*net.UDPAddr)
+		if endpoint.Port == u.broadcastAddr.Port {
+			return nil, fmt.Errorf("invalid UDP bind address: port %d reserved for broadcast", endpoint.Port)
+		}
+
+		if _, err := socket.WriteToUDP(request, u.broadcastAddr); err != nil {
+			return nil, err
+		} else if u.debug {
+			dump(request)
+		}
+
+		// ... read until reply, timeout or error
+		b := make(chan []byte)
+		e := make(chan error)
+
+		go func() {
+			for {
+				buffer := make([]byte, 1024)
+				if N, _, err := socket.ReadFromUDP(buffer); err != nil {
+					e <- err
+				} else if N == 64 {
+					b <- buffer[0:64]
+				}
+			}
+		}()
+
+		select {
+		case reply := <-b:
+			if u.debug {
+				dump(reply)
+			}
+
+			return reply, nil
+
+		case <-time.After(timeout):
+			return nil, nil
+
+		case err := <-e:
+			return nil, err
+		}
 	}
 }
 

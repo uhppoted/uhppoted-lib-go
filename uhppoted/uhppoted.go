@@ -36,6 +36,7 @@ type GetControllerResponse = codec.GetControllerResponse
 
 type Uhppoted interface {
 	GetAllControllers(timeout time.Duration) ([]GetControllerResponse, error)
+	GetController(controller uint32, timeout time.Duration) (GetControllerResponse, error)
 }
 
 type uhppoted struct {
@@ -79,7 +80,7 @@ func NewUhppoted(bind, broadcast, listen netip.AddrPort, debug bool) uhppoted {
 //
 // Returns:
 //   - A slice of GetControllerResponse structs, one for each responding controller.
-//   - An error if the request could not be encoded or broadcast.
+//   - An error if the request could not be encoded or sent.
 //
 // Note: Responses that cannot be decoded are silently ignored.
 
@@ -98,5 +99,30 @@ func (u uhppoted) GetAllControllers(timeout time.Duration) ([]GetControllerRespo
 		}
 
 		return responses, nil
+	}
+}
+
+// GetController retrieves the controller system information for a single access controller.
+//
+// Parameters:
+//   - controller: Either a uint32 controller serial number or a controller struct with the
+//                 controller serial number, IPv4 address and transport.
+//   - timeout: The maximum time to wait for a response.
+//
+// Returns:
+//   - A GetControllerResponse structs.
+//   - An error if the request could not be encoded, sent or timed out waiting for a response.
+//
+// Note: Responses that cannot be decoded are silently ignored.
+
+func (u uhppoted) GetController(controller uint32, timeout time.Duration) (GetControllerResponse, error) {
+	if request, err := encode.GetControllerRequest(controller); err != nil {
+		return GetControllerResponse{}, err
+	} else if reply, err := u.udp.broadcastTo(request, timeout); err != nil {
+		return GetControllerResponse{}, err
+	} else if response, err := decode.GetControllerResponse(reply); err != nil {
+		return GetControllerResponse{}, err
+	} else {
+		return response, nil
 	}
 }
