@@ -21,7 +21,7 @@
    - [ ] codegen
 
 - [ ] code generation
-   - [ ] encode
+   - [x] encode
    - [ ] decode
    - [ ] integration tests
    - [ ] API

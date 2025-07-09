@@ -6,17 +6,36 @@ import (
 	"log"
 	"os"
 	"path/filepath"
+	"regexp"
 	"strings"
 	"text/template"
 
-	"codegen/models"
+	"codegen/model"
 )
 
 //go:embed templates/encode.template
-var testTemplate string
+var encodeTemplate string
+
+//go:embed templates/encode_test.template
+var encodeTestTemplate string
+
+var functions = template.FuncMap{
+	"titleCase":   titleCase,
+	"hyphenate":   hyphenate,
+	"hex":         hex,
+	"args":        args,
+	"fields2args": fields2args,
+	"pack":        pack,
+	"describe":    describe,
+}
 
 func main() {
-	const output = "encode_test.go"
+	encode()
+	encodeTest()
+}
+
+func encode() {
+	const output = "encode/requests.go"
 
 	f, err := os.Create(output)
 	if err != nil {
@@ -24,14 +43,25 @@ func main() {
 	}
 	defer f.Close()
 
-	functions := template.FuncMap{
-		"titleCase": titleCase,
-		"hex":       hex,
-		"args":      args,
+	tmpl := template.Must(template.New("encode").Funcs(functions).Parse(encodeTemplate))
+	if err := tmpl.Execute(f, model.Requests); err != nil {
+		log.Fatalf("Failed to execute template: %v", err)
 	}
 
-	tmpl := template.Must(template.New("encode_test").Funcs(functions).Parse(testTemplate))
-	if err := tmpl.Execute(f, models.Requests); err != nil {
+	log.Printf("... generated %s", filepath.Base(output))
+}
+
+func encodeTest() {
+	const output = "encode/encode_test.go"
+
+	f, err := os.Create(output)
+	if err != nil {
+		log.Fatalf("Failed to create file %s: %v", output, err)
+	}
+	defer f.Close()
+
+	tmpl := template.Must(template.New("encode_test").Funcs(functions).Parse(encodeTestTemplate))
+	if err := tmpl.Execute(f, model.Requests); err != nil {
 		log.Fatalf("Failed to execute template: %v", err)
 	}
 
@@ -39,12 +69,23 @@ func main() {
 }
 
 func titleCase(s string) string {
-	parts := strings.Split(s, "-")
+	re := regexp.MustCompile(`[ -]+`)
+	parts := re.Split(s, -1)
 	for i := range parts {
 		parts[i] = strings.Title(parts[i])
 	}
 
 	return strings.Join(parts, "")
+}
+
+func hyphenate(s string) string {
+	re := regexp.MustCompile(`[ -]+`)
+	parts := re.Split(s, -1)
+	for i := range parts {
+		parts[i] = strings.ToLower(parts[i])
+	}
+
+	return strings.Join(parts, "-")
 }
 
 func hex(bytes []byte) string {
@@ -73,3 +114,22 @@ func args(args []any) string {
 
 	return strings.Join(parts, ", ")
 }
+
+func fields2args(fields []model.Field) string {
+	var args []string
+	for _, f := range fields {
+		args = append(args, fmt.Sprintf("%v %v", f.Name, f.Type))
+	}
+
+	return strings.Join(args, ", ")
+}
+
+func pack(field model.Field) string {
+	return fmt.Sprintf("packUint32(%v, packet, %v)", field.Name, field.Offset)
+}
+
+func describe(field model.Field) string {
+	return fmt.Sprintf("%v  (%v)  %v", field.Name, field.Type, field.Description)
+}
+
+//	    controller (uint32)  Controller serial number.

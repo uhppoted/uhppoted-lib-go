@@ -1,0 +1,26 @@
+// generated code - ** DO NOT EDIT **
+
+package encode
+
+import (
+   "slices"
+   "testing"
+)
+
+{{ range $rq := . }}
+{{ range $test := $rq.Tests}}
+func Test{{ titleCase $test.Name }}Request(t *testing.T) {
+    expected := []byte{
+{{ hex $test.Expected }}
+    }
+
+    packet,err := {{ titleCase $rq.Name }}Request({{- args $test.Args }})
+
+    if err != nil {
+        t.Fatalf("%v",err)
+    } else if !slices.Equal(packet, expected) {
+        t.Errorf("{{ $rq.Name }}: incorrectly encoded request")        
+    }
+}
+{{ end -}}
+{{ end -}}

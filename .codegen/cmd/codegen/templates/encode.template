@@ -1,24 +1,34 @@
 // generated code - ** DO NOT EDIT **
 
+// UHPPOTE request packet encoder.
+//
+// Encodes a UHPPOTE access controller request as a 64 byte UDP packet:
+//
+// - uint8, uint16, uint24 and uint32 values are encoded as little endian unsigned integers
+// - datetime, date and time values are encoded as BCD
+// - boolean values are encoded as 0 (False) or 1 (True)
 package encode
 
 import (
-   "slices"
-   "testing"
+    "github.com/uhppoted/uhppoted-lib-go/uhppoted/codec"
 )
 
-{{ range $name, $rq := . }}
-func Test{{ titleCase $name }}Request(t *testing.T) {
-    expected := []byte{
-{{ hex $rq.Expected }}
-    }
+{{ range $rq := . }}
+// Encodes a {{ hyphenate $rq.Name }} request.
+//
+//  Parameters:
+//      {{ range $field := $rq.Fields }}{{ describe $field }}{{ end }}
+//
+//  Returns:
+//      64 byte packet.
+func {{ titleCase $rq.Name }}Request({{- fields2args $rq.Fields }}) ([]byte, error) {
+    packet := make([]byte, 64)
 
-    packet,err := {{ titleCase $rq.Func }}({{- args $rq.Args }})
+    packet[0] = codec.SOM
+    packet[1] = {{ $rq.MsgType }}
 
-    if err != nil {
-        t.Fatalf("%v",err)
-    } else if !slices.Equal(packet, expected) {
-        t.Errorf("{{ $name }}: incorrectly encoded request")        
-    }
+    {{ range $field := $rq.Fields }}{{ pack $field }}{{ end }}
+
+    return packet, nil
 }
 {{ end -}}
