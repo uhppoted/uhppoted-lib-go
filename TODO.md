@@ -9,6 +9,7 @@
    - [ ] func
       - [x] udp broadcastTo
       - [ ] udp sendTo
+         `*** ERROR invalid reply packet length (0)`
       - [ ] tcp
    - [ ] integration test
       - [ ] udp broadcastTo
@@ -16,7 +17,7 @@
       - [ ] tcp
    - [ ] cli
       - [x] udp broadcastTo
-      - [ ] udp sendTo
+      - [x] udp sendTo
       - [ ] tcp
    - [ ] codegen
 

@@ -112,26 +112,51 @@ func GetAllControllers(u Uhppoted, timeout time.Duration) ([]GetControllerRespon
 //
 // Parameters:
 //   - controller: Either a uint32 controller serial number or a controller struct with the
-//                 controller serial number, IPv4 address and transport.
+//     controller serial number, IPv4 address and transport.
 //   - timeout: The maximum time to wait for a response.
 //
 // Returns:
 //   - A GetControllerResponse structs.
-//   - An error if the request could not be encoded, sent or timed out waiting for a response.
-//
-// Note: Responses that cannot be decoded are silently ignored.
-
+//   - An error if the request could not be executed.
 func GetController[T TController](u Uhppoted, controller T, timeout time.Duration) (GetControllerResponse, error) {
-	if c, err := resolve(controller); err != nil {
-		return GetControllerResponse{}, err
-	} else if request, err := encode.GetControllerRequest(c.ID); err != nil {
-		return GetControllerResponse{}, err
-	} else if reply, err := u.udp.broadcastTo(request, timeout); err != nil {
-		return GetControllerResponse{}, err
-	} else if response, err := decode.GetControllerResponse(reply); err != nil {
+	f := func(id uint32) ([]byte, error) {
+		return encode.GetControllerRequest(id)
+	}
+
+	g := func(b []byte) (GetControllerResponse, error) {
+		return decode.GetControllerResponse(b)
+	}
+
+	if reply, err := exec[T, GetControllerResponse](u, controller, f, g, timeout); err != nil {
 		return GetControllerResponse{}, err
 	} else {
-		return response, nil
+		return reply, nil
+	}
+}
+
+func exec[T TController, R any](u Uhppoted, controller T, f func(id uint32) ([]byte, error), g func(packet []byte) (R, error), timeout time.Duration) (R, error) {
+	var zero R
+
+	if c, err := resolve(controller); err != nil {
+		return zero, err
+	} else if request, err := f(c.ID); err != nil {
+		return zero, err
+	} else if reply, err := send(u, c, request, timeout); err != nil {
+		return zero, err
+	} else {
+		return g(reply)
+	}
+}
+
+func send(u Uhppoted, controller Controller, request []byte, timeout time.Duration) ([]byte, error) {
+	zero := netip.AddrPort{}
+
+	if controller.Address != zero && !controller.Address.IsValid() {
+		return nil, fmt.Errorf("invalid address (%v)", controller.Address)
+	} else if controller.Address != zero {
+		return u.udp.sendTo(request, controller.Address, timeout)
+	} else {
+		return u.udp.broadcastTo(request, timeout)
 	}
 }
 

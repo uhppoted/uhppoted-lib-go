@@ -3,6 +3,7 @@ package uhppoted
 import (
 	"fmt"
 	"net"
+	"net/netip"
 	"time"
 )
 
@@ -85,7 +86,58 @@ func (u udp) broadcastTo(request []byte, timeout time.Duration) ([]byte, error) 
 		go func() {
 			for {
 				buffer := make([]byte, 1024)
-				if N, _, err := socket.ReadFromUDP(buffer); err != nil {
+				if N, err := socket.Read(buffer); err != nil {
+					e <- err
+				} else if N == 64 {
+					b <- buffer[0:64]
+				}
+			}
+		}()
+
+		select {
+		case reply := <-b:
+			if u.debug {
+				dump(reply)
+			}
+
+			return reply, nil
+
+		case <-time.After(timeout):
+			return nil, nil
+
+		case err := <-e:
+			return nil, err
+		}
+	}
+}
+
+func (u udp) sendTo(request []byte, dest netip.AddrPort, timeout time.Duration) ([]byte, error) {
+	addr := net.UDPAddrFromAddrPort(dest)
+
+	if socket, err := net.DialUDP("udp", u.bindAddr, addr); err != nil {
+		return nil, err
+	} else {
+		defer socket.Close()
+
+		endpoint := socket.LocalAddr().(*net.UDPAddr)
+		if endpoint.Port == u.broadcastAddr.Port {
+			return nil, fmt.Errorf("invalid UDP bind address: port %d reserved for broadcast", endpoint.Port)
+		}
+
+		if _, err := socket.Write(request); err != nil {
+			return nil, err
+		} else if u.debug {
+			dump(request)
+		}
+
+		// ... read until reply, timeout or error
+		b := make(chan []byte)
+		e := make(chan error)
+
+		go func() {
+			for {
+				buffer := make([]byte, 1024)
+				if N, err := socket.Read(buffer); err != nil {
 					e <- err
 				} else if N == 64 {
 					b <- buffer[0:64]

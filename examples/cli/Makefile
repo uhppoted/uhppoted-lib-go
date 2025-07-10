@@ -1,4 +1,6 @@
 CMD   = ./bin/cli --debug --bind 0.0.0.0 --broadcast 255.255.255.255:60000 --listen 0.0.0.0:60001
+CONTROLLER = 405419896
+DEST = 127.0.0.1
 
 .DEFAULT_GOAL := build
 
@@ -68,3 +70,8 @@ get-all-controllers: build
 
 get-controller: build
 	$(CMD) get-controller --controller 405419896
+
+get-controller-udp: build
+	$(CMD) get-controller --controller $(CONTROLLER) --dest $(DEST)
+
+
