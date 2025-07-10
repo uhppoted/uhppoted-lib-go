@@ -9,11 +9,11 @@ import (
 
 var commands = map[string]func(u lib.Uhppoted, args []string) error{
 	"get-all-controllers": GetAllControllers,
-	"get-controller":      GetController,
+	"get-controller":      getController,
 }
 
 func GetAllControllers(u lib.Uhppoted, args []string) error {
-	if controllers, err := u.GetAllControllers(options.timeout); err != nil {
+	if controllers, err := lib.GetAllControllers(u, options.timeout); err != nil {
 		return err
 	} else {
 		fmt.Printf("get-all-controllers\n")
@@ -25,7 +25,7 @@ func GetAllControllers(u lib.Uhppoted, args []string) error {
 	return nil
 }
 
-func GetController(u lib.Uhppoted, args []string) error {
+func getController(u lib.Uhppoted, args []string) error {
 	var controller uint
 
 	flagset := flag.NewFlagSet("get-controller", flag.ExitOnError)
@@ -34,7 +34,7 @@ func GetController(u lib.Uhppoted, args []string) error {
 	if err := flagset.Parse(args); err != nil {
 		return err
 	} else {
-		if v, err := u.GetController(uint32(controller), options.timeout); err != nil {
+		if v, err := lib.GetController(u, uint32(controller), options.timeout); err != nil {
 			return err
 		} else {
 			fmt.Printf("get-controller\n")

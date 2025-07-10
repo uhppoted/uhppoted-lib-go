@@ -63,7 +63,7 @@ func teardown(socket *net.UDPConn) {
 func TestGetAllControllers(t *testing.T) {
 	u := lib.NewUhppoted(bind, broadcast, listen, true)
 
-	controllers, err := u.GetAllControllers(1000 * time.Millisecond)
+	controllers, err := lib.GetAllControllers(u, 1000*time.Millisecond)
 
 	if err != nil {
 		t.Fatalf("%v", err)
