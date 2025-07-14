@@ -6,7 +6,7 @@
    - [ ] codegen
 
 - [ ] get-controller
-   - [ ] func
+   - [x] func
       - [x] udp broadcastTo
       - [x] udp sendTo
       - [x] tcp
@@ -22,7 +22,7 @@
 
 - [ ] code generation
    - [x] encode
-   - [ ] decode
+   - [x] decode
    - [ ] integration tests
    - [ ] API
 

@@ -19,6 +19,9 @@ var encodeTemplate string
 //go:embed templates/encode_test.template
 var encodeTestTemplate string
 
+//go:embed templates/decode_test.template
+var decodeTestTemplate string
+
 var functions = template.FuncMap{
 	"titleCase":   titleCase,
 	"hyphenate":   hyphenate,
@@ -27,11 +30,14 @@ var functions = template.FuncMap{
 	"fields2args": fields2args,
 	"pack":        pack,
 	"describe":    describe,
+	"lookup":      lookup,
+	"value":       value,
 }
 
 func main() {
 	encode()
 	encodeTest()
+	decodeTest()
 }
 
 func encode() {
@@ -62,6 +68,23 @@ func encodeTest() {
 
 	tmpl := template.Must(template.New("encode_test").Funcs(functions).Parse(encodeTestTemplate))
 	if err := tmpl.Execute(f, model.Requests); err != nil {
+		log.Fatalf("Failed to execute template: %v", err)
+	}
+
+	log.Printf("... generated %s", filepath.Base(output))
+}
+
+func decodeTest() {
+	const output = "decode/decode_test.go"
+
+	f, err := os.Create(output)
+	if err != nil {
+		log.Fatalf("Failed to create file %s: %v", output, err)
+	}
+	defer f.Close()
+
+	tmpl := template.Must(template.New("decode_test").Funcs(functions).Parse(decodeTestTemplate))
+	if err := tmpl.Execute(f, model.Responses); err != nil {
 		log.Fatalf("Failed to execute template: %v", err)
 	}
 
@@ -132,4 +155,54 @@ func describe(field model.Field) string {
 	return fmt.Sprintf("%v  (%v)  %v", field.Name, field.Type, field.Description)
 }
 
-//	    controller (uint32)  Controller serial number.
+var types = map[string]string{
+	"uint8":      "uint8",
+	"uint16":     "uint16",
+	"uint32":     "uint32",
+	"bool":       "bool",
+	"IPv4":       "netip.Addr",
+	"MAC":        "string",
+	"version":    "string",
+	"date":       "time.Time",
+	"shortdate":  "Date",
+	"time":       "Time",
+	"datetime":   "DateTime",
+	"HHmm":       "HHmm",
+	"pin":        "PIN",
+	"controller": "Controller",
+
+	"optional date":     "Date",
+	"optional datetime": "DateTime",
+}
+
+func lookup(path, key, defval string) any {
+	table := types
+
+	if v, ok := table[key]; ok {
+		return v
+	}
+
+	return defval
+}
+
+func value(v any, vtype string) string {
+	switch vtype {
+	case "IPv4":
+		return fmt.Sprintf(`IPv4("%v")`, v)
+
+	case "MAC":
+		return fmt.Sprintf(`"%v"`, v)
+
+	case "version":
+		return fmt.Sprintf(`"%v"`, v)
+
+	case "date":
+		return fmt.Sprintf(`date("%v")`, v)
+
+	case "string":
+		return fmt.Sprintf(`"%v"`, v)
+
+	default:
+		return fmt.Sprintf("%v", v)
+	}
+}

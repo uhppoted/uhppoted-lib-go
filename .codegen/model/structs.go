@@ -12,8 +12,16 @@ type Field struct {
 	Description string `json:"description"`
 }
 
+type Value struct {
+	Name  string `json:"name"`
+	Type  string `json:"type"`
+	Value any    `json:"value"`
+}
+
 type Test struct {
-	Name     string
+	Name     string `json:"name"`
 	Args     []any
 	Expected []byte
+	Response []byte  `json:"packet,omitempty"`
+	Values   []Value `json:"values,omitempty"`
 }
