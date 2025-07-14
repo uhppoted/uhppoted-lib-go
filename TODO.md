@@ -8,9 +8,8 @@
 - [ ] get-controller
    - [ ] func
       - [x] udp broadcastTo
-      - [ ] udp sendTo
-         `*** ERROR invalid reply packet length (0)`
-      - [ ] tcp
+      - [x] udp sendTo
+      - [x] tcp
    - [ ] integration test
       - [ ] udp broadcastTo
       - [ ] udp sendTo
@@ -18,7 +17,7 @@
    - [ ] cli
       - [x] udp broadcastTo
       - [x] udp sendTo
-      - [ ] tcp
+      - [x] tcp
    - [ ] codegen
 
 - [ ] code generation
@@ -28,5 +27,5 @@
    - [ ] API
 
 - [ ] github workflow
-
+- [ ] logging
 

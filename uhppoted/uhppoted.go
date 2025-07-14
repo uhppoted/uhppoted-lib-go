@@ -40,6 +40,7 @@ type Uhppoted struct {
 	debug         bool
 
 	udp udp
+	tcp tcp
 }
 
 type TController interface {
@@ -72,6 +73,11 @@ func NewUhppoted(bind, broadcast, listen netip.AddrPort, debug bool) Uhppoted {
 			broadcastAddr: net.UDPAddrFromAddrPort(broadcast),
 			listenAddr:    net.UDPAddrFromAddrPort(listen),
 			debug:         debug,
+		},
+
+		tcp: tcp{
+			bindAddr: net.TCPAddrFromAddrPort(bind),
+			debug:    debug,
 		},
 	}
 }
@@ -153,6 +159,8 @@ func send(u Uhppoted, controller Controller, request []byte, timeout time.Durati
 
 	if controller.Address != zero && !controller.Address.IsValid() {
 		return nil, fmt.Errorf("invalid address (%v)", controller.Address)
+	} else if controller.Address != zero && controller.Protocol == "tcp" {
+		return u.tcp.sendTo(request, controller.Address, timeout)
 	} else if controller.Address != zero {
 		return u.udp.sendTo(request, controller.Address, timeout)
 	} else {

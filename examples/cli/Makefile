@@ -74,4 +74,6 @@ get-controller: build
 get-controller-udp: build
 	$(CMD) get-controller --controller $(CONTROLLER) --dest $(DEST)
 
+get-controller-tcp: build
+	$(CMD) get-controller --controller $(CONTROLLER) --dest $(DEST) --tcp
 
