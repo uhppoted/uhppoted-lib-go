@@ -13,6 +13,7 @@
    - [x] encode
    - [x] decode
    - [ ] integration tests
+      - [x] messages
    - [ ] CLI
    - [ ] API
       - [ ] get-all-controllers

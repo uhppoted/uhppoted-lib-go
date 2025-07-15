@@ -41,4 +41,4 @@ const GET_EVENT_INDEX byte = 0xB4
 const RESTORE_DEFAULT_PARAMETERS byte = 0xC8
 const LISTEN_EVENT byte = 0x20
 
-//go:generate ../../.codegen/bin/codegen
+//go:generate ../../.codegen/bin/codegen codec

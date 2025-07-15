@@ -1,0 +1,23 @@
+package uhppoted
+
+type message = struct {
+    Request  []byte
+    Response [][]byte
+}
+
+var Messages = []message{
+{{ range $func := . }}    // {{ $func.Name }}
+    {
+        Request: []byte{
+{{ hex $func.Test.Request }}
+        },
+        Response: [][]byte{
+{{ range $reply := $func.Test.Replies }}            []byte{
+{{ hex $reply }}
+            },
+{{ end }}
+        },
+    },
+
+{{ end -}}
+}

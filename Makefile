@@ -9,7 +9,7 @@ clean:
 	rm -rf bin
 	rm -rf dist
 
-generate:
+regenerate:
 	cd .codegen && make build
 	go generate ./...
 
@@ -51,7 +51,7 @@ lint:
 vuln:
 	govulncheck ./...
 
-build-all: test integration-tests vet lint
+build-all: regenerate test integration-tests vet lint
 	env GOOS=linux   GOARCH=amd64       GOWORK=off go build -trimpath ./...
 	env GOOS=linux   GOARCH=arm GOARM=7 GOWORK=off go build -trimpath ./...
 	env GOOS=linux   GOARCH=arm GOARM=6 GOWORK=off go build -trimpath ./...
