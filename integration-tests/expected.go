@@ -7,10 +7,11 @@ import (
 	lib "github.com/uhppoted/uhppoted-lib-go/uhppoted"
 )
 
-var expected = struct {
-	getAllControllers []lib.GetControllerResponse
+var Expected = struct {
+	GetAllControllers []lib.GetControllerResponse
+	GetController     lib.GetControllerResponse
 }{
-	getAllControllers: []lib.GetControllerResponse{
+	GetAllControllers: []lib.GetControllerResponse{
 		lib.GetControllerResponse{
 			Controller: 201020304,
 			IpAddress:  netip.MustParseAddr("192.168.1.101"),
@@ -38,5 +39,15 @@ var expected = struct {
 			Version:    "v8.92",
 			Date:       time.Date(2018, 11, 5, 0, 0, 0, 0, time.Local),
 		},
+	},
+
+	GetController: lib.GetControllerResponse{
+		Controller: 405419896,
+		IpAddress:  netip.MustParseAddr("192.168.1.100"),
+		SubnetMask: netip.MustParseAddr("255.255.255.0"),
+		Gateway:    netip.MustParseAddr("192.168.1.1"),
+		MACAddress: "00:12:23:34:45:56",
+		Version:    "v8.92",
+		Date:       time.Date(2018, 11, 5, 0, 0, 0, 0, time.Local),
 	},
 }
