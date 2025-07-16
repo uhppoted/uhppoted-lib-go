@@ -6,6 +6,7 @@
 - [x] README
 - [ ] github workflow
     - [ ] go vet
+    - [ ] lint
 - [x] logging
 
 - [ ] code generation
