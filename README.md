@@ -1,3 +1,5 @@
+![build](https://github.com/uhppoted/uhppoted-lib-go/workflows/build/badge.svg)
+
 # uhppoted-lib-go
 
 Standalone Go library for the UHPPOTE access controllers.

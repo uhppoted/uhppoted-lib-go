@@ -4,7 +4,7 @@
 - [x] get-controller
 
 - [x] README
-- [ ] github workflow
+- [x] github workflow
 - [ ] logging
 
 - [ ] code generation
