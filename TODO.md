@@ -2,12 +2,10 @@
 
 - [x] get-all-controllers
 - [x] get-controller
-   - [x] func
-   - [x] CLI
-   - [x] integration test
-      - [x] udp broadcastTo
-      - [x] udp sendTo
-      - [x] tcp
+
+- [x] README
+- [ ] github workflow
+- [ ] logging
 
 - [ ] code generation
    - [x] encode
@@ -19,5 +17,3 @@
       - [ ] get-all-controllers
       - [ ] get-controller
 
-- [ ] github workflow
-- [ ] logging
