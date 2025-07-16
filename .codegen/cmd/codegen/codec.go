@@ -10,14 +10,25 @@ import (
 	"codegen/model"
 )
 
-//go:embed templates/encode.template
+//go:embed templates/codec/encode.template
 var encodeTemplate string
 
-//go:embed templates/encode_test.template
+//go:embed templates/codec/encode_test.template
 var encodeTestTemplate string
 
-//go:embed templates/decode_test.template
+//go:embed templates/codec/decode.template
+var decodeTemplate string
+
+//go:embed templates/codec/decode_test.template
 var decodeTestTemplate string
+
+func codec() {
+	encode()
+	encodeTest()
+
+	decode()
+	decodeTest()
+}
 
 func encode() {
 	const output = "encode/requests.go"
@@ -47,6 +58,23 @@ func encodeTest() {
 
 	tmpl := template.Must(template.New("encode_test").Funcs(functions).Parse(encodeTestTemplate))
 	if err := tmpl.Execute(f, model.Requests); err != nil {
+		log.Fatalf("Failed to execute template: %v", err)
+	}
+
+	log.Printf("... generated %s", filepath.Base(output))
+}
+
+func decode() {
+	const output = "decode/responses.go"
+
+	f, err := os.Create(output)
+	if err != nil {
+		log.Fatalf("Failed to create file %s: %v", output, err)
+	}
+	defer f.Close()
+
+	tmpl := template.Must(template.New("encode").Funcs(functions).Parse(decodeTemplate))
+	if err := tmpl.Execute(f, model.Responses); err != nil {
 		log.Fatalf("Failed to execute template: %v", err)
 	}
 

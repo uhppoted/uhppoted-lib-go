@@ -29,9 +29,7 @@ func main() {
 
 		switch args[0] {
 		case "codec":
-			encode()
-			encodeTest()
-			decodeTest()
+			codec()
 
 		case "integration-tests":
 			integrationTests()

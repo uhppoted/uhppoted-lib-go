@@ -51,3 +51,29 @@ var Expected = struct {
 		Date:       time.Date(2018, 11, 5, 0, 0, 0, 0, time.Local),
 	},
 }
+
+var unexpected = struct {
+	GetAllControllers lib.GetControllerResponse
+	GetController     lib.GetControllerResponse
+}{
+	//     GetAllControllers: lib.GetControllerResponse {
+	//
+	//        lib.GetControllerResponse{
+	//        },
+	//
+	//        lib.GetControllerResponse{
+	//        },
+	//
+	//        lib.GetControllerResponse{
+	//        },
+	//
+	//     }
+
+	//     GetController: lib.GetControllerResponse {
+	//
+	//        lib.GetControllerResponse{
+	//        },
+	//
+	//     }
+
+}

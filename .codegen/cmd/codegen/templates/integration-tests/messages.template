@@ -13,7 +13,7 @@ var Messages = []message{
         },
         Response: [][]byte{
 {{ range $reply := $func.Test.Replies }}            []byte{
-{{ hex $reply }}
+{{ hex $reply.Message }}
             },
 {{ end }}
         },

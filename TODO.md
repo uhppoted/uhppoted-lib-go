@@ -9,9 +9,11 @@
 
 - [ ] code generation
    - [x] encode
-   - [x] decode
+   - [ ] decode
+   - [x] decode_test
    - [ ] integration tests
       - [x] messages
+      - [ ] expected
    - [ ] CLI
    - [ ] API
       - [ ] get-all-controllers
