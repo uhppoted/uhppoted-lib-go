@@ -1,6 +1,7 @@
 package main
 
 import (
+	"encoding/json"
 	"flag"
 	"fmt"
 	"net/netip"
@@ -19,8 +20,14 @@ func GetAllControllers(u lib.Uhppoted, args []string) error {
 	} else {
 		fmt.Printf("get-all-controllers\n")
 		for _, v := range controllers {
-			fmt.Printf("   %v\n", v)
+			if bytes, err := json.MarshalIndent(v, "   ", "   "); err != nil {
+				return err
+			} else {
+				fmt.Printf("   %v\n", string(bytes))
+			}
 		}
+
+		fmt.Println()
 	}
 
 	return nil
@@ -40,9 +47,11 @@ func getController(u lib.Uhppoted, args []string) error {
 	f := func(c lib.Controller) error {
 		if v, err := lib.GetController(u, c, options.timeout); err != nil {
 			return err
+		} else if bytes, err := json.MarshalIndent(v, "   ", "   "); err != nil {
+			return err
 		} else {
 			fmt.Printf("get-controller\n")
-			fmt.Printf("   %v\n", v)
+			fmt.Printf("   %v\n", string(bytes))
 
 			return nil
 		}
@@ -51,9 +60,12 @@ func getController(u lib.Uhppoted, args []string) error {
 	g := func(c uint32) error {
 		if v, err := lib.GetController(u, c, options.timeout); err != nil {
 			return err
+		} else if bytes, err := json.MarshalIndent(v, "   ", "   "); err != nil {
+			return err
 		} else {
 			fmt.Printf("get-controller\n")
-			fmt.Printf("   %v\n", v)
+			fmt.Printf("   %v\n", string(bytes))
+			fmt.Println()
 
 			return nil
 		}

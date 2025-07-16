@@ -5,7 +5,7 @@
 
 - [x] README
 - [x] github workflow
-- [ ] logging
+- [x] logging
 
 - [ ] code generation
    - [x] encode

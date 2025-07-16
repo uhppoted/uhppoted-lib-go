@@ -31,6 +31,7 @@ import (
 	"github.com/uhppoted/uhppoted-lib-go/uhppoted/codec"
 	"github.com/uhppoted/uhppoted-lib-go/uhppoted/codec/decode"
 	"github.com/uhppoted/uhppoted-lib-go/uhppoted/codec/encode"
+	"github.com/uhppoted/uhppoted-lib-go/uhppoted/log"
 )
 
 type Uhppoted struct {
@@ -180,4 +181,20 @@ func resolve[T TController](controller T) (Controller, error) {
 	}
 
 	return Controller{}, fmt.Errorf("unsupported type (%T)", controller)
+}
+
+func debugf(tag string, format string, args ...any) {
+	log.Debugf(tag, format, args...)
+}
+
+func infof(tag string, format string, args ...any) {
+	log.Infof(tag, format, args...)
+}
+
+func warnf(tag string, format string, args ...any) {
+	log.Warnf(tag, format, args...)
+}
+
+func errorf(tag string, format string, args ...any) {
+	log.Errorf(tag, format, args...)
 }

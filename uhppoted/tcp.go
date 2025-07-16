@@ -1,6 +1,7 @@
 package uhppoted
 
 import (
+	"fmt"
 	"net"
 	"net/netip"
 	"time"
@@ -19,12 +20,10 @@ func (t tcp) sendTo(request []byte, dest netip.AddrPort, timeout time.Duration) 
 	} else {
 		defer socket.Close()
 
-		// endpoint := socket.LocalAddr().(*net.UDPAddr)
-
-		if _, err := socket.Write(request); err != nil {
+		if N, err := socket.Write(request); err != nil {
 			return nil, err
 		} else if t.debug {
-			dump(request)
+			dump("tcp", fmt.Sprintf("sent %v bytes to %v", N, dest), request)
 		}
 
 		// ... read until reply, timeout or error
@@ -38,16 +37,16 @@ func (t tcp) sendTo(request []byte, dest netip.AddrPort, timeout time.Duration) 
 					e <- err
 				} else if N == 64 {
 					b <- buffer[0:64]
+
+					if t.debug {
+						dump("tcp", fmt.Sprintf("received %v bytes from %v", N, dest), buffer[0:64])
+					}
 				}
 			}
 		}()
 
 		select {
 		case reply := <-b:
-			if t.debug {
-				dump(reply)
-			}
-
 			return reply, nil
 
 		case <-time.After(timeout):

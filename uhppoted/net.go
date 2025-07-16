@@ -2,9 +2,11 @@ package uhppoted
 
 import (
 	"fmt"
+	"strings"
 )
 
-func dump(packet []byte) {
+func dump(tag string, description string, packet []byte) {
+	lines := []string{description}
 	hex := "%02x %02x %02x %02x %02x %02x %02x %02x"
 
 	for i := 0; i < 4; i++ {
@@ -15,8 +17,10 @@ func dump(packet []byte) {
 		p := fmt.Sprintf(hex, u[0], u[1], u[2], u[3], u[4], u[5], u[6], u[7])
 		q := fmt.Sprintf(hex, v[0], v[1], v[2], v[3], v[4], v[5], v[6], v[7])
 
-		fmt.Printf("   %08x  %v  %v\n", offset, p, q)
+		lines = append(lines, fmt.Sprintf("   %08x  %v  %v", offset, p, q))
 	}
 
-	fmt.Println()
+	lines = append(lines, fmt.Sprintln())
+
+	debugf(tag, "%v", strings.Join(lines, "\n"))
 }
