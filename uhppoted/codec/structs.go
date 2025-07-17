@@ -19,3 +19,10 @@ type GetControllerResponse struct {
 	Version    string     `json:"version"`
 	Date       time.Time  `json:"date"`
 }
+
+// SetIPv4Response is a synthesized response - the controller does not return a respons
+// to a 'set-IPv4' request.
+type SetIPv4Response struct {
+	Controller uint32 `json:"controller"`
+	Ok         bool   `json:"ok"`
+}

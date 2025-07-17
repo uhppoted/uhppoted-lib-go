@@ -26,6 +26,18 @@ func (t tcp) sendTo(request []byte, dest netip.AddrPort, timeout time.Duration) 
 			dump("tcp", fmt.Sprintf("sent %v bytes to %v", N, dest), request)
 		}
 
+		// NTS: set-ip does not return a response
+		if request[1] == 0x96 {
+			reply := make([]byte, 64)
+
+			reply[0] = 0x17
+			reply[1] = 0x96
+			copy(reply[4:8], request[4:8])
+			reply[8] = 0x01
+
+			return reply, nil
+		}
+
 		// ... read until reply, timeout or error
 		b := make(chan []byte)
 		e := make(chan error)

@@ -10,6 +10,8 @@
 package encode
 
 import (
+	"net/netip"
+
 	"github.com/uhppoted/uhppoted-lib-go/uhppoted/codec"
 )
 
@@ -27,6 +29,32 @@ func GetControllerRequest(controller uint32) ([]byte, error) {
 	packet[1] = 148
 
 	packUint32(controller, packet, 4)
+
+	return packet, nil
+}
+
+// Encodes a set-ipv4 request.
+//
+//	Parameters:
+//	    controller  (uint32)  controller serial number
+//	    address  (IPv4)  controller IPv4 address
+//	    netmask  (IPv4)  controller IPv4 subnet mask
+//	    gateway  (IPv4)  controller IPv4 gateway address
+//	      (magic)  'magic' word
+//
+//	Returns:
+//	    64 byte packet.
+func SetIPv4Request(controller uint32, address netip.Addr, netmask netip.Addr, gateway netip.Addr) ([]byte, error) {
+	packet := make([]byte, 64)
+
+	packet[0] = codec.SOM
+	packet[1] = 150
+
+	packUint32(controller, packet, 4)
+	packIPv4(address, packet, 8)
+	packIPv4(netmask, packet, 12)
+	packIPv4(gateway, packet, 16)
+	packUint32(0x55aaaa55, packet, 20)
 
 	return packet, nil
 }

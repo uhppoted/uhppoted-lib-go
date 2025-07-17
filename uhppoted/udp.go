@@ -79,6 +79,18 @@ func (u udp) broadcastTo(request []byte, timeout time.Duration) ([]byte, error) 
 			dump("udp", fmt.Sprintf("sent %v bytes to %v", N, u.broadcastAddr), request)
 		}
 
+		// NTS: set-ip does not return a response
+		if request[1] == 0x96 {
+			reply := make([]byte, 64)
+
+			reply[0] = 0x17
+			reply[1] = 0x96
+			copy(reply[4:8], request[4:8])
+			reply[8] = 0x01
+
+			return reply, nil
+		}
+
 		// ... read until reply, timeout or error
 		b := make(chan []byte)
 		e := make(chan error)
@@ -128,6 +140,18 @@ func (u udp) sendTo(request []byte, dest netip.AddrPort, timeout time.Duration) 
 			return nil, err
 		} else if u.debug {
 			dump("udp", fmt.Sprintf("sent %v bytes to %v", N, dest), request)
+		}
+
+		// NTS: set-ip does not return a response
+		if request[1] == 0x96 {
+			reply := make([]byte, 64)
+
+			reply[0] = 0x17
+			reply[1] = 0x96
+			copy(reply[4:8], request[4:8])
+			reply[8] = 0x01
+
+			return reply, nil
 		}
 
 		// ... read until reply, timeout or error

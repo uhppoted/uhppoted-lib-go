@@ -10,6 +10,8 @@
 package encode
 
 import (
+    "net/netip"
+
     "github.com/uhppoted/uhppoted-lib-go/uhppoted/codec"
 )
 
@@ -17,8 +19,8 @@ import (
 // Encodes a {{ hyphenate $rq.Name }} request.
 //
 //  Parameters:
-//      {{ range $field := $rq.Fields }}{{ describe $field }}{{ end }}
-//
+{{ range $field := $rq.Fields }}//      {{ describe $field }}
+{{ end }}//
 //  Returns:
 //      64 byte packet.
 func {{ titleCase $rq.Name }}Request({{- fields2args $rq.Fields }}) ([]byte, error) {
@@ -27,8 +29,8 @@ func {{ titleCase $rq.Name }}Request({{- fields2args $rq.Fields }}) ([]byte, err
     packet[0] = codec.SOM
     packet[1] = {{ $rq.MsgType }}
 
-    {{ range $field := $rq.Fields }}{{ pack $field }}{{ end }}
-
+{{ range $field := $rq.Fields }}    {{ pack $field }}
+{{ end }}
     return packet, nil
 }
 {{ end -}}

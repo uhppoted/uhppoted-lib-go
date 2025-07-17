@@ -3,6 +3,7 @@
 package encode
 
 import (
+	"net/netip"
 	"slices"
 	"testing"
 )
@@ -20,7 +21,7 @@ func TestGetAllControllersRequest(t *testing.T) {
 	if err != nil {
 		t.Fatalf("%v", err)
 	} else if !slices.Equal(packet, expected) {
-		t.Errorf("get controller: incorrectly encoded request")
+		t.Errorf("get controller: incorrectly encoded request\n   expected:%v\n   got:     %v", expected, packet)
 	}
 }
 
@@ -37,6 +38,23 @@ func TestGetControllerRequest(t *testing.T) {
 	if err != nil {
 		t.Fatalf("%v", err)
 	} else if !slices.Equal(packet, expected) {
-		t.Errorf("get controller: incorrectly encoded request")
+		t.Errorf("get controller: incorrectly encoded request\n   expected:%v\n   got:     %v", expected, packet)
+	}
+}
+
+func TestSetIPv4Request(t *testing.T) {
+	expected := []byte{
+		0x17, 0x96, 0x00, 0x00, 0x78, 0x37, 0x2a, 0x18, 0xc0, 0xa8, 0x01, 0x7d, 0xff, 0xff, 0xff, 0x00,
+		0xc0, 0xa8, 0x01, 0x01, 0x55, 0xaa, 0xaa, 0x55, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+		0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+		0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+	}
+
+	packet, err := SetIPv4Request(405419896, netip.MustParseAddr("192.168.1.125"), netip.MustParseAddr("255.255.255.0"), netip.MustParseAddr("192.168.1.1"))
+
+	if err != nil {
+		t.Fatalf("%v", err)
+	} else if !slices.Equal(packet, expected) {
+		t.Errorf("set IPv4: incorrectly encoded request\n   expected:%v\n   got:     %v", expected, packet)
 	}
 }

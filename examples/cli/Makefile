@@ -77,3 +77,6 @@ get-controller-udp: build
 get-controller-tcp: build
 	$(CMD) get-controller --controller $(CONTROLLER) --dest $(DEST) --tcp
 
+set-IPv4: build
+	$(CMD) set-IPv4 --controller 405419896 --address 192.168.1.100 --netmask 255.255.255.0 --gateway 192.168.1.1
+

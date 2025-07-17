@@ -26,7 +26,7 @@ build: format
 	go build -trimpath ./...
 
 debug: build
-	cd examples/cli && make get-controller-tcp
+	cd examples/cli && make set-IPv4
 
 test: build
 	go test ./uhppoted/...
@@ -83,3 +83,6 @@ get-controller-udp: build
 
 get-controller-tcp: build
 	cd examples/cli && make get-controller-tcp
+
+set-IPv4: build
+	cd examples/cli && make set-IPv4

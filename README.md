@@ -109,6 +109,8 @@ where:
 
 
 ### `GetAllControllers`
+Returns a list of all controllers that responded to a _get-controller_ request within the timeout.
+
 ```
 GetAllControllers(u Uhppoted, timeout time.Duration) ([]GetControllerResponse, error)
 
@@ -116,10 +118,13 @@ where:
 u        Uhppoted struct initialised with the bind address, broadcast address, etc
 timeout  maximum time to wait for a response from a controller
 
-Returns a list of all controllers that responded to the request within the timeout interval.
+Returns an array of `GetControllerResponse`.
+
 ```
 
 ### `GetController`
+Returns the sytem information for the requested access controller.
+
 ```
 GetController(u Uhppoted, controller TController, timeout time.Duration)
 
@@ -127,7 +132,21 @@ u           Uhppoted struct initialised with the bind address, broadcast address
 controller  uint32|Controller controller serial number or {id, address, protocol} Controller struct
 timeout     maximum time to wait for a response from a controller
 
-Returns a `GetControllerResponse` with the controller information.
+Returns a `GetControllerResponse`.
+```
+
+### `SetIPv4`
+Sets the controller IPv4 address, netmask and gateway address.
+
+```
+SetIPv4(self, ID, address, netmask, gateway)
+
+controller  uint32|tuple  controller serial number or (id, address, protocol) tuple
+address     netip.Addr    controller IPv4 address
+subnet      netip.Addr    controller IPv4 subnet mask
+gateway     netip.Addr    controller gateway IPv4 address
+
+Returns a `SetIPv4Response`.
 ```
 
 ## Types
@@ -146,3 +165,14 @@ type GetControllerResponse struct {
     Date       time.Time  `json:"date"`          // release date (YYYY-MM-DD)
 }
 ```
+
+### `setIPv4Response`
+
+Container class for the decoded response from a _SetIPv4_ request.
+```
+type SetIPv4Response struct {
+    Controller uint32     `json:"controller"`    // controller serial number
+    Ok         bool       `json:"ok"`            // succeeded/failed
+}
+```
+

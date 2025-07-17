@@ -1,3 +1,7 @@
+// UHPPOTE request packet decoder.
+//
+// Decodes a UHPPOTE access controller 64 byte UDP response packet into the
+// equivalent Python object.
 package decode
 
 import (
@@ -5,11 +9,6 @@ import (
 
     "github.com/uhppoted/uhppoted-lib-go/uhppoted/codec"
 )
-
-// UHPPOTE request packet decoder.
-//
-// Decodes a UHPPOTE access controller 64 byte UDP response packet into the
-// equivalent Python object.
 
 // Decodes a get-controller response.
 //

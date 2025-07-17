@@ -18,12 +18,12 @@ func Test{{ titleCase $test.Name }}Response(t *testing.T) {
 {{ hex $test.Response }}
     }
 
-    expected := codec.GetControllerResponse {
+    expected := codec.{{ titleCase $response.Name }}Response {
 {{ range $value := $test.Values}}{{ titleCase $value.Name }}: {{ value $value.Value $value.Type }},
 {{ end -}}
     }
 
-    response,err := GetControllerResponse(packet)
+    response,err := {{ titleCase $response.Name }}Response(packet)
 
     if err != nil {
         t.Fatalf("%v",err)

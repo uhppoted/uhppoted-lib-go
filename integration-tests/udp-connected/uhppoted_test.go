@@ -80,3 +80,17 @@ func TestGetController(t *testing.T) {
 		t.Error("incorrect response")
 	}
 }
+
+func TestSetIPv4(t *testing.T) {
+	address := netip.MustParseAddr("192.168.1.125")
+	netmask := netip.MustParseAddr("25.255.255.0")
+	gateway := netip.MustParseAddr("192.168.1.1")
+
+	c, err := lib.SetIPv4(u, controller, address, netmask, gateway, timeout)
+
+	if err != nil {
+		t.Fatalf("%v", err)
+	} else if !reflect.DeepEqual(c, test.Expected.SetIPv4) {
+		t.Error("incorrect response")
+	}
+}

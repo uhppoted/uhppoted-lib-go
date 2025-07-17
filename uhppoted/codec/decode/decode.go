@@ -9,6 +9,10 @@ import (
 	"time"
 )
 
+func unpackBool(packet []byte, offset uint8) bool {
+	return packet[offset] != 0x00
+}
+
 func unpackUint32(packet []byte, offset uint8) uint32 {
 	return binary.LittleEndian.Uint32(packet[offset : offset+4])
 }

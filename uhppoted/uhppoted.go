@@ -55,6 +55,7 @@ type Controller struct {
 }
 
 type GetControllerResponse = codec.GetControllerResponse
+type SetIPv4Response = codec.SetIPv4Response
 
 // NewUhppoted creates a new instance of the uhppoted service, configured with the supplied
 // local bind address, broadcast address, and listen address. The debug flag enables or
@@ -136,6 +137,35 @@ func GetController[T TController](u Uhppoted, controller T, timeout time.Duratio
 
 	if reply, err := exec[T, GetControllerResponse](u, controller, f, g, timeout); err != nil {
 		return GetControllerResponse{}, err
+	} else {
+		return reply, nil
+	}
+}
+
+// SetIP sets the controller IPv4 address, netmask and gateway address.
+//
+// Parameters:
+//   - controller: Either a uint32 controller serial number or a controller struct with the
+//     controller serial number, IPv4 address and transport.
+//   - address:    controller IPv4 address e.g. 192.168.1.100.
+//   - netmask:    controller IPv4 subnet mask e.g. 255.255.255.0.
+//   - gateway:    controller IPv4 gateway address e.g. 192.168.1.1.
+//   - timeout: The maximum time to wait for a response.
+//
+// Returns:
+//   - A SetIPResponse structs.
+//   - An error if the request could not be executed.
+func SetIPv4[T TController](u Uhppoted, controller T, address, netmask, gateway netip.Addr, timeout time.Duration) (SetIPv4Response, error) {
+	f := func(id uint32) ([]byte, error) {
+		return encode.SetIPv4Request(id, address, netmask, gateway)
+	}
+
+	g := func(b []byte) (SetIPv4Response, error) {
+		return decode.SetIPv4Response(b)
+	}
+
+	if reply, err := exec[T, SetIPv4Response](u, controller, f, g, timeout); err != nil {
+		return SetIPv4Response{}, err
 	} else {
 		return reply, nil
 	}

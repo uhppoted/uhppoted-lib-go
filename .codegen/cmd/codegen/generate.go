@@ -16,6 +16,7 @@ var functions = template.FuncMap{
 	"hyphenate":   hyphenate,
 	"hex":         hex,
 	"args":        args,
+	"arg":         arg,
 	"fields2args": fields2args,
 	"pack":        pack,
 	"describe":    describe,
@@ -75,26 +76,54 @@ func hex(bytes []byte) string {
 	return strings.Join(lines, "\n")
 }
 
-func args(args []any) string {
+func args(args []model.Arg) string {
 	var parts []string
 	for _, a := range args {
-		parts = append(parts, fmt.Sprintf("%v", a))
+		parts = append(parts, arg(a))
 	}
 
 	return strings.Join(parts, ", ")
 }
 
+func arg(arg model.Arg) string {
+	switch arg.Type {
+	case "IPv4":
+		return fmt.Sprintf(`netip.MustParseAddr("%v")`, arg.Value)
+
+	default:
+		return fmt.Sprintf("%v", arg.Value)
+	}
+}
+
 func fields2args(fields []model.Field) string {
 	var args []string
 	for _, f := range fields {
-		args = append(args, fmt.Sprintf("%v %v", f.Name, f.Type))
+		switch f.Type {
+		case "IPv4":
+			args = append(args, fmt.Sprintf("%v netip.Addr", f.Name))
+
+		case "magic":
+			// skip
+
+		default:
+			args = append(args, fmt.Sprintf("%v %v", f.Name, f.Type))
+		}
 	}
 
 	return strings.Join(args, ", ")
 }
 
 func pack(field model.Field) string {
-	return fmt.Sprintf("packUint32(%v, packet, %v)", field.Name, field.Offset)
+	switch field.Type {
+	case "IPv4":
+		return fmt.Sprintf("packIPv4(%v, packet, %v)", field.Name, field.Offset)
+
+	case "magic":
+		return fmt.Sprintf("packUint32(0x55aaaa55, packet, %v)", field.Offset)
+
+	default:
+		return fmt.Sprintf("packUint32(%v, packet, %v)", field.Name, field.Offset)
+	}
 }
 
 func describe(field model.Field) string {

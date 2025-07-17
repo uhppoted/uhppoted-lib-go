@@ -10,6 +10,7 @@ import (
 var Expected = struct {
 	GetAllControllers []lib.GetControllerResponse
 	GetController     lib.GetControllerResponse
+	SetIPv4           lib.SetIPv4Response
 }{
 	GetAllControllers: []lib.GetControllerResponse{
 		lib.GetControllerResponse{
@@ -50,11 +51,17 @@ var Expected = struct {
 		Version:    "v8.92",
 		Date:       time.Date(2018, 11, 5, 0, 0, 0, 0, time.Local),
 	},
+
+	SetIPv4: lib.SetIPv4Response{
+		Controller: 405419896,
+		Ok:         true,
+	},
 }
 
 var unexpected = struct {
 	GetAllControllers lib.GetControllerResponse
 	GetController     lib.GetControllerResponse
+	SetIPv4           lib.GetControllerResponse
 }{
 	//     GetAllControllers: lib.GetControllerResponse {
 	//
@@ -70,6 +77,13 @@ var unexpected = struct {
 	//     }
 
 	//     GetController: lib.GetControllerResponse {
+	//
+	//        lib.GetControllerResponse{
+	//        },
+	//
+	//     }
+
+	//     SetIPv4: lib.GetControllerResponse {
 	//
 	//        lib.GetControllerResponse{
 	//        },

@@ -1,8 +1,9 @@
 package model
 
 type Arg struct {
-	Name string `json:"name"`
-	Type string `json:"type"`
+	Name  string `json:"name"`
+	Type  string `json:"type"`
+	Value any    `json:"value,omitempty"`
 }
 
 type Field struct {
@@ -20,7 +21,7 @@ type Value struct {
 
 type Test struct {
 	Name     string `json:"name"`
-	Args     []any
+	Args     []Arg
 	Expected []byte
 	Response []byte  `json:"packet,omitempty"`
 	Values   []Value `json:"values,omitempty"`
