@@ -26,7 +26,7 @@ build: format
 	go build -trimpath ./...
 
 debug: build
-	cd examples/cli && make set-IPv4
+	cd examples/cli && make get-status
 
 test: build
 	go test ./uhppoted/...
@@ -77,12 +77,15 @@ get-all-controllers: build
 
 get-controller: build
 	cd examples/cli && make get-controller
-
-get-controller-udp: build
 	cd examples/cli && make get-controller-udp
-
-get-controller-tcp: build
 	cd examples/cli && make get-controller-tcp
 
 set-IPv4: build
 	cd examples/cli && make set-IPv4
+	cd examples/cli && make set-IPv4-udp
+	cd examples/cli && make set-IPv4-tcp
+
+get-status: build
+	cd examples/cli && make get-status
+	cd examples/cli && make get-status-udp
+	cd examples/cli && make get-status-tcp

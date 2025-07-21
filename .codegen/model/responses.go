@@ -10,6 +10,7 @@ type Response struct {
 var Responses = []Response{
 	GetControllerResponse,
 	SetIPv4Response,
+	GetStatusResponse,
 }
 
 var GetControllerResponse = Response{
@@ -100,6 +101,170 @@ var SetIPv4Response = Response{
 					Name:  "ok",
 					Type:  "bool",
 					Value: true,
+				},
+			},
+		},
+	},
+}
+
+var GetStatusResponse = Response{
+	Name:    "get status",
+	MsgType: 0x20,
+	Fields: []Field{
+		{"controller", "uint32", 4, "controller serial number, e.g. 405419896"},
+		{"system-date", "shortdate", 51, "current date, e.g. 2025-07-21"},
+		{"system-time", "time", 37, "current time, e.g. 13:25:47"},
+		{"door-1-open", "bool", 28, "true if door 1 is open"},
+		{"door-2-open", "bool", 29, "true if door 2 is open"},
+		{"door-3-open", "bool", 30, "true if door 3 is open"},
+		{"door-4-open", "bool", 31, "true if door 4 is open"},
+		{"door-1-button", "bool", 32, "true if door 1 button is pressed"},
+		{"door-2-button", "bool", 33, "true if door 2 button is pressed"},
+		{"door-3-button", "bool", 34, "true if door 3 button is pressed"},
+		{"door-4-button", "bool", 35, "true if door 4 button is pressed"},
+		{"relays", "uint8", 49, "bitset of door unlock relay states"},
+		{"inputs", "uint8", 50, "bitset of alarm inputs"},
+		{"system-error", "uint8", 36, "system error code"},
+		{"special-info", "uint8", 48, "absolutely no idea"},
+		{"event-index", "uint32", 8, "last event index"},
+		{"event-type", "uint8", 12, "last event type"},
+		{"event-access-granted", "bool", 13, "last event access granted"},
+		{"event-door", "uint8", 14, "last event door"},
+		{"event-direction", "uint8", 15, "last event door direction (0: in, 1: out)"},
+		{"event-card", "uint32", 16, "last event card number"},
+		{"event-timestamp", "datetime", 20, "last event timestamp"},
+		{"event-reason", "uint8", 27, "last event reason"},
+		{"sequence-no", "uint32", 40, "packet sequence number"},
+	},
+	Tests: []Test{
+		{
+			Name: "get-status",
+			Response: []byte{
+				0x17, 0x20, 0x00, 0x00, 0x78, 0x37, 0x2a, 0x18, 0x4e, 0x00, 0x00, 0x00, 0x02, 0x01, 0x03, 0x01,
+				0xa1, 0x98, 0x7c, 0x00, 0x20, 0x22, 0x08, 0x23, 0x09, 0x47, 0x06, 0x2c, 0x00, 0x01, 0x00, 0x00,
+				0x00, 0x00, 0x00, 0x01, 0x03, 0x09, 0x49, 0x39, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+				0x27, 0x07, 0x09, 0x22, 0x08, 0x23, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+			},
+			Values: []Value{
+				Value{
+					Name:  "controller",
+					Type:  "uint32",
+					Value: 405419896,
+				},
+				Value{
+					Name:  "system-date",
+					Type:  "date",
+					Value: "2022-08-23",
+				},
+				Value{
+					Name:  "system-time",
+					Type:  "time",
+					Value: "09:49:39",
+				},
+				Value{
+					Name:  "door-1-open",
+					Type:  "bool",
+					Value: false,
+				},
+				Value{
+					Name:  "door-2-open",
+					Type:  "bool",
+					Value: true,
+				},
+				Value{
+					Name:  "door-3-open",
+					Type:  "bool",
+					Value: false,
+				},
+				Value{
+					Name:  "door-4-open",
+					Type:  "bool",
+					Value: false,
+				},
+				Value{
+					Name:  "door-1-button",
+					Type:  "bool",
+					Value: false,
+				},
+				Value{
+					Name:  "door-2-button",
+					Type:  "bool",
+					Value: false,
+				},
+				Value{
+					Name:  "door-3-button",
+					Type:  "bool",
+					Value: false,
+				},
+				Value{
+					Name:  "door-4-button",
+					Type:  "bool",
+					Value: true,
+				},
+				Value{
+					Name:  "relays",
+					Type:  "uint8",
+					Value: 0x07,
+				},
+				Value{
+					Name:  "inputs",
+					Type:  "uint8",
+					Value: 0x09,
+				},
+				Value{
+					Name:  "system-error",
+					Type:  "uint8",
+					Value: 3,
+				},
+				Value{
+					Name:  "special-info",
+					Type:  "uint8",
+					Value: 39,
+				},
+				Value{
+					Name:  "event-index",
+					Type:  "uint32",
+					Value: 78,
+				},
+				Value{
+					Name:  "event-type",
+					Type:  "uint8",
+					Value: 2,
+				},
+				Value{
+					Name:  "event-access-granted",
+					Type:  "bool",
+					Value: true,
+				},
+				Value{
+					Name:  "event-door",
+					Type:  "uint8",
+					Value: 3,
+				},
+				Value{
+					Name:  "event-direction",
+					Type:  "uint8",
+					Value: 1,
+				},
+				Value{
+					Name:  "event-card",
+					Type:  "uint32",
+					Value: 8165537,
+				},
+				Value{
+					Name:  "event-timestamp",
+					Type:  "datetime",
+					Value: "2022-08-23 09:47:06",
+				},
+				Value{
+					Name:  "event-reason",
+					Type:  "uint8",
+					Value: 44,
+				},
+				Value{
+					Name:  "sequence-no",
+					Type:  "uint32",
+					Value: 0,
 				},
 			},
 		},

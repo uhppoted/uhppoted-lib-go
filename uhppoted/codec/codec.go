@@ -5,7 +5,7 @@ package codec
 const SOM byte = 0x17
 const SOM_v6_62 byte = 0x19
 
-const GET_STATUS byte = 0x20
+const GetStatus byte = 0x20
 const SET_TIME byte = 0x30
 const GET_TIME byte = 0x32
 const OPEN_DOOR byte = 0x40

@@ -33,18 +33,17 @@ func GetControllerResponse(packet []byte) (codec.GetControllerResponse, error) {
 	}
 
 	return codec.GetControllerResponse{
-		Controller: unpackUint32(packet, 4),
-		IpAddress:  unpackIPv4(packet, 8),
-		SubnetMask: unpackIPv4(packet, 12),
-		Gateway:    unpackIPv4(packet, 16),
-		MACAddress: unpackMAC(packet, 20),
-		Version:    unpackVersion(packet, 26),
-		Date:       unpackDate(packet, 28),
+		unpackUint32(packet, 4),
+		unpackIPv4(packet, 8),
+		unpackIPv4(packet, 12),
+		unpackIPv4(packet, 16),
+		unpackMAC(packet, 20),
+		unpackVersion(packet, 26),
+		unpackYYYYMMDD(packet, 28),
 	}, nil
 }
 
-// Decodes a set-IPv4 response. The access controller does not return a response to a set-IPv4 request - the
-// response is synthesized by the transport.
+// Decodes a set-ipv4 response.
 //
 //	Parameters:
 //	    packet  (bytearray)  64 byte UDP packet.
@@ -67,7 +66,57 @@ func SetIPv4Response(packet []byte) (codec.SetIPv4Response, error) {
 	}
 
 	return codec.SetIPv4Response{
-		Controller: unpackUint32(packet, 4),
-		Ok:         unpackBool(packet, 8),
+		unpackUint32(packet, 4),
+		unpackBool(packet, 8),
+	}, nil
+}
+
+// Decodes a get-status response.
+//
+//	Parameters:
+//	    packet  (bytearray)  64 byte UDP packet.
+//
+//	Returns:
+//	    - GetStatusResponse initialised from the UDP packet.
+//	    - error if the packet is not 64 bytes, has an invalid start-of-message byte or has
+//	               the incorrect message type.
+func GetStatusResponse(packet []byte) (codec.GetStatusResponse, error) {
+	if len(packet) != 64 {
+		return codec.GetStatusResponse{}, fmt.Errorf("invalid reply packet length (%v)", len(packet))
+	}
+
+	if packet[0] != codec.SOM {
+		return codec.GetStatusResponse{}, fmt.Errorf("invalid reply start of message byte (%02x)", packet[0])
+	}
+
+	if packet[1] != codec.GetStatus {
+		return codec.GetStatusResponse{}, fmt.Errorf("invalid reply function code (%02x)", packet[1])
+	}
+
+	return codec.GetStatusResponse{
+		unpackUint32(packet, 4),
+		unpackYYMMDD(packet, 51),
+		unpackHHMMSS(packet, 37),
+		unpackBool(packet, 28),
+		unpackBool(packet, 29),
+		unpackBool(packet, 30),
+		unpackBool(packet, 31),
+		unpackBool(packet, 32),
+		unpackBool(packet, 33),
+		unpackBool(packet, 34),
+		unpackBool(packet, 35),
+		unpackUint8(packet, 49),
+		unpackUint8(packet, 50),
+		unpackUint8(packet, 36),
+		unpackUint8(packet, 48),
+		unpackUint32(packet, 8),
+		unpackUint8(packet, 12),
+		unpackBool(packet, 13),
+		unpackUint8(packet, 14),
+		unpackUint8(packet, 15),
+		unpackUint32(packet, 16),
+		unpackYYYYMMDDHHMMSS(packet, 20),
+		unpackUint8(packet, 27),
+		unpackUint32(packet, 40),
 	}, nil
 }

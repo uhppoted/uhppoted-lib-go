@@ -19,6 +19,7 @@ var functions = template.FuncMap{
 	"arg":         arg,
 	"fields2args": fields2args,
 	"pack":        pack,
+	"unpack":      unpack,
 	"describe":    describe,
 	"lookup":      lookup,
 	"value":       value,
@@ -115,6 +116,9 @@ func fields2args(fields []model.Field) string {
 
 func pack(field model.Field) string {
 	switch field.Type {
+	case "uint32":
+		return fmt.Sprintf("packUint32(%v, packet, %v)", field.Name, field.Offset)
+
 	case "IPv4":
 		return fmt.Sprintf("packIPv4(%v, packet, %v)", field.Name, field.Offset)
 
@@ -122,7 +126,44 @@ func pack(field model.Field) string {
 		return fmt.Sprintf("packUint32(0x55aaaa55, packet, %v)", field.Offset)
 
 	default:
-		return fmt.Sprintf("packUint32(%v, packet, %v)", field.Name, field.Offset)
+		panic(fmt.Sprintf("*** ERROR unsupported field type (%v)", field.Type))
+	}
+}
+
+func unpack(field model.Field) string {
+	switch field.Type {
+	case "bool":
+		return fmt.Sprintf("unpackBool(packet, %v)", field.Offset)
+
+	case "uint8":
+		return fmt.Sprintf("unpackUint8(packet, %v)", field.Offset)
+
+	case "uint32":
+		return fmt.Sprintf("unpackUint32(packet, %v)", field.Offset)
+
+	case "datetime":
+		return fmt.Sprintf("unpackYYYYMMDDHHMMSS(packet, %v)", field.Offset)
+
+	case "date":
+		return fmt.Sprintf("unpackYYYYMMDD(packet, %v)", field.Offset)
+
+	case "shortdate":
+		return fmt.Sprintf("unpackYYMMDD(packet, %v)", field.Offset)
+
+	case "time":
+		return fmt.Sprintf("unpackHHMMSS(packet, %v)", field.Offset)
+
+	case "IPv4":
+		return fmt.Sprintf("unpackIPv4(packet, %v)", field.Offset)
+
+	case "MAC":
+		return fmt.Sprintf("unpackMAC(packet, %v)", field.Offset)
+
+	case "version":
+		return fmt.Sprintf("unpackVersion(packet, %v)", field.Offset)
+
+	default:
+		panic(fmt.Sprintf("*** ERROR unsupported field type (%v)", field.Type))
 	}
 }
 
@@ -171,8 +212,14 @@ func value(v any, vtype string) string {
 	case "version":
 		return fmt.Sprintf(`"%v"`, v)
 
+	case "datetime":
+		return fmt.Sprintf(`string2datetime("%v")`, v)
+
 	case "date":
-		return fmt.Sprintf(`date("%v")`, v)
+		return fmt.Sprintf(`string2date("%v")`, v)
+
+	case "time":
+		return fmt.Sprintf(`string2time("%v")`, v)
 
 	case "string":
 		return fmt.Sprintf(`"%v"`, v)

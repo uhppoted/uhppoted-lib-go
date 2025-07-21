@@ -26,7 +26,7 @@ func codec() {
 	encode()
 	encodeTest()
 
-	// decode()
+	decode()
 	decodeTest()
 }
 

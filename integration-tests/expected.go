@@ -62,6 +62,7 @@ var unexpected = struct {
 	GetAllControllers lib.GetControllerResponse
 	GetController     lib.GetControllerResponse
 	SetIPv4           lib.GetControllerResponse
+	GetStatus         lib.GetControllerResponse
 }{
 	//     GetAllControllers: lib.GetControllerResponse {
 	//
@@ -84,6 +85,13 @@ var unexpected = struct {
 	//     }
 
 	//     SetIPv4: lib.GetControllerResponse {
+	//
+	//        lib.GetControllerResponse{
+	//        },
+	//
+	//     }
+
+	//     GetStatus: lib.GetControllerResponse {
 	//
 	//        lib.GetControllerResponse{
 	//        },

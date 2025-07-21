@@ -69,7 +69,7 @@ get-all-controllers: build
 	$(CMD) get-all-controllers
 
 get-controller: build
-	$(CMD) get-controller --controller 405419896
+	$(CMD) get-controller --controller $(CONTROLLER)
 
 get-controller-udp: build
 	$(CMD) get-controller --controller $(CONTROLLER) --dest $(DEST)
@@ -78,5 +78,19 @@ get-controller-tcp: build
 	$(CMD) get-controller --controller $(CONTROLLER) --dest $(DEST) --tcp
 
 set-IPv4: build
-	$(CMD) set-IPv4 --controller 405419896 --address 192.168.1.100 --netmask 255.255.255.0 --gateway 192.168.1.1
+	$(CMD) set-IPv4 --controller $(CONTROLLER) --address 192.168.1.100 --netmask 255.255.255.0 --gateway 192.168.1.1
 
+set-IPv4-udp: build
+	$(CMD) set-IPv4 --controller $(CONTROLLER) --dest $(DEST) --address 192.168.1.100 --netmask 255.255.255.0 --gateway 192.168.1.1
+
+set-IPv4-tcp: build
+	$(CMD) set-IPv4 --controller $(CONTROLLER) --dest $(DEST) --tcp --address 192.168.1.100 --netmask 255.255.255.0 --gateway 192.168.1.1
+
+get-status: build
+	$(CMD) get-status --controller $(CONTROLLER)
+
+get-status-udp: build
+	$(CMD) get-status --controller $(CONTROLLER) --dest $(DEST)
+
+get-status-tcp: build
+	$(CMD) get-status --controller $(CONTROLLER) --dest $(DEST) --tcp

@@ -58,3 +58,21 @@ func SetIPv4Request(controller uint32, address netip.Addr, netmask netip.Addr, g
 
 	return packet, nil
 }
+
+// Encodes a get-status request.
+//
+//	Parameters:
+//	    controller  (uint32)  controller serial number
+//
+//	Returns:
+//	    64 byte packet.
+func GetStatusRequest(controller uint32) ([]byte, error) {
+	packet := make([]byte, 64)
+
+	packet[0] = codec.SOM
+	packet[1] = 32
+
+	packUint32(controller, packet, 4)
+
+	return packet, nil
+}

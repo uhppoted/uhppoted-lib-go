@@ -11,31 +11,18 @@ var commands = map[string]func(u lib.Uhppoted, args []string) error{
 	"get-all-controllers": getAllControllers,
 	"get-controller":      getController,
 	"set-IPv4":            setIPv4,
+	"get-status":          getStatus,
 }
 
-// func exec[T lib.TController](controller uint, dest string, tcp bool, f func(c T) (any, error)) error {
-// 	if c, err := resolve(controller, dest, tcp); err != nil {
-// 		return err
-// 	} else if c != nil {
-// 		if v, err := f(*c); err != nil {
-// 			return err
-// 		} else {
-// 			fmt.Printf("get-controller\n")
-// 			fmt.Printf("   %v\n", v)
-//
-// 			return nil
-// 		}
-// 	} else {
-// 		if v, err := f(uint32(controller)); err != nil {
-// 			return err
-// 		} else {
-// 			fmt.Printf("get-controller\n")
-// 			fmt.Printf("   %v\n", v)
-//
-// 			return nil
-// 		}
-// 	}
-// }
+func exec(controller uint, dest string, tcp bool, f func(c uint32) (any, error), g func(c lib.Controller) (any, error)) (any, error) {
+	if c, err := resolve(controller, dest, tcp); err != nil {
+		return nil, err
+	} else if c == nil {
+		return f(uint32(controller))
+	} else {
+		return g(*c)
+	}
+}
 
 func resolve(controller uint, dest string, tcp bool) (*lib.Controller, error) {
 	if dest == "" {
