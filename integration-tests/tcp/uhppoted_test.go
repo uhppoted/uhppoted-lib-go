@@ -100,3 +100,13 @@ func TestSetIPv4(t *testing.T) {
 		t.Error("incorrect response")
 	}
 }
+
+func TestGetStatus(t *testing.T) {
+	c, err := lib.GetStatus(u, controller, timeout)
+
+	if err != nil {
+		t.Fatalf("%v", err)
+	} else if !reflect.DeepEqual(c, test.Expected.GetStatus) {
+		t.Error("incorrect response")
+	}
+}

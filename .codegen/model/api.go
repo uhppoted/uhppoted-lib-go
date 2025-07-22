@@ -1,8 +1,10 @@
 package model
 
 type Func struct {
-	Name string
-	Test FuncTest
+	Name     string
+	Request  Request
+	Response Response
+	Test     FuncTest
 }
 
 type Reply struct {
@@ -70,7 +72,10 @@ var getAllControllers = Func{
 }
 
 var getController = Func{
-	Name: "get-controller",
+	Name:     "get-controller",
+	Request:  GetControllerRequest,
+	Response: GetControllerResponse,
+
 	Test: FuncTest{
 		Request: []byte{
 			0x17, 0x94, 0x00, 0x00, 0x78, 0x37, 0x2a, 0x18, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
@@ -101,7 +106,10 @@ var getController = Func{
 }
 
 var setIPv4 = Func{
-	Name: "set-IPv4",
+	Name:     "set-IPv4",
+	Request:  SetIPv4Request,
+	Response: SetIPv4Response,
+
 	Test: FuncTest{
 		Request: []byte{
 			0x17, 0x96, 0x00, 0x00, 0x78, 0x37, 0x2a, 0x18, 0xc0, 0xa8, 0x01, 0x7d, 0xff, 0xff, 0xff, 0x00,
@@ -127,7 +135,10 @@ var setIPv4 = Func{
 }
 
 var getStatus = Func{
-	Name: "get-status",
+	Name:     "get-status",
+	Request:  GetStatusRequest,
+	Response: GetStatusResponse,
+
 	Test: FuncTest{
 		Request: []byte{
 			0x17, 0x20, 0x00, 0x00, 0x78, 0x37, 0x2a, 0x18, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
@@ -144,7 +155,6 @@ var getStatus = Func{
 					0x27, 0x07, 0x09, 0x22, 0x08, 0x23, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
 				},
 				Response: []Value{
-					Value{"controller", "uint32", 405419896},
 					Value{"controller", "uint32", 405419896},
 					Value{"system-date", "date", "2022-08-23"},
 					Value{"system-time", "time", "09:49:39"},

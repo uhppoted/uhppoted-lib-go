@@ -3,14 +3,14 @@
 - [x] get-all-controllers
 - [x] get-controller
 - [x] set-IPv4
-- [ ] get-status
+- [x] get-status
    - [x] API
    - [x] example
    - [x] README
-   - [ ] integration test
+   - [x] integration test
 
-- [ ] v6.62 version handling
 - [x] README
+- [ ] v6.62 version handling
 - [ ] github workflow
     - [ ] go vet
     - [ ] lint
@@ -23,7 +23,11 @@
    - [x] decode_test
    - [ ] integration tests
       - [x] messages
-      - [ ] expected
+      - [x] expected
+      - [ ] get-all-controllers
+      - [ ] get-controller
+      - [ ] set-ip
+      - [ ] get-status
    - [ ] CLI
    - [ ] API
       - [ ] get-all-controllers
