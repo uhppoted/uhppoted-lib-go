@@ -64,6 +64,7 @@ var Expected = struct {
 	GetController     lib.GetControllerResponse
 	SetIPv4           lib.SetIPv4Response
 	GetStatus         lib.GetStatusResponse
+	GetTime           lib.GetTimeResponse
 }{
 	GetAllControllers: []lib.GetControllerResponse{
 		lib.GetControllerResponse{
@@ -135,6 +136,11 @@ var Expected = struct {
 		EventTimestamp:     string2datetime("2022-08-23 09:47:06"),
 		EventReason:        44,
 		SequenceNo:         0,
+	},
+
+	GetTime: lib.GetTimeResponse{
+		Controller: 405419896,
+		DateTime:   string2datetime("2024-11-01 12:34:56"),
 	},
 }
 

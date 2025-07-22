@@ -13,7 +13,7 @@ func getStatus(u lib.Uhppoted, args []string) error {
 	var dest string
 	var tcp bool
 
-	flagset := flag.NewFlagSet("get-controller", flag.ExitOnError)
+	flagset := flag.NewFlagSet("get-status", flag.ExitOnError)
 
 	flagset.UintVar(&controller, "controller", 0, "controller serial number")
 	flagset.StringVar(&dest, "dest", "", "controller IPv4 address (optional)")

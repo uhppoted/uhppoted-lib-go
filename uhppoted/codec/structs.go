@@ -54,3 +54,10 @@ type GetStatusResponse struct {
 	EventReason        uint8     `json:"event-reason"`
 	SequenceNo         uint32    `json:"sequence-no"`
 }
+
+// GetTimeResponse is a container struct for the response returned by a controller
+// when retrieving the current date/time.
+type GetTimeResponse struct {
+	Controller uint32    `json:"controller"`
+	DateTime   time.Time `json:"datetime"`
+}

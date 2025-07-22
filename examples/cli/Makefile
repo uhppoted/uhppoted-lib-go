@@ -94,3 +94,12 @@ get-status-udp: build
 
 get-status-tcp: build
 	$(CMD) get-status --controller $(CONTROLLER) --dest $(DEST) --tcp
+
+get-time: build
+	$(CMD) get-time --controller $(CONTROLLER)
+
+get-time-udp: build
+	$(CMD) get-time --controller $(CONTROLLER) --dest $(DEST)
+
+get-time-tcp: build
+	$(CMD) get-time --controller $(CONTROLLER) --dest $(DEST) --tcp

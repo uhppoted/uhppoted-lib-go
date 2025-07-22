@@ -110,3 +110,13 @@ func TestGetStatus(t *testing.T) {
 		t.Error("incorrect response")
 	}
 }
+
+func TestGetTime(t *testing.T) {
+	c, err := lib.GetTime(u, controller, timeout)
+
+	if err != nil {
+		t.Fatalf("%v", err)
+	} else if !reflect.DeepEqual(c, test.Expected.GetTime) {
+		t.Error("incorrect response")
+	}
+}

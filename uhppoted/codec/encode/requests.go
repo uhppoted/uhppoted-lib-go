@@ -76,3 +76,21 @@ func GetStatusRequest(controller uint32) ([]byte, error) {
 
 	return packet, nil
 }
+
+// Encodes a get-time request.
+//
+//	Parameters:
+//	    controller  (uint32)  controller serial number
+//
+//	Returns:
+//	    64 byte packet.
+func GetTimeRequest(controller uint32) ([]byte, error) {
+	packet := make([]byte, 64)
+
+	packet[0] = codec.SOM
+	packet[1] = 50
+
+	packUint32(controller, packet, 4)
+
+	return packet, nil
+}

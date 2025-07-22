@@ -7,7 +7,7 @@ const SOM_v6_62 byte = 0x19
 
 const GetStatus byte = 0x20
 const SET_TIME byte = 0x30
-const GET_TIME byte = 0x32
+const GetTime byte = 0x32
 const OPEN_DOOR byte = 0x40
 const PUT_CARD byte = 0x50
 const DELETE_CARD byte = 0x52

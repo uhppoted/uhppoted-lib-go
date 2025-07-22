@@ -26,7 +26,7 @@ build: format
 	go build -trimpath ./...
 
 debug: build
-	cd examples/cli && make get-status
+	cd examples/cli && make get-time
 
 test: build
 	go test ./uhppoted/...
@@ -89,3 +89,8 @@ get-status: build
 	cd examples/cli && make get-status
 	cd examples/cli && make get-status-udp
 	cd examples/cli && make get-status-tcp
+
+get-time: build
+	cd examples/cli && make get-time
+	cd examples/cli && make get-time-udp
+	cd examples/cli && make get-time-tcp

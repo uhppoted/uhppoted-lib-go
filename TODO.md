@@ -4,17 +4,19 @@
 - [x] get-controller
 - [x] set-IPv4
 - [x] get-status
+- [x] get-time
    - [x] API
    - [x] example
    - [x] README
    - [x] integration test
 
 - [x] README
-- [ ] v6.62 version handling
 - [ ] github workflow
     - [ ] go vet
     - [ ] lint
+- [ ] v6.62 version handling
 - [x] logging
+    - [ ] set default handler
 
 - [ ] code generation
    - [x] encode
@@ -24,14 +26,8 @@
    - [ ] integration tests
       - [x] messages
       - [x] expected
-      - [ ] get-all-controllers
-      - [ ] get-controller
-      - [ ] set-ip
-      - [ ] get-status
+      - [ ] API
    - [ ] CLI
    - [ ] API
-      - [ ] get-all-controllers
-      - [ ] get-controller
-      - [ ] set-ip
-      - [ ] get-status
+   - [ ] examples
    - [ ] README

@@ -59,11 +59,7 @@ func GetController[T TController](u Uhppoted, controller T, timeout time.Duratio
 		return decode.GetControllerResponse(b)
 	}
 
-	if reply, err := exec[T, GetControllerResponse](u, controller, f, g, timeout); err != nil {
-		return GetControllerResponse{}, err
-	} else {
-		return reply, nil
-	}
+	return exec[T, GetControllerResponse](u, controller, f, g, timeout)
 }
 
 // SetIP sets the controller IPv4 address, netmask and gateway address.
@@ -88,11 +84,7 @@ func SetIPv4[T TController](u Uhppoted, controller T, address, netmask, gateway 
 		return decode.SetIPv4Response(b)
 	}
 
-	if reply, err := exec[T, SetIPv4Response](u, controller, f, g, timeout); err != nil {
-		return SetIPv4Response{}, err
-	} else {
-		return reply, nil
-	}
+	return exec[T, SetIPv4Response](u, controller, f, g, timeout)
 }
 
 // GetStatus retrieves the system status from an access controller.
@@ -114,9 +106,27 @@ func GetStatus[T TController](u Uhppoted, controller T, timeout time.Duration) (
 		return decode.GetStatusResponse(b)
 	}
 
-	if reply, err := exec[T, GetStatusResponse](u, controller, f, g, timeout); err != nil {
-		return GetStatusResponse{}, err
-	} else {
-		return reply, nil
+	return exec[T, GetStatusResponse](u, controller, f, g, timeout)
+}
+
+// GetTime retrieves the access controller current date and time.
+//
+// Parameters:
+//   - controller: Either a uint32 controller serial number or a controller struct with the
+//     controller serial number, IPv4 address and transport.
+//   - timeout: The maximum time to wait for a response.
+//
+// Returns:
+//   - A GetTimeResponse structs.
+//   - An error if the request could not be executed.
+func GetTime[T TController](u Uhppoted, controller T, timeout time.Duration) (GetTimeResponse, error) {
+	f := func(id uint32) ([]byte, error) {
+		return encode.GetTimeRequest(id)
 	}
+
+	g := func(b []byte) (GetTimeResponse, error) {
+		return decode.GetTimeResponse(b)
+	}
+
+	return exec[T, GetTimeResponse](u, controller, f, g, timeout)
 }

@@ -120,3 +120,31 @@ func GetStatusResponse(packet []byte) (codec.GetStatusResponse, error) {
 		unpackUint32(packet, 40),
 	}, nil
 }
+
+// Decodes a get-time response.
+//
+//	Parameters:
+//	    packet  (bytearray)  64 byte UDP packet.
+//
+//	Returns:
+//	    - GetTimeResponse initialised from the UDP packet.
+//	    - error if the packet is not 64 bytes, has an invalid start-of-message byte or has
+//	               the incorrect message type.
+func GetTimeResponse(packet []byte) (codec.GetTimeResponse, error) {
+	if len(packet) != 64 {
+		return codec.GetTimeResponse{}, fmt.Errorf("invalid reply packet length (%v)", len(packet))
+	}
+
+	if packet[0] != codec.SOM {
+		return codec.GetTimeResponse{}, fmt.Errorf("invalid reply start of message byte (%02x)", packet[0])
+	}
+
+	if packet[1] != codec.GetTime {
+		return codec.GetTimeResponse{}, fmt.Errorf("invalid reply function code (%02x)", packet[1])
+	}
+
+	return codec.GetTimeResponse{
+		unpackUint32(packet, 4),
+		unpackYYYYMMDDHHMMSS(packet, 8),
+	}, nil
+}
