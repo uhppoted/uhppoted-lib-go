@@ -11,9 +11,9 @@
    - [x] integration test
 
 - [x] README
-- [ ] github workflow
-    - [ ] go vet
-    - [ ] lint
+- [x] github workflow
+    - [x] go vet
+    - [x] lint
 - [ ] v6.62 version handling
 - [x] logging
     - [ ] set default handler

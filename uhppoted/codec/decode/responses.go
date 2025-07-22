@@ -33,13 +33,13 @@ func GetControllerResponse(packet []byte) (codec.GetControllerResponse, error) {
 	}
 
 	return codec.GetControllerResponse{
-		unpackUint32(packet, 4),
-		unpackIPv4(packet, 8),
-		unpackIPv4(packet, 12),
-		unpackIPv4(packet, 16),
-		unpackMAC(packet, 20),
-		unpackVersion(packet, 26),
-		unpackYYYYMMDD(packet, 28),
+		Controller: unpackUint32(packet, 4),
+		IpAddress:  unpackIPv4(packet, 8),
+		SubnetMask: unpackIPv4(packet, 12),
+		Gateway:    unpackIPv4(packet, 16),
+		MACAddress: unpackMAC(packet, 20),
+		Version:    unpackVersion(packet, 26),
+		Date:       unpackYYYYMMDD(packet, 28),
 	}, nil
 }
 
@@ -66,8 +66,8 @@ func SetIPv4Response(packet []byte) (codec.SetIPv4Response, error) {
 	}
 
 	return codec.SetIPv4Response{
-		unpackUint32(packet, 4),
-		unpackBool(packet, 8),
+		Controller: unpackUint32(packet, 4),
+		Ok:         unpackBool(packet, 8),
 	}, nil
 }
 
@@ -94,30 +94,30 @@ func GetStatusResponse(packet []byte) (codec.GetStatusResponse, error) {
 	}
 
 	return codec.GetStatusResponse{
-		unpackUint32(packet, 4),
-		unpackYYMMDD(packet, 51),
-		unpackHHMMSS(packet, 37),
-		unpackBool(packet, 28),
-		unpackBool(packet, 29),
-		unpackBool(packet, 30),
-		unpackBool(packet, 31),
-		unpackBool(packet, 32),
-		unpackBool(packet, 33),
-		unpackBool(packet, 34),
-		unpackBool(packet, 35),
-		unpackUint8(packet, 49),
-		unpackUint8(packet, 50),
-		unpackUint8(packet, 36),
-		unpackUint8(packet, 48),
-		unpackUint32(packet, 8),
-		unpackUint8(packet, 12),
-		unpackBool(packet, 13),
-		unpackUint8(packet, 14),
-		unpackUint8(packet, 15),
-		unpackUint32(packet, 16),
-		unpackYYYYMMDDHHMMSS(packet, 20),
-		unpackUint8(packet, 27),
-		unpackUint32(packet, 40),
+		Controller:         unpackUint32(packet, 4),
+		SystemDate:         unpackYYMMDD(packet, 51),
+		SystemTime:         unpackHHMMSS(packet, 37),
+		Door1Open:          unpackBool(packet, 28),
+		Door2Open:          unpackBool(packet, 29),
+		Door3Open:          unpackBool(packet, 30),
+		Door4Open:          unpackBool(packet, 31),
+		Door1Button:        unpackBool(packet, 32),
+		Door2Button:        unpackBool(packet, 33),
+		Door3Button:        unpackBool(packet, 34),
+		Door4Button:        unpackBool(packet, 35),
+		Relays:             unpackUint8(packet, 49),
+		Inputs:             unpackUint8(packet, 50),
+		SystemError:        unpackUint8(packet, 36),
+		SpecialInfo:        unpackUint8(packet, 48),
+		EventIndex:         unpackUint32(packet, 8),
+		EventType:          unpackUint8(packet, 12),
+		EventAccessGranted: unpackBool(packet, 13),
+		EventDoor:          unpackUint8(packet, 14),
+		EventDirection:     unpackUint8(packet, 15),
+		EventCard:          unpackUint32(packet, 16),
+		EventTimestamp:     unpackYYYYMMDDHHMMSS(packet, 20),
+		EventReason:        unpackUint8(packet, 27),
+		SequenceNo:         unpackUint32(packet, 40),
 	}, nil
 }
 
@@ -144,7 +144,7 @@ func GetTimeResponse(packet []byte) (codec.GetTimeResponse, error) {
 	}
 
 	return codec.GetTimeResponse{
-		unpackUint32(packet, 4),
-		unpackYYYYMMDDHHMMSS(packet, 8),
+		Controller: unpackUint32(packet, 4),
+		DateTime:   unpackYYYYMMDDHHMMSS(packet, 8),
 	}, nil
 }

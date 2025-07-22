@@ -51,15 +51,39 @@ func exex(args []string, f func(c uint32) (any, error), g func(c lib.Controller)
 func resolve(controller uint, dest string, tcp bool) (*lib.Controller, error) {
 	if dest == "" {
 		return nil, nil
-	} else if addrport, err := netip.ParseAddrPort(dest); err == nil && tcp {
-		return &lib.Controller{uint32(controller), addrport, "tcp"}, nil
-	} else if addrport, err := netip.ParseAddrPort(dest); err == nil {
-		return &lib.Controller{uint32(controller), addrport, "udp"}, nil
-	} else if addr, err := netip.ParseAddr(dest); err == nil && tcp {
-		return &lib.Controller{uint32(controller), netip.AddrPortFrom(addr, 60000), "tcp"}, nil
-	} else if addr, err := netip.ParseAddr(dest); err == nil {
-		return &lib.Controller{uint32(controller), netip.AddrPortFrom(addr, 60000), "udp"}, nil
-	} else {
-		return nil, fmt.Errorf("invalid controller IPv4 address (%v)", dest)
 	}
+
+	if addrport, err := netip.ParseAddrPort(dest); err == nil && tcp {
+		return &lib.Controller{
+			ID:       uint32(controller),
+			Address:  addrport,
+			Protocol: "tcp",
+		}, nil
+	}
+
+	if addrport, err := netip.ParseAddrPort(dest); err == nil {
+		return &lib.Controller{
+			ID:       uint32(controller),
+			Address:  addrport,
+			Protocol: "udp",
+		}, nil
+	}
+
+	if addr, err := netip.ParseAddr(dest); err == nil && tcp {
+		return &lib.Controller{
+			ID:       uint32(controller),
+			Address:  netip.AddrPortFrom(addr, 60000),
+			Protocol: "tcp",
+		}, nil
+	}
+
+	if addr, err := netip.ParseAddr(dest); err == nil {
+		return &lib.Controller{
+			ID:       uint32(controller),
+			Address:  netip.AddrPortFrom(addr, 60000),
+			Protocol: "udp",
+		}, nil
+	}
+
+	return nil, fmt.Errorf("invalid controller IPv4 address (%v)", dest)
 }

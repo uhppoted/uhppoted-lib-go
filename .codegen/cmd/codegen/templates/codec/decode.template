@@ -35,7 +35,7 @@ func {{ titleCase $response.Name }}Response(packet []byte) (codec.{{ titleCase $
 
     return codec.{{ titleCase $response.Name }}Response{
 {{- range $i,$field := $response.Fields }}
-        {{ unpack $field }},{{ end }}
+        {{ titleCase $field.Name }}: {{ unpack $field }},{{ end }}
     }, nil
 }
 {{ end -}}
