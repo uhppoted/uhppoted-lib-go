@@ -56,8 +56,15 @@ type GetStatusResponse struct {
 }
 
 // GetTimeResponse is a container struct for the response returned by a controller
-// when retrieving the current date/time.
+// when retrieving the system date/time.
 type GetTimeResponse struct {
+	Controller uint32    `json:"controller"`
+	DateTime   time.Time `json:"datetime"`
+}
+
+// SetTimeResponse is a container struct for the response returned by a controller
+// when setting the system date/time.
+type SetTimeResponse struct {
 	Controller uint32    `json:"controller"`
 	DateTime   time.Time `json:"datetime"`
 }

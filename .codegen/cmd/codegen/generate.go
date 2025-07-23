@@ -88,8 +88,14 @@ func args(args []model.Arg) string {
 
 func arg(arg model.Arg) string {
 	switch arg.Type {
+	case "uint32":
+		return fmt.Sprintf(`uint32(%v)`, arg.Value)
+
 	case "IPv4":
 		return fmt.Sprintf(`netip.MustParseAddr("%v")`, arg.Value)
+
+	case "datetime":
+		return fmt.Sprintf(`string2datetime("%v")`, arg.Value)
 
 	default:
 		return fmt.Sprintf("%v", arg.Value)
@@ -102,6 +108,9 @@ func fields2args(fields []model.Field) string {
 		switch f.Type {
 		case "IPv4":
 			args = append(args, fmt.Sprintf("%v netip.Addr", f.Name))
+
+		case "datetime":
+			args = append(args, fmt.Sprintf("%v time.Time", f.Name))
 
 		case "magic":
 			// skip
@@ -121,6 +130,9 @@ func pack(field model.Field) string {
 
 	case "IPv4":
 		return fmt.Sprintf("packIPv4(%v, packet, %v)", field.Name, field.Offset)
+
+	case "datetime":
+		return fmt.Sprintf("packDateTime(%v, packet, %v)", field.Name, field.Offset)
 
 	case "magic":
 		return fmt.Sprintf("packUint32(0x55aaaa55, packet, %v)", field.Offset)

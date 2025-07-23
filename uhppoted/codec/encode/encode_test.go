@@ -3,9 +3,11 @@
 package encode
 
 import (
+	"fmt"
 	"net/netip"
 	"slices"
 	"testing"
+	"time"
 )
 
 func TestGetAllControllersRequest(t *testing.T) {
@@ -16,7 +18,7 @@ func TestGetAllControllersRequest(t *testing.T) {
 		0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
 	}
 
-	packet, err := GetControllerRequest(0)
+	packet, err := GetControllerRequest(uint32(0))
 
 	if err != nil {
 		t.Fatalf("%v", err)
@@ -33,7 +35,7 @@ func TestGetControllerRequest(t *testing.T) {
 		0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
 	}
 
-	packet, err := GetControllerRequest(405419896)
+	packet, err := GetControllerRequest(uint32(405419896))
 
 	if err != nil {
 		t.Fatalf("%v", err)
@@ -50,7 +52,7 @@ func TestSetIPv4Request(t *testing.T) {
 		0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
 	}
 
-	packet, err := SetIPv4Request(405419896, netip.MustParseAddr("192.168.1.125"), netip.MustParseAddr("255.255.255.0"), netip.MustParseAddr("192.168.1.1"))
+	packet, err := SetIPv4Request(uint32(405419896), netip.MustParseAddr("192.168.1.125"), netip.MustParseAddr("255.255.255.0"), netip.MustParseAddr("192.168.1.1"))
 
 	if err != nil {
 		t.Fatalf("%v", err)
@@ -67,7 +69,7 @@ func TestGetStatusRequest(t *testing.T) {
 		0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
 	}
 
-	packet, err := GetStatusRequest(405419896)
+	packet, err := GetStatusRequest(uint32(405419896))
 
 	if err != nil {
 		t.Fatalf("%v", err)
@@ -84,11 +86,35 @@ func TestGetTimeRequest(t *testing.T) {
 		0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
 	}
 
-	packet, err := GetTimeRequest(405419896)
+	packet, err := GetTimeRequest(uint32(405419896))
 
 	if err != nil {
 		t.Fatalf("%v", err)
 	} else if !slices.Equal(packet, expected) {
 		t.Errorf("get time: incorrectly encoded request\n   expected:%v\n   got:     %v", expected, packet)
+	}
+}
+
+func TestSetTimeRequest(t *testing.T) {
+	expected := []byte{
+		0x17, 0x30, 0x00, 0x00, 0x78, 0x37, 0x2a, 0x18, 0x20, 0x24, 0x11, 0x04, 0x12, 0x34, 0x56, 0x00,
+		0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+		0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+		0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+	}
+
+	packet, err := SetTimeRequest(uint32(405419896), string2datetime("2024-11-04 12:34:56"))
+
+	if err != nil {
+		t.Fatalf("%v", err)
+	} else if !slices.Equal(packet, expected) {
+		t.Errorf("set time: incorrectly encoded request\n   expected:%v\n   got:     %v", expected, packet)
+	}
+}
+func string2datetime(v string) time.Time {
+	if d, err := time.ParseInLocation("2006-01-02 15:04:05", v, time.Local); err != nil {
+		panic(fmt.Sprintf("invalid datetime (%v)", v))
+	} else {
+		return d
 	}
 }

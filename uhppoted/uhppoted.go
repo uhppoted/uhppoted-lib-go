@@ -56,6 +56,7 @@ type GetControllerResponse = codec.GetControllerResponse
 type SetIPv4Response = codec.SetIPv4Response
 type GetStatusResponse = codec.GetStatusResponse
 type GetTimeResponse = codec.GetTimeResponse
+type SetTimeResponse = codec.SetTimeResponse
 
 // NewUhppoted creates a new instance of the uhppoted service, configured with the supplied
 // local bind address, broadcast address, and listen address. The debug flag enables or

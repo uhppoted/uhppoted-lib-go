@@ -1,24 +1,25 @@
 # TODO
 
+- [x] README
+- [x] github workflow
 - [x] get-all-controllers
 - [x] get-controller
 - [x] set-IPv4
 - [x] get-status
 - [x] get-time
+- [x] set-time
    - [x] API
    - [x] example
    - [x] README
    - [x] integration test
 
-- [x] README
-- [x] github workflow
-    - [x] go vet
-    - [x] lint
+- [ ] custom date/time types
 - [ ] v6.62 version handling
 - [x] logging
     - [ ] set default handler
 
 - [ ] code generation
+   - [ ] use/extend uhppoted-codegen models
    - [x] encode
    - [x] encode_test
    - [x] decode
@@ -26,7 +27,9 @@
    - [ ] integration tests
       - [x] messages
       - [x] expected
-      - [ ] API
+      - [x] API: UDP broadcast
+      - [ ] API: UDP connected
+      - [ ] API: TCP
    - [ ] CLI
    - [ ] API
    - [ ] examples

@@ -18,7 +18,7 @@ func setIPv4(u lib.Uhppoted, args []string) error {
 	var netmask string
 	var gateway string
 
-	flagset := flag.NewFlagSet("get-controller", flag.ExitOnError)
+	flagset := flag.NewFlagSet("set-IPv4", flag.ExitOnError)
 
 	flagset.UintVar(&controller, "controller", 0, "controller serial number")
 	flagset.StringVar(&dest, "dest", "", "controller IPv4 address (optional)")

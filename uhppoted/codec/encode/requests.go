@@ -11,6 +11,7 @@ package encode
 
 import (
 	"net/netip"
+	"time"
 
 	"github.com/uhppoted/uhppoted-lib-go/uhppoted/codec"
 )
@@ -91,6 +92,26 @@ func GetTimeRequest(controller uint32) ([]byte, error) {
 	packet[1] = 50
 
 	packUint32(controller, packet, 4)
+
+	return packet, nil
+}
+
+// Encodes a set-time request.
+//
+//	Parameters:
+//	    controller  (uint32)  controller serial number
+//	    datetime  (datetime)  controller serial number
+//
+//	Returns:
+//	    64 byte packet.
+func SetTimeRequest(controller uint32, datetime time.Time) ([]byte, error) {
+	packet := make([]byte, 64)
+
+	packet[0] = codec.SOM
+	packet[1] = 48
+
+	packUint32(controller, packet, 4)
+	packDateTime(datetime, packet, 8)
 
 	return packet, nil
 }

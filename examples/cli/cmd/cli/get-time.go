@@ -16,7 +16,7 @@ func getTime(u lib.Uhppoted, args []string) error {
 		return lib.GetTime(u, c, options.timeout)
 	}
 
-	if v, err := exex(args, f, g); err != nil {
+	if v, err := get(args, f, g); err != nil {
 		return err
 	} else if bytes, err := json.MarshalIndent(v, "   ", "   "); err != nil {
 		return err

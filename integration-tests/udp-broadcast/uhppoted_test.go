@@ -5,7 +5,6 @@ import (
 	"net"
 	"net/netip"
 	"os"
-	"reflect"
 	"slices"
 	"testing"
 	"time"
@@ -17,9 +16,7 @@ import (
 var bind = netip.MustParseAddrPort("0.0.0.0:0")
 var broadcast = netip.MustParseAddrPort("255.255.255.255:50001")
 var listen = netip.MustParseAddrPort("0.0.0.0:60001")
-
-var u = lib.NewUhppoted(bind, broadcast, listen, true)
-var controller = uint32(405419896)
+var u = lib.NewUhppoted(bind, broadcast, listen, false)
 
 const timeout = 1000 * time.Millisecond
 
@@ -64,59 +61,5 @@ func setup() (*net.UDPConn, error) {
 func teardown(socket *net.UDPConn) {
 	if socket != nil {
 		socket.Close()
-	}
-}
-
-func TestGetAllControllers(t *testing.T) {
-	controllers, err := lib.GetAllControllers(u, timeout)
-
-	if err != nil {
-		t.Fatalf("%v", err)
-	} else if !slices.Equal(controllers, test.Expected.GetAllControllers) {
-		t.Error("incorrect response")
-	}
-}
-
-func TestGetController(t *testing.T) {
-	c, err := lib.GetController(u, controller, timeout)
-
-	if err != nil {
-		t.Fatalf("%v", err)
-	} else if !reflect.DeepEqual(c, test.Expected.GetController) {
-		t.Error("incorrect response")
-	}
-}
-
-func TestSetIPv4(t *testing.T) {
-	address := netip.MustParseAddr("192.168.1.125")
-	netmask := netip.MustParseAddr("25.255.255.0")
-	gateway := netip.MustParseAddr("192.168.1.1")
-
-	c, err := lib.SetIPv4(u, controller, address, netmask, gateway, timeout)
-
-	if err != nil {
-		t.Fatalf("%v", err)
-	} else if !reflect.DeepEqual(c, test.Expected.SetIPv4) {
-		t.Error("incorrect response")
-	}
-}
-
-func TestGetStatus(t *testing.T) {
-	c, err := lib.GetStatus(u, controller, timeout)
-
-	if err != nil {
-		t.Fatalf("%v", err)
-	} else if !reflect.DeepEqual(c, test.Expected.GetStatus) {
-		t.Error("incorrect response")
-	}
-}
-
-func TestGetTime(t *testing.T) {
-	c, err := lib.GetTime(u, controller, timeout)
-
-	if err != nil {
-		t.Fatalf("%v", err)
-	} else if !reflect.DeepEqual(c, test.Expected.GetTime) {
-		t.Error("incorrect response")
 	}
 }

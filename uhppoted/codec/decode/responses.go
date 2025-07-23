@@ -148,3 +148,31 @@ func GetTimeResponse(packet []byte) (codec.GetTimeResponse, error) {
 		DateTime:   unpackYYYYMMDDHHMMSS(packet, 8),
 	}, nil
 }
+
+// Decodes a set-time response.
+//
+//	Parameters:
+//	    packet  (bytearray)  64 byte UDP packet.
+//
+//	Returns:
+//	    - SetTimeResponse initialised from the UDP packet.
+//	    - error if the packet is not 64 bytes, has an invalid start-of-message byte or has
+//	               the incorrect message type.
+func SetTimeResponse(packet []byte) (codec.SetTimeResponse, error) {
+	if len(packet) != 64 {
+		return codec.SetTimeResponse{}, fmt.Errorf("invalid reply packet length (%v)", len(packet))
+	}
+
+	if packet[0] != codec.SOM {
+		return codec.SetTimeResponse{}, fmt.Errorf("invalid reply start of message byte (%02x)", packet[0])
+	}
+
+	if packet[1] != codec.SetTime {
+		return codec.SetTimeResponse{}, fmt.Errorf("invalid reply function code (%02x)", packet[1])
+	}
+
+	return codec.SetTimeResponse{
+		Controller: unpackUint32(packet, 4),
+		DateTime:   unpackYYYYMMDDHHMMSS(packet, 8),
+	}, nil
+}

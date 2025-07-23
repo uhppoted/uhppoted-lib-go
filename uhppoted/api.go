@@ -48,7 +48,7 @@ func GetAllControllers(u Uhppoted, timeout time.Duration) ([]GetControllerRespon
 //   - timeout: The maximum time to wait for a response.
 //
 // Returns:
-//   - A GetControllerResponse structs.
+//   - A GetControllerResponse struct.
 //   - An error if the request could not be executed.
 func GetController[T TController](u Uhppoted, controller T, timeout time.Duration) (GetControllerResponse, error) {
 	f := func(id uint32) ([]byte, error) {
@@ -73,7 +73,7 @@ func GetController[T TController](u Uhppoted, controller T, timeout time.Duratio
 //   - timeout: The maximum time to wait for a response.
 //
 // Returns:
-//   - A SetIPResponse structs.
+//   - A SetIPResponse struct.
 //   - An error if the request could not be executed.
 func SetIPv4[T TController](u Uhppoted, controller T, address, netmask, gateway netip.Addr, timeout time.Duration) (SetIPv4Response, error) {
 	f := func(id uint32) ([]byte, error) {
@@ -95,7 +95,7 @@ func SetIPv4[T TController](u Uhppoted, controller T, address, netmask, gateway 
 //   - timeout: The maximum time to wait for a response.
 //
 // Returns:
-//   - A GetStatusResponse structs.
+//   - A GetStatusResponse struct.
 //   - An error if the request could not be executed.
 func GetStatus[T TController](u Uhppoted, controller T, timeout time.Duration) (GetStatusResponse, error) {
 	f := func(id uint32) ([]byte, error) {
@@ -109,7 +109,7 @@ func GetStatus[T TController](u Uhppoted, controller T, timeout time.Duration) (
 	return exec[T, GetStatusResponse](u, controller, f, g, timeout)
 }
 
-// GetTime retrieves the access controller current date and time.
+// GetTime retrieves the access controller system date and time.
 //
 // Parameters:
 //   - controller: Either a uint32 controller serial number or a controller struct with the
@@ -117,7 +117,7 @@ func GetStatus[T TController](u Uhppoted, controller T, timeout time.Duration) (
 //   - timeout: The maximum time to wait for a response.
 //
 // Returns:
-//   - A GetTimeResponse structs.
+//   - A GetTimeResponse struct.
 //   - An error if the request could not be executed.
 func GetTime[T TController](u Uhppoted, controller T, timeout time.Duration) (GetTimeResponse, error) {
 	f := func(id uint32) ([]byte, error) {
@@ -129,4 +129,27 @@ func GetTime[T TController](u Uhppoted, controller T, timeout time.Duration) (Ge
 	}
 
 	return exec[T, GetTimeResponse](u, controller, f, g, timeout)
+}
+
+// SetTime sets the access controller system date and time.
+//
+// Parameters:
+//   - controller: Either a uint32 controller serial number or a controller struct with the
+//     controller serial number, IPv4 address and transport.
+//   - datetime:   Date/time to which to set the controller system date/time.
+//   - timeout: The maximum time to wait for a response.
+//
+// Returns:
+//   - A SetTimeResponse struct.
+//   - An error if the request could not be executed.
+func SetTime[T TController](u Uhppoted, controller T, datetime time.Time, timeout time.Duration) (SetTimeResponse, error) {
+	f := func(id uint32) ([]byte, error) {
+		return encode.SetTimeRequest(id, datetime)
+	}
+
+	g := func(b []byte) (SetTimeResponse, error) {
+		return decode.SetTimeResponse(b)
+	}
+
+	return exec[T, SetTimeResponse](u, controller, f, g, timeout)
 }

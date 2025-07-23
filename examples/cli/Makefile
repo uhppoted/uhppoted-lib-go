@@ -103,3 +103,12 @@ get-time-udp: build
 
 get-time-tcp: build
 	$(CMD) get-time --controller $(CONTROLLER) --dest $(DEST) --tcp
+
+set-time: build
+	$(CMD) set-time --controller $(CONTROLLER) --datetime "2022-01-02 12:34:56"
+
+set-time-udp: build
+	$(CMD) set-time --controller $(CONTROLLER) --dest $(DEST)
+
+set-time-tcp: build
+	$(CMD) set-time --controller $(CONTROLLER) --dest $(DEST) --tcp
