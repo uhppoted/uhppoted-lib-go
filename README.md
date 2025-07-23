@@ -30,10 +30,10 @@ folder.
 
 **API**
 
-- [`GetAllControllers`](API.md#get_all_controllers)
-- [`GetController`](API.md#get_controller)
-- [`SetIPv4`](API.md#set_ipv4)
-- [`GetStatus`](API.md#get_status)
-- [`GetTime`](API.md#get_time)
-- [`SetTime`](API.md#set_time)
+- [`GetAllControllers`](API.md#getallcontrollers)
+- [`GetController`](API.md#getcontroller)
+- [`SetIPv4`](API.md#setipv4)
+- [`GetStatus`](API.md#getstatus)
+- [`GetTime`](API.md#gettime)
+- [`SetTime`](API.md#settime)
 

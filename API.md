@@ -76,12 +76,12 @@ where:
 
 **API**
 
-- [`GetAllControllers`](#get_all_controllers)
-- [`GetController`](#get_controller)
-- [`SetIPv4`](#set_ipv4)
-- [`GetStatus`](#get_status)
-- [`GetTime`](#get_time)
-- [`SetTime`](#set_time)
+- [`GetAllControllers`](#getallcontrollers)
+- [`GetController`](#getcontroller)
+- [`SetIPv4`](#setipv4)
+- [`GetStatus`](#getstatus)
+- [`GetTime`](#gettime)
+- [`SetTime`](#settime)
 
 
 ### `GetAllControllers`
