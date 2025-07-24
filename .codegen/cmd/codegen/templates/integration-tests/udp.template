@@ -1,19 +1,17 @@
 package uhppoted
 
 import (
-    "fmt"
     "net/netip"
     "reflect"
     "testing"
-    "time"
 
     test "github.com/uhppoted/uhppoted-lib-go/integration-tests"
     lib "github.com/uhppoted/uhppoted-lib-go/uhppoted"
 )
 
-{{ range $func := . }}
+{{ range $func := . }}{{ if includes $func.Protocols "udp"}}
 func Test{{ titleCase $func.Name }}(t *testing.T) {
-{{- range $arg := $func.Test.Args }}     {{ $arg.Name }} := {{ arg $arg }}
+{{- range $arg := $func.Test.Args }}{{ if ne $arg.Name "controller"}}      {{ $arg.Name }} := {{ arg $arg }}{{ end }}
 {{ end }}
     response, err := lib.{{ titleCase $func.Name }}(u{{ range $arg := $func.Test.Args }}, {{ $arg.Name }}{{end }}, timeout)
 
@@ -23,13 +21,4 @@ func Test{{ titleCase $func.Name }}(t *testing.T) {
         t.Errorf("incorrect response\n   expected:%#v\n   got:     %#v", test.Expected.{{ titleCase $func.Name }}, response)
     }
 }
-{{ end }}
-
-func string2datetime(v string) time.Time {
-    if d, err := time.ParseInLocation("2006-01-02 15:04:05", v, time.Local); err != nil {
-        panic(fmt.Sprintf("invalid datetime (%v)", v))
-    } else {
-        return d
-    }
-}
-
+{{ end }}{{ end }}

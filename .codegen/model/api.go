@@ -5,10 +5,11 @@ import (
 )
 
 type Func struct {
-	Name     string
-	Request  Request
-	Response Response
-	Test     FuncTest
+	Name      string
+	Request   Request
+	Response  Response
+	Protocols []string
+	Test      FuncTest
 }
 
 type Reply struct {
@@ -33,7 +34,8 @@ var API = []Func{
 }
 
 var getAllControllers = Func{
-	Name: "get-all-controllers",
+	Name:      "get-all-controllers",
+	Protocols: []string{"broadcast"},
 	Test: FuncTest{
 		Args: []Arg{},
 		Request: []byte{
@@ -81,9 +83,10 @@ var getAllControllers = Func{
 }
 
 var getController = Func{
-	Name:     "get-controller",
-	Request:  GetControllerRequest,
-	Response: GetControllerResponse,
+	Name:      "get-controller",
+	Request:   GetControllerRequest,
+	Response:  GetControllerResponse,
+	Protocols: []string{"broadcast", "udp", "tcp"},
 
 	Test: FuncTest{
 		Args: []Arg{
@@ -118,9 +121,10 @@ var getController = Func{
 }
 
 var setIPv4 = Func{
-	Name:     "set-IPv4",
-	Request:  SetIPv4Request,
-	Response: SetIPv4Response,
+	Name:      "set-IPv4",
+	Request:   SetIPv4Request,
+	Response:  SetIPv4Response,
+	Protocols: []string{"broadcast", "udp", "tcp"},
 
 	Test: FuncTest{
 		Args: []Arg{
@@ -153,9 +157,10 @@ var setIPv4 = Func{
 }
 
 var getStatus = Func{
-	Name:     "get-status",
-	Request:  GetStatusRequest,
-	Response: GetStatusResponse,
+	Name:      "get-status",
+	Request:   GetStatusRequest,
+	Response:  GetStatusResponse,
+	Protocols: []string{"broadcast", "udp", "tcp"},
 
 	Test: FuncTest{
 		Args: []Arg{
@@ -207,9 +212,10 @@ var getStatus = Func{
 }
 
 var getTime = Func{
-	Name:     "get-time",
-	Request:  GetTimeRequest,
-	Response: GetTimeResponse,
+	Name:      "get-time",
+	Request:   GetTimeRequest,
+	Response:  GetTimeResponse,
+	Protocols: []string{"broadcast", "udp", "tcp"},
 
 	Test: FuncTest{
 		Args: []Arg{
@@ -239,9 +245,10 @@ var getTime = Func{
 }
 
 var setTime = Func{
-	Name:     "set-time",
-	Request:  SetTimeRequest,
-	Response: SetTimeResponse,
+	Name:      "set-time",
+	Request:   SetTimeRequest,
+	Response:  SetTimeResponse,
+	Protocols: []string{"broadcast", "udp", "tcp"},
 
 	Test: FuncTest{
 		Args: []Arg{
@@ -272,9 +279,10 @@ var setTime = Func{
 }
 
 var getListener = Func{
-	Name:     "get-listener",
-	Request:  GetListenerRequest,
-	Response: GetListenerResponse,
+	Name:      "get-listener",
+	Request:   GetListenerRequest,
+	Response:  GetListenerResponse,
+	Protocols: []string{"broadcast", "udp", "tcp"},
 
 	Test: FuncTest{
 		Args: []Arg{

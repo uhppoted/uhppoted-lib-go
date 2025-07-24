@@ -16,7 +16,9 @@ import (
 var bind = netip.MustParseAddrPort("0.0.0.0:0")
 var broadcast = netip.MustParseAddrPort("255.255.255.255:50001")
 var listen = netip.MustParseAddrPort("0.0.0.0:60001")
+
 var u = lib.NewUhppoted(bind, broadcast, listen, false)
+var controller = uint32(405419896)
 
 const timeout = 1000 * time.Millisecond
 
@@ -61,5 +63,13 @@ func setup() (*net.UDPConn, error) {
 func teardown(socket *net.UDPConn) {
 	if socket != nil {
 		socket.Close()
+	}
+}
+
+func string2datetime(v string) time.Time {
+	if d, err := time.ParseInLocation("2006-01-02 15:04:05", v, time.Local); err != nil {
+		panic(fmt.Sprintf("invalid datetime (%v)", v))
+	} else {
+		return d
 	}
 }

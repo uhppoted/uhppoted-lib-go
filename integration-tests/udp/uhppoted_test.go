@@ -5,7 +5,6 @@ import (
 	"net"
 	"net/netip"
 	"os"
-	"reflect"
 	"slices"
 	"testing"
 	"time"
@@ -71,46 +70,10 @@ func teardown(socket *net.UDPConn) {
 	}
 }
 
-func TestGetController(t *testing.T) {
-	c, err := lib.GetController(u, controller, timeout)
-
-	if err != nil {
-		t.Fatalf("%v", err)
-	} else if !reflect.DeepEqual(c, test.Expected.GetController) {
-		t.Error("incorrect response")
-	}
-}
-
-func TestSetIPv4(t *testing.T) {
-	address := netip.MustParseAddr("192.168.1.125")
-	netmask := netip.MustParseAddr("25.255.255.0")
-	gateway := netip.MustParseAddr("192.168.1.1")
-
-	c, err := lib.SetIPv4(u, controller, address, netmask, gateway, timeout)
-
-	if err != nil {
-		t.Fatalf("%v", err)
-	} else if !reflect.DeepEqual(c, test.Expected.SetIPv4) {
-		t.Error("incorrect response")
-	}
-}
-
-func TestGetStatus(t *testing.T) {
-	c, err := lib.GetStatus(u, controller, timeout)
-
-	if err != nil {
-		t.Fatalf("%v", err)
-	} else if !reflect.DeepEqual(c, test.Expected.GetStatus) {
-		t.Error("incorrect response")
-	}
-}
-
-func TestGetTime(t *testing.T) {
-	c, err := lib.GetTime(u, controller, timeout)
-
-	if err != nil {
-		t.Fatalf("%v", err)
-	} else if !reflect.DeepEqual(c, test.Expected.GetTime) {
-		t.Error("incorrect response")
+func string2datetime(v string) time.Time {
+	if d, err := time.ParseInLocation("2006-01-02 15:04:05", v, time.Local); err != nil {
+		panic(fmt.Sprintf("invalid datetime (%v)", v))
+	} else {
+		return d
 	}
 }

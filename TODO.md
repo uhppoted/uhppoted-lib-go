@@ -28,12 +28,12 @@
    - [x] encode_test
    - [x] decode
    - [x] decode_test
-   - [ ] integration tests
+   - [x] integration tests
       - [x] messages
       - [x] expected
       - [x] API: UDP broadcast
-      - [ ] API: UDP connected
-      - [ ] API: TCP
+      - [x] API: UDP connected
+      - [x] API: TCP
    - [ ] CLI
    - [ ] API
    - [ ] examples

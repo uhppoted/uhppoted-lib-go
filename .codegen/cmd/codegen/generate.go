@@ -22,6 +22,7 @@ var functions = template.FuncMap{
 	"unpack":      unpack,
 	"describe":    describe,
 	"lookup":      lookup,
+	"includes":    includes,
 	"value":       value,
 }
 
@@ -217,6 +218,16 @@ func lookup(path, key, defval string) any {
 	}
 
 	return defval
+}
+
+func includes(list []string, item string) bool {
+	for _, v := range list {
+		if v == item {
+			return true
+		}
+	}
+
+	return false
 }
 
 func value(v any, vtype string) string {
