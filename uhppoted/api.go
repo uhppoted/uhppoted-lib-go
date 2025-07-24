@@ -153,3 +153,26 @@ func SetTime[T TController](u Uhppoted, controller T, datetime time.Time, timeou
 
 	return exec[T, SetTimeResponse](u, controller, f, g, timeout)
 }
+
+// GetListener retrieves the access controller event listener IPv4 address:port and auto-send
+// interval.
+//
+// Parameters:
+//   - controller: Either a uint32 controller serial number or a controller struct with the
+//     controller serial number, IPv4 address and transport.
+//   - timeout: The maximum time to wait for a response.
+//
+// Returns:
+//   - A GetListenerResponse struct.
+//   - An error if the request could not be executed.
+func GetListener[T TController](u Uhppoted, controller T, timeout time.Duration) (GetListenerResponse, error) {
+	f := func(id uint32) ([]byte, error) {
+		return encode.GetListenerRequest(id)
+	}
+
+	g := func(b []byte) (GetListenerResponse, error) {
+		return decode.GetListenerResponse(b)
+	}
+
+	return exec[T, GetListenerResponse](u, controller, f, g, timeout)
+}

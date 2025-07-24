@@ -15,6 +15,7 @@ var commands = map[string]func(u lib.Uhppoted, args []string) error{
 	"get-status":          getStatus,
 	"get-time":            getTime,
 	"set-time":            setTime,
+	"get-listener":        getListener,
 }
 
 func get(args []string, f func(c uint32) (any, error), g func(c lib.Controller) (any, error)) (any, error) {

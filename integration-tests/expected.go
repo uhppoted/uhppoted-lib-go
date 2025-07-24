@@ -15,6 +15,7 @@ var Expected = struct {
 	GetStatus         lib.GetStatusResponse
 	GetTime           lib.GetTimeResponse
 	SetTime           lib.SetTimeResponse
+	GetListener       lib.GetListenerResponse
 }{
 	GetAllControllers: []lib.GetControllerResponse{
 		lib.GetControllerResponse{
@@ -97,10 +98,20 @@ var Expected = struct {
 		Controller: 405419896,
 		DateTime:   string2datetime("2024-11-01 12:34:56"),
 	},
+
+	GetListener: lib.GetListenerResponse{
+		Controller: 405419896,
+		Address:    addrport("192.168.1.100:60001"),
+		Interval:   17,
+	},
 }
 
 func IPv4(v string) netip.Addr {
 	return netip.MustParseAddr(v)
+}
+
+func addrport(v string) netip.AddrPort {
+	return netip.MustParseAddrPort(v)
 }
 
 func string2datetime(v string) time.Time {

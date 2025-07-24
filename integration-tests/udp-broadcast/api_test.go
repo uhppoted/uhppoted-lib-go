@@ -85,6 +85,18 @@ func TestSetTime(t *testing.T) {
 	}
 }
 
+func TestGetListener(t *testing.T) {
+	controller := uint32(405419896)
+
+	response, err := lib.GetListener(u, controller, timeout)
+
+	if err != nil {
+		t.Fatalf("%v", err)
+	} else if !reflect.DeepEqual(response, test.Expected.GetListener) {
+		t.Errorf("incorrect response\n   expected:%#v\n   got:     %#v", test.Expected.GetListener, response)
+	}
+}
+
 func string2datetime(v string) time.Time {
 	if d, err := time.ParseInLocation("2006-01-02 15:04:05", v, time.Local); err != nil {
 		panic(fmt.Sprintf("invalid datetime (%v)", v))

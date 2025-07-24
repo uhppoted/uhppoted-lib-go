@@ -112,3 +112,12 @@ set-time-udp: build
 
 set-time-tcp: build
 	$(CMD) set-time --controller $(CONTROLLER) --dest $(DEST) --tcp
+
+get-listener: build
+	$(CMD) get-listener --controller $(CONTROLLER)
+
+get-listener-udp: build
+	$(CMD) get-listener --controller $(CONTROLLER) --dest $(DEST)
+
+get-listener-tcp: build
+	$(CMD) get-listener --controller $(CONTROLLER) --dest $(DEST) --tcp

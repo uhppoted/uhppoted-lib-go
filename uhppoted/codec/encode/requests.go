@@ -115,3 +115,21 @@ func SetTimeRequest(controller uint32, datetime time.Time) ([]byte, error) {
 
 	return packet, nil
 }
+
+// Encodes a get-listener request.
+//
+//	Parameters:
+//	    controller  (uint32)  controller serial number
+//
+//	Returns:
+//	    64 byte packet.
+func GetListenerRequest(controller uint32) ([]byte, error) {
+	packet := make([]byte, 64)
+
+	packet[0] = codec.SOM
+	packet[1] = 146
+
+	packUint32(controller, packet, 4)
+
+	return packet, nil
+}

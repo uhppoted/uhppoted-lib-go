@@ -13,6 +13,7 @@ var Responses = []Response{
 	GetStatusResponse,
 	GetTimeResponse,
 	SetTimeResponse,
+	GetListenerResponse,
 }
 
 var GetControllerResponse = Response{
@@ -331,6 +332,44 @@ var SetTimeResponse = Response{
 					Name:  "date-time",
 					Type:  "datetime",
 					Value: "2024-11-01 12:34:56",
+				},
+			},
+		},
+	},
+}
+
+var GetListenerResponse = Response{
+	Name:    "get listener",
+	MsgType: 0x92,
+	Fields: []Field{
+		{"controller", "uint32", 4, "controller serial number, e.g. 405419896"},
+		{"address", "addrport", 8, "event listener IPv4 adress:port"},
+		{"interval", "uint8", 14, "auto-send interval (seconds)"},
+	},
+	Tests: []Test{
+		{
+			Name: "get-listener",
+			Response: []byte{
+				0x17, 0x92, 0x00, 0x00, 0x78, 0x37, 0x2a, 0x18, 0xc0, 0xa8, 0x01, 0x64, 0x61, 0xea, 0x11, 0x00,
+				0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+				0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+				0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+			},
+			Values: []Value{
+				Value{
+					Name:  "controller",
+					Type:  "uint32",
+					Value: 405419896,
+				},
+				Value{
+					Name:  "address",
+					Type:  "addrport",
+					Value: "192.168.1.100:60001",
+				},
+				Value{
+					Name:  "interval",
+					Type:  "uint8",
+					Value: "17",
 				},
 			},
 		},

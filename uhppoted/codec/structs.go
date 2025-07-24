@@ -68,3 +68,11 @@ type SetTimeResponse struct {
 	Controller uint32    `json:"controller"`
 	DateTime   time.Time `json:"datetime"`
 }
+
+// GetListenerResponse is a container struct for the response returned by a controller
+// when retrieving the configured event listener IPv4 address and port.
+type GetListenerResponse struct {
+	Controller uint32         `json:"controller"`
+	Address    netip.AddrPort `json:"address"`
+	Interval   uint8          `json:"interval"`
+}

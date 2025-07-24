@@ -27,6 +27,13 @@ func unpackIPv4(packet []byte, offset uint8) netip.Addr {
 	return addr
 }
 
+func unpackAddrPort(packet []byte, offset uint8) netip.AddrPort {
+	addr, _ := netip.AddrFromSlice(packet[offset : offset+4])
+	port := binary.LittleEndian.Uint16(packet[offset+4 : offset+6])
+
+	return netip.AddrPortFrom(addr, port)
+}
+
 func unpackMAC(packet []byte, offset uint8) string {
 	return fmt.Sprintf("%02x:%02x:%02x:%02x:%02x:%02x",
 		packet[offset],

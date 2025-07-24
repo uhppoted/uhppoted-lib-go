@@ -26,7 +26,7 @@ build: format
 	go build -trimpath ./...
 
 debug: build
-	cd examples/cli && make set-time
+	cd examples/cli && make get-listener
 
 test: build
 	go test ./uhppoted/...
@@ -97,3 +97,8 @@ set-time: build
 	cd examples/cli && make set-time
 	cd examples/cli && make set-time-udp
 	cd examples/cli && make set-time-tcp
+
+get-listener: build
+	cd examples/cli && make get-listener
+	cd examples/cli && make get-listener-udp
+	cd examples/cli && make get-listener-tcp

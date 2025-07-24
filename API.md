@@ -1,5 +1,13 @@
 # API
 
+- [`GetAllControllers`](#getallcontrollers)
+- [`GetController`](#getcontroller)
+- [`SetIPv4`](#setipv4)
+- [`GetStatus`](#getstatus)
+- [`GetTime`](#gettime)
+- [`SetTime`](#settime)
+- [`GetListener`](#getlistener)
+---
 Invoking an API function requires an instance of the `Uhppoted` struct initialised with the information required
 to access a controller:
 
@@ -74,15 +82,7 @@ where:
    GetController(u, 405419896, 750*time.Millisecond)
 ```
 
-**API**
-
-- [`GetAllControllers`](#getallcontrollers)
-- [`GetController`](#getcontroller)
-- [`SetIPv4`](#setipv4)
-- [`GetStatus`](#getstatus)
-- [`GetTime`](#gettime)
-- [`SetTime`](#settime)
-
+## Functions
 
 ### `GetAllControllers`
 Returns a list of all controllers that responded to a _get-controller_ request within the timeout.
@@ -158,6 +158,18 @@ datetime    date/time to which to set controller system time
 timeout     maximum time to wait for a response from a controller
 
 Returns a `SetTimeResponse` with the controller system date/time.
+```
+
+### `GetListener`
+```
+GetListener(u Uhppoted, controller TController, timeout time.Duration) (GetListenerResponse,error)
+
+u           Uhppoted struct initialised with the bind address, broadcast address, etc
+controller  uint32|Controller controller serial number or {id, address, protocol} Controller struct
+timeout     maximum time to wait for a response from a controller
+
+Returns a `GetListenerResponse` with the configured event listener IPv4 address:port and the auto-send 
+interval.
 ```
 
 ## Types
@@ -236,5 +248,16 @@ Container class for the decoded response from a _SetTime_ request.
 type SetTimeResponse struct {
   Controller  uint32    `json:"controller"`      // controller serial number
   DateTime    time.Time `json:"event-timestamp"` // controller date/time
+}
+```
+
+### `GetListenerResponse`
+
+Container class for the decoded response from a _GetListener_ request.
+```
+type GetTimeResponse struct {
+  Controller  uint32          `json:"controller"` // controller serial number
+  Address     netip.AddrPort  `json:"address"`    // event listener IPv4 address:port
+  Interval    uint8           `json:"interval"`   // auto-send interval (seconds)
 }
 ```

@@ -94,6 +94,9 @@ func arg(arg model.Arg) string {
 	case "IPv4":
 		return fmt.Sprintf(`netip.MustParseAddr("%v")`, arg.Value)
 
+	case "addrport":
+		return fmt.Sprintf(`netip.MustParseAddrPort("%v")`, arg.Value)
+
 	case "datetime":
 		return fmt.Sprintf(`string2datetime("%v")`, arg.Value)
 
@@ -168,6 +171,9 @@ func unpack(field model.Field) string {
 	case "IPv4":
 		return fmt.Sprintf("unpackIPv4(packet, %v)", field.Offset)
 
+	case "addrport":
+		return fmt.Sprintf("unpackAddrPort(packet, %v)", field.Offset)
+
 	case "MAC":
 		return fmt.Sprintf("unpackMAC(packet, %v)", field.Offset)
 
@@ -217,6 +223,9 @@ func value(v any, vtype string) string {
 	switch vtype {
 	case "IPv4":
 		return fmt.Sprintf(`IPv4("%v")`, v)
+
+	case "addrport":
+		return fmt.Sprintf(`addrport("%v")`, v)
 
 	case "MAC":
 		return fmt.Sprintf(`"%v"`, v)
