@@ -1,6 +1,6 @@
 // Package codec defines the data structures and helper types for encoding and
 // decoding messages exchanged with UHPPOTE controllers.
-package codec
+package types
 
 import (
 	"net/netip"

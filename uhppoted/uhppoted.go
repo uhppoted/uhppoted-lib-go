@@ -28,8 +28,8 @@ import (
 	"net/netip"
 	"time"
 
-	"github.com/uhppoted/uhppoted-lib-go/uhppoted/codec"
 	"github.com/uhppoted/uhppoted-lib-go/uhppoted/log"
+	"github.com/uhppoted/uhppoted-lib-go/uhppoted/types"
 )
 
 type Uhppoted struct {
@@ -52,12 +52,12 @@ type Controller struct {
 	Protocol string
 }
 
-type GetControllerResponse = codec.GetControllerResponse
-type SetIPv4Response = codec.SetIPv4Response
-type GetStatusResponse = codec.GetStatusResponse
-type GetTimeResponse = codec.GetTimeResponse
-type SetTimeResponse = codec.SetTimeResponse
-type GetListenerResponse = codec.GetListenerResponse
+type GetControllerResponse = types.GetControllerResponse
+type SetIPv4Response = types.SetIPv4Response
+type GetStatusResponse = types.GetStatusResponse
+type GetTimeResponse = types.GetTimeResponse
+type SetTimeResponse = types.SetTimeResponse
+type GetListenerResponse = types.GetListenerResponse
 
 // NewUhppoted creates a new instance of the uhppoted service, configured with the supplied
 // local bind address, broadcast address, and listen address. The debug flag enables or

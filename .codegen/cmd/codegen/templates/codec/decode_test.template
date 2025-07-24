@@ -9,7 +9,7 @@ import (
     "time"
     "reflect"
 
-    "github.com/uhppoted/uhppoted-lib-go/uhppoted/codec"
+   "github.com/uhppoted/uhppoted-lib-go/uhppoted/types"
 )
 
 {{ range $response := . }}{{ range $test := $response.Tests}}
@@ -18,7 +18,7 @@ func Test{{ titleCase $test.Name }}Response(t *testing.T) {
 {{ hex $test.Response }}
     }
 
-    expected := codec.{{ titleCase $response.Name }}Response {
+    expected := types.{{ titleCase $response.Name }}Response {
 {{ range $value := $test.Values}}{{ titleCase $value.Name }}: {{ value $value.Value $value.Type }},
 {{ end -}}
     }
