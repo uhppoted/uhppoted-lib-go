@@ -5,18 +5,24 @@ import (
 	"time"
 )
 
-func NewFlagSet(name string) *flag.FlagSet {
-	var controller uint
-	var dest string
-	var tcp bool
+type controller struct {
+	controller uint
+	dest       string
+	tcp        bool
+}
 
-	flagset := flag.NewFlagSet(name, flag.ExitOnError)
+func parse(flagset *flag.FlagSet, args []string) (controller, error) {
+	v := controller{}
 
-	flagset.UintVar(&controller, "controller", 0, "controller serial number")
-	flagset.StringVar(&dest, "dest", "", "controller IPv4 address (optional)")
-	flagset.BoolVar(&tcp, "tcp", false, "use TCP/IP transport (optional)")
+	flagset.UintVar(&v.controller, "controller", 0, "controller serial number")
+	flagset.StringVar(&v.dest, "dest", "", "controller IPv4 address (optional)")
+	flagset.BoolVar(&v.tcp, "tcp", false, "use TCP/IP transport (optional)")
 
-	return flagset
+	if err := flagset.Parse(args); err != nil {
+		return v, err
+	} else {
+		return v, nil
+	}
 }
 
 func parseDateTime(v string) (time.Time, error) {

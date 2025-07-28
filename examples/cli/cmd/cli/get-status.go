@@ -2,12 +2,15 @@ package main
 
 import (
 	"encoding/json"
+	"flag"
 	"fmt"
 
 	lib "github.com/uhppoted/uhppoted-lib-go/uhppoted"
 )
 
 func getStatus(u lib.Uhppoted, args []string) error {
+	flagset := flag.NewFlagSet("get-status", flag.ExitOnError)
+
 	f := func(c uint32) (any, error) {
 		return lib.GetStatus(u, c, options.timeout)
 	}
@@ -16,7 +19,9 @@ func getStatus(u lib.Uhppoted, args []string) error {
 		return lib.GetStatus(u, c, options.timeout)
 	}
 
-	if v, err := get(args, f, g); err != nil {
+	if controller, err := parse(flagset, args); err != nil {
+		return err
+	} else if v, err := get(controller, flagset, f, g); err != nil {
 		return err
 	} else if bytes, err := json.MarshalIndent(v, "   ", "   "); err != nil {
 		return err

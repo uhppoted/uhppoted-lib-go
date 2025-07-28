@@ -76,3 +76,10 @@ type GetListenerResponse struct {
 	Address    netip.AddrPort `json:"address"`
 	Interval   uint8          `json:"interval"`
 }
+
+// SetListenerResponse is a container struct for the response returned by a controller
+// when retrieving the configured event listener IPv4 address and port.
+type SetListenerResponse struct {
+	Controller uint32 `json:"controller"`
+	Ok         bool   `json:"ok"`
+}

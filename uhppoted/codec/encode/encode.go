@@ -53,6 +53,27 @@ const GET_EVENT_INDEX byte = 0xB4
 const RESTORE_DEFAULT_PARAMETERS byte = 0xC8
 const LISTEN_EVENT byte = 0x20
 
+// Packs a uint8 value 'in-place' as a 1-byte value into the packet at the offset.
+//
+//	Parameters:
+//	   v      (uint8)     uint8 value to encode.
+//	   packet (bytearray)  64 byte array.
+//	   offset (int)        Value location in array.
+func packUint8(v uint8, packet []byte, offset int) {
+	packet[offset] = v
+}
+
+// Packs a uint16 value 'in-place' as a 2-byte little endian value into the packet
+// at the offset.
+//
+//	Parameters:
+//	   v      (uint16)     uint16 value to encode.
+//	   packet (bytearray)  64 byte array.
+//	   offset (int)        Value location in array.
+func packUint16(v uint16, packet []byte, offset int) {
+	binary.LittleEndian.PutUint16(packet[offset:offset+2], v)
+}
+
 // Packs a uint32 value 'in-place' as a 4-byte little endian value into the packet
 // at the offset.
 //
@@ -74,6 +95,20 @@ func packIPv4(v netip.Addr, packet []byte, offset int) {
 	addr := v.As4()
 
 	copy(packet[offset:], addr[:])
+}
+
+// Packs a netip.AddrPort IPv4 address:port value 'in-place' as a 6-byte value into the packet at the offset.
+//
+//	Parameters:
+//	   v      (netip.AddrPort) IPv4 address:port.
+//	   packet (bytearray)      64 byte array.
+//	   offset (int)            Value location in array.
+func packAddrPort(v netip.AddrPort, packet []byte, offset int) {
+	addr := v.Addr().As4()
+	port := v.Port()
+
+	copy(packet[offset:], addr[:])
+	binary.LittleEndian.PutUint16(packet[offset+4:offset+6], port)
 }
 
 // Packs a date/time value 'in-place' as a 7-byte value into the packet at the offset.

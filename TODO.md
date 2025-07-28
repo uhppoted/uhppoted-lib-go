@@ -9,6 +9,7 @@
 - [x] get-time
 - [x] set-time
 - [x] get-listener
+- [x] set-listener
    - [x] API
    - [x] example
    - [x] README
@@ -29,12 +30,6 @@
    - [x] decode
    - [x] decode_test
    - [x] integration tests
-      - [x] messages
-      - [x] expected
-      - [x] API: UDP broadcast
-      - [x] API: UDP connected
-      - [x] API: TCP
    - [ ] CLI
    - [ ] API
-   - [ ] examples
    - [ ] README

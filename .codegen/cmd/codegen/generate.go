@@ -89,6 +89,9 @@ func args(args []model.Arg) string {
 
 func arg(arg model.Arg) string {
 	switch arg.Type {
+	case "uint8":
+		return fmt.Sprintf(`uint8(%v)`, arg.Value)
+
 	case "uint32":
 		return fmt.Sprintf(`uint32(%v)`, arg.Value)
 
@@ -113,6 +116,9 @@ func fields2args(fields []model.Field) string {
 		case "IPv4":
 			args = append(args, fmt.Sprintf("%v netip.Addr", f.Name))
 
+		case "addrport":
+			args = append(args, fmt.Sprintf("%v netip.AddrPort", f.Name))
+
 		case "datetime":
 			args = append(args, fmt.Sprintf("%v time.Time", f.Name))
 
@@ -129,11 +135,20 @@ func fields2args(fields []model.Field) string {
 
 func pack(field model.Field) string {
 	switch field.Type {
+	case "uint8":
+		return fmt.Sprintf("packUint8(%v, packet, %v)", field.Name, field.Offset)
+
+	case "uint16":
+		return fmt.Sprintf("packUint16(%v, packet, %v)", field.Name, field.Offset)
+
 	case "uint32":
 		return fmt.Sprintf("packUint32(%v, packet, %v)", field.Name, field.Offset)
 
 	case "IPv4":
 		return fmt.Sprintf("packIPv4(%v, packet, %v)", field.Name, field.Offset)
+
+	case "addrport":
+		return fmt.Sprintf("packAddrPort(%v, packet, %v)", field.Name, field.Offset)
 
 	case "datetime":
 		return fmt.Sprintf("packDateTime(%v, packet, %v)", field.Name, field.Offset)

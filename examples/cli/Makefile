@@ -121,3 +121,12 @@ get-listener-udp: build
 
 get-listener-tcp: build
 	$(CMD) get-listener --controller $(CONTROLLER) --dest $(DEST) --tcp
+
+set-listener: build
+	$(CMD) set-listener --controller $(CONTROLLER) --listener 192.168.1.100:60001 --interval 5
+
+set-listener-udp: build
+	$(CMD) set-listener --controller $(CONTROLLER) --dest $(DEST) --listener 192.168.1.100:60001 --interval 5
+
+set-listener-tcp: build
+	$(CMD) set-listener --controller $(CONTROLLER) --dest $(DEST) --tcp  --listener 192.168.1.100:60001 --interval 5

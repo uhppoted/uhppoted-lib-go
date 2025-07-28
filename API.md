@@ -7,6 +7,7 @@
 - [`GetTime`](#gettime)
 - [`SetTime`](#settime)
 - [`GetListener`](#getlistener)
+- [`SetListener`](#setlistener)
 ---
 Invoking an API function requires an instance of the `Uhppoted` struct initialised with the information required
 to access a controller:
@@ -172,6 +173,20 @@ Returns a `GetListenerResponse` with the configured event listener IPv4 address:
 interval.
 ```
 
+### `SetListener`
+```
+SetListener(u Uhppoted, controller TController, listener netip.AddrPort, interval uint8, timeout time.Duration) (SetListenerResponse,error)
+
+u           Uhppoted struct initialised with the bind address, broadcast address, etc
+controller  uint32|Controller controller serial number or {id, address, protocol} Controller struct
+listener    IPv4 address:port of host to receive controller events
+interval    status auto-send interval (seconds). A 0 interval disables auto-send.
+timeout     maximum time to wait for a response from a controller
+
+Returns a `GetListenerResponse` with the configured event listener IPv4 address:port and the auto-send 
+interval.
+```
+
 ## Types
 
 ### `GetControllerResponse`
@@ -259,5 +274,15 @@ type GetTimeResponse struct {
   Controller  uint32          `json:"controller"` // controller serial number
   Address     netip.AddrPort  `json:"address"`    // event listener IPv4 address:port
   Interval    uint8           `json:"interval"`   // auto-send interval (seconds)
+}
+```
+
+### `SetListenerResponse`
+
+Container class for the decoded response from a _SetListener_ request.
+```
+type SetTimeResponse struct {
+  Controller  uint32  `json:"controller"` // controller serial number
+  Ok          bool    `json:"ok"`         // true if request succeeded
 }
 ```

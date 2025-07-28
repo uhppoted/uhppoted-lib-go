@@ -78,3 +78,16 @@ func TestGetListener(t *testing.T) {
 		t.Errorf("incorrect response\n   expected:%#v\n   got:     %#v", test.Expected.GetListener, response)
 	}
 }
+
+func TestSetListener(t *testing.T) {
+	listener := netip.MustParseAddrPort("192.168.1.100:60001")
+	interval := uint8(17)
+
+	response, err := lib.SetListener(u, controller, listener, interval, timeout)
+
+	if err != nil {
+		t.Fatalf("%v", err)
+	} else if !reflect.DeepEqual(response, test.Expected.SetListener) {
+		t.Errorf("incorrect response\n   expected:%#v\n   got:     %#v", test.Expected.SetListener, response)
+	}
+}

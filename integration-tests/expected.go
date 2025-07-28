@@ -16,6 +16,7 @@ var Expected = struct {
 	GetTime           lib.GetTimeResponse
 	SetTime           lib.SetTimeResponse
 	GetListener       lib.GetListenerResponse
+	SetListener       lib.SetListenerResponse
 }{
 	GetAllControllers: []lib.GetControllerResponse{
 		lib.GetControllerResponse{
@@ -103,6 +104,11 @@ var Expected = struct {
 		Controller: 405419896,
 		Address:    addrport("192.168.1.100:60001"),
 		Interval:   17,
+	},
+
+	SetListener: lib.SetListenerResponse{
+		Controller: 405419896,
+		Ok:         true,
 	},
 }
 
