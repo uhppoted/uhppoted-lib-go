@@ -29,7 +29,7 @@ func codec() {
 	decode()
 	decodeTest()
 
-	// decoderAST()
+	decoderAST()
 }
 
 func encode() {

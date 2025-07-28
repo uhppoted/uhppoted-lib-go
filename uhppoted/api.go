@@ -55,11 +55,7 @@ func GetController[T TController](u Uhppoted, controller T, timeout time.Duratio
 		return encode.GetControllerRequest(id)
 	}
 
-	g := func(b []byte) (GetControllerResponse, error) {
-		return decode.GetControllerResponse(b)
-	}
-
-	return exec[T, GetControllerResponse](u, controller, f, g, timeout)
+	return exec[T, GetControllerResponse](u, controller, f, timeout)
 }
 
 // SetIP sets the controller IPv4 address, netmask and gateway address.
@@ -80,11 +76,7 @@ func SetIPv4[T TController](u Uhppoted, controller T, address, netmask, gateway 
 		return encode.SetIPv4Request(id, address, netmask, gateway)
 	}
 
-	g := func(b []byte) (SetIPv4Response, error) {
-		return decode.SetIPv4Response(b)
-	}
-
-	return exec[T, SetIPv4Response](u, controller, f, g, timeout)
+	return exec[T, SetIPv4Response](u, controller, f, timeout)
 }
 
 // GetStatus retrieves the system status from an access controller.
@@ -102,11 +94,7 @@ func GetStatus[T TController](u Uhppoted, controller T, timeout time.Duration) (
 		return encode.GetStatusRequest(id)
 	}
 
-	g := func(b []byte) (GetStatusResponse, error) {
-		return decode.GetStatusResponse(b)
-	}
-
-	return exec[T, GetStatusResponse](u, controller, f, g, timeout)
+	return exec[T, GetStatusResponse](u, controller, f, timeout)
 }
 
 // GetTime retrieves the access controller system date and time.
@@ -124,11 +112,7 @@ func GetTime[T TController](u Uhppoted, controller T, timeout time.Duration) (Ge
 		return encode.GetTimeRequest(id)
 	}
 
-	g := func(b []byte) (GetTimeResponse, error) {
-		return decode.GetTimeResponse(b)
-	}
-
-	return exec[T, GetTimeResponse](u, controller, f, g, timeout)
+	return exec[T, GetTimeResponse](u, controller, f, timeout)
 }
 
 // SetTime sets the access controller system date and time.
@@ -147,11 +131,7 @@ func SetTime[T TController](u Uhppoted, controller T, datetime time.Time, timeou
 		return encode.SetTimeRequest(id, datetime)
 	}
 
-	g := func(b []byte) (SetTimeResponse, error) {
-		return decode.SetTimeResponse(b)
-	}
-
-	return exec[T, SetTimeResponse](u, controller, f, g, timeout)
+	return exec[T, SetTimeResponse](u, controller, f, timeout)
 }
 
 // GetListener retrieves the access controller event listener IPv4 address:port and auto-send
@@ -170,11 +150,7 @@ func GetListener[T TController](u Uhppoted, controller T, timeout time.Duration)
 		return encode.GetListenerRequest(id)
 	}
 
-	g := func(b []byte) (GetListenerResponse, error) {
-		return decode.GetListenerResponse(b)
-	}
-
-	return exec[T, GetListenerResponse](u, controller, f, g, timeout)
+	return exec[T, GetListenerResponse](u, controller, f, timeout)
 }
 
 // SetListener sets the access controller event listener IPv4 address:port and auto-send
@@ -195,9 +171,5 @@ func SetListener[T TController](u Uhppoted, controller T, listener netip.AddrPor
 		return encode.SetListenerRequest(id, listener, interval)
 	}
 
-	g := func(b []byte) (SetListenerResponse, error) {
-		return decode.SetListenerResponse(b)
-	}
-
-	return exec[T, SetListenerResponse](u, controller, f, g, timeout)
+	return exec[T, SetListenerResponse](u, controller, f, timeout)
 }

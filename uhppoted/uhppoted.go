@@ -28,6 +28,7 @@ import (
 	"net/netip"
 	"time"
 
+	"github.com/uhppoted/uhppoted-lib-go/uhppoted/codec"
 	"github.com/uhppoted/uhppoted-lib-go/uhppoted/log"
 	"github.com/uhppoted/uhppoted-lib-go/uhppoted/types"
 )
@@ -87,7 +88,7 @@ func NewUhppoted(bind, broadcast, listen netip.AddrPort, debug bool) Uhppoted {
 	}
 }
 
-func exec[T TController, R any](u Uhppoted, controller T, encode func(id uint32) ([]byte, error), decode func(packet []byte) (R, error), timeout time.Duration) (R, error) {
+func exec[T TController, R any](u Uhppoted, controller T, encode func(id uint32) ([]byte, error), timeout time.Duration) (R, error) {
 	var zero R
 
 	if c, err := resolve(controller); err != nil {
@@ -97,7 +98,7 @@ func exec[T TController, R any](u Uhppoted, controller T, encode func(id uint32)
 	} else if reply, err := send(u, c, request, timeout); err != nil {
 		return zero, err
 	} else {
-		return decode(reply)
+		return codec.Decode[R](reply)
 	}
 }
 

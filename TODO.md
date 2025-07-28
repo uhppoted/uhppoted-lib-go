@@ -15,10 +15,9 @@
    - [x] README
    - [x] integration test
 
+- [x] genericized codec.Decode
 - [ ] custom date/time types
 - [ ] v6.62 version handling
-- [ ] genericized codec.Decode
-- [ ] genericized codec.Encode
 - [x] logging
     - [ ] set default handler
 
@@ -30,6 +29,7 @@
    - [x] decode
    - [x] decode_test
    - [x] integration tests
-   - [ ] CLI
+   - [ ] decoder_test
    - [ ] API
+   - [ ] CLI
    - [ ] README

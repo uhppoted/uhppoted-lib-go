@@ -31,6 +31,24 @@ func decode(packet []byte) (any, error) {
 	case 0x94:
 		return decoder.GetControllerResponse(packet)
 
+	case 0x96:
+		return decoder.SetIPv4Response(packet)
+
+	case 0x20:
+		return decoder.GetStatusResponse(packet)
+
+	case 0x32:
+		return decoder.GetTimeResponse(packet)
+
+	case 0x30:
+		return decoder.SetTimeResponse(packet)
+
+	case 0x92:
+		return decoder.GetListenerResponse(packet)
+
+	case 0x90:
+		return decoder.SetListenerResponse(packet)
+
 	default:
 		return nil, fmt.Errorf("unknown message type (%02x)", packet[1])
 	}

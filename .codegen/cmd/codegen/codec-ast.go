@@ -2,16 +2,19 @@ package main
 
 import (
 	_ "embed"
+	"fmt"
 	"log"
 	"os"
 
 	"go/ast"
 	"go/printer"
 	"go/token"
+
+	"codegen/model"
 )
 
 func decoderAST() {
-	const output = "decodex.go"
+	const output = "decoder.go"
 
 	f, err := os.Create(output)
 	if err != nil {
@@ -57,6 +60,11 @@ func buildAST() *ast.File {
 						},
 					},
 					&ast.ImportSpec{
+						Path: &ast.BasicLit{
+							Kind: token.STRING,
+						},
+					},
+					&ast.ImportSpec{
 						Name: ast.NewIdent("decoder"),
 						Path: &ast.BasicLit{
 							Kind:  token.STRING,
@@ -73,7 +81,7 @@ func buildAST() *ast.File {
 
 func buildDecodeFunc() *ast.FuncDecl {
 	return &ast.FuncDecl{
-		Name: ast.NewIdent("DecodeX"),
+		Name: ast.NewIdent("Decode"),
 		Type: &ast.FuncType{
 			TypeParams: &ast.FieldList{
 				List: []*ast.Field{
@@ -105,6 +113,7 @@ func buildDecodeFunc() *ast.FuncDecl {
 			},
 		},
 		Body: buildDecodeImpl(),
+		Doc:  &ast.CommentGroup{},
 	}
 }
 
@@ -124,6 +133,13 @@ func buildDecodeImpl() *ast.BlockStmt {
 				},
 			},
 
+			// blank line
+			&ast.ExprStmt{
+				X: &ast.BasicLit{
+					Kind: token.STRING,
+				},
+			},
+
 			// if v, err := decode(packet); err != nil {
 			//     return zero, fmt.Errorf("invalid packet")
 			// } else if response, ok := v.(R); !ok {
@@ -140,7 +156,7 @@ func buildDecodeImpl() *ast.BlockStmt {
 					Tok: token.DEFINE,
 					Rhs: []ast.Expr{
 						&ast.CallExpr{
-							Fun:  ast.NewIdent("decodeX"),
+							Fun:  ast.NewIdent("decode"),
 							Args: []ast.Expr{ast.NewIdent("packet")},
 						},
 					},
@@ -228,7 +244,7 @@ func buildDecodeImpl() *ast.BlockStmt {
 
 func buildDecodeFactoryFunc() *ast.FuncDecl {
 	return &ast.FuncDecl{
-		Name: ast.NewIdent("decodeX"),
+		Name: ast.NewIdent("decode"),
 		Type: &ast.FuncType{
 			Params: &ast.FieldList{
 				List: []*ast.Field{
@@ -252,10 +268,80 @@ func buildDecodeFactoryFunc() *ast.FuncDecl {
 			},
 		},
 		Body: buildDecodeFactoryBody(),
+		Doc:  &ast.CommentGroup{},
 	}
 }
 
 func buildDecodeFactoryBody() *ast.BlockStmt {
+	// switch packet[1] { ... }
+	_switch := &ast.BlockStmt{
+		List: []ast.Stmt{},
+	}
+
+	// ... message types
+	for _, response := range model.Responses {
+		name := fmt.Sprintf("%vResponse", titleCase(response.Name))
+
+		clause := ast.CaseClause{
+			List: []ast.Expr{
+				&ast.BasicLit{
+					Kind:  token.INT,
+					Value: fmt.Sprintf("0x%02x", response.MsgType),
+				},
+			},
+			Body: []ast.Stmt{
+				// return decode.<XXX>(packet)
+				&ast.ReturnStmt{
+					Results: []ast.Expr{
+						&ast.CallExpr{
+							Fun: &ast.SelectorExpr{
+								X:   ast.NewIdent("decoder"),
+								Sel: ast.NewIdent(name),
+							},
+							Args: []ast.Expr{ast.NewIdent("packet")},
+						},
+					},
+				},
+				// blank line
+				&ast.ExprStmt{
+					X: &ast.BasicLit{
+						Kind: token.STRING,
+					},
+				},
+			},
+		}
+
+		_switch.List = append(_switch.List, &clause)
+	}
+
+	// ... default
+	_switch.List = append(_switch.List, &ast.CaseClause{
+		List: nil,
+		Body: []ast.Stmt{
+			&ast.ReturnStmt{
+				Results: []ast.Expr{
+					ast.NewIdent("nil"),
+					&ast.CallExpr{
+						Fun: &ast.SelectorExpr{
+							X:   ast.NewIdent("fmt"),
+							Sel: ast.NewIdent("Errorf"),
+						},
+						Args: []ast.Expr{
+							&ast.BasicLit{
+								Kind:  token.STRING,
+								Value: `"unknown message type (%02x)"`,
+							},
+							&ast.IndexExpr{
+								X:     ast.NewIdent("packet"),
+								Index: &ast.BasicLit{Kind: token.INT, Value: "1"},
+							},
+						},
+					},
+				},
+			},
+		},
+	})
+
 	return &ast.BlockStmt{
 		List: []ast.Stmt{
 			// if len(packet) != 64 {
@@ -298,6 +384,13 @@ func buildDecodeFactoryBody() *ast.BlockStmt {
 				},
 			},
 
+			// blank line
+			&ast.ExprStmt{
+				X: &ast.BasicLit{
+					Kind: token.STRING,
+				},
+			},
+
 			// if packet[0] != SOM {
 			&ast.IfStmt{
 				Cond: &ast.BinaryExpr{
@@ -335,66 +428,20 @@ func buildDecodeFactoryBody() *ast.BlockStmt {
 				},
 			},
 
+			// blank line
+			&ast.ExprStmt{
+				X: &ast.BasicLit{
+					Kind: token.STRING,
+				},
+			},
+
 			// switch packet[1] { ... }
 			&ast.SwitchStmt{
 				Tag: &ast.IndexExpr{
 					X:     ast.NewIdent("packet"),
 					Index: &ast.BasicLit{Kind: token.INT, Value: "1"},
 				},
-				Body: &ast.BlockStmt{
-					List: []ast.Stmt{
-						// case 0x94:
-						&ast.CaseClause{
-							List: []ast.Expr{
-								&ast.BasicLit{
-									Kind:  token.INT,
-									Value: "0x94",
-								},
-							},
-							Body: []ast.Stmt{
-								&ast.ReturnStmt{
-									Results: []ast.Expr{
-										&ast.CallExpr{
-											Fun: &ast.SelectorExpr{
-												X:   ast.NewIdent("decoder"),
-												Sel: ast.NewIdent("GetControllerResponse"),
-											},
-											Args: []ast.Expr{ast.NewIdent("packet")},
-										},
-									},
-								},
-							},
-						},
-
-						// default:
-						&ast.CaseClause{
-							List: nil,
-							Body: []ast.Stmt{
-								&ast.ReturnStmt{
-									Results: []ast.Expr{
-										ast.NewIdent("nil"),
-										&ast.CallExpr{
-											Fun: &ast.SelectorExpr{
-												X:   ast.NewIdent("fmt"),
-												Sel: ast.NewIdent("Errorf"),
-											},
-											Args: []ast.Expr{
-												&ast.BasicLit{
-													Kind:  token.STRING,
-													Value: `"unknown message type (%02x)"`,
-												},
-												&ast.IndexExpr{
-													X:     ast.NewIdent("packet"),
-													Index: &ast.BasicLit{Kind: token.INT, Value: "1"},
-												},
-											},
-										},
-									},
-								},
-							},
-						},
-					},
-				},
+				Body: _switch,
 			},
 		},
 	}
