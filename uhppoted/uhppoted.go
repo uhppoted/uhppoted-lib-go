@@ -33,6 +33,8 @@ import (
 	"github.com/uhppoted/uhppoted-lib-go/uhppoted/types"
 )
 
+//go:generate ../.codegen/bin/codegen API
+
 type Uhppoted struct {
 	bindAddr      netip.AddrPort
 	broadcastAddr netip.AddrPort

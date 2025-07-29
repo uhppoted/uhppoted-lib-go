@@ -98,7 +98,7 @@ func GetTimeRequest(controller uint32) ([]byte, error) {
 //
 //	Parameters:
 //	    controller  (uint32)  controller serial number
-//	    datetime  (datetime)  controller serial number
+//	    datetime  (datetime)  date/time
 //
 //	Returns:
 //	    64 byte packet.

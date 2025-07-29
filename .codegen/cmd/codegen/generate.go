@@ -8,6 +8,7 @@ import (
 	"strings"
 	"text/template"
 
+	"codegen/api"
 	"codegen/model"
 )
 
@@ -36,6 +37,9 @@ func main() {
 
 		case "integration-tests":
 			integrationTests()
+
+		case "API":
+			api.API()
 		}
 	}
 }
