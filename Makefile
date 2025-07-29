@@ -26,7 +26,7 @@ build: format
 	go build -trimpath ./...
 
 debug: build
-	cd examples/cli && make set-listener
+	cd examples/cli && make get-door
 
 test: build
 	go test ./uhppoted/...
@@ -107,3 +107,8 @@ set-listener: build
 	cd examples/cli && make set-listener
 	cd examples/cli && make set-listener-udp
 	cd examples/cli && make set-listener-tcp
+
+get-door: build
+	cd examples/cli && make get-door
+	cd examples/cli && make get-door-udp
+	cd examples/cli && make get-door-tcp

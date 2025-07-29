@@ -17,9 +17,10 @@ var commands = map[string]func(u lib.Uhppoted, args []string) error{
 	"set-time":            setTime,
 	"get-listener":        getListener,
 	"set-listener":        setListener,
+	"get-door":            getDoor,
 }
 
-func get(args controller, flagset *flag.FlagSet, f func(c uint32) (any, error), g func(c lib.Controller) (any, error)) (any, error) {
+func exec(args controller, flagset *flag.FlagSet, f func(c uint32) (any, error), g func(c lib.Controller) (any, error)) (any, error) {
 	if c, err := resolve(args.controller, args.dest, args.tcp); err != nil {
 		return nil, err
 	} else if c == nil {

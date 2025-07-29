@@ -8,6 +8,7 @@
 - [`SetTime`](#settime)
 - [`GetListener`](#getlistener)
 - [`SetListener`](#setlistener)
+- [`GetDoor`](#getdoor)
 ---
 Invoking an API function requires an instance of the `Uhppoted` struct initialised with the information required
 to access a controller:
@@ -187,6 +188,19 @@ Returns a `GetListenerResponse` with the configured event listener IPv4 address:
 interval.
 ```
 
+### `GetDoor`
+```
+GetDoor(u Uhppoted, controller TController, door uint8, timeout time.Duration) (GetDoorResponse,error)
+
+u           Uhppoted struct initialised with the bind address, broadcast address, etc
+controller  uint32|Controller controller serial number or {id, address, protocol} Controller struct
+door        door ID ([1..4]
+timeout     maximum time to wait for a response from a controller
+
+Returns a `GetDoorResponse` with the door control mode and unlock delay.,
+```
+
+
 ## Types
 
 ### `GetControllerResponse`
@@ -286,3 +300,16 @@ type SetTimeResponse struct {
   Ok          bool    `json:"ok"`         // true if request succeeded
 }
 ```
+
+### `GetDoorResponse`
+
+Container class for the decoded response from a _GetDoor_ request.
+```
+type GetDoorResponse struct {
+  Controller  uint32  `json:"controller"` // controller serial number
+  Door        uint8   `json:"door"`       // door ID ([1..4])
+  Mode        uint8   `json:"mode"`       // control mode (1:normally open, 2:normally closed. 3:controlled)
+  Delay       uint8   `json:"delay"`      // unlock delay(seconds)
+}
+```
+

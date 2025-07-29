@@ -38,4 +38,5 @@ folder.
 - [`SetTime`](API.md#settime)
 - [`GetListener`](API.md#getlistener)
 - [`SetListener`](API.md#setlistener)
+- [`GetDoor`](API.md#getdoor)
 

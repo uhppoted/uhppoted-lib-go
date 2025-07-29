@@ -1,5 +1,6 @@
 CMD   = ./bin/cli --debug --bind 0.0.0.0 --broadcast 255.255.255.255:60000 --listen 0.0.0.0:60001
 CONTROLLER = 405419896
+DOOR = 3
 DEST = 127.0.0.1
 
 .DEFAULT_GOAL := build
@@ -130,3 +131,12 @@ set-listener-udp: build
 
 set-listener-tcp: build
 	$(CMD) set-listener --controller $(CONTROLLER) --dest $(DEST) --tcp  --listener 192.168.1.100:60001 --interval 5
+
+get-door: build
+	$(CMD) get-door --controller $(CONTROLLER) --door $(DOOR)
+
+get-door-udp: build
+	$(CMD) get-door --controller $(CONTROLLER) --dest $(DEST) --door $(DOOR)
+
+get-door-tcp: build
+	$(CMD) get-door --controller $(CONTROLLER) --dest $(DEST) --tcp --door $(DOOR)

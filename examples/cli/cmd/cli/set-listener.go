@@ -33,7 +33,7 @@ func setListener(u lib.Uhppoted, args []string) error {
 			return lib.SetListener(u, c, addrport, uint8(interval), options.timeout)
 		}
 
-		if v, err := get(controller, flagset, f, g); err != nil {
+		if v, err := exec(controller, flagset, f, g); err != nil {
 			return err
 		} else if bytes, err := json.MarshalIndent(v, "   ", "   "); err != nil {
 			return err

@@ -10,6 +10,7 @@
 - [x] set-time
 - [x] get-listener
 - [x] set-listener
+- [x] get-door
    - [x] API
    - [x] example
    - [x] README
@@ -24,12 +25,12 @@
 - [ ] code generation
    - [ ] use/extend uhppoted-codegen models
    - [ ] AST
+      - [x] decoder
+      - [ ] decoder_test
    - [x] encode
    - [x] encode_test
    - [x] decode
    - [x] decode_test
    - [x] integration tests
-   - [ ] decoder_test
    - [ ] API
-   - [ ] CLI
    - [ ] README

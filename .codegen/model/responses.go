@@ -15,6 +15,7 @@ var Responses = []Response{
 	SetTimeResponse,
 	GetListenerResponse,
 	SetListenerResponse,
+	GetDoorResponse,
 }
 
 var GetControllerResponse = Response{
@@ -403,6 +404,50 @@ var SetListenerResponse = Response{
 					Name:  "ok",
 					Type:  "bool",
 					Value: true,
+				},
+			},
+		},
+	},
+}
+
+var GetDoorResponse = Response{
+	Name:    "get door",
+	MsgType: 0x82,
+	Fields: []Field{
+		{"controller", "uint32", 4, "controller serial number, e.g. 405419896"},
+		{"door", "uint8", 8, "door ID ([1..4]"},
+		{"mode", "uint8", 9, "control mode (1:normally open, 2:normally closed. 3:controlled)"},
+		{"delay", "uint8", 10, "unlock delay (seconds)"},
+	},
+	Tests: []Test{
+		{
+			Name: "get-door",
+			Response: []byte{
+				0x17, 0x82, 0x00, 0x00, 0x78, 0x37, 0x2a, 0x18, 0x03, 0x02, 0x07, 0x00, 0x00, 0x00, 0x00, 0x00,
+				0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+				0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+				0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+			},
+			Values: []Value{
+				Value{
+					Name:  "controller",
+					Type:  "uint32",
+					Value: 405419896,
+				},
+				Value{
+					Name:  "door",
+					Type:  "uint8",
+					Value: 3,
+				},
+				Value{
+					Name:  "mode",
+					Type:  "uint8",
+					Value: 2,
+				},
+				Value{
+					Name:  "delay",
+					Type:  "uint8",
+					Value: 7,
 				},
 			},
 		},

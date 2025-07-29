@@ -164,7 +164,7 @@ func GetListener[T TController](u Uhppoted, controller T, timeout time.Duration)
 //   - timeout: The maximum time to wait for a response.
 //
 // Returns:
-//   - A setListenerResponse struct.
+//   - A SetListenerResponse struct.
 //   - An error if the request could not be executed.
 func SetListener[T TController](u Uhppoted, controller T, listener netip.AddrPort, interval uint8, timeout time.Duration) (SetListenerResponse, error) {
 	f := func(id uint32) ([]byte, error) {
@@ -172,4 +172,23 @@ func SetListener[T TController](u Uhppoted, controller T, listener netip.AddrPor
 	}
 
 	return exec[T, SetListenerResponse](u, controller, f, timeout)
+}
+
+// GetDoor retrieves the control mode and unlock delay time for an access controller door.
+//
+// Parameters:
+//   - controller: Either a uint32 controller serial number or a controller struct with the
+//     controller serial number, IPv4 address and transport.
+//   - door: Door Id ([1..4])
+//   - timeout: The maximum time to wait for a response.
+//
+// Returns:
+//   - A GetDoorResponse struct.
+//   - An error if the request could not be executed.
+func GetDoor[T TController](u Uhppoted, controller T, door uint8, timeout time.Duration) (GetDoorResponse, error) {
+	f := func(id uint32) ([]byte, error) {
+		return encode.GetDoorRequest(id, door)
+	}
+
+	return exec[T, GetDoorResponse](u, controller, f, timeout)
 }

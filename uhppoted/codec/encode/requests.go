@@ -153,3 +153,23 @@ func SetListenerRequest(controller uint32, listener netip.AddrPort, interval uin
 
 	return packet, nil
 }
+
+// Encodes a get-door request.
+//
+//	Parameters:
+//	    controller  (uint32)  controller serial number
+//	    door  (uint8)  door ID ([1..4])
+//
+//	Returns:
+//	    64 byte packet.
+func GetDoorRequest(controller uint32, door uint8) ([]byte, error) {
+	packet := make([]byte, 64)
+
+	packet[0] = SOM
+	packet[1] = 130
+
+	packUint32(controller, packet, 4)
+	packUint8(door, packet, 8)
+
+	return packet, nil
+}
