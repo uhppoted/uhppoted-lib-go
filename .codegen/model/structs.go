@@ -1,5 +1,9 @@
 package model
 
+import (
+	lib "github.com/uhppoted/uhppoted-codegen/model"
+)
+
 type Arg struct {
 	Name  string `json:"name"`
 	Type  string `json:"type"`
@@ -7,9 +11,7 @@ type Arg struct {
 }
 
 type Field struct {
-	Name        string `json:"name"`
-	Type        string `json:"type"`
-	Offset      uint8  `json:"offset"`
+	lib.Field
 	Description string `json:"description"`
 }
 

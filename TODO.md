@@ -27,10 +27,10 @@
    - [ ] AST
       - [x] decoder
       - [ ] decoder_test
+      - [ ] API
    - [x] encode
    - [x] encode_test
    - [x] decode
    - [x] decode_test
    - [x] integration tests
-   - [ ] API
    - [ ] README

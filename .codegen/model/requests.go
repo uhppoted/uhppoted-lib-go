@@ -2,6 +2,8 @@ package model
 
 import (
 	"net/netip"
+
+	lib "github.com/uhppoted/uhppoted-codegen/model"
 )
 
 type Request struct {
@@ -26,7 +28,7 @@ var GetControllerRequest = Request{
 	Name:    "get controller",
 	MsgType: 0x94,
 	Fields: []Field{
-		{"controller", "uint32", 4, "controller serial number"},
+		{lib.Field{"controller", "uint32", 4}, "controller serial number"},
 	},
 	Tests: []Test{
 		{
@@ -60,11 +62,11 @@ var SetIPv4Request = Request{
 	Name:    "set IPv4",
 	MsgType: 0x96,
 	Fields: []Field{
-		{"controller", "uint32", 4, "controller serial number"},
-		{"address", "IPv4", 8, "controller IPv4 address"},
-		{"netmask", "IPv4", 12, "controller IPv4 subnet mask"},
-		{"gateway", "IPv4", 16, "controller IPv4 gateway address"},
-		{"", "magic", 20, "'magic' word"},
+		{lib.Field{"controller", "uint32", 4}, "controller serial number"},
+		{lib.Field{"address", "IPv4", 8}, "controller IPv4 address"},
+		{lib.Field{"netmask", "IPv4", 12}, "controller IPv4 subnet mask"},
+		{lib.Field{"gateway", "IPv4", 16}, "controller IPv4 gateway address"},
+		{lib.Field{"", "magic", 20}, "'magic' word"},
 	},
 	Tests: []Test{
 		{
@@ -89,7 +91,7 @@ var GetStatusRequest = Request{
 	Name:    "get status",
 	MsgType: 0x20,
 	Fields: []Field{
-		{"controller", "uint32", 4, "controller serial number"},
+		{lib.Field{"controller", "uint32", 4}, "controller serial number"},
 	},
 	Tests: []Test{
 		{
@@ -111,7 +113,7 @@ var GetTimeRequest = Request{
 	Name:    "get time",
 	MsgType: 0x32,
 	Fields: []Field{
-		{"controller", "uint32", 4, "controller serial number"},
+		{lib.Field{"controller", "uint32", 4}, "controller serial number"},
 	},
 	Tests: []Test{
 		{
@@ -133,8 +135,8 @@ var SetTimeRequest = Request{
 	Name:    "set time",
 	MsgType: 0x30,
 	Fields: []Field{
-		{"controller", "uint32", 4, "controller serial number"},
-		{"datetime", "datetime", 8, "controller serial number"},
+		{lib.Field{"controller", "uint32", 4}, "controller serial number"},
+		{lib.Field{"datetime", "datetime", 8}, "date/time"},
 	},
 	Tests: []Test{
 		{
@@ -157,7 +159,7 @@ var GetListenerRequest = Request{
 	Name:    "get listener",
 	MsgType: 0x92,
 	Fields: []Field{
-		{"controller", "uint32", 4, "controller serial number"},
+		{lib.Field{"controller", "uint32", 4}, "controller serial number"},
 	},
 	Tests: []Test{
 		{
@@ -179,9 +181,9 @@ var SetListenerRequest = Request{
 	Name:    "set listener",
 	MsgType: 0x90,
 	Fields: []Field{
-		{"controller", "uint32", 4, "controller serial number"},
-		{"listener", "addrport", 8, "event listener IPv4 address:port"},
-		{"interval", "uint8", 14, "auto-send interval (seconds)"},
+		{lib.Field{"controller", "uint32", 4}, "controller serial number"},
+		{lib.Field{"listener", "addrport", 8}, "event listener IPv4 address:port"},
+		{lib.Field{"interval", "uint8", 14}, "auto-send interval (seconds)"},
 	},
 	Tests: []Test{
 		{
@@ -205,8 +207,8 @@ var GetDoorRequest = Request{
 	Name:    "get door",
 	MsgType: 0x82,
 	Fields: []Field{
-		{"controller", "uint32", 4, "controller serial number"},
-		{"door", "uint8", 8, "door ID ([1..4])"},
+		{lib.Field{"controller", "uint32", 4}, "controller serial number"},
+		{lib.Field{"door", "uint8", 8}, "door ID ([1..4])"},
 	},
 	Tests: []Test{
 		{

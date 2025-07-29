@@ -7,6 +7,14 @@ clean:
 	rm -rf bin
 	rm -rf dist
 
+update:
+	go get -u github.com/uhppoted/uhppote-codegen@main
+	go mod tidy
+
+update-release:
+	go get -u github.com/uhppoted/uhppote-codegen
+	go mod tidy
+
 format: 
 	go fmt ./...
 
