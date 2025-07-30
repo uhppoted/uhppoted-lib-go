@@ -18,11 +18,11 @@ import (
 // Encodes a {{ hyphenate $rq.Name }} request.
 //
 //  Parameters:
-{{ range $field := $rq.Fields }}//      {{ describe $field }}
+{{ range $field := $rq.Fields }}//      {{ describex $field }}
 {{ end }}//
 //  Returns:
 //      64 byte packet.
-func {{ titleCase $rq.Name }}Request({{- fields2args $rq.Fields }}) ([]byte, error) {
+func {{ titleCase $rq.Name }}Request({{- fields2argsx $rq.Fields }}) ([]byte, error) {
     packet := make([]byte, 64)
 
     packet[0] = SOM

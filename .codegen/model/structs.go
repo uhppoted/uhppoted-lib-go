@@ -4,6 +4,11 @@ import (
 	lib "github.com/uhppoted/uhppoted-codegen/model"
 )
 
+type Request struct {
+	lib.Message
+	Tests []RequestTest
+}
+
 type Arg struct {
 	Name  string `json:"name"`
 	Type  string `json:"type"`
@@ -16,6 +21,12 @@ type Value struct {
 	Name  string `json:"name"`
 	Type  string `json:"type"`
 	Value any    `json:"value"`
+}
+
+type RequestTest struct {
+	Name     string `json:"name"`
+	Args     []Arg  `json:"args"`
+	Expected []byte `json:"expected,omitempty"`
 }
 
 type Test struct {

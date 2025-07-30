@@ -8,23 +8,27 @@ import (
 	"strings"
 	"text/template"
 
+	lib "github.com/uhppoted/uhppoted-codegen/model"
+
 	"codegen/api"
 	"codegen/model"
 )
 
 var functions = template.FuncMap{
-	"titleCase":   titleCase,
-	"hyphenate":   hyphenate,
-	"hex":         hex,
-	"args":        args,
-	"arg":         arg,
-	"fields2args": fields2args,
-	"pack":        pack,
-	"unpack":      unpack,
-	"describe":    describe,
-	"lookup":      lookup,
-	"includes":    includes,
-	"value":       value,
+	"titleCase":    titleCase,
+	"hyphenate":    hyphenate,
+	"hex":          hex,
+	"args":         args,
+	"arg":          arg,
+	"fields2args":  fields2args,
+	"fields2argsx": fields2argsx,
+	"pack":         pack,
+	"unpack":       unpack,
+	"describe":     describe,
+	"describex":    describex,
+	"lookup":       lookup,
+	"includes":     includes,
+	"value":        value,
 }
 
 func main() {
@@ -137,7 +141,31 @@ func fields2args(fields []model.Field) string {
 	return strings.Join(args, ", ")
 }
 
-func pack(field model.Field) string {
+func fields2argsx(fields []lib.Field) string {
+	var args []string
+	for _, f := range fields {
+		switch f.Type {
+		case "IPv4":
+			args = append(args, fmt.Sprintf("%v netip.Addr", f.Name))
+
+		case "addrport":
+			args = append(args, fmt.Sprintf("%v netip.AddrPort", f.Name))
+
+		case "datetime":
+			args = append(args, fmt.Sprintf("%v time.Time", f.Name))
+
+		case "magic":
+			// skip
+
+		default:
+			args = append(args, fmt.Sprintf("%v %v", f.Name, f.Type))
+		}
+	}
+
+	return strings.Join(args, ", ")
+}
+
+func pack(field lib.Field) string {
 	switch field.Type {
 	case "uint8":
 		return fmt.Sprintf("packUint8(%v, packet, %v)", field.Name, field.Offset)
@@ -206,6 +234,10 @@ func unpack(field model.Field) string {
 }
 
 func describe(field model.Field) string {
+	return fmt.Sprintf("%v  (%v)  %v", field.Name, field.Type, field.Description)
+}
+
+func describex(field lib.Field) string {
 	return fmt.Sprintf("%v  (%v)  %v", field.Name, field.Type, field.Description)
 }
 

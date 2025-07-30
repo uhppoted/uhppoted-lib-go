@@ -33,7 +33,7 @@ func codec() {
 }
 
 func encode() {
-	const output = "encode/requests.go"
+	const output = "encode/generated.go"
 
 	f, err := os.Create(output)
 	if err != nil {
@@ -67,7 +67,7 @@ func encodeTest() {
 }
 
 func decode() {
-	const output = "decode/responses.go"
+	const output = "decode/generated.go"
 
 	f, err := os.Create(output)
 	if err != nil {

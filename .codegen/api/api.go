@@ -8,7 +8,7 @@ import (
 )
 
 func API() {
-	const file = "apix.go"
+	const file = "_generated.go"
 
 	AST := codegen.NewAST("uhppoted")
 

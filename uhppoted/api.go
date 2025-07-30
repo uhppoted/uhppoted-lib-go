@@ -40,6 +40,8 @@ func GetAllControllers(u Uhppoted, timeout time.Duration) ([]GetControllerRespon
 	}
 }
 
+//go:generate ../.codegen/bin/codegen API
+
 // GetController retrieves the system information from an access controller.
 //
 // Parameters:

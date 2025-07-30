@@ -2,14 +2,9 @@ package model
 
 import (
 	"net/netip"
-)
 
-type Request struct {
-	Name    string
-	MsgType byte
-	Fields  []Field
-	Tests   []Test
-}
+	lib "github.com/uhppoted/uhppoted-codegen/model"
+)
 
 var Requests = []Request{
 	GetControllerRequest,
@@ -24,12 +19,14 @@ var Requests = []Request{
 }
 
 var GetControllerRequest = Request{
-	Name:    "get controller",
-	MsgType: 0x94,
-	Fields: []Field{
-		{"controller", "uint32", 4, "controller serial number"},
+	Message: lib.Message{
+		Name:    "get controller",
+		MsgType: 0x94,
+		Fields: []lib.Field{
+			{"controller", "uint32", 4, "controller serial number"},
+		},
 	},
-	Tests: []Test{
+	Tests: []RequestTest{
 		{
 			Name: "get-all-controllers",
 			Args: []Arg{
@@ -58,16 +55,18 @@ var GetControllerRequest = Request{
 }
 
 var SetIPv4Request = Request{
-	Name:    "set IPv4",
-	MsgType: 0x96,
-	Fields: []Field{
-		{"controller", "uint32", 4, "controller serial number"},
-		{"address", "IPv4", 8, "controller IPv4 address"},
-		{"netmask", "IPv4", 12, "controller IPv4 subnet mask"},
-		{"gateway", "IPv4", 16, "controller IPv4 gateway address"},
-		{"", "magic", 20, "'magic' word"},
+	Message: lib.Message{
+		Name:    "set IPv4",
+		MsgType: 0x96,
+		Fields: []lib.Field{
+			{"controller", "uint32", 4, "controller serial number"},
+			{"address", "IPv4", 8, "controller IPv4 address"},
+			{"netmask", "IPv4", 12, "controller IPv4 subnet mask"},
+			{"gateway", "IPv4", 16, "controller IPv4 gateway address"},
+			{"", "magic", 20, "'magic' word"},
+		},
 	},
-	Tests: []Test{
+	Tests: []RequestTest{
 		{
 			Name: "set-IPv4",
 			Args: []Arg{
@@ -87,12 +86,14 @@ var SetIPv4Request = Request{
 }
 
 var GetStatusRequest = Request{
-	Name:    "get status",
-	MsgType: 0x20,
-	Fields: []Field{
-		{"controller", "uint32", 4, "controller serial number"},
+	Message: lib.Message{
+		Name:    "get status",
+		MsgType: 0x20,
+		Fields: []lib.Field{
+			{"controller", "uint32", 4, "controller serial number"},
+		},
 	},
-	Tests: []Test{
+	Tests: []RequestTest{
 		{
 			Name: "get-status",
 			Args: []Arg{
@@ -109,12 +110,14 @@ var GetStatusRequest = Request{
 }
 
 var GetTimeRequest = Request{
-	Name:    "get time",
-	MsgType: 0x32,
-	Fields: []Field{
-		{"controller", "uint32", 4, "controller serial number"},
+	Message: lib.Message{
+		Name:    "get time",
+		MsgType: 0x32,
+		Fields: []lib.Field{
+			{"controller", "uint32", 4, "controller serial number"},
+		},
 	},
-	Tests: []Test{
+	Tests: []RequestTest{
 		{
 			Name: "get-time",
 			Args: []Arg{
@@ -131,13 +134,15 @@ var GetTimeRequest = Request{
 }
 
 var SetTimeRequest = Request{
-	Name:    "set time",
-	MsgType: 0x30,
-	Fields: []Field{
-		{"controller", "uint32", 4, "controller serial number"},
-		{"datetime", "datetime", 8, "date/time"},
+	Message: lib.Message{
+		Name:    "set time",
+		MsgType: 0x30,
+		Fields: []lib.Field{
+			{"controller", "uint32", 4, "controller serial number"},
+			{"datetime", "datetime", 8, "date/time"},
+		},
 	},
-	Tests: []Test{
+	Tests: []RequestTest{
 		{
 			Name: "set-time",
 			Args: []Arg{
@@ -155,12 +160,14 @@ var SetTimeRequest = Request{
 }
 
 var GetListenerRequest = Request{
-	Name:    "get listener",
-	MsgType: 0x92,
-	Fields: []Field{
-		{"controller", "uint32", 4, "controller serial number"},
+	Message: lib.Message{
+		Name:    "get listener",
+		MsgType: 0x92,
+		Fields: []lib.Field{
+			{"controller", "uint32", 4, "controller serial number"},
+		},
 	},
-	Tests: []Test{
+	Tests: []RequestTest{
 		{
 			Name: "get-listener",
 			Args: []Arg{
@@ -177,14 +184,16 @@ var GetListenerRequest = Request{
 }
 
 var SetListenerRequest = Request{
-	Name:    "set listener",
-	MsgType: 0x90,
-	Fields: []Field{
-		{"controller", "uint32", 4, "controller serial number"},
-		{"listener", "addrport", 8, "event listener IPv4 address:port"},
-		{"interval", "uint8", 14, "auto-send interval (seconds)"},
+	Message: lib.Message{
+		Name:    "set listener",
+		MsgType: 0x90,
+		Fields: []lib.Field{
+			{"controller", "uint32", 4, "controller serial number"},
+			{"listener", "addrport", 8, "event listener IPv4 address:port"},
+			{"interval", "uint8", 14, "auto-send interval (seconds)"},
+		},
 	},
-	Tests: []Test{
+	Tests: []RequestTest{
 		{
 			Name: "set-listener",
 			Args: []Arg{
@@ -203,13 +212,15 @@ var SetListenerRequest = Request{
 }
 
 var GetDoorRequest = Request{
-	Name:    "get door",
-	MsgType: 0x82,
-	Fields: []Field{
-		{"controller", "uint32", 4, "controller serial number"},
-		{"door", "uint8", 8, "door ID ([1..4])"},
+	Message: lib.Message{
+		Name:    "get door",
+		MsgType: 0x82,
+		Fields: []lib.Field{
+			{"controller", "uint32", 4, "controller serial number"},
+			{"door", "uint8", 8, "door ID ([1..4])"},
+		},
 	},
-	Tests: []Test{
+	Tests: []RequestTest{
 		{
 			Name: "get-door",
 			Args: []Arg{
@@ -227,15 +238,17 @@ var GetDoorRequest = Request{
 }
 
 var SetDoorRequest = Request{
-	Name:    "set door",
-	MsgType: 0x80,
-	Fields: []Field{
-		{"controller", "uint32", 4, "controller serial number"},
-		{"door", "uint8", 8, "door ID ([1..4])"},
-		{"mode", "uint8", 9, "control mode (1:normally open, 2:normally closed, 3: controlled)"},
-		{"delay", "uint8", 10, "unlock delay (seconds)"},
+	Message: lib.Message{
+		Name:    "set door",
+		MsgType: 0x80,
+		Fields: []lib.Field{
+			{"controller", "uint32", 4, "controller serial number"},
+			{"door", "uint8", 8, "door ID ([1..4])"},
+			{"mode", "uint8", 9, "control mode (1:normally open, 2:normally closed, 3: controlled)"},
+			{"delay", "uint8", 10, "unlock delay (seconds)"},
+		},
 	},
-	Tests: []Test{
+	Tests: []RequestTest{
 		{
 			Name: "set-door",
 			Args: []Arg{

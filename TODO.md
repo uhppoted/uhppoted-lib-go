@@ -26,6 +26,8 @@
 
 - [ ] code generation
    - [ ] use/extend uhppoted-codegen models
+      - [ ] remove model.Field
+
    - [ ] AST
       - [x] decoder
       - [ ] decoder_test
