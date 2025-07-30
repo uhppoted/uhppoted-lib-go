@@ -12,12 +12,12 @@ import (
 
 {{ range $rq := . }}
 {{ range $test := $rq.Tests}}
-func Test{{ titleCase $test.Name }}Request(t *testing.T) {
+func Test{{ titleCase $test.Name }}(t *testing.T) {
     expected := []byte{
 {{ hex $test.Expected }}
     }
 
-    packet,err := {{ titleCase $rq.Name }}Request({{- args $test.Args -}})
+    packet,err := {{ titleCase $rq.Name }}({{- args $test.Args -}})
 
     if err != nil {
         t.Fatalf("%v",err)
