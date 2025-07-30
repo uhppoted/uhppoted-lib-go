@@ -26,7 +26,7 @@ func getController(u lib.Uhppoted, args []string) error {
 	} else if bytes, err := json.MarshalIndent(v, "   ", "   "); err != nil {
 		return err
 	} else {
-		fmt.Printf("get-status\n")
+		fmt.Printf("get-controller\n")
 		fmt.Printf("   %v\n", string(bytes))
 		fmt.Println()
 

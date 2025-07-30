@@ -14,7 +14,7 @@ import (
 	"time"
 )
 
-// Encodes a get-controller request.
+// Encodes a get-controller-request.
 //
 //	Parameters:
 //	    controller  (uint32)  controller serial number
@@ -32,7 +32,7 @@ func GetControllerRequest(controller uint32) ([]byte, error) {
 	return packet, nil
 }
 
-// Encodes a set-ipv4 request.
+// Encodes a set-ipv4-request.
 //
 //	Parameters:
 //	    controller  (uint32)  controller serial number
@@ -58,7 +58,7 @@ func SetIPv4Request(controller uint32, address netip.Addr, netmask netip.Addr, g
 	return packet, nil
 }
 
-// Encodes a get-status request.
+// Encodes a get-status-request.
 //
 //	Parameters:
 //	    controller  (uint32)  controller serial number
@@ -76,7 +76,7 @@ func GetStatusRequest(controller uint32) ([]byte, error) {
 	return packet, nil
 }
 
-// Encodes a get-time request.
+// Encodes a get-time-request.
 //
 //	Parameters:
 //	    controller  (uint32)  controller serial number
@@ -94,7 +94,7 @@ func GetTimeRequest(controller uint32) ([]byte, error) {
 	return packet, nil
 }
 
-// Encodes a set-time request.
+// Encodes a set-time-request.
 //
 //	Parameters:
 //	    controller  (uint32)  controller serial number
@@ -114,7 +114,7 @@ func SetTimeRequest(controller uint32, datetime time.Time) ([]byte, error) {
 	return packet, nil
 }
 
-// Encodes a get-listener request.
+// Encodes a get-listener-request.
 //
 //	Parameters:
 //	    controller  (uint32)  controller serial number
@@ -132,7 +132,7 @@ func GetListenerRequest(controller uint32) ([]byte, error) {
 	return packet, nil
 }
 
-// Encodes a set-listener request.
+// Encodes a set-listener-request.
 //
 //	Parameters:
 //	    controller  (uint32)  controller serial number
@@ -154,7 +154,7 @@ func SetListenerRequest(controller uint32, listener netip.AddrPort, interval uin
 	return packet, nil
 }
 
-// Encodes a get-door request.
+// Encodes a get-door-request.
 //
 //	Parameters:
 //	    controller  (uint32)  controller serial number
@@ -174,7 +174,7 @@ func GetDoorRequest(controller uint32, door uint8) ([]byte, error) {
 	return packet, nil
 }
 
-// Encodes a set-door request.
+// Encodes a set-door-request.
 //
 //	Parameters:
 //	    controller  (uint32)  controller serial number

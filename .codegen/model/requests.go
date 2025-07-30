@@ -19,13 +19,7 @@ var Requests = []Request{
 }
 
 var GetControllerRequest = Request{
-	Message: lib.Message{
-		Name:    "get controller",
-		MsgType: 0x94,
-		Fields: []lib.Field{
-			{"controller", "uint32", 4, "controller serial number"},
-		},
-	},
+	Message: lib.GetControllerRequest,
 	Tests: []RequestTest{
 		{
 			Name: "get-all-controllers",
@@ -56,7 +50,7 @@ var GetControllerRequest = Request{
 
 var SetIPv4Request = Request{
 	Message: lib.Message{
-		Name:    "set IPv4",
+		Name:    "set IPv4 request",
 		MsgType: 0x96,
 		Fields: []lib.Field{
 			{"controller", "uint32", 4, "controller serial number"},
@@ -86,13 +80,7 @@ var SetIPv4Request = Request{
 }
 
 var GetStatusRequest = Request{
-	Message: lib.Message{
-		Name:    "get status",
-		MsgType: 0x20,
-		Fields: []lib.Field{
-			{"controller", "uint32", 4, "controller serial number"},
-		},
-	},
+	Message: lib.GetStatusRequest,
 	Tests: []RequestTest{
 		{
 			Name: "get-status",
@@ -110,13 +98,7 @@ var GetStatusRequest = Request{
 }
 
 var GetTimeRequest = Request{
-	Message: lib.Message{
-		Name:    "get time",
-		MsgType: 0x32,
-		Fields: []lib.Field{
-			{"controller", "uint32", 4, "controller serial number"},
-		},
-	},
+	Message: lib.GetTimeRequest,
 	Tests: []RequestTest{
 		{
 			Name: "get-time",
@@ -134,14 +116,7 @@ var GetTimeRequest = Request{
 }
 
 var SetTimeRequest = Request{
-	Message: lib.Message{
-		Name:    "set time",
-		MsgType: 0x30,
-		Fields: []lib.Field{
-			{"controller", "uint32", 4, "controller serial number"},
-			{"datetime", "datetime", 8, "date/time"},
-		},
-	},
+	Message: lib.SetTimeRequest,
 	Tests: []RequestTest{
 		{
 			Name: "set-time",
@@ -160,13 +135,7 @@ var SetTimeRequest = Request{
 }
 
 var GetListenerRequest = Request{
-	Message: lib.Message{
-		Name:    "get listener",
-		MsgType: 0x92,
-		Fields: []lib.Field{
-			{"controller", "uint32", 4, "controller serial number"},
-		},
-	},
+	Message: lib.GetListenerRequest,
 	Tests: []RequestTest{
 		{
 			Name: "get-listener",
@@ -185,7 +154,7 @@ var GetListenerRequest = Request{
 
 var SetListenerRequest = Request{
 	Message: lib.Message{
-		Name:    "set listener",
+		Name:    "set listener request",
 		MsgType: 0x90,
 		Fields: []lib.Field{
 			{"controller", "uint32", 4, "controller serial number"},
@@ -213,7 +182,7 @@ var SetListenerRequest = Request{
 
 var GetDoorRequest = Request{
 	Message: lib.Message{
-		Name:    "get door",
+		Name:    "get door request",
 		MsgType: 0x82,
 		Fields: []lib.Field{
 			{"controller", "uint32", 4, "controller serial number"},
@@ -239,7 +208,7 @@ var GetDoorRequest = Request{
 
 var SetDoorRequest = Request{
 	Message: lib.Message{
-		Name:    "set door",
+		Name:    "set door request",
 		MsgType: 0x80,
 		Fields: []lib.Field{
 			{"controller", "uint32", 4, "controller serial number"},

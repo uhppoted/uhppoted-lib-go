@@ -18,12 +18,12 @@ func TestGetAllControllersRequest(t *testing.T) {
 		0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
 	}
 
-	packet, err := GetControllerRequest(uint32(0))
+	packet, err := GetControllerRequestRequest(uint32(0))
 
 	if err != nil {
 		t.Fatalf("%v", err)
 	} else if !slices.Equal(packet, expected) {
-		t.Errorf("get controller: incorrectly encoded request\n   expected:%v\n   got:     %v", expected, packet)
+		t.Errorf("get controller request: incorrectly encoded request\n   expected:%v\n   got:     %v", expected, packet)
 	}
 }
 
@@ -35,12 +35,12 @@ func TestGetControllerRequest(t *testing.T) {
 		0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
 	}
 
-	packet, err := GetControllerRequest(uint32(405419896))
+	packet, err := GetControllerRequestRequest(uint32(405419896))
 
 	if err != nil {
 		t.Fatalf("%v", err)
 	} else if !slices.Equal(packet, expected) {
-		t.Errorf("get controller: incorrectly encoded request\n   expected:%v\n   got:     %v", expected, packet)
+		t.Errorf("get controller request: incorrectly encoded request\n   expected:%v\n   got:     %v", expected, packet)
 	}
 }
 
@@ -52,12 +52,12 @@ func TestSetIPv4Request(t *testing.T) {
 		0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
 	}
 
-	packet, err := SetIPv4Request(uint32(405419896), netip.MustParseAddr("192.168.1.125"), netip.MustParseAddr("255.255.255.0"), netip.MustParseAddr("192.168.1.1"))
+	packet, err := SetIPv4RequestRequest(uint32(405419896), netip.MustParseAddr("192.168.1.125"), netip.MustParseAddr("255.255.255.0"), netip.MustParseAddr("192.168.1.1"))
 
 	if err != nil {
 		t.Fatalf("%v", err)
 	} else if !slices.Equal(packet, expected) {
-		t.Errorf("set IPv4: incorrectly encoded request\n   expected:%v\n   got:     %v", expected, packet)
+		t.Errorf("set IPv4 request: incorrectly encoded request\n   expected:%v\n   got:     %v", expected, packet)
 	}
 }
 
@@ -69,12 +69,12 @@ func TestGetStatusRequest(t *testing.T) {
 		0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
 	}
 
-	packet, err := GetStatusRequest(uint32(405419896))
+	packet, err := GetStatusRequestRequest(uint32(405419896))
 
 	if err != nil {
 		t.Fatalf("%v", err)
 	} else if !slices.Equal(packet, expected) {
-		t.Errorf("get status: incorrectly encoded request\n   expected:%v\n   got:     %v", expected, packet)
+		t.Errorf("get status request: incorrectly encoded request\n   expected:%v\n   got:     %v", expected, packet)
 	}
 }
 
@@ -86,12 +86,12 @@ func TestGetTimeRequest(t *testing.T) {
 		0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
 	}
 
-	packet, err := GetTimeRequest(uint32(405419896))
+	packet, err := GetTimeRequestRequest(uint32(405419896))
 
 	if err != nil {
 		t.Fatalf("%v", err)
 	} else if !slices.Equal(packet, expected) {
-		t.Errorf("get time: incorrectly encoded request\n   expected:%v\n   got:     %v", expected, packet)
+		t.Errorf("get time request: incorrectly encoded request\n   expected:%v\n   got:     %v", expected, packet)
 	}
 }
 
@@ -103,12 +103,12 @@ func TestSetTimeRequest(t *testing.T) {
 		0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
 	}
 
-	packet, err := SetTimeRequest(uint32(405419896), string2datetime("2024-11-04 12:34:56"))
+	packet, err := SetTimeRequestRequest(uint32(405419896), string2datetime("2024-11-04 12:34:56"))
 
 	if err != nil {
 		t.Fatalf("%v", err)
 	} else if !slices.Equal(packet, expected) {
-		t.Errorf("set time: incorrectly encoded request\n   expected:%v\n   got:     %v", expected, packet)
+		t.Errorf("set time request: incorrectly encoded request\n   expected:%v\n   got:     %v", expected, packet)
 	}
 }
 
@@ -120,12 +120,12 @@ func TestGetListenerRequest(t *testing.T) {
 		0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
 	}
 
-	packet, err := GetListenerRequest(uint32(405419896))
+	packet, err := GetListenerRequestRequest(uint32(405419896))
 
 	if err != nil {
 		t.Fatalf("%v", err)
 	} else if !slices.Equal(packet, expected) {
-		t.Errorf("get listener: incorrectly encoded request\n   expected:%v\n   got:     %v", expected, packet)
+		t.Errorf("get listener request: incorrectly encoded request\n   expected:%v\n   got:     %v", expected, packet)
 	}
 }
 
@@ -137,12 +137,12 @@ func TestSetListenerRequest(t *testing.T) {
 		0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
 	}
 
-	packet, err := SetListenerRequest(uint32(405419896), netip.MustParseAddrPort("192.168.1.100:60001"), uint8(17))
+	packet, err := SetListenerRequestRequest(uint32(405419896), netip.MustParseAddrPort("192.168.1.100:60001"), uint8(17))
 
 	if err != nil {
 		t.Fatalf("%v", err)
 	} else if !slices.Equal(packet, expected) {
-		t.Errorf("set listener: incorrectly encoded request\n   expected:%v\n   got:     %v", expected, packet)
+		t.Errorf("set listener request: incorrectly encoded request\n   expected:%v\n   got:     %v", expected, packet)
 	}
 }
 
@@ -154,12 +154,12 @@ func TestGetDoorRequest(t *testing.T) {
 		0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
 	}
 
-	packet, err := GetDoorRequest(uint32(405419896), uint8(3))
+	packet, err := GetDoorRequestRequest(uint32(405419896), uint8(3))
 
 	if err != nil {
 		t.Fatalf("%v", err)
 	} else if !slices.Equal(packet, expected) {
-		t.Errorf("get door: incorrectly encoded request\n   expected:%v\n   got:     %v", expected, packet)
+		t.Errorf("get door request: incorrectly encoded request\n   expected:%v\n   got:     %v", expected, packet)
 	}
 }
 
@@ -171,12 +171,12 @@ func TestSetDoorRequest(t *testing.T) {
 		0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
 	}
 
-	packet, err := SetDoorRequest(uint32(405419896), uint8(3), uint8(2), uint8(17))
+	packet, err := SetDoorRequestRequest(uint32(405419896), uint8(3), uint8(2), uint8(17))
 
 	if err != nil {
 		t.Fatalf("%v", err)
 	} else if !slices.Equal(packet, expected) {
-		t.Errorf("set door: incorrectly encoded request\n   expected:%v\n   got:     %v", expected, packet)
+		t.Errorf("set door request: incorrectly encoded request\n   expected:%v\n   got:     %v", expected, packet)
 	}
 }
 func string2datetime(v string) time.Time {
