@@ -263,3 +263,33 @@ func GetDoorResponse(packet []byte) (types.GetDoorResponse, error) {
 		Delay:      unpackUint8(packet, 10),
 	}, nil
 }
+
+// Decodes a set-door response.
+//
+//	Parameters:
+//	    packet  (bytearray)  64 byte UDP packet.
+//
+//	Returns:
+//	    - SetDoorResponse initialised from the UDP packet.
+//	    - error if the packet is not 64 bytes, has an invalid start-of-message byte or has
+//	               the incorrect message type.
+func SetDoorResponse(packet []byte) (types.SetDoorResponse, error) {
+	if len(packet) != 64 {
+		return types.SetDoorResponse{}, fmt.Errorf("invalid reply packet length (%v)", len(packet))
+	}
+
+	if packet[0] != SOM {
+		return types.SetDoorResponse{}, fmt.Errorf("invalid reply start of message byte (%02x)", packet[0])
+	}
+
+	if packet[1] != SetDoor {
+		return types.SetDoorResponse{}, fmt.Errorf("invalid reply function code (%02x)", packet[1])
+	}
+
+	return types.SetDoorResponse{
+		Controller: unpackUint32(packet, 4),
+		Door:       unpackUint8(packet, 8),
+		Mode:       unpackUint8(packet, 9),
+		Delay:      unpackUint8(packet, 10),
+	}, nil
+}

@@ -192,3 +192,24 @@ func GetDoor[T TController](u Uhppoted, controller T, door uint8, timeout time.D
 
 	return exec[T, GetDoorResponse](u, controller, f, timeout)
 }
+
+// SetDoor sets the control mode and unlock delay time for an access controller door.
+//
+// Parameters:
+//   - controller: Either a uint32 controller serial number or a controller struct with the
+//     controller serial number, IPv4 address and transport.
+//   - door: Door Id ([1..4])
+//   - mode: Door control mode (1: normally open, 2: normally closed, 3: controlled)
+//   - delay: Unlock delay (seconds)
+//   - timeout: The maximum time to wait for a response.
+//
+// Returns:
+//   - A SetDoorResponse struct.
+//   - An error if the request could not be executed.
+func SetDoor[T TController](u Uhppoted, controller T, door uint8, mode uint8, delay uint8, timeout time.Duration) (SetDoorResponse, error) {
+	f := func(id uint32) ([]byte, error) {
+		return encode.SetDoorRequest(id, door, mode, delay)
+	}
+
+	return exec[T, SetDoorResponse](u, controller, f, timeout)
+}

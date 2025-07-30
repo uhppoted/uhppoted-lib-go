@@ -140,3 +140,12 @@ get-door-udp: build
 
 get-door-tcp: build
 	$(CMD) get-door --controller $(CONTROLLER) --dest $(DEST) --tcp --door $(DOOR)
+
+set-door: build
+	$(CMD) set-door --controller $(CONTROLLER) --door $(DOOR) --mode 2 --delay 9
+
+set-door-udp: build
+	$(CMD) set-door --controller $(CONTROLLER) --dest $(DEST) --door $(DOOR) --mode 2 --delay 9
+
+set-door-tcp: build
+	$(CMD) set-door --controller $(CONTROLLER) --dest $(DEST) --tcp --door $(DOOR) --mode 2 --delay 9

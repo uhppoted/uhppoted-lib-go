@@ -8,11 +8,11 @@ clean:
 	rm -rf dist
 
 update:
-	go get -u github.com/uhppoted/uhppote-codegen@main
+	go get -u github.com/uhppoted/uhppoted-codegen@main
 	go mod tidy
 
 update-release:
-	go get -u github.com/uhppoted/uhppote-codegen
+	go get -u github.com/uhppoted/uhppoted-codegen
 	go mod tidy
 
 format: 

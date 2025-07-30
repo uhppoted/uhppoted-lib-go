@@ -52,6 +52,9 @@ func decode(packet []byte) (any, error) {
 	case 0x82:
 		return decoder.GetDoorResponse(packet)
 
+	case 0x80:
+		return decoder.SetDoorResponse(packet)
+
 	default:
 		return nil, fmt.Errorf("unknown message type (%02x)", packet[1])
 	}

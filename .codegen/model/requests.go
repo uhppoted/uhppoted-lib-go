@@ -2,8 +2,6 @@ package model
 
 import (
 	"net/netip"
-
-	lib "github.com/uhppoted/uhppoted-codegen/model"
 )
 
 type Request struct {
@@ -22,13 +20,14 @@ var Requests = []Request{
 	GetListenerRequest,
 	SetListenerRequest,
 	GetDoorRequest,
+	SetDoorRequest,
 }
 
 var GetControllerRequest = Request{
 	Name:    "get controller",
 	MsgType: 0x94,
 	Fields: []Field{
-		{lib.Field{"controller", "uint32", 4}, "controller serial number"},
+		{"controller", "uint32", 4, "controller serial number"},
 	},
 	Tests: []Test{
 		{
@@ -62,11 +61,11 @@ var SetIPv4Request = Request{
 	Name:    "set IPv4",
 	MsgType: 0x96,
 	Fields: []Field{
-		{lib.Field{"controller", "uint32", 4}, "controller serial number"},
-		{lib.Field{"address", "IPv4", 8}, "controller IPv4 address"},
-		{lib.Field{"netmask", "IPv4", 12}, "controller IPv4 subnet mask"},
-		{lib.Field{"gateway", "IPv4", 16}, "controller IPv4 gateway address"},
-		{lib.Field{"", "magic", 20}, "'magic' word"},
+		{"controller", "uint32", 4, "controller serial number"},
+		{"address", "IPv4", 8, "controller IPv4 address"},
+		{"netmask", "IPv4", 12, "controller IPv4 subnet mask"},
+		{"gateway", "IPv4", 16, "controller IPv4 gateway address"},
+		{"", "magic", 20, "'magic' word"},
 	},
 	Tests: []Test{
 		{
@@ -91,7 +90,7 @@ var GetStatusRequest = Request{
 	Name:    "get status",
 	MsgType: 0x20,
 	Fields: []Field{
-		{lib.Field{"controller", "uint32", 4}, "controller serial number"},
+		{"controller", "uint32", 4, "controller serial number"},
 	},
 	Tests: []Test{
 		{
@@ -113,7 +112,7 @@ var GetTimeRequest = Request{
 	Name:    "get time",
 	MsgType: 0x32,
 	Fields: []Field{
-		{lib.Field{"controller", "uint32", 4}, "controller serial number"},
+		{"controller", "uint32", 4, "controller serial number"},
 	},
 	Tests: []Test{
 		{
@@ -135,8 +134,8 @@ var SetTimeRequest = Request{
 	Name:    "set time",
 	MsgType: 0x30,
 	Fields: []Field{
-		{lib.Field{"controller", "uint32", 4}, "controller serial number"},
-		{lib.Field{"datetime", "datetime", 8}, "date/time"},
+		{"controller", "uint32", 4, "controller serial number"},
+		{"datetime", "datetime", 8, "date/time"},
 	},
 	Tests: []Test{
 		{
@@ -159,7 +158,7 @@ var GetListenerRequest = Request{
 	Name:    "get listener",
 	MsgType: 0x92,
 	Fields: []Field{
-		{lib.Field{"controller", "uint32", 4}, "controller serial number"},
+		{"controller", "uint32", 4, "controller serial number"},
 	},
 	Tests: []Test{
 		{
@@ -181,9 +180,9 @@ var SetListenerRequest = Request{
 	Name:    "set listener",
 	MsgType: 0x90,
 	Fields: []Field{
-		{lib.Field{"controller", "uint32", 4}, "controller serial number"},
-		{lib.Field{"listener", "addrport", 8}, "event listener IPv4 address:port"},
-		{lib.Field{"interval", "uint8", 14}, "auto-send interval (seconds)"},
+		{"controller", "uint32", 4, "controller serial number"},
+		{"listener", "addrport", 8, "event listener IPv4 address:port"},
+		{"interval", "uint8", 14, "auto-send interval (seconds)"},
 	},
 	Tests: []Test{
 		{
@@ -207,8 +206,8 @@ var GetDoorRequest = Request{
 	Name:    "get door",
 	MsgType: 0x82,
 	Fields: []Field{
-		{lib.Field{"controller", "uint32", 4}, "controller serial number"},
-		{lib.Field{"door", "uint8", 8}, "door ID ([1..4])"},
+		{"controller", "uint32", 4, "controller serial number"},
+		{"door", "uint8", 8, "door ID ([1..4])"},
 	},
 	Tests: []Test{
 		{
@@ -219,6 +218,34 @@ var GetDoorRequest = Request{
 			},
 			Expected: []byte{
 				0x17, 0x82, 0x00, 0x00, 0x78, 0x37, 0x2a, 0x18, 0x03, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+				0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+				0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+				0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+			},
+		},
+	},
+}
+
+var SetDoorRequest = Request{
+	Name:    "set door",
+	MsgType: 0x80,
+	Fields: []Field{
+		{"controller", "uint32", 4, "controller serial number"},
+		{"door", "uint8", 8, "door ID ([1..4])"},
+		{"mode", "uint8", 9, "control mode (1:normally open, 2:normally closed, 3: controlled)"},
+		{"delay", "uint8", 10, "unlock delay (seconds)"},
+	},
+	Tests: []Test{
+		{
+			Name: "set-door",
+			Args: []Arg{
+				Arg{Name: "controller", Type: "uint32", Value: uint32(405419896)},
+				Arg{Name: "door", Type: "uint8", Value: uint8(3)},
+				Arg{Name: "mode", Type: "uint8", Value: uint8(2)},
+				Arg{Name: "delay", Type: "uint8", Value: uint8(17)},
+			},
+			Expected: []byte{
+				0x17, 0x80, 0x00, 0x00, 0x78, 0x37, 0x2a, 0x18, 0x03, 0x02, 0x11, 0x00, 0x00, 0x00, 0x00, 0x00,
 				0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
 				0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
 				0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,

@@ -113,3 +113,17 @@ func TestGetDoor(t *testing.T) {
 		t.Errorf("incorrect response\n   expected:%#v\n   got:     %#v", test.Expected.GetDoor, response)
 	}
 }
+
+func TestSetDoor(t *testing.T) {
+	door := uint8(3)
+	mode := uint8(2)
+	delay := uint8(17)
+
+	response, err := lib.SetDoor(u, controller, door, mode, delay, timeout)
+
+	if err != nil {
+		t.Fatalf("%v", err)
+	} else if !reflect.DeepEqual(response, test.Expected.SetDoor) {
+		t.Errorf("incorrect response\n   expected:%#v\n   got:     %#v", test.Expected.SetDoor, response)
+	}
+}

@@ -173,3 +173,27 @@ func GetDoorRequest(controller uint32, door uint8) ([]byte, error) {
 
 	return packet, nil
 }
+
+// Encodes a set-door request.
+//
+//	Parameters:
+//	    controller  (uint32)  controller serial number
+//	    door  (uint8)  door ID ([1..4])
+//	    mode  (uint8)  control mode (1:normally open, 2:normally closed, 3: controlled)
+//	    delay  (uint8)  unlock delay (seconds)
+//
+//	Returns:
+//	    64 byte packet.
+func SetDoorRequest(controller uint32, door uint8, mode uint8, delay uint8) ([]byte, error) {
+	packet := make([]byte, 64)
+
+	packet[0] = SOM
+	packet[1] = 128
+
+	packUint32(controller, packet, 4)
+	packUint8(door, packet, 8)
+	packUint8(mode, packet, 9)
+	packUint8(delay, packet, 10)
+
+	return packet, nil
+}

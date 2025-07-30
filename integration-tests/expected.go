@@ -18,6 +18,7 @@ var Expected = struct {
 	GetListener       lib.GetListenerResponse
 	SetListener       lib.SetListenerResponse
 	GetDoor           lib.GetDoorResponse
+	SetDoor           lib.SetDoorResponse
 }{
 	GetAllControllers: []lib.GetControllerResponse{
 		lib.GetControllerResponse{
@@ -117,6 +118,13 @@ var Expected = struct {
 		Door:       3,
 		Mode:       2,
 		Delay:      7,
+	},
+
+	SetDoor: lib.SetDoorResponse{
+		Controller: 405419896,
+		Door:       3,
+		Mode:       2,
+		Delay:      17,
 	},
 }
 

@@ -10,10 +10,7 @@ type Arg struct {
 	Value any    `json:"value,omitempty"`
 }
 
-type Field struct {
-	lib.Field
-	Description string `json:"description"`
-}
+type Field lib.Field
 
 type Value struct {
 	Name  string `json:"name"`

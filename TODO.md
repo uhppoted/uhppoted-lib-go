@@ -11,13 +11,15 @@
 - [x] get-listener
 - [x] set-listener
 - [x] get-door
+- [x] set-door
    - [x] API
    - [x] example
    - [x] README
    - [x] integration test
 
-- [x] genericized codec.Decode
 - [ ] custom date/time types
+- [ ] check for controller = 0
+- [ ] check controller ID in response
 - [ ] v6.62 version handling
 - [x] logging
     - [ ] set default handler

@@ -1,8 +1,6 @@
 package model
 
-import (
-	lib "github.com/uhppoted/uhppoted-codegen/model"
-)
+import ()
 
 type Response struct {
 	Name    string
@@ -20,19 +18,20 @@ var Responses = []Response{
 	GetListenerResponse,
 	SetListenerResponse,
 	GetDoorResponse,
+	SetDoorResponse,
 }
 
 var GetControllerResponse = Response{
 	Name:    "get controller",
 	MsgType: 0x94,
 	Fields: []Field{
-		{lib.Field{"controller", "uint32", 4}, "controller serial number, e.g. 405419896"},
-		{lib.Field{"ip address", "IPv4", 8}, "controller IPv4 address, e.g. 192.168.1.100"},
-		{lib.Field{"subnet mask", "IPv4", 12}, "controller IPv4 netmask, e.g. 255.255.255.0"},
-		{lib.Field{"gateway", "IPv4", 16}, "controller IPv4 gateway address, e.g. 192.168.1.1"},
-		{lib.Field{"MAC address", "MAC", 20}, "controller MAC address, e.g. 52:fd:fc:07:21:82"},
-		{lib.Field{"version", "version", 26}, "controller firmware version, e.g. v6.62"},
-		{lib.Field{"date", "date", 28}, "controller firmware release date, e.g. 2020-12-31"},
+		{"controller", "uint32", 4, "controller serial number, e.g. 405419896"},
+		{"ip address", "IPv4", 8, "controller IPv4 address, e.g. 192.168.1.100"},
+		{"subnet mask", "IPv4", 12, "controller IPv4 netmask, e.g. 255.255.255.0"},
+		{"gateway", "IPv4", 16, "controller IPv4 gateway address, e.g. 192.168.1.1"},
+		{"MAC address", "MAC", 20, "controller MAC address, e.g. 52:fd:fc:07:21:82"},
+		{"version", "version", 26, "controller firmware version, e.g. v6.62"},
+		{"date", "date", 28, "controller firmware release date, e.g. 2020-12-31"},
 	},
 	Tests: []Test{
 		{
@@ -88,8 +87,8 @@ var SetIPv4Response = Response{
 	Name:    "set IPv4",
 	MsgType: 0x96,
 	Fields: []Field{
-		{lib.Field{"controller", "uint32", 4}, "controller serial number, e.g. 405419896"},
-		{lib.Field{"ok", "bool", 8}, "controller IPv4 network configured"},
+		{"controller", "uint32", 4, "controller serial number, e.g. 405419896"},
+		{"ok", "bool", 8, "controller IPv4 network configured"},
 	},
 	Tests: []Test{
 		{
@@ -120,30 +119,30 @@ var GetStatusResponse = Response{
 	Name:    "get status",
 	MsgType: 0x20,
 	Fields: []Field{
-		{lib.Field{"controller", "uint32", 4}, "controller serial number, e.g. 405419896"},
-		{lib.Field{"system-date", "shortdate", 51}, "current date, e.g. 2025-07-21"},
-		{lib.Field{"system-time", "time", 37}, "current time, e.g. 13:25:47"},
-		{lib.Field{"door-1-open", "bool", 28}, "true if door 1 is open"},
-		{lib.Field{"door-2-open", "bool", 29}, "true if door 2 is open"},
-		{lib.Field{"door-3-open", "bool", 30}, "true if door 3 is open"},
-		{lib.Field{"door-4-open", "bool", 31}, "true if door 4 is open"},
-		{lib.Field{"door-1-button", "bool", 32}, "true if door 1 button is pressed"},
-		{lib.Field{"door-2-button", "bool", 33}, "true if door 2 button is pressed"},
-		{lib.Field{"door-3-button", "bool", 34}, "true if door 3 button is pressed"},
-		{lib.Field{"door-4-button", "bool", 35}, "true if door 4 button is pressed"},
-		{lib.Field{"relays", "uint8", 49}, "bitset of door unlock relay states"},
-		{lib.Field{"inputs", "uint8", 50}, "bitset of alarm inputs"},
-		{lib.Field{"system-error", "uint8", 36}, "system error code"},
-		{lib.Field{"special-info", "uint8", 48}, "absolutely no idea"},
-		{lib.Field{"event-index", "uint32", 8}, "last event index"},
-		{lib.Field{"event-type", "uint8", 12}, "last event type"},
-		{lib.Field{"event-access-granted", "bool", 13}, "last event access granted"},
-		{lib.Field{"event-door", "uint8", 14}, "last event door"},
-		{lib.Field{"event-direction", "uint8", 15}, "last event door direction (0: in, 1: out)"},
-		{lib.Field{"event-card", "uint32", 16}, "last event card number"},
-		{lib.Field{"event-timestamp", "datetime", 20}, "last event timestamp"},
-		{lib.Field{"event-reason", "uint8", 27}, "last event reason"},
-		{lib.Field{"sequence-no", "uint32", 40}, "packet sequence number"},
+		{"controller", "uint32", 4, "controller serial number, e.g. 405419896"},
+		{"system-date", "shortdate", 51, "current date, e.g. 2025-07-21"},
+		{"system-time", "time", 37, "current time, e.g. 13:25:47"},
+		{"door-1-open", "bool", 28, "true if door 1 is open"},
+		{"door-2-open", "bool", 29, "true if door 2 is open"},
+		{"door-3-open", "bool", 30, "true if door 3 is open"},
+		{"door-4-open", "bool", 31, "true if door 4 is open"},
+		{"door-1-button", "bool", 32, "true if door 1 button is pressed"},
+		{"door-2-button", "bool", 33, "true if door 2 button is pressed"},
+		{"door-3-button", "bool", 34, "true if door 3 button is pressed"},
+		{"door-4-button", "bool", 35, "true if door 4 button is pressed"},
+		{"relays", "uint8", 49, "bitset of door unlock relay states"},
+		{"inputs", "uint8", 50, "bitset of alarm inputs"},
+		{"system-error", "uint8", 36, "system error code"},
+		{"special-info", "uint8", 48, "absolutely no idea"},
+		{"event-index", "uint32", 8, "last event index"},
+		{"event-type", "uint8", 12, "last event type"},
+		{"event-access-granted", "bool", 13, "last event access granted"},
+		{"event-door", "uint8", 14, "last event door"},
+		{"event-direction", "uint8", 15, "last event door direction (0: in, 1: out)"},
+		{"event-card", "uint32", 16, "last event card number"},
+		{"event-timestamp", "datetime", 20, "last event timestamp"},
+		{"event-reason", "uint8", 27, "last event reason"},
+		{"sequence-no", "uint32", 40, "packet sequence number"},
 	},
 	Tests: []Test{
 		{
@@ -284,8 +283,8 @@ var GetTimeResponse = Response{
 	Name:    "get time",
 	MsgType: 0x32,
 	Fields: []Field{
-		{lib.Field{"controller", "uint32", 4}, "controller serial number, e.g. 405419896"},
-		{lib.Field{"date-time", "datetime", 8}, "controller system date/time"},
+		{"controller", "uint32", 4, "controller serial number, e.g. 405419896"},
+		{"date-time", "datetime", 8, "controller system date/time"},
 	},
 	Tests: []Test{
 		{
@@ -316,8 +315,8 @@ var SetTimeResponse = Response{
 	Name:    "set time",
 	MsgType: 0x30,
 	Fields: []Field{
-		{lib.Field{"controller", "uint32", 4}, "controller serial number, e.g. 405419896"},
-		{lib.Field{"date-time", "datetime", 8}, "controller system date/time"},
+		{"controller", "uint32", 4, "controller serial number, e.g. 405419896"},
+		{"date-time", "datetime", 8, "controller system date/time"},
 	},
 	Tests: []Test{
 		{
@@ -348,9 +347,9 @@ var GetListenerResponse = Response{
 	Name:    "get listener",
 	MsgType: 0x92,
 	Fields: []Field{
-		{lib.Field{"controller", "uint32", 4}, "controller serial number, e.g. 405419896"},
-		{lib.Field{"address", "addrport", 8}, "event listener IPv4 address:port"},
-		{lib.Field{"interval", "uint8", 14}, "auto-send interval (seconds)"},
+		{"controller", "uint32", 4, "controller serial number, e.g. 405419896"},
+		{"address", "addrport", 8, "event listener IPv4 address:port"},
+		{"interval", "uint8", 14, "auto-send interval (seconds)"},
 	},
 	Tests: []Test{
 		{
@@ -386,8 +385,8 @@ var SetListenerResponse = Response{
 	Name:    "set listener",
 	MsgType: 0x90,
 	Fields: []Field{
-		{lib.Field{"controller", "uint32", 4}, "controller serial number, e.g. 405419896"},
-		{lib.Field{"ok", "bool", 8}, "set-listener succeeded/failed"},
+		{"controller", "uint32", 4, "controller serial number, e.g. 405419896"},
+		{"ok", "bool", 8, "set-listener succeeded/failed"},
 	},
 	Tests: []Test{
 		{
@@ -418,16 +417,60 @@ var GetDoorResponse = Response{
 	Name:    "get door",
 	MsgType: 0x82,
 	Fields: []Field{
-		{lib.Field{"controller", "uint32", 4}, "controller serial number, e.g. 405419896"},
-		{lib.Field{"door", "uint8", 8}, "door ID ([1..4]"},
-		{lib.Field{"mode", "uint8", 9}, "control mode (1:normally open, 2:normally closed. 3:controlled)"},
-		{lib.Field{"delay", "uint8", 10}, "unlock delay (seconds)"},
+		{"controller", "uint32", 4, "controller serial number, e.g. 405419896"},
+		{"door", "uint8", 8, "door ID ([1..4]"},
+		{"mode", "uint8", 9, "control mode (1:normally open, 2:normally closed. 3:controlled)"},
+		{"delay", "uint8", 10, "unlock delay (seconds)"},
 	},
 	Tests: []Test{
 		{
 			Name: "get-door",
 			Response: []byte{
 				0x17, 0x82, 0x00, 0x00, 0x78, 0x37, 0x2a, 0x18, 0x03, 0x02, 0x07, 0x00, 0x00, 0x00, 0x00, 0x00,
+				0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+				0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+				0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+			},
+			Values: []Value{
+				Value{
+					Name:  "controller",
+					Type:  "uint32",
+					Value: 405419896,
+				},
+				Value{
+					Name:  "door",
+					Type:  "uint8",
+					Value: 3,
+				},
+				Value{
+					Name:  "mode",
+					Type:  "uint8",
+					Value: 2,
+				},
+				Value{
+					Name:  "delay",
+					Type:  "uint8",
+					Value: 7,
+				},
+			},
+		},
+	},
+}
+
+var SetDoorResponse = Response{
+	Name:    "set door",
+	MsgType: 0x80,
+	Fields: []Field{
+		{"controller", "uint32", 4, "controller serial number, e.g. 405419896"},
+		{"door", "uint8", 8, "door ID ([1..4]"},
+		{"mode", "uint8", 9, "control mode (1:normally open, 2:normally closed. 3:controlled)"},
+		{"delay", "uint8", 10, "unlock delay (seconds)"},
+	},
+	Tests: []Test{
+		{
+			Name: "set-door",
+			Response: []byte{
+				0x17, 0x80, 0x00, 0x00, 0x78, 0x37, 0x2a, 0x18, 0x03, 0x02, 0x07, 0x00, 0x00, 0x00, 0x00, 0x00,
 				0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
 				0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
 				0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
