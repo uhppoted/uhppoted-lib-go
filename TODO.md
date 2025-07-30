@@ -30,6 +30,7 @@
       - [ ] set-IPv4
       - [ ] set-listener with netip.AddrPort
       - [ ] get-door
+      - [ ] set-door
 
    - [ ] AST
       - [x] decoder

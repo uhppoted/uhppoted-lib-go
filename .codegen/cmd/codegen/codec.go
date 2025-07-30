@@ -4,7 +4,6 @@ import (
 	_ "embed"
 	"log"
 	"os"
-	"path/filepath"
 	"text/template"
 
 	"codegen/model"
@@ -46,7 +45,7 @@ func encode() {
 		log.Fatalf("Failed to execute template: %v", err)
 	}
 
-	log.Printf("... generated %s", filepath.Base(output))
+	log.Printf("... generated %s", output)
 }
 
 func encodeTest() {
@@ -63,7 +62,7 @@ func encodeTest() {
 		log.Fatalf("Failed to execute template: %v", err)
 	}
 
-	log.Printf("... generated %s", filepath.Base(output))
+	log.Printf("... generated %s", output)
 }
 
 func decode() {
@@ -80,7 +79,7 @@ func decode() {
 		log.Fatalf("Failed to execute template: %v", err)
 	}
 
-	log.Printf("... generated %s", filepath.Base(output))
+	log.Printf("... generated %s", output)
 }
 
 func decodeTest() {
@@ -97,5 +96,5 @@ func decodeTest() {
 		log.Fatalf("Failed to execute template: %v", err)
 	}
 
-	log.Printf("... generated %s", filepath.Base(output))
+	log.Printf("... generated %s", output)
 }

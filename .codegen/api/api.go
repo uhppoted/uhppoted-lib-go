@@ -1,20 +1,201 @@
 package api
 
 import (
+	"fmt"
 	"log"
 	"path/filepath"
 
+	"go/ast"
+	"go/token"
+
 	"codegen/codegen"
+	"codegen/model"
 )
 
 func API() {
 	const file = "_generated.go"
 
-	AST := codegen.NewAST("uhppoted")
+	imports := []string{
+		"time",
+		"",
+		"github.com/uhppoted/uhppoted-lib-go/uhppoted/codec/encode",
+	}
+
+	f := function(model.GetController)
+
+	AST := codegen.NewAST("uhppoted", imports, []*ast.FuncDecl{f})
 
 	if err := AST.Generate(file); err != nil {
 		log.Fatalf("error generating %v (%v)", file, err)
 	} else {
 		log.Printf("... generated %s", filepath.Base(file))
+	}
+}
+
+func function(f model.Func) *ast.FuncDecl {
+	name := codegen.TitleCase(f.Name)
+	response := fmt.Sprintf("%vResponse", codegen.TitleCase(f.Response.Name))
+
+	args := []*ast.Field{}
+
+	args = append(args, &ast.Field{
+		Names: []*ast.Ident{
+			{Name: "u"},
+		},
+		Type: &ast.Ident{Name: "Uhppoted"},
+	})
+
+	args = append(args, &ast.Field{
+		Names: []*ast.Ident{
+			{Name: "controller"},
+		},
+		Type: &ast.Ident{Name: "T"},
+	})
+
+	for _, arg := range f.Request.Fields[1:] {
+		args = append(args, &ast.Field{
+			Names: []*ast.Ident{
+				{Name: arg.Name},
+			},
+			Type: &ast.Ident{Name: arg.Type},
+		})
+	}
+
+	args = append(args, &ast.Field{
+		Names: []*ast.Ident{
+			{Name: "timeout"},
+		},
+		Type: &ast.Ident{Name: "time.Duration"},
+	})
+
+	return &ast.FuncDecl{
+		Name: ast.NewIdent(name),
+		Type: &ast.FuncType{
+			TypeParams: &ast.FieldList{
+				List: []*ast.Field{
+					{
+						Names: []*ast.Ident{ast.NewIdent("T")},
+						Type:  ast.NewIdent("TController"),
+					},
+				},
+			},
+			Params: &ast.FieldList{
+				List: args,
+			},
+			Results: &ast.FieldList{
+				List: []*ast.Field{
+					{
+						Type: ast.NewIdent(response),
+					},
+					{
+						Type: ast.NewIdent("error"),
+					},
+				},
+			},
+		},
+		Body: impl(f),
+		Doc:  &ast.CommentGroup{}, // blank line
+	}
+}
+
+func impl(f model.Func) *ast.BlockStmt {
+	request := codegen.TitleCase(f.Request.Name)
+	response := fmt.Sprintf("%vResponse", codegen.TitleCase(f.Response.Name))
+
+	args := []*ast.Field{}
+
+	args = append(args, &ast.Field{
+		Names: []*ast.Ident{
+			{Name: "id"},
+		},
+		Type: &ast.Ident{Name: "uint32"},
+	})
+
+	for _, arg := range f.Request.Fields[1:] {
+		args = append(args, &ast.Field{
+			Names: []*ast.Ident{
+				{Name: arg.Name},
+			},
+			Type: &ast.Ident{Name: arg.Type},
+		})
+	}
+
+	return &ast.BlockStmt{
+		List: []ast.Stmt{
+			//	f := func(id uint32) ([]byte, error) {
+			//       return encode.XXX(id,...)
+			//  }
+			&ast.AssignStmt{
+				Lhs: []ast.Expr{
+					&ast.Ident{Name: "f"},
+				},
+				Tok: token.DEFINE,
+				Rhs: []ast.Expr{
+					&ast.FuncLit{
+						Type: &ast.FuncType{
+							Params: &ast.FieldList{
+								List: args,
+							},
+							Results: &ast.FieldList{
+								List: []*ast.Field{
+									{Type: &ast.ArrayType{
+										Elt: &ast.Ident{Name: "byte"},
+									}},
+									{Type: &ast.Ident{Name: "error"}},
+								},
+							},
+						},
+						Body: &ast.BlockStmt{
+							List: []ast.Stmt{
+								&ast.ReturnStmt{
+									Results: []ast.Expr{
+										&ast.CallExpr{
+											Fun: &ast.SelectorExpr{
+												X:   &ast.Ident{Name: "encode"},
+												Sel: &ast.Ident{Name: request},
+											},
+											Args: []ast.Expr{
+												&ast.Ident{Name: "id"},
+											},
+										},
+									},
+								},
+							},
+						},
+					},
+				},
+			},
+
+			blankline(),
+
+			// return exec[T, R](u, controller, f, timeout)
+			&ast.ReturnStmt{
+				Results: []ast.Expr{
+					&ast.CallExpr{
+						Fun: &ast.IndexListExpr{
+							X: &ast.Ident{Name: "exec"},
+							Indices: []ast.Expr{
+								&ast.Ident{Name: "T"},
+								&ast.Ident{Name: response},
+							},
+						},
+						Args: []ast.Expr{
+							&ast.Ident{Name: "u"},
+							&ast.Ident{Name: "controller"},
+							&ast.Ident{Name: "f"},
+							&ast.Ident{Name: "timeout"},
+						},
+					},
+				},
+			},
+		},
+	}
+}
+
+func blankline() ast.Stmt {
+	return &ast.ExprStmt{
+		X: &ast.BasicLit{
+			Kind: token.STRING,
+		},
 	}
 }

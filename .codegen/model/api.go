@@ -24,8 +24,8 @@ type FuncTest struct {
 }
 
 var API = []Func{
-	getAllControllers,
-	getController,
+	GetAllControllers,
+	GetController,
 	setIPv4,
 	getStatus,
 	getTime,
@@ -36,7 +36,7 @@ var API = []Func{
 	setDoor,
 }
 
-var getAllControllers = Func{
+var GetAllControllers = Func{
 	Name:      "get-all-controllers",
 	Protocols: []string{"broadcast"},
 	Test: FuncTest{
@@ -85,7 +85,7 @@ var getAllControllers = Func{
 	},
 }
 
-var getController = Func{
+var GetController = Func{
 	Name:      "get-controller",
 	Request:   GetControllerRequest,
 	Response:  GetControllerResponse,
