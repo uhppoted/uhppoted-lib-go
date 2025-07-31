@@ -27,11 +27,11 @@
 
 - [ ] code generation
    - [ ] use/extend uhppoted-codegen models
-      - [ ] remove model.Field
-      - [ ] set-IPv4
-      - [ ] set-listener with netip.AddrPort
-      - [ ] get-door
-      - [ ] set-door
+      - [x] remove model.Field
+      - [x] set-IPv4
+      - [x] set-listener with netip.AddrPort
+      - [x] get-door
+      - [x] set-door
 
    - [ ] AST
       - [x] decoder

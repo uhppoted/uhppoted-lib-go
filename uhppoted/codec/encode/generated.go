@@ -136,19 +136,19 @@ func GetListenerRequest(controller uint32) ([]byte, error) {
 //
 //	Parameters:
 //	    controller  (uint32)  controller serial number
-//	    listener  (addrport)  event listener IPv4 address:port
-//	    interval  (uint8)  auto-send interval (seconds)
+//	    address  (addrport)  event listener IPv4 address:port
+//	    interval  (uint8)  status auto-send interval (seconds)
 //
 //	Returns:
 //	    64 byte packet.
-func SetListenerRequest(controller uint32, listener netip.AddrPort, interval uint8) ([]byte, error) {
+func SetListenerRequest(controller uint32, address netip.AddrPort, interval uint8) ([]byte, error) {
 	packet := make([]byte, 64)
 
 	packet[0] = SOM
 	packet[1] = 144
 
 	packUint32(controller, packet, 4)
-	packAddrPort(listener, packet, 8)
+	packAddrPort(address, packet, 8)
 	packUint8(interval, packet, 14)
 
 	return packet, nil
@@ -178,9 +178,9 @@ func GetDoorRequest(controller uint32, door uint8) ([]byte, error) {
 //
 //	Parameters:
 //	    controller  (uint32)  controller serial number
-//	    door  (uint8)  door ID ([1..4])
-//	    mode  (uint8)  control mode (1:normally open, 2:normally closed, 3: controlled)
-//	    delay  (uint8)  unlock delay (seconds)
+//	    door  (uint8)
+//	    mode  (uint8)
+//	    delay  (uint8)
 //
 //	Returns:
 //	    64 byte packet.

@@ -20,12 +20,12 @@ var Requests = []Request{
 }
 
 var GetControllerRequest = Request{
-	Message: lib.GetControllerRequest,
-	Tests: []RequestTest{
+	Message: lib.GetControllerRequest.Message,
+	Tests: []lib.RequestTest{
 		{
 			Name: "get-all-controllers",
-			Args: []Arg{
-				Arg{Name: "controller", Type: "uint32", Value: uint32(0)},
+			Args: []lib.TestArg{
+				lib.TestArg{Arg: lib.Arg{Name: "controller", Type: "uint32"}, Value: uint32(0)},
 			},
 			Expected: []byte{
 				0x17, 0x94, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
@@ -36,8 +36,8 @@ var GetControllerRequest = Request{
 		},
 		{
 			Name: "get-controller",
-			Args: []Arg{
-				Arg{Name: "controller", Type: "uint32", Value: uint32(405419896)},
+			Args: []lib.TestArg{
+				lib.TestArg{Arg: lib.Arg{Name: "controller", Type: "uint32"}, Value: uint32(405419896)},
 			},
 			Expected: []byte{
 				0x17, 0x94, 0x00, 0x00, 0x78, 0x37, 0x2a, 0x18, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
@@ -50,25 +50,15 @@ var GetControllerRequest = Request{
 }
 
 var SetIPv4Request = Request{
-	Message: lib.Message{
-		Name:    "set IPv4 request",
-		MsgType: 0x96,
-		Fields: []lib.Field{
-			{"controller", "uint32", 4, "controller serial number"},
-			{"address", "IPv4", 8, "controller IPv4 address"},
-			{"netmask", "IPv4", 12, "controller IPv4 subnet mask"},
-			{"gateway", "IPv4", 16, "controller IPv4 gateway address"},
-			{"", "magic", 20, "'magic' word"},
-		},
-	},
-	Tests: []RequestTest{
+	Message: lib.SetIPv4Request,
+	Tests: []lib.RequestTest{
 		{
 			Name: "set-IPv4",
-			Args: []Arg{
-				Arg{Name: "controller", Type: "uint32", Value: uint32(405419896)},
-				Arg{Name: "address", Type: "IPv4", Value: netip.MustParseAddr("192.168.1.125")},
-				Arg{Name: "netmask", Type: "IPv4", Value: netip.MustParseAddr("255.255.255.0")},
-				Arg{Name: "gateway", Type: "IPv4", Value: netip.MustParseAddr("192.168.1.1")},
+			Args: []lib.TestArg{
+				lib.TestArg{Arg: lib.Arg{Name: "controller", Type: "uint32"}, Value: uint32(405419896)},
+				lib.TestArg{Arg: lib.Arg{Name: "address", Type: "IPv4"}, Value: netip.MustParseAddr("192.168.1.125")},
+				lib.TestArg{Arg: lib.Arg{Name: "netmask", Type: "IPv4"}, Value: netip.MustParseAddr("255.255.255.0")},
+				lib.TestArg{Arg: lib.Arg{Name: "gateway", Type: "IPv4"}, Value: netip.MustParseAddr("192.168.1.1")},
 			},
 			Expected: []byte{
 				0x17, 0x96, 0x00, 0x00, 0x78, 0x37, 0x2a, 0x18, 0xc0, 0xa8, 0x01, 0x7d, 0xff, 0xff, 0xff, 0x00,
@@ -82,11 +72,11 @@ var SetIPv4Request = Request{
 
 var GetStatusRequest = Request{
 	Message: lib.GetStatusRequest,
-	Tests: []RequestTest{
+	Tests: []lib.RequestTest{
 		{
 			Name: "get-status",
-			Args: []Arg{
-				Arg{Name: "controller", Type: "uint32", Value: uint32(405419896)},
+			Args: []lib.TestArg{
+				lib.TestArg{Arg: lib.Arg{Name: "controller", Type: "uint32"}, Value: uint32(405419896)},
 			},
 			Expected: []byte{
 				0x17, 0x20, 0x00, 0x00, 0x78, 0x37, 0x2a, 0x18, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
@@ -100,11 +90,11 @@ var GetStatusRequest = Request{
 
 var GetTimeRequest = Request{
 	Message: lib.GetTimeRequest,
-	Tests: []RequestTest{
+	Tests: []lib.RequestTest{
 		{
 			Name: "get-time",
-			Args: []Arg{
-				Arg{Name: "controller", Type: "uint32", Value: uint32(405419896)},
+			Args: []lib.TestArg{
+				lib.TestArg{Arg: lib.Arg{Name: "controller", Type: "uint32"}, Value: uint32(405419896)},
 			},
 			Expected: []byte{
 				0x17, 0x32, 0x00, 0x00, 0x78, 0x37, 0x2a, 0x18, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
@@ -118,12 +108,12 @@ var GetTimeRequest = Request{
 
 var SetTimeRequest = Request{
 	Message: lib.SetTimeRequest,
-	Tests: []RequestTest{
+	Tests: []lib.RequestTest{
 		{
 			Name: "set-time",
-			Args: []Arg{
-				Arg{Name: "controller", Type: "uint32", Value: uint32(405419896)},
-				Arg{Name: "datetime", Type: "datetime", Value: "2024-11-04 12:34:56"},
+			Args: []lib.TestArg{
+				lib.TestArg{Arg: lib.Arg{Name: "controller", Type: "uint32"}, Value: uint32(405419896)},
+				lib.TestArg{Arg: lib.Arg{Name: "datetime", Type: "datetime"}, Value: "2024-11-04 12:34:56"},
 			},
 			Expected: []byte{
 				0x17, 0x30, 0x00, 0x00, 0x78, 0x37, 0x2a, 0x18, 0x20, 0x24, 0x11, 0x04, 0x12, 0x34, 0x56, 0x00,
@@ -137,11 +127,11 @@ var SetTimeRequest = Request{
 
 var GetListenerRequest = Request{
 	Message: lib.GetListenerRequest,
-	Tests: []RequestTest{
+	Tests: []lib.RequestTest{
 		{
 			Name: "get-listener",
-			Args: []Arg{
-				Arg{Name: "controller", Type: "uint32", Value: uint32(405419896)},
+			Args: []lib.TestArg{
+				lib.TestArg{Arg: lib.Arg{Name: "controller", Type: "uint32"}, Value: uint32(405419896)},
 			},
 			Expected: []byte{
 				0x17, 0x92, 0x00, 0x00, 0x78, 0x37, 0x2a, 0x18, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
@@ -154,22 +144,14 @@ var GetListenerRequest = Request{
 }
 
 var SetListenerRequest = Request{
-	Message: lib.Message{
-		Name:    "set listener request",
-		MsgType: 0x90,
-		Fields: []lib.Field{
-			{"controller", "uint32", 4, "controller serial number"},
-			{"listener", "addrport", 8, "event listener IPv4 address:port"},
-			{"interval", "uint8", 14, "auto-send interval (seconds)"},
-		},
-	},
-	Tests: []RequestTest{
+	Message: lib.SetListenerAddrPortRequest,
+	Tests: []lib.RequestTest{
 		{
 			Name: "set-listener",
-			Args: []Arg{
-				Arg{Name: "controller", Type: "uint32", Value: uint32(405419896)},
-				Arg{Name: "listener", Type: "addrport", Value: "192.168.1.100:60001"},
-				Arg{Name: "interval", Type: "uint8", Value: 17},
+			Args: []lib.TestArg{
+				lib.TestArg{Arg: lib.Arg{Name: "controller", Type: "uint32"}, Value: uint32(405419896)},
+				lib.TestArg{Arg: lib.Arg{Name: "listener", Type: "addrport"}, Value: "192.168.1.100:60001"},
+				lib.TestArg{Arg: lib.Arg{Name: "interval", Type: "uint8"}, Value: 17},
 			},
 			Expected: []byte{
 				0x17, 0x90, 0x00, 0x00, 0x78, 0x37, 0x2a, 0x18, 0xc0, 0xa8, 0x01, 0x64, 0x61, 0xea, 0x11, 0x00,
@@ -182,20 +164,13 @@ var SetListenerRequest = Request{
 }
 
 var GetDoorRequest = Request{
-	Message: lib.Message{
-		Name:    "get door request",
-		MsgType: 0x82,
-		Fields: []lib.Field{
-			{"controller", "uint32", 4, "controller serial number"},
-			{"door", "uint8", 8, "door ID ([1..4])"},
-		},
-	},
-	Tests: []RequestTest{
+	Message: lib.GetDoorRequest,
+	Tests: []lib.RequestTest{
 		{
 			Name: "get-door",
-			Args: []Arg{
-				Arg{Name: "controller", Type: "uint32", Value: uint32(405419896)},
-				Arg{Name: "door", Type: "uint8", Value: uint8(3)},
+			Args: []lib.TestArg{
+				lib.TestArg{Arg: lib.Arg{Name: "controller", Type: "uint32"}, Value: uint32(405419896)},
+				lib.TestArg{Arg: lib.Arg{Name: "door", Type: "uint8"}, Value: uint8(3)},
 			},
 			Expected: []byte{
 				0x17, 0x82, 0x00, 0x00, 0x78, 0x37, 0x2a, 0x18, 0x03, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
@@ -208,24 +183,15 @@ var GetDoorRequest = Request{
 }
 
 var SetDoorRequest = Request{
-	Message: lib.Message{
-		Name:    "set door request",
-		MsgType: 0x80,
-		Fields: []lib.Field{
-			{"controller", "uint32", 4, "controller serial number"},
-			{"door", "uint8", 8, "door ID ([1..4])"},
-			{"mode", "uint8", 9, "control mode (1:normally open, 2:normally closed, 3: controlled)"},
-			{"delay", "uint8", 10, "unlock delay (seconds)"},
-		},
-	},
-	Tests: []RequestTest{
+	Message: lib.SetDoorRequest,
+	Tests: []lib.RequestTest{
 		{
 			Name: "set-door",
-			Args: []Arg{
-				Arg{Name: "controller", Type: "uint32", Value: uint32(405419896)},
-				Arg{Name: "door", Type: "uint8", Value: uint8(3)},
-				Arg{Name: "mode", Type: "uint8", Value: uint8(2)},
-				Arg{Name: "delay", Type: "uint8", Value: uint8(17)},
+			Args: []lib.TestArg{
+				lib.TestArg{Arg: lib.Arg{Name: "controller", Type: "uint32"}, Value: uint32(405419896)},
+				lib.TestArg{Arg: lib.Arg{Name: "door", Type: "uint8"}, Value: uint8(3)},
+				lib.TestArg{Arg: lib.Arg{Name: "mode", Type: "uint8"}, Value: uint8(2)},
+				lib.TestArg{Arg: lib.Arg{Name: "delay", Type: "uint8"}, Value: uint8(17)},
 			},
 			Expected: []byte{
 				0x17, 0x80, 0x00, 0x00, 0x78, 0x37, 0x2a, 0x18, 0x03, 0x02, 0x11, 0x00, 0x00, 0x00, 0x00, 0x00,
@@ -239,16 +205,16 @@ var SetDoorRequest = Request{
 
 var SetDoorPasscodesRequest = Request{
 	Message: lib.SetDoorPasscodesRequest,
-	Tests: []RequestTest{
+	Tests: []lib.RequestTest{
 		{
 			Name: "set-door-passcodes",
-			Args: []Arg{
-				Arg{Name: "controller", Type: "uint32", Value: uint32(405419896)},
-				Arg{Name: "door", Type: "uint8", Value: uint8(3)},
-				Arg{Name: "passcode1", Type: "uint32", Value: uint32(12345)},
-				Arg{Name: "passcode2", Type: "uint32", Value: uint32(54321)},
-				Arg{Name: "passcode3", Type: "uint32", Value: uint32(0)},
-				Arg{Name: "passcode4", Type: "uint32", Value: uint32(999999)},
+			Args: []lib.TestArg{
+				lib.TestArg{Arg: lib.Arg{Name: "controller", Type: "uint32"}, Value: uint32(405419896)},
+				lib.TestArg{Arg: lib.Arg{Name: "door", Type: "uint8"}, Value: uint8(3)},
+				lib.TestArg{Arg: lib.Arg{Name: "passcode1", Type: "uint32"}, Value: uint32(12345)},
+				lib.TestArg{Arg: lib.Arg{Name: "passcode2", Type: "uint32"}, Value: uint32(54321)},
+				lib.TestArg{Arg: lib.Arg{Name: "passcode3", Type: "uint32"}, Value: uint32(0)},
+				lib.TestArg{Arg: lib.Arg{Name: "passcode4", Type: "uint32"}, Value: uint32(999999)},
 			},
 			Expected: []byte{
 				0x17, 0x8c, 0x00, 0x00, 0x78, 0x37, 0x2a, 0x18, 0x03, 0x00, 0x00, 0x00, 0x39, 0x30, 0x00, 0x00,

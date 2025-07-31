@@ -11,7 +11,7 @@ func findControllers(u lib.Uhppoted, args []string) error {
 	if controllers, err := lib.FindControllers(u, options.timeout); err != nil {
 		return err
 	} else {
-		fmt.Printf("get-all-controllers\n")
+		fmt.Printf("find-controllers\n")
 		for _, v := range controllers {
 			if bytes, err := json.MarshalIndent(v, "   ", "   "); err != nil {
 				return err

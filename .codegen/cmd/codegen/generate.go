@@ -15,20 +15,19 @@ import (
 )
 
 var functions = template.FuncMap{
-	"titleCase":    titleCase,
-	"hyphenate":    hyphenate,
-	"hex":          hex,
-	"args":         args,
-	"arg":          arg,
-	"fields2args":  fields2args,
-	"fields2argsx": fields2argsx,
-	"pack":         pack,
-	"unpack":       unpack,
-	"describe":     describe,
-	"describex":    describex,
-	"lookup":       lookup,
-	"includes":     includes,
-	"value":        value,
+	"titleCase":   titleCase,
+	"hyphenate":   hyphenate,
+	"hex":         hex,
+	"args":        args,
+	"testargs":    testargs,
+	"arg":         arg,
+	"fields2args": fields2args,
+	"pack":        pack,
+	"unpack":      unpack,
+	"describe":    describe,
+	"lookup":      lookup,
+	"includes":    includes,
+	"value":       value,
 }
 
 func main() {
@@ -95,6 +94,15 @@ func args(args []model.Arg) string {
 	return strings.Join(parts, ", ")
 }
 
+func testargs(args []lib.TestArg) string {
+	var parts []string
+	for _, a := range args {
+		parts = append(parts, testarg(a))
+	}
+
+	return strings.Join(parts, ", ")
+}
+
 func arg(arg model.Arg) string {
 	switch arg.Type {
 	case "uint8":
@@ -117,31 +125,29 @@ func arg(arg model.Arg) string {
 	}
 }
 
-func fields2args(fields []model.Field) string {
-	var args []string
-	for _, f := range fields {
-		switch f.Type {
-		case "IPv4":
-			args = append(args, fmt.Sprintf("%v netip.Addr", f.Name))
+func testarg(arg lib.TestArg) string {
+	switch arg.Type {
+	case "uint8":
+		return fmt.Sprintf(`uint8(%v)`, arg.Value)
 
-		case "addrport":
-			args = append(args, fmt.Sprintf("%v netip.AddrPort", f.Name))
+	case "uint32":
+		return fmt.Sprintf(`uint32(%v)`, arg.Value)
 
-		case "datetime":
-			args = append(args, fmt.Sprintf("%v time.Time", f.Name))
+	case "IPv4":
+		return fmt.Sprintf(`netip.MustParseAddr("%v")`, arg.Value)
 
-		case "magic":
-			// skip
+	case "addrport":
+		return fmt.Sprintf(`netip.MustParseAddrPort("%v")`, arg.Value)
 
-		default:
-			args = append(args, fmt.Sprintf("%v %v", f.Name, f.Type))
-		}
+	case "datetime":
+		return fmt.Sprintf(`string2datetime("%v")`, arg.Value)
+
+	default:
+		return fmt.Sprintf("%v", arg.Value)
 	}
-
-	return strings.Join(args, ", ")
 }
 
-func fields2argsx(fields []lib.Field) string {
+func fields2args(fields []lib.Field) string {
 	var args []string
 	for _, f := range fields {
 		name := regexp.MustCompile(`\s+`).ReplaceAllString(f.Name, "")
@@ -197,7 +203,7 @@ func pack(field lib.Field) string {
 	}
 }
 
-func unpack(field model.Field) string {
+func unpack(field lib.Field) string {
 	switch field.Type {
 	case "bool":
 		return fmt.Sprintf("unpackBool(packet, %v)", field.Offset)
@@ -237,11 +243,7 @@ func unpack(field model.Field) string {
 	}
 }
 
-func describe(field model.Field) string {
-	return fmt.Sprintf("%v  (%v)  %v", field.Name, field.Type, field.Description)
-}
-
-func describex(field lib.Field) string {
+func describe(field lib.Field) string {
 	return fmt.Sprintf("%v  (%v)  %v", field.Name, field.Type, field.Description)
 }
 

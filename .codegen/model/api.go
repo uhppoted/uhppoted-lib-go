@@ -4,25 +4,6 @@ import (
 	"net/netip"
 )
 
-type Func struct {
-	Name      string
-	Request   Request
-	Response  Response
-	Protocols []string
-	Test      FuncTest
-}
-
-type Reply struct {
-	Message  []byte
-	Response []Value
-}
-
-type FuncTest struct {
-	Args    []Arg
-	Request []byte
-	Replies []Reply
-}
-
 var API = []Func{
 	FindControllers,
 	GetController,
