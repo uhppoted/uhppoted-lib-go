@@ -26,7 +26,7 @@ build: format
 	go build -trimpath ./...
 
 debug: build
-	cd examples/cli && make set-door
+	cd examples/cli && make set-door-passcodes
 
 test: build
 	go test ./uhppoted/...
@@ -70,8 +70,8 @@ godoc:
 help:
 	cd examples/cli && make help
 
-get-all-controllers: build
-	cd examples/cli && make get-all-controllers
+find-controllers: build
+	cd examples/cli && make find-controllers
 
 get-controller: build
 	cd examples/cli && make get-controller
@@ -117,3 +117,8 @@ set-door: build
 	cd examples/cli && make set-door
 	cd examples/cli && make set-door-udp
 	cd examples/cli && make set-door-tcp
+
+set-door-passcodes: build
+	cd examples/cli && make set-door-passcodes
+	cd examples/cli && make set-door-passcodes-udp
+	cd examples/cli && make set-door-passcodes-tcp

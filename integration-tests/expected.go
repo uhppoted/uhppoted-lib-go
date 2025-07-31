@@ -9,18 +9,19 @@ import (
 )
 
 var Expected = struct {
-	GetAllControllers []lib.GetControllerResponse
-	GetController     lib.GetControllerResponse
-	SetIPv4           lib.SetIPv4Response
-	GetStatus         lib.GetStatusResponse
-	GetTime           lib.GetTimeResponse
-	SetTime           lib.SetTimeResponse
-	GetListener       lib.GetListenerResponse
-	SetListener       lib.SetListenerResponse
-	GetDoor           lib.GetDoorResponse
-	SetDoor           lib.SetDoorResponse
+	FindControllers  []lib.GetControllerResponse
+	GetController    lib.GetControllerResponse
+	SetIPv4          lib.SetIPv4Response
+	GetStatus        lib.GetStatusResponse
+	GetTime          lib.GetTimeResponse
+	SetTime          lib.SetTimeResponse
+	GetListener      lib.GetListenerResponse
+	SetListener      lib.SetListenerResponse
+	GetDoor          lib.GetDoorResponse
+	SetDoor          lib.SetDoorResponse
+	SetDoorPasscodes lib.SetDoorPasscodesResponse
 }{
-	GetAllControllers: []lib.GetControllerResponse{
+	FindControllers: []lib.GetControllerResponse{
 		lib.GetControllerResponse{
 			Controller: 201020304,
 			IpAddress:  netip.MustParseAddr("192.168.1.101"),
@@ -125,6 +126,11 @@ var Expected = struct {
 		Door:       3,
 		Mode:       2,
 		Delay:      17,
+	},
+
+	SetDoorPasscodes: lib.SetDoorPasscodesResponse{
+		Controller: 405419896,
+		Ok:         true,
 	},
 }
 

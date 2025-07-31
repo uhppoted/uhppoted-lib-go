@@ -2,6 +2,8 @@ package main
 
 import (
 	"flag"
+	"strconv"
+	"strings"
 	"time"
 )
 
@@ -33,4 +35,17 @@ func parseDateTime(v string) (time.Time, error) {
 	} else {
 		return datetime, nil
 	}
+}
+
+func parsePasscodes(v string) []uint32 {
+	passcodes := []uint32{}
+	tokens := strings.Split(v, ",")
+
+	for _, token := range tokens {
+		if u32, err := strconv.ParseUint(token, 10, 32); err == nil && u32 < 1000000 {
+			passcodes = append(passcodes, uint32(u32))
+		}
+	}
+
+	return passcodes
 }

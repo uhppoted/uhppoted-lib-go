@@ -9,16 +9,17 @@ import (
 )
 
 var commands = map[string]func(u lib.Uhppoted, args []string) error{
-	"get-all-controllers": getAllControllers,
-	"get-controller":      getController,
-	"set-IPv4":            setIPv4,
-	"get-status":          getStatus,
-	"get-time":            getTime,
-	"set-time":            setTime,
-	"get-listener":        getListener,
-	"set-listener":        setListener,
-	"get-door":            getDoor,
-	"set-door":            setDoor,
+	"find-controllers":   findControllers,
+	"get-controller":     getController,
+	"set-IPv4":           setIPv4,
+	"get-status":         getStatus,
+	"get-time":           getTime,
+	"set-time":           setTime,
+	"get-listener":       getListener,
+	"set-listener":       setListener,
+	"get-door":           getDoor,
+	"set-door":           setDoor,
+	"set-door-passcodes": setDoorPasscodes,
 }
 
 func exec(args controller, flagset *flag.FlagSet, f func(c uint32) (any, error), g func(c lib.Controller) (any, error)) (any, error) {

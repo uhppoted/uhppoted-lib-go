@@ -9,11 +9,11 @@ import (
 )
 
 var Expected = struct { 
-    GetAllControllers []lib.GetControllerResponse
+    FindControllers []lib.GetControllerResponse
 {{- range $i,$func := . }}{{ if $i }}
     {{ titleCase $func.Name }} lib.{{ titleCase $func.Response.Name }}Response{{ end }}{{ end }}
 }{ 
-    GetAllControllers: []lib.GetControllerResponse{
+    FindControllers: []lib.GetControllerResponse{
         lib.GetControllerResponse{
             Controller: 201020304,
             IpAddress:  netip.MustParseAddr("192.168.1.101"),

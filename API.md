@@ -1,6 +1,6 @@
 # API
 
-- [`GetAllControllers`](#getallcontrollers)
+- [`FindControllers`](#findcontrollers)
 - [`GetController`](#getcontroller)
 - [`SetIPv4`](#setipv4)
 - [`GetStatus`](#getstatus)
@@ -10,6 +10,7 @@
 - [`SetListener`](#setlistener)
 - [`GetDoor`](#getdoor)
 - [`SetDoor`](#setdoor)
+- [`SetDoorPasscodes`](#setdoorpasscodes)
 ---
 Invoking an API function requires an instance of the `Uhppoted` struct initialised with the information required
 to access a controller:
@@ -215,6 +216,22 @@ timeout     maximum time to wait for a response from a controller
 Returns a `SetDoorResponse` with the door control mode and unlock delay.
 ```
 
+### `SetDoorPasscodes`
+```
+SetDoorPasscodes(u Uhppoted, controller TController, door uint8, passcode1, passcode2, passcode3, passcode4 uint32, timeout time.Duration) (SetDoorResponse,error)
+
+u           Uhppoted struct initialised with the bind address, broadcast address, etc
+controller  uint32|Controller controller serial number or {id, address, protocol} Controller struct
+door        door ID ([1..4]
+passcode1   supervisor passcode ([0..99999]), 0 for 'none'
+passcode2   supervisor passcode ([0..99999]), 0 for 'none'
+passcode3   supervisor passcode ([0..99999]), 0 for 'none'
+passcode4   supervisor passcode ([0..99999]), 0 for 'none'
+timeout     maximum time to wait for a response from a controller
+
+Returns a `SetDoorPasscodesResponse`.
+```
+
 
 ## Types
 
@@ -337,6 +354,16 @@ type SetDoorResponse struct {
   Door        uint8   `json:"door"`       // door ID ([1..4])
   Mode        uint8   `json:"mode"`       // control mode (1:normally open, 2:normally closed. 3:controlled)
   Delay       uint8   `json:"delay"`      // unlock delay(seconds)
+}
+```
+
+### `SetDoorPasscodesResponse`
+
+Container class for the decoded response from a _SetDoorPasscodes_ request.
+```
+type SetDoorPasscodesResponse struct {
+  Controller  uint32  `json:"controller"` // controller serial number
+  Ok          bool    `json:"ok"`         // true if request succeeded
 }
 ```
 

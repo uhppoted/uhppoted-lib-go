@@ -13,19 +13,11 @@ func setDoor(u lib.Uhppoted, args []string) error {
 	var mode uint
 	var delay uint
 
-	flagset := flag.NewFlagSet("get-door", flag.ExitOnError)
+	flagset := flag.NewFlagSet("set-door", flag.ExitOnError)
 
 	flagset.UintVar(&door, "door", 0, "door ID [1..4]")
 	flagset.UintVar(&mode, "mode", 3, "control mode (1: normally open, 2: normally closed, 3:controlled)")
 	flagset.UintVar(&delay, "delay", 5, "unlock delay (seconds)")
-
-	f := func(c uint32) (any, error) {
-		return lib.SetDoor(u, c, uint8(door), uint8(mode), uint8(delay), options.timeout)
-	}
-
-	g := func(c lib.Controller) (any, error) {
-		return lib.SetDoor(u, c, uint8(door), uint8(mode), uint8(delay), options.timeout)
-	}
 
 	if controller, err := parse(flagset, args); err != nil {
 		return err
@@ -35,15 +27,25 @@ func setDoor(u lib.Uhppoted, args []string) error {
 		return fmt.Errorf("invalid control mode (%v)", mode)
 	} else if delay > 255 {
 		return fmt.Errorf("invalid unlock delay (%v)", delay)
-	} else if v, err := exec(controller, flagset, f, g); err != nil {
-		return err
-	} else if bytes, err := json.MarshalIndent(v, "   ", "   "); err != nil {
-		return err
 	} else {
-		fmt.Printf("set-door\n")
-		fmt.Printf("   %v\n", string(bytes))
-		fmt.Println()
+		f := func(c uint32) (any, error) {
+			return lib.SetDoor(u, c, uint8(door), uint8(mode), uint8(delay), options.timeout)
+		}
 
-		return nil
+		g := func(c lib.Controller) (any, error) {
+			return lib.SetDoor(u, c, uint8(door), uint8(mode), uint8(delay), options.timeout)
+		}
+
+		if v, err := exec(controller, flagset, f, g); err != nil {
+			return err
+		} else if bytes, err := json.MarshalIndent(v, "   ", "   "); err != nil {
+			return err
+		} else {
+			fmt.Printf("set-door\n")
+			fmt.Printf("   %v\n", string(bytes))
+			fmt.Println()
+
+			return nil
+		}
 	}
 }

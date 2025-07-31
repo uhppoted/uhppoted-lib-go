@@ -117,3 +117,19 @@ func TestSetDoor(t *testing.T) {
 		t.Errorf("incorrect response\n   expected:%#v\n   got:     %#v", test.Expected.SetDoor, response)
 	}
 }
+
+func TestSetDoorPasscodes(t *testing.T) {
+	door := uint8(3)
+	passcode1 := uint32(12345)
+	passcode2 := uint32(54321)
+	passcode3 := uint32(999999)
+	passcode4 := uint32(0)
+
+	response, err := lib.SetDoorPasscodes(u, controller, door, passcode1, passcode2, passcode3, passcode4, timeout)
+
+	if err != nil {
+		t.Fatalf("%v", err)
+	} else if !reflect.DeepEqual(response, test.Expected.SetDoorPasscodes) {
+		t.Errorf("incorrect response\n   expected:%#v\n   got:     %#v", test.Expected.SetDoorPasscodes, response)
+	}
+}

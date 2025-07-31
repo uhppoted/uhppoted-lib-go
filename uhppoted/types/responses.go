@@ -85,7 +85,7 @@ type SetListenerResponse struct {
 }
 
 // GetDoorResponse is a container struct for the response returned by a controller
-// when retrieving the control mode and unlock delay for an controller door.
+// when retrieving the control mode and unlock delay for a controller door.
 type GetDoorResponse struct {
 	Controller uint32 `json:"controller"`
 	Door       uint8  `json:"door"`
@@ -94,10 +94,17 @@ type GetDoorResponse struct {
 }
 
 // SetDoorResponse is a container struct for the response returned by a controller
-// after setting the control mode and unlock delay for an controller door.
+// after setting the control mode and unlock delay for a controller door.
 type SetDoorResponse struct {
 	Controller uint32 `json:"controller"`
 	Door       uint8  `json:"door"`
 	Mode       uint8  `json:"mode"` // 1:normally open, 2:normally closed. 3:controlled
 	Delay      uint8  `json:"delay"`
+}
+
+// SetDoorPasscodesResponse is a container struct for the response returned by a controller
+// after setting the passcodes for a controller door.
+type SetDoorPasscodesResponse struct {
+	Controller uint32 `json:"controller"`
+	Ok         bool   `json:"ok"`
 }

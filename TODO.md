@@ -12,6 +12,7 @@
 - [x] set-listener
 - [x] get-door
 - [x] set-door
+- [x] set-door-passcodes
    - [x] API
    - [x] example
    - [x] README

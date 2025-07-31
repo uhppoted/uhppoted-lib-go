@@ -30,7 +30,7 @@ folder.
 
 **API**
 
-- [`GetAllControllers`](API.md#getallcontrollers)
+- [`FindControllers`](API.md#findcontrollers)
 - [`GetController`](API.md#getcontroller)
 - [`SetIPv4`](API.md#setipv4)
 - [`GetStatus`](API.md#getstatus)
@@ -40,4 +40,5 @@ folder.
 - [`SetListener`](API.md#setlistener)
 - [`GetDoor`](API.md#getdoor)
 - [`SetDoor`](API.md#setdoor)
+- [`SetDoorPasscodes`](API.md#setdoorpasscodes)
 

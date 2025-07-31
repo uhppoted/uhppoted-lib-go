@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"log"
 	"path/filepath"
+	"regexp"
 
 	"go/ast"
 	"go/token"
@@ -13,7 +14,7 @@ import (
 )
 
 func API() {
-	const file = "_generated.go"
+	const file = "generated.go"
 
 	imports := []string{
 		"time",
@@ -21,7 +22,7 @@ func API() {
 		"github.com/uhppoted/uhppoted-lib-go/uhppoted/codec/encode",
 	}
 
-	f := function(model.GetController)
+	f := function(model.SetDoorPasscodes)
 
 	AST := codegen.NewAST("uhppoted", imports, []*ast.FuncDecl{f})
 
@@ -53,9 +54,11 @@ func function(f model.Func) *ast.FuncDecl {
 	})
 
 	for _, arg := range f.Request.Fields[1:] {
+		name := regexp.MustCompile(`\s+`).ReplaceAllString(arg.Name, "")
+
 		args = append(args, &ast.Field{
 			Names: []*ast.Ident{
-				{Name: arg.Name},
+				{Name: name},
 			},
 			Type: &ast.Ident{Name: arg.Type},
 		})
@@ -102,22 +105,14 @@ func impl(f model.Func) *ast.BlockStmt {
 	request := codegen.TitleCase(f.Request.Name)
 	response := fmt.Sprintf("%vResponse", codegen.TitleCase(f.Response.Name))
 
-	args := []*ast.Field{}
-
-	args = append(args, &ast.Field{
-		Names: []*ast.Ident{
-			{Name: "id"},
-		},
-		Type: &ast.Ident{Name: "uint32"},
-	})
+	args := []ast.Expr{
+		&ast.Ident{Name: "id"},
+	}
 
 	for _, arg := range f.Request.Fields[1:] {
-		args = append(args, &ast.Field{
-			Names: []*ast.Ident{
-				{Name: arg.Name},
-			},
-			Type: &ast.Ident{Name: arg.Type},
-		})
+		name := regexp.MustCompile(`\s+`).ReplaceAllString(arg.Name, "")
+
+		args = append(args, &ast.Ident{Name: name})
 	}
 
 	return &ast.BlockStmt{
@@ -134,7 +129,14 @@ func impl(f model.Func) *ast.BlockStmt {
 					&ast.FuncLit{
 						Type: &ast.FuncType{
 							Params: &ast.FieldList{
-								List: args,
+								List: []*ast.Field{
+									&ast.Field{
+										Names: []*ast.Ident{
+											{Name: "id"},
+										},
+										Type: &ast.Ident{Name: "uint32"},
+									},
+								},
 							},
 							Results: &ast.FieldList{
 								List: []*ast.Field{
@@ -154,9 +156,7 @@ func impl(f model.Func) *ast.BlockStmt {
 												X:   &ast.Ident{Name: "encode"},
 												Sel: &ast.Ident{Name: request},
 											},
-											Args: []ast.Expr{
-												&ast.Ident{Name: "id"},
-											},
+											Args: args,
 										},
 									},
 								},

@@ -8,7 +8,7 @@ import (
 	"github.com/uhppoted/uhppoted-lib-go/uhppoted/codec/encode"
 )
 
-// GetAllControllers retrieves a list of all UHPPOTE controllers accessible on the local LAN.
+// FindControllers retrieves a list of all UHPPOTE controllers accessible on the local LAN.
 //
 // It broadcasts a `get controller` request to the local network and returns a list of
 // decoded responses from controllers that reply within the specified timeout.
@@ -22,7 +22,7 @@ import (
 //
 // Note: Responses that cannot be decoded are silently ignored.
 
-func GetAllControllers(u Uhppoted, timeout time.Duration) ([]GetControllerResponse, error) {
+func FindControllers(u Uhppoted, timeout time.Duration) ([]GetControllerResponse, error) {
 	if request, err := encode.GetControllerRequest(0); err != nil {
 		return nil, err
 	} else if replies, err := u.udp.broadcast(request, timeout); err != nil {

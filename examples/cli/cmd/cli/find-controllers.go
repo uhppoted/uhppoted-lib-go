@@ -7,8 +7,8 @@ import (
 	lib "github.com/uhppoted/uhppoted-lib-go/uhppoted"
 )
 
-func getAllControllers(u lib.Uhppoted, args []string) error {
-	if controllers, err := lib.GetAllControllers(u, options.timeout); err != nil {
+func findControllers(u lib.Uhppoted, args []string) error {
+	if controllers, err := lib.FindControllers(u, options.timeout); err != nil {
 		return err
 	} else {
 		fmt.Printf("get-all-controllers\n")

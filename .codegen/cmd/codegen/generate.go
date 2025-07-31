@@ -144,21 +144,23 @@ func fields2args(fields []model.Field) string {
 func fields2argsx(fields []lib.Field) string {
 	var args []string
 	for _, f := range fields {
+		name := regexp.MustCompile(`\s+`).ReplaceAllString(f.Name, "")
+
 		switch f.Type {
 		case "IPv4":
-			args = append(args, fmt.Sprintf("%v netip.Addr", f.Name))
+			args = append(args, fmt.Sprintf("%v netip.Addr", name))
 
 		case "addrport":
-			args = append(args, fmt.Sprintf("%v netip.AddrPort", f.Name))
+			args = append(args, fmt.Sprintf("%v netip.AddrPort", name))
 
 		case "datetime":
-			args = append(args, fmt.Sprintf("%v time.Time", f.Name))
+			args = append(args, fmt.Sprintf("%v time.Time", name))
 
 		case "magic":
 			// skip
 
 		default:
-			args = append(args, fmt.Sprintf("%v %v", f.Name, f.Type))
+			args = append(args, fmt.Sprintf("%v %v", name, f.Type))
 		}
 	}
 
@@ -166,24 +168,26 @@ func fields2argsx(fields []lib.Field) string {
 }
 
 func pack(field lib.Field) string {
+	name := regexp.MustCompile(`\s+`).ReplaceAllString(field.Name, "")
+
 	switch field.Type {
 	case "uint8":
-		return fmt.Sprintf("packUint8(%v, packet, %v)", field.Name, field.Offset)
+		return fmt.Sprintf("packUint8(%v, packet, %v)", name, field.Offset)
 
 	case "uint16":
-		return fmt.Sprintf("packUint16(%v, packet, %v)", field.Name, field.Offset)
+		return fmt.Sprintf("packUint16(%v, packet, %v)", name, field.Offset)
 
 	case "uint32":
-		return fmt.Sprintf("packUint32(%v, packet, %v)", field.Name, field.Offset)
+		return fmt.Sprintf("packUint32(%v, packet, %v)", name, field.Offset)
 
 	case "IPv4":
-		return fmt.Sprintf("packIPv4(%v, packet, %v)", field.Name, field.Offset)
+		return fmt.Sprintf("packIPv4(%v, packet, %v)", name, field.Offset)
 
 	case "addrport":
-		return fmt.Sprintf("packAddrPort(%v, packet, %v)", field.Name, field.Offset)
+		return fmt.Sprintf("packAddrPort(%v, packet, %v)", name, field.Offset)
 
 	case "datetime":
-		return fmt.Sprintf("packDateTime(%v, packet, %v)", field.Name, field.Offset)
+		return fmt.Sprintf("packDateTime(%v, packet, %v)", name, field.Offset)
 
 	case "magic":
 		return fmt.Sprintf("packUint32(0x55aaaa55, packet, %v)", field.Offset)

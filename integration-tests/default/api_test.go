@@ -9,13 +9,13 @@ import (
 	lib "github.com/uhppoted/uhppoted-lib-go/uhppoted"
 )
 
-func TestGetAllControllers(t *testing.T) {
-	response, err := lib.GetAllControllers(u, timeout)
+func TestFindControllers(t *testing.T) {
+	response, err := lib.FindControllers(u, timeout)
 
 	if err != nil {
 		t.Fatalf("%v", err)
-	} else if !reflect.DeepEqual(response, test.Expected.GetAllControllers) {
-		t.Errorf("incorrect response\n   expected:%#v\n   got:     %#v", test.Expected.GetAllControllers, response)
+	} else if !reflect.DeepEqual(response, test.Expected.FindControllers) {
+		t.Errorf("incorrect response\n   expected:%#v\n   got:     %#v", test.Expected.FindControllers, response)
 	}
 }
 
@@ -125,5 +125,21 @@ func TestSetDoor(t *testing.T) {
 		t.Fatalf("%v", err)
 	} else if !reflect.DeepEqual(response, test.Expected.SetDoor) {
 		t.Errorf("incorrect response\n   expected:%#v\n   got:     %#v", test.Expected.SetDoor, response)
+	}
+}
+
+func TestSetDoorPasscodes(t *testing.T) {
+	door := uint8(3)
+	passcode1 := uint32(12345)
+	passcode2 := uint32(54321)
+	passcode3 := uint32(999999)
+	passcode4 := uint32(0)
+
+	response, err := lib.SetDoorPasscodes(u, controller, door, passcode1, passcode2, passcode3, passcode4, timeout)
+
+	if err != nil {
+		t.Fatalf("%v", err)
+	} else if !reflect.DeepEqual(response, test.Expected.SetDoorPasscodes) {
+		t.Errorf("incorrect response\n   expected:%#v\n   got:     %#v", test.Expected.SetDoorPasscodes, response)
 	}
 }

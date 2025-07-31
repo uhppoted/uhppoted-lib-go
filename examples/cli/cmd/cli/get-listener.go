@@ -11,25 +11,27 @@ import (
 func getListener(u lib.Uhppoted, args []string) error {
 	flagset := flag.NewFlagSet("get-listener", flag.ExitOnError)
 
-	f := func(c uint32) (any, error) {
-		return lib.GetListener(u, c, options.timeout)
-	}
-
-	g := func(c lib.Controller) (any, error) {
-		return lib.GetListener(u, c, options.timeout)
-	}
-
 	if controller, err := parse(flagset, args); err != nil {
 		return err
-	} else if v, err := exec(controller, flagset, f, g); err != nil {
-		return err
-	} else if bytes, err := json.MarshalIndent(v, "   ", "   "); err != nil {
-		return err
 	} else {
-		fmt.Printf("get-listener\n")
-		fmt.Printf("   %v\n", string(bytes))
-		fmt.Println()
+		f := func(c uint32) (any, error) {
+			return lib.GetListener(u, c, options.timeout)
+		}
 
-		return nil
+		g := func(c lib.Controller) (any, error) {
+			return lib.GetListener(u, c, options.timeout)
+		}
+
+		if v, err := exec(controller, flagset, f, g); err != nil {
+			return err
+		} else if bytes, err := json.MarshalIndent(v, "   ", "   "); err != nil {
+			return err
+		} else {
+			fmt.Printf("get-listener\n")
+			fmt.Printf("   %v\n", string(bytes))
+			fmt.Println()
+
+			return nil
+		}
 	}
 }

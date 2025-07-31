@@ -62,6 +62,7 @@ type GetListenerResponse = types.GetListenerResponse
 type SetListenerResponse = types.SetListenerResponse
 type GetDoorResponse = types.GetDoorResponse
 type SetDoorResponse = types.SetDoorResponse
+type SetDoorPasscodesResponse = types.SetDoorPasscodesResponse
 
 // NewUhppoted creates a new instance of the uhppoted service, configured with the supplied
 // local bind address, broadcast address, and listen address. The debug flag enables or

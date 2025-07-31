@@ -66,8 +66,8 @@ debug: build
 help: build
 	$(CMD) help
 
-get-all-controllers: build
-	$(CMD) get-all-controllers
+find-controllers: build
+	$(CMD) find-controllers
 
 get-controller: build
 	$(CMD) get-controller --controller $(CONTROLLER)
@@ -149,3 +149,12 @@ set-door-udp: build
 
 set-door-tcp: build
 	$(CMD) set-door --controller $(CONTROLLER) --dest $(DEST) --tcp --door $(DOOR) --mode 2 --delay 9
+
+set-door-passcodes: build
+	$(CMD) set-door-passcodes --controller $(CONTROLLER) --door $(DOOR) --passcodes 12345,54321,999999
+
+set-door-passcodes-udp: build
+	$(CMD) set-door-passcodes --controller $(CONTROLLER) --dest $(DEST) --door $(DOOR) --passcodes 12345,54321,999999
+
+set-door-passcodes-tcp: build
+	$(CMD) set-door-passcodes --controller $(CONTROLLER) --dest $(DEST) --tcp --door $(DOOR) --passcodes 12345,54321,999999
