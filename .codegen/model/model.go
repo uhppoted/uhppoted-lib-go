@@ -6,7 +6,7 @@ import (
 
 type Func struct {
 	Name      string
-	Request   Request
+	Request   lib.Request
 	Response  Response
 	Protocols []string
 	Test      FuncTest
@@ -21,11 +21,6 @@ type FuncTest struct {
 	Args    []Arg
 	Request []byte
 	Replies []Reply
-}
-
-type Request struct {
-	lib.Message
-	Tests []lib.RequestTest
 }
 
 type Response struct {

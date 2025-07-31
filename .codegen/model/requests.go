@@ -6,7 +6,7 @@ import (
 	lib "github.com/uhppoted/uhppoted-codegen/model"
 )
 
-var Requests = []Request{
+var Requests = []lib.Request{
 	GetControllerRequest,
 	SetIPv4Request,
 	GetStatusRequest,
@@ -19,37 +19,9 @@ var Requests = []Request{
 	SetDoorPasscodesRequest,
 }
 
-var GetControllerRequest = Request{
-	Message: lib.GetControllerRequest.Message,
-	Tests: []lib.RequestTest{
-		{
-			Name: "get-all-controllers",
-			Args: []lib.TestArg{
-				lib.TestArg{Arg: lib.Arg{Name: "controller", Type: "uint32"}, Value: uint32(0)},
-			},
-			Expected: []byte{
-				0x17, 0x94, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-				0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-				0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-				0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-			},
-		},
-		{
-			Name: "get-controller",
-			Args: []lib.TestArg{
-				lib.TestArg{Arg: lib.Arg{Name: "controller", Type: "uint32"}, Value: uint32(405419896)},
-			},
-			Expected: []byte{
-				0x17, 0x94, 0x00, 0x00, 0x78, 0x37, 0x2a, 0x18, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-				0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-				0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-				0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-			},
-		},
-	},
-}
+var GetControllerRequest = lib.GetControllerRequest
 
-var SetIPv4Request = Request{
+var SetIPv4Request = lib.Request{
 	Message: lib.SetIPv4Request,
 	Tests: []lib.RequestTest{
 		{
@@ -70,7 +42,7 @@ var SetIPv4Request = Request{
 	},
 }
 
-var GetStatusRequest = Request{
+var GetStatusRequest = lib.Request{
 	Message: lib.GetStatusRequest,
 	Tests: []lib.RequestTest{
 		{
@@ -88,7 +60,7 @@ var GetStatusRequest = Request{
 	},
 }
 
-var GetTimeRequest = Request{
+var GetTimeRequest = lib.Request{
 	Message: lib.GetTimeRequest,
 	Tests: []lib.RequestTest{
 		{
@@ -106,7 +78,7 @@ var GetTimeRequest = Request{
 	},
 }
 
-var SetTimeRequest = Request{
+var SetTimeRequest = lib.Request{
 	Message: lib.SetTimeRequest,
 	Tests: []lib.RequestTest{
 		{
@@ -125,7 +97,7 @@ var SetTimeRequest = Request{
 	},
 }
 
-var GetListenerRequest = Request{
+var GetListenerRequest = lib.Request{
 	Message: lib.GetListenerRequest,
 	Tests: []lib.RequestTest{
 		{
@@ -143,7 +115,7 @@ var GetListenerRequest = Request{
 	},
 }
 
-var SetListenerRequest = Request{
+var SetListenerRequest = lib.Request{
 	Message: lib.SetListenerAddrPortRequest,
 	Tests: []lib.RequestTest{
 		{
@@ -163,7 +135,7 @@ var SetListenerRequest = Request{
 	},
 }
 
-var GetDoorRequest = Request{
+var GetDoorRequest = lib.Request{
 	Message: lib.GetDoorRequest,
 	Tests: []lib.RequestTest{
 		{
@@ -182,7 +154,7 @@ var GetDoorRequest = Request{
 	},
 }
 
-var SetDoorRequest = Request{
+var SetDoorRequest = lib.Request{
 	Message: lib.SetDoorRequest,
 	Tests: []lib.RequestTest{
 		{
@@ -203,7 +175,7 @@ var SetDoorRequest = Request{
 	},
 }
 
-var SetDoorPasscodesRequest = Request{
+var SetDoorPasscodesRequest = lib.Request{
 	Message: lib.SetDoorPasscodesRequest,
 	Tests: []lib.RequestTest{
 		{
