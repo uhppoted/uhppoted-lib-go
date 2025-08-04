@@ -42,23 +42,23 @@ func FindControllers(u Uhppoted, timeout time.Duration) ([]GetControllerResponse
 
 //go:generate ../.codegen/bin/codegen API
 
-// GetController retrieves the system information from an access controller.
+// // GetController retrieves the system information from an access controller.
+// //
+// // Parameters:
+// //   - controller: Either a uint32 controller serial number or a controller struct with the
+// //     controller serial number, IPv4 address and transport.
+// //   - timeout: The maximum time to wait for a response.
+// //
+// // Returns:
+// //   - A GetControllerResponse struct.
+// //   - An error if the request could not be executed.
+// func GetController[T TController](u Uhppoted, controller T, timeout time.Duration) (GetControllerResponse, error) {
+// 	f := func(id uint32) ([]byte, error) {
+// 		return encode.GetControllerRequest(id)
+// 	}
 //
-// Parameters:
-//   - controller: Either a uint32 controller serial number or a controller struct with the
-//     controller serial number, IPv4 address and transport.
-//   - timeout: The maximum time to wait for a response.
-//
-// Returns:
-//   - A GetControllerResponse struct.
-//   - An error if the request could not be executed.
-func GetController[T TController](u Uhppoted, controller T, timeout time.Duration) (GetControllerResponse, error) {
-	f := func(id uint32) ([]byte, error) {
-		return encode.GetControllerRequest(id)
-	}
-
-	return exec[T, GetControllerResponse](u, controller, f, timeout)
-}
+// 	return exec[T, GetControllerResponse](u, controller, f, timeout)
+// }
 
 // SetIP sets the controller IPv4 address, netmask and gateway address.
 //

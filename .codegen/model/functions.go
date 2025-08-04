@@ -20,8 +20,9 @@ var API = []Func{
 }
 
 var FindControllers = Func{
-	Name:      "find-controllers",
-	Protocols: []string{"broadcast"},
+	Name:        "find-controllers",
+	Description: "FindControllers retrieves a list of all UHPPOTE controllers accessible on the local LAN.",
+	Protocols:   []string{"broadcast"},
 	Test: FuncTest{
 		Args: []Arg{},
 		Request: []byte{
@@ -69,10 +70,11 @@ var FindControllers = Func{
 }
 
 var GetController = Func{
-	Name:      "get-controller",
-	Request:   GetControllerRequest,
-	Response:  GetControllerResponse,
-	Protocols: []string{"broadcast", "udp", "tcp"},
+	Name:        "get-controller",
+	Description: "GetController retrieves the system information from an access controller.",
+	Request:     GetControllerRequest,
+	Response:    GetControllerResponse,
+	Protocols:   []string{"broadcast", "udp", "tcp"},
 
 	Test: FuncTest{
 		Args: []Arg{
@@ -107,10 +109,11 @@ var GetController = Func{
 }
 
 var setIPv4 = Func{
-	Name:      "set-IPv4",
-	Request:   SetIPv4Request,
-	Response:  SetIPv4Response,
-	Protocols: []string{"broadcast", "udp", "tcp"},
+	Name:        "set-IPv4",
+	Description: "SetIP sets the controller IPv4 address, netmask and gateway address.",
+	Request:     SetIPv4Request,
+	Response:    SetIPv4Response,
+	Protocols:   []string{"broadcast", "udp", "tcp"},
 
 	Test: FuncTest{
 		Args: []Arg{
@@ -143,10 +146,11 @@ var setIPv4 = Func{
 }
 
 var getStatus = Func{
-	Name:      "get-status",
-	Request:   GetStatusRequest,
-	Response:  GetStatusResponse,
-	Protocols: []string{"broadcast", "udp", "tcp"},
+	Name:        "get-status",
+	Description: "GetStatus retrieves the system status from an access controller.",
+	Request:     GetStatusRequest,
+	Response:    GetStatusResponse,
+	Protocols:   []string{"broadcast", "udp", "tcp"},
 
 	Test: FuncTest{
 		Args: []Arg{
@@ -198,10 +202,11 @@ var getStatus = Func{
 }
 
 var getTime = Func{
-	Name:      "get-time",
-	Request:   GetTimeRequest,
-	Response:  GetTimeResponse,
-	Protocols: []string{"broadcast", "udp", "tcp"},
+	Name:        "get-time",
+	Description: "GetTime retrieves the access controller system date and time.",
+	Request:     GetTimeRequest,
+	Response:    GetTimeResponse,
+	Protocols:   []string{"broadcast", "udp", "tcp"},
 
 	Test: FuncTest{
 		Args: []Arg{
@@ -231,10 +236,11 @@ var getTime = Func{
 }
 
 var setTime = Func{
-	Name:      "set-time",
-	Request:   SetTimeRequest,
-	Response:  SetTimeResponse,
-	Protocols: []string{"broadcast", "udp", "tcp"},
+	Name:        "set-time",
+	Description: "SetTime sets the access controller system date and time.",
+	Request:     SetTimeRequest,
+	Response:    SetTimeResponse,
+	Protocols:   []string{"broadcast", "udp", "tcp"},
 
 	Test: FuncTest{
 		Args: []Arg{
@@ -265,10 +271,11 @@ var setTime = Func{
 }
 
 var getListener = Func{
-	Name:      "get-listener",
-	Request:   GetListenerRequest,
-	Response:  GetListenerResponse,
-	Protocols: []string{"broadcast", "udp", "tcp"},
+	Name:        "get-listener",
+	Description: "GetListener retrieves the access controller event listener IPv4 address:port and auto-send interval.",
+	Request:     GetListenerRequest,
+	Response:    GetListenerResponse,
+	Protocols:   []string{"broadcast", "udp", "tcp"},
 
 	Test: FuncTest{
 		Args: []Arg{
@@ -311,10 +318,11 @@ var getListener = Func{
 }
 
 var setListener = Func{
-	Name:      "set-listener",
-	Request:   SetListenerRequest,
-	Response:  SetListenerResponse,
-	Protocols: []string{"broadcast", "udp", "tcp"},
+	Name:        "set-listener",
+	Description: "SetListener sets the access controller event listener IPv4 address:port and auto-send interval.",
+	Request:     SetListenerRequest,
+	Response:    SetListenerResponse,
+	Protocols:   []string{"broadcast", "udp", "tcp"},
 
 	Test: FuncTest{
 		Args: []Arg{
@@ -354,10 +362,11 @@ var setListener = Func{
 }
 
 var getDoor = Func{
-	Name:      "get-door",
-	Request:   GetDoorRequest,
-	Response:  GetDoorResponse,
-	Protocols: []string{"broadcast", "udp", "tcp"},
+	Name:        "get-door",
+	Description: "GetDoor retrieves the control mode and unlock delay time for an access controller door.",
+	Request:     GetDoorRequest,
+	Response:    GetDoorResponse,
+	Protocols:   []string{"broadcast", "udp", "tcp"},
 
 	Test: FuncTest{
 		Args: []Arg{
@@ -406,10 +415,11 @@ var getDoor = Func{
 }
 
 var setDoor = Func{
-	Name:      "set-door",
-	Request:   SetDoorRequest,
-	Response:  SetDoorResponse,
-	Protocols: []string{"broadcast", "udp", "tcp"},
+	Name:        "set-door",
+	Description: "SetDoor sets the control mode and unlock delay time for an access controller door.",
+	Request:     SetDoorRequest,
+	Response:    SetDoorResponse,
+	Protocols:   []string{"broadcast", "udp", "tcp"},
 
 	Test: FuncTest{
 		Args: []Arg{
@@ -460,10 +470,11 @@ var setDoor = Func{
 }
 
 var SetDoorPasscodes = Func{
-	Name:      "set-door-passcodes",
-	Request:   SetDoorPasscodesRequest,
-	Response:  SetDoorPasscodesResponse,
-	Protocols: []string{"broadcast", "udp", "tcp"},
+	Name:        "set-door-passcodes",
+	Description: "Sets up to 4 passcodes for a controller door.",
+	Request:     SetDoorPasscodesRequest,
+	Response:    SetDoorPasscodesResponse,
+	Protocols:   []string{"broadcast", "udp", "tcp"},
 
 	Test: FuncTest{
 		Args: []Arg{
@@ -506,10 +517,11 @@ var SetDoorPasscodes = Func{
 }
 
 var OpenDoor = Func{
-	Name:      "open-door",
-	Request:   OpenDoorRequest,
-	Response:  OpenDoorResponse,
-	Protocols: []string{"broadcast", "udp", "tcp"},
+	Name:        "open-door",
+	Description: "Unlocks a door controlled by an access controller.",
+	Request:     OpenDoorRequest,
+	Response:    OpenDoorResponse,
+	Protocols:   []string{"broadcast", "udp", "tcp"},
 
 	Test: FuncTest{
 		Args: []Arg{

@@ -1,7 +1,7 @@
 package model
 
 import (
-	lib "github.com/uhppoted/uhppoted-codegen/model"
+	types "github.com/uhppoted/uhppoted-codegen/model/types"
 )
 
 var Responses = []Response{
@@ -21,7 +21,7 @@ var Responses = []Response{
 var GetControllerResponse = Response{
 	Name:    "get controller",
 	MsgType: 0x94,
-	Fields: []lib.Field{
+	Fields: []types.Field{
 		{"controller", "uint32", 4, "controller serial number, e.g. 405419896"},
 		{"ip address", "IPv4", 8, "controller IPv4 address, e.g. 192.168.1.100"},
 		{"subnet mask", "IPv4", 12, "controller IPv4 netmask, e.g. 255.255.255.0"},
@@ -83,7 +83,7 @@ var GetControllerResponse = Response{
 var SetIPv4Response = Response{
 	Name:    "set IPv4",
 	MsgType: 0x96,
-	Fields: []lib.Field{
+	Fields: []types.Field{
 		{"controller", "uint32", 4, "controller serial number, e.g. 405419896"},
 		{"ok", "bool", 8, "controller IPv4 network configured"},
 	},
@@ -115,7 +115,7 @@ var SetIPv4Response = Response{
 var GetStatusResponse = Response{
 	Name:    "get status",
 	MsgType: 0x20,
-	Fields: []lib.Field{
+	Fields: []types.Field{
 		{"controller", "uint32", 4, "controller serial number, e.g. 405419896"},
 		{"system-date", "shortdate", 51, "current date, e.g. 2025-07-21"},
 		{"system-time", "time", 37, "current time, e.g. 13:25:47"},
@@ -279,7 +279,7 @@ var GetStatusResponse = Response{
 var GetTimeResponse = Response{
 	Name:    "get time",
 	MsgType: 0x32,
-	Fields: []lib.Field{
+	Fields: []types.Field{
 		{"controller", "uint32", 4, "controller serial number, e.g. 405419896"},
 		{"date-time", "datetime", 8, "controller system date/time"},
 	},
@@ -311,7 +311,7 @@ var GetTimeResponse = Response{
 var SetTimeResponse = Response{
 	Name:    "set time",
 	MsgType: 0x30,
-	Fields: []lib.Field{
+	Fields: []types.Field{
 		{"controller", "uint32", 4, "controller serial number, e.g. 405419896"},
 		{"date-time", "datetime", 8, "controller system date/time"},
 	},
@@ -343,7 +343,7 @@ var SetTimeResponse = Response{
 var GetListenerResponse = Response{
 	Name:    "get listener",
 	MsgType: 0x92,
-	Fields: []lib.Field{
+	Fields: []types.Field{
 		{"controller", "uint32", 4, "controller serial number, e.g. 405419896"},
 		{"address", "addrport", 8, "event listener IPv4 address:port"},
 		{"interval", "uint8", 14, "auto-send interval (seconds)"},
@@ -381,7 +381,7 @@ var GetListenerResponse = Response{
 var SetListenerResponse = Response{
 	Name:    "set listener",
 	MsgType: 0x90,
-	Fields: []lib.Field{
+	Fields: []types.Field{
 		{"controller", "uint32", 4, "controller serial number, e.g. 405419896"},
 		{"ok", "bool", 8, "set-listener succeeded/failed"},
 	},
@@ -413,7 +413,7 @@ var SetListenerResponse = Response{
 var GetDoorResponse = Response{
 	Name:    "get door",
 	MsgType: 0x82,
-	Fields: []lib.Field{
+	Fields: []types.Field{
 		{"controller", "uint32", 4, "controller serial number, e.g. 405419896"},
 		{"door", "uint8", 8, "door ID ([1..4]"},
 		{"mode", "uint8", 9, "control mode (1:normally open, 2:normally closed. 3:controlled)"},
@@ -457,7 +457,7 @@ var GetDoorResponse = Response{
 var SetDoorResponse = Response{
 	Name:    "set door",
 	MsgType: 0x80,
-	Fields: []lib.Field{
+	Fields: []types.Field{
 		{"controller", "uint32", 4, "controller serial number, e.g. 405419896"},
 		{"door", "uint8", 8, "door ID ([1..4]"},
 		{"mode", "uint8", 9, "control mode (1:normally open, 2:normally closed. 3:controlled)"},
@@ -501,7 +501,7 @@ var SetDoorResponse = Response{
 var SetDoorPasscodesResponse = Response{
 	Name:    "set door passcodes",
 	MsgType: 0x8c,
-	Fields: []lib.Field{
+	Fields: []types.Field{
 		{"controller", "uint32", 4, "controller serial number, e.g. 405419896"},
 		{"ok", "bool", 8, "set-door-passcodes succeeded/failed"},
 	},
@@ -533,7 +533,7 @@ var SetDoorPasscodesResponse = Response{
 var OpenDoorResponse = Response{
 	Name:    "open door",
 	MsgType: 0x40,
-	Fields: []lib.Field{
+	Fields: []types.Field{
 		{"controller", "uint32", 4, "controller serial number, e.g. 405419896"},
 		{"ok", "bool", 8, "open-door succeeded/failed"},
 	},

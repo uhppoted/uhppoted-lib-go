@@ -1,15 +1,16 @@
 package model
 
 import (
-	lib "github.com/uhppoted/uhppoted-codegen/model"
+	types "github.com/uhppoted/uhppoted-codegen/model/types"
 )
 
 type Func struct {
-	Name      string
-	Request   lib.Request
-	Response  Response
-	Protocols []string
-	Test      FuncTest
+	Name        string
+	Description string
+	Request     types.Request
+	Response    Response
+	Protocols   []string
+	Test        FuncTest
 }
 
 type Reply struct {
@@ -26,7 +27,7 @@ type FuncTest struct {
 type Response struct {
 	Name    string
 	MsgType byte
-	Fields  []lib.Field
+	Fields  []types.Field
 	Tests   []Test
 }
 

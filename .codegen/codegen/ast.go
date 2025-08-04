@@ -1,6 +1,7 @@
 package codegen
 
 import (
+	"bytes"
 	"fmt"
 	"os"
 	"regexp"
@@ -67,9 +68,22 @@ func (a AST) Generate(file string) error {
 	} else {
 		defer f.Close()
 
+		b := bytes.Buffer{}
 		fileset := token.NewFileSet()
 
-		printer.Fprint(f, fileset, a.file)
+		printer.Fprint(&b, fileset, a.file)
+
+		lines := strings.Split(b.String(), "\n")
+		for i, line := range lines {
+			if strings.HasPrefix(line, "// -- line intentionally left blank --") {
+				lines[i] = ""
+			}
+		}
+		cleaned := strings.Join(lines, "\n")
+
+		if _, err = f.WriteString(cleaned); err != nil {
+			return err
+		}
 
 		return nil
 	}

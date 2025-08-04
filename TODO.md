@@ -29,15 +29,14 @@
 - [ ] code generation
    - [ ] use/extend uhppoted-codegen models
       - [x] remove model.Field
-      - [x] set-IPv4
-      - [x] set-listener with netip.AddrPort
-      - [x] get-door
-      - [x] set-door
+      - [ ] response
 
    - [ ] AST
       - [x] decoder
       - [ ] decoder_test
       - [ ] API
+         - [ ] godoc
+         - [ ] response structs
    - [x] encode
    - [x] encode_test
    - [x] decode

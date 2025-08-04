@@ -8,7 +8,7 @@ import (
 	"strings"
 	"text/template"
 
-	lib "github.com/uhppoted/uhppoted-codegen/model"
+	lib "github.com/uhppoted/uhppoted-codegen/model/types"
 
 	"codegen/api"
 	"codegen/model"

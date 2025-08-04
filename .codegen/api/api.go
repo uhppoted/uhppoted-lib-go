@@ -23,6 +23,7 @@ func API() {
 	}
 
 	f := []*ast.FuncDecl{
+		function(model.GetController),
 		function(model.SetDoorPasscodes),
 		function(model.OpenDoor),
 	}
@@ -40,8 +41,8 @@ func function(f model.Func) *ast.FuncDecl {
 	name := codegen.TitleCase(f.Name)
 	response := fmt.Sprintf("%vResponse", codegen.TitleCase(f.Response.Name))
 
+	// ... args
 	args := []*ast.Field{}
-
 	args = append(args, &ast.Field{
 		Names: []*ast.Ident{
 			{Name: "u"},
@@ -74,6 +75,15 @@ func function(f model.Func) *ast.FuncDecl {
 		Type: &ast.Ident{Name: "time.Duration"},
 	})
 
+	// ... godoc
+	godoc := ast.CommentGroup{
+		List: []*ast.Comment{
+			{Text: fmt.Sprintf("// -- line intentionally left blank --")},
+			{Text: fmt.Sprintf("// %v", f.Description)},
+		},
+	}
+
+	// ... compose func
 	return &ast.FuncDecl{
 		Name: ast.NewIdent(name),
 		Type: &ast.FuncType{
@@ -100,7 +110,7 @@ func function(f model.Func) *ast.FuncDecl {
 			},
 		},
 		Body: impl(f),
-		Doc:  &ast.CommentGroup{}, // blank line
+		Doc:  &godoc,
 	}
 }
 
