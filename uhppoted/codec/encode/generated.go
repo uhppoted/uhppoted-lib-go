@@ -225,3 +225,23 @@ func SetDoorPasscodesRequest(controller uint32, door uint8, passcode1 uint32, pa
 
 	return packet, nil
 }
+
+// Encodes a open-door-request.
+//
+//	Parameters:
+//	    controller  (uint32)  controller serial number
+//	    door  (uint8)
+//
+//	Returns:
+//	    64 byte packet.
+func OpenDoorRequest(controller uint32, door uint8) ([]byte, error) {
+	packet := make([]byte, 64)
+
+	packet[0] = SOM
+	packet[1] = 64
+
+	packUint32(controller, packet, 4)
+	packUint8(door, packet, 8)
+
+	return packet, nil
+}

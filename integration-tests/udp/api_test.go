@@ -133,3 +133,15 @@ func TestSetDoorPasscodes(t *testing.T) {
 		t.Errorf("incorrect response\n   expected:%#v\n   got:     %#v", test.Expected.SetDoorPasscodes, response)
 	}
 }
+
+func TestOpenDoor(t *testing.T) {
+	door := uint8(3)
+
+	response, err := lib.OpenDoor(u, controller, door, timeout)
+
+	if err != nil {
+		t.Fatalf("%v", err)
+	} else if !reflect.DeepEqual(response, test.Expected.OpenDoor) {
+		t.Errorf("incorrect response\n   expected:%#v\n   got:     %#v", test.Expected.OpenDoor, response)
+	}
+}

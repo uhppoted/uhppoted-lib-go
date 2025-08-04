@@ -20,6 +20,7 @@ var Expected = struct {
 	GetDoor          lib.GetDoorResponse
 	SetDoor          lib.SetDoorResponse
 	SetDoorPasscodes lib.SetDoorPasscodesResponse
+	OpenDoor         lib.OpenDoorResponse
 }{
 	FindControllers: []lib.GetControllerResponse{
 		lib.GetControllerResponse{
@@ -129,6 +130,11 @@ var Expected = struct {
 	},
 
 	SetDoorPasscodes: lib.SetDoorPasscodesResponse{
+		Controller: 405419896,
+		Ok:         true,
+	},
+
+	OpenDoor: lib.OpenDoorResponse{
 		Controller: 405419896,
 		Ok:         true,
 	},

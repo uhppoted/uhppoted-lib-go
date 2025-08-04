@@ -22,9 +22,12 @@ func API() {
 		"github.com/uhppoted/uhppoted-lib-go/uhppoted/codec/encode",
 	}
 
-	f := function(model.SetDoorPasscodes)
+	f := []*ast.FuncDecl{
+		function(model.SetDoorPasscodes),
+		function(model.OpenDoor),
+	}
 
-	AST := codegen.NewAST("uhppoted", imports, []*ast.FuncDecl{f})
+	AST := codegen.NewAST("uhppoted", imports, f)
 
 	if err := AST.Generate(file); err != nil {
 		log.Fatalf("error generating %v (%v)", file, err)

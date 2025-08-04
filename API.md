@@ -11,6 +11,7 @@
 - [`GetDoor`](#getdoor)
 - [`SetDoor`](#setdoor)
 - [`SetDoorPasscodes`](#setdoorpasscodes)
+- [`OpenDoor`](#opendoor)
 ---
 Invoking an API function requires an instance of the `Uhppoted` struct initialised with the information required
 to access a controller:
@@ -218,7 +219,7 @@ Returns a `SetDoorResponse` with the door control mode and unlock delay.
 
 ### `SetDoorPasscodes`
 ```
-SetDoorPasscodes(u Uhppoted, controller TController, door uint8, passcode1, passcode2, passcode3, passcode4 uint32, timeout time.Duration) (SetDoorResponse,error)
+SetDoorPasscodes(u Uhppoted, controller TController, door uint8, passcode1, passcode2, passcode3, passcode4 uint32, timeout time.Duration) (SetDoorPasscodesResponse,error)
 
 u           Uhppoted struct initialised with the bind address, broadcast address, etc
 controller  uint32|Controller controller serial number or {id, address, protocol} Controller struct
@@ -230,6 +231,18 @@ passcode4   supervisor passcode ([0..99999]), 0 for 'none'
 timeout     maximum time to wait for a response from a controller
 
 Returns a `SetDoorPasscodesResponse`.
+```
+
+### `OpenDoor`
+```
+OpenDoor(u Uhppoted, controller TController, door uint8, timeout time.Duration) (OpenDoorResponse,error)
+
+u           Uhppoted struct initialised with the bind address, broadcast address, etc
+controller  uint32|Controller controller serial number or {id, address, protocol} Controller struct
+door        door ID ([1..4]
+timeout     maximum time to wait for a response from a controller
+
+Returns an `OpenDoorResponse`.
 ```
 
 
@@ -362,6 +375,16 @@ type SetDoorResponse struct {
 Container class for the decoded response from a _SetDoorPasscodes_ request.
 ```
 type SetDoorPasscodesResponse struct {
+  Controller  uint32  `json:"controller"` // controller serial number
+  Ok          bool    `json:"ok"`         // true if request succeeded
+}
+```
+
+### `OpenDoorResponse`
+
+Container class for the decoded response from an _OpenDoor_ request.
+```
+type OpenDoorResponse struct {
   Controller  uint32  `json:"controller"` // controller serial number
   Ok          bool    `json:"ok"`         // true if request succeeded
 }

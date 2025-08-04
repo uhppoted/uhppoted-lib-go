@@ -108,3 +108,10 @@ type SetDoorPasscodesResponse struct {
 	Controller uint32 `json:"controller"`
 	Ok         bool   `json:"ok"`
 }
+
+// OpenDoorResponse is a container struct for the response returned by a controller
+// after remotely opening a controller door.
+type OpenDoorResponse struct {
+	Controller uint32 `json:"controller"`
+	Ok         bool   `json:"ok"`
+}

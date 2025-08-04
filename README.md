@@ -41,4 +41,5 @@ folder.
 - [`GetDoor`](API.md#getdoor)
 - [`SetDoor`](API.md#setdoor)
 - [`SetDoorPasscodes`](API.md#setdoorpasscodes)
+- [`OpenDoor`](API.md#opendoor)
 

@@ -13,3 +13,11 @@ func SetDoorPasscodes[T TController](u Uhppoted, controller T, door uint8, passc
 
 	return exec[T, SetDoorPasscodesResponse](u, controller, f, timeout)
 }
+
+func OpenDoor[T TController](u Uhppoted, controller T, door uint8, timeout time.Duration) (OpenDoorResponse, error) {
+	f := func(id uint32) ([]byte, error) {
+		return encode.OpenDoorRequest(id, door)
+	}
+
+	return exec[T, OpenDoorResponse](u, controller, f, timeout)
+}

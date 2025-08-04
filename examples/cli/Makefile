@@ -158,3 +158,12 @@ set-door-passcodes-udp: build
 
 set-door-passcodes-tcp: build
 	$(CMD) set-door-passcodes --controller $(CONTROLLER) --dest $(DEST) --tcp --door $(DOOR) --passcodes 12345,54321,999999
+
+open-door: build
+	$(CMD) open-door --controller $(CONTROLLER) --door $(DOOR)
+
+open-door-udp: build
+	$(CMD) open-door --controller $(CONTROLLER) --dest $(DEST) --door $(DOOR)
+
+open-door-tcp: build
+	$(CMD) open-door --controller $(CONTROLLER) --dest $(DEST) --tcp --door $(DOOR)

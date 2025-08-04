@@ -20,6 +20,7 @@ var commands = map[string]func(u lib.Uhppoted, args []string) error{
 	"get-door":           getDoor,
 	"set-door":           setDoor,
 	"set-door-passcodes": setDoorPasscodes,
+	"open-door":          openDoor,
 }
 
 func exec(args controller, flagset *flag.FlagSet, f func(c uint32) (any, error), g func(c lib.Controller) (any, error)) (any, error) {
