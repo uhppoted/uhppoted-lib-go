@@ -34,17 +34,6 @@ func TestSetIPv4(t *testing.T) {
 	}
 }
 
-func TestGetStatus(t *testing.T) {
-
-	response, err := lib.GetStatus(u, controller, timeout)
-
-	if err != nil {
-		t.Fatalf("%v", err)
-	} else if !reflect.DeepEqual(response, test.Expected.GetStatus) {
-		t.Errorf("incorrect response\n   expected:%#v\n   got:     %#v", test.Expected.GetStatus, response)
-	}
-}
-
 func TestGetTime(t *testing.T) {
 
 	response, err := lib.GetTime(u, controller, timeout)
@@ -143,5 +132,27 @@ func TestOpenDoor(t *testing.T) {
 		t.Fatalf("%v", err)
 	} else if !reflect.DeepEqual(response, test.Expected.OpenDoor) {
 		t.Errorf("incorrect response\n   expected:%#v\n   got:     %#v", test.Expected.OpenDoor, response)
+	}
+}
+
+func TestGetStatus(t *testing.T) {
+
+	response, err := lib.GetStatus(u, controller, timeout)
+
+	if err != nil {
+		t.Fatalf("%v", err)
+	} else if !reflect.DeepEqual(response, test.Expected.GetStatus) {
+		t.Errorf("incorrect response\n   expected:%#v\n   got:     %#v", test.Expected.GetStatus, response)
+	}
+}
+
+func TestGetCards(t *testing.T) {
+
+	response, err := lib.GetCards(u, controller, timeout)
+
+	if err != nil {
+		t.Fatalf("%v", err)
+	} else if !reflect.DeepEqual(response, test.Expected.GetCards) {
+		t.Errorf("incorrect response\n   expected:%#v\n   got:     %#v", test.Expected.GetCards, response)
 	}
 }

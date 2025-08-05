@@ -87,15 +87,6 @@ set-IPv4-udp: build
 set-IPv4-tcp: build
 	$(CMD) set-IPv4 --controller $(CONTROLLER) --dest $(DEST) --tcp --address 192.168.1.100 --netmask 255.255.255.0 --gateway 192.168.1.1
 
-get-status: build
-	$(CMD) get-status --controller $(CONTROLLER)
-
-get-status-udp: build
-	$(CMD) get-status --controller $(CONTROLLER) --dest $(DEST)
-
-get-status-tcp: build
-	$(CMD) get-status --controller $(CONTROLLER) --dest $(DEST) --tcp
-
 get-time: build
 	$(CMD) get-time --controller $(CONTROLLER)
 
@@ -167,3 +158,21 @@ open-door-udp: build
 
 open-door-tcp: build
 	$(CMD) open-door --controller $(CONTROLLER) --dest $(DEST) --tcp --door $(DOOR)
+
+get-status: build
+	$(CMD) get-status --controller $(CONTROLLER)
+
+get-status-udp: build
+	$(CMD) get-status --controller $(CONTROLLER) --dest $(DEST)
+
+get-status-tcp: build
+	$(CMD) get-status --controller $(CONTROLLER) --dest $(DEST) --tcp
+
+get-cards: build
+	$(CMD) get-cards --controller $(CONTROLLER)
+
+get-cards-udp: build
+	$(CMD) get-cards --controller $(CONTROLLER) --dest $(DEST)
+
+get-cards-tcp: build
+	$(CMD) get-cards --controller $(CONTROLLER) --dest $(DEST) --tcp

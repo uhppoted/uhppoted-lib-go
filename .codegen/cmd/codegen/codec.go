@@ -74,7 +74,7 @@ func decode() {
 	}
 	defer f.Close()
 
-	tmpl := template.Must(template.New("encode").Funcs(functions).Parse(decodeTemplate))
+	tmpl := template.Must(template.New("decode").Funcs(functions).Parse(decodeTemplate))
 	if err := tmpl.Execute(f, model.Responses); err != nil {
 		log.Fatalf("Failed to execute template: %v", err)
 	}

@@ -245,3 +245,21 @@ func OpenDoorRequest(controller uint32, door uint8) ([]byte, error) {
 
 	return packet, nil
 }
+
+// Encodes a get-cards-request.
+//
+//	Parameters:
+//	    controller  (uint32)  controller serial number
+//
+//	Returns:
+//	    64 byte packet.
+func GetCardsRequest(controller uint32) ([]byte, error) {
+	packet := make([]byte, 64)
+
+	packet[0] = SOM
+	packet[1] = 88
+
+	packUint32(controller, packet, 4)
+
+	return packet, nil
+}

@@ -12,7 +12,6 @@ var commands = map[string]func(u lib.Uhppoted, args []string) error{
 	"find-controllers":   findControllers,
 	"get-controller":     getController,
 	"set-IPv4":           setIPv4,
-	"get-status":         getStatus,
 	"get-time":           getTime,
 	"set-time":           setTime,
 	"get-listener":       getListener,
@@ -21,6 +20,8 @@ var commands = map[string]func(u lib.Uhppoted, args []string) error{
 	"set-door":           setDoor,
 	"set-door-passcodes": setDoorPasscodes,
 	"open-door":          openDoor,
+	"get-status":         getStatus,
+	"get-cards":          getCards,
 }
 
 func exec(args controller, flagset *flag.FlagSet, f func(c uint32) (any, error), g func(c lib.Controller) (any, error)) (any, error) {

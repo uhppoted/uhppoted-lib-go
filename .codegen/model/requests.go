@@ -2,7 +2,9 @@ package model
 
 import (
 	lib "github.com/uhppoted/uhppoted-codegen/model"
-	types "github.com/uhppoted/uhppoted-codegen/model/types"
+	libx "github.com/uhppoted/uhppoted-codegen/model/types"
+
+	"codegen/model/types"
 )
 
 var Requests = []types.Request{
@@ -17,25 +19,28 @@ var Requests = []types.Request{
 	SetDoorRequest,
 	SetDoorPasscodesRequest,
 	OpenDoorRequest,
+	GetCardsRequest,
 }
 
-var GetControllerRequest = lib.GetControllerRequest
-var SetIPv4Request = lib.SetIPv4Request
+var GetControllerRequest = types.Request(lib.GetControllerRequest)
+var SetIPv4Request = types.Request(lib.SetIPv4Request)
+var GetTimeRequest = types.Request(lib.GetTimeRequest)
+var SetTimeRequest = types.Request(lib.SetTimeRequest)
+var OpenDoorRequest = types.Request(lib.OpenDoorRequest)
+var GetStatusRequest = types.Request(lib.GetStatusRequest)
+var GetCardsRequest = types.Request(lib.GetCardsRequest)
 
-// var SetIPv4Request = lib.Request{
-// 	Message: lib.SetIPv4Request,
-// 	Tests: []lib.RequestTest{
+// var GetStatusRequest = types.Request{
+// 	Message: lib.GetStatusRequest,
+// 	Tests: []libx.RequestTest{
 // 		{
-// 			Name: "set-IPv4",
-// 			Args: []lib.TestArg{
-// 				lib.TestArg{Arg: lib.Arg{Name: "controller", Type: "uint32"}, Value: uint32(405419896)},
-// 				lib.TestArg{Arg: lib.Arg{Name: "address", Type: "IPv4"}, Value: netip.MustParseAddr("192.168.1.125")},
-// 				lib.TestArg{Arg: lib.Arg{Name: "netmask", Type: "IPv4"}, Value: netip.MustParseAddr("255.255.255.0")},
-// 				lib.TestArg{Arg: lib.Arg{Name: "gateway", Type: "IPv4"}, Value: netip.MustParseAddr("192.168.1.1")},
+// 			Name: "get-status",
+// 			Args: []libx.TestArg{
+// 				{Arg: libx.Arg{Name: "controller", Type: "uint32"}, Value: uint32(405419896)},
 // 			},
 // 			Expected: []byte{
-// 				0x17, 0x96, 0x00, 0x00, 0x78, 0x37, 0x2a, 0x18, 0xc0, 0xa8, 0x01, 0x7d, 0xff, 0xff, 0xff, 0x00,
-// 				0xc0, 0xa8, 0x01, 0x01, 0x55, 0xaa, 0xaa, 0x55, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+// 				0x17, 0x20, 0x00, 0x00, 0x78, 0x37, 0x2a, 0x18, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+// 				0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
 // 				0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
 // 				0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
 // 			},
@@ -43,68 +48,50 @@ var SetIPv4Request = lib.SetIPv4Request
 // 	},
 // }
 
-var GetStatusRequest = types.Request{
-	Message: lib.GetStatusRequest,
-	Tests: []types.RequestTest{
-		{
-			Name: "get-status",
-			Args: []types.TestArg{
-				types.TestArg{Arg: types.Arg{Name: "controller", Type: "uint32"}, Value: uint32(405419896)},
-			},
-			Expected: []byte{
-				0x17, 0x20, 0x00, 0x00, 0x78, 0x37, 0x2a, 0x18, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-				0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-				0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-				0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-			},
-		},
-	},
-}
+// var GetTimeRequest = types.Request{
+// 	Message: lib.GetTimeRequest.Message,
+// 	Tests: []types.RequestTest{
+// 		{
+// 			Name: "get-time",
+// 			Args: []types.TestArg{
+// 				types.TestArg{Arg: types.Arg{Name: "controller", Type: "uint32"}, Value: uint32(405419896)},
+// 			},
+// 			Expected: []byte{
+// 				0x17, 0x32, 0x00, 0x00, 0x78, 0x37, 0x2a, 0x18, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+// 				0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+// 				0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+// 				0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+// 			},
+// 		},
+// 	},
+// }
 
-var GetTimeRequest = types.Request{
-	Message: lib.GetTimeRequest.Message,
-	Tests: []types.RequestTest{
-		{
-			Name: "get-time",
-			Args: []types.TestArg{
-				types.TestArg{Arg: types.Arg{Name: "controller", Type: "uint32"}, Value: uint32(405419896)},
-			},
-			Expected: []byte{
-				0x17, 0x32, 0x00, 0x00, 0x78, 0x37, 0x2a, 0x18, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-				0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-				0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-				0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-			},
-		},
-	},
-}
-
-var SetTimeRequest = types.Request{
-	Message: lib.SetTimeRequest,
-	Tests: []types.RequestTest{
-		{
-			Name: "set-time",
-			Args: []types.TestArg{
-				types.TestArg{Arg: types.Arg{Name: "controller", Type: "uint32"}, Value: uint32(405419896)},
-				types.TestArg{Arg: types.Arg{Name: "datetime", Type: "datetime"}, Value: "2024-11-04 12:34:56"},
-			},
-			Expected: []byte{
-				0x17, 0x30, 0x00, 0x00, 0x78, 0x37, 0x2a, 0x18, 0x20, 0x24, 0x11, 0x04, 0x12, 0x34, 0x56, 0x00,
-				0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-				0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-				0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-			},
-		},
-	},
-}
+// var SetTimeRequest = types.Request{
+// 	Message: lib.SetTimeRequest.Message,
+// 	Tests: []types.RequestTest{
+// 		{
+// 			Name: "set-time",
+// 			Args: []types.TestArg{
+// 				types.TestArg{Arg: types.Arg{Name: "controller", Type: "uint32"}, Value: uint32(405419896)},
+// 				types.TestArg{Arg: types.Arg{Name: "datetime", Type: "datetime"}, Value: "2024-11-04 12:34:56"},
+// 			},
+// 			Expected: []byte{
+// 				0x17, 0x30, 0x00, 0x00, 0x78, 0x37, 0x2a, 0x18, 0x20, 0x24, 0x11, 0x04, 0x12, 0x34, 0x56, 0x00,
+// 				0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+// 				0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+// 				0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+// 			},
+// 		},
+// 	},
+// }
 
 var GetListenerRequest = types.Request{
 	Message: lib.GetListenerRequest,
-	Tests: []types.RequestTest{
+	Tests: []libx.RequestTest{
 		{
 			Name: "get-listener",
-			Args: []types.TestArg{
-				types.TestArg{Arg: types.Arg{Name: "controller", Type: "uint32"}, Value: uint32(405419896)},
+			Args: []libx.TestArg{
+				{Arg: libx.Arg{Name: "controller", Type: "uint32"}, Value: uint32(405419896)},
 			},
 			Expected: []byte{
 				0x17, 0x92, 0x00, 0x00, 0x78, 0x37, 0x2a, 0x18, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
@@ -118,13 +105,13 @@ var GetListenerRequest = types.Request{
 
 var SetListenerRequest = types.Request{
 	Message: lib.SetListenerAddrPortRequest,
-	Tests: []types.RequestTest{
+	Tests: []libx.RequestTest{
 		{
 			Name: "set-listener",
-			Args: []types.TestArg{
-				types.TestArg{Arg: types.Arg{Name: "controller", Type: "uint32"}, Value: uint32(405419896)},
-				types.TestArg{Arg: types.Arg{Name: "listener", Type: "addrport"}, Value: "192.168.1.100:60001"},
-				types.TestArg{Arg: types.Arg{Name: "interval", Type: "uint8"}, Value: 17},
+			Args: []libx.TestArg{
+				{Arg: libx.Arg{Name: "controller", Type: "uint32"}, Value: uint32(405419896)},
+				{Arg: libx.Arg{Name: "listener", Type: "addrport"}, Value: "192.168.1.100:60001"},
+				{Arg: libx.Arg{Name: "interval", Type: "uint8"}, Value: 17},
 			},
 			Expected: []byte{
 				0x17, 0x90, 0x00, 0x00, 0x78, 0x37, 0x2a, 0x18, 0xc0, 0xa8, 0x01, 0x64, 0x61, 0xea, 0x11, 0x00,
@@ -138,12 +125,12 @@ var SetListenerRequest = types.Request{
 
 var GetDoorRequest = types.Request{
 	Message: lib.GetDoorRequest,
-	Tests: []types.RequestTest{
+	Tests: []libx.RequestTest{
 		{
 			Name: "get-door",
-			Args: []types.TestArg{
-				types.TestArg{Arg: types.Arg{Name: "controller", Type: "uint32"}, Value: uint32(405419896)},
-				types.TestArg{Arg: types.Arg{Name: "door", Type: "uint8"}, Value: uint8(3)},
+			Args: []libx.TestArg{
+				{Arg: libx.Arg{Name: "controller", Type: "uint32"}, Value: uint32(405419896)},
+				{Arg: libx.Arg{Name: "door", Type: "uint8"}, Value: uint8(3)},
 			},
 			Expected: []byte{
 				0x17, 0x82, 0x00, 0x00, 0x78, 0x37, 0x2a, 0x18, 0x03, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
@@ -157,14 +144,14 @@ var GetDoorRequest = types.Request{
 
 var SetDoorRequest = types.Request{
 	Message: lib.SetDoorRequest,
-	Tests: []types.RequestTest{
+	Tests: []libx.RequestTest{
 		{
 			Name: "set-door",
-			Args: []types.TestArg{
-				types.TestArg{Arg: types.Arg{Name: "controller", Type: "uint32"}, Value: uint32(405419896)},
-				types.TestArg{Arg: types.Arg{Name: "door", Type: "uint8"}, Value: uint8(3)},
-				types.TestArg{Arg: types.Arg{Name: "mode", Type: "uint8"}, Value: uint8(2)},
-				types.TestArg{Arg: types.Arg{Name: "delay", Type: "uint8"}, Value: uint8(17)},
+			Args: []libx.TestArg{
+				{Arg: libx.Arg{Name: "controller", Type: "uint32"}, Value: uint32(405419896)},
+				{Arg: libx.Arg{Name: "door", Type: "uint8"}, Value: uint8(3)},
+				{Arg: libx.Arg{Name: "mode", Type: "uint8"}, Value: uint8(2)},
+				{Arg: libx.Arg{Name: "delay", Type: "uint8"}, Value: uint8(17)},
 			},
 			Expected: []byte{
 				0x17, 0x80, 0x00, 0x00, 0x78, 0x37, 0x2a, 0x18, 0x03, 0x02, 0x11, 0x00, 0x00, 0x00, 0x00, 0x00,
@@ -178,16 +165,16 @@ var SetDoorRequest = types.Request{
 
 var SetDoorPasscodesRequest = types.Request{
 	Message: lib.SetDoorPasscodesRequest,
-	Tests: []types.RequestTest{
+	Tests: []libx.RequestTest{
 		{
 			Name: "set-door-passcodes",
-			Args: []types.TestArg{
-				types.TestArg{Arg: types.Arg{Name: "controller", Type: "uint32"}, Value: uint32(405419896)},
-				types.TestArg{Arg: types.Arg{Name: "door", Type: "uint8"}, Value: uint8(3)},
-				types.TestArg{Arg: types.Arg{Name: "passcode1", Type: "uint32"}, Value: uint32(12345)},
-				types.TestArg{Arg: types.Arg{Name: "passcode2", Type: "uint32"}, Value: uint32(54321)},
-				types.TestArg{Arg: types.Arg{Name: "passcode3", Type: "uint32"}, Value: uint32(0)},
-				types.TestArg{Arg: types.Arg{Name: "passcode4", Type: "uint32"}, Value: uint32(999999)},
+			Args: []libx.TestArg{
+				{Arg: libx.Arg{Name: "controller", Type: "uint32"}, Value: uint32(405419896)},
+				{Arg: libx.Arg{Name: "door", Type: "uint8"}, Value: uint8(3)},
+				{Arg: libx.Arg{Name: "passcode1", Type: "uint32"}, Value: uint32(12345)},
+				{Arg: libx.Arg{Name: "passcode2", Type: "uint32"}, Value: uint32(54321)},
+				{Arg: libx.Arg{Name: "passcode3", Type: "uint32"}, Value: uint32(0)},
+				{Arg: libx.Arg{Name: "passcode4", Type: "uint32"}, Value: uint32(999999)},
 			},
 			Expected: []byte{
 				0x17, 0x8c, 0x00, 0x00, 0x78, 0x37, 0x2a, 0x18, 0x03, 0x00, 0x00, 0x00, 0x39, 0x30, 0x00, 0x00,
@@ -199,21 +186,21 @@ var SetDoorPasscodesRequest = types.Request{
 	},
 }
 
-var OpenDoorRequest = types.Request{
-	Message: lib.OpenDoorRequest,
-	Tests: []types.RequestTest{
-		{
-			Name: "open-door",
-			Args: []types.TestArg{
-				types.TestArg{Arg: types.Arg{Name: "controller", Type: "uint32"}, Value: uint32(405419896)},
-				types.TestArg{Arg: types.Arg{Name: "door", Type: "uint8"}, Value: uint8(3)},
-			},
-			Expected: []byte{
-				0x17, 0x40, 0x00, 0x00, 0x78, 0x37, 0x2a, 0x18, 0x03, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-				0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-				0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-				0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-			},
-		},
-	},
-}
+// var OpenDoorRequest = types.Request{
+// 	Message: lib.OpenDoorRequest.Message,
+// 	Tests: []types.RequestTest{
+// 		{
+// 			Name: "open-door",
+// 			Args: []types.TestArg{
+// 				types.TestArg{Arg: types.Arg{Name: "controller", Type: "uint32"}, Value: uint32(405419896)},
+// 				types.TestArg{Arg: types.Arg{Name: "door", Type: "uint8"}, Value: uint8(3)},
+// 			},
+// 			Expected: []byte{
+// 				0x17, 0x40, 0x00, 0x00, 0x78, 0x37, 0x2a, 0x18, 0x03, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+// 				0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+// 				0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+// 				0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+// 			},
+// 		},
+// 	},
+// }

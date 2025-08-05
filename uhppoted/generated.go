@@ -32,3 +32,12 @@ func OpenDoor[T TController](u Uhppoted, controller T, door uint8, timeout time.
 
 	return exec[T, OpenDoorResponse](u, controller, f, timeout)
 }
+
+// Retrieves the number of cards stored on  an access controller.
+func GetCards[T TController](u Uhppoted, controller T, timeout time.Duration) (GetCardsResponse, error) {
+	f := func(id uint32) ([]byte, error) {
+		return encode.GetCardsRequest(id)
+	}
+
+	return exec[T, GetCardsResponse](u, controller, f, timeout)
+}

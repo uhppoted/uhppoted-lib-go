@@ -12,7 +12,6 @@ var Expected = struct {
 	FindControllers  []lib.GetControllerResponse
 	GetController    lib.GetControllerResponse
 	SetIPv4          lib.SetIPv4Response
-	GetStatus        lib.GetStatusResponse
 	GetTime          lib.GetTimeResponse
 	SetTime          lib.SetTimeResponse
 	GetListener      lib.GetListenerResponse
@@ -21,6 +20,8 @@ var Expected = struct {
 	SetDoor          lib.SetDoorResponse
 	SetDoorPasscodes lib.SetDoorPasscodesResponse
 	OpenDoor         lib.OpenDoorResponse
+	GetStatus        lib.GetStatusResponse
+	GetCards         lib.GetCardsResponse
 }{
 	FindControllers: []lib.GetControllerResponse{
 		lib.GetControllerResponse{
@@ -67,33 +68,6 @@ var Expected = struct {
 		Ok:         true,
 	},
 
-	GetStatus: lib.GetStatusResponse{
-		Controller:         405419896,
-		SystemDate:         string2date("2022-08-23"),
-		SystemTime:         string2time("09:49:39"),
-		Door1Open:          false,
-		Door2Open:          true,
-		Door3Open:          false,
-		Door4Open:          false,
-		Door1Button:        false,
-		Door2Button:        false,
-		Door3Button:        false,
-		Door4Button:        true,
-		Relays:             7,
-		Inputs:             9,
-		SystemError:        3,
-		SpecialInfo:        39,
-		EventIndex:         78,
-		EventType:          2,
-		EventAccessGranted: true,
-		EventDoor:          3,
-		EventDirection:     1,
-		EventCard:          8165537,
-		EventTimestamp:     string2datetime("2022-08-23 09:47:06"),
-		EventReason:        44,
-		SequenceNo:         0,
-	},
-
 	GetTime: lib.GetTimeResponse{
 		Controller: 405419896,
 		DateTime:   string2datetime("2024-11-01 12:34:56"),
@@ -137,6 +111,38 @@ var Expected = struct {
 	OpenDoor: lib.OpenDoorResponse{
 		Controller: 405419896,
 		Ok:         true,
+	},
+
+	GetStatus: lib.GetStatusResponse{
+		Controller:         405419896,
+		SystemDate:         string2date("2022-08-23"),
+		SystemTime:         string2time("09:49:39"),
+		Door1Open:          false,
+		Door2Open:          true,
+		Door3Open:          false,
+		Door4Open:          false,
+		Door1Button:        false,
+		Door2Button:        false,
+		Door3Button:        false,
+		Door4Button:        true,
+		Relays:             7,
+		Inputs:             9,
+		SystemError:        3,
+		SpecialInfo:        39,
+		EventIndex:         78,
+		EventType:          2,
+		EventAccessGranted: true,
+		EventDoor:          3,
+		EventDirection:     1,
+		EventCard:          8165537,
+		EventTimestamp:     string2datetime("2022-08-23 09:47:06"),
+		EventReason:        44,
+		SequenceNo:         0,
+	},
+
+	GetCards: lib.GetCardsResponse{
+		Controller: 405419896,
+		Cards:      13579,
 	},
 }
 

@@ -55,7 +55,6 @@ type Controller struct {
 
 type GetControllerResponse = types.GetControllerResponse
 type SetIPv4Response = types.SetIPv4Response
-type GetStatusResponse = types.GetStatusResponse
 type GetTimeResponse = types.GetTimeResponse
 type SetTimeResponse = types.SetTimeResponse
 type GetListenerResponse = types.GetListenerResponse
@@ -64,6 +63,8 @@ type GetDoorResponse = types.GetDoorResponse
 type SetDoorResponse = types.SetDoorResponse
 type SetDoorPasscodesResponse = types.SetDoorPasscodesResponse
 type OpenDoorResponse = types.OpenDoorResponse
+type GetStatusResponse = types.GetStatusResponse
+type GetCardsResponse = types.GetCardsResponse
 
 // NewUhppoted creates a new instance of the uhppoted service, configured with the supplied
 // local bind address, broadcast address, and listen address. The debug flag enables or

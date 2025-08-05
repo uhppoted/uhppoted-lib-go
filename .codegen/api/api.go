@@ -26,6 +26,7 @@ func API() {
 		function(model.GetController),
 		function(model.SetDoorPasscodes),
 		function(model.OpenDoor),
+		function(model.GetCards),
 	}
 
 	AST := codegen.NewAST("uhppoted", imports, f)

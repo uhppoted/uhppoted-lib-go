@@ -11,7 +11,7 @@ import (
 	lib "github.com/uhppoted/uhppoted-codegen/model/types"
 
 	"codegen/api"
-	"codegen/model"
+	"codegen/model/types"
 )
 
 var functions = template.FuncMap{
@@ -85,7 +85,7 @@ func hex(bytes []byte) string {
 	return strings.Join(lines, "\n")
 }
 
-func args(args []model.Arg) string {
+func args(args []types.Arg) string {
 	var parts []string
 	for _, a := range args {
 		parts = append(parts, arg(a))
@@ -103,7 +103,7 @@ func testargs(args []lib.TestArg) string {
 	return strings.Join(parts, ", ")
 }
 
-func arg(arg model.Arg) string {
+func arg(arg types.Arg) string {
 	switch arg.Type {
 	case "uint8":
 		return fmt.Sprintf(`uint8(%v)`, arg.Value)
@@ -203,7 +203,7 @@ func pack(field lib.Field) string {
 	}
 }
 
-func unpack(field lib.Field) string {
+func unpack(field types.Field) string {
 	switch field.Type {
 	case "bool":
 		return fmt.Sprintf("unpackBool(packet, %v)", field.Offset)
@@ -247,28 +247,46 @@ func describe(field lib.Field) string {
 	return fmt.Sprintf("%v  (%v)  %v", field.Name, field.Type, field.Description)
 }
 
-var types = map[string]string{
-	"uint8":      "uint8",
-	"uint16":     "uint16",
-	"uint32":     "uint32",
-	"bool":       "bool",
-	"IPv4":       "netip.Addr",
-	"MAC":        "string",
-	"version":    "string",
-	"date":       "time.Time",
-	"shortdate":  "Date",
-	"time":       "Time",
-	"datetime":   "DateTime",
-	"HHmm":       "HHmm",
-	"pin":        "PIN",
-	"controller": "Controller",
+// var types = map[string]string{
+// 	"uint8":      "uint8",
+// 	"uint16":     "uint16",
+// 	"uint32":     "uint32",
+// 	"bool":       "bool",
+// 	"IPv4":       "netip.Addr",
+// 	"MAC":        "string",
+// 	"version":    "string",
+// 	"date":       "time.Time",
+// 	"shortdate":  "Date",
+// 	"time":       "Time",
+// 	"datetime":   "DateTime",
+// 	"HHmm":       "HHmm",
+// 	"pin":        "PIN",
+// 	"controller": "Controller",
 
-	"optional date":     "Date",
-	"optional datetime": "DateTime",
-}
+// 	"optional date":     "Date",
+// 	"optional datetime": "DateTime",
+// }
 
 func lookup(path, key, defval string) any {
-	table := types
+	table := map[string]string{
+		"uint8":      "uint8",
+		"uint16":     "uint16",
+		"uint32":     "uint32",
+		"bool":       "bool",
+		"IPv4":       "netip.Addr",
+		"MAC":        "string",
+		"version":    "string",
+		"date":       "time.Time",
+		"shortdate":  "Date",
+		"time":       "Time",
+		"datetime":   "DateTime",
+		"HHmm":       "HHmm",
+		"pin":        "PIN",
+		"controller": "Controller",
+
+		"optional date":     "Date",
+		"optional datetime": "DateTime",
+	}
 
 	if v, ok := table[key]; ok {
 		return v

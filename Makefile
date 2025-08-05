@@ -17,16 +17,18 @@ format:
 	go fmt ./...
 
 update:
+	cd .codegen && make update
 	go mod tidy
 
 update-release:
+	cd .codegen && make update-release
 	go mod tidy
 
 build: format
 	go build -trimpath ./...
 
 debug: build
-	cd examples/cli && make open-door
+	cd examples/cli && make get-cards
 
 test: build
 	go test ./uhppoted/...
@@ -83,11 +85,6 @@ set-IPv4: build
 	cd examples/cli && make set-IPv4-udp
 	cd examples/cli && make set-IPv4-tcp
 
-get-status: build
-	cd examples/cli && make get-status
-	cd examples/cli && make get-status-udp
-	cd examples/cli && make get-status-tcp
-
 get-time: build
 	cd examples/cli && make get-time
 	cd examples/cli && make get-time-udp
@@ -127,3 +124,13 @@ open-door: build
 	cd examples/cli && make open-door
 	cd examples/cli && make open-door-udp
 	cd examples/cli && make open-door-tcp
+
+get-status: build
+	cd examples/cli && make get-status
+	cd examples/cli && make get-status-udp
+	cd examples/cli && make get-status-tcp
+
+get-cards: build
+	cd examples/cli && make get-cards
+	cd examples/cli && make get-cards-udp
+	cd examples/cli && make get-cards-tcp

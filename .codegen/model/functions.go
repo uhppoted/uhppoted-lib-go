@@ -2,13 +2,14 @@ package model
 
 import (
 	"net/netip"
+
+	"codegen/model/types"
 )
 
 var API = []Func{
 	FindControllers,
 	GetController,
 	setIPv4,
-	getStatus,
 	getTime,
 	setTime,
 	getListener,
@@ -17,6 +18,8 @@ var API = []Func{
 	setDoor,
 	SetDoorPasscodes,
 	OpenDoor,
+	getStatus,
+	GetCards,
 }
 
 var FindControllers = Func{
@@ -24,7 +27,7 @@ var FindControllers = Func{
 	Description: "FindControllers retrieves a list of all UHPPOTE controllers accessible on the local LAN.",
 	Protocols:   []string{"broadcast"},
 	Test: FuncTest{
-		Args: []Arg{},
+		Args: []types.Arg{},
 		Request: []byte{
 			0x17, 0x94, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
 			0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
@@ -39,14 +42,14 @@ var FindControllers = Func{
 					0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
 					0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
 				},
-				Response: []Value{
-					Value{"controller", "uint32", 405419896},
-					Value{"ip address", "IPv4", "192.168.1.100"},
-					Value{"subnet mask", "IPv4", "255.255.255.0"},
-					Value{"gateway", "IPv4", "192.168.1.1"},
-					Value{"MAC address", "MAC", "00:12:23:34:45:56"},
-					Value{"version", "version", "v8.92"},
-					Value{"date", "date", "2018-11-05"},
+				Response: []types.Value{
+					{"controller", "uint32", 405419896},
+					{"ip address", "IPv4", "192.168.1.100"},
+					{"subnet mask", "IPv4", "255.255.255.0"},
+					{"gateway", "IPv4", "192.168.1.1"},
+					{"MAC address", "MAC", "00:12:23:34:45:56"},
+					{"version", "version", "v8.92"},
+					{"date", "date", "2018-11-05"},
 				},
 			},
 			Reply{
@@ -77,8 +80,8 @@ var GetController = Func{
 	Protocols:   []string{"broadcast", "udp", "tcp"},
 
 	Test: FuncTest{
-		Args: []Arg{
-			Arg{Name: "controller", Type: "uint32", Value: uint32(405419896)},
+		Args: []types.Arg{
+			{Name: "controller", Type: "uint32", Value: uint32(405419896)},
 		},
 		Request: []byte{
 			0x17, 0x94, 0x00, 0x00, 0x78, 0x37, 0x2a, 0x18, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
@@ -94,14 +97,14 @@ var GetController = Func{
 					0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
 					0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
 				},
-				Response: []Value{
-					Value{"controller", "uint32", 405419896},
-					Value{"ip address", "IPv4", "192.168.1.100"},
-					Value{"subnet mask", "IPv4", "255.255.255.0"},
-					Value{"gateway", "IPv4", "192.168.1.1"},
-					Value{"MAC address", "MAC", "00:12:23:34:45:56"},
-					Value{"version", "version", "v8.92"},
-					Value{"date", "date", "2018-11-05"},
+				Response: []types.Value{
+					{"controller", "uint32", 405419896},
+					{"ip address", "IPv4", "192.168.1.100"},
+					{"subnet mask", "IPv4", "255.255.255.0"},
+					{"gateway", "IPv4", "192.168.1.1"},
+					{"MAC address", "MAC", "00:12:23:34:45:56"},
+					{"version", "version", "v8.92"},
+					{"date", "date", "2018-11-05"},
 				},
 			},
 		},
@@ -116,11 +119,11 @@ var setIPv4 = Func{
 	Protocols:   []string{"broadcast", "udp", "tcp"},
 
 	Test: FuncTest{
-		Args: []Arg{
-			Arg{Name: "controller", Type: "uint32", Value: uint32(405419896)},
-			Arg{Name: "address", Type: "IPv4", Value: netip.MustParseAddr("192.168.1.125")},
-			Arg{Name: "netmask", Type: "IPv4", Value: netip.MustParseAddr("255.255.255.0")},
-			Arg{Name: "gateway", Type: "IPv4", Value: netip.MustParseAddr("192.168.1.1")},
+		Args: []types.Arg{
+			{Name: "controller", Type: "uint32", Value: uint32(405419896)},
+			{Name: "address", Type: "IPv4", Value: netip.MustParseAddr("192.168.1.125")},
+			{Name: "netmask", Type: "IPv4", Value: netip.MustParseAddr("255.255.255.0")},
+			{Name: "gateway", Type: "IPv4", Value: netip.MustParseAddr("192.168.1.1")},
 		},
 		Request: []byte{
 			0x17, 0x96, 0x00, 0x00, 0x78, 0x37, 0x2a, 0x18, 0xc0, 0xa8, 0x01, 0x7d, 0xff, 0xff, 0xff, 0x00,
@@ -136,65 +139,9 @@ var setIPv4 = Func{
 					0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
 					0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
 				},
-				Response: []Value{
-					Value{"controller", "uint32", 405419896},
-					Value{"ok", "bool", true},
-				},
-			},
-		},
-	},
-}
-
-var getStatus = Func{
-	Name:        "get-status",
-	Description: "GetStatus retrieves the system status from an access controller.",
-	Request:     GetStatusRequest,
-	Response:    GetStatusResponse,
-	Protocols:   []string{"broadcast", "udp", "tcp"},
-
-	Test: FuncTest{
-		Args: []Arg{
-			Arg{Name: "controller", Type: "uint32", Value: uint32(405419896)},
-		},
-		Request: []byte{
-			0x17, 0x20, 0x00, 0x00, 0x78, 0x37, 0x2a, 0x18, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-			0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-			0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-			0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-		},
-		Replies: []Reply{
-			Reply{
-				Message: []byte{
-					0x17, 0x20, 0x00, 0x00, 0x78, 0x37, 0x2a, 0x18, 0x4e, 0x00, 0x00, 0x00, 0x02, 0x01, 0x03, 0x01,
-					0xa1, 0x98, 0x7c, 0x00, 0x20, 0x22, 0x08, 0x23, 0x09, 0x47, 0x06, 0x2c, 0x00, 0x01, 0x00, 0x00,
-					0x00, 0x00, 0x00, 0x01, 0x03, 0x09, 0x49, 0x39, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-					0x27, 0x07, 0x09, 0x22, 0x08, 0x23, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-				},
-				Response: []Value{
-					Value{"controller", "uint32", 405419896},
-					Value{"system-date", "date", "2022-08-23"},
-					Value{"system-time", "time", "09:49:39"},
-					Value{"door-1-open", "bool", false},
-					Value{"door-2-open", "bool", true},
-					Value{"door-3-open", "bool", false},
-					Value{"door-4-open", "bool", false},
-					Value{"door-1-button", "bool", false},
-					Value{"door-2-button", "bool", false},
-					Value{"door-3-button", "bool", false},
-					Value{"door-4-button", "bool", true},
-					Value{"relays", "uint8", 0x07},
-					Value{"inputs", "uint8", 0x09},
-					Value{"system-error", "uint8", 3},
-					Value{"special-info", "uint8", 39},
-					Value{"event-index", "uint32", 78},
-					Value{"event-type", "uint8", 2},
-					Value{"event-access-granted", "bool", true},
-					Value{"event-door", "uint8", 3},
-					Value{"event-direction", "uint8", 1},
-					Value{"event-card", "uint32", 8165537},
-					Value{"event-timestamp", "datetime", "2022-08-23 09:47:06"},
-					Value{"event-reason", "uint8", 44},
-					Value{"sequence-no", "uint32", 0},
+				Response: []types.Value{
+					{"controller", "uint32", 405419896},
+					{"ok", "bool", true},
 				},
 			},
 		},
@@ -209,8 +156,8 @@ var getTime = Func{
 	Protocols:   []string{"broadcast", "udp", "tcp"},
 
 	Test: FuncTest{
-		Args: []Arg{
-			Arg{Name: "controller", Type: "uint32", Value: uint32(405419896)},
+		Args: []types.Arg{
+			{Name: "controller", Type: "uint32", Value: uint32(405419896)},
 		},
 		Request: []byte{
 			0x17, 0x32, 0x00, 0x00, 0x78, 0x37, 0x2a, 0x18, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
@@ -226,9 +173,9 @@ var getTime = Func{
 					0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
 					0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
 				},
-				Response: []Value{
-					Value{"controller", "uint32", 405419896},
-					Value{"date-time", "datetime", "2024-11-01 12:34:56"},
+				Response: []types.Value{
+					{"controller", "uint32", 405419896},
+					{"date-time", "datetime", "2024-11-01 12:34:56"},
 				},
 			},
 		},
@@ -243,9 +190,9 @@ var setTime = Func{
 	Protocols:   []string{"broadcast", "udp", "tcp"},
 
 	Test: FuncTest{
-		Args: []Arg{
-			Arg{Name: "controller", Type: "uint32", Value: uint32(405419896)},
-			Arg{Name: "datetime", Type: "datetime", Value: "2024-11-04 12:34:56"},
+		Args: []types.Arg{
+			{Name: "controller", Type: "uint32", Value: uint32(405419896)},
+			{Name: "datetime", Type: "datetime", Value: "2024-11-04 12:34:56"},
 		},
 		Request: []byte{
 			0x17, 0x30, 0x00, 0x00, 0x78, 0x37, 0x2a, 0x18, 0x20, 0x24, 0x11, 0x04, 0x12, 0x34, 0x56, 0x00,
@@ -261,9 +208,9 @@ var setTime = Func{
 					0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
 					0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
 				},
-				Response: []Value{
-					Value{"controller", "uint32", 405419896},
-					Value{"date-time", "datetime", "2024-11-01 12:34:56"},
+				Response: []types.Value{
+					{"controller", "uint32", 405419896},
+					{"date-time", "datetime", "2024-11-01 12:34:56"},
 				},
 			},
 		},
@@ -278,8 +225,8 @@ var getListener = Func{
 	Protocols:   []string{"broadcast", "udp", "tcp"},
 
 	Test: FuncTest{
-		Args: []Arg{
-			Arg{Name: "controller", Type: "uint32", Value: uint32(405419896)},
+		Args: []types.Arg{
+			{Name: "controller", Type: "uint32", Value: uint32(405419896)},
 		},
 		Request: []byte{
 			0x17, 0x92, 0x00, 0x00, 0x78, 0x37, 0x2a, 0x18, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
@@ -295,18 +242,18 @@ var getListener = Func{
 					0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
 					0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
 				},
-				Response: []Value{
-					Value{
+				Response: []types.Value{
+					{
 						Name:  "controller",
 						Type:  "uint32",
 						Value: 405419896,
 					},
-					Value{
+					{
 						Name:  "address",
 						Type:  "addrport",
 						Value: "192.168.1.100:60001",
 					},
-					Value{
+					{
 						Name:  "interval",
 						Type:  "uint8",
 						Value: "17",
@@ -325,10 +272,10 @@ var setListener = Func{
 	Protocols:   []string{"broadcast", "udp", "tcp"},
 
 	Test: FuncTest{
-		Args: []Arg{
-			Arg{Name: "controller", Type: "uint32", Value: uint32(405419896)},
-			Arg{Name: "listener", Type: "addrport", Value: "192.168.1.100:60001"},
-			Arg{Name: "interval", Type: "uint8", Value: uint8(17)},
+		Args: []types.Arg{
+			{Name: "controller", Type: "uint32", Value: uint32(405419896)},
+			{Name: "listener", Type: "addrport", Value: "192.168.1.100:60001"},
+			{Name: "interval", Type: "uint8", Value: uint8(17)},
 		},
 		Request: []byte{
 			0x17, 0x90, 0x00, 0x00, 0x78, 0x37, 0x2a, 0x18, 0xc0, 0xa8, 0x01, 0x64, 0x61, 0xea, 0x11, 0x00,
@@ -344,13 +291,13 @@ var setListener = Func{
 					0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
 					0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
 				},
-				Response: []Value{
-					Value{
+				Response: []types.Value{
+					{
 						Name:  "controller",
 						Type:  "uint32",
 						Value: 405419896,
 					},
-					Value{
+					{
 						Name:  "ok",
 						Type:  "bool",
 						Value: true,
@@ -369,9 +316,9 @@ var getDoor = Func{
 	Protocols:   []string{"broadcast", "udp", "tcp"},
 
 	Test: FuncTest{
-		Args: []Arg{
-			Arg{Name: "controller", Type: "uint32", Value: uint32(405419896)},
-			Arg{Name: "door", Type: "uint8", Value: uint8(3)},
+		Args: []types.Arg{
+			{Name: "controller", Type: "uint32", Value: uint32(405419896)},
+			{Name: "door", Type: "uint8", Value: uint8(3)},
 		},
 		Request: []byte{
 			0x17, 0x82, 0x00, 0x00, 0x78, 0x37, 0x2a, 0x18, 0x03, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
@@ -387,23 +334,23 @@ var getDoor = Func{
 					0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
 					0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
 				},
-				Response: []Value{
-					Value{
+				Response: []types.Value{
+					{
 						Name:  "controller",
 						Type:  "uint32",
 						Value: 405419896,
 					},
-					Value{
+					{
 						Name:  "door",
 						Type:  "uint8",
 						Value: 3,
 					},
-					Value{
+					{
 						Name:  "mode",
 						Type:  "uint8",
 						Value: 2,
 					},
-					Value{
+					{
 						Name:  "delay",
 						Type:  "uint8",
 						Value: 7,
@@ -422,11 +369,11 @@ var setDoor = Func{
 	Protocols:   []string{"broadcast", "udp", "tcp"},
 
 	Test: FuncTest{
-		Args: []Arg{
-			Arg{Name: "controller", Type: "uint32", Value: uint32(405419896)},
-			Arg{Name: "door", Type: "uint8", Value: uint8(3)},
-			Arg{Name: "mode", Type: "uint8", Value: uint8(2)},
-			Arg{Name: "delay", Type: "uint8", Value: uint8(17)},
+		Args: []types.Arg{
+			{Name: "controller", Type: "uint32", Value: uint32(405419896)},
+			{Name: "door", Type: "uint8", Value: uint8(3)},
+			{Name: "mode", Type: "uint8", Value: uint8(2)},
+			{Name: "delay", Type: "uint8", Value: uint8(17)},
 		},
 		Request: []byte{
 			0x17, 0x80, 0x00, 0x00, 0x78, 0x37, 0x2a, 0x18, 0x03, 0x02, 0x11, 0x00, 0x00, 0x00, 0x00, 0x00,
@@ -442,23 +389,23 @@ var setDoor = Func{
 					0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
 					0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
 				},
-				Response: []Value{
-					Value{
+				Response: []types.Value{
+					{
 						Name:  "controller",
 						Type:  "uint32",
 						Value: 405419896,
 					},
-					Value{
+					{
 						Name:  "door",
 						Type:  "uint8",
 						Value: 3,
 					},
-					Value{
+					{
 						Name:  "mode",
 						Type:  "uint8",
 						Value: 2,
 					},
-					Value{
+					{
 						Name:  "delay",
 						Type:  "uint8",
 						Value: 17,
@@ -477,13 +424,13 @@ var SetDoorPasscodes = Func{
 	Protocols:   []string{"broadcast", "udp", "tcp"},
 
 	Test: FuncTest{
-		Args: []Arg{
-			Arg{Name: "controller", Type: "uint32", Value: uint32(405419896)},
-			Arg{Name: "door", Type: "uint8", Value: uint8(3)},
-			Arg{Name: "passcode1", Type: "uint32", Value: uint32(12345)},
-			Arg{Name: "passcode2", Type: "uint32", Value: uint32(54321)},
-			Arg{Name: "passcode3", Type: "uint32", Value: uint32(999999)},
-			Arg{Name: "passcode4", Type: "uint32", Value: uint32(0)},
+		Args: []types.Arg{
+			{Name: "controller", Type: "uint32", Value: uint32(405419896)},
+			{Name: "door", Type: "uint8", Value: uint8(3)},
+			{Name: "passcode1", Type: "uint32", Value: uint32(12345)},
+			{Name: "passcode2", Type: "uint32", Value: uint32(54321)},
+			{Name: "passcode3", Type: "uint32", Value: uint32(999999)},
+			{Name: "passcode4", Type: "uint32", Value: uint32(0)},
 		},
 		Request: []byte{
 			0x17, 0x8c, 0x00, 0x00, 0x78, 0x37, 0x2a, 0x18, 0x03, 0x00, 0x00, 0x00, 0x39, 0x30, 0x00, 0x00,
@@ -499,13 +446,13 @@ var SetDoorPasscodes = Func{
 					0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
 					0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
 				},
-				Response: []Value{
-					Value{
+				Response: []types.Value{
+					{
 						Name:  "controller",
 						Type:  "uint32",
 						Value: 405419896,
 					},
-					Value{
+					{
 						Name:  "ok",
 						Type:  "bool",
 						Value: true,
@@ -524,9 +471,9 @@ var OpenDoor = Func{
 	Protocols:   []string{"broadcast", "udp", "tcp"},
 
 	Test: FuncTest{
-		Args: []Arg{
-			Arg{Name: "controller", Type: "uint32", Value: uint32(405419896)},
-			Arg{Name: "door", Type: "uint8", Value: uint8(3)},
+		Args: []types.Arg{
+			{Name: "controller", Type: "uint32", Value: uint32(405419896)},
+			{Name: "door", Type: "uint8", Value: uint8(3)},
 		},
 		Request: []byte{
 			0x17, 0x40, 0x00, 0x00, 0x78, 0x37, 0x2a, 0x18, 0x03, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
@@ -542,16 +489,114 @@ var OpenDoor = Func{
 					0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
 					0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
 				},
-				Response: []Value{
-					Value{
+				Response: []types.Value{
+					{
 						Name:  "controller",
 						Type:  "uint32",
 						Value: 405419896,
 					},
-					Value{
+					{
 						Name:  "ok",
 						Type:  "bool",
 						Value: true,
+					},
+				},
+			},
+		},
+	},
+}
+
+var getStatus = Func{
+	Name:        "get-status",
+	Description: "GetStatus retrieves the system status from an access controller.",
+	Request:     GetStatusRequest,
+	Response:    GetStatusResponse,
+	Protocols:   []string{"broadcast", "udp", "tcp"},
+
+	Test: FuncTest{
+		Args: []types.Arg{
+			{Name: "controller", Type: "uint32", Value: uint32(405419896)},
+		},
+		Request: []byte{
+			0x17, 0x20, 0x00, 0x00, 0x78, 0x37, 0x2a, 0x18, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+			0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+			0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+			0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+		},
+		Replies: []Reply{
+			Reply{
+				Message: []byte{
+					0x17, 0x20, 0x00, 0x00, 0x78, 0x37, 0x2a, 0x18, 0x4e, 0x00, 0x00, 0x00, 0x02, 0x01, 0x03, 0x01,
+					0xa1, 0x98, 0x7c, 0x00, 0x20, 0x22, 0x08, 0x23, 0x09, 0x47, 0x06, 0x2c, 0x00, 0x01, 0x00, 0x00,
+					0x00, 0x00, 0x00, 0x01, 0x03, 0x09, 0x49, 0x39, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+					0x27, 0x07, 0x09, 0x22, 0x08, 0x23, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+				},
+				Response: []types.Value{
+					{"controller", "uint32", 405419896},
+					{"system-date", "date", "2022-08-23"},
+					{"system-time", "time", "09:49:39"},
+					{"door-1-open", "bool", false},
+					{"door-2-open", "bool", true},
+					{"door-3-open", "bool", false},
+					{"door-4-open", "bool", false},
+					{"door-1-button", "bool", false},
+					{"door-2-button", "bool", false},
+					{"door-3-button", "bool", false},
+					{"door-4-button", "bool", true},
+					{"relays", "uint8", 0x07},
+					{"inputs", "uint8", 0x09},
+					{"system-error", "uint8", 3},
+					{"special-info", "uint8", 39},
+					{"event-index", "uint32", 78},
+					{"event-type", "uint8", 2},
+					{"event-access-granted", "bool", true},
+					{"event-door", "uint8", 3},
+					{"event-direction", "uint8", 1},
+					{"event-card", "uint32", 8165537},
+					{"event-timestamp", "datetime", "2022-08-23 09:47:06"},
+					{"event-reason", "uint8", 44},
+					{"sequence-no", "uint32", 0},
+				},
+			},
+		},
+	},
+}
+
+var GetCards = Func{
+	Name:        "get-cards",
+	Description: "Retrieves the number of cards stored on  an access controller.",
+	Request:     GetCardsRequest,
+	Response:    GetCardsResponse,
+	Protocols:   []string{"broadcast", "udp", "tcp"},
+
+	Test: FuncTest{
+		Args: []types.Arg{
+			{Name: "controller", Type: "uint32", Value: uint32(405419896)},
+		},
+		Request: []byte{
+			0x17, 0x58, 0x00, 0x00, 0x78, 0x37, 0x2a, 0x18, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+			0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+			0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+			0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+		},
+		Replies: []Reply{
+			Reply{
+				Message: []byte{
+					0x17, 0x58, 0x00, 0x00, 0x78, 0x37, 0x2a, 0x18, 0x0b, 0x35, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+					0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+					0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+					0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+				},
+				Response: []types.Value{
+					{
+						Name:  "controller",
+						Type:  "uint32",
+						Value: 405419896,
+					},
+					{
+						Name:  "cards",
+						Type:  "uint32",
+						Value: 13579,
 					},
 				},
 			},

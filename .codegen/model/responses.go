@@ -1,10 +1,10 @@
 package model
 
 import (
-	types "github.com/uhppoted/uhppoted-codegen/model/types"
+	"codegen/model/types"
 )
 
-var Responses = []Response{
+var Responses = []types.Response{
 	GetControllerResponse,
 	SetIPv4Response,
 	GetStatusResponse,
@@ -16,9 +16,10 @@ var Responses = []Response{
 	SetDoorResponse,
 	SetDoorPasscodesResponse,
 	OpenDoorResponse,
+	GetCardsResponse,
 }
 
-var GetControllerResponse = Response{
+var GetControllerResponse = types.Response{
 	Name:    "get controller",
 	MsgType: 0x94,
 	Fields: []types.Field{
@@ -30,7 +31,7 @@ var GetControllerResponse = Response{
 		{"version", "version", 26, "controller firmware version, e.g. v6.62"},
 		{"date", "date", 28, "controller firmware release date, e.g. 2020-12-31"},
 	},
-	Tests: []Test{
+	Tests: []types.Test{
 		{
 			Name: "get-controller",
 			Response: []byte{
@@ -39,38 +40,38 @@ var GetControllerResponse = Response{
 				0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
 				0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
 			},
-			Values: []Value{
-				Value{
+			Values: []types.Value{
+				{
 					Name:  "controller",
 					Type:  "uint32",
 					Value: 405419896,
 				},
-				Value{
+				{
 					Name:  "ip address",
 					Type:  "IPv4",
 					Value: "192.168.1.100",
 				},
-				Value{
+				{
 					Name:  "subnet mask",
 					Type:  "IPv4",
 					Value: "255.255.255.0",
 				},
-				Value{
+				{
 					Name:  "gateway",
 					Type:  "IPv4",
 					Value: "192.168.1.1",
 				},
-				Value{
+				{
 					Name:  "MAC address",
 					Type:  "MAC",
 					Value: "00:12:23:34:45:56",
 				},
-				Value{
+				{
 					Name:  "version",
 					Type:  "version",
 					Value: "v8.92",
 				},
-				Value{
+				{
 					Name:  "date",
 					Type:  "date",
 					Value: "2018-11-05",
@@ -80,14 +81,14 @@ var GetControllerResponse = Response{
 	},
 }
 
-var SetIPv4Response = Response{
+var SetIPv4Response = types.Response{
 	Name:    "set IPv4",
 	MsgType: 0x96,
 	Fields: []types.Field{
 		{"controller", "uint32", 4, "controller serial number, e.g. 405419896"},
 		{"ok", "bool", 8, "controller IPv4 network configured"},
 	},
-	Tests: []Test{
+	Tests: []types.Test{
 		{
 			Name: "set-IPv4",
 			Response: []byte{
@@ -96,13 +97,13 @@ var SetIPv4Response = Response{
 				0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
 				0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
 			},
-			Values: []Value{
-				Value{
+			Values: []types.Value{
+				{
 					Name:  "controller",
 					Type:  "uint32",
 					Value: 405419896,
 				},
-				Value{
+				{
 					Name:  "ok",
 					Type:  "bool",
 					Value: true,
@@ -112,7 +113,7 @@ var SetIPv4Response = Response{
 	},
 }
 
-var GetStatusResponse = Response{
+var GetStatusResponse = types.Response{
 	Name:    "get status",
 	MsgType: 0x20,
 	Fields: []types.Field{
@@ -141,7 +142,7 @@ var GetStatusResponse = Response{
 		{"event-reason", "uint8", 27, "last event reason"},
 		{"sequence-no", "uint32", 40, "packet sequence number"},
 	},
-	Tests: []Test{
+	Tests: []types.Test{
 		{
 			Name: "get-status",
 			Response: []byte{
@@ -150,123 +151,123 @@ var GetStatusResponse = Response{
 				0x00, 0x00, 0x00, 0x01, 0x03, 0x09, 0x49, 0x39, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
 				0x27, 0x07, 0x09, 0x22, 0x08, 0x23, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
 			},
-			Values: []Value{
-				Value{
+			Values: []types.Value{
+				{
 					Name:  "controller",
 					Type:  "uint32",
 					Value: 405419896,
 				},
-				Value{
+				{
 					Name:  "system-date",
 					Type:  "date",
 					Value: "2022-08-23",
 				},
-				Value{
+				{
 					Name:  "system-time",
 					Type:  "time",
 					Value: "09:49:39",
 				},
-				Value{
+				{
 					Name:  "door-1-open",
 					Type:  "bool",
 					Value: false,
 				},
-				Value{
+				{
 					Name:  "door-2-open",
 					Type:  "bool",
 					Value: true,
 				},
-				Value{
+				{
 					Name:  "door-3-open",
 					Type:  "bool",
 					Value: false,
 				},
-				Value{
+				{
 					Name:  "door-4-open",
 					Type:  "bool",
 					Value: false,
 				},
-				Value{
+				{
 					Name:  "door-1-button",
 					Type:  "bool",
 					Value: false,
 				},
-				Value{
+				{
 					Name:  "door-2-button",
 					Type:  "bool",
 					Value: false,
 				},
-				Value{
+				{
 					Name:  "door-3-button",
 					Type:  "bool",
 					Value: false,
 				},
-				Value{
+				{
 					Name:  "door-4-button",
 					Type:  "bool",
 					Value: true,
 				},
-				Value{
+				{
 					Name:  "relays",
 					Type:  "uint8",
 					Value: 0x07,
 				},
-				Value{
+				{
 					Name:  "inputs",
 					Type:  "uint8",
 					Value: 0x09,
 				},
-				Value{
+				{
 					Name:  "system-error",
 					Type:  "uint8",
 					Value: 3,
 				},
-				Value{
+				{
 					Name:  "special-info",
 					Type:  "uint8",
 					Value: 39,
 				},
-				Value{
+				{
 					Name:  "event-index",
 					Type:  "uint32",
 					Value: 78,
 				},
-				Value{
+				{
 					Name:  "event-type",
 					Type:  "uint8",
 					Value: 2,
 				},
-				Value{
+				{
 					Name:  "event-access-granted",
 					Type:  "bool",
 					Value: true,
 				},
-				Value{
+				{
 					Name:  "event-door",
 					Type:  "uint8",
 					Value: 3,
 				},
-				Value{
+				{
 					Name:  "event-direction",
 					Type:  "uint8",
 					Value: 1,
 				},
-				Value{
+				{
 					Name:  "event-card",
 					Type:  "uint32",
 					Value: 8165537,
 				},
-				Value{
+				{
 					Name:  "event-timestamp",
 					Type:  "datetime",
 					Value: "2022-08-23 09:47:06",
 				},
-				Value{
+				{
 					Name:  "event-reason",
 					Type:  "uint8",
 					Value: 44,
 				},
-				Value{
+				{
 					Name:  "sequence-no",
 					Type:  "uint32",
 					Value: 0,
@@ -276,14 +277,14 @@ var GetStatusResponse = Response{
 	},
 }
 
-var GetTimeResponse = Response{
+var GetTimeResponse = types.Response{
 	Name:    "get time",
 	MsgType: 0x32,
 	Fields: []types.Field{
 		{"controller", "uint32", 4, "controller serial number, e.g. 405419896"},
 		{"date-time", "datetime", 8, "controller system date/time"},
 	},
-	Tests: []Test{
+	Tests: []types.Test{
 		{
 			Name: "get-time",
 			Response: []byte{
@@ -292,13 +293,13 @@ var GetTimeResponse = Response{
 				0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
 				0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
 			},
-			Values: []Value{
-				Value{
+			Values: []types.Value{
+				{
 					Name:  "controller",
 					Type:  "uint32",
 					Value: 405419896,
 				},
-				Value{
+				{
 					Name:  "date-time",
 					Type:  "datetime",
 					Value: "2024-11-01 12:34:56",
@@ -308,14 +309,14 @@ var GetTimeResponse = Response{
 	},
 }
 
-var SetTimeResponse = Response{
+var SetTimeResponse = types.Response{
 	Name:    "set time",
 	MsgType: 0x30,
 	Fields: []types.Field{
 		{"controller", "uint32", 4, "controller serial number, e.g. 405419896"},
 		{"date-time", "datetime", 8, "controller system date/time"},
 	},
-	Tests: []Test{
+	Tests: []types.Test{
 		{
 			Name: "set-time",
 			Response: []byte{
@@ -324,13 +325,13 @@ var SetTimeResponse = Response{
 				0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
 				0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
 			},
-			Values: []Value{
-				Value{
+			Values: []types.Value{
+				{
 					Name:  "controller",
 					Type:  "uint32",
 					Value: 405419896,
 				},
-				Value{
+				{
 					Name:  "date-time",
 					Type:  "datetime",
 					Value: "2024-11-01 12:34:56",
@@ -340,7 +341,7 @@ var SetTimeResponse = Response{
 	},
 }
 
-var GetListenerResponse = Response{
+var GetListenerResponse = types.Response{
 	Name:    "get listener",
 	MsgType: 0x92,
 	Fields: []types.Field{
@@ -348,7 +349,7 @@ var GetListenerResponse = Response{
 		{"address", "addrport", 8, "event listener IPv4 address:port"},
 		{"interval", "uint8", 14, "auto-send interval (seconds)"},
 	},
-	Tests: []Test{
+	Tests: []types.Test{
 		{
 			Name: "get-listener",
 			Response: []byte{
@@ -357,18 +358,18 @@ var GetListenerResponse = Response{
 				0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
 				0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
 			},
-			Values: []Value{
-				Value{
+			Values: []types.Value{
+				{
 					Name:  "controller",
 					Type:  "uint32",
 					Value: 405419896,
 				},
-				Value{
+				{
 					Name:  "address",
 					Type:  "addrport",
 					Value: "192.168.1.100:60001",
 				},
-				Value{
+				{
 					Name:  "interval",
 					Type:  "uint8",
 					Value: "17",
@@ -378,14 +379,14 @@ var GetListenerResponse = Response{
 	},
 }
 
-var SetListenerResponse = Response{
+var SetListenerResponse = types.Response{
 	Name:    "set listener",
 	MsgType: 0x90,
 	Fields: []types.Field{
 		{"controller", "uint32", 4, "controller serial number, e.g. 405419896"},
 		{"ok", "bool", 8, "set-listener succeeded/failed"},
 	},
-	Tests: []Test{
+	Tests: []types.Test{
 		{
 			Name: "set-listener",
 			Response: []byte{
@@ -394,13 +395,13 @@ var SetListenerResponse = Response{
 				0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
 				0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
 			},
-			Values: []Value{
-				Value{
+			Values: []types.Value{
+				{
 					Name:  "controller",
 					Type:  "uint32",
 					Value: 405419896,
 				},
-				Value{
+				{
 					Name:  "ok",
 					Type:  "bool",
 					Value: true,
@@ -410,7 +411,7 @@ var SetListenerResponse = Response{
 	},
 }
 
-var GetDoorResponse = Response{
+var GetDoorResponse = types.Response{
 	Name:    "get door",
 	MsgType: 0x82,
 	Fields: []types.Field{
@@ -419,7 +420,7 @@ var GetDoorResponse = Response{
 		{"mode", "uint8", 9, "control mode (1:normally open, 2:normally closed. 3:controlled)"},
 		{"delay", "uint8", 10, "unlock delay (seconds)"},
 	},
-	Tests: []Test{
+	Tests: []types.Test{
 		{
 			Name: "get-door",
 			Response: []byte{
@@ -428,23 +429,23 @@ var GetDoorResponse = Response{
 				0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
 				0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
 			},
-			Values: []Value{
-				Value{
+			Values: []types.Value{
+				{
 					Name:  "controller",
 					Type:  "uint32",
 					Value: 405419896,
 				},
-				Value{
+				{
 					Name:  "door",
 					Type:  "uint8",
 					Value: 3,
 				},
-				Value{
+				{
 					Name:  "mode",
 					Type:  "uint8",
 					Value: 2,
 				},
-				Value{
+				{
 					Name:  "delay",
 					Type:  "uint8",
 					Value: 7,
@@ -454,7 +455,7 @@ var GetDoorResponse = Response{
 	},
 }
 
-var SetDoorResponse = Response{
+var SetDoorResponse = types.Response{
 	Name:    "set door",
 	MsgType: 0x80,
 	Fields: []types.Field{
@@ -463,7 +464,7 @@ var SetDoorResponse = Response{
 		{"mode", "uint8", 9, "control mode (1:normally open, 2:normally closed. 3:controlled)"},
 		{"delay", "uint8", 10, "unlock delay (seconds)"},
 	},
-	Tests: []Test{
+	Tests: []types.Test{
 		{
 			Name: "set-door",
 			Response: []byte{
@@ -472,23 +473,23 @@ var SetDoorResponse = Response{
 				0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
 				0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
 			},
-			Values: []Value{
-				Value{
+			Values: []types.Value{
+				{
 					Name:  "controller",
 					Type:  "uint32",
 					Value: 405419896,
 				},
-				Value{
+				{
 					Name:  "door",
 					Type:  "uint8",
 					Value: 3,
 				},
-				Value{
+				{
 					Name:  "mode",
 					Type:  "uint8",
 					Value: 2,
 				},
-				Value{
+				{
 					Name:  "delay",
 					Type:  "uint8",
 					Value: 7,
@@ -498,14 +499,14 @@ var SetDoorResponse = Response{
 	},
 }
 
-var SetDoorPasscodesResponse = Response{
+var SetDoorPasscodesResponse = types.Response{
 	Name:    "set door passcodes",
 	MsgType: 0x8c,
 	Fields: []types.Field{
 		{"controller", "uint32", 4, "controller serial number, e.g. 405419896"},
 		{"ok", "bool", 8, "set-door-passcodes succeeded/failed"},
 	},
-	Tests: []Test{
+	Tests: []types.Test{
 		{
 			Name: "set-door-passcodes",
 			Response: []byte{
@@ -514,13 +515,13 @@ var SetDoorPasscodesResponse = Response{
 				0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
 				0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
 			},
-			Values: []Value{
-				Value{
+			Values: []types.Value{
+				{
 					Name:  "controller",
 					Type:  "uint32",
 					Value: 405419896,
 				},
-				Value{
+				{
 					Name:  "ok",
 					Type:  "bool",
 					Value: true,
@@ -530,14 +531,14 @@ var SetDoorPasscodesResponse = Response{
 	},
 }
 
-var OpenDoorResponse = Response{
+var OpenDoorResponse = types.Response{
 	Name:    "open door",
 	MsgType: 0x40,
 	Fields: []types.Field{
 		{"controller", "uint32", 4, "controller serial number, e.g. 405419896"},
 		{"ok", "bool", 8, "open-door succeeded/failed"},
 	},
-	Tests: []Test{
+	Tests: []types.Test{
 		{
 			Name: "open-door",
 			Response: []byte{
@@ -546,16 +547,48 @@ var OpenDoorResponse = Response{
 				0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
 				0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
 			},
-			Values: []Value{
-				Value{
+			Values: []types.Value{
+				{
 					Name:  "controller",
 					Type:  "uint32",
 					Value: 405419896,
 				},
-				Value{
+				{
 					Name:  "ok",
 					Type:  "bool",
 					Value: true,
+				},
+			},
+		},
+	},
+}
+
+var GetCardsResponse = types.Response{
+	Name:    "get cards",
+	MsgType: 0x58,
+	Fields: []types.Field{
+		{"controller", "uint32", 4, "controller serial number, e.g. 405419896"},
+		{"cards", "uint32", 8, "number of stored cards"},
+	},
+	Tests: []types.Test{
+		{
+			Name: "get-cards",
+			Response: []byte{
+				0x17, 0x58, 0x00, 0x00, 0x78, 0x37, 0x2a, 0x18, 0x0b, 0x35, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+				0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+				0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+				0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+			},
+			Values: []types.Value{
+				{
+					Name:  "controller",
+					Type:  "uint32",
+					Value: 405419896,
+				},
+				{
+					Name:  "cards",
+					Type:  "uint32",
+					Value: 13579,
 				},
 			},
 		},

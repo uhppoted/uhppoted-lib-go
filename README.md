@@ -33,7 +33,6 @@ folder.
 - [`FindControllers`](API.md#findcontrollers)
 - [`GetController`](API.md#getcontroller)
 - [`SetIPv4`](API.md#setipv4)
-- [`GetStatus`](API.md#getstatus)
 - [`GetTime`](API.md#gettime)
 - [`SetTime`](API.md#settime)
 - [`GetListener`](API.md#getlistener)
@@ -42,4 +41,6 @@ folder.
 - [`SetDoor`](API.md#setdoor)
 - [`SetDoorPasscodes`](API.md#setdoorpasscodes)
 - [`OpenDoor`](API.md#opendoor)
+- [`GetStatus`](API.md#getstatus)
+- [`GetCards`](API.md#getcards)
 

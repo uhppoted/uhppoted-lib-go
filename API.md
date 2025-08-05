@@ -3,7 +3,6 @@
 - [`FindControllers`](#findcontrollers)
 - [`GetController`](#getcontroller)
 - [`SetIPv4`](#setipv4)
-- [`GetStatus`](#getstatus)
 - [`GetTime`](#gettime)
 - [`SetTime`](#settime)
 - [`GetListener`](#getlistener)
@@ -12,6 +11,8 @@
 - [`SetDoor`](#setdoor)
 - [`SetDoorPasscodes`](#setdoorpasscodes)
 - [`OpenDoor`](#opendoor)
+- [`GetStatus`](#getstatus)
+- [`GetCards`](#getcards)
 ---
 Invoking an API function requires an instance of the `Uhppoted` struct initialised with the information required
 to access a controller:
@@ -130,18 +131,6 @@ gateway     netip.Addr    controller gateway IPv4 address
 Returns a `SetIPv4Response`.
 ```
 
-### `GetStatus`
-```
-GetStatus(u Uhppoted, controller TController, timeout time.Duration) (GetStatusResponse,error)
-
-u           Uhppoted struct initialised with the bind address, broadcast address, etc
-controller  uint32|Controller controller serial number or {id, address, protocol} Controller struct
-timeout     maximum time to wait for a response from a controller
-
-Returns a `GetStatusResponse` with the controller status information. If the response does not contain a
-valid event, the event fields are set to `None`.
-```
-
 ### `GetTime`
 ```
 GetTime(u Uhppoted, controller TController, timeout time.Duration) (GetTimeResponse,error)
@@ -245,6 +234,29 @@ timeout     maximum time to wait for a response from a controller
 Returns an `OpenDoorResponse`.
 ```
 
+### `GetStatus`
+```
+GetStatus(u Uhppoted, controller TController, timeout time.Duration) (GetStatusResponse,error)
+
+u           Uhppoted struct initialised with the bind address, broadcast address, etc
+controller  uint32|Controller controller serial number or {id, address, protocol} Controller struct
+timeout     maximum time to wait for a response from a controller
+
+Returns a `GetStatusResponse` with the controller status information. If the response does not contain a
+valid event, the event fields are set to `None`.
+```
+
+### `GetCards`
+```
+GetCards(u Uhppoted, controller TController, timeout time.Duration) (GetCardsResponse,error)
+
+u           Uhppoted struct initialised with the bind address, broadcast address, etc
+controller  uint32|Controller controller serial number or {id, address, protocol} Controller struct
+timeout     maximum time to wait for a response from a controller
+
+Returns a `GetCardsResponse` with the number of cards stored on the controller.
+```
+
 
 ## Types
 
@@ -270,38 +282,6 @@ Container class for the decoded response from a _SetIPv4_ request.
 type SetIPv4Response struct {
     Controller uint32     `json:"controller"`    // controller serial number
     Ok         bool       `json:"ok"`            // succeeded/failed
-}
-```
-
-### `GetStatusResponse`
-
-Container class for the decoded response from a _GetStatus_ request.
-```
-type GetStatusResponse struct {
-  Controller          uint32     `json:"controller"`      // controller serial number
-  SystemDate          time.Time  `json:"system-date"`     // controller system date
-  SystemTime          time.Time  `json:"system-time"`     // controller system time
-  Door1Open           bool       `json:"door-1-open"`     // door 1 locked/unlocked
-  Door2Open           bool       `json:"door-2-open"`     // door 2 locked/unlocked
-  Door3Open           bool       `json:"door-3-open"`     // door 3 locked/unlocked
-  Door4Open           bool       `json:"door-4-open"`     // door 4 locked/unlocked
-  Door1Button         bool       `json:"door-1-button"`   // pushbutton 1 pressed/released
-  Door2Button         bool       `json:"door-2-button"`   // pushbutton 2 pressed/released
-  Door3Button         bool       `json:"door-3-button"`   // pushbutton 3 pressed/released
-  Door4Button         bool       `json:"door-4-button"`   // pushbutton 4 pressed/released
-  Relays              uint8      `json:"relays"`          // bit array of relay states
-  Inputs              uint8      `json:"alarm-inputs"`    // bit array of door sensor states
-  SystemError         uint8      `json:"system-error"`    // system error code
-  SpecialInfo         uint8      `json:"special-info"`    // (absolutely no idea)
-  EventIndex          uint32     `json:"event-index"`     // index of last recorded event
-  EventType           uint8      `json:"event-type"`      // type of last recorded event
-  EventAccessGranted  bool       `json:"event-granted"`   // last event access granted/denied
-  EventDoor           uint8      `json:"event-door"`      // last event door no. [1..4]
-  EventDirection      uint8      `json:"event-direction"` // last event direction (0: in, 1: out)
-  EventCard           uint32     `json:"event-card"`      // last event card number
-  EventTimestamp      time.Time  `json:"event-timestamp"` // last event timestamp
-  EventReason         uint8      `json:"event-reason"`    // last event access granted/denied reason code
-  SequenceNo          uint32     `json:"sequence-no"`     // packet sequence number
 }
 ```
 
@@ -387,6 +367,48 @@ Container class for the decoded response from an _OpenDoor_ request.
 type OpenDoorResponse struct {
   Controller  uint32  `json:"controller"` // controller serial number
   Ok          bool    `json:"ok"`         // true if request succeeded
+}
+```
+
+### `GetStatusResponse`
+
+Container class for the decoded response from a _GetStatus_ request.
+```
+type GetStatusResponse struct {
+  Controller          uint32     `json:"controller"`      // controller serial number
+  SystemDate          time.Time  `json:"system-date"`     // controller system date
+  SystemTime          time.Time  `json:"system-time"`     // controller system time
+  Door1Open           bool       `json:"door-1-open"`     // door 1 locked/unlocked
+  Door2Open           bool       `json:"door-2-open"`     // door 2 locked/unlocked
+  Door3Open           bool       `json:"door-3-open"`     // door 3 locked/unlocked
+  Door4Open           bool       `json:"door-4-open"`     // door 4 locked/unlocked
+  Door1Button         bool       `json:"door-1-button"`   // pushbutton 1 pressed/released
+  Door2Button         bool       `json:"door-2-button"`   // pushbutton 2 pressed/released
+  Door3Button         bool       `json:"door-3-button"`   // pushbutton 3 pressed/released
+  Door4Button         bool       `json:"door-4-button"`   // pushbutton 4 pressed/released
+  Relays              uint8      `json:"relays"`          // bit array of relay states
+  Inputs              uint8      `json:"alarm-inputs"`    // bit array of door sensor states
+  SystemError         uint8      `json:"system-error"`    // system error code
+  SpecialInfo         uint8      `json:"special-info"`    // (absolutely no idea)
+  EventIndex          uint32     `json:"event-index"`     // index of last recorded event
+  EventType           uint8      `json:"event-type"`      // type of last recorded event
+  EventAccessGranted  bool       `json:"event-granted"`   // last event access granted/denied
+  EventDoor           uint8      `json:"event-door"`      // last event door no. [1..4]
+  EventDirection      uint8      `json:"event-direction"` // last event direction (0: in, 1: out)
+  EventCard           uint32     `json:"event-card"`      // last event card number
+  EventTimestamp      time.Time  `json:"event-timestamp"` // last event timestamp
+  EventReason         uint8      `json:"event-reason"`    // last event access granted/denied reason code
+  SequenceNo          uint32     `json:"sequence-no"`     // packet sequence number
+}
+```
+
+### `GetCardsResponse`
+
+Container class for the decoded response from a _GetCards_ request.
+```
+type GetStatusResponse struct {
+  Controller  uint32     `json:"controller"` // controller serial number
+  Cards       uint32     `json:"cards"`      // number of stored cards
 }
 ```
 

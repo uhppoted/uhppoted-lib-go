@@ -14,6 +14,7 @@
 - [x] set-door
 - [x] set-door-passcodes
 - [x] open-door
+- [x] get-cards
    - [x] API
    - [x] example
    - [x] README
