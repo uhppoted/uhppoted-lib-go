@@ -24,8 +24,16 @@ func API() {
 
 	f := []*ast.FuncDecl{
 		function(model.GetController),
+		// function(model.SetIPv4),
+		function(model.GetTime),
+		// function(model.SetTime),
+		function(model.GetListener),
+		// function(model.SetListener),
+		function(model.GetDoor),
+		function(model.SetDoor),
 		function(model.SetDoorPasscodes),
 		function(model.OpenDoor),
+		function(model.GetStatus),
 		function(model.GetCards),
 	}
 

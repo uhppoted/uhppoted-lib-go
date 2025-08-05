@@ -9,16 +9,16 @@ import (
 var API = []Func{
 	FindControllers,
 	GetController,
-	setIPv4,
-	getTime,
-	setTime,
-	getListener,
-	setListener,
-	getDoor,
-	setDoor,
+	SetIPv4,
+	GetTime,
+	SetTime,
+	GetListener,
+	SetListener,
+	GetDoor,
+	SetDoor,
 	SetDoorPasscodes,
 	OpenDoor,
-	getStatus,
+	GetStatus,
 	GetCards,
 }
 
@@ -111,9 +111,12 @@ var GetController = Func{
 	},
 }
 
-var setIPv4 = Func{
+// - address:    controller IPv4 address e.g. 192.168.1.100.
+// - netmask:    controller IPv4 subnet mask e.g. 255.255.255.0.
+// - gateway:    controller IPv4 gateway address e.g. 192.168.1.1.
+var SetIPv4 = Func{
 	Name:        "set-IPv4",
-	Description: "SetIP sets the controller IPv4 address, netmask and gateway address.",
+	Description: "SetIPv4 sets the controller IPv4 address, netmask and gateway address.",
 	Request:     SetIPv4Request,
 	Response:    SetIPv4Response,
 	Protocols:   []string{"broadcast", "udp", "tcp"},
@@ -148,7 +151,7 @@ var setIPv4 = Func{
 	},
 }
 
-var getTime = Func{
+var GetTime = Func{
 	Name:        "get-time",
 	Description: "GetTime retrieves the access controller system date and time.",
 	Request:     GetTimeRequest,
@@ -182,7 +185,7 @@ var getTime = Func{
 	},
 }
 
-var setTime = Func{
+var SetTime = Func{
 	Name:        "set-time",
 	Description: "SetTime sets the access controller system date and time.",
 	Request:     SetTimeRequest,
@@ -217,7 +220,7 @@ var setTime = Func{
 	},
 }
 
-var getListener = Func{
+var GetListener = Func{
 	Name:        "get-listener",
 	Description: "GetListener retrieves the access controller event listener IPv4 address:port and auto-send interval.",
 	Request:     GetListenerRequest,
@@ -264,7 +267,9 @@ var getListener = Func{
 	},
 }
 
-var setListener = Func{
+// - listener: IPv4 address:port of host listening for controller events.
+// - interval: status auto-send interval (seconds) for events (0 disables auto-send).
+var SetListener = Func{
 	Name:        "set-listener",
 	Description: "SetListener sets the access controller event listener IPv4 address:port and auto-send interval.",
 	Request:     SetListenerRequest,
@@ -308,7 +313,7 @@ var setListener = Func{
 	},
 }
 
-var getDoor = Func{
+var GetDoor = Func{
 	Name:        "get-door",
 	Description: "GetDoor retrieves the control mode and unlock delay time for an access controller door.",
 	Request:     GetDoorRequest,
@@ -361,7 +366,14 @@ var getDoor = Func{
 	},
 }
 
-var setDoor = Func{
+// The door parameter is the door ID ([1..4]) and the door control mode is one of the following:
+// - 1: normally open
+// - 2: normally closed
+// - 3: controlled
+//
+// The unlock delay is in seconds.
+// `,
+var SetDoor = Func{
 	Name:        "set-door",
 	Description: "SetDoor sets the control mode and unlock delay time for an access controller door.",
 	Request:     SetDoorRequest,
@@ -506,7 +518,7 @@ var OpenDoor = Func{
 	},
 }
 
-var getStatus = Func{
+var GetStatus = Func{
 	Name:        "get-status",
 	Description: "GetStatus retrieves the system status from an access controller.",
 	Request:     GetStatusRequest,

@@ -15,6 +15,42 @@ func GetController[T TController](u Uhppoted, controller T, timeout time.Duratio
 	return exec[T, GetControllerResponse](u, controller, f, timeout)
 }
 
+// GetTime retrieves the access controller system date and time.
+func GetTime[T TController](u Uhppoted, controller T, timeout time.Duration) (GetTimeResponse, error) {
+	f := func(id uint32) ([]byte, error) {
+		return encode.GetTimeRequest(id)
+	}
+
+	return exec[T, GetTimeResponse](u, controller, f, timeout)
+}
+
+// GetListener retrieves the access controller event listener IPv4 address:port and auto-send interval.
+func GetListener[T TController](u Uhppoted, controller T, timeout time.Duration) (GetListenerResponse, error) {
+	f := func(id uint32) ([]byte, error) {
+		return encode.GetListenerRequest(id)
+	}
+
+	return exec[T, GetListenerResponse](u, controller, f, timeout)
+}
+
+// GetDoor retrieves the control mode and unlock delay time for an access controller door.
+func GetDoor[T TController](u Uhppoted, controller T, door uint8, timeout time.Duration) (GetDoorResponse, error) {
+	f := func(id uint32) ([]byte, error) {
+		return encode.GetDoorRequest(id, door)
+	}
+
+	return exec[T, GetDoorResponse](u, controller, f, timeout)
+}
+
+// SetDoor sets the control mode and unlock delay time for an access controller door.
+func SetDoor[T TController](u Uhppoted, controller T, door uint8, mode uint8, delay uint8, timeout time.Duration) (SetDoorResponse, error) {
+	f := func(id uint32) ([]byte, error) {
+		return encode.SetDoorRequest(id, door, mode, delay)
+	}
+
+	return exec[T, SetDoorResponse](u, controller, f, timeout)
+}
+
 // Sets up to 4 passcodes for a controller door.
 func SetDoorPasscodes[T TController](u Uhppoted, controller T, door uint8, passcode1 uint32, passcode2 uint32, passcode3 uint32, passcode4 uint32, timeout time.Duration) (SetDoorPasscodesResponse, error) {
 	f := func(id uint32) ([]byte, error) {
@@ -31,6 +67,15 @@ func OpenDoor[T TController](u Uhppoted, controller T, door uint8, timeout time.
 	}
 
 	return exec[T, OpenDoorResponse](u, controller, f, timeout)
+}
+
+// GetStatus retrieves the system status from an access controller.
+func GetStatus[T TController](u Uhppoted, controller T, timeout time.Duration) (GetStatusResponse, error) {
+	f := func(id uint32) ([]byte, error) {
+		return encode.GetStatusRequest(id)
+	}
+
+	return exec[T, GetStatusResponse](u, controller, f, timeout)
 }
 
 // Retrieves the number of cards stored on  an access controller.

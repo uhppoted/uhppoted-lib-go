@@ -22,7 +22,7 @@
 
 - [ ] custom date/time types
 - [ ] check for controller = 0
-- [ ] check controller ID in response
+- [ ] check response.controller == request.controller
 - [ ] v6.62 version handling
 - [x] logging
     - [ ] set default handler

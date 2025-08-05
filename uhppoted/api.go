@@ -10,18 +10,9 @@ import (
 
 // FindControllers retrieves a list of all UHPPOTE controllers accessible on the local LAN.
 //
-// It broadcasts a `get controller` request to the local network and returns a list of
-// decoded responses from controllers that reply within the specified timeout.
-//
-// Parameters:
-//   - timeout: The maximum time to wait for responses.
-//
-// Returns:
-//   - A slice of GetControllerResponse structs, one for each responding controller.
-//   - An error if the request could not be encoded or sent.
-//
-// Note: Responses that cannot be decoded are silently ignored.
-
+// It broadcasts a UDP `get controller` request to the local network and returns a list of
+// decoded responses from controllers that reply within the timeout. Responses that cannot
+// be decoded are silently ignored.
 func FindControllers(u Uhppoted, timeout time.Duration) ([]GetControllerResponse, error) {
 	if request, err := encode.GetControllerRequest(0); err != nil {
 		return nil, err
@@ -41,24 +32,6 @@ func FindControllers(u Uhppoted, timeout time.Duration) ([]GetControllerResponse
 }
 
 //go:generate ../.codegen/bin/codegen API
-
-// // GetController retrieves the system information from an access controller.
-// //
-// // Parameters:
-// //   - controller: Either a uint32 controller serial number or a controller struct with the
-// //     controller serial number, IPv4 address and transport.
-// //   - timeout: The maximum time to wait for a response.
-// //
-// // Returns:
-// //   - A GetControllerResponse struct.
-// //   - An error if the request could not be executed.
-// func GetController[T TController](u Uhppoted, controller T, timeout time.Duration) (GetControllerResponse, error) {
-// 	f := func(id uint32) ([]byte, error) {
-// 		return encode.GetControllerRequest(id)
-// 	}
-//
-// 	return exec[T, GetControllerResponse](u, controller, f, timeout)
-// }
 
 // SetIP sets the controller IPv4 address, netmask and gateway address.
 //
@@ -81,42 +54,6 @@ func SetIPv4[T TController](u Uhppoted, controller T, address, netmask, gateway 
 	return exec[T, SetIPv4Response](u, controller, f, timeout)
 }
 
-// GetStatus retrieves the system status from an access controller.
-//
-// Parameters:
-//   - controller: Either a uint32 controller serial number or a controller struct with the
-//     controller serial number, IPv4 address and transport.
-//   - timeout: The maximum time to wait for a response.
-//
-// Returns:
-//   - A GetStatusResponse struct.
-//   - An error if the request could not be executed.
-func GetStatus[T TController](u Uhppoted, controller T, timeout time.Duration) (GetStatusResponse, error) {
-	f := func(id uint32) ([]byte, error) {
-		return encode.GetStatusRequest(id)
-	}
-
-	return exec[T, GetStatusResponse](u, controller, f, timeout)
-}
-
-// GetTime retrieves the access controller system date and time.
-//
-// Parameters:
-//   - controller: Either a uint32 controller serial number or a controller struct with the
-//     controller serial number, IPv4 address and transport.
-//   - timeout: The maximum time to wait for a response.
-//
-// Returns:
-//   - A GetTimeResponse struct.
-//   - An error if the request could not be executed.
-func GetTime[T TController](u Uhppoted, controller T, timeout time.Duration) (GetTimeResponse, error) {
-	f := func(id uint32) ([]byte, error) {
-		return encode.GetTimeRequest(id)
-	}
-
-	return exec[T, GetTimeResponse](u, controller, f, timeout)
-}
-
 // SetTime sets the access controller system date and time.
 //
 // Parameters:
@@ -134,25 +71,6 @@ func SetTime[T TController](u Uhppoted, controller T, datetime time.Time, timeou
 	}
 
 	return exec[T, SetTimeResponse](u, controller, f, timeout)
-}
-
-// GetListener retrieves the access controller event listener IPv4 address:port and auto-send
-// interval.
-//
-// Parameters:
-//   - controller: Either a uint32 controller serial number or a controller struct with the
-//     controller serial number, IPv4 address and transport.
-//   - timeout: The maximum time to wait for a response.
-//
-// Returns:
-//   - A GetListenerResponse struct.
-//   - An error if the request could not be executed.
-func GetListener[T TController](u Uhppoted, controller T, timeout time.Duration) (GetListenerResponse, error) {
-	f := func(id uint32) ([]byte, error) {
-		return encode.GetListenerRequest(id)
-	}
-
-	return exec[T, GetListenerResponse](u, controller, f, timeout)
 }
 
 // SetListener sets the access controller event listener IPv4 address:port and auto-send
@@ -174,44 +92,4 @@ func SetListener[T TController](u Uhppoted, controller T, listener netip.AddrPor
 	}
 
 	return exec[T, SetListenerResponse](u, controller, f, timeout)
-}
-
-// GetDoor retrieves the control mode and unlock delay time for an access controller door.
-//
-// Parameters:
-//   - controller: Either a uint32 controller serial number or a controller struct with the
-//     controller serial number, IPv4 address and transport.
-//   - door: Door Id ([1..4])
-//   - timeout: The maximum time to wait for a response.
-//
-// Returns:
-//   - A GetDoorResponse struct.
-//   - An error if the request could not be executed.
-func GetDoor[T TController](u Uhppoted, controller T, door uint8, timeout time.Duration) (GetDoorResponse, error) {
-	f := func(id uint32) ([]byte, error) {
-		return encode.GetDoorRequest(id, door)
-	}
-
-	return exec[T, GetDoorResponse](u, controller, f, timeout)
-}
-
-// SetDoor sets the control mode and unlock delay time for an access controller door.
-//
-// Parameters:
-//   - controller: Either a uint32 controller serial number or a controller struct with the
-//     controller serial number, IPv4 address and transport.
-//   - door: Door Id ([1..4])
-//   - mode: Door control mode (1: normally open, 2: normally closed, 3: controlled)
-//   - delay: Unlock delay (seconds)
-//   - timeout: The maximum time to wait for a response.
-//
-// Returns:
-//   - A SetDoorResponse struct.
-//   - An error if the request could not be executed.
-func SetDoor[T TController](u Uhppoted, controller T, door uint8, mode uint8, delay uint8, timeout time.Duration) (SetDoorResponse, error) {
-	f := func(id uint32) ([]byte, error) {
-		return encode.SetDoorRequest(id, door, mode, delay)
-	}
-
-	return exec[T, SetDoorResponse](u, controller, f, timeout)
 }
