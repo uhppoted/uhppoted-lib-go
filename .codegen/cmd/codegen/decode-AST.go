@@ -13,7 +13,7 @@ import (
 	"codegen/model"
 )
 
-func decoderAST() {
+func decoder() {
 	const output = "decoder.go"
 
 	f, err := os.Create(output)
@@ -22,14 +22,14 @@ func decoderAST() {
 	}
 	defer f.Close()
 
-	decl := buildAST()
+	decl := buildDecoder()
 
 	printer.Fprint(f, token.NewFileSet(), decl)
 
 	f.Close()
 }
 
-func buildAST() *ast.File {
+func buildDecoder() *ast.File {
 	return &ast.File{
 		Name: ast.NewIdent("codec"),
 
@@ -73,13 +73,13 @@ func buildAST() *ast.File {
 					},
 				},
 			},
-			buildDecodeFunc(),
-			buildDecodeFactoryFunc(),
+			buildDecoderFunc(),
+			buildDecoderFactoryFunc(),
 		},
 	}
 }
 
-func buildDecodeFunc() *ast.FuncDecl {
+func buildDecoderFunc() *ast.FuncDecl {
 	return &ast.FuncDecl{
 		Name: ast.NewIdent("Decode"),
 		Type: &ast.FuncType{
@@ -112,12 +112,12 @@ func buildDecodeFunc() *ast.FuncDecl {
 				},
 			},
 		},
-		Body: buildDecodeImpl(),
+		Body: buildDecoderImpl(),
 		Doc:  &ast.CommentGroup{},
 	}
 }
 
-func buildDecodeImpl() *ast.BlockStmt {
+func buildDecoderImpl() *ast.BlockStmt {
 	return &ast.BlockStmt{
 		List: []ast.Stmt{
 			// var zero R
@@ -242,7 +242,7 @@ func buildDecodeImpl() *ast.BlockStmt {
 	}
 }
 
-func buildDecodeFactoryFunc() *ast.FuncDecl {
+func buildDecoderFactoryFunc() *ast.FuncDecl {
 	return &ast.FuncDecl{
 		Name: ast.NewIdent("decode"),
 		Type: &ast.FuncType{
@@ -267,12 +267,12 @@ func buildDecodeFactoryFunc() *ast.FuncDecl {
 				},
 			},
 		},
-		Body: buildDecodeFactoryBody(),
+		Body: buildDecoderFactoryBody(),
 		Doc:  &ast.CommentGroup{},
 	}
 }
 
-func buildDecodeFactoryBody() *ast.BlockStmt {
+func buildDecoderFactoryBody() *ast.BlockStmt {
 	// switch packet[1] { ... }
 	_switch := &ast.BlockStmt{
 		List: []ast.Stmt{},

@@ -73,12 +73,23 @@ func (a AST) Generate(file string) error {
 
 		printer.Fprint(&b, fileset, a.file)
 
+		// ... remove 'lines intentionally left blank'
 		lines := strings.Split(b.String(), "\n")
 		for i, line := range lines {
 			if strings.HasPrefix(line, "// -- line intentionally left blank --") {
 				lines[i] = ""
 			}
 		}
+
+		// // ... format message packets
+		// re := regexp.MustCompile(`^    packet := \[\]byte\{(?:0x[0-9a-fA-F]{2})(, ?:0x[0-9a-fA-F]{2}){63})\}`)
+		// for _, line := range lines {
+		// 	if match := re.FindStringSubmatch(line); len(match) > 0 {
+		// 		fmt.Printf(">>>> %v\n", line)
+		// 		fmt.Printf(">>>> %v\n", match)
+		// 	}
+		// }
+
 		cleaned := strings.Join(lines, "\n")
 
 		if _, err = f.WriteString(cleaned); err != nil {

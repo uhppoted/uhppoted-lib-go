@@ -25,6 +25,7 @@
 - [ ] custom date/time types
 - [ ] check for controller = 0
 - [ ] check response.controller == request.controller
+- [ ] check response.card == request.card
 - [ ] v6.62 version handling
 - [ ] godoc examples
 - [x] logging
@@ -32,7 +33,6 @@
 
 - [ ] code generation
    - [ ] use/extend uhppoted-codegen models
-      - [x] remove model.Field
       - [ ] response
 
    - [ ] AST
