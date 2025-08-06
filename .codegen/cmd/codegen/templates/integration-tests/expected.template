@@ -11,7 +11,7 @@ import (
 var Expected = struct { 
     FindControllers []lib.GetControllerResponse
 {{- range $i,$func := . }}{{ if $i }}
-    {{ titleCase $func.Name }} lib.{{ titleCase $func.Response.Name }}Response{{ end }}{{ end }}
+    {{ titleCase $func.Name }} lib.{{ titleCase $func.Response.Message.Name }}Response{{ end }}{{ end }}
 }{ 
     FindControllers: []lib.GetControllerResponse{
         lib.GetControllerResponse{
@@ -43,7 +43,7 @@ var Expected = struct {
         },
     },
 {{ range $i,$func := . }}{{ if $i }}
-    {{ titleCase $func.Name }}: lib.{{ titleCase $func.Response.Name }}Response { {{- range $i,$reply := $func.Test.Replies }}
+    {{ titleCase $func.Name }}: lib.{{ titleCase $func.Response.Message.Name }}Response { {{- range $i,$reply := $func.Test.Replies }}
 {{- range $value := $reply.Response}}
         {{ titleCase $value.Name }}: {{ value $value.Value $value.Type }},
 {{- end }}

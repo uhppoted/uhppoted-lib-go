@@ -13,6 +13,7 @@
 - [`OpenDoor`](#opendoor)
 - [`GetStatus`](#getstatus)
 - [`GetCards`](#getcards)
+- [`GetCard`](#getcard)
 ---
 Invoking an API function requires an instance of the `Uhppoted` struct initialised with the information required
 to access a controller:
@@ -257,6 +258,19 @@ timeout     maximum time to wait for a response from a controller
 Returns a `GetCardsResponse` with the number of cards stored on the controller.
 ```
 
+### `GetCard`
+```
+GetCard(u Uhppoted, controller TController, card uint32, timeout time.Duration) (GetCardResponse,error)
+
+u           Uhppoted struct initialised with the bind address, broadcast address, etc
+controller  uint32|Controller controller serial number or {id, address, protocol} Controller struct
+card        card number
+timeout     maximum time to wait for a response from a controller
+
+Returns a `GetCardResponse` with the card information for the requested card. The card number is 0 if the
+card is not stored on the controller.
+```
+
 
 ## Types
 
@@ -409,6 +423,23 @@ Container class for the decoded response from a _GetCards_ request.
 type GetStatusResponse struct {
   Controller  uint32     `json:"controller"` // controller serial number
   Cards       uint32     `json:"cards"`      // number of stored cards
+}
+```
+
+### `GetCardResponse`
+
+Container class for the decoded response from a _GetCard_ request.
+```
+type GetStatusResponse struct {
+  Controller  uint32     `json:"controller"`  // controller serial number
+  Card        uint32     `json:"card"`        // card number
+  StartDate   time.Time  `json:"start-date"`  // 'valid from' date
+  EndDate     time.Time  `json:"end-date"`    // 'valid until' date
+  Door1       uint8      `json:"door-1"`      // access permissions for door 1
+  Door2       uint8      `json:"door-2"`      // access permissions for door 2
+  Door3       uint8      `json:"door-3"`      // access permissions for door 3
+  Door4       uint8      `json:"door-4"`      // access permissions for door 4
+  PIN         uint32     `json:"PIN"`         // (optional) PIN code [0..999999], 0 for none
 }
 ```
 

@@ -166,3 +166,15 @@ func TestGetCards(t *testing.T) {
 		t.Errorf("incorrect response\n   expected:%#v\n   got:     %#v", test.Expected.GetCards, response)
 	}
 }
+
+func TestGetCard(t *testing.T) {
+	card := uint32(10058400)
+
+	response, err := lib.GetCard(u, controller, card, timeout)
+
+	if err != nil {
+		t.Fatalf("%v", err)
+	} else if !reflect.DeepEqual(response, test.Expected.GetCard) {
+		t.Errorf("incorrect response\n   expected:%#v\n   got:     %#v", test.Expected.GetCard, response)
+	}
+}

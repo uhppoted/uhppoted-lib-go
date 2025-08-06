@@ -122,3 +122,17 @@ type GetCardsResponse struct {
 	Controller uint32 `json:"controller"`
 	Cards      uint32 `json:"cards"`
 }
+
+// GetCardResponse is a container struct for the response returned from a controller
+// when retrieving information for a card stored on the controller.
+type GetCardResponse struct {
+	Controller uint32    `json:"controller"`
+	Card       uint32    `json:"card"`
+	StartDate  time.Time `json:"start-date"`
+	EndDate    time.Time `json:"end-date"`
+	Door1      uint8     `json:"door-1"`
+	Door2      uint8     `json:"door-2"`
+	Door3      uint8     `json:"door-3"`
+	Door4      uint8     `json:"door-4"`
+	PIN        uint32    `json:"PIN"`
+}

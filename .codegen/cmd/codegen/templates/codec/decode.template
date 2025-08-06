@@ -11,30 +11,30 @@ import (
 )
 
 {{ range $response := . }}
-// Decodes a {{ hyphenate $response.Name }} response.
+// Decodes a {{ hyphenate $response.Message.Name }} response.
 //
 //  Parameters:
 //      packet  (bytearray)  64 byte UDP packet.
 //
 //  Returns:
-//      - {{ titleCase $response.Name }}Response initialised from the UDP packet.
+//      - {{ titleCase $response.Message.Name }}Response initialised from the UDP packet.
 //      - error if the packet is not 64 bytes, has an invalid start-of-message byte or has
 //                 the incorrect message type.
-func {{ titleCase $response.Name }}Response(packet []byte) (types.{{ titleCase $response.Name }}Response, error) {
+func {{ titleCase $response.Message.Name }}Response(packet []byte) (types.{{ titleCase $response.Message.Name }}Response, error) {
     if len(packet) != 64 {
-        return types.{{ titleCase $response.Name }}Response{}, fmt.Errorf("invalid reply packet length (%v)", len(packet))
+        return types.{{ titleCase $response.Message.Name }}Response{}, fmt.Errorf("invalid reply packet length (%v)", len(packet))
     }
 
     if packet[0] != SOM {
-        return types.{{ titleCase $response.Name }}Response{}, fmt.Errorf("invalid reply start of message byte (%02x)", packet[0])
+        return types.{{ titleCase $response.Message.Name }}Response{}, fmt.Errorf("invalid reply start of message byte (%02x)", packet[0])
     }
 
-    if packet[1] != {{ titleCase $response.Name }} {
-        return types.{{ titleCase $response.Name }}Response{}, fmt.Errorf("invalid reply function code (%02x)", packet[1])
+    if packet[1] != {{ titleCase $response.Message.Name }} {
+        return types.{{ titleCase $response.Message.Name }}Response{}, fmt.Errorf("invalid reply function code (%02x)", packet[1])
     }
 
-    return types.{{ titleCase $response.Name }}Response{
-{{- range $i,$field := $response.Fields }}
+    return types.{{ titleCase $response.Message.Name }}Response{
+{{- range $i,$field := $response.Message.Fields }}
         {{ titleCase $field.Name }}: {{ unpack $field }},{{ end }}
     }, nil
 }

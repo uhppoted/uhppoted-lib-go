@@ -6,13 +6,20 @@ import (
 
 type Request lib.Request
 type RequestTest lib.RequestTest
+
+// type Response lib.Response
+
 type Field lib.Field
 
 type Response struct {
-	Name    string
-	MsgType byte
-	Fields  []Field
-	Tests   []Test
+	Message lib.Message
+	Tests   []ResponseTest
+}
+
+type ResponseTest struct {
+	Name     string  `json:"name"`
+	Response []byte  `json:"response"`
+	Expected []Value `json:"expected"`
 }
 
 type Test struct {

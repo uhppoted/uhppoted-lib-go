@@ -21,7 +21,7 @@ const PUT_CARD byte = 0x50
 const DELETE_CARD byte = 0x52
 const DELETE_ALL_CARDS byte = 0x54
 const GetCards byte = 0x58
-const GET_CARD byte = 0x5A
+const GetCard byte = 0x5a
 const GET_CARD_AT_INDEX byte = 0x5C
 const SetDoor byte = 0x80
 const GetDoor byte = 0x82
@@ -101,7 +101,7 @@ func unpackYYYYMMDDHHMMSS(packet []byte, offset uint8) time.Time {
 	}
 }
 
-func unpackYYYYMMDD(packet []byte, offset uint8) time.Time {
+func unpackDate(packet []byte, offset uint8) time.Time {
 	bcd := bcd2string(packet[offset : offset+4])
 
 	if date, err := time.ParseInLocation("20060102", bcd, time.Local); err != nil {
@@ -111,13 +111,23 @@ func unpackYYYYMMDD(packet []byte, offset uint8) time.Time {
 	}
 }
 
-func unpackYYMMDD(packet []byte, offset uint8) time.Time {
+func unpackShortDate(packet []byte, offset uint8) time.Time {
 	bcd := bcd2string(packet[offset : offset+3])
 
 	if date, err := time.ParseInLocation("20060102", "20"+bcd, time.Local); err != nil {
 		return time.Time{}
 	} else {
 		return date
+	}
+}
+
+func unpackOptionalDate(packet []byte, offset uint8) time.Time {
+	bcd := bcd2string(packet[offset : offset+4])
+
+	if d, err := time.ParseInLocation("20060102", bcd, time.Local); err != nil {
+		return time.Time{}
+	} else {
+		return d
 	}
 }
 
@@ -129,6 +139,13 @@ func unpackHHMMSS(packet []byte, offset uint8) time.Time {
 	} else {
 		return date
 	}
+}
+
+func unpackPIN(packet []byte, offset uint8) uint32 {
+	b := []byte{packet[offset+0], packet[offset+1], packet[offset+2], 0x00}
+	v := binary.LittleEndian.Uint32(b)
+
+	return v
 }
 
 func bcd2string(bytes []byte) string {

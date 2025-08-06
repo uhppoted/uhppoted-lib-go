@@ -18,12 +18,12 @@ func Test{{ titleCase $test.Name }}Response(t *testing.T) {
 {{ hex $test.Response }}
     }
 
-    expected := types.{{ titleCase $response.Name }}Response {
-{{ range $value := $test.Values}}{{ titleCase $value.Name }}: {{ value $value.Value $value.Type }},
+    expected := types.{{ titleCase $response.Message.Name }}Response {
+{{ range $value := $test.Expected}}{{ titleCase $value.Name }}: {{ value $value.Value $value.Type }},
 {{ end -}}
     }
 
-    response,err := {{ titleCase $response.Name }}Response(packet)
+    response,err := {{ titleCase $response.Message.Name }}Response(packet)
 
     if err != nil {
         t.Fatalf("%v",err)

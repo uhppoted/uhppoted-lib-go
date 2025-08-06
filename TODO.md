@@ -15,15 +15,18 @@
 - [x] set-door-passcodes
 - [x] open-door
 - [x] get-cards
+- [ ] get-card
    - [x] API
-   - [x] example
+   - [x] CLI
    - [x] README
    - [x] integration test
+       - [ ] card not found
 
 - [ ] custom date/time types
 - [ ] check for controller = 0
 - [ ] check response.controller == request.controller
 - [ ] v6.62 version handling
+- [ ] godoc examples
 - [x] logging
     - [ ] set default handler
 

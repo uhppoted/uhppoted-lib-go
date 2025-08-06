@@ -263,3 +263,23 @@ func GetCardsRequest(controller uint32) ([]byte, error) {
 
 	return packet, nil
 }
+
+// Encodes a get-card-request.
+//
+//	Parameters:
+//	    controller  (uint32)  controller serial number
+//	    card number  (uint32)
+//
+//	Returns:
+//	    64 byte packet.
+func GetCardRequest(controller uint32, cardnumber uint32) ([]byte, error) {
+	packet := make([]byte, 64)
+
+	packet[0] = SOM
+	packet[1] = 90
+
+	packUint32(controller, packet, 4)
+	packUint32(cardnumber, packet, 8)
+
+	return packet, nil
+}

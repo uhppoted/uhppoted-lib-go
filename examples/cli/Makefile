@@ -1,6 +1,7 @@
 CMD   = ./bin/cli --debug --bind 0.0.0.0 --broadcast 255.255.255.255:60000 --listen 0.0.0.0:60001
 CONTROLLER = 405419896
 DOOR = 3
+CARD = 10058400
 DEST = 127.0.0.1
 
 .DEFAULT_GOAL := build
@@ -176,3 +177,12 @@ get-cards-udp: build
 
 get-cards-tcp: build
 	$(CMD) get-cards --controller $(CONTROLLER) --dest $(DEST) --tcp
+
+get-card: build
+	$(CMD) get-card --controller $(CONTROLLER) --card $(CARD)
+
+get-card-udp: build
+	$(CMD) get-card --controller $(CONTROLLER) --dest $(DEST) --card $(CARD)
+
+get-card-tcp: build
+	$(CMD) get-card --controller $(CONTROLLER) --dest $(DEST) --tcp --card $(CARD)

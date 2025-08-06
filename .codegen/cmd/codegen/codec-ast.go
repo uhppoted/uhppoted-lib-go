@@ -280,13 +280,13 @@ func buildDecodeFactoryBody() *ast.BlockStmt {
 
 	// ... message types
 	for _, response := range model.Responses {
-		name := fmt.Sprintf("%vResponse", titleCase(response.Name))
+		name := fmt.Sprintf("%vResponse", titleCase(response.Message.Name))
 
 		clause := ast.CaseClause{
 			List: []ast.Expr{
 				&ast.BasicLit{
 					Kind:  token.INT,
-					Value: fmt.Sprintf("0x%02x", response.MsgType),
+					Value: fmt.Sprintf("0x%02x", response.Message.MsgType),
 				},
 			},
 			Body: []ast.Stmt{

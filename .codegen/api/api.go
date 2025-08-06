@@ -35,6 +35,7 @@ func API() {
 		function(model.OpenDoor),
 		function(model.GetStatus),
 		function(model.GetCards),
+		function(model.GetCard),
 	}
 
 	AST := codegen.NewAST("uhppoted", imports, f)
@@ -48,7 +49,7 @@ func API() {
 
 func function(f model.Func) *ast.FuncDecl {
 	name := codegen.TitleCase(f.Name)
-	response := fmt.Sprintf("%vResponse", codegen.TitleCase(f.Response.Name))
+	response := fmt.Sprintf("%vResponse", codegen.TitleCase(f.Response.Message.Name))
 
 	// ... args
 	args := []*ast.Field{}
@@ -125,7 +126,7 @@ func function(f model.Func) *ast.FuncDecl {
 
 func impl(f model.Func) *ast.BlockStmt {
 	request := codegen.TitleCase(f.Request.Name)
-	response := fmt.Sprintf("%vResponse", codegen.TitleCase(f.Response.Name))
+	response := fmt.Sprintf("%vResponse", codegen.TitleCase(f.Response.Message.Name))
 
 	args := []ast.Expr{
 		&ast.Ident{Name: "id"},

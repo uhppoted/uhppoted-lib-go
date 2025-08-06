@@ -78,11 +78,20 @@ func GetStatus[T TController](u Uhppoted, controller T, timeout time.Duration) (
 	return exec[T, GetStatusResponse](u, controller, f, timeout)
 }
 
-// Retrieves the number of cards stored on  an access controller.
+// Retrieves the number of cards stored on an access controller.
 func GetCards[T TController](u Uhppoted, controller T, timeout time.Duration) (GetCardsResponse, error) {
 	f := func(id uint32) ([]byte, error) {
 		return encode.GetCardsRequest(id)
 	}
 
 	return exec[T, GetCardsResponse](u, controller, f, timeout)
+}
+
+// Retrieves the card information for a card number from an access controller.
+func GetCard[T TController](u Uhppoted, controller T, cardnumber uint32, timeout time.Duration) (GetCardResponse, error) {
+	f := func(id uint32) ([]byte, error) {
+		return encode.GetCardRequest(id, cardnumber)
+	}
+
+	return exec[T, GetCardResponse](u, controller, f, timeout)
 }

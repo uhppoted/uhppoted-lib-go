@@ -43,4 +43,5 @@ folder.
 - [`OpenDoor`](API.md#opendoor)
 - [`GetStatus`](API.md#getstatus)
 - [`GetCards`](API.md#getcards)
+- [`GetCars`](API.md#getcard)
 

@@ -22,6 +22,7 @@ var Expected = struct {
 	OpenDoor         lib.OpenDoorResponse
 	GetStatus        lib.GetStatusResponse
 	GetCards         lib.GetCardsResponse
+	GetCard          lib.GetCardResponse
 }{
 	FindControllers: []lib.GetControllerResponse{
 		lib.GetControllerResponse{
@@ -143,6 +144,18 @@ var Expected = struct {
 	GetCards: lib.GetCardsResponse{
 		Controller: 405419896,
 		Cards:      13579,
+	},
+
+	GetCard: lib.GetCardResponse{
+		Controller: 405419896,
+		Card:       10058400,
+		StartDate:  string2date("2025-01-01"),
+		EndDate:    string2date("2025-12-31"),
+		Door1:      1,
+		Door2:      0,
+		Door3:      17,
+		Door4:      1,
+		PIN:        7531,
 	},
 }
 

@@ -23,30 +23,3 @@ type FuncTest struct {
 	Request []byte
 	Replies []Reply
 }
-
-// type Response struct {
-// 	Name    string
-// 	MsgType byte
-// 	Fields  []types.Field
-// 	Tests   []Test
-// }
-
-// type Arg struct {
-// 	Name  string `json:"name"`
-// 	Type  string `json:"type"`
-// 	Value any    `json:"value,omitempty"`
-// }
-
-// type Value struct {
-// 	Name  string `json:"name"`
-// 	Type  string `json:"type"`
-// 	Value any    `json:"value"`
-// }
-
-// type Test struct {
-// 	Name     string `json:"name"`
-// 	Args     []Arg
-// 	Expected []byte
-// 	Response []byte  `json:"packet,omitempty"`
-// 	Values   []Value `json:"values,omitempty"`
-// }

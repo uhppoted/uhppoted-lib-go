@@ -203,7 +203,7 @@ func pack(field lib.Field) string {
 	}
 }
 
-func unpack(field types.Field) string {
+func unpack(field lib.Field) string {
 	switch field.Type {
 	case "bool":
 		return fmt.Sprintf("unpackBool(packet, %v)", field.Offset)
@@ -218,10 +218,13 @@ func unpack(field types.Field) string {
 		return fmt.Sprintf("unpackYYYYMMDDHHMMSS(packet, %v)", field.Offset)
 
 	case "date":
-		return fmt.Sprintf("unpackYYYYMMDD(packet, %v)", field.Offset)
+		return fmt.Sprintf("unpackDate(packet, %v)", field.Offset)
 
 	case "shortdate":
-		return fmt.Sprintf("unpackYYMMDD(packet, %v)", field.Offset)
+		return fmt.Sprintf("unpackShortDate(packet, %v)", field.Offset)
+
+	case "optional date":
+		return fmt.Sprintf("unpackOptionalDate(packet, %v)", field.Offset)
 
 	case "time":
 		return fmt.Sprintf("unpackHHMMSS(packet, %v)", field.Offset)
@@ -237,6 +240,9 @@ func unpack(field types.Field) string {
 
 	case "version":
 		return fmt.Sprintf("unpackVersion(packet, %v)", field.Offset)
+
+	case "pin":
+		return fmt.Sprintf("unpackPIN(packet, %v)", field.Offset)
 
 	default:
 		panic(fmt.Sprintf("*** ERROR unsupported field type (%v)", field.Type))

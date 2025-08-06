@@ -20,6 +20,7 @@ var API = []Func{
 	OpenDoor,
 	GetStatus,
 	GetCards,
+	GetCard,
 }
 
 var FindControllers = Func{
@@ -576,7 +577,7 @@ var GetStatus = Func{
 
 var GetCards = Func{
 	Name:        "get-cards",
-	Description: "Retrieves the number of cards stored on  an access controller.",
+	Description: "Retrieves the number of cards stored on an access controller.",
 	Request:     GetCardsRequest,
 	Response:    GetCardsResponse,
 	Protocols:   []string{"broadcast", "udp", "tcp"},
@@ -609,6 +610,84 @@ var GetCards = Func{
 						Name:  "cards",
 						Type:  "uint32",
 						Value: 13579,
+					},
+				},
+			},
+		},
+	},
+}
+
+var GetCard = Func{
+	Name:        "get-card",
+	Description: "Retrieves the card information for a card number from an access controller.",
+	Request:     GetCardRequest,
+	Response:    GetCardResponse,
+	Protocols:   []string{"broadcast", "udp", "tcp"},
+
+	Test: FuncTest{
+		Args: []types.Arg{
+			{Name: "controller", Type: "uint32", Value: uint32(405419896)},
+			{Name: "card", Type: "uint32", Value: uint32(10058400)},
+		},
+		Request: []byte{
+			0x17, 0x5a, 0x00, 0x00, 0x78, 0x37, 0x2a, 0x18, 0xa0, 0x7a, 0x99, 0x00, 0x00, 0x00, 0x00, 0x00,
+			0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+			0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+			0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+		},
+		Replies: []Reply{
+			Reply{
+				Message: []byte{
+					0x17, 0x5a, 0x00, 0x00, 0x78, 0x37, 0x2a, 0x18, 0xa0, 0x7a, 0x99, 0x00, 0x20, 0x25, 0x01, 0x01,
+					0x20, 0x25, 0x12, 0x31, 0x01, 0x00, 0x11, 0x01, 0x6b, 0x1d, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+					0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+					0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+				},
+				Response: []types.Value{
+					{
+						Name:  "controller",
+						Type:  "uint32",
+						Value: 405419896,
+					},
+					{
+						Name:  "card",
+						Type:  "uint32",
+						Value: 10058400,
+					},
+					{
+						Name:  "start-date",
+						Type:  "date",
+						Value: "2025-01-01",
+					},
+					{
+						Name:  "end-date",
+						Type:  "date",
+						Value: "2025-12-31",
+					},
+					{
+						Name:  "door 1",
+						Type:  "uint8",
+						Value: 1,
+					},
+					{
+						Name:  "door 2",
+						Type:  "uint8",
+						Value: 0,
+					},
+					{
+						Name:  "door 3",
+						Type:  "uint8",
+						Value: 17,
+					},
+					{
+						Name:  "door 4",
+						Type:  "uint8",
+						Value: 1,
+					},
+					{
+						Name:  "PIN",
+						Type:  "pin",
+						Value: 7531,
 					},
 				},
 			},

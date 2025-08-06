@@ -39,7 +39,7 @@ func GetControllerResponse(packet []byte) (types.GetControllerResponse, error) {
 		Gateway:    unpackIPv4(packet, 16),
 		MACAddress: unpackMAC(packet, 20),
 		Version:    unpackVersion(packet, 26),
-		Date:       unpackYYYYMMDD(packet, 28),
+		Date:       unpackDate(packet, 28),
 	}, nil
 }
 
@@ -95,7 +95,7 @@ func GetStatusResponse(packet []byte) (types.GetStatusResponse, error) {
 
 	return types.GetStatusResponse{
 		Controller:         unpackUint32(packet, 4),
-		SystemDate:         unpackYYMMDD(packet, 51),
+		SystemDate:         unpackShortDate(packet, 51),
 		SystemTime:         unpackHHMMSS(packet, 37),
 		Door1Open:          unpackBool(packet, 28),
 		Door2Open:          unpackBool(packet, 29),
@@ -375,5 +375,40 @@ func GetCardsResponse(packet []byte) (types.GetCardsResponse, error) {
 	return types.GetCardsResponse{
 		Controller: unpackUint32(packet, 4),
 		Cards:      unpackUint32(packet, 8),
+	}, nil
+}
+
+// Decodes a get-card response.
+//
+//	Parameters:
+//	    packet  (bytearray)  64 byte UDP packet.
+//
+//	Returns:
+//	    - GetCardResponse initialised from the UDP packet.
+//	    - error if the packet is not 64 bytes, has an invalid start-of-message byte or has
+//	               the incorrect message type.
+func GetCardResponse(packet []byte) (types.GetCardResponse, error) {
+	if len(packet) != 64 {
+		return types.GetCardResponse{}, fmt.Errorf("invalid reply packet length (%v)", len(packet))
+	}
+
+	if packet[0] != SOM {
+		return types.GetCardResponse{}, fmt.Errorf("invalid reply start of message byte (%02x)", packet[0])
+	}
+
+	if packet[1] != GetCard {
+		return types.GetCardResponse{}, fmt.Errorf("invalid reply function code (%02x)", packet[1])
+	}
+
+	return types.GetCardResponse{
+		Controller: unpackUint32(packet, 4),
+		Card:       unpackUint32(packet, 8),
+		StartDate:  unpackOptionalDate(packet, 12),
+		EndDate:    unpackOptionalDate(packet, 16),
+		Door1:      unpackUint8(packet, 20),
+		Door2:      unpackUint8(packet, 21),
+		Door3:      unpackUint8(packet, 22),
+		Door4:      unpackUint8(packet, 23),
+		PIN:        unpackPIN(packet, 24),
 	}, nil
 }
