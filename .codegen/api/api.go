@@ -36,6 +36,7 @@ func API() {
 		function(model.GetStatus),
 		function(model.GetCards),
 		function(model.GetCard),
+		function(model.PutCard),
 	}
 
 	AST := codegen.NewAST("uhppoted", imports, f)
@@ -49,7 +50,7 @@ func API() {
 
 func function(f model.Func) *ast.FuncDecl {
 	name := codegen.TitleCase(f.Name)
-	response := fmt.Sprintf("%vResponse", codegen.TitleCase(f.Response.Message.Name))
+	response := fmt.Sprintf("%v", codegen.TitleCase(f.Response.Message.Name))
 
 	// ... args
 	args := []*ast.Field{}
@@ -69,12 +70,21 @@ func function(f model.Func) *ast.FuncDecl {
 
 	for _, arg := range f.Request.Fields[1:] {
 		name := regexp.MustCompile(`\s+`).ReplaceAllString(arg.Name, "")
+		t := arg.Type
+
+		switch arg.Type {
+		case "date":
+			t = "time.Time"
+
+		case "pin":
+			t = "uint32"
+		}
 
 		args = append(args, &ast.Field{
 			Names: []*ast.Ident{
 				{Name: name},
 			},
-			Type: &ast.Ident{Name: arg.Type},
+			Type: &ast.Ident{Name: t},
 		})
 	}
 
@@ -126,7 +136,7 @@ func function(f model.Func) *ast.FuncDecl {
 
 func impl(f model.Func) *ast.BlockStmt {
 	request := codegen.TitleCase(f.Request.Name)
-	response := fmt.Sprintf("%vResponse", codegen.TitleCase(f.Response.Message.Name))
+	response := fmt.Sprintf("%v", codegen.TitleCase(f.Response.Message.Name))
 
 	args := []ast.Expr{
 		&ast.Ident{Name: "id"},

@@ -186,3 +186,12 @@ get-card-udp: build
 
 get-card-tcp: build
 	$(CMD) get-card --controller $(CONTROLLER) --dest $(DEST) --tcp --card $(CARD)
+
+put-card: build
+	$(CMD) put-card --controller $(CONTROLLER) --card $(CARD) --start-date "2025-01-01" --end-date "2025-12-31" --doors 1,3:17,4 --PIN 987654
+
+put-card-udp: build
+	$(CMD) put-card --controller $(CONTROLLER) --dest $(DEST) --card $(CARD) --start-date "2025-01-01" --end-date "2025-12-31" --doors 1,3:17,4 --PIN 987654
+
+put-card-tcp: build
+	$(CMD) put-card --controller $(CONTROLLER) --dest $(DEST) --tcp --card $(CARD) --start-date "2025-01-01" --end-date "2025-12-31" --doors 1,3:17,4 --PIN 987654

@@ -75,7 +75,7 @@ func packAddrPort(v netip.AddrPort, packet []byte, offset int) {
 	binary.LittleEndian.PutUint16(packet[offset+4:offset+6], port)
 }
 
-// Packs a date/time value 'in-place' as a 7-byte value into the packet at the offset.
+// Packs a date/time value 'in-place' as a 7-byte BCD value into the packet at the offset.
 //
 //	Parameters:
 //	   v      (time.Time)  date/time.
@@ -86,6 +86,36 @@ func packDateTime(v time.Time, packet []byte, offset int) {
 
 	bytes := string2bcd(s)
 	copy(packet[offset:], bytes)
+}
+
+// Packs a date value 'in-place' as a 4-byte BCD value into the packet at the offset.
+//
+//	Parameters:
+//	   v      (time.Time)  date/time.
+//	   packet (bytearray)  64 byte array.
+//	   offset (int)        Value location in array.
+func packDate(v time.Time, packet []byte, offset int) {
+	s := v.Format("20060102")
+
+	bytes := string2bcd(s)
+	copy(packet[offset:], bytes)
+}
+
+// Packs a 6 digit PIN as a 3-byte uint value into the packet at the offset.
+//
+//	Parameters:
+//	   v      (uint32)     PIN [0..999999]
+//	   packet (bytearray)  64 byte array.
+//	   offset (int)        Value location in array.
+func packPIN(v uint32, packet []byte, offset uint8) error {
+	bytes := make([]byte, 4)
+	binary.LittleEndian.PutUint32(bytes, uint32(v))
+
+	packet[offset] = bytes[0]
+	packet[offset+1] = bytes[1]
+	packet[offset+2] = bytes[2]
+
+	return nil
 }
 
 // Converts a string of digits to packed BCD. Invalid characters (non-digits) are silently

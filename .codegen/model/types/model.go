@@ -5,22 +5,22 @@ import (
 )
 
 type Request lib.Request
+type Response lib.Response
 type RequestTest lib.RequestTest
-
-// type Response lib.Response
+type ResponseTest lib.ResponseTest
 
 type Field lib.Field
 
-type Response struct {
-	Message lib.Message
-	Tests   []ResponseTest
-}
+// type Response struct {
+// 	Message lib.Message
+// 	Tests   []ResponseTest
+// }
 
-type ResponseTest struct {
-	Name     string  `json:"name"`
-	Response []byte  `json:"response"`
-	Expected []Value `json:"expected"`
-}
+// type ResponseTest struct {
+// 	Name     string  `json:"name"`
+// 	Response []byte  `json:"response"`
+// 	Expected []Value `json:"expected"`
+// }
 
 type Test struct {
 	Name     string `json:"name"`

@@ -13,17 +13,17 @@ import (
 )
 
 {{ range $response := . }}{{ range $test := $response.Tests}}
-func Test{{ titleCase $test.Name }}Response(t *testing.T) {
+func Test{{ titleCase $test.Name }}(t *testing.T) {
     packet := []byte{
 {{ hex $test.Response }}
     }
 
-    expected := types.{{ titleCase $response.Message.Name }}Response {
+    expected := types.{{ titleCase $response.Message.Name }} {
 {{ range $value := $test.Expected}}{{ titleCase $value.Name }}: {{ value $value.Value $value.Type }},
 {{ end -}}
     }
 
-    response,err := {{ titleCase $response.Message.Name }}Response(packet)
+    response,err := {{ titleCase $response.Message.Name }}(packet)
 
     if err != nil {
         t.Fatalf("%v",err)

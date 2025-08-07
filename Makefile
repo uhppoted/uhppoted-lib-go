@@ -28,7 +28,7 @@ build: format
 	go build -trimpath ./...
 
 debug: build
-	cd examples/cli && make get-card
+	cd examples/cli && make put-card
 
 test: build
 	go test ./uhppoted/...
@@ -139,3 +139,8 @@ get-card: build
 	cd examples/cli && make get-card
 	cd examples/cli && make get-card-udp
 	cd examples/cli && make get-card-tcp
+
+put-card: build
+	cd examples/cli && make put-card
+	cd examples/cli && make put-card-udp
+	cd examples/cli && make put-card-tcp

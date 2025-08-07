@@ -247,9 +247,34 @@ func TestGetCard(t *testing.T) {
 		t.Errorf("get card request: incorrectly encoded request\n   expected:%v\n   got:     %v", expected, packet)
 	}
 }
+
+func TestPutCard(t *testing.T) {
+	expected := []byte{
+		0x17, 0x50, 0x00, 0x00, 0x78, 0x37, 0x2a, 0x18, 0xa0, 0x7a, 0x99, 0x00, 0x20, 0x25, 0x01, 0x01,
+		0x20, 0x25, 0x12, 0x31, 0x01, 0x00, 0x11, 0x01, 0x3f, 0x42, 0x0f, 0x00, 0x00, 0x00, 0x00, 0x00,
+		0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+		0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+	}
+
+	packet, err := PutCardRequest(uint32(405419896), uint32(10058400), string2date("2025-01-01"), string2date("2025-12-31"), uint8(1), uint8(0), uint8(17), uint8(1), uint32(999999))
+
+	if err != nil {
+		t.Fatalf("%v", err)
+	} else if !slices.Equal(packet, expected) {
+		t.Errorf("put card request: incorrectly encoded request\n   expected:%v\n   got:     %v", expected, packet)
+	}
+}
 func string2datetime(v string) time.Time {
 	if d, err := time.ParseInLocation("2006-01-02 15:04:05", v, time.Local); err != nil {
 		panic(fmt.Sprintf("invalid datetime (%v)", v))
+	} else {
+		return d
+	}
+}
+
+func string2date(v string) time.Time {
+	if d, err := time.ParseInLocation("2006-01-02", v, time.Local); err != nil {
+		panic(fmt.Sprintf("invalid date (%v)", v))
 	} else {
 		return d
 	}

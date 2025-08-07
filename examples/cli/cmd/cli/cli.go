@@ -23,6 +23,7 @@ var commands = map[string]func(u lib.Uhppoted, args []string) error{
 	"get-status":         getStatus,
 	"get-cards":          getCards,
 	"get-card":           getCard,
+	"put-card":           putCard,
 }
 
 func exec(args controller, flagset *flag.FlagSet, f func(c uint32) (any, error), g func(c lib.Controller) (any, error)) (any, error) {

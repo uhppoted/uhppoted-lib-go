@@ -14,6 +14,7 @@
 - [`GetStatus`](#getstatus)
 - [`GetCards`](#getcards)
 - [`GetCard`](#getcard)
+- [`PutCard`](API.md#putcard)
 ---
 Invoking an API function requires an instance of the `Uhppoted` struct initialised with the information required
 to access a controller:
@@ -271,6 +272,25 @@ Returns a `GetCardResponse` with the card information for the requested card. Th
 card is not stored on the controller.
 ```
 
+### `PutCard`
+```
+PutCard(u Uhppoted, controller TController, card uint32, startDate, endDate time.Time, door1, door2, door3, door4 uint8, PIN uint32, timeout time.Duration) (GetCardResponse,error)
+
+u           Uhppoted struct initialised with the bind address, broadcast address, etc
+controller  uint32|Controller controller serial number or {id, address, protocol} Controller struct
+card        card number
+startDate   date from which card is valid
+endDate     date until  which card is valid (inclusive)
+door1       access permissions for door 1 (0: no access, 1: 24/7 access, [2..253] time profile)
+door2       access permissions for door 2 (0: no access, 1: 24/7 access, [2..253] time profile)
+door3       access permissions for door 3 (0: no access, 1: 24/7 access, [2..253] time profile)
+door4       access permissions for door 4 (0: no access, 1: 24/7 access, [2..253] time profile)
+PIN         optional PIN code [0..999999] (0 for none)
+timeout     maximum time to wait for a response from a controller
+
+Returns a `PutCardResponse` with the card add/update result.
+```
+
 
 ## Types
 
@@ -440,6 +460,16 @@ type GetStatusResponse struct {
   Door3       uint8      `json:"door-3"`      // access permissions for door 3
   Door4       uint8      `json:"door-4"`      // access permissions for door 4
   PIN         uint32     `json:"PIN"`         // (optional) PIN code [0..999999], 0 for none
+}
+```
+
+### `PutCardResponse`
+
+Container class for the decoded response from a _PutCard_ request.
+```
+type PutCardResponse struct {
+  Controller  uint32  `json:"controller"` // controller serial number
+  Ok          bool    `json:"ok"`         // true if request succeeded
 }
 ```
 

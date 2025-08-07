@@ -283,3 +283,37 @@ func GetCardRequest(controller uint32, cardnumber uint32) ([]byte, error) {
 
 	return packet, nil
 }
+
+// Encodes a put-card-request.
+//
+//	Parameters:
+//	    controller  (uint32)  controller serial number
+//	    card  (uint32)
+//	    start date  (date)
+//	    end date  (date)
+//	    door 1  (uint8)
+//	    door 2  (uint8)
+//	    door 3  (uint8)
+//	    door 4  (uint8)
+//	    PIN  (pin)
+//
+//	Returns:
+//	    64 byte packet.
+func PutCardRequest(controller uint32, card uint32, startdate time.Time, enddate time.Time, door1 uint8, door2 uint8, door3 uint8, door4 uint8, PIN uint32) ([]byte, error) {
+	packet := make([]byte, 64)
+
+	packet[0] = SOM
+	packet[1] = 80
+
+	packUint32(controller, packet, 4)
+	packUint32(card, packet, 8)
+	packDate(startdate, packet, 12)
+	packDate(enddate, packet, 16)
+	packUint8(door1, packet, 20)
+	packUint8(door2, packet, 21)
+	packUint8(door3, packet, 22)
+	packUint8(door4, packet, 23)
+	packPIN(PIN, packet, 24)
+
+	return packet, nil
+}

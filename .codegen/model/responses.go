@@ -1,7 +1,8 @@
 package model
 
 import (
-	lib "github.com/uhppoted/uhppoted-codegen/model/types"
+	lib "github.com/uhppoted/uhppoted-codegen/model"
+	libx "github.com/uhppoted/uhppoted-codegen/model/types"
 
 	"codegen/model/types"
 )
@@ -20,15 +21,16 @@ var Responses = []types.Response{
 	OpenDoorResponse,
 	GetCardsResponse,
 	GetCardResponse,
+	PutCardResponse,
 }
 
-// var GetCardResponse = types.Response(lib.GetCardResponse)
+var PutCardResponse = types.Response(lib.PutCardResponse)
 
 var GetControllerResponse = types.Response{
-	Message: lib.Message{
-		Name:    "get controller",
+	Message: libx.Message{
+		Name:    "get controller response",
 		MsgType: 0x94,
-		Fields: []lib.Field{
+		Fields: []libx.Field{
 			{"controller", "uint32", 4, "controller serial number, e.g. 405419896"},
 			{"ip address", "IPv4", 8, "controller IPv4 address, e.g. 192.168.1.100"},
 			{"subnet mask", "IPv4", 12, "controller IPv4 netmask, e.g. 255.255.255.0"},
@@ -38,7 +40,7 @@ var GetControllerResponse = types.Response{
 			{"date", "date", 28, "controller firmware release date, e.g. 2020-12-31"},
 		},
 	},
-	Tests: []types.ResponseTest{
+	Tests: []libx.ResponseTest{
 		{
 			Name: "get-controller",
 			Response: []byte{
@@ -47,7 +49,7 @@ var GetControllerResponse = types.Response{
 				0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
 				0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
 			},
-			Expected: []types.Value{
+			Expected: []libx.Value{
 				{
 					Name:  "controller",
 					Type:  "uint32",
@@ -89,15 +91,15 @@ var GetControllerResponse = types.Response{
 }
 
 var SetIPv4Response = types.Response{
-	Message: lib.Message{
-		Name:    "set IPv4",
+	Message: libx.Message{
+		Name:    "set IPv4 response",
 		MsgType: 0x96,
-		Fields: []lib.Field{
+		Fields: []libx.Field{
 			{"controller", "uint32", 4, "controller serial number, e.g. 405419896"},
 			{"ok", "bool", 8, "controller IPv4 network configured"},
 		},
 	},
-	Tests: []types.ResponseTest{
+	Tests: []libx.ResponseTest{
 		{
 			Name: "set-IPv4",
 			Response: []byte{
@@ -106,7 +108,7 @@ var SetIPv4Response = types.Response{
 				0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
 				0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
 			},
-			Expected: []types.Value{
+			Expected: []libx.Value{
 				{
 					Name:  "controller",
 					Type:  "uint32",
@@ -123,10 +125,10 @@ var SetIPv4Response = types.Response{
 }
 
 var GetStatusResponse = types.Response{
-	Message: lib.Message{
-		Name:    "get status",
+	Message: libx.Message{
+		Name:    "get status response",
 		MsgType: 0x20,
-		Fields: []lib.Field{
+		Fields: []libx.Field{
 			{"controller", "uint32", 4, "controller serial number, e.g. 405419896"},
 			{"system-date", "shortdate", 51, "current date, e.g. 2025-07-21"},
 			{"system-time", "time", 37, "current time, e.g. 13:25:47"},
@@ -153,7 +155,7 @@ var GetStatusResponse = types.Response{
 			{"sequence-no", "uint32", 40, "packet sequence number"},
 		},
 	},
-	Tests: []types.ResponseTest{
+	Tests: []libx.ResponseTest{
 		{
 			Name: "get-status",
 			Response: []byte{
@@ -162,7 +164,7 @@ var GetStatusResponse = types.Response{
 				0x00, 0x00, 0x00, 0x01, 0x03, 0x09, 0x49, 0x39, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
 				0x27, 0x07, 0x09, 0x22, 0x08, 0x23, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
 			},
-			Expected: []types.Value{
+			Expected: []libx.Value{
 				{
 					Name:  "controller",
 					Type:  "uint32",
@@ -289,15 +291,15 @@ var GetStatusResponse = types.Response{
 }
 
 var GetTimeResponse = types.Response{
-	Message: lib.Message{
-		Name:    "get time",
+	Message: libx.Message{
+		Name:    "get time response",
 		MsgType: 0x32,
-		Fields: []lib.Field{
+		Fields: []libx.Field{
 			{"controller", "uint32", 4, "controller serial number, e.g. 405419896"},
 			{"date-time", "datetime", 8, "controller system date/time"},
 		},
 	},
-	Tests: []types.ResponseTest{
+	Tests: []libx.ResponseTest{
 		{
 			Name: "get-time",
 			Response: []byte{
@@ -306,7 +308,7 @@ var GetTimeResponse = types.Response{
 				0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
 				0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
 			},
-			Expected: []types.Value{
+			Expected: []libx.Value{
 				{
 					Name:  "controller",
 					Type:  "uint32",
@@ -323,15 +325,15 @@ var GetTimeResponse = types.Response{
 }
 
 var SetTimeResponse = types.Response{
-	Message: lib.Message{
-		Name:    "set time",
+	Message: libx.Message{
+		Name:    "set time response",
 		MsgType: 0x30,
-		Fields: []lib.Field{
+		Fields: []libx.Field{
 			{"controller", "uint32", 4, "controller serial number, e.g. 405419896"},
 			{"date-time", "datetime", 8, "controller system date/time"},
 		},
 	},
-	Tests: []types.ResponseTest{
+	Tests: []libx.ResponseTest{
 		{
 			Name: "set-time",
 			Response: []byte{
@@ -340,7 +342,7 @@ var SetTimeResponse = types.Response{
 				0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
 				0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
 			},
-			Expected: []types.Value{
+			Expected: []libx.Value{
 				{
 					Name:  "controller",
 					Type:  "uint32",
@@ -357,16 +359,16 @@ var SetTimeResponse = types.Response{
 }
 
 var GetListenerResponse = types.Response{
-	Message: lib.Message{
-		Name:    "get listener",
+	Message: libx.Message{
+		Name:    "get listener response",
 		MsgType: 0x92,
-		Fields: []lib.Field{
+		Fields: []libx.Field{
 			{"controller", "uint32", 4, "controller serial number, e.g. 405419896"},
 			{"address", "addrport", 8, "event listener IPv4 address:port"},
 			{"interval", "uint8", 14, "auto-send interval (seconds)"},
 		},
 	},
-	Tests: []types.ResponseTest{
+	Tests: []libx.ResponseTest{
 		{
 			Name: "get-listener",
 			Response: []byte{
@@ -375,7 +377,7 @@ var GetListenerResponse = types.Response{
 				0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
 				0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
 			},
-			Expected: []types.Value{
+			Expected: []libx.Value{
 				{
 					Name:  "controller",
 					Type:  "uint32",
@@ -397,15 +399,15 @@ var GetListenerResponse = types.Response{
 }
 
 var SetListenerResponse = types.Response{
-	Message: lib.Message{
-		Name:    "set listener",
+	Message: libx.Message{
+		Name:    "set listener response",
 		MsgType: 0x90,
-		Fields: []lib.Field{
+		Fields: []libx.Field{
 			{"controller", "uint32", 4, "controller serial number, e.g. 405419896"},
 			{"ok", "bool", 8, "set-listener succeeded/failed"},
 		},
 	},
-	Tests: []types.ResponseTest{
+	Tests: []libx.ResponseTest{
 		{
 			Name: "set-listener",
 			Response: []byte{
@@ -414,7 +416,7 @@ var SetListenerResponse = types.Response{
 				0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
 				0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
 			},
-			Expected: []types.Value{
+			Expected: []libx.Value{
 				{
 					Name:  "controller",
 					Type:  "uint32",
@@ -431,17 +433,17 @@ var SetListenerResponse = types.Response{
 }
 
 var GetDoorResponse = types.Response{
-	Message: lib.Message{
-		Name:    "get door",
+	Message: libx.Message{
+		Name:    "get door response",
 		MsgType: 0x82,
-		Fields: []lib.Field{
+		Fields: []libx.Field{
 			{"controller", "uint32", 4, "controller serial number, e.g. 405419896"},
 			{"door", "uint8", 8, "door ID ([1..4]"},
 			{"mode", "uint8", 9, "control mode (1:normally open, 2:normally closed. 3:controlled)"},
 			{"delay", "uint8", 10, "unlock delay (seconds)"},
 		},
 	},
-	Tests: []types.ResponseTest{
+	Tests: []libx.ResponseTest{
 		{
 			Name: "get-door",
 			Response: []byte{
@@ -450,7 +452,7 @@ var GetDoorResponse = types.Response{
 				0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
 				0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
 			},
-			Expected: []types.Value{
+			Expected: []libx.Value{
 				{
 					Name:  "controller",
 					Type:  "uint32",
@@ -477,17 +479,17 @@ var GetDoorResponse = types.Response{
 }
 
 var SetDoorResponse = types.Response{
-	Message: lib.Message{
-		Name:    "set door",
+	Message: libx.Message{
+		Name:    "set door response",
 		MsgType: 0x80,
-		Fields: []lib.Field{
+		Fields: []libx.Field{
 			{"controller", "uint32", 4, "controller serial number, e.g. 405419896"},
 			{"door", "uint8", 8, "door ID ([1..4]"},
 			{"mode", "uint8", 9, "control mode (1:normally open, 2:normally closed. 3:controlled)"},
 			{"delay", "uint8", 10, "unlock delay (seconds)"},
 		},
 	},
-	Tests: []types.ResponseTest{
+	Tests: []libx.ResponseTest{
 		{
 			Name: "set-door",
 			Response: []byte{
@@ -496,7 +498,7 @@ var SetDoorResponse = types.Response{
 				0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
 				0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
 			},
-			Expected: []types.Value{
+			Expected: []libx.Value{
 				{
 					Name:  "controller",
 					Type:  "uint32",
@@ -523,15 +525,15 @@ var SetDoorResponse = types.Response{
 }
 
 var SetDoorPasscodesResponse = types.Response{
-	Message: lib.Message{
-		Name:    "set door passcodes",
+	Message: libx.Message{
+		Name:    "set door passcodes response",
 		MsgType: 0x8c,
-		Fields: []lib.Field{
+		Fields: []libx.Field{
 			{"controller", "uint32", 4, "controller serial number, e.g. 405419896"},
 			{"ok", "bool", 8, "set-door-passcodes succeeded/failed"},
 		},
 	},
-	Tests: []types.ResponseTest{
+	Tests: []libx.ResponseTest{
 		{
 			Name: "set-door-passcodes",
 			Response: []byte{
@@ -540,7 +542,7 @@ var SetDoorPasscodesResponse = types.Response{
 				0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
 				0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
 			},
-			Expected: []types.Value{
+			Expected: []libx.Value{
 				{
 					Name:  "controller",
 					Type:  "uint32",
@@ -557,15 +559,15 @@ var SetDoorPasscodesResponse = types.Response{
 }
 
 var OpenDoorResponse = types.Response{
-	Message: lib.Message{
-		Name:    "open door",
+	Message: libx.Message{
+		Name:    "open door response",
 		MsgType: 0x40,
-		Fields: []lib.Field{
+		Fields: []libx.Field{
 			{"controller", "uint32", 4, "controller serial number, e.g. 405419896"},
 			{"ok", "bool", 8, "open-door succeeded/failed"},
 		},
 	},
-	Tests: []types.ResponseTest{
+	Tests: []libx.ResponseTest{
 		{
 			Name: "open-door",
 			Response: []byte{
@@ -574,7 +576,7 @@ var OpenDoorResponse = types.Response{
 				0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
 				0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
 			},
-			Expected: []types.Value{
+			Expected: []libx.Value{
 				{
 					Name:  "controller",
 					Type:  "uint32",
@@ -591,15 +593,15 @@ var OpenDoorResponse = types.Response{
 }
 
 var GetCardsResponse = types.Response{
-	Message: lib.Message{
-		Name:    "get cards",
+	Message: libx.Message{
+		Name:    "get cards response",
 		MsgType: 0x58,
-		Fields: []lib.Field{
+		Fields: []libx.Field{
 			{"controller", "uint32", 4, "controller serial number, e.g. 405419896"},
 			{"cards", "uint32", 8, "number of stored cards"},
 		},
 	},
-	Tests: []types.ResponseTest{
+	Tests: []libx.ResponseTest{
 		{
 			Name: "get-cards",
 			Response: []byte{
@@ -608,7 +610,7 @@ var GetCardsResponse = types.Response{
 				0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
 				0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
 			},
-			Expected: []types.Value{
+			Expected: []libx.Value{
 				{
 					Name:  "controller",
 					Type:  "uint32",
@@ -625,10 +627,10 @@ var GetCardsResponse = types.Response{
 }
 
 var GetCardResponse = types.Response{
-	Message: lib.Message{
-		Name:    "get card",
+	Message: libx.Message{
+		Name:    "get card response",
 		MsgType: 0x5a,
-		Fields: []lib.Field{
+		Fields: []libx.Field{
 			{
 				Name:        "controller",
 				Type:        "uint32",
@@ -677,7 +679,7 @@ var GetCardResponse = types.Response{
 			},
 		},
 	},
-	Tests: []types.ResponseTest{
+	Tests: []libx.ResponseTest{
 		{
 			Name: "get-card",
 			Response: []byte{
@@ -686,7 +688,7 @@ var GetCardResponse = types.Response{
 				0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
 				0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
 			},
-			Expected: []types.Value{
+			Expected: []libx.Value{
 				{
 					Name:  "controller",
 					Type:  "uint32",
@@ -742,7 +744,7 @@ var GetCardResponse = types.Response{
 				0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
 				0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
 			},
-			Expected: []types.Value{
+			Expected: []libx.Value{
 				{
 					Name:  "controller",
 					Type:  "uint32",

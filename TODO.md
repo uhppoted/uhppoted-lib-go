@@ -16,15 +16,11 @@
 - [x] open-door
 - [x] get-cards
 - [x] get-card
+- [x] put-card
    - [x] API
    - [x] CLI
    - [x] README
    - [x] integration test
-- [ ] put-card
-   - [ ] API
-   - [ ] CLI
-   - [ ] README
-   - [ ] integration test
 
 - [ ] custom date/time types
 - [ ] check for controller = 0

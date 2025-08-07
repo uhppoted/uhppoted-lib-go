@@ -11,9 +11,9 @@ import (
 
 {{ range $func := . }}{{ if includes $func.Protocols "tcp"}}{{ range $test := $func.Tests }}
 func Test{{ titleCase $test.Name }}(t *testing.T) {
-{{- range $arg := $test.Args }}{{ if ne $arg.Name "controller"}}      {{ $arg.Name }} := {{ arg $arg }}{{ end }}
+{{- range $arg := $test.Args }}{{ if ne $arg.Name "controller"}}      {{ camelCase $arg.Name }} := {{ arg $arg }}{{ end }}
 {{ end }}
-    response, err := lib.{{ titleCase $func.Name }}(u{{ range $arg := $test.Args }}, {{ $arg.Name }}{{end }}, timeout)
+    response, err := lib.{{ titleCase $func.Name }}(u{{ range $arg := $test.Args }}, {{ camelCase $arg.Name }}{{end }}, timeout)
 
     if err != nil {
         t.Fatalf("%v", err)

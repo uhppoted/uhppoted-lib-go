@@ -10,7 +10,7 @@ import (
 	"github.com/uhppoted/uhppoted-lib-go/uhppoted/types"
 )
 
-// Decodes a get-controller response.
+// Decodes a get-controller-response response.
 //
 //	Parameters:
 //	    packet  (bytearray)  64 byte UDP packet.
@@ -28,7 +28,7 @@ func GetControllerResponse(packet []byte) (types.GetControllerResponse, error) {
 		return types.GetControllerResponse{}, fmt.Errorf("invalid reply start of message byte (%02x)", packet[0])
 	}
 
-	if packet[1] != GetController {
+	if packet[1] != 148 {
 		return types.GetControllerResponse{}, fmt.Errorf("invalid reply function code (%02x)", packet[1])
 	}
 
@@ -43,7 +43,7 @@ func GetControllerResponse(packet []byte) (types.GetControllerResponse, error) {
 	}, nil
 }
 
-// Decodes a set-ipv4 response.
+// Decodes a set-ipv4-response response.
 //
 //	Parameters:
 //	    packet  (bytearray)  64 byte UDP packet.
@@ -61,7 +61,7 @@ func SetIPv4Response(packet []byte) (types.SetIPv4Response, error) {
 		return types.SetIPv4Response{}, fmt.Errorf("invalid reply start of message byte (%02x)", packet[0])
 	}
 
-	if packet[1] != SetIPv4 {
+	if packet[1] != 150 {
 		return types.SetIPv4Response{}, fmt.Errorf("invalid reply function code (%02x)", packet[1])
 	}
 
@@ -71,7 +71,7 @@ func SetIPv4Response(packet []byte) (types.SetIPv4Response, error) {
 	}, nil
 }
 
-// Decodes a get-status response.
+// Decodes a get-status-response response.
 //
 //	Parameters:
 //	    packet  (bytearray)  64 byte UDP packet.
@@ -89,7 +89,7 @@ func GetStatusResponse(packet []byte) (types.GetStatusResponse, error) {
 		return types.GetStatusResponse{}, fmt.Errorf("invalid reply start of message byte (%02x)", packet[0])
 	}
 
-	if packet[1] != GetStatus {
+	if packet[1] != 32 {
 		return types.GetStatusResponse{}, fmt.Errorf("invalid reply function code (%02x)", packet[1])
 	}
 
@@ -121,7 +121,7 @@ func GetStatusResponse(packet []byte) (types.GetStatusResponse, error) {
 	}, nil
 }
 
-// Decodes a get-time response.
+// Decodes a get-time-response response.
 //
 //	Parameters:
 //	    packet  (bytearray)  64 byte UDP packet.
@@ -139,7 +139,7 @@ func GetTimeResponse(packet []byte) (types.GetTimeResponse, error) {
 		return types.GetTimeResponse{}, fmt.Errorf("invalid reply start of message byte (%02x)", packet[0])
 	}
 
-	if packet[1] != GetTime {
+	if packet[1] != 50 {
 		return types.GetTimeResponse{}, fmt.Errorf("invalid reply function code (%02x)", packet[1])
 	}
 
@@ -149,7 +149,7 @@ func GetTimeResponse(packet []byte) (types.GetTimeResponse, error) {
 	}, nil
 }
 
-// Decodes a set-time response.
+// Decodes a set-time-response response.
 //
 //	Parameters:
 //	    packet  (bytearray)  64 byte UDP packet.
@@ -167,7 +167,7 @@ func SetTimeResponse(packet []byte) (types.SetTimeResponse, error) {
 		return types.SetTimeResponse{}, fmt.Errorf("invalid reply start of message byte (%02x)", packet[0])
 	}
 
-	if packet[1] != SetTime {
+	if packet[1] != 48 {
 		return types.SetTimeResponse{}, fmt.Errorf("invalid reply function code (%02x)", packet[1])
 	}
 
@@ -177,7 +177,7 @@ func SetTimeResponse(packet []byte) (types.SetTimeResponse, error) {
 	}, nil
 }
 
-// Decodes a get-listener response.
+// Decodes a get-listener-response response.
 //
 //	Parameters:
 //	    packet  (bytearray)  64 byte UDP packet.
@@ -195,7 +195,7 @@ func GetListenerResponse(packet []byte) (types.GetListenerResponse, error) {
 		return types.GetListenerResponse{}, fmt.Errorf("invalid reply start of message byte (%02x)", packet[0])
 	}
 
-	if packet[1] != GetListener {
+	if packet[1] != 146 {
 		return types.GetListenerResponse{}, fmt.Errorf("invalid reply function code (%02x)", packet[1])
 	}
 
@@ -206,7 +206,7 @@ func GetListenerResponse(packet []byte) (types.GetListenerResponse, error) {
 	}, nil
 }
 
-// Decodes a set-listener response.
+// Decodes a set-listener-response response.
 //
 //	Parameters:
 //	    packet  (bytearray)  64 byte UDP packet.
@@ -224,7 +224,7 @@ func SetListenerResponse(packet []byte) (types.SetListenerResponse, error) {
 		return types.SetListenerResponse{}, fmt.Errorf("invalid reply start of message byte (%02x)", packet[0])
 	}
 
-	if packet[1] != SetListener {
+	if packet[1] != 144 {
 		return types.SetListenerResponse{}, fmt.Errorf("invalid reply function code (%02x)", packet[1])
 	}
 
@@ -234,7 +234,7 @@ func SetListenerResponse(packet []byte) (types.SetListenerResponse, error) {
 	}, nil
 }
 
-// Decodes a get-door response.
+// Decodes a get-door-response response.
 //
 //	Parameters:
 //	    packet  (bytearray)  64 byte UDP packet.
@@ -252,7 +252,7 @@ func GetDoorResponse(packet []byte) (types.GetDoorResponse, error) {
 		return types.GetDoorResponse{}, fmt.Errorf("invalid reply start of message byte (%02x)", packet[0])
 	}
 
-	if packet[1] != GetDoor {
+	if packet[1] != 130 {
 		return types.GetDoorResponse{}, fmt.Errorf("invalid reply function code (%02x)", packet[1])
 	}
 
@@ -264,7 +264,7 @@ func GetDoorResponse(packet []byte) (types.GetDoorResponse, error) {
 	}, nil
 }
 
-// Decodes a set-door response.
+// Decodes a set-door-response response.
 //
 //	Parameters:
 //	    packet  (bytearray)  64 byte UDP packet.
@@ -282,7 +282,7 @@ func SetDoorResponse(packet []byte) (types.SetDoorResponse, error) {
 		return types.SetDoorResponse{}, fmt.Errorf("invalid reply start of message byte (%02x)", packet[0])
 	}
 
-	if packet[1] != SetDoor {
+	if packet[1] != 128 {
 		return types.SetDoorResponse{}, fmt.Errorf("invalid reply function code (%02x)", packet[1])
 	}
 
@@ -294,7 +294,7 @@ func SetDoorResponse(packet []byte) (types.SetDoorResponse, error) {
 	}, nil
 }
 
-// Decodes a set-door-passcodes response.
+// Decodes a set-door-passcodes-response response.
 //
 //	Parameters:
 //	    packet  (bytearray)  64 byte UDP packet.
@@ -312,7 +312,7 @@ func SetDoorPasscodesResponse(packet []byte) (types.SetDoorPasscodesResponse, er
 		return types.SetDoorPasscodesResponse{}, fmt.Errorf("invalid reply start of message byte (%02x)", packet[0])
 	}
 
-	if packet[1] != SetDoorPasscodes {
+	if packet[1] != 140 {
 		return types.SetDoorPasscodesResponse{}, fmt.Errorf("invalid reply function code (%02x)", packet[1])
 	}
 
@@ -322,7 +322,7 @@ func SetDoorPasscodesResponse(packet []byte) (types.SetDoorPasscodesResponse, er
 	}, nil
 }
 
-// Decodes a open-door response.
+// Decodes a open-door-response response.
 //
 //	Parameters:
 //	    packet  (bytearray)  64 byte UDP packet.
@@ -340,7 +340,7 @@ func OpenDoorResponse(packet []byte) (types.OpenDoorResponse, error) {
 		return types.OpenDoorResponse{}, fmt.Errorf("invalid reply start of message byte (%02x)", packet[0])
 	}
 
-	if packet[1] != OpenDoor {
+	if packet[1] != 64 {
 		return types.OpenDoorResponse{}, fmt.Errorf("invalid reply function code (%02x)", packet[1])
 	}
 
@@ -350,7 +350,7 @@ func OpenDoorResponse(packet []byte) (types.OpenDoorResponse, error) {
 	}, nil
 }
 
-// Decodes a get-cards response.
+// Decodes a get-cards-response response.
 //
 //	Parameters:
 //	    packet  (bytearray)  64 byte UDP packet.
@@ -368,7 +368,7 @@ func GetCardsResponse(packet []byte) (types.GetCardsResponse, error) {
 		return types.GetCardsResponse{}, fmt.Errorf("invalid reply start of message byte (%02x)", packet[0])
 	}
 
-	if packet[1] != GetCards {
+	if packet[1] != 88 {
 		return types.GetCardsResponse{}, fmt.Errorf("invalid reply function code (%02x)", packet[1])
 	}
 
@@ -378,7 +378,7 @@ func GetCardsResponse(packet []byte) (types.GetCardsResponse, error) {
 	}, nil
 }
 
-// Decodes a get-card response.
+// Decodes a get-card-response response.
 //
 //	Parameters:
 //	    packet  (bytearray)  64 byte UDP packet.
@@ -396,7 +396,7 @@ func GetCardResponse(packet []byte) (types.GetCardResponse, error) {
 		return types.GetCardResponse{}, fmt.Errorf("invalid reply start of message byte (%02x)", packet[0])
 	}
 
-	if packet[1] != GetCard {
+	if packet[1] != 90 {
 		return types.GetCardResponse{}, fmt.Errorf("invalid reply function code (%02x)", packet[1])
 	}
 
@@ -410,5 +410,33 @@ func GetCardResponse(packet []byte) (types.GetCardResponse, error) {
 		Door3:      unpackUint8(packet, 22),
 		Door4:      unpackUint8(packet, 23),
 		PIN:        unpackPIN(packet, 24),
+	}, nil
+}
+
+// Decodes a put-card-response response.
+//
+//	Parameters:
+//	    packet  (bytearray)  64 byte UDP packet.
+//
+//	Returns:
+//	    - PutCardResponse initialised from the UDP packet.
+//	    - error if the packet is not 64 bytes, has an invalid start-of-message byte or has
+//	               the incorrect message type.
+func PutCardResponse(packet []byte) (types.PutCardResponse, error) {
+	if len(packet) != 64 {
+		return types.PutCardResponse{}, fmt.Errorf("invalid reply packet length (%v)", len(packet))
+	}
+
+	if packet[0] != SOM {
+		return types.PutCardResponse{}, fmt.Errorf("invalid reply start of message byte (%02x)", packet[0])
+	}
+
+	if packet[1] != 80 {
+		return types.PutCardResponse{}, fmt.Errorf("invalid reply function code (%02x)", packet[1])
+	}
+
+	return types.PutCardResponse{
+		Controller: unpackUint32(packet, 4),
+		Ok:         unpackBool(packet, 8),
 	}, nil
 }

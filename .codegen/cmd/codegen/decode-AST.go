@@ -280,7 +280,7 @@ func buildDecoderFactoryBody() *ast.BlockStmt {
 
 	// ... message types
 	for _, response := range model.Responses {
-		name := fmt.Sprintf("%vResponse", titleCase(response.Message.Name))
+		name := fmt.Sprintf("%v", titleCase(response.Message.Name))
 
 		clause := ast.CaseClause{
 			List: []ast.Expr{

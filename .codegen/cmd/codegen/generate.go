@@ -7,6 +7,7 @@ import (
 	"regexp"
 	"strings"
 	"text/template"
+	"unicode"
 
 	lib "github.com/uhppoted/uhppoted-codegen/model/types"
 
@@ -16,6 +17,7 @@ import (
 
 var functions = template.FuncMap{
 	"titleCase":   titleCase,
+	"camelCase":   camelCase,
 	"hyphenate":   hyphenate,
 	"hex":         hex,
 	"args":        args,
@@ -55,6 +57,26 @@ func titleCase(s string) string {
 	}
 
 	return strings.Join(parts, "")
+}
+
+func camelCase(s string) string {
+	tokens := regexp.MustCompile(`[ -]+`).Split(s, -1)
+
+	for i, token := range tokens[1:] {
+		tokens[i+1] = capitalize(token)
+	}
+
+	return strings.Join(tokens, "")
+}
+
+func capitalize(s string) string {
+	runes := []rune(s)
+
+	if len(runes) > 0 {
+		runes[0] = unicode.ToUpper(runes[0])
+	}
+
+	return string(runes)
 }
 
 func hyphenate(s string) string {
@@ -120,6 +142,12 @@ func arg(arg types.Arg) string {
 	case "datetime":
 		return fmt.Sprintf(`string2datetime("%v")`, arg.Value)
 
+	case "date":
+		return fmt.Sprintf(`string2date("%v")`, arg.Value)
+
+	case "pin":
+		return fmt.Sprintf(`uint32(%v)`, arg.Value)
+
 	default:
 		return fmt.Sprintf("%v", arg.Value)
 	}
@@ -142,6 +170,12 @@ func testarg(arg lib.TestArg) string {
 	case "datetime":
 		return fmt.Sprintf(`string2datetime("%v")`, arg.Value)
 
+	case "date":
+		return fmt.Sprintf(`string2date("%v")`, arg.Value)
+
+	case "pin":
+		return fmt.Sprintf(`uint32(%v)`, arg.Value)
+
 	default:
 		return fmt.Sprintf("%v", arg.Value)
 	}
@@ -161,6 +195,12 @@ func fields2args(fields []lib.Field) string {
 
 		case "datetime":
 			args = append(args, fmt.Sprintf("%v time.Time", name))
+
+		case "date":
+			args = append(args, fmt.Sprintf("%v time.Time", name))
+
+		case "pin":
+			args = append(args, fmt.Sprintf("%v uint32", name))
 
 		case "magic":
 			// skip
@@ -194,6 +234,12 @@ func pack(field lib.Field) string {
 
 	case "datetime":
 		return fmt.Sprintf("packDateTime(%v, packet, %v)", name, field.Offset)
+
+	case "date":
+		return fmt.Sprintf("packDate(%v, packet, %v)", name, field.Offset)
+
+	case "pin":
+		return fmt.Sprintf("packPIN(%v, packet, %v)", name, field.Offset)
 
 	case "magic":
 		return fmt.Sprintf("packUint32(0x55aaaa55, packet, %v)", field.Offset)
@@ -252,26 +298,6 @@ func unpack(field lib.Field) string {
 func describe(field lib.Field) string {
 	return fmt.Sprintf("%v  (%v)  %v", field.Name, field.Type, field.Description)
 }
-
-// var types = map[string]string{
-// 	"uint8":      "uint8",
-// 	"uint16":     "uint16",
-// 	"uint32":     "uint32",
-// 	"bool":       "bool",
-// 	"IPv4":       "netip.Addr",
-// 	"MAC":        "string",
-// 	"version":    "string",
-// 	"date":       "time.Time",
-// 	"shortdate":  "Date",
-// 	"time":       "Time",
-// 	"datetime":   "DateTime",
-// 	"HHmm":       "HHmm",
-// 	"pin":        "PIN",
-// 	"controller": "Controller",
-
-// 	"optional date":     "Date",
-// 	"optional datetime": "DateTime",
-// }
 
 func lookup(path, key, defval string) any {
 	table := map[string]string{

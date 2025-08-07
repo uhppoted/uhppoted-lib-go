@@ -180,3 +180,22 @@ func TestGetCardNotFound(t *testing.T) {
 		t.Errorf("incorrect response\n   expected:%#v\n   got:     %#v", test.Expected.GetCardNotFound, response)
 	}
 }
+
+func TestPutCard(t *testing.T) {
+	card := uint32(10058400)
+	startDate := string2date("2025-01-01")
+	endDate := string2date("2025-12-31")
+	door1 := uint8(1)
+	door2 := uint8(0)
+	door3 := uint8(17)
+	door4 := uint8(1)
+	PIN := uint32(999999)
+
+	response, err := lib.PutCard(u, controller, card, startDate, endDate, door1, door2, door3, door4, PIN, timeout)
+
+	if err != nil {
+		t.Fatalf("%v", err)
+	} else if !reflect.DeepEqual(response, test.Expected.PutCard) {
+		t.Errorf("incorrect response\n   expected:%#v\n   got:     %#v", test.Expected.PutCard, response)
+	}
+}

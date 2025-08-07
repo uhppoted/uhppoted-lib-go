@@ -10,8 +10,10 @@ import (
 	"go/printer"
 	"go/token"
 
+	libx "github.com/uhppoted/uhppoted-codegen/model/types"
+
 	"codegen/model"
-	"codegen/model/types"
+	// "codegen/model/types"
 )
 
 func decoderTest() {
@@ -79,7 +81,7 @@ func buildDecoderTest() *ast.File {
 	}
 }
 
-func buildDecoderTestFunc(test types.ResponseTest) *ast.FuncDecl {
+func buildDecoderTestFunc(test libx.ResponseTest) *ast.FuncDecl {
 	name := fmt.Sprintf("TestDecode%vResponse", titleCase(test.Name))
 	return &ast.FuncDecl{
 		Name: ast.NewIdent(name),
@@ -100,7 +102,7 @@ func buildDecoderTestFunc(test types.ResponseTest) *ast.FuncDecl {
 	}
 }
 
-func buildDecoderTestImpl(test types.ResponseTest) *ast.BlockStmt {
+func buildDecoderTestImpl(test libx.ResponseTest) *ast.BlockStmt {
 	packet := make([]ast.Expr, 64)
 	for i, b := range test.Response {
 		packet[i] = &ast.BasicLit{

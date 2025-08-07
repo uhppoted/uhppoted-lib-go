@@ -95,3 +95,12 @@ func GetCard[T TController](u Uhppoted, controller T, cardnumber uint32, timeout
 
 	return exec[T, GetCardResponse](u, controller, f, timeout)
 }
+
+// Adds or updates an access controller card record.
+func PutCard[T TController](u Uhppoted, controller T, card uint32, startdate time.Time, enddate time.Time, door1 uint8, door2 uint8, door3 uint8, door4 uint8, PIN uint32, timeout time.Duration) (PutCardResponse, error) {
+	f := func(id uint32) ([]byte, error) {
+		return encode.PutCardRequest(id, card, startdate, enddate, door1, door2, door3, door4, PIN)
+	}
+
+	return exec[T, PutCardResponse](u, controller, f, timeout)
+}
