@@ -125,7 +125,7 @@ func unpackOptionalDate(packet []byte, offset uint8) time.Time {
 	bcd := bcd2string(packet[offset : offset+4])
 
 	if d, err := time.ParseInLocation("20060102", bcd, time.Local); err != nil {
-		return time.Time{}
+		return time.Date(1, time.January, 1, 0, 0, 0, 0, time.Local)
 	} else {
 		return d
 	}

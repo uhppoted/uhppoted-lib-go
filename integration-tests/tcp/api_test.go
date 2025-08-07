@@ -168,3 +168,15 @@ func TestGetCard(t *testing.T) {
 		t.Errorf("incorrect response\n   expected:%#v\n   got:     %#v", test.Expected.GetCard, response)
 	}
 }
+
+func TestGetCardNotFound(t *testing.T) {
+	card := uint32(10058401)
+
+	response, err := lib.GetCard(u, controller, card, timeout)
+
+	if err != nil {
+		t.Fatalf("%v", err)
+	} else if !reflect.DeepEqual(response, test.Expected.GetCardNotFound) {
+		t.Errorf("incorrect response\n   expected:%#v\n   got:     %#v", test.Expected.GetCardNotFound, response)
+	}
+}

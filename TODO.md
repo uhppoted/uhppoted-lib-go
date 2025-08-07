@@ -15,12 +15,16 @@
 - [x] set-door-passcodes
 - [x] open-door
 - [x] get-cards
-- [ ] get-card
+- [x] get-card
    - [x] API
    - [x] CLI
    - [x] README
    - [x] integration test
-       - [ ] card not found
+- [ ] put-card
+   - [ ] API
+   - [ ] CLI
+   - [ ] README
+   - [ ] integration test
 
 - [ ] custom date/time types
 - [ ] check for controller = 0
