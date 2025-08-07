@@ -10,8 +10,8 @@ import (
 
 var Expected = struct { 
     FindControllers []lib.GetControllerResponse
-{{- range $i,$func := . }}{{ if $i }}
-    {{ titleCase $func.Name }} lib.{{ titleCase $func.Response.Message.Name }}Response{{ end }}{{ end }}
+{{- range $i,$func := . }}{{ if $i }}{{ range $test := $func.Tests}}
+    {{ titleCase $test.Name }} lib.{{ titleCase $func.Response.Message.Name }}Response{{ end }}{{ end }}{{end}}
 }{ 
     FindControllers: []lib.GetControllerResponse{
         lib.GetControllerResponse{
@@ -42,14 +42,14 @@ var Expected = struct {
             Date:       time.Date(2018, 11, 5, 0, 0, 0, 0, time.Local),
         },
     },
-{{ range $i,$func := . }}{{ if $i }}
-    {{ titleCase $func.Name }}: lib.{{ titleCase $func.Response.Message.Name }}Response { {{- range $i,$reply := $func.Test.Replies }}
+{{ range $i,$func := . }}{{ if $i }}{{ range $test := $func.Tests}}
+    {{ titleCase $test.Name }}: lib.{{ titleCase $func.Response.Message.Name }}Response { {{- range $i,$reply := $test.Replies }}
 {{- range $value := $reply.Response}}
         {{ titleCase $value.Name }}: {{ value $value.Value $value.Type }},
 {{- end }}
 {{ break }}
 {{ end }}     },
-{{ end }}{{ end }}
+{{ end }}{{ end }}{{ end }}
 }
 
 func IPv4(v string) netip.Addr {

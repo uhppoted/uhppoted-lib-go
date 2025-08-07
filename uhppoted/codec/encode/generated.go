@@ -10,277 +10,276 @@
 package encode
 
 import (
-    "net/netip"
-    "time"
+	"net/netip"
+	"time"
 )
-
 
 // Encodes a get-controller-request.
 //
-//  Parameters:
-//      controller  (uint32)  controller serial number
+//	Parameters:
+//	    controller  (uint32)  controller serial number
 //
-//  Returns:
-//      64 byte packet.
+//	Returns:
+//	    64 byte packet.
 func GetControllerRequest(controller uint32) ([]byte, error) {
-    packet := make([]byte, 64)
+	packet := make([]byte, 64)
 
-    packet[0] = SOM
-    packet[1] = 148
+	packet[0] = SOM
+	packet[1] = 148
 
-    packUint32(controller, packet, 4)
+	packUint32(controller, packet, 4)
 
-    return packet, nil
+	return packet, nil
 }
 
 // Encodes a set-ipv4-request.
 //
-//  Parameters:
-//      controller  (uint32)  controller serial number
-//      address  (IPv4)  controller IPv4 address
-//      netmask  (IPv4)  controller IPv4 subnet mask
-//      gateway  (IPv4)  controller IPv4 gateway address
-//        (magic)  'magic' word
+//	Parameters:
+//	    controller  (uint32)  controller serial number
+//	    address  (IPv4)  controller IPv4 address
+//	    netmask  (IPv4)  controller IPv4 subnet mask
+//	    gateway  (IPv4)  controller IPv4 gateway address
+//	      (magic)  'magic' word
 //
-//  Returns:
-//      64 byte packet.
+//	Returns:
+//	    64 byte packet.
 func SetIPv4Request(controller uint32, address netip.Addr, netmask netip.Addr, gateway netip.Addr) ([]byte, error) {
-    packet := make([]byte, 64)
+	packet := make([]byte, 64)
 
-    packet[0] = SOM
-    packet[1] = 150
+	packet[0] = SOM
+	packet[1] = 150
 
-    packUint32(controller, packet, 4)
-    packIPv4(address, packet, 8)
-    packIPv4(netmask, packet, 12)
-    packIPv4(gateway, packet, 16)
-    packUint32(0x55aaaa55, packet, 20)
+	packUint32(controller, packet, 4)
+	packIPv4(address, packet, 8)
+	packIPv4(netmask, packet, 12)
+	packIPv4(gateway, packet, 16)
+	packUint32(0x55aaaa55, packet, 20)
 
-    return packet, nil
+	return packet, nil
 }
 
 // Encodes a get-status-request.
 //
-//  Parameters:
-//      controller  (uint32)  controller serial number
+//	Parameters:
+//	    controller  (uint32)  controller serial number
 //
-//  Returns:
-//      64 byte packet.
+//	Returns:
+//	    64 byte packet.
 func GetStatusRequest(controller uint32) ([]byte, error) {
-    packet := make([]byte, 64)
+	packet := make([]byte, 64)
 
-    packet[0] = SOM
-    packet[1] = 32
+	packet[0] = SOM
+	packet[1] = 32
 
-    packUint32(controller, packet, 4)
+	packUint32(controller, packet, 4)
 
-    return packet, nil
+	return packet, nil
 }
 
 // Encodes a get-time-request.
 //
-//  Parameters:
-//      controller  (uint32)  controller serial number
+//	Parameters:
+//	    controller  (uint32)  controller serial number
 //
-//  Returns:
-//      64 byte packet.
+//	Returns:
+//	    64 byte packet.
 func GetTimeRequest(controller uint32) ([]byte, error) {
-    packet := make([]byte, 64)
+	packet := make([]byte, 64)
 
-    packet[0] = SOM
-    packet[1] = 50
+	packet[0] = SOM
+	packet[1] = 50
 
-    packUint32(controller, packet, 4)
+	packUint32(controller, packet, 4)
 
-    return packet, nil
+	return packet, nil
 }
 
 // Encodes a set-time-request.
 //
-//  Parameters:
-//      controller  (uint32)  controller serial number
-//      datetime  (datetime)  date/time
+//	Parameters:
+//	    controller  (uint32)  controller serial number
+//	    datetime  (datetime)  date/time
 //
-//  Returns:
-//      64 byte packet.
+//	Returns:
+//	    64 byte packet.
 func SetTimeRequest(controller uint32, datetime time.Time) ([]byte, error) {
-    packet := make([]byte, 64)
+	packet := make([]byte, 64)
 
-    packet[0] = SOM
-    packet[1] = 48
+	packet[0] = SOM
+	packet[1] = 48
 
-    packUint32(controller, packet, 4)
-    packDateTime(datetime, packet, 8)
+	packUint32(controller, packet, 4)
+	packDateTime(datetime, packet, 8)
 
-    return packet, nil
+	return packet, nil
 }
 
 // Encodes a get-listener-request.
 //
-//  Parameters:
-//      controller  (uint32)  controller serial number
+//	Parameters:
+//	    controller  (uint32)  controller serial number
 //
-//  Returns:
-//      64 byte packet.
+//	Returns:
+//	    64 byte packet.
 func GetListenerRequest(controller uint32) ([]byte, error) {
-    packet := make([]byte, 64)
+	packet := make([]byte, 64)
 
-    packet[0] = SOM
-    packet[1] = 146
+	packet[0] = SOM
+	packet[1] = 146
 
-    packUint32(controller, packet, 4)
+	packUint32(controller, packet, 4)
 
-    return packet, nil
+	return packet, nil
 }
 
 // Encodes a set-listener-request.
 //
-//  Parameters:
-//      controller  (uint32)  controller serial number
-//      address  (addrport)  event listener IPv4 address:port
-//      interval  (uint8)  status auto-send interval (seconds)
+//	Parameters:
+//	    controller  (uint32)  controller serial number
+//	    address  (addrport)  event listener IPv4 address:port
+//	    interval  (uint8)  status auto-send interval (seconds)
 //
-//  Returns:
-//      64 byte packet.
+//	Returns:
+//	    64 byte packet.
 func SetListenerRequest(controller uint32, address netip.AddrPort, interval uint8) ([]byte, error) {
-    packet := make([]byte, 64)
+	packet := make([]byte, 64)
 
-    packet[0] = SOM
-    packet[1] = 144
+	packet[0] = SOM
+	packet[1] = 144
 
-    packUint32(controller, packet, 4)
-    packAddrPort(address, packet, 8)
-    packUint8(interval, packet, 14)
+	packUint32(controller, packet, 4)
+	packAddrPort(address, packet, 8)
+	packUint8(interval, packet, 14)
 
-    return packet, nil
+	return packet, nil
 }
 
 // Encodes a get-door-request.
 //
-//  Parameters:
-//      controller  (uint32)  controller serial number
-//      door  (uint8)  door ID ([1..4])
+//	Parameters:
+//	    controller  (uint32)  controller serial number
+//	    door  (uint8)  door ID ([1..4])
 //
-//  Returns:
-//      64 byte packet.
+//	Returns:
+//	    64 byte packet.
 func GetDoorRequest(controller uint32, door uint8) ([]byte, error) {
-    packet := make([]byte, 64)
+	packet := make([]byte, 64)
 
-    packet[0] = SOM
-    packet[1] = 130
+	packet[0] = SOM
+	packet[1] = 130
 
-    packUint32(controller, packet, 4)
-    packUint8(door, packet, 8)
+	packUint32(controller, packet, 4)
+	packUint8(door, packet, 8)
 
-    return packet, nil
+	return packet, nil
 }
 
 // Encodes a set-door-request.
 //
-//  Parameters:
-//      controller  (uint32)  controller serial number
-//      door  (uint8)  
-//      mode  (uint8)  
-//      delay  (uint8)  
+//	Parameters:
+//	    controller  (uint32)  controller serial number
+//	    door  (uint8)
+//	    mode  (uint8)
+//	    delay  (uint8)
 //
-//  Returns:
-//      64 byte packet.
+//	Returns:
+//	    64 byte packet.
 func SetDoorRequest(controller uint32, door uint8, mode uint8, delay uint8) ([]byte, error) {
-    packet := make([]byte, 64)
+	packet := make([]byte, 64)
 
-    packet[0] = SOM
-    packet[1] = 128
+	packet[0] = SOM
+	packet[1] = 128
 
-    packUint32(controller, packet, 4)
-    packUint8(door, packet, 8)
-    packUint8(mode, packet, 9)
-    packUint8(delay, packet, 10)
+	packUint32(controller, packet, 4)
+	packUint8(door, packet, 8)
+	packUint8(mode, packet, 9)
+	packUint8(delay, packet, 10)
 
-    return packet, nil
+	return packet, nil
 }
 
 // Encodes a set-door-passcodes-request.
 //
-//  Parameters:
-//      controller  (uint32)  controller serial number
-//      door  (uint8)  
-//      passcode 1  (uint32)  
-//      passcode 2  (uint32)  
-//      passcode 3  (uint32)  
-//      passcode 4  (uint32)  
+//	Parameters:
+//	    controller  (uint32)  controller serial number
+//	    door  (uint8)
+//	    passcode 1  (uint32)
+//	    passcode 2  (uint32)
+//	    passcode 3  (uint32)
+//	    passcode 4  (uint32)
 //
-//  Returns:
-//      64 byte packet.
+//	Returns:
+//	    64 byte packet.
 func SetDoorPasscodesRequest(controller uint32, door uint8, passcode1 uint32, passcode2 uint32, passcode3 uint32, passcode4 uint32) ([]byte, error) {
-    packet := make([]byte, 64)
+	packet := make([]byte, 64)
 
-    packet[0] = SOM
-    packet[1] = 140
+	packet[0] = SOM
+	packet[1] = 140
 
-    packUint32(controller, packet, 4)
-    packUint8(door, packet, 8)
-    packUint32(passcode1, packet, 12)
-    packUint32(passcode2, packet, 16)
-    packUint32(passcode3, packet, 20)
-    packUint32(passcode4, packet, 24)
+	packUint32(controller, packet, 4)
+	packUint8(door, packet, 8)
+	packUint32(passcode1, packet, 12)
+	packUint32(passcode2, packet, 16)
+	packUint32(passcode3, packet, 20)
+	packUint32(passcode4, packet, 24)
 
-    return packet, nil
+	return packet, nil
 }
 
 // Encodes a open-door-request.
 //
-//  Parameters:
-//      controller  (uint32)  controller serial number
-//      door  (uint8)  
+//	Parameters:
+//	    controller  (uint32)  controller serial number
+//	    door  (uint8)
 //
-//  Returns:
-//      64 byte packet.
+//	Returns:
+//	    64 byte packet.
 func OpenDoorRequest(controller uint32, door uint8) ([]byte, error) {
-    packet := make([]byte, 64)
+	packet := make([]byte, 64)
 
-    packet[0] = SOM
-    packet[1] = 64
+	packet[0] = SOM
+	packet[1] = 64
 
-    packUint32(controller, packet, 4)
-    packUint8(door, packet, 8)
+	packUint32(controller, packet, 4)
+	packUint8(door, packet, 8)
 
-    return packet, nil
+	return packet, nil
 }
 
 // Encodes a get-cards-request.
 //
-//  Parameters:
-//      controller  (uint32)  controller serial number
+//	Parameters:
+//	    controller  (uint32)  controller serial number
 //
-//  Returns:
-//      64 byte packet.
+//	Returns:
+//	    64 byte packet.
 func GetCardsRequest(controller uint32) ([]byte, error) {
-    packet := make([]byte, 64)
+	packet := make([]byte, 64)
 
-    packet[0] = SOM
-    packet[1] = 88
+	packet[0] = SOM
+	packet[1] = 88
 
-    packUint32(controller, packet, 4)
+	packUint32(controller, packet, 4)
 
-    return packet, nil
+	return packet, nil
 }
 
 // Encodes a get-card-request.
 //
-//  Parameters:
-//      controller  (uint32)  controller serial number
-//      card number  (uint32)  
+//	Parameters:
+//	    controller  (uint32)  controller serial number
+//	    card number  (uint32)
 //
-//  Returns:
-//      64 byte packet.
+//	Returns:
+//	    64 byte packet.
 func GetCardRequest(controller uint32, cardnumber uint32) ([]byte, error) {
-    packet := make([]byte, 64)
+	packet := make([]byte, 64)
 
-    packet[0] = SOM
-    packet[1] = 90
+	packet[0] = SOM
+	packet[1] = 90
 
-    packUint32(controller, packet, 4)
-    packUint32(cardnumber, packet, 8)
+	packUint32(controller, packet, 4)
+	packUint32(cardnumber, packet, 8)
 
-    return packet, nil
+	return packet, nil
 }

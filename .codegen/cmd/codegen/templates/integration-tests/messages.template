@@ -6,13 +6,13 @@ type message = struct {
 }
 
 var Messages = []message{
-{{ range $func := . }}    // {{ $func.Name }}
+{{ range $func := . }}    // {{ $func.Name }}{{ range $test := $func.Tests }}
     {
         Request: []byte{
-{{ hex $func.Test.Request }}
+{{ hex $test.Request }}
         },
         Response: [][]byte{
-{{ range $reply := $func.Test.Replies }}            []byte{
+{{ range $reply := $test.Replies }}            []byte{
 {{ hex $reply.Message }}
             },
 {{ end }}
@@ -20,4 +20,5 @@ var Messages = []message{
     },
 
 {{ end -}}
+{{ end }}
 }

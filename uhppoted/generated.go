@@ -2,7 +2,7 @@ package uhppoted
 
 import (
 	"time"
-	
+
 	"github.com/uhppoted/uhppoted-lib-go/uhppoted/codec/encode"
 )
 
@@ -11,7 +11,7 @@ func GetController[T TController](u Uhppoted, controller T, timeout time.Duratio
 	f := func(id uint32) ([]byte, error) {
 		return encode.GetControllerRequest(id)
 	}
-	
+
 	return exec[T, GetControllerResponse](u, controller, f, timeout)
 }
 
@@ -20,7 +20,7 @@ func GetTime[T TController](u Uhppoted, controller T, timeout time.Duration) (Ge
 	f := func(id uint32) ([]byte, error) {
 		return encode.GetTimeRequest(id)
 	}
-	
+
 	return exec[T, GetTimeResponse](u, controller, f, timeout)
 }
 
@@ -29,7 +29,7 @@ func GetListener[T TController](u Uhppoted, controller T, timeout time.Duration)
 	f := func(id uint32) ([]byte, error) {
 		return encode.GetListenerRequest(id)
 	}
-	
+
 	return exec[T, GetListenerResponse](u, controller, f, timeout)
 }
 
@@ -38,7 +38,7 @@ func GetDoor[T TController](u Uhppoted, controller T, door uint8, timeout time.D
 	f := func(id uint32) ([]byte, error) {
 		return encode.GetDoorRequest(id, door)
 	}
-	
+
 	return exec[T, GetDoorResponse](u, controller, f, timeout)
 }
 
@@ -47,7 +47,7 @@ func SetDoor[T TController](u Uhppoted, controller T, door uint8, mode uint8, de
 	f := func(id uint32) ([]byte, error) {
 		return encode.SetDoorRequest(id, door, mode, delay)
 	}
-	
+
 	return exec[T, SetDoorResponse](u, controller, f, timeout)
 }
 
@@ -56,7 +56,7 @@ func SetDoorPasscodes[T TController](u Uhppoted, controller T, door uint8, passc
 	f := func(id uint32) ([]byte, error) {
 		return encode.SetDoorPasscodesRequest(id, door, passcode1, passcode2, passcode3, passcode4)
 	}
-	
+
 	return exec[T, SetDoorPasscodesResponse](u, controller, f, timeout)
 }
 
@@ -65,7 +65,7 @@ func OpenDoor[T TController](u Uhppoted, controller T, door uint8, timeout time.
 	f := func(id uint32) ([]byte, error) {
 		return encode.OpenDoorRequest(id, door)
 	}
-	
+
 	return exec[T, OpenDoorResponse](u, controller, f, timeout)
 }
 
@@ -74,7 +74,7 @@ func GetStatus[T TController](u Uhppoted, controller T, timeout time.Duration) (
 	f := func(id uint32) ([]byte, error) {
 		return encode.GetStatusRequest(id)
 	}
-	
+
 	return exec[T, GetStatusResponse](u, controller, f, timeout)
 }
 
@@ -83,7 +83,7 @@ func GetCards[T TController](u Uhppoted, controller T, timeout time.Duration) (G
 	f := func(id uint32) ([]byte, error) {
 		return encode.GetCardsRequest(id)
 	}
-	
+
 	return exec[T, GetCardsResponse](u, controller, f, timeout)
 }
 
@@ -92,6 +92,6 @@ func GetCard[T TController](u Uhppoted, controller T, cardnumber uint32, timeout
 	f := func(id uint32) ([]byte, error) {
 		return encode.GetCardRequest(id, cardnumber)
 	}
-	
+
 	return exec[T, GetCardResponse](u, controller, f, timeout)
 }

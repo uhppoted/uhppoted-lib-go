@@ -10,7 +10,7 @@ type Func struct {
 	Request     types.Request
 	Response    types.Response
 	Protocols   []string
-	Test        FuncTest
+	Tests       []FuncTest
 }
 
 type Reply struct {
@@ -19,6 +19,7 @@ type Reply struct {
 }
 
 type FuncTest struct {
+	Name    string
 	Args    []types.Arg
 	Request []byte
 	Replies []Reply
