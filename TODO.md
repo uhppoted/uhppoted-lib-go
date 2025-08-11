@@ -17,11 +17,12 @@
 - [x] get-cards
 - [x] get-card
 - [x] put-card
-- [ ] delete-card
+- [x] delete-card
    - [x] API
    - [x] CLI
    - [x] README
    - [x] integration test
+- [ ] get-card-by-index
 
 - [ ] custom date/time types
 - [ ] check for controller = 0

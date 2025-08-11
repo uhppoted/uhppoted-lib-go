@@ -26,72 +26,10 @@ var Responses = []types.Response{
 }
 
 var GetControllerResponse = types.Response(lib.GetControllerResponse)
+var GetCardsResponse = types.Response(lib.GetCardsResponse)
+var GetCardResponse = types.Response(lib.GetCardResponse)
 var PutCardResponse = types.Response(lib.PutCardResponse)
 var DeleteCardResponse = types.Response(lib.DeleteCardResponse)
-
-// var GetControllerResponse = types.Response{
-// 	Message: libx.Message{
-// 		Name:    "get controller response",
-// 		MsgType: 0x94,
-// 		Fields: []libx.Field{
-// 			{"controller", "uint32", 4, "controller serial number, e.g. 405419896"},
-// 			{"ip address", "IPv4", 8, "controller IPv4 address, e.g. 192.168.1.100"},
-// 			{"subnet mask", "IPv4", 12, "controller IPv4 netmask, e.g. 255.255.255.0"},
-// 			{"gateway", "IPv4", 16, "controller IPv4 gateway address, e.g. 192.168.1.1"},
-// 			{"MAC address", "MAC", 20, "controller MAC address, e.g. 52:fd:fc:07:21:82"},
-// 			{"version", "version", 26, "controller firmware version, e.g. v6.62"},
-// 			{"date", "date", 28, "controller firmware release date, e.g. 2020-12-31"},
-// 		},
-// 	},
-// 	Tests: []libx.ResponseTest{
-// 		{
-// 			Name: "get-controller",
-// 			Response: []byte{
-// 				0x17, 0x94, 0x00, 0x00, 0x78, 0x37, 0x2a, 0x18, 0xc0, 0xa8, 0x01, 0x64, 0xff, 0xff, 0xff, 0x00,
-// 				0xc0, 0xa8, 0x01, 0x01, 0x00, 0x12, 0x23, 0x34, 0x45, 0x56, 0x08, 0x92, 0x20, 0x18, 0x11, 0x05,
-// 				0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-// 				0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-// 			},
-// 			Expected: []libx.Value{
-// 				{
-// 					Name:  "controller",
-// 					Type:  "uint32",
-// 					Value: 405419896,
-// 				},
-// 				{
-// 					Name:  "ip address",
-// 					Type:  "IPv4",
-// 					Value: "192.168.1.100",
-// 				},
-// 				{
-// 					Name:  "subnet mask",
-// 					Type:  "IPv4",
-// 					Value: "255.255.255.0",
-// 				},
-// 				{
-// 					Name:  "gateway",
-// 					Type:  "IPv4",
-// 					Value: "192.168.1.1",
-// 				},
-// 				{
-// 					Name:  "MAC address",
-// 					Type:  "MAC",
-// 					Value: "00:12:23:34:45:56",
-// 				},
-// 				{
-// 					Name:  "version",
-// 					Type:  "version",
-// 					Value: "v8.92",
-// 				},
-// 				{
-// 					Name:  "date",
-// 					Type:  "date",
-// 					Value: "2018-11-05",
-// 				},
-// 			},
-// 		},
-// 	},
-// }
 
 var SetIPv4Response = types.Response{
 	Message: libx.Message{
@@ -595,205 +533,205 @@ var OpenDoorResponse = types.Response{
 	},
 }
 
-var GetCardsResponse = types.Response{
-	Message: libx.Message{
-		Name:    "get cards response",
-		MsgType: 0x58,
-		Fields: []libx.Field{
-			{"controller", "uint32", 4, "controller serial number, e.g. 405419896"},
-			{"cards", "uint32", 8, "number of stored cards"},
-		},
-	},
-	Tests: []libx.ResponseTest{
-		{
-			Name: "get-cards",
-			Response: []byte{
-				0x17, 0x58, 0x00, 0x00, 0x78, 0x37, 0x2a, 0x18, 0x0b, 0x35, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-				0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-				0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-				0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-			},
-			Expected: []libx.Value{
-				{
-					Name:  "controller",
-					Type:  "uint32",
-					Value: 405419896,
-				},
-				{
-					Name:  "cards",
-					Type:  "uint32",
-					Value: 13579,
-				},
-			},
-		},
-	},
-}
+// var GetCardsResponse = types.Response{
+// 	Message: libx.Message{
+// 		Name:    "get cards response",
+// 		MsgType: 0x58,
+// 		Fields: []libx.Field{
+// 			{"controller", "uint32", 4, "controller serial number, e.g. 405419896"},
+// 			{"cards", "uint32", 8, "number of stored cards"},
+// 		},
+// 	},
+// 	Tests: []libx.ResponseTest{
+// 		{
+// 			Name: "get-cards",
+// 			Response: []byte{
+// 				0x17, 0x58, 0x00, 0x00, 0x78, 0x37, 0x2a, 0x18, 0x0b, 0x35, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+// 				0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+// 				0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+// 				0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+// 			},
+// 			Expected: []libx.Value{
+// 				{
+// 					Name:  "controller",
+// 					Type:  "uint32",
+// 					Value: 405419896,
+// 				},
+// 				{
+// 					Name:  "cards",
+// 					Type:  "uint32",
+// 					Value: 13579,
+// 				},
+// 			},
+// 		},
+// 	},
+// }
 
-var GetCardResponse = types.Response{
-	Message: libx.Message{
-		Name:    "get card response",
-		MsgType: 0x5a,
-		Fields: []libx.Field{
-			{
-				Name:        "controller",
-				Type:        "uint32",
-				Offset:      4,
-				Description: "controller serial number",
-			},
-			{
-				Name:   "card",
-				Type:   "uint32",
-				Offset: 8,
-			},
-			{
-				Name:   "start date",
-				Type:   "optional date",
-				Offset: 12,
-			},
-			{
-				Name:   "end date",
-				Type:   "optional date",
-				Offset: 16,
-			},
-			{
-				Name:   "door 1",
-				Type:   "uint8",
-				Offset: 20,
-			},
-			{
-				Name:   "door 2",
-				Type:   "uint8",
-				Offset: 21,
-			},
-			{
-				Name:   "door 3",
-				Type:   "uint8",
-				Offset: 22,
-			},
-			{
-				Name:   "door 4",
-				Type:   "uint8",
-				Offset: 23,
-			},
-			{
-				Name:   "PIN",
-				Type:   "pin",
-				Offset: 24,
-			},
-		},
-	},
-	Tests: []libx.ResponseTest{
-		{
-			Name: "get-card",
-			Response: []byte{
-				0x17, 0x5a, 0x00, 0x00, 0x78, 0x37, 0x2a, 0x18, 0xa0, 0x7a, 0x99, 0x00, 0x20, 0x24, 0x01, 0x01,
-				0x20, 0x24, 0x12, 0x31, 0x01, 0x00, 0x11, 0x01, 0x3f, 0x42, 0x0f, 0x00, 0x00, 0x00, 0x00, 0x00,
-				0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-				0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-			},
-			Expected: []libx.Value{
-				{
-					Name:  "controller",
-					Type:  "uint32",
-					Value: 405419896,
-				},
-				{
-					Name:  "card",
-					Type:  "uint32",
-					Value: 10058400,
-				},
-				{
-					Name:  "start date",
-					Type:  "date",
-					Value: "2024-01-01",
-				},
-				{
-					Name:  "end date",
-					Type:  "date",
-					Value: "2024-12-31",
-				},
-				{
-					Name:  "door 1",
-					Type:  "uint8",
-					Value: 1,
-				},
-				{
-					Name:  "door 2",
-					Type:  "uint8",
-					Value: 0,
-				},
-				{
-					Name:  "door 3",
-					Type:  "uint8",
-					Value: 17,
-				},
-				{
-					Name:  "door 4",
-					Type:  "uint8",
-					Value: 1,
-				},
-				{
-					Name:  "PIN",
-					Type:  "uint32",
-					Value: 999999,
-				},
-			},
-		},
-		{
-			Name: "get-card-not-found",
-			Response: []byte{
-				0x17, 0x5a, 0x00, 0x00, 0x78, 0x37, 0x2a, 0x18, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-				0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-				0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-				0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-			},
-			Expected: []libx.Value{
-				{
-					Name:  "controller",
-					Type:  "uint32",
-					Value: 405419896,
-				},
-				{
-					Name:  "card",
-					Type:  "uint32",
-					Value: 0,
-				},
-				{
-					Name:  "start date",
-					Type:  "date",
-					Value: "0001-01-01",
-				},
-				{
-					Name:  "end date",
-					Type:  "date",
-					Value: "0001-01-01",
-				},
-				{
-					Name:  "door 1",
-					Type:  "uint8",
-					Value: 0,
-				},
-				{
-					Name:  "door 2",
-					Type:  "uint8",
-					Value: 0,
-				},
-				{
-					Name:  "door 3",
-					Type:  "uint8",
-					Value: 0,
-				},
-				{
-					Name:  "door 4",
-					Type:  "uint8",
-					Value: 0,
-				},
-				{
-					Name:  "PIN",
-					Type:  "uint32",
-					Value: 0,
-				},
-			},
-		},
-	},
-}
+// var GetCardResponse = types.Response{
+// 	Message: libx.Message{
+// 		Name:    "get card response",
+// 		MsgType: 0x5a,
+// 		Fields: []libx.Field{
+// 			{
+// 				Name:        "controller",
+// 				Type:        "uint32",
+// 				Offset:      4,
+// 				Description: "controller serial number",
+// 			},
+// 			{
+// 				Name:   "card",
+// 				Type:   "uint32",
+// 				Offset: 8,
+// 			},
+// 			{
+// 				Name:   "start date",
+// 				Type:   "optional date",
+// 				Offset: 12,
+// 			},
+// 			{
+// 				Name:   "end date",
+// 				Type:   "optional date",
+// 				Offset: 16,
+// 			},
+// 			{
+// 				Name:   "door 1",
+// 				Type:   "uint8",
+// 				Offset: 20,
+// 			},
+// 			{
+// 				Name:   "door 2",
+// 				Type:   "uint8",
+// 				Offset: 21,
+// 			},
+// 			{
+// 				Name:   "door 3",
+// 				Type:   "uint8",
+// 				Offset: 22,
+// 			},
+// 			{
+// 				Name:   "door 4",
+// 				Type:   "uint8",
+// 				Offset: 23,
+// 			},
+// 			{
+// 				Name:   "PIN",
+// 				Type:   "pin",
+// 				Offset: 24,
+// 			},
+// 		},
+// 	},
+// 	Tests: []libx.ResponseTest{
+// 		{
+// 			Name: "get-card",
+// 			Response: []byte{
+// 				0x17, 0x5a, 0x00, 0x00, 0x78, 0x37, 0x2a, 0x18, 0xa0, 0x7a, 0x99, 0x00, 0x20, 0x24, 0x01, 0x01,
+// 				0x20, 0x24, 0x12, 0x31, 0x01, 0x00, 0x11, 0x01, 0x3f, 0x42, 0x0f, 0x00, 0x00, 0x00, 0x00, 0x00,
+// 				0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+// 				0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+// 			},
+// 			Expected: []libx.Value{
+// 				{
+// 					Name:  "controller",
+// 					Type:  "uint32",
+// 					Value: 405419896,
+// 				},
+// 				{
+// 					Name:  "card",
+// 					Type:  "uint32",
+// 					Value: 10058400,
+// 				},
+// 				{
+// 					Name:  "start date",
+// 					Type:  "date",
+// 					Value: "2024-01-01",
+// 				},
+// 				{
+// 					Name:  "end date",
+// 					Type:  "date",
+// 					Value: "2024-12-31",
+// 				},
+// 				{
+// 					Name:  "door 1",
+// 					Type:  "uint8",
+// 					Value: 1,
+// 				},
+// 				{
+// 					Name:  "door 2",
+// 					Type:  "uint8",
+// 					Value: 0,
+// 				},
+// 				{
+// 					Name:  "door 3",
+// 					Type:  "uint8",
+// 					Value: 17,
+// 				},
+// 				{
+// 					Name:  "door 4",
+// 					Type:  "uint8",
+// 					Value: 1,
+// 				},
+// 				{
+// 					Name:  "PIN",
+// 					Type:  "uint32",
+// 					Value: 999999,
+// 				},
+// 			},
+// 		},
+// 		{
+// 			Name: "get-card-not-found",
+// 			Response: []byte{
+// 				0x17, 0x5a, 0x00, 0x00, 0x78, 0x37, 0x2a, 0x18, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+// 				0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+// 				0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+// 				0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+// 			},
+// 			Expected: []libx.Value{
+// 				{
+// 					Name:  "controller",
+// 					Type:  "uint32",
+// 					Value: 405419896,
+// 				},
+// 				{
+// 					Name:  "card",
+// 					Type:  "uint32",
+// 					Value: 0,
+// 				},
+// 				{
+// 					Name:  "start date",
+// 					Type:  "date",
+// 					Value: "0001-01-01",
+// 				},
+// 				{
+// 					Name:  "end date",
+// 					Type:  "date",
+// 					Value: "0001-01-01",
+// 				},
+// 				{
+// 					Name:  "door 1",
+// 					Type:  "uint8",
+// 					Value: 0,
+// 				},
+// 				{
+// 					Name:  "door 2",
+// 					Type:  "uint8",
+// 					Value: 0,
+// 				},
+// 				{
+// 					Name:  "door 3",
+// 					Type:  "uint8",
+// 					Value: 0,
+// 				},
+// 				{
+// 					Name:  "door 4",
+// 					Type:  "uint8",
+// 					Value: 0,
+// 				},
+// 				{
+// 					Name:  "PIN",
+// 					Type:  "uint32",
+// 					Value: 0,
+// 				},
+// 			},
+// 		},
+// 	},
+// }
