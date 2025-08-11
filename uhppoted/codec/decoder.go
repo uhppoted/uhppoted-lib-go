@@ -70,6 +70,9 @@ func decode(packet []byte) (any, error) {
 	case 0x50:
 		return decoder.PutCardResponse(packet)
 
+	case 0x52:
+		return decoder.DeleteCardResponse(packet)
+
 	default:
 		return nil, fmt.Errorf("unknown message type (%02x)", packet[1])
 	}

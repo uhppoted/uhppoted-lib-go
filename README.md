@@ -45,4 +45,5 @@ folder.
 - [`GetCards`](API.md#getcards)
 - [`GetCard`](API.md#getcard)
 - [`PutCard`](API.md#putcard)
+- [`DeleteCard`](API.md#deletecard)
 

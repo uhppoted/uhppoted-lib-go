@@ -195,3 +195,12 @@ put-card-udp: build
 
 put-card-tcp: build
 	$(CMD) put-card --controller $(CONTROLLER) --dest $(DEST) --tcp --card $(CARD) --start-date "2025-01-01" --end-date "2025-12-31" --doors 1,3:17,4 --PIN 987654
+
+delete-card: build
+	$(CMD) delete-card --controller $(CONTROLLER) --card $(CARD)
+
+delete-card-udp: build
+	$(CMD) delete-card --controller $(CONTROLLER) --dest $(DEST) --card $(CARD)
+
+delete-card-tcp: build
+	$(CMD) delete-card --controller $(CONTROLLER) --dest $(DEST) --tcp --card $(CARD)

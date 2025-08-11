@@ -25,6 +25,7 @@ var Expected = struct {
 	GetCard          lib.GetCardResponse
 	GetCardNotFound  lib.GetCardResponse
 	PutCard          lib.PutCardResponse
+	DeleteCard       lib.DeleteCardResponse
 }{
 	FindControllers: []lib.GetControllerResponse{
 		lib.GetControllerResponse{
@@ -173,6 +174,11 @@ var Expected = struct {
 	},
 
 	PutCard: lib.PutCardResponse{
+		Controller: 405419896,
+		Ok:         true,
+	},
+
+	DeleteCard: lib.DeleteCardResponse{
 		Controller: 405419896,
 		Ok:         true,
 	},

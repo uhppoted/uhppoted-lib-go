@@ -18,7 +18,6 @@ func API() {
 
 	imports := []string{
 		"time",
-		"",
 		"github.com/uhppoted/uhppoted-lib-go/uhppoted/codec/encode",
 	}
 
@@ -37,6 +36,7 @@ func API() {
 		function(model.GetCards),
 		function(model.GetCard),
 		function(model.PutCard),
+		function(model.DeleteCard),
 	}
 
 	AST := codegen.NewAST("uhppoted", imports, f)

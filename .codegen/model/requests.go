@@ -22,6 +22,7 @@ var Requests = []types.Request{
 	GetCardsRequest,
 	GetCardRequest,
 	PutCardRequest,
+	DeleteCardRequest,
 }
 
 var GetControllerRequest = types.Request(lib.GetControllerRequest)
@@ -30,22 +31,26 @@ var GetTimeRequest = types.Request(lib.GetTimeRequest)
 var SetTimeRequest = types.Request(lib.SetTimeRequest)
 
 var GetListenerRequest = types.Request(lib.GetListenerRequest)
+var SetListenerRequest = types.Request(lib.SetListenerAddrPortRequest)
 var OpenDoorRequest = types.Request(lib.OpenDoorRequest)
 var GetStatusRequest = types.Request(lib.GetStatusRequest)
 var GetCardsRequest = types.Request(lib.GetCardsRequest)
 var GetCardRequest = types.Request(lib.GetCardRequest)
 var PutCardRequest = types.Request(lib.PutCardRequest)
+var DeleteCardRequest = types.Request(lib.DeleteCardRequest)
 
-// var GetListenerRequest = types.Request{
-// 	Message: lib.GetListenerRequest.Message,
+// var SetListenerRequest = types.Request{
+// 	Message: lib.SetListenerAddrPortRequest,
 // 	Tests: []libx.RequestTest{
 // 		{
-// 			Name: "get-listener",
+// 			Name: "set-listener",
 // 			Args: []libx.TestArg{
 // 				{Arg: libx.Arg{Name: "controller", Type: "uint32"}, Value: uint32(405419896)},
+// 				{Arg: libx.Arg{Name: "listener", Type: "addrport"}, Value: "192.168.1.100:60001"},
+// 				{Arg: libx.Arg{Name: "interval", Type: "uint8"}, Value: 17},
 // 			},
 // 			Expected: []byte{
-// 				0x17, 0x92, 0x00, 0x00, 0x78, 0x37, 0x2a, 0x18, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+// 				0x17, 0x90, 0x00, 0x00, 0x78, 0x37, 0x2a, 0x18, 0xc0, 0xa8, 0x01, 0x64, 0x61, 0xea, 0x11, 0x00,
 // 				0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
 // 				0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
 // 				0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
@@ -53,26 +58,6 @@ var PutCardRequest = types.Request(lib.PutCardRequest)
 // 		},
 // 	},
 // }
-
-var SetListenerRequest = types.Request{
-	Message: lib.SetListenerAddrPortRequest,
-	Tests: []libx.RequestTest{
-		{
-			Name: "set-listener",
-			Args: []libx.TestArg{
-				{Arg: libx.Arg{Name: "controller", Type: "uint32"}, Value: uint32(405419896)},
-				{Arg: libx.Arg{Name: "listener", Type: "addrport"}, Value: "192.168.1.100:60001"},
-				{Arg: libx.Arg{Name: "interval", Type: "uint8"}, Value: 17},
-			},
-			Expected: []byte{
-				0x17, 0x90, 0x00, 0x00, 0x78, 0x37, 0x2a, 0x18, 0xc0, 0xa8, 0x01, 0x64, 0x61, 0xea, 0x11, 0x00,
-				0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-				0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-				0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-			},
-		},
-	},
-}
 
 var GetDoorRequest = types.Request{
 	Message: lib.GetDoorRequest,

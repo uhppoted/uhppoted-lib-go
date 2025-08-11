@@ -1,3 +1,4 @@
 .DS_Store
 bin
+go.work
 _generated.go

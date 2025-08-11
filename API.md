@@ -15,6 +15,7 @@
 - [`GetCards`](#getcards)
 - [`GetCard`](#getcard)
 - [`PutCard`](API.md#putcard)
+- [`DeleteCard`](API.md#deletecard)
 ---
 Invoking an API function requires an instance of the `Uhppoted` struct initialised with the information required
 to access a controller:
@@ -291,6 +292,18 @@ timeout     maximum time to wait for a response from a controller
 Returns a `PutCardResponse` with the card add/update result.
 ```
 
+### `DeleteCard`
+```
+DeleteCard(u Uhppoted, controller TController, card uint32, timeout time.Duration) (DeleteCardResponse,error)
+
+u           Uhppoted struct initialised with the bind address, broadcast address, etc
+controller  uint32|Controller controller serial number or {id, address, protocol} Controller struct
+card        card number
+timeout     maximum time to wait for a response from a controller
+
+Returns a `DeleteCardResponse` with `ok` set to `true` if the card record was deleted from the controller.
+```
+
 
 ## Types
 
@@ -468,6 +481,16 @@ type GetStatusResponse struct {
 Container class for the decoded response from a _PutCard_ request.
 ```
 type PutCardResponse struct {
+  Controller  uint32  `json:"controller"` // controller serial number
+  Ok          bool    `json:"ok"`         // true if request succeeded
+}
+```
+
+### `DeleteCardResponse`
+
+Container class for the decoded response from a _DeleteCard_ request.
+```
+type DeleteCardResponse struct {
   Controller  uint32  `json:"controller"` // controller serial number
   Ok          bool    `json:"ok"`         // true if request succeeded
 }

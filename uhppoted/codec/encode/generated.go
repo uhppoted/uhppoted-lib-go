@@ -132,23 +132,23 @@ func GetListenerRequest(controller uint32) ([]byte, error) {
 	return packet, nil
 }
 
-// Encodes a set-listener-request.
+// Encodes a set-listener-address:port-request.
 //
 //	Parameters:
 //	    controller  (uint32)  controller serial number
-//	    address  (addrport)  event listener IPv4 address:port
+//	    listener  (address:port)  event listener IPv4 address:port
 //	    interval  (uint8)  status auto-send interval (seconds)
 //
 //	Returns:
 //	    64 byte packet.
-func SetListenerRequest(controller uint32, address netip.AddrPort, interval uint8) ([]byte, error) {
+func SetListenerAddressPortRequest(controller uint32, listener netip.AddrPort, interval uint8) ([]byte, error) {
 	packet := make([]byte, 64)
 
 	packet[0] = SOM
 	packet[1] = 144
 
 	packUint32(controller, packet, 4)
-	packAddrPort(address, packet, 8)
+	packAddrPort(listener, packet, 8)
 	packUint8(interval, packet, 14)
 
 	return packet, nil
@@ -314,6 +314,26 @@ func PutCardRequest(controller uint32, card uint32, startdate time.Time, enddate
 	packUint8(door3, packet, 22)
 	packUint8(door4, packet, 23)
 	packPIN(PIN, packet, 24)
+
+	return packet, nil
+}
+
+// Encodes a delete-card-request.
+//
+//	Parameters:
+//	    controller  (uint32)  controller serial number
+//	    card number  (uint32)
+//
+//	Returns:
+//	    64 byte packet.
+func DeleteCardRequest(controller uint32, cardnumber uint32) ([]byte, error) {
+	packet := make([]byte, 64)
+
+	packet[0] = SOM
+	packet[1] = 82
+
+	packUint32(controller, packet, 4)
+	packUint32(cardnumber, packet, 8)
 
 	return packet, nil
 }

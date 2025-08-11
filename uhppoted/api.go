@@ -88,7 +88,7 @@ func SetTime[T TController](u Uhppoted, controller T, datetime time.Time, timeou
 //   - An error if the request could not be executed.
 func SetListener[T TController](u Uhppoted, controller T, listener netip.AddrPort, interval uint8, timeout time.Duration) (SetListenerResponse, error) {
 	f := func(id uint32) ([]byte, error) {
-		return encode.SetListenerRequest(id, listener, interval)
+		return encode.SetListenerAddressPortRequest(id, listener, interval)
 	}
 
 	return exec[T, SetListenerResponse](u, controller, f, timeout)

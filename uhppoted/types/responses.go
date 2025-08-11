@@ -138,8 +138,15 @@ type GetCardResponse struct {
 }
 
 // PutCardResponse is a container struct for the response returned by a controller
-// after remotely adding or updating a controller card record.
+// after adding or updating a controller card record.
 type PutCardResponse struct {
+	Controller uint32 `json:"controller"`
+	Ok         bool   `json:"ok"`
+}
+
+// DeleteCardResponse is a container struct for the response returned by a controller
+// after deleteing a controller card record.
+type DeleteCardResponse struct {
 	Controller uint32 `json:"controller"`
 	Ok         bool   `json:"ok"`
 }

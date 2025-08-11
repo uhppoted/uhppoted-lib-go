@@ -17,6 +17,7 @@
 - [x] get-cards
 - [x] get-card
 - [x] put-card
+- [ ] delete-card
    - [x] API
    - [x] CLI
    - [x] README

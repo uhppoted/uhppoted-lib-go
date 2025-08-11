@@ -50,7 +50,7 @@ func main() {
 }
 
 func titleCase(s string) string {
-	re := regexp.MustCompile(`[ -]+`)
+	re := regexp.MustCompile(`[ \-:]+`)
 	parts := re.Split(s, -1)
 	for i := range parts {
 		parts[i] = strings.Title(parts[i])
@@ -60,7 +60,7 @@ func titleCase(s string) string {
 }
 
 func camelCase(s string) string {
-	tokens := regexp.MustCompile(`[ -]+`).Split(s, -1)
+	tokens := regexp.MustCompile(`[ \-:]+`).Split(s, -1)
 
 	for i, token := range tokens[1:] {
 		tokens[i+1] = capitalize(token)
@@ -167,6 +167,9 @@ func testarg(arg lib.TestArg) string {
 	case "addrport":
 		return fmt.Sprintf(`netip.MustParseAddrPort("%v")`, arg.Value)
 
+	case "address:port":
+		return fmt.Sprintf(`netip.MustParseAddrPort("%v")`, arg.Value)
+
 	case "datetime":
 		return fmt.Sprintf(`string2datetime("%v")`, arg.Value)
 
@@ -190,7 +193,7 @@ func fields2args(fields []lib.Field) string {
 		case "IPv4":
 			args = append(args, fmt.Sprintf("%v netip.Addr", name))
 
-		case "addrport":
+		case "address:port":
 			args = append(args, fmt.Sprintf("%v netip.AddrPort", name))
 
 		case "datetime":
@@ -229,7 +232,7 @@ func pack(field lib.Field) string {
 	case "IPv4":
 		return fmt.Sprintf("packIPv4(%v, packet, %v)", name, field.Offset)
 
-	case "addrport":
+	case "address:port":
 		return fmt.Sprintf("packAddrPort(%v, packet, %v)", name, field.Offset)
 
 	case "datetime":
@@ -343,6 +346,9 @@ func value(v any, vtype string) string {
 		return fmt.Sprintf(`IPv4("%v")`, v)
 
 	case "addrport":
+		return fmt.Sprintf(`addrport("%v")`, v)
+
+	case "address:port":
 		return fmt.Sprintf(`addrport("%v")`, v)
 
 	case "MAC":

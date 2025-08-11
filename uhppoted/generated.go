@@ -1,9 +1,8 @@
 package uhppoted
 
 import (
-	"time"
-
 	"github.com/uhppoted/uhppoted-lib-go/uhppoted/codec/encode"
+	"time"
 )
 
 // GetController retrieves the system information from an access controller.
@@ -103,4 +102,13 @@ func PutCard[T TController](u Uhppoted, controller T, card uint32, startdate tim
 	}
 
 	return exec[T, PutCardResponse](u, controller, f, timeout)
+}
+
+// DeleteCard removes a card record stored on a controller.
+func DeleteCard[T TController](u Uhppoted, controller T, cardnumber uint32, timeout time.Duration) (DeleteCardResponse, error) {
+	f := func(id uint32) ([]byte, error) {
+		return encode.DeleteCardRequest(id, cardnumber)
+	}
+
+	return exec[T, DeleteCardResponse](u, controller, f, timeout)
 }

@@ -67,6 +67,7 @@ type GetStatusResponse = types.GetStatusResponse
 type GetCardsResponse = types.GetCardsResponse
 type GetCardResponse = types.GetCardResponse
 type PutCardResponse = types.PutCardResponse
+type DeleteCardResponse = types.DeleteCardResponse
 
 // NewUhppoted creates a new instance of the uhppoted service, configured with the supplied
 // local bind address, broadcast address, and listen address. The debug flag enables or
