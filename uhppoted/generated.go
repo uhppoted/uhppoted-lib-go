@@ -2,6 +2,7 @@ package uhppoted
 
 import (
 	"github.com/uhppoted/uhppoted-lib-go/uhppoted/codec/encode"
+	"net/netip"
 	"time"
 )
 
@@ -14,6 +15,15 @@ func GetController[T TController](u Uhppoted, controller T, timeout time.Duratio
 	return exec[T, GetControllerResponse](u, controller, f, timeout)
 }
 
+// SetIPv4 sets the controller IPv4 address, netmask and gateway address.
+func SetIPv4[T TController](u Uhppoted, controller T, address netip.Addr, netmask netip.Addr, gateway netip.Addr, timeout time.Duration) (SetIPv4Response, error) {
+	f := func(id uint32) ([]byte, error) {
+		return encode.SetIPv4Request(id, address, netmask, gateway)
+	}
+
+	return exec[T, SetIPv4Response](u, controller, f, timeout)
+}
+
 // GetTime retrieves the access controller system date and time.
 func GetTime[T TController](u Uhppoted, controller T, timeout time.Duration) (GetTimeResponse, error) {
 	f := func(id uint32) ([]byte, error) {
@@ -23,6 +33,15 @@ func GetTime[T TController](u Uhppoted, controller T, timeout time.Duration) (Ge
 	return exec[T, GetTimeResponse](u, controller, f, timeout)
 }
 
+// SetTime sets the access controller system date and time.
+func SetTime[T TController](u Uhppoted, controller T, datetime time.Time, timeout time.Duration) (SetTimeResponse, error) {
+	f := func(id uint32) ([]byte, error) {
+		return encode.SetTimeRequest(id, datetime)
+	}
+
+	return exec[T, SetTimeResponse](u, controller, f, timeout)
+}
+
 // GetListener retrieves the access controller event listener IPv4 address:port and auto-send interval.
 func GetListener[T TController](u Uhppoted, controller T, timeout time.Duration) (GetListenerResponse, error) {
 	f := func(id uint32) ([]byte, error) {
@@ -30,6 +49,15 @@ func GetListener[T TController](u Uhppoted, controller T, timeout time.Duration)
 	}
 
 	return exec[T, GetListenerResponse](u, controller, f, timeout)
+}
+
+// SetListener sets the access controller event listener IPv4 address:port and auto-send interval.
+func SetListener[T TController](u Uhppoted, controller T, listener netip.AddrPort, interval uint8, timeout time.Duration) (SetListenerResponse, error) {
+	f := func(id uint32) ([]byte, error) {
+		return encode.SetListenerAddressPortRequest(id, listener, interval)
+	}
+
+	return exec[T, SetListenerResponse](u, controller, f, timeout)
 }
 
 // GetDoor retrieves the control mode and unlock delay time for an access controller door.

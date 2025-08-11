@@ -17,29 +17,18 @@ func API() {
 	const file = "generated.go"
 
 	imports := []string{
+		"net/netip",
 		"time",
+
 		"github.com/uhppoted/uhppoted-lib-go/uhppoted/codec/encode",
 	}
 
-	f := []*ast.FuncDecl{
-		function(model.GetController),
-		// function(model.SetIPv4),
-		function(model.GetTime),
-		// function(model.SetTime),
-		function(model.GetListener),
-		// function(model.SetListener),
-		function(model.GetDoor),
-		function(model.SetDoor),
-		function(model.SetDoorPasscodes),
-		function(model.OpenDoor),
-		function(model.GetStatus),
-		function(model.GetCards),
-		function(model.GetCard),
-		function(model.PutCard),
-		function(model.DeleteCard),
+	functions := []*ast.FuncDecl{}
+	for _, f := range model.API[1:] {
+		functions = append(functions, function(f))
 	}
 
-	AST := codegen.NewAST("uhppoted", imports, f)
+	AST := codegen.NewAST("uhppoted", imports, functions)
 
 	if err := AST.Generate(file); err != nil {
 		log.Fatalf("error generating %v (%v)", file, err)
@@ -72,20 +61,31 @@ func function(f model.Func) *ast.FuncDecl {
 		name := regexp.MustCompile(`\s+`).ReplaceAllString(arg.Name, "")
 		t := arg.Type
 
-		switch arg.Type {
-		case "date":
-			t = "time.Time"
+		if t != "magic" {
+			switch arg.Type {
+			case "IPv4":
+				t = "netip.Addr"
 
-		case "pin":
-			t = "uint32"
+			case "address:port":
+				t = "netip.AddrPort"
+
+			case "date":
+				t = "time.Time"
+
+			case "datetime":
+				t = "time.Time"
+
+			case "pin":
+				t = "uint32"
+			}
+
+			args = append(args, &ast.Field{
+				Names: []*ast.Ident{
+					{Name: name},
+				},
+				Type: &ast.Ident{Name: t},
+			})
 		}
-
-		args = append(args, &ast.Field{
-			Names: []*ast.Ident{
-				{Name: name},
-			},
-			Type: &ast.Ident{Name: t},
-		})
 	}
 
 	args = append(args, &ast.Field{
@@ -151,7 +151,7 @@ func impl(f model.Func) *ast.BlockStmt {
 	return &ast.BlockStmt{
 		List: []ast.Stmt{
 			//	f := func(id uint32) ([]byte, error) {
-			//       return encode.XXX(id,...)
+			//       return d.XXX(id,...)
 			//  }
 			&ast.AssignStmt{
 				Lhs: []ast.Expr{
