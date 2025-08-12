@@ -26,6 +26,13 @@ var Responses = []types.Response{
 }
 
 var GetControllerResponse = types.Response(lib.GetControllerResponse)
+var GetTimeResponse = types.Response(lib.GetTimeResponse)
+var SetTimeResponse = types.Response(lib.SetTimeResponse)
+
+// var GetListenerResponse = types.Response(lib.GetListenerResponse)
+var SetListenerResponse = types.Response(lib.SetListenerResponse)
+var GetDoorResponse = types.Response(lib.GetDoorResponse)
+var GetStatusResponse = types.Response(lib.GetStatusResponse)
 var GetCardsResponse = types.Response(lib.GetCardsResponse)
 var GetCardResponse = types.Response(lib.GetCardResponse)
 var PutCardResponse = types.Response(lib.PutCardResponse)
@@ -65,239 +72,239 @@ var SetIPv4Response = types.Response{
 	},
 }
 
-var GetStatusResponse = types.Response{
-	Message: libx.Message{
-		Name:    "get status response",
-		MsgType: 0x20,
-		Fields: []libx.Field{
-			{"controller", "uint32", 4, "controller serial number, e.g. 405419896"},
-			{"system-date", "shortdate", 51, "current date, e.g. 2025-07-21"},
-			{"system-time", "time", 37, "current time, e.g. 13:25:47"},
-			{"door-1-open", "bool", 28, "true if door 1 is open"},
-			{"door-2-open", "bool", 29, "true if door 2 is open"},
-			{"door-3-open", "bool", 30, "true if door 3 is open"},
-			{"door-4-open", "bool", 31, "true if door 4 is open"},
-			{"door-1-button", "bool", 32, "true if door 1 button is pressed"},
-			{"door-2-button", "bool", 33, "true if door 2 button is pressed"},
-			{"door-3-button", "bool", 34, "true if door 3 button is pressed"},
-			{"door-4-button", "bool", 35, "true if door 4 button is pressed"},
-			{"relays", "uint8", 49, "bitset of door unlock relay states"},
-			{"inputs", "uint8", 50, "bitset of alarm inputs"},
-			{"system-error", "uint8", 36, "system error code"},
-			{"special-info", "uint8", 48, "absolutely no idea"},
-			{"event-index", "uint32", 8, "last event index"},
-			{"event-type", "uint8", 12, "last event type"},
-			{"event-access-granted", "bool", 13, "last event access granted"},
-			{"event-door", "uint8", 14, "last event door"},
-			{"event-direction", "uint8", 15, "last event door direction (0: in, 1: out)"},
-			{"event-card", "uint32", 16, "last event card number"},
-			{"event-timestamp", "datetime", 20, "last event timestamp"},
-			{"event-reason", "uint8", 27, "last event reason"},
-			{"sequence-no", "uint32", 40, "packet sequence number"},
-		},
-	},
-	Tests: []libx.ResponseTest{
-		{
-			Name: "get-status",
-			Response: []byte{
-				0x17, 0x20, 0x00, 0x00, 0x78, 0x37, 0x2a, 0x18, 0x4e, 0x00, 0x00, 0x00, 0x02, 0x01, 0x03, 0x01,
-				0xa1, 0x98, 0x7c, 0x00, 0x20, 0x22, 0x08, 0x23, 0x09, 0x47, 0x06, 0x2c, 0x00, 0x01, 0x00, 0x00,
-				0x00, 0x00, 0x00, 0x01, 0x03, 0x09, 0x49, 0x39, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-				0x27, 0x07, 0x09, 0x22, 0x08, 0x23, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-			},
-			Expected: []libx.Value{
-				{
-					Name:  "controller",
-					Type:  "uint32",
-					Value: 405419896,
-				},
-				{
-					Name:  "system-date",
-					Type:  "date",
-					Value: "2022-08-23",
-				},
-				{
-					Name:  "system-time",
-					Type:  "time",
-					Value: "09:49:39",
-				},
-				{
-					Name:  "door-1-open",
-					Type:  "bool",
-					Value: false,
-				},
-				{
-					Name:  "door-2-open",
-					Type:  "bool",
-					Value: true,
-				},
-				{
-					Name:  "door-3-open",
-					Type:  "bool",
-					Value: false,
-				},
-				{
-					Name:  "door-4-open",
-					Type:  "bool",
-					Value: false,
-				},
-				{
-					Name:  "door-1-button",
-					Type:  "bool",
-					Value: false,
-				},
-				{
-					Name:  "door-2-button",
-					Type:  "bool",
-					Value: false,
-				},
-				{
-					Name:  "door-3-button",
-					Type:  "bool",
-					Value: false,
-				},
-				{
-					Name:  "door-4-button",
-					Type:  "bool",
-					Value: true,
-				},
-				{
-					Name:  "relays",
-					Type:  "uint8",
-					Value: 0x07,
-				},
-				{
-					Name:  "inputs",
-					Type:  "uint8",
-					Value: 0x09,
-				},
-				{
-					Name:  "system-error",
-					Type:  "uint8",
-					Value: 3,
-				},
-				{
-					Name:  "special-info",
-					Type:  "uint8",
-					Value: 39,
-				},
-				{
-					Name:  "event-index",
-					Type:  "uint32",
-					Value: 78,
-				},
-				{
-					Name:  "event-type",
-					Type:  "uint8",
-					Value: 2,
-				},
-				{
-					Name:  "event-access-granted",
-					Type:  "bool",
-					Value: true,
-				},
-				{
-					Name:  "event-door",
-					Type:  "uint8",
-					Value: 3,
-				},
-				{
-					Name:  "event-direction",
-					Type:  "uint8",
-					Value: 1,
-				},
-				{
-					Name:  "event-card",
-					Type:  "uint32",
-					Value: 8165537,
-				},
-				{
-					Name:  "event-timestamp",
-					Type:  "datetime",
-					Value: "2022-08-23 09:47:06",
-				},
-				{
-					Name:  "event-reason",
-					Type:  "uint8",
-					Value: 44,
-				},
-				{
-					Name:  "sequence-no",
-					Type:  "uint32",
-					Value: 0,
-				},
-			},
-		},
-	},
-}
+// var GetStatusResponse = types.Response{
+// 	Message: libx.Message{
+// 		Name:    "get status response",
+// 		MsgType: 0x20,
+// 		Fields: []libx.Field{
+// 			{"controller", "uint32", 4, "controller serial number, e.g. 405419896"},
+// 			{"system-date", "shortdate", 51, "current date, e.g. 2025-07-21"},
+// 			{"system-time", "time", 37, "current time, e.g. 13:25:47"},
+// 			{"door-1-open", "bool", 28, "true if door 1 is open"},
+// 			{"door-2-open", "bool", 29, "true if door 2 is open"},
+// 			{"door-3-open", "bool", 30, "true if door 3 is open"},
+// 			{"door-4-open", "bool", 31, "true if door 4 is open"},
+// 			{"door-1-button", "bool", 32, "true if door 1 button is pressed"},
+// 			{"door-2-button", "bool", 33, "true if door 2 button is pressed"},
+// 			{"door-3-button", "bool", 34, "true if door 3 button is pressed"},
+// 			{"door-4-button", "bool", 35, "true if door 4 button is pressed"},
+// 			{"relays", "uint8", 49, "bitset of door unlock relay states"},
+// 			{"inputs", "uint8", 50, "bitset of alarm inputs"},
+// 			{"system-error", "uint8", 36, "system error code"},
+// 			{"special-info", "uint8", 48, "absolutely no idea"},
+// 			{"event-index", "uint32", 8, "last event index"},
+// 			{"event-type", "uint8", 12, "last event type"},
+// 			{"event-access-granted", "bool", 13, "last event access granted"},
+// 			{"event-door", "uint8", 14, "last event door"},
+// 			{"event-direction", "uint8", 15, "last event door direction (0: in, 1: out)"},
+// 			{"event-card", "uint32", 16, "last event card number"},
+// 			{"event-timestamp", "datetime", 20, "last event timestamp"},
+// 			{"event-reason", "uint8", 27, "last event reason"},
+// 			{"sequence-no", "uint32", 40, "packet sequence number"},
+// 		},
+// 	},
+// 	Tests: []libx.ResponseTest{
+// 		{
+// 			Name: "get-status",
+// 			Response: []byte{
+// 				0x17, 0x20, 0x00, 0x00, 0x78, 0x37, 0x2a, 0x18, 0x4e, 0x00, 0x00, 0x00, 0x02, 0x01, 0x03, 0x01,
+// 				0xa1, 0x98, 0x7c, 0x00, 0x20, 0x22, 0x08, 0x23, 0x09, 0x47, 0x06, 0x2c, 0x00, 0x01, 0x00, 0x00,
+// 				0x00, 0x00, 0x00, 0x01, 0x03, 0x09, 0x49, 0x39, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+// 				0x27, 0x07, 0x09, 0x22, 0x08, 0x23, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+// 			},
+// 			Expected: []libx.Value{
+// 				{
+// 					Name:  "controller",
+// 					Type:  "uint32",
+// 					Value: 405419896,
+// 				},
+// 				{
+// 					Name:  "system-date",
+// 					Type:  "date",
+// 					Value: "2022-08-23",
+// 				},
+// 				{
+// 					Name:  "system-time",
+// 					Type:  "time",
+// 					Value: "09:49:39",
+// 				},
+// 				{
+// 					Name:  "door-1-open",
+// 					Type:  "bool",
+// 					Value: false,
+// 				},
+// 				{
+// 					Name:  "door-2-open",
+// 					Type:  "bool",
+// 					Value: true,
+// 				},
+// 				{
+// 					Name:  "door-3-open",
+// 					Type:  "bool",
+// 					Value: false,
+// 				},
+// 				{
+// 					Name:  "door-4-open",
+// 					Type:  "bool",
+// 					Value: false,
+// 				},
+// 				{
+// 					Name:  "door-1-button",
+// 					Type:  "bool",
+// 					Value: false,
+// 				},
+// 				{
+// 					Name:  "door-2-button",
+// 					Type:  "bool",
+// 					Value: false,
+// 				},
+// 				{
+// 					Name:  "door-3-button",
+// 					Type:  "bool",
+// 					Value: false,
+// 				},
+// 				{
+// 					Name:  "door-4-button",
+// 					Type:  "bool",
+// 					Value: true,
+// 				},
+// 				{
+// 					Name:  "relays",
+// 					Type:  "uint8",
+// 					Value: 0x07,
+// 				},
+// 				{
+// 					Name:  "inputs",
+// 					Type:  "uint8",
+// 					Value: 0x09,
+// 				},
+// 				{
+// 					Name:  "system-error",
+// 					Type:  "uint8",
+// 					Value: 3,
+// 				},
+// 				{
+// 					Name:  "special-info",
+// 					Type:  "uint8",
+// 					Value: 39,
+// 				},
+// 				{
+// 					Name:  "event-index",
+// 					Type:  "uint32",
+// 					Value: 78,
+// 				},
+// 				{
+// 					Name:  "event-type",
+// 					Type:  "uint8",
+// 					Value: 2,
+// 				},
+// 				{
+// 					Name:  "event-access-granted",
+// 					Type:  "bool",
+// 					Value: true,
+// 				},
+// 				{
+// 					Name:  "event-door",
+// 					Type:  "uint8",
+// 					Value: 3,
+// 				},
+// 				{
+// 					Name:  "event-direction",
+// 					Type:  "uint8",
+// 					Value: 1,
+// 				},
+// 				{
+// 					Name:  "event-card",
+// 					Type:  "uint32",
+// 					Value: 8165537,
+// 				},
+// 				{
+// 					Name:  "event-timestamp",
+// 					Type:  "datetime",
+// 					Value: "2022-08-23 09:47:06",
+// 				},
+// 				{
+// 					Name:  "event-reason",
+// 					Type:  "uint8",
+// 					Value: 44,
+// 				},
+// 				{
+// 					Name:  "sequence-no",
+// 					Type:  "uint32",
+// 					Value: 0,
+// 				},
+// 			},
+// 		},
+// 	},
+// }
 
-var GetTimeResponse = types.Response{
-	Message: libx.Message{
-		Name:    "get time response",
-		MsgType: 0x32,
-		Fields: []libx.Field{
-			{"controller", "uint32", 4, "controller serial number, e.g. 405419896"},
-			{"date-time", "datetime", 8, "controller system date/time"},
-		},
-	},
-	Tests: []libx.ResponseTest{
-		{
-			Name: "get-time",
-			Response: []byte{
-				0x17, 0x32, 0x00, 0x00, 0x78, 0x37, 0x2a, 0x18, 0x20, 0x24, 0x11, 0x01, 0x12, 0x34, 0x56, 0x00,
-				0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-				0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-				0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-			},
-			Expected: []libx.Value{
-				{
-					Name:  "controller",
-					Type:  "uint32",
-					Value: 405419896,
-				},
-				{
-					Name:  "date-time",
-					Type:  "datetime",
-					Value: "2024-11-01 12:34:56",
-				},
-			},
-		},
-	},
-}
+// var GetTimeResponse = types.Response{
+// 	Message: libx.Message{
+// 		Name:    "get time response",
+// 		MsgType: 0x32,
+// 		Fields: []libx.Field{
+// 			{"controller", "uint32", 4, "controller serial number, e.g. 405419896"},
+// 			{"date-time", "datetime", 8, "controller system date/time"},
+// 		},
+// 	},
+// 	Tests: []libx.ResponseTest{
+// 		{
+// 			Name: "get-time",
+// 			Response: []byte{
+// 				0x17, 0x32, 0x00, 0x00, 0x78, 0x37, 0x2a, 0x18, 0x20, 0x24, 0x11, 0x01, 0x12, 0x34, 0x56, 0x00,
+// 				0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+// 				0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+// 				0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+// 			},
+// 			Expected: []libx.Value{
+// 				{
+// 					Name:  "controller",
+// 					Type:  "uint32",
+// 					Value: 405419896,
+// 				},
+// 				{
+// 					Name:  "date-time",
+// 					Type:  "datetime",
+// 					Value: "2024-11-01 12:34:56",
+// 				},
+// 			},
+// 		},
+// 	},
+// }
 
-var SetTimeResponse = types.Response{
-	Message: libx.Message{
-		Name:    "set time response",
-		MsgType: 0x30,
-		Fields: []libx.Field{
-			{"controller", "uint32", 4, "controller serial number, e.g. 405419896"},
-			{"date-time", "datetime", 8, "controller system date/time"},
-		},
-	},
-	Tests: []libx.ResponseTest{
-		{
-			Name: "set-time",
-			Response: []byte{
-				0x17, 0x30, 0x00, 0x00, 0x78, 0x37, 0x2a, 0x18, 0x20, 0x24, 0x11, 0x01, 0x12, 0x34, 0x56, 0x00,
-				0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-				0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-				0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-			},
-			Expected: []libx.Value{
-				{
-					Name:  "controller",
-					Type:  "uint32",
-					Value: 405419896,
-				},
-				{
-					Name:  "date-time",
-					Type:  "datetime",
-					Value: "2024-11-01 12:34:56",
-				},
-			},
-		},
-	},
-}
+// var SetTimeResponse = types.Response{
+// 	Message: libx.Message{
+// 		Name:    "set time response",
+// 		MsgType: 0x30,
+// 		Fields: []libx.Field{
+// 			{"controller", "uint32", 4, "controller serial number, e.g. 405419896"},
+// 			{"date-time", "datetime", 8, "controller system date/time"},
+// 		},
+// 	},
+// 	Tests: []libx.ResponseTest{
+// 		{
+// 			Name: "set-time",
+// 			Response: []byte{
+// 				0x17, 0x30, 0x00, 0x00, 0x78, 0x37, 0x2a, 0x18, 0x20, 0x24, 0x11, 0x01, 0x12, 0x34, 0x56, 0x00,
+// 				0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+// 				0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+// 				0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+// 			},
+// 			Expected: []libx.Value{
+// 				{
+// 					Name:  "controller",
+// 					Type:  "uint32",
+// 					Value: 405419896,
+// 				},
+// 				{
+// 					Name:  "date-time",
+// 					Type:  "datetime",
+// 					Value: "2024-11-01 12:34:56",
+// 				},
+// 			},
+// 		},
+// 	},
+// }
 
 var GetListenerResponse = types.Response{
 	Message: libx.Message{
@@ -339,85 +346,85 @@ var GetListenerResponse = types.Response{
 	},
 }
 
-var SetListenerResponse = types.Response{
-	Message: libx.Message{
-		Name:    "set listener response",
-		MsgType: 0x90,
-		Fields: []libx.Field{
-			{"controller", "uint32", 4, "controller serial number, e.g. 405419896"},
-			{"ok", "bool", 8, "set-listener succeeded/failed"},
-		},
-	},
-	Tests: []libx.ResponseTest{
-		{
-			Name: "set-listener",
-			Response: []byte{
-				0x17, 0x90, 0x00, 0x00, 0x78, 0x37, 0x2a, 0x18, 0x01, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-				0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-				0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-				0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-			},
-			Expected: []libx.Value{
-				{
-					Name:  "controller",
-					Type:  "uint32",
-					Value: 405419896,
-				},
-				{
-					Name:  "ok",
-					Type:  "bool",
-					Value: true,
-				},
-			},
-		},
-	},
-}
+// var SetListenerResponse = types.Response{
+// 	Message: libx.Message{
+// 		Name:    "set listener response",
+// 		MsgType: 0x90,
+// 		Fields: []libx.Field{
+// 			{"controller", "uint32", 4, "controller serial number, e.g. 405419896"},
+// 			{"ok", "bool", 8, "set-listener succeeded/failed"},
+// 		},
+// 	},
+// 	Tests: []libx.ResponseTest{
+// 		{
+// 			Name: "set-listener",
+// 			Response: []byte{
+// 				0x17, 0x90, 0x00, 0x00, 0x78, 0x37, 0x2a, 0x18, 0x01, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+// 				0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+// 				0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+// 				0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+// 			},
+// 			Expected: []libx.Value{
+// 				{
+// 					Name:  "controller",
+// 					Type:  "uint32",
+// 					Value: 405419896,
+// 				},
+// 				{
+// 					Name:  "ok",
+// 					Type:  "bool",
+// 					Value: true,
+// 				},
+// 			},
+// 		},
+// 	},
+// }
 
-var GetDoorResponse = types.Response{
-	Message: libx.Message{
-		Name:    "get door response",
-		MsgType: 0x82,
-		Fields: []libx.Field{
-			{"controller", "uint32", 4, "controller serial number, e.g. 405419896"},
-			{"door", "uint8", 8, "door ID ([1..4]"},
-			{"mode", "uint8", 9, "control mode (1:normally open, 2:normally closed. 3:controlled)"},
-			{"delay", "uint8", 10, "unlock delay (seconds)"},
-		},
-	},
-	Tests: []libx.ResponseTest{
-		{
-			Name: "get-door",
-			Response: []byte{
-				0x17, 0x82, 0x00, 0x00, 0x78, 0x37, 0x2a, 0x18, 0x03, 0x02, 0x07, 0x00, 0x00, 0x00, 0x00, 0x00,
-				0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-				0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-				0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-			},
-			Expected: []libx.Value{
-				{
-					Name:  "controller",
-					Type:  "uint32",
-					Value: 405419896,
-				},
-				{
-					Name:  "door",
-					Type:  "uint8",
-					Value: 3,
-				},
-				{
-					Name:  "mode",
-					Type:  "uint8",
-					Value: 2,
-				},
-				{
-					Name:  "delay",
-					Type:  "uint8",
-					Value: 7,
-				},
-			},
-		},
-	},
-}
+// var GetDoorResponse = types.Response{
+// 	Message: libx.Message{
+// 		Name:    "get door response",
+// 		MsgType: 0x82,
+// 		Fields: []libx.Field{
+// 			{"controller", "uint32", 4, "controller serial number, e.g. 405419896"},
+// 			{"door", "uint8", 8, "door ID ([1..4]"},
+// 			{"mode", "uint8", 9, "control mode (1:normally open, 2:normally closed. 3:controlled)"},
+// 			{"delay", "uint8", 10, "unlock delay (seconds)"},
+// 		},
+// 	},
+// 	Tests: []libx.ResponseTest{
+// 		{
+// 			Name: "get-door",
+// 			Response: []byte{
+// 				0x17, 0x82, 0x00, 0x00, 0x78, 0x37, 0x2a, 0x18, 0x03, 0x02, 0x07, 0x00, 0x00, 0x00, 0x00, 0x00,
+// 				0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+// 				0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+// 				0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+// 			},
+// 			Expected: []libx.Value{
+// 				{
+// 					Name:  "controller",
+// 					Type:  "uint32",
+// 					Value: 405419896,
+// 				},
+// 				{
+// 					Name:  "door",
+// 					Type:  "uint8",
+// 					Value: 3,
+// 				},
+// 				{
+// 					Name:  "mode",
+// 					Type:  "uint8",
+// 					Value: 2,
+// 				},
+// 				{
+// 					Name:  "delay",
+// 					Type:  "uint8",
+// 					Value: 7,
+// 				},
+// 			},
+// 		},
+// 	},
+// }
 
 var SetDoorResponse = types.Response{
 	Message: libx.Message{

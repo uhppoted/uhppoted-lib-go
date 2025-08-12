@@ -57,6 +57,10 @@ func unpackUint8(packet []byte, offset uint8) uint8 {
 	return packet[offset]
 }
 
+func unpackUint16(packet []byte, offset uint8) uint16 {
+	return binary.LittleEndian.Uint16(packet[offset : offset+2])
+}
+
 func unpackUint32(packet []byte, offset uint8) uint32 {
 	return binary.LittleEndian.Uint32(packet[offset : offset+4])
 }
@@ -91,13 +95,23 @@ func unpackVersion(packet []byte, offset uint8) string {
 	return fmt.Sprintf("v%x.%02x", major, minor)
 }
 
-func unpackYYYYMMDDHHMMSS(packet []byte, offset uint8) time.Time {
+func unpackDateTime(packet []byte, offset uint8) time.Time {
 	bcd := bcd2string(packet[offset : offset+7])
 
 	if datetime, err := time.ParseInLocation("20060102150405", bcd, time.Local); err != nil {
 		return time.Time{}
 	} else {
 		return datetime
+	}
+}
+
+func unpackOptionalDateTime(packet []byte, offset uint8) time.Time {
+	bcd := bcd2string(packet[offset : offset+7])
+
+	if d, err := time.ParseInLocation("20060102150405", bcd, time.Local); err != nil {
+		return time.Date(1, time.January, 1, 0, 0, 0, 0, time.Local)
+	} else {
+		return d
 	}
 }
 

@@ -115,7 +115,7 @@ func GetStatusResponse(packet []byte) (types.GetStatusResponse, error) {
 		EventDoor:          unpackUint8(packet, 14),
 		EventDirection:     unpackUint8(packet, 15),
 		EventCard:          unpackUint32(packet, 16),
-		EventTimestamp:     unpackYYYYMMDDHHMMSS(packet, 20),
+		EventTimestamp:     unpackOptionalDateTime(packet, 20),
 		EventReason:        unpackUint8(packet, 27),
 		SequenceNo:         unpackUint32(packet, 40),
 	}, nil
@@ -145,7 +145,7 @@ func GetTimeResponse(packet []byte) (types.GetTimeResponse, error) {
 
 	return types.GetTimeResponse{
 		Controller: unpackUint32(packet, 4),
-		DateTime:   unpackYYYYMMDDHHMMSS(packet, 8),
+		DateTime:   unpackDateTime(packet, 8),
 	}, nil
 }
 
@@ -173,7 +173,7 @@ func SetTimeResponse(packet []byte) (types.SetTimeResponse, error) {
 
 	return types.SetTimeResponse{
 		Controller: unpackUint32(packet, 4),
-		DateTime:   unpackYYYYMMDDHHMMSS(packet, 8),
+		DateTime:   unpackDateTime(packet, 8),
 	}, nil
 }
 

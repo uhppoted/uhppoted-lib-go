@@ -260,11 +260,17 @@ func unpack(field lib.Field) string {
 	case "uint8":
 		return fmt.Sprintf("unpackUint8(packet, %v)", field.Offset)
 
+	case "uint16":
+		return fmt.Sprintf("unpackUint16(packet, %v)", field.Offset)
+
 	case "uint32":
 		return fmt.Sprintf("unpackUint32(packet, %v)", field.Offset)
 
 	case "datetime":
-		return fmt.Sprintf("unpackYYYYMMDDHHMMSS(packet, %v)", field.Offset)
+		return fmt.Sprintf("unpackDateTime(packet, %v)", field.Offset)
+
+	case "optional datetime":
+		return fmt.Sprintf("unpackOptionalDateTime(packet, %v)", field.Offset)
 
 	case "date":
 		return fmt.Sprintf("unpackDate(packet, %v)", field.Offset)
