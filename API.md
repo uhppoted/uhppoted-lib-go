@@ -14,6 +14,7 @@
 - [`GetStatus`](#getstatus)
 - [`GetCards`](#getcards)
 - [`GetCard`](#getcard)
+- [`GetCardAtIndex`](#getcardatindex)
 - [`PutCard`](API.md#putcard)
 - [`DeleteCard`](API.md#deletecard)
 ---
@@ -273,6 +274,19 @@ Returns a `GetCardResponse` with the card information for the requested card. Th
 card is not stored on the controller.
 ```
 
+### `GetCardAtIndex`
+```
+GetCardAtIndex(u Uhppoted, controller TController, index uint32, timeout time.Duration) (GetCardResponse,error)
+
+u           Uhppoted struct initialised with the bind address, broadcast address, etc
+controller  uint32|Controller controller serial number or {id, address, protocol} Controller struct
+index       card record index
+timeout     maximum time to wait for a response from a controller
+
+Returns a `GetCardAtIndexResponse` with the card information for the requested card. The card number is 0 if the
+card is not stored on the controller and 0xffffffff if the record has been deleted.
+```
+
 ### `PutCard`
 ```
 PutCard(u Uhppoted, controller TController, card uint32, startDate, endDate time.Time, door1, door2, door3, door4 uint8, PIN uint32, timeout time.Duration) (GetCardResponse,error)
@@ -463,7 +477,7 @@ type GetStatusResponse struct {
 
 Container class for the decoded response from a _GetCard_ request.
 ```
-type GetStatusResponse struct {
+type GetCardResponse struct {
   Controller  uint32     `json:"controller"`  // controller serial number
   Card        uint32     `json:"card"`        // card number
   StartDate   time.Time  `json:"start-date"`  // 'valid from' date
@@ -474,6 +488,25 @@ type GetStatusResponse struct {
   Door4       uint8      `json:"door-4"`      // access permissions for door 4
   PIN         uint32     `json:"PIN"`         // (optional) PIN code [0..999999], 0 for none
 }
+```
+
+### `GetCardAtIndexResponse`
+
+Container class for the decoded response from a _GetCardAtIndex_ request.
+```
+type GetCardAtIndexResponse struct {
+  Controller  uint32     `json:"controller"`  // controller serial number
+  Card        uint32     `json:"card"`        // card number
+  StartDate   time.Time  `json:"start-date"`  // 'valid from' date
+  EndDate     time.Time  `json:"end-date"`    // 'valid until' date
+  Door1       uint8      `json:"door-1"`      // access permissions for door 1
+  Door2       uint8      `json:"door-2"`      // access permissions for door 2
+  Door3       uint8      `json:"door-3"`      // access permissions for door 3
+  Door4       uint8      `json:"door-4"`      // access permissions for door 4
+  PIN         uint32     `json:"PIN"`         // (optional) PIN code [0..999999], 0 for none
+}
+
+Card is 0 if there is no record at the index, 0xffffffff if the record has been deleted.
 ```
 
 ### `PutCardResponse`

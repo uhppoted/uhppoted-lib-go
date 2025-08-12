@@ -21,6 +21,7 @@ var Requests = []types.Request{
 	OpenDoorRequest,
 	GetCardsRequest,
 	GetCardRequest,
+	GetCardAtIndexRequest,
 	PutCardRequest,
 	DeleteCardRequest,
 }
@@ -37,27 +38,9 @@ var OpenDoorRequest = types.Request(lib.OpenDoorRequest)
 var GetStatusRequest = types.Request(lib.GetStatusRequest)
 var GetCardsRequest = types.Request(lib.GetCardsRequest)
 var GetCardRequest = types.Request(lib.GetCardRequest)
+var GetCardAtIndexRequest = types.Request(lib.GetCardAtIndexRequest)
 var PutCardRequest = types.Request(lib.PutCardRequest)
 var DeleteCardRequest = types.Request(lib.DeleteCardRequest)
-
-// var GetDoorRequest = types.Request{
-// 	Message: lib.GetDoorRequest,
-// 	Tests: []libx.RequestTest{
-// 		{
-// 			Name: "get-door",
-// 			Args: []libx.TestArg{
-// 				{Arg: libx.Arg{Name: "controller", Type: "uint32"}, Value: uint32(405419896)},
-// 				{Arg: libx.Arg{Name: "door", Type: "uint8"}, Value: uint8(3)},
-// 			},
-// 			Expected: []byte{
-// 				0x17, 0x82, 0x00, 0x00, 0x78, 0x37, 0x2a, 0x18, 0x03, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-// 				0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-// 				0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-// 				0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-// 			},
-// 		},
-// 	},
-// }
 
 var SetDoorRequest = types.Request{
 	Message: lib.SetDoorRequest,

@@ -137,6 +137,20 @@ type GetCardResponse struct {
 	PIN        uint32    `json:"PIN"`
 }
 
+// GetCardAtIndexResponse is a container struct for the response returned from a controller
+// when retrieving information for a card stored on the controller.
+type GetCardAtIndexResponse struct {
+	Controller uint32    `json:"controller"`
+	Card       uint32    `json:"card"`
+	StartDate  time.Time `json:"start-date"`
+	EndDate    time.Time `json:"end-date"`
+	Door1      uint8     `json:"door-1"`
+	Door2      uint8     `json:"door-2"`
+	Door3      uint8     `json:"door-3"`
+	Door4      uint8     `json:"door-4"`
+	PIN        uint32    `json:"PIN"`
+}
+
 // PutCardResponse is a container struct for the response returned by a controller
 // after adding or updating a controller card record.
 type PutCardResponse struct {

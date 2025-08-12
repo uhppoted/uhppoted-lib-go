@@ -413,6 +413,41 @@ func GetCardResponse(packet []byte) (types.GetCardResponse, error) {
 	}, nil
 }
 
+// Decodes a get-card-at-index-response response.
+//
+//	Parameters:
+//	    packet  (bytearray)  64 byte UDP packet.
+//
+//	Returns:
+//	    - GetCardAtIndexResponse initialised from the UDP packet.
+//	    - error if the packet is not 64 bytes, has an invalid start-of-message byte or has
+//	               the incorrect message type.
+func GetCardAtIndexResponse(packet []byte) (types.GetCardAtIndexResponse, error) {
+	if len(packet) != 64 {
+		return types.GetCardAtIndexResponse{}, fmt.Errorf("invalid reply packet length (%v)", len(packet))
+	}
+
+	if packet[0] != SOM {
+		return types.GetCardAtIndexResponse{}, fmt.Errorf("invalid reply start of message byte (%02x)", packet[0])
+	}
+
+	if packet[1] != 92 {
+		return types.GetCardAtIndexResponse{}, fmt.Errorf("invalid reply function code (%02x)", packet[1])
+	}
+
+	return types.GetCardAtIndexResponse{
+		Controller: unpackUint32(packet, 4),
+		Card:       unpackUint32(packet, 8),
+		StartDate:  unpackOptionalDate(packet, 12),
+		EndDate:    unpackOptionalDate(packet, 16),
+		Door1:      unpackUint8(packet, 20),
+		Door2:      unpackUint8(packet, 21),
+		Door3:      unpackUint8(packet, 22),
+		Door4:      unpackUint8(packet, 23),
+		PIN:        unpackPIN(packet, 24),
+	}, nil
+}
+
 // Decodes a put-card-response response.
 //
 //	Parameters:

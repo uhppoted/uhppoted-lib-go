@@ -187,6 +187,15 @@ get-card-udp: build
 get-card-tcp: build
 	$(CMD) get-card --controller $(CONTROLLER) --dest $(DEST) --tcp --card $(CARD)
 
+get-card-at-index: build
+	$(CMD) get-card-at-index --controller $(CONTROLLER) --index 3
+
+get-card-at-index-udp: build
+	$(CMD) get-card-at-index --controller $(CONTROLLER) --dest $(DEST) --index 3
+
+get-card-at-index-tcp: build
+	$(CMD) get-card-at-index --controller $(CONTROLLER) --dest $(DEST) --tcp --index 3
+
 put-card: build
 	$(CMD) put-card --controller $(CONTROLLER) --card $(CARD) --start-date "2025-01-01" --end-date "2025-12-31" --doors 1,3:17,4 --PIN 987654
 

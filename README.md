@@ -44,6 +44,7 @@ folder.
 - [`GetStatus`](API.md#getstatus)
 - [`GetCards`](API.md#getcards)
 - [`GetCard`](API.md#getcard)
+- [`GetCardAtIndex`](API.md#getcardatindex)
 - [`PutCard`](API.md#putcard)
 - [`DeleteCard`](API.md#deletecard)
 

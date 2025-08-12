@@ -284,6 +284,26 @@ func GetCardRequest(controller uint32, cardnumber uint32) ([]byte, error) {
 	return packet, nil
 }
 
+// Encodes a get-card-at-index-request.
+//
+//	Parameters:
+//	    controller  (uint32)  controller serial number
+//	    index  (uint32)
+//
+//	Returns:
+//	    64 byte packet.
+func GetCardAtIndexRequest(controller uint32, index uint32) ([]byte, error) {
+	packet := make([]byte, 64)
+
+	packet[0] = SOM
+	packet[1] = 92
+
+	packUint32(controller, packet, 4)
+	packUint32(index, packet, 8)
+
+	return packet, nil
+}
+
 // Encodes a put-card-request.
 //
 //	Parameters:

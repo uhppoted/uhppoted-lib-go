@@ -9,23 +9,26 @@ import (
 )
 
 var Expected = struct {
-	FindControllers  []lib.GetControllerResponse
-	GetController    lib.GetControllerResponse
-	SetIPv4          lib.SetIPv4Response
-	GetTime          lib.GetTimeResponse
-	SetTime          lib.SetTimeResponse
-	GetListener      lib.GetListenerResponse
-	SetListener      lib.SetListenerResponse
-	GetDoor          lib.GetDoorResponse
-	SetDoor          lib.SetDoorResponse
-	SetDoorPasscodes lib.SetDoorPasscodesResponse
-	OpenDoor         lib.OpenDoorResponse
-	GetStatus        lib.GetStatusResponse
-	GetCards         lib.GetCardsResponse
-	GetCard          lib.GetCardResponse
-	GetCardNotFound  lib.GetCardResponse
-	PutCard          lib.PutCardResponse
-	DeleteCard       lib.DeleteCardResponse
+	FindControllers        []lib.GetControllerResponse
+	GetController          lib.GetControllerResponse
+	SetIPv4                lib.SetIPv4Response
+	GetTime                lib.GetTimeResponse
+	SetTime                lib.SetTimeResponse
+	GetListener            lib.GetListenerResponse
+	SetListener            lib.SetListenerResponse
+	GetDoor                lib.GetDoorResponse
+	SetDoor                lib.SetDoorResponse
+	SetDoorPasscodes       lib.SetDoorPasscodesResponse
+	OpenDoor               lib.OpenDoorResponse
+	GetStatus              lib.GetStatusResponse
+	GetCards               lib.GetCardsResponse
+	GetCard                lib.GetCardResponse
+	GetCardNotFound        lib.GetCardResponse
+	GetCardAtIndex         lib.GetCardAtIndexResponse
+	GetCardAtIndexNotFound lib.GetCardAtIndexResponse
+	GetCardAtIndexDeleted  lib.GetCardAtIndexResponse
+	PutCard                lib.PutCardResponse
+	DeleteCard             lib.DeleteCardResponse
 }{
 	FindControllers: []lib.GetControllerResponse{
 		lib.GetControllerResponse{
@@ -164,6 +167,42 @@ var Expected = struct {
 	GetCardNotFound: lib.GetCardResponse{
 		Controller: 405419896,
 		Card:       0,
+		StartDate:  string2date("0001-01-01"),
+		EndDate:    string2date("0001-01-01"),
+		Door1:      0,
+		Door2:      0,
+		Door3:      0,
+		Door4:      0,
+		PIN:        0,
+	},
+
+	GetCardAtIndex: lib.GetCardAtIndexResponse{
+		Controller: 405419896,
+		Card:       10058400,
+		StartDate:  string2date("2025-01-01"),
+		EndDate:    string2date("2025-12-31"),
+		Door1:      1,
+		Door2:      0,
+		Door3:      17,
+		Door4:      1,
+		PIN:        7531,
+	},
+
+	GetCardAtIndexNotFound: lib.GetCardAtIndexResponse{
+		Controller: 405419896,
+		Card:       0,
+		StartDate:  string2date("0001-01-01"),
+		EndDate:    string2date("0001-01-01"),
+		Door1:      0,
+		Door2:      0,
+		Door3:      0,
+		Door4:      0,
+		PIN:        0,
+	},
+
+	GetCardAtIndexDeleted: lib.GetCardAtIndexResponse{
+		Controller: 405419896,
+		Card:       4294967295,
 		StartDate:  string2date("0001-01-01"),
 		EndDate:    string2date("0001-01-01"),
 		Door1:      0,

@@ -23,6 +23,7 @@ var commands = map[string]func(u lib.Uhppoted, args []string) error{
 	"get-status":         getStatus,
 	"get-cards":          getCards,
 	"get-card":           getCard,
+	"get-card-at-index":  getCardAtIndex,
 	"put-card":           putCard,
 	"delete-card":        deleteCard,
 }

@@ -66,6 +66,7 @@ type OpenDoorResponse = types.OpenDoorResponse
 type GetStatusResponse = types.GetStatusResponse
 type GetCardsResponse = types.GetCardsResponse
 type GetCardResponse = types.GetCardResponse
+type GetCardAtIndexResponse = types.GetCardAtIndexResponse
 type PutCardResponse = types.PutCardResponse
 type DeleteCardResponse = types.DeleteCardResponse
 

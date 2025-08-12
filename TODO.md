@@ -6,6 +6,7 @@
 - [x] get-controller
 - [x] set-IPv4
 - [x] get-status
+   - [ ] get-status-no-event
 - [x] get-time
 - [x] set-time
 - [x] get-listener
@@ -18,11 +19,11 @@
 - [x] get-card
 - [x] put-card
 - [x] delete-card
+- [x] get-card-by-index
    - [x] API
    - [x] CLI
-   - [x] README
    - [x] integration test
-- [ ] get-card-by-index
+   - [x] README
 
 - [ ] custom date/time types
 - [ ] check for controller = 0
