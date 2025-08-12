@@ -31,3 +31,4 @@ func FindControllers(u Uhppoted, timeout time.Duration) ([]GetControllerResponse
 }
 
 //go:generate ../.codegen/bin/codegen API
+//go:generate ../.codegen/bin/codegen README

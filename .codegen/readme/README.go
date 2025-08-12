@@ -1,0 +1,32 @@
+package readme
+
+import (
+	_ "embed"
+	"log"
+	"os"
+	"text/template"
+
+	"codegen/codegen"
+	"codegen/model"
+)
+
+//go:embed templates/README.template
+var readmeTemplate string
+
+func README() {
+	const file = "../README.md"
+
+	f, err := os.Create(file)
+	if err != nil {
+		log.Fatalf("Failed to create file %s: %v", file, err)
+	}
+	defer f.Close()
+
+	tmpl := template.Must(template.New("encode").Funcs(codegen.Functions).Parse(readmeTemplate))
+	if err := tmpl.Execute(f, model.API); err != nil {
+		log.Fatalf("Failed to execute template: %v", err)
+	}
+
+	log.Printf("... generated %s", file)
+
+}

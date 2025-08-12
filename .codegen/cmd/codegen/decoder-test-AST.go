@@ -12,8 +12,8 @@ import (
 
 	libx "github.com/uhppoted/uhppoted-codegen/model/types"
 
+	"codegen/codegen"
 	"codegen/model"
-	// "codegen/model/types"
 )
 
 func decoderTest() {
@@ -82,7 +82,7 @@ func buildDecoderTest() *ast.File {
 }
 
 func buildDecoderTestFunc(test libx.ResponseTest) *ast.FuncDecl {
-	name := fmt.Sprintf("TestDecode%vResponse", titleCase(test.Name))
+	name := fmt.Sprintf("TestDecode%vResponse", codegen.TitleCase(test.Name))
 	return &ast.FuncDecl{
 		Name: ast.NewIdent(name),
 		Type: &ast.FuncType{

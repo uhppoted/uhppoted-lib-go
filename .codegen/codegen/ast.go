@@ -4,7 +4,6 @@ import (
 	"bytes"
 	"fmt"
 	"os"
-	"regexp"
 	"strings"
 
 	"go/ast"
@@ -98,14 +97,4 @@ func (a AST) Generate(file string) error {
 
 		return nil
 	}
-}
-
-func TitleCase(s string) string {
-	re := regexp.MustCompile(`[ \-:]+`)
-	parts := re.Split(s, -1)
-	for i := range parts {
-		parts[i] = strings.Title(parts[i])
-	}
-
-	return strings.Join(parts, "")
 }

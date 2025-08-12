@@ -29,21 +29,5 @@ folder.
 ## API
 
 **API**
-
-- [`FindControllers`](API.md#findcontrollers)
-- [`GetController`](API.md#getcontroller)
-- [`SetIPv4`](API.md#setipv4)
-- [`GetTime`](API.md#gettime)
-- [`SetTime`](API.md#settime)
-- [`GetListener`](API.md#getlistener)
-- [`SetListener`](API.md#setlistener)
-- [`GetDoor`](API.md#getdoor)
-- [`SetDoor`](API.md#setdoor)
-- [`SetDoorPasscodes`](API.md#setdoorpasscodes)
-- [`OpenDoor`](API.md#opendoor)
-- [`GetStatus`](API.md#getstatus)
-- [`GetCards`](API.md#getcards)
-- [`GetCard`](API.md#getcard)
-- [`GetCardAtIndex`](API.md#getcardatindex)
-- [`PutCard`](API.md#putcard)
-- [`DeleteCard`](API.md#deletecard)
+{{ range $func := . }}
+- [`{{ titleCase $func.Name }}`](API.md#{{ clean $func.Name }}){{ end }}

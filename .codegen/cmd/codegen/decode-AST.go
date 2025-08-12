@@ -10,6 +10,7 @@ import (
 	"go/printer"
 	"go/token"
 
+	"codegen/codegen"
 	"codegen/model"
 )
 
@@ -280,7 +281,7 @@ func buildDecoderFactoryBody() *ast.BlockStmt {
 
 	// ... message types
 	for _, response := range model.Responses {
-		name := fmt.Sprintf("%v", titleCase(response.Message.Name))
+		name := fmt.Sprintf("%v", codegen.TitleCase(response.Message.Name))
 
 		clause := ast.CaseClause{
 			List: []ast.Expr{
