@@ -357,3 +357,23 @@ func DeleteCardRequest(controller uint32, cardnumber uint32) ([]byte, error) {
 
 	return packet, nil
 }
+
+// Encodes a delete-cards-request.
+//
+//	Parameters:
+//	    controller  (uint32)  controller serial number
+//	      (magic)
+//
+//	Returns:
+//	    64 byte packet.
+func DeleteCardsRequest(controller uint32) ([]byte, error) {
+	packet := make([]byte, 64)
+
+	packet[0] = SOM
+	packet[1] = 84
+
+	packUint32(controller, packet, 4)
+	packUint32(0x55aaaa55, packet, 8)
+
+	return packet, nil
+}

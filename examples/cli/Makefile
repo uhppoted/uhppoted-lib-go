@@ -213,3 +213,12 @@ delete-card-udp: build
 
 delete-card-tcp: build
 	$(CMD) delete-card --controller $(CONTROLLER) --dest $(DEST) --tcp --card $(CARD)
+
+delete-all-cards: build
+	$(CMD) delete-all-cards --controller $(CONTROLLER)
+
+delete-all-cards-udp: build
+	$(CMD) delete-all-cards --controller $(CONTROLLER) --dest $(DEST)
+
+delete-all-cards-tcp: build
+	$(CMD) delete-all-cards --controller $(CONTROLLER) --dest $(DEST) --tcp

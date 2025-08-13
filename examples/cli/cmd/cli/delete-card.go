@@ -11,7 +11,7 @@ import (
 func deleteCard(u lib.Uhppoted, args []string) error {
 	var card uint
 
-	flagset := flag.NewFlagSet("get-card", flag.ExitOnError)
+	flagset := flag.NewFlagSet("delete-card", flag.ExitOnError)
 
 	flagset.UintVar(&card, "card", 0, "card number")
 

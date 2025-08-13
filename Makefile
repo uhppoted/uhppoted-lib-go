@@ -28,7 +28,7 @@ build: format
 	go build -trimpath ./...
 
 debug: build
-	cd examples/cli && make get-card-at-index
+	cd examples/cli && make delete-all-cards
 
 test: build
 	go test ./uhppoted/...
@@ -154,3 +154,8 @@ delete-card: build
 	cd examples/cli && make delete-card
 	cd examples/cli && make delete-card-udp
 	cd examples/cli && make delete-card-tcp
+
+delete-all-cards: build
+	cd examples/cli && make delete-all-cards
+	cd examples/cli && make delete-all-cards-udp
+	cd examples/cli && make delete-all-cards-tcp

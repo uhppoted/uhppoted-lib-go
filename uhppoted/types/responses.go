@@ -44,7 +44,7 @@ type SetTimeResponse struct {
 // when retrieving the configured event listener IPv4 address and port.
 type GetListenerResponse struct {
 	Controller uint32         `json:"controller"`
-	Address    netip.AddrPort `json:"address"`
+	Listener   netip.AddrPort `json:"listener"`
 	Interval   uint8          `json:"interval"`
 }
 
@@ -159,8 +159,15 @@ type PutCardResponse struct {
 }
 
 // DeleteCardResponse is a container struct for the response returned by a controller
-// after deleteing a controller card record.
+// after deleting a controller card record.
 type DeleteCardResponse struct {
+	Controller uint32 `json:"controller"`
+	Ok         bool   `json:"ok"`
+}
+
+// DeleteAllCardsResponse is a container struct for the response returned by a controller
+// after deleting all controller card records.
+type DeleteAllCardsResponse struct {
 	Controller uint32 `json:"controller"`
 	Ok         bool   `json:"ok"`
 }

@@ -149,3 +149,12 @@ func DeleteCard[T TController](u Uhppoted, controller T, cardnumber uint32, time
 
 	return exec[T, DeleteCardResponse](u, controller, f, timeout)
 }
+
+// Deletes all card records stored on an access controller.
+func DeleteAllCards[T TController](u Uhppoted, controller T, timeout time.Duration) (DeleteAllCardsResponse, error) {
+	f := func(id uint32) ([]byte, error) {
+		return encode.DeleteCardsRequest(id)
+	}
+
+	return exec[T, DeleteAllCardsResponse](u, controller, f, timeout)
+}

@@ -257,3 +257,14 @@ func TestDeleteCard(t *testing.T) {
 		t.Errorf("incorrect response\n   expected:%#v\n   got:     %#v", test.Expected.DeleteCard, response)
 	}
 }
+
+func TestDeleteAllCards(t *testing.T) {
+
+	response, err := lib.DeleteAllCards(u, controller, timeout)
+
+	if err != nil {
+		t.Fatalf("%v", err)
+	} else if !reflect.DeepEqual(response, test.Expected.DeleteAllCards) {
+		t.Errorf("incorrect response\n   expected:%#v\n   got:     %#v", test.Expected.DeleteAllCards, response)
+	}
+}

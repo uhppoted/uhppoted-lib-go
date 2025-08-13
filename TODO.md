@@ -17,9 +17,10 @@
 - [x] open-door
 - [x] get-cards
 - [x] get-card
+- [x] get-card-by-index
 - [x] put-card
 - [x] delete-card
-- [x] get-card-by-index
+- [x] delete-all-cards
    - [x] API
    - [x] CLI
    - [x] integration test
@@ -36,7 +37,8 @@
 
 - [ ] code generation
    - [ ] use/extend uhppoted-codegen models
-      - [ ] response
+      - [x] response
+      - [ ] functions
 
    - [ ] AST
       - [x] decoder

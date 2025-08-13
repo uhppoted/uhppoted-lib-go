@@ -11,6 +11,7 @@ import (
 
 	"codegen/codegen"
 	"codegen/model"
+	"codegen/model/types"
 )
 
 func API() {
@@ -37,7 +38,7 @@ func API() {
 	}
 }
 
-func function(f model.Func) *ast.FuncDecl {
+func function(f types.Function) *ast.FuncDecl {
 	name := codegen.TitleCase(f.Name)
 	response := fmt.Sprintf("%v", codegen.TitleCase(f.Response.Message.Name))
 
@@ -134,7 +135,7 @@ func function(f model.Func) *ast.FuncDecl {
 	}
 }
 
-func impl(f model.Func) *ast.BlockStmt {
+func impl(f types.Function) *ast.BlockStmt {
 	request := codegen.TitleCase(f.Request.Name)
 	response := fmt.Sprintf("%v", codegen.TitleCase(f.Response.Message.Name))
 

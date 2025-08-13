@@ -9,8 +9,6 @@ import (
 	"unicode"
 
 	lib "github.com/uhppoted/uhppoted-codegen/model/types"
-
-	"codegen/model/types"
 )
 
 var Functions = template.FuncMap{
@@ -19,9 +17,8 @@ var Functions = template.FuncMap{
 	"hyphenate":   hyphenate,
 	"clean":       clean,
 	"hex":         hex,
-	"args":        args,
 	"testargs":    testargs,
-	"arg":         arg,
+	"testarg":     testarg,
 	"fields2args": fields2args,
 	"pack":        pack,
 	"unpack":      unpack,
@@ -95,15 +92,6 @@ func hex(bytes []byte) string {
 	return strings.Join(lines, "\n")
 }
 
-func args(args []types.Arg) string {
-	var parts []string
-	for _, a := range args {
-		parts = append(parts, arg(a))
-	}
-
-	return strings.Join(parts, ", ")
-}
-
 func testargs(args []lib.TestArg) string {
 	var parts []string
 	for _, a := range args {
@@ -111,34 +99,6 @@ func testargs(args []lib.TestArg) string {
 	}
 
 	return strings.Join(parts, ", ")
-}
-
-func arg(arg types.Arg) string {
-	switch arg.Type {
-	case "uint8":
-		return fmt.Sprintf(`uint8(%v)`, arg.Value)
-
-	case "uint32":
-		return fmt.Sprintf(`uint32(%v)`, arg.Value)
-
-	case "IPv4":
-		return fmt.Sprintf(`netip.MustParseAddr("%v")`, arg.Value)
-
-	case "addrport":
-		return fmt.Sprintf(`netip.MustParseAddrPort("%v")`, arg.Value)
-
-	case "datetime":
-		return fmt.Sprintf(`string2datetime("%v")`, arg.Value)
-
-	case "date":
-		return fmt.Sprintf(`string2date("%v")`, arg.Value)
-
-	case "pin":
-		return fmt.Sprintf(`uint32(%v)`, arg.Value)
-
-	default:
-		return fmt.Sprintf("%v", arg.Value)
-	}
 }
 
 func testarg(arg lib.TestArg) string {
@@ -274,6 +234,9 @@ func unpack(field lib.Field) string {
 
 	case "IPv4":
 		return fmt.Sprintf("unpackIPv4(packet, %v)", field.Offset)
+
+	case "address:port":
+		return fmt.Sprintf("unpackAddrPort(packet, %v)", field.Offset)
 
 	case "addrport":
 		return fmt.Sprintf("unpackAddrPort(packet, %v)", field.Offset)

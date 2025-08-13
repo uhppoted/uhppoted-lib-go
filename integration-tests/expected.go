@@ -29,6 +29,7 @@ var Expected = struct {
 	GetCardAtIndexDeleted  lib.GetCardAtIndexResponse
 	PutCard                lib.PutCardResponse
 	DeleteCard             lib.DeleteCardResponse
+	DeleteAllCards         lib.DeleteAllCardsResponse
 }{
 	FindControllers: []lib.GetControllerResponse{
 		lib.GetControllerResponse{
@@ -87,7 +88,7 @@ var Expected = struct {
 
 	GetListener: lib.GetListenerResponse{
 		Controller: 405419896,
-		Address:    addrport("192.168.1.100:60001"),
+		Listener:   addrport("192.168.1.100:60001"),
 		Interval:   17,
 	},
 
@@ -218,6 +219,11 @@ var Expected = struct {
 	},
 
 	DeleteCard: lib.DeleteCardResponse{
+		Controller: 405419896,
+		Ok:         true,
+	},
+
+	DeleteAllCards: lib.DeleteAllCardsResponse{
 		Controller: 405419896,
 		Ok:         true,
 	},
