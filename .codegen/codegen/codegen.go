@@ -192,6 +192,9 @@ func pack(field lib.Field) string {
 	case "pin":
 		return fmt.Sprintf("packPIN(%v, packet, %v)", name, field.Offset)
 
+	case "passcode":
+		return fmt.Sprintf("packPasscode(%v, packet, %v)", name, field.Offset)
+
 	case "magic":
 		return fmt.Sprintf("packUint32(0x55aaaa55, packet, %v)", field.Offset)
 

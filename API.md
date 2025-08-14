@@ -15,9 +15,10 @@
 - [`GetCards`](#getcards)
 - [`GetCard`](#getcard)
 - [`GetCardAtIndex`](#getcardatindex)
-- [`PutCard`](API.md#putcard)
-- [`DeleteCard`](API.md#deletecard)
-- [`DeleteAllCards`](API.md#deletecardallcards)
+- [`PutCard`](#putcard)
+- [`DeleteCard`](#deletecard)
+- [`DeleteAllCards`](#deleteallcards)
+- [`GetEvent`](#getevent)
 ---
 Invoking an API function requires an instance of the `Uhppoted` struct initialised with the information required
 to access a controller:
@@ -330,6 +331,19 @@ timeout     maximum time to wait for a response from a controller
 Returns a `DeleteAllCardsResponse` with `ok` set to `true` if all card records were deleted from the controller.
 ```
 
+### `GetEvent`
+```
+GetEvent(u Uhppoted, controller TController, index uint32, timeout time.Duration) (GetEventResponse,error)
+
+u           Uhppoted struct initialised with the bind address, broadcast address, etc
+controller  uint32|Controller controller serial number or {id, address, protocol} Controller struct
+index       index of event to retrieve
+timeout     maximum time to wait for a response from a controller
+
+Returns a `GetEventResponse`.
+```
+
+
 ## Types
 
 ### `GetControllerResponse`
@@ -550,3 +564,66 @@ type DeleteAllCardsResponse struct {
 }
 ```
 
+### `GetEventResponse`
+
+Container class for the decoded response from a _GetEvent_ request.
+```
+type GetEventResponse struct {
+  Controller     uint32     `json:"controller"`     // controller serial number
+  Index          uint32     `json:"index"`          // event index
+  Timestamp      time.Time  `json:"timestamp"`      // event timestamp
+  EventType      uint8      `json:"event-type"`     // event type 
+  AccessGranted  bool       `json:"acces-granted"`  // true if the door was unlocked
+  Door           uint8      `json:"door"`           // door no. for card and door events
+  Direction      uint8      `json:"direction"`      // direction for card and door events
+  Card           uint32     `json:"card"`           // card number (for card events)
+  Reason         uint8      `json:"reason"`         // reason code
+}
+
+Event types:
+- 0:   unknown
+- 1:   card
+- 2:   door
+- 3:   alarm
+- 4:   system
+- 255: overwritten
+
+Direction:
+- 1: in
+- 2: out
+
+Reasons:
+0:      unknown
+1:      card ok
+5:      card denied (PC control)
+6:      card denied (no access)
+7:      card denied (invalid password)
+8:      card denied (anti-passback)
+9:      card denied (more cards)
+10:     card denied (first card open)
+11:     card denied (door normally closed)
+12:     card denied (door interlock)
+13:     card denied (limited times)
+15:     card denied (invalid timezone)
+18:     card denied
+20:     door pushbutton
+23:     door open
+24:     door closed
+25:     door supervisor password open
+28:     controller power on
+29:     controller reset
+30:     pushbutton denied (disabled by task)
+31:     pushbutton denied (forced lock)
+32:     pushbutton denied (not online)
+33:     pushbutton denied (door interlock
+34:     alarm (threat)
+37:     alarm (open too long)
+38:     alarm (forced open)
+39:     alarm (fire)
+40:     alarm (forced close)
+41:     alarm (tamper detect)
+42:     alarm (24x7 zone)
+43:     alarm (emergency call)
+44:     remote open door
+45:     remote open door (USB reader)
+```

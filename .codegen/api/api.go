@@ -40,7 +40,7 @@ func API() {
 
 func function(f types.Function) *ast.FuncDecl {
 	name := codegen.TitleCase(f.Name)
-	response := fmt.Sprintf("%v", codegen.TitleCase(f.Response.Message.Name))
+	response := fmt.Sprintf("%v", codegen.TitleCase(f.Response.Name))
 
 	// ... args
 	args := []*ast.Field{}
@@ -137,7 +137,7 @@ func function(f types.Function) *ast.FuncDecl {
 
 func impl(f types.Function) *ast.BlockStmt {
 	request := codegen.TitleCase(f.Request.Name)
-	response := fmt.Sprintf("%v", codegen.TitleCase(f.Response.Message.Name))
+	response := fmt.Sprintf("%v", codegen.TitleCase(f.Response.Name))
 
 	args := []ast.Expr{
 		&ast.Ident{Name: "id"},

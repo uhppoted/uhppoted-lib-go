@@ -109,11 +109,14 @@ func packDate(v time.Time, packet []byte, offset int) {
 //	   offset (int)        Value location in array.
 func packPIN(v uint32, packet []byte, offset uint8) error {
 	bytes := make([]byte, 4)
-	binary.LittleEndian.PutUint32(bytes, uint32(v))
 
-	packet[offset] = bytes[0]
-	packet[offset+1] = bytes[1]
-	packet[offset+2] = bytes[2]
+	if v < 1000000 {
+		binary.LittleEndian.PutUint32(bytes, uint32(v))
+
+		packet[offset] = bytes[0]
+		packet[offset+1] = bytes[1]
+		packet[offset+2] = bytes[2]
+	}
 
 	return nil
 }

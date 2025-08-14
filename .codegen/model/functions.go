@@ -3,6 +3,7 @@ package model
 import (
 	"net/netip"
 
+	// lib "github.com/uhppoted/uhppoted-codegen/model"
 	libx "github.com/uhppoted/uhppoted-codegen/model/types"
 
 	"codegen/model/types"
@@ -27,6 +28,7 @@ var API = []types.Function{
 	PutCard,
 	DeleteCard,
 	DeleteAllCards,
+	GetEvent,
 }
 
 var FindControllers = types.Function{
@@ -82,11 +84,13 @@ var FindControllers = types.Function{
 	},
 }
 
+// var GetController = types.Function(lib.GetController)
+
 var GetController = types.Function{
 	Name:        "get-controller",
 	Description: "GetController retrieves the system information from an access controller.",
-	Request:     GetControllerRequest,
-	Response:    GetControllerResponse,
+	Request:     GetControllerRequest.Message,
+	Response:    GetControllerResponse.Message,
 	Protocols:   []string{"broadcast", "udp", "tcp"},
 
 	Tests: []types.FuncTest{
@@ -133,8 +137,8 @@ var GetController = types.Function{
 var SetIPv4 = types.Function{
 	Name:        "set-IPv4",
 	Description: "SetIPv4 sets the controller IPv4 address, netmask and gateway address.",
-	Request:     SetIPv4Request,
-	Response:    SetIPv4Response,
+	Request:     SetIPv4Request.Message,
+	Response:    SetIPv4Response.Message,
 	Protocols:   []string{"broadcast", "udp", "tcp"},
 
 	Tests: []types.FuncTest{
@@ -197,8 +201,8 @@ var SetIPv4 = types.Function{
 var GetTime = types.Function{
 	Name:        "get-time",
 	Description: "GetTime retrieves the access controller system date and time.",
-	Request:     GetTimeRequest,
-	Response:    GetTimeResponse,
+	Request:     GetTimeRequest.Message,
+	Response:    GetTimeResponse.Message,
 	Protocols:   []string{"broadcast", "udp", "tcp"},
 
 	Tests: []types.FuncTest{
@@ -240,8 +244,8 @@ var GetTime = types.Function{
 var SetTime = types.Function{
 	Name:        "set-time",
 	Description: "SetTime sets the access controller system date and time.",
-	Request:     SetTimeRequest,
-	Response:    SetTimeResponse,
+	Request:     SetTimeRequest.Message,
+	Response:    SetTimeResponse.Message,
 	Protocols:   []string{"broadcast", "udp", "tcp"},
 
 	Tests: []types.FuncTest{
@@ -290,8 +294,8 @@ var SetTime = types.Function{
 var GetListener = types.Function{
 	Name:        "get-listener",
 	Description: "GetListener retrieves the access controller event listener IPv4 address:port and auto-send interval.",
-	Request:     GetListenerRequest,
-	Response:    GetListenerResponse,
+	Request:     GetListenerRequest.Message,
+	Response:    GetListenerResponse.Message,
 	Protocols:   []string{"broadcast", "udp", "tcp"},
 
 	Tests: []types.FuncTest{
@@ -348,8 +352,8 @@ var GetListener = types.Function{
 var SetListener = types.Function{
 	Name:        "set-listener",
 	Description: "SetListener sets the access controller event listener IPv4 address:port and auto-send interval.",
-	Request:     SetListenerRequest,
-	Response:    SetListenerResponse,
+	Request:     SetListenerRequest.Message,
+	Response:    SetListenerResponse.Message,
 	Protocols:   []string{"broadcast", "udp", "tcp"},
 
 	Tests: []types.FuncTest{
@@ -413,8 +417,8 @@ var SetListener = types.Function{
 var GetDoor = types.Function{
 	Name:        "get-door",
 	Description: "GetDoor retrieves the control mode and unlock delay time for an access controller door.",
-	Request:     GetDoorRequest,
-	Response:    GetDoorResponse,
+	Request:     GetDoorRequest.Message,
+	Response:    GetDoorResponse.Message,
 	Protocols:   []string{"broadcast", "udp", "tcp"},
 
 	Tests: []types.FuncTest{
@@ -488,8 +492,8 @@ var GetDoor = types.Function{
 var SetDoor = types.Function{
 	Name:        "set-door",
 	Description: "SetDoor sets the control mode and unlock delay time for an access controller door.",
-	Request:     SetDoorRequest,
-	Response:    SetDoorResponse,
+	Request:     SetDoorRequest.Message,
+	Response:    SetDoorResponse.Message,
 	Protocols:   []string{"broadcast", "udp", "tcp"},
 
 	Tests: []types.FuncTest{
@@ -570,8 +574,8 @@ var SetDoor = types.Function{
 var SetDoorPasscodes = types.Function{
 	Name:        "set-door-passcodes",
 	Description: "Sets up to 4 passcodes for a controller door.",
-	Request:     SetDoorPasscodesRequest,
-	Response:    SetDoorPasscodesResponse,
+	Request:     SetDoorPasscodesRequest.Message,
+	Response:    SetDoorPasscodesResponse.Message,
 	Protocols:   []string{"broadcast", "udp", "tcp"},
 
 	Tests: []types.FuncTest{
@@ -656,8 +660,8 @@ var SetDoorPasscodes = types.Function{
 var OpenDoor = types.Function{
 	Name:        "open-door",
 	Description: "Unlocks a door controlled by an access controller.",
-	Request:     OpenDoorRequest,
-	Response:    OpenDoorResponse,
+	Request:     OpenDoorRequest.Message,
+	Response:    OpenDoorResponse.Message,
 	Protocols:   []string{"broadcast", "udp", "tcp"},
 
 	Tests: []types.FuncTest{
@@ -714,8 +718,8 @@ var OpenDoor = types.Function{
 var GetStatus = types.Function{
 	Name:        "get-status",
 	Description: "GetStatus retrieves the system status from an access controller.",
-	Request:     GetStatusRequest,
-	Response:    GetStatusResponse,
+	Request:     GetStatusRequest.Message,
+	Response:    GetStatusResponse.Message,
 	Protocols:   []string{"broadcast", "udp", "tcp"},
 
 	Tests: []types.FuncTest{
@@ -779,8 +783,8 @@ var GetStatus = types.Function{
 var GetCards = types.Function{
 	Name:        "get-cards",
 	Description: "Retrieves the number of cards stored on an access controller.",
-	Request:     GetCardsRequest,
-	Response:    GetCardsResponse,
+	Request:     GetCardsRequest.Message,
+	Response:    GetCardsResponse.Message,
 	Protocols:   []string{"broadcast", "udp", "tcp"},
 
 	Tests: []types.FuncTest{
@@ -830,8 +834,8 @@ var GetCards = types.Function{
 var GetCard = types.Function{
 	Name:        "get-card",
 	Description: "Retrieves the card information for a card number from an access controller.",
-	Request:     GetCardRequest,
-	Response:    GetCardResponse,
+	Request:     GetCardRequest.Message,
+	Response:    GetCardResponse.Message,
 	Protocols:   []string{"broadcast", "udp", "tcp"},
 
 	Tests: []types.FuncTest{
@@ -1005,18 +1009,8 @@ var GetCard = types.Function{
 var GetCardAtIndex = types.Function{
 	Name:        "get card at index",
 	Description: "Retrieves card record stored at the index.",
-	// Args: []Arg{
-	// 	{
-	// 		Name: "controller",
-	// 		Type: "controller",
-	// 	},
-	// 	{
-	// 		Name: "index",
-	// 		Type: "uint32",
-	// 	},
-	// },
-	Request:  GetCardAtIndexRequest,
-	Response: GetCardAtIndexResponse,
+	Request:     GetCardAtIndexRequest.Message,
+	Response:    GetCardAtIndexResponse.Message,
 
 	Tests: []types.FuncTest{
 		{
@@ -1271,8 +1265,8 @@ var GetCardAtIndex = types.Function{
 var PutCard = types.Function{
 	Name:        "put card",
 	Description: "Adds or updates an access controller card record.",
-	Request:     PutCardRequest,
-	Response:    PutCardResponse,
+	Request:     PutCardRequest.Message,
+	Response:    PutCardResponse.Message,
 	Protocols:   []string{"broadcast", "udp", "tcp"},
 	Tests: []types.FuncTest{
 		{
@@ -1377,18 +1371,8 @@ var PutCard = types.Function{
 var DeleteCard = types.Function{
 	Name:        "delete card",
 	Description: "DeleteCard removes a card record stored on a controller.",
-	// Args: []types.Arg{
-	// 	{
-	// 		Name: "controller",
-	// 		Type: "controller",
-	// 	},
-	// 	{
-	// 		Name: "card number",
-	// 		Type: "uint32",
-	// 	},
-	// },
-	Request:  DeleteCardRequest,
-	Response: DeleteCardResponse,
+	Request:     DeleteCardRequest.Message,
+	Response:    DeleteCardResponse.Message,
 
 	Tests: []types.FuncTest{
 		{
@@ -1444,14 +1428,8 @@ var DeleteCard = types.Function{
 var DeleteAllCards = types.Function{
 	Name:        "delete all cards",
 	Description: "Deletes all card records stored on an access controller.",
-	// Args: []types.Arg{
-	// 	{
-	// 		Name: "controller",
-	// 		Type: "controller",
-	// 	},
-	// },
-	Request:  DeleteAllCardsRequest,
-	Response: DeleteAllCardsResponse,
+	Request:     DeleteAllCardsRequest.Message,
+	Response:    DeleteAllCardsResponse.Message,
 
 	Tests: []types.FuncTest{
 		{
@@ -1489,6 +1467,261 @@ var DeleteAllCards = types.Function{
 							Name:  "ok",
 							Type:  "bool",
 							Value: true,
+						},
+					},
+				},
+			},
+		},
+	},
+}
+
+var GetEvent = types.Function{
+	Name:        "get event",
+	Description: "Retrieves an event record stored on an access controller.",
+	Request:     GetEventRequest.Message,
+	Response:    GetEventResponse.Message,
+	Tests: []types.FuncTest{
+		{
+			Name: "get-event",
+			Args: []libx.TestArg{
+				{
+					Arg: libx.Arg{
+						Name: "controller",
+						Type: "uint32",
+					},
+					Value: 405419896,
+				},
+				{
+					Arg: libx.Arg{
+						Name: "event index",
+						Type: "uint32",
+					},
+					Value: 13579,
+				},
+			},
+			Request: []byte{
+				0x17, 0xb0, 0x00, 0x00, 0x78, 0x37, 0x2a, 0x18, 0x0b, 0x35, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+				0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+				0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+				0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+			},
+			Replies: []libx.TestReply{
+				{
+					Message: []byte{
+						0x17, 0xb0, 0x00, 0x00, 0x78, 0x37, 0x2a, 0x18, 0x0b, 0x35, 0x00, 0x00, 0x02, 0x01, 0x04, 0x02,
+						0xa0, 0x7a, 0x99, 0x00, 0x20, 0x25, 0x11, 0x17, 0x12, 0x34, 0x56, 0x15, 0x00, 0x00, 0x00, 0x00,
+						0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+						0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+					},
+					Response: []libx.Value{
+						{
+							Name:  "controller",
+							Type:  "uint32",
+							Value: 405419896,
+						},
+						{
+							Name:  "index",
+							Type:  "uint32",
+							Value: 13579,
+						},
+						{
+							Name:  "timestamp",
+							Type:  "datetime",
+							Value: "2025-11-17 12:34:56",
+						},
+						{
+							Name:  "event type",
+							Type:  "uint8",
+							Value: 2,
+						},
+						{
+							Name:  "access granted",
+							Type:  "bool",
+							Value: true,
+						},
+						{
+							Name:  "door",
+							Type:  "uint8",
+							Value: 4,
+						},
+						{
+							Name:  "direction",
+							Type:  "uint8",
+							Value: 2,
+						},
+						{
+							Name:  "card",
+							Type:  "uint32",
+							Value: 10058400,
+						},
+						{
+							Name:  "reason",
+							Type:  "uint8",
+							Value: 21,
+						},
+					},
+				},
+			},
+		},
+		{
+			Name: "get-event-not-found",
+			Args: []libx.TestArg{
+				{
+					Arg: libx.Arg{
+						Name: "controller",
+						Type: "uint32",
+					},
+					Value: 405419896,
+				},
+				{
+					Arg: libx.Arg{
+						Name: "event index",
+						Type: "uint32",
+					},
+					Value: 24680,
+				},
+			},
+			Request: []byte{
+				0x17, 0xb0, 0x00, 0x00, 0x78, 0x37, 0x2a, 0x18, 0x68, 0x60, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+				0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+				0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+				0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+			},
+			Replies: []libx.TestReply{
+				{
+					Message: []byte{
+						0x17, 0xb0, 0x00, 0x00, 0x78, 0x37, 0x2a, 0x18, 0x68, 0x60, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+						0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+						0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+						0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+					},
+					Response: []libx.Value{
+						{
+							Name:  "controller",
+							Type:  "uint32",
+							Value: 405419896,
+						},
+						{
+							Name:  "index",
+							Type:  "uint32",
+							Value: 24680,
+						},
+						{
+							Name:  "timestamp",
+							Type:  "datetime",
+							Value: "0001-01-01 00:00:00",
+						},
+						{
+							Name:  "event type",
+							Type:  "uint8",
+							Value: 0x00,
+						},
+						{
+							Name:  "access granted",
+							Type:  "bool",
+							Value: false,
+						},
+						{
+							Name:  "door",
+							Type:  "uint8",
+							Value: 0,
+						},
+						{
+							Name:  "direction",
+							Type:  "uint8",
+							Value: 0,
+						},
+						{
+							Name:  "card",
+							Type:  "uint32",
+							Value: 0,
+						},
+						{
+							Name:  "reason",
+							Type:  "uint8",
+							Value: 0,
+						},
+					},
+				},
+			},
+		},
+		{
+			Name: "get-event-overwritten",
+			Args: []libx.TestArg{
+				{
+					Arg: libx.Arg{
+						Name: "controller",
+						Type: "uint32",
+					},
+					Value: 405419896,
+				},
+				{
+					Arg: libx.Arg{
+						Name: "event index",
+						Type: "uint32",
+					},
+					Value: 98765,
+				},
+			},
+			Request: []byte{
+				0x17, 0xb0, 0x00, 0x00, 0x78, 0x37, 0x2a, 0x18, 0xcd, 0x81, 0x01, 0x00, 0x00, 0x00, 0x00, 0x00,
+				0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+				0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+				0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+			},
+			Replies: []libx.TestReply{
+				{
+					Message: []byte{
+						0x17, 0xb0, 0x00, 0x00, 0x78, 0x37, 0x2a, 0x18, 0xcd, 0x81, 0x01, 0x00, 0xff, 0x00, 0x00, 0x00,
+						0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+						0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+						0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+					},
+					Response: []libx.Value{
+						{
+							Name:  "controller",
+							Type:  "uint32",
+							Value: 405419896,
+						},
+						{
+							Name:  "index",
+							Type:  "uint32",
+							Value: 98765,
+						},
+						{
+							Name:  "timestamp",
+							Type:  "datetime",
+							Value: "0001-01-01 00:00:00",
+						},
+						{
+							Name:  "event type",
+							Type:  "uint8",
+							Value: 0xff,
+						},
+						{
+							Name:  "access granted",
+							Type:  "bool",
+							Value: false,
+						},
+						{
+							Name:  "door",
+							Type:  "uint8",
+							Value: 0,
+						},
+						{
+							Name:  "direction",
+							Type:  "uint8",
+							Value: 0,
+						},
+						{
+							Name:  "card",
+							Type:  "uint32",
+							Value: 0,
+						},
+						{
+							Name:  "reason",
+							Type:  "uint8",
+							Value: 0,
 						},
 					},
 				},

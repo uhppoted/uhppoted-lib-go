@@ -158,3 +158,12 @@ func DeleteAllCards[T TController](u Uhppoted, controller T, timeout time.Durati
 
 	return exec[T, DeleteAllCardsResponse](u, controller, f, timeout)
 }
+
+// Retrieves an event record stored on an access controller.
+func GetEvent[T TController](u Uhppoted, controller T, eventindex uint32, timeout time.Duration) (GetEventResponse, error) {
+	f := func(id uint32) ([]byte, error) {
+		return encode.GetEventRequest(id, eventindex)
+	}
+
+	return exec[T, GetEventResponse](u, controller, f, timeout)
+}

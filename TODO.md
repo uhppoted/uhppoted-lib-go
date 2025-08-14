@@ -21,6 +21,7 @@
 - [x] put-card
 - [x] delete-card
 - [x] delete-all-cards
+- [x] get-event
    - [x] API
    - [x] CLI
    - [x] integration test

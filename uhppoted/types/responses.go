@@ -171,3 +171,17 @@ type DeleteAllCardsResponse struct {
 	Controller uint32 `json:"controller"`
 	Ok         bool   `json:"ok"`
 }
+
+// GetEventResponse is a container struct for the response returned from a controller
+// when retrieving the record for an event.
+type GetEventResponse struct {
+	Controller    uint32    `json:"controller"`
+	Index         uint32    `json:"index"`
+	Timestamp     time.Time `json:"timestamp"`
+	EventType     uint8     `json:"event-type"`
+	AccessGranted bool      `json:"access-granted"`
+	Door          uint8     `json:"door"`
+	Direction     uint8     `json:"direction"`
+	Card          uint32    `json:"card"`
+	Reason        uint8     `json:"reason"`
+}

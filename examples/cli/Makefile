@@ -222,3 +222,13 @@ delete-all-cards-udp: build
 
 delete-all-cards-tcp: build
 	$(CMD) delete-all-cards --controller $(CONTROLLER) --dest $(DEST) --tcp
+
+get-event: build
+	$(CMD) get-event --controller $(CONTROLLER) --index 17
+
+get-event-udp: build
+	$(CMD) get-event --controller $(CONTROLLER) --dest $(DEST) --index 17
+
+get-event-tcp: build
+	$(CMD) get-event --controller $(CONTROLLER) --dest $(DEST) --tcp --index 17
+

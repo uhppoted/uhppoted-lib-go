@@ -531,3 +531,38 @@ func DeleteAllCardsResponse(packet []byte) (types.DeleteAllCardsResponse, error)
 		Ok:         unpackBool(packet, 8),
 	}, nil
 }
+
+// Decodes a get-event-response response.
+//
+//	Parameters:
+//	    packet  (bytearray)  64 byte UDP packet.
+//
+//	Returns:
+//	    - GetEventResponse initialised from the UDP packet.
+//	    - error if the packet is not 64 bytes, has an invalid start-of-message byte or has
+//	               the incorrect message type.
+func GetEventResponse(packet []byte) (types.GetEventResponse, error) {
+	if len(packet) != 64 {
+		return types.GetEventResponse{}, fmt.Errorf("invalid reply packet length (%v)", len(packet))
+	}
+
+	if packet[0] != SOM {
+		return types.GetEventResponse{}, fmt.Errorf("invalid reply start of message byte (%02x)", packet[0])
+	}
+
+	if packet[1] != 176 {
+		return types.GetEventResponse{}, fmt.Errorf("invalid reply function code (%02x)", packet[1])
+	}
+
+	return types.GetEventResponse{
+		Controller:    unpackUint32(packet, 4),
+		Index:         unpackUint32(packet, 8),
+		EventType:     unpackUint8(packet, 12),
+		AccessGranted: unpackBool(packet, 13),
+		Door:          unpackUint8(packet, 14),
+		Direction:     unpackUint8(packet, 15),
+		Card:          unpackUint32(packet, 16),
+		Timestamp:     unpackOptionalDateTime(packet, 20),
+		Reason:        unpackUint8(packet, 27),
+	}, nil
+}

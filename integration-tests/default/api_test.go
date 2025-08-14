@@ -268,3 +268,39 @@ func TestDeleteAllCards(t *testing.T) {
 		t.Errorf("incorrect response\n   expected:%#v\n   got:     %#v", test.Expected.DeleteAllCards, response)
 	}
 }
+
+func TestGetEvent(t *testing.T) {
+	eventIndex := uint32(13579)
+
+	response, err := lib.GetEvent(u, controller, eventIndex, timeout)
+
+	if err != nil {
+		t.Fatalf("%v", err)
+	} else if !reflect.DeepEqual(response, test.Expected.GetEvent) {
+		t.Errorf("incorrect response\n   expected:%#v\n   got:     %#v", test.Expected.GetEvent, response)
+	}
+}
+
+func TestGetEventNotFound(t *testing.T) {
+	eventIndex := uint32(24680)
+
+	response, err := lib.GetEvent(u, controller, eventIndex, timeout)
+
+	if err != nil {
+		t.Fatalf("%v", err)
+	} else if !reflect.DeepEqual(response, test.Expected.GetEventNotFound) {
+		t.Errorf("incorrect response\n   expected:%#v\n   got:     %#v", test.Expected.GetEventNotFound, response)
+	}
+}
+
+func TestGetEventOverwritten(t *testing.T) {
+	eventIndex := uint32(98765)
+
+	response, err := lib.GetEvent(u, controller, eventIndex, timeout)
+
+	if err != nil {
+		t.Fatalf("%v", err)
+	} else if !reflect.DeepEqual(response, test.Expected.GetEventOverwritten) {
+		t.Errorf("incorrect response\n   expected:%#v\n   got:     %#v", test.Expected.GetEventOverwritten, response)
+	}
+}

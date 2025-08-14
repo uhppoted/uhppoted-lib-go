@@ -30,6 +30,9 @@ var Expected = struct {
 	PutCard                lib.PutCardResponse
 	DeleteCard             lib.DeleteCardResponse
 	DeleteAllCards         lib.DeleteAllCardsResponse
+	GetEvent               lib.GetEventResponse
+	GetEventNotFound       lib.GetEventResponse
+	GetEventOverwritten    lib.GetEventResponse
 }{
 	FindControllers: []lib.GetControllerResponse{
 		lib.GetControllerResponse{
@@ -226,6 +229,42 @@ var Expected = struct {
 	DeleteAllCards: lib.DeleteAllCardsResponse{
 		Controller: 405419896,
 		Ok:         true,
+	},
+
+	GetEvent: lib.GetEventResponse{
+		Controller:    405419896,
+		Index:         13579,
+		Timestamp:     string2datetime("2025-11-17 12:34:56"),
+		EventType:     2,
+		AccessGranted: true,
+		Door:          4,
+		Direction:     2,
+		Card:          10058400,
+		Reason:        21,
+	},
+
+	GetEventNotFound: lib.GetEventResponse{
+		Controller:    405419896,
+		Index:         24680,
+		Timestamp:     string2datetime("0001-01-01 00:00:00"),
+		EventType:     0,
+		AccessGranted: false,
+		Door:          0,
+		Direction:     0,
+		Card:          0,
+		Reason:        0,
+	},
+
+	GetEventOverwritten: lib.GetEventResponse{
+		Controller:    405419896,
+		Index:         98765,
+		Timestamp:     string2datetime("0001-01-01 00:00:00"),
+		EventType:     255,
+		AccessGranted: false,
+		Door:          0,
+		Direction:     0,
+		Card:          0,
+		Reason:        0,
 	},
 }
 

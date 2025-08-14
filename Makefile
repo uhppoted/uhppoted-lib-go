@@ -28,7 +28,7 @@ build: format
 	go build -trimpath ./...
 
 debug: build
-	cd examples/cli && make delete-all-cards
+	cd examples/cli && make get-event
 
 test: build
 	go test ./uhppoted/...
@@ -159,3 +159,8 @@ delete-all-cards: build
 	cd examples/cli && make delete-all-cards
 	cd examples/cli && make delete-all-cards-udp
 	cd examples/cli && make delete-all-cards-tcp
+
+get-event: build
+	cd examples/cli && make get-event
+	cd examples/cli && make get-event-udp
+	cd examples/cli && make get-event-tcp

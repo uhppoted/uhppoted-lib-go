@@ -2,7 +2,7 @@
 
 # uhppoted-lib-go
 
-** IN DEVELOPMENT **
+**IN DEVELOPMENT**
 
 Standalone Go library for the UHPPOTE access controllers.
 
@@ -48,3 +48,4 @@ folder.
 - [`PutCard`](API.md#putcard)
 - [`DeleteCard`](API.md#deletecard)
 - [`DeleteAllCards`](API.md#deleteallcards)
+- [`GetEvent`](API.md#getevent)
