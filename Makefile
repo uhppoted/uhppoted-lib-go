@@ -28,7 +28,7 @@ build: format
 	go build -trimpath ./...
 
 debug: build
-	cd examples/cli && make get-event
+	cd examples/cli && make get-event-index
 
 test: build
 	go test ./uhppoted/...
@@ -164,3 +164,8 @@ get-event: build
 	cd examples/cli && make get-event
 	cd examples/cli && make get-event-udp
 	cd examples/cli && make get-event-tcp
+
+get-event-index: build
+	cd examples/cli && make get-event-index
+	cd examples/cli && make get-event-index-udp
+	cd examples/cli && make get-event-index-tcp

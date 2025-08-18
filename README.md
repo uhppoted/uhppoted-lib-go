@@ -49,3 +49,4 @@ folder.
 - [`DeleteCard`](API.md#deletecard)
 - [`DeleteAllCards`](API.md#deleteallcards)
 - [`GetEvent`](API.md#getevent)
+- [`GetEventIndex`](API.md#geteventindex)

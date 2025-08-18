@@ -397,3 +397,21 @@ func GetEventRequest(controller uint32, eventindex uint32) ([]byte, error) {
 
 	return packet, nil
 }
+
+// Encodes a get-event-index-request.
+//
+//	Parameters:
+//	    controller  (uint32)  controller serial number
+//
+//	Returns:
+//	    64 byte packet.
+func GetEventIndexRequest(controller uint32) ([]byte, error) {
+	packet := make([]byte, 64)
+
+	packet[0] = SOM
+	packet[1] = 180
+
+	packUint32(controller, packet, 4)
+
+	return packet, nil
+}

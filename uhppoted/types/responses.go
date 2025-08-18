@@ -185,3 +185,10 @@ type GetEventResponse struct {
 	Card          uint32    `json:"card"`
 	Reason        uint8     `json:"reason"`
 }
+
+// GetEventIndexResponse is a container struct for the response returned from a controller
+// when retrieving the event index.
+type GetEventIndexResponse struct {
+	Controller uint32 `json:"controller"`
+	Index      uint32 `json:"index"`
+}

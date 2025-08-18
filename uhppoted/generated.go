@@ -167,3 +167,11 @@ func GetEvent[T TController](u Uhppoted, controller T, eventindex uint32, timeou
 
 	return exec[T, GetEventResponse](u, controller, f, timeout)
 }
+
+func GetEventIndex[T TController](u Uhppoted, controller T, timeout time.Duration) (GetEventIndexResponse, error) {
+	f := func(id uint32) ([]byte, error) {
+		return encode.GetEventIndexRequest(id)
+	}
+
+	return exec[T, GetEventIndexResponse](u, controller, f, timeout)
+}

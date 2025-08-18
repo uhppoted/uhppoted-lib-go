@@ -199,3 +199,73 @@ func TestPutCard(t *testing.T) {
 		t.Errorf("incorrect response\n   expected:%#v\n   got:     %#v", test.Expected.PutCard, response)
 	}
 }
+
+func TestDeleteCard(t *testing.T) {
+	card := uint32(10058400)
+
+	response, err := lib.DeleteCard(u, controller, card, timeout)
+
+	if err != nil {
+		t.Fatalf("%v", err)
+	} else if !reflect.DeepEqual(response, test.Expected.DeleteCard) {
+		t.Errorf("incorrect response\n   expected:%#v\n   got:     %#v", test.Expected.DeleteCard, response)
+	}
+}
+
+func TestDeleteAllCards(t *testing.T) {
+
+	response, err := lib.DeleteAllCards(u, controller, timeout)
+
+	if err != nil {
+		t.Fatalf("%v", err)
+	} else if !reflect.DeepEqual(response, test.Expected.DeleteAllCards) {
+		t.Errorf("incorrect response\n   expected:%#v\n   got:     %#v", test.Expected.DeleteAllCards, response)
+	}
+}
+
+func TestGetEvent(t *testing.T) {
+	eventIndex := uint32(13579)
+
+	response, err := lib.GetEvent(u, controller, eventIndex, timeout)
+
+	if err != nil {
+		t.Fatalf("%v", err)
+	} else if !reflect.DeepEqual(response, test.Expected.GetEvent) {
+		t.Errorf("incorrect response\n   expected:%#v\n   got:     %#v", test.Expected.GetEvent, response)
+	}
+}
+
+func TestGetEventNotFound(t *testing.T) {
+	eventIndex := uint32(24680)
+
+	response, err := lib.GetEvent(u, controller, eventIndex, timeout)
+
+	if err != nil {
+		t.Fatalf("%v", err)
+	} else if !reflect.DeepEqual(response, test.Expected.GetEventNotFound) {
+		t.Errorf("incorrect response\n   expected:%#v\n   got:     %#v", test.Expected.GetEventNotFound, response)
+	}
+}
+
+func TestGetEventOverwritten(t *testing.T) {
+	eventIndex := uint32(98765)
+
+	response, err := lib.GetEvent(u, controller, eventIndex, timeout)
+
+	if err != nil {
+		t.Fatalf("%v", err)
+	} else if !reflect.DeepEqual(response, test.Expected.GetEventOverwritten) {
+		t.Errorf("incorrect response\n   expected:%#v\n   got:     %#v", test.Expected.GetEventOverwritten, response)
+	}
+}
+
+func TestGetEventIndex(t *testing.T) {
+
+	response, err := lib.GetEventIndex(u, controller, timeout)
+
+	if err != nil {
+		t.Fatalf("%v", err)
+	} else if !reflect.DeepEqual(response, test.Expected.GetEventIndex) {
+		t.Errorf("incorrect response\n   expected:%#v\n   got:     %#v", test.Expected.GetEventIndex, response)
+	}
+}

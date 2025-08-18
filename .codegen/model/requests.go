@@ -2,7 +2,6 @@ package model
 
 import (
 	lib "github.com/uhppoted/uhppoted-codegen/model"
-	// libx "github.com/uhppoted/uhppoted-codegen/model/types"
 
 	"codegen/model/types"
 )
@@ -26,6 +25,7 @@ var Requests = []types.Request{
 	DeleteCardRequest,
 	DeleteAllCardsRequest,
 	GetEventRequest,
+	GetEventIndexRequest,
 }
 
 var GetControllerRequest = types.Request(lib.GetControllerRequest)
@@ -46,26 +46,4 @@ var PutCardRequest = types.Request(lib.PutCardRequest)
 var DeleteCardRequest = types.Request(lib.DeleteCardRequest)
 var DeleteAllCardsRequest = types.Request(lib.DeleteAllCardsRequest)
 var GetEventRequest = types.Request(lib.GetEventRequest)
-
-// var SetDoorPasscodesRequest = types.Request{
-// 	Message: lib.SetDoorPasscodesRequest,
-// 	Tests: []libx.RequestTest{
-// 		{
-// 			Name: "set-door-passcodes",
-// 			Args: []libx.TestArg{
-// 				{Arg: libx.Arg{Name: "controller", Type: "uint32"}, Value: uint32(405419896)},
-// 				{Arg: libx.Arg{Name: "door", Type: "uint8"}, Value: uint8(3)},
-// 				{Arg: libx.Arg{Name: "passcode1", Type: "uint32"}, Value: uint32(12345)},
-// 				{Arg: libx.Arg{Name: "passcode2", Type: "uint32"}, Value: uint32(54321)},
-// 				{Arg: libx.Arg{Name: "passcode3", Type: "uint32"}, Value: uint32(0)},
-// 				{Arg: libx.Arg{Name: "passcode4", Type: "uint32"}, Value: uint32(999999)},
-// 			},
-// 			Expected: []byte{
-// 				0x17, 0x8c, 0x00, 0x00, 0x78, 0x37, 0x2a, 0x18, 0x03, 0x00, 0x00, 0x00, 0x39, 0x30, 0x00, 0x00,
-// 				0x31, 0xd4, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x3f, 0x42, 0x0f, 0x00, 0x00, 0x00, 0x00, 0x00,
-// 				0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-// 				0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-// 			},
-// 		},
-// 	},
-// }
+var GetEventIndexRequest = types.Request(lib.GetEventIndexRequest)

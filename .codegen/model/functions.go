@@ -3,7 +3,7 @@ package model
 import (
 	"net/netip"
 
-	// lib "github.com/uhppoted/uhppoted-codegen/model"
+	lib "github.com/uhppoted/uhppoted-codegen/model"
 	libx "github.com/uhppoted/uhppoted-codegen/model/types"
 
 	"codegen/model/types"
@@ -29,13 +29,14 @@ var API = []types.Function{
 	DeleteCard,
 	DeleteAllCards,
 	GetEvent,
+	GetEventIndex,
 }
 
 var FindControllers = types.Function{
 	Name:        "find-controllers",
 	Description: "FindControllers retrieves a list of all UHPPOTE controllers accessible on the local LAN.",
 	Protocols:   []string{"broadcast"},
-	Tests: []types.FuncTest{
+	Tests: []libx.FuncTest{
 		{
 			Name: "find-controllers",
 			Args: []libx.TestArg{},
@@ -93,7 +94,7 @@ var GetController = types.Function{
 	Response:    GetControllerResponse.Message,
 	Protocols:   []string{"broadcast", "udp", "tcp"},
 
-	Tests: []types.FuncTest{
+	Tests: []libx.FuncTest{
 		{
 			Name: "get-controller",
 			Args: []libx.TestArg{
@@ -141,7 +142,7 @@ var SetIPv4 = types.Function{
 	Response:    SetIPv4Response.Message,
 	Protocols:   []string{"broadcast", "udp", "tcp"},
 
-	Tests: []types.FuncTest{
+	Tests: []libx.FuncTest{
 		{
 			Name: "set-IPv4",
 			Args: []libx.TestArg{
@@ -205,7 +206,7 @@ var GetTime = types.Function{
 	Response:    GetTimeResponse.Message,
 	Protocols:   []string{"broadcast", "udp", "tcp"},
 
-	Tests: []types.FuncTest{
+	Tests: []libx.FuncTest{
 		{
 			Name: "get-time",
 			Args: []libx.TestArg{
@@ -248,7 +249,7 @@ var SetTime = types.Function{
 	Response:    SetTimeResponse.Message,
 	Protocols:   []string{"broadcast", "udp", "tcp"},
 
-	Tests: []types.FuncTest{
+	Tests: []libx.FuncTest{
 		{
 			Name: "set-time",
 			Args: []libx.TestArg{
@@ -298,7 +299,7 @@ var GetListener = types.Function{
 	Response:    GetListenerResponse.Message,
 	Protocols:   []string{"broadcast", "udp", "tcp"},
 
-	Tests: []types.FuncTest{
+	Tests: []libx.FuncTest{
 		{
 			Name: "get-listener",
 			Args: []libx.TestArg{
@@ -356,7 +357,7 @@ var SetListener = types.Function{
 	Response:    SetListenerResponse.Message,
 	Protocols:   []string{"broadcast", "udp", "tcp"},
 
-	Tests: []types.FuncTest{
+	Tests: []libx.FuncTest{
 		{
 			Name: "set-listener",
 			Args: []libx.TestArg{
@@ -421,7 +422,7 @@ var GetDoor = types.Function{
 	Response:    GetDoorResponse.Message,
 	Protocols:   []string{"broadcast", "udp", "tcp"},
 
-	Tests: []types.FuncTest{
+	Tests: []libx.FuncTest{
 		{
 			Name: "get-door",
 			Args: []libx.TestArg{
@@ -496,7 +497,7 @@ var SetDoor = types.Function{
 	Response:    SetDoorResponse.Message,
 	Protocols:   []string{"broadcast", "udp", "tcp"},
 
-	Tests: []types.FuncTest{
+	Tests: []libx.FuncTest{
 		{
 			Name: "set-door",
 			Args: []libx.TestArg{
@@ -578,7 +579,7 @@ var SetDoorPasscodes = types.Function{
 	Response:    SetDoorPasscodesResponse.Message,
 	Protocols:   []string{"broadcast", "udp", "tcp"},
 
-	Tests: []types.FuncTest{
+	Tests: []libx.FuncTest{
 		{
 			Name: "set-door-passcodes",
 			Args: []libx.TestArg{
@@ -664,7 +665,7 @@ var OpenDoor = types.Function{
 	Response:    OpenDoorResponse.Message,
 	Protocols:   []string{"broadcast", "udp", "tcp"},
 
-	Tests: []types.FuncTest{
+	Tests: []libx.FuncTest{
 		{
 			Name: "open-door",
 			Args: []libx.TestArg{
@@ -722,7 +723,7 @@ var GetStatus = types.Function{
 	Response:    GetStatusResponse.Message,
 	Protocols:   []string{"broadcast", "udp", "tcp"},
 
-	Tests: []types.FuncTest{
+	Tests: []libx.FuncTest{
 		{
 			Name: "get-status",
 			Args: []libx.TestArg{
@@ -787,7 +788,7 @@ var GetCards = types.Function{
 	Response:    GetCardsResponse.Message,
 	Protocols:   []string{"broadcast", "udp", "tcp"},
 
-	Tests: []types.FuncTest{
+	Tests: []libx.FuncTest{
 		{
 			Name: "get-cards",
 			Args: []libx.TestArg{
@@ -838,7 +839,7 @@ var GetCard = types.Function{
 	Response:    GetCardResponse.Message,
 	Protocols:   []string{"broadcast", "udp", "tcp"},
 
-	Tests: []types.FuncTest{
+	Tests: []libx.FuncTest{
 		{
 			Name: "get-card",
 			Args: []libx.TestArg{
@@ -1012,7 +1013,7 @@ var GetCardAtIndex = types.Function{
 	Request:     GetCardAtIndexRequest.Message,
 	Response:    GetCardAtIndexResponse.Message,
 
-	Tests: []types.FuncTest{
+	Tests: []libx.FuncTest{
 		{
 			Name: "get-card-at-index",
 			Args: []libx.TestArg{
@@ -1268,7 +1269,8 @@ var PutCard = types.Function{
 	Request:     PutCardRequest.Message,
 	Response:    PutCardResponse.Message,
 	Protocols:   []string{"broadcast", "udp", "tcp"},
-	Tests: []types.FuncTest{
+
+	Tests: []libx.FuncTest{
 		{
 			Name: "put-card",
 			Args: []libx.TestArg{
@@ -1373,8 +1375,9 @@ var DeleteCard = types.Function{
 	Description: "DeleteCard removes a card record stored on a controller.",
 	Request:     DeleteCardRequest.Message,
 	Response:    DeleteCardResponse.Message,
+	Protocols:   []string{"broadcast", "udp", "tcp"},
 
-	Tests: []types.FuncTest{
+	Tests: []libx.FuncTest{
 		{
 			Name: "delete-card",
 			Args: []libx.TestArg{
@@ -1430,8 +1433,9 @@ var DeleteAllCards = types.Function{
 	Description: "Deletes all card records stored on an access controller.",
 	Request:     DeleteAllCardsRequest.Message,
 	Response:    DeleteAllCardsResponse.Message,
+	Protocols:   []string{"broadcast", "udp", "tcp"},
 
-	Tests: []types.FuncTest{
+	Tests: []libx.FuncTest{
 		{
 			Name: "delete-all-cards",
 			Args: []libx.TestArg{
@@ -1480,7 +1484,9 @@ var GetEvent = types.Function{
 	Description: "Retrieves an event record stored on an access controller.",
 	Request:     GetEventRequest.Message,
 	Response:    GetEventResponse.Message,
-	Tests: []types.FuncTest{
+	Protocols:   []string{"broadcast", "udp", "tcp"},
+
+	Tests: []libx.FuncTest{
 		{
 			Name: "get-event",
 			Args: []libx.TestArg{
@@ -1729,3 +1735,5 @@ var GetEvent = types.Function{
 		},
 	},
 }
+
+var GetEventIndex = types.Function(lib.GetEventIndex)

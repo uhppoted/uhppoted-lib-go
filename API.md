@@ -19,6 +19,7 @@
 - [`DeleteCard`](#deletecard)
 - [`DeleteAllCards`](#deleteallcards)
 - [`GetEvent`](#getevent)
+- [`GetEventIndex`](#geteventindex)
 ---
 Invoking an API function requires an instance of the `Uhppoted` struct initialised with the information required
 to access a controller:
@@ -343,6 +344,17 @@ timeout     maximum time to wait for a response from a controller
 Returns a `GetEventResponse`.
 ```
 
+### `GetEventIndex`
+```
+GetEventIndex(u Uhppoted, controller TController, timeout time.Duration) (GetEventResponse,error)
+
+u           Uhppoted struct initialised with the bind address, broadcast address, etc
+controller  uint32|Controller controller serial number or {id, address, protocol} Controller struct
+timeout     maximum time to wait for a response from a controller
+
+Returns a `GetEventIndexResponse`.
+```
+
 
 ## Types
 
@@ -626,4 +638,14 @@ Reasons:
 43:     alarm (emergency call)
 44:     remote open door
 45:     remote open door (USB reader)
+```
+
+### `GetEventIndexResponse`
+
+Container class for the decoded response from a _GetEventIndex_ request.
+```
+type GetEventResponse struct {
+  Controller     uint32     `json:"controller"`     // controller serial number
+  Index          uint32     `json:"index"`          // event index
+}
 ```

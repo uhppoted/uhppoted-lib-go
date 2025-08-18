@@ -232,3 +232,12 @@ get-event-udp: build
 get-event-tcp: build
 	$(CMD) get-event --controller $(CONTROLLER) --dest $(DEST) --tcp --index 17
 
+get-event-index: build
+	$(CMD) get-event-index --controller $(CONTROLLER)
+
+get-event-index-udp: build
+	$(CMD) get-event-index --controller $(CONTROLLER) --dest $(DEST)
+
+get-event-index-tcp: build
+	$(CMD) get-event-index --controller $(CONTROLLER) --dest $(DEST) --tcp
+

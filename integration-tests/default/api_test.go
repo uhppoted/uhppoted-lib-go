@@ -304,3 +304,14 @@ func TestGetEventOverwritten(t *testing.T) {
 		t.Errorf("incorrect response\n   expected:%#v\n   got:     %#v", test.Expected.GetEventOverwritten, response)
 	}
 }
+
+func TestGetEventIndex(t *testing.T) {
+
+	response, err := lib.GetEventIndex(u, controller, timeout)
+
+	if err != nil {
+		t.Fatalf("%v", err)
+	} else if !reflect.DeepEqual(response, test.Expected.GetEventIndex) {
+		t.Errorf("incorrect response\n   expected:%#v\n   got:     %#v", test.Expected.GetEventIndex, response)
+	}
+}
