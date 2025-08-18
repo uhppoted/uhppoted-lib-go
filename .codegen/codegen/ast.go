@@ -15,7 +15,8 @@ type AST struct {
 	file *ast.File
 }
 
-func NewAST(pkg string, imports []string, functions []*ast.FuncDecl) AST {
+func NewAST(pkg string, imports []string, types []*ast.GenDecl, functions []*ast.FuncDecl) AST {
+	// ... imports
 	imported := []*ast.ImportSpec{}
 
 	for _, v := range imports {
@@ -48,10 +49,17 @@ func NewAST(pkg string, imports []string, functions []*ast.FuncDecl) AST {
 		}
 	}
 
+	// ... types
+	for _, t := range types {
+		decls = append(decls, t)
+	}
+
+	// ... functions
 	for _, f := range functions {
 		decls = append(decls, f)
 	}
 
+	// ... 'k, all done
 	return AST{
 		file: &ast.File{
 			Name:    ast.NewIdent(pkg),

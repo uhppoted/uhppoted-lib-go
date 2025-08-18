@@ -24,12 +24,14 @@ func API() {
 		"github.com/uhppoted/uhppoted-lib-go/uhppoted/codec/encode",
 	}
 
+	types := []*ast.GenDecl{}
 	functions := []*ast.FuncDecl{}
+
 	for _, f := range model.API[1:] {
 		functions = append(functions, function(f))
 	}
 
-	AST := codegen.NewAST("uhppoted", imports, functions)
+	AST := codegen.NewAST("uhppoted", imports, types, functions)
 
 	if err := AST.Generate(file); err != nil {
 		log.Fatalf("error generating %v (%v)", file, err)

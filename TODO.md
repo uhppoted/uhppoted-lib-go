@@ -40,18 +40,17 @@
 - [ ] code generation
    - [ ] use/extend uhppoted-codegen models
       - [ ] functions
-
-   - [ ] AST
-      - [x] decoder
-      - [ ] decoder_test
-      - [ ] API
+         - **NB:** use Function::Args
          - [ ] godoc
-         - [ ] response structs
+
    - [x] encode
    - [x] encode_test
    - [x] decode
    - [x] decode_test
    - [x] integration tests
+   - [x] decoder
+   - [ ] decoder_test
+   - [ ] response structs
    - [x] README
    - [ ] API.md
 
