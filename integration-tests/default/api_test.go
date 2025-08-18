@@ -56,9 +56,9 @@ func TestGetTime(t *testing.T) {
 }
 
 func TestSetTime(t *testing.T) {
-	datetime := string2datetime("2024-11-04 12:34:56")
+	dateTime := string2datetime("2025-11-04 12:34:56")
 
-	response, err := lib.SetTime(u, controller, datetime, timeout)
+	response, err := lib.SetTime(u, controller, dateTime, timeout)
 
 	if err != nil {
 		t.Fatalf("%v", err)

@@ -82,12 +82,12 @@ var Expected = struct {
 
 	GetTime: lib.GetTimeResponse{
 		Controller: 405419896,
-		DateTime:   string2datetime("2024-11-01 12:34:56"),
+		DateTime:   string2datetime("2025-11-01 12:34:56"),
 	},
 
 	SetTime: lib.SetTimeResponse{
 		Controller: 405419896,
-		DateTime:   string2datetime("2024-11-01 12:34:56"),
+		DateTime:   string2datetime("2025-11-01 12:34:56"),
 	},
 
 	GetListener: lib.GetListenerResponse{

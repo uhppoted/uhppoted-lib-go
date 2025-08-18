@@ -39,7 +39,6 @@
 
 - [ ] code generation
    - [ ] use/extend uhppoted-codegen models
-      - [x] response
       - [ ] functions
 
    - [ ] AST

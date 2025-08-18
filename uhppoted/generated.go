@@ -6,7 +6,7 @@ import (
 	"time"
 )
 
-// GetController retrieves the system information from an access controller.
+// Retrieves the system information for an access controller.
 func GetController[T TController](u Uhppoted, controller T, timeout time.Duration) (GetControllerResponse, error) {
 	f := func(id uint32) ([]byte, error) {
 		return encode.GetControllerRequest(id)
@@ -15,7 +15,7 @@ func GetController[T TController](u Uhppoted, controller T, timeout time.Duratio
 	return exec[T, GetControllerResponse](u, controller, f, timeout)
 }
 
-// SetIPv4 sets the controller IPv4 address, netmask and gateway address.
+// Sets the controller IPv4 address, netmask and gateway address.
 func SetIPv4[T TController](u Uhppoted, controller T, address netip.Addr, netmask netip.Addr, gateway netip.Addr, timeout time.Duration) (SetIPv4Response, error) {
 	f := func(id uint32) ([]byte, error) {
 		return encode.SetIPv4Request(id, address, netmask, gateway)
@@ -24,7 +24,7 @@ func SetIPv4[T TController](u Uhppoted, controller T, address netip.Addr, netmas
 	return exec[T, SetIPv4Response](u, controller, f, timeout)
 }
 
-// GetTime retrieves the access controller system date and time.
+// Retrieves the access controller system date and time.
 func GetTime[T TController](u Uhppoted, controller T, timeout time.Duration) (GetTimeResponse, error) {
 	f := func(id uint32) ([]byte, error) {
 		return encode.GetTimeRequest(id)
@@ -33,7 +33,7 @@ func GetTime[T TController](u Uhppoted, controller T, timeout time.Duration) (Ge
 	return exec[T, GetTimeResponse](u, controller, f, timeout)
 }
 
-// SetTime sets the access controller system date and time.
+// Sets the access controller system date and time.
 func SetTime[T TController](u Uhppoted, controller T, datetime time.Time, timeout time.Duration) (SetTimeResponse, error) {
 	f := func(id uint32) ([]byte, error) {
 		return encode.SetTimeRequest(id, datetime)
