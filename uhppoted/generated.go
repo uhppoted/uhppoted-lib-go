@@ -1,9 +1,9 @@
 package uhppoted
 
 import (
+	"github.com/uhppoted/uhppoted-lib-go/uhppoted/codec/encode"
 	"net/netip"
 	"time"
-	"github.com/uhppoted/uhppoted-lib-go/uhppoted/codec/encode"
 )
 
 // [Retrieves the system information for an access controller.]
@@ -11,16 +11,16 @@ func GetController[T TController](u Uhppoted, controller T, timeout time.Duratio
 	f := func(id uint32) ([]byte, error) {
 		return encode.GetControllerRequest(id)
 	}
-	
+
 	return exec[T, GetControllerResponse](u, controller, f, timeout)
 }
 
 // [Sets the controller IPv4 address, netmask and gateway address.]
 func SetIPv4[T TController](u Uhppoted, controller T, address netip.Addr, netmask netip.Addr, gateway netip.Addr, timeout time.Duration) (SetIPv4Response, error) {
 	f := func(id uint32) ([]byte, error) {
-		return encode.SetIPv4Request(id, address, netmask, gateway, )
+		return encode.SetIPv4Request(id, address, netmask, gateway)
 	}
-	
+
 	return exec[T, SetIPv4Response](u, controller, f, timeout)
 }
 
@@ -29,7 +29,7 @@ func GetTime[T TController](u Uhppoted, controller T, timeout time.Duration) (Ge
 	f := func(id uint32) ([]byte, error) {
 		return encode.GetTimeRequest(id)
 	}
-	
+
 	return exec[T, GetTimeResponse](u, controller, f, timeout)
 }
 
@@ -38,7 +38,7 @@ func SetTime[T TController](u Uhppoted, controller T, datetime time.Time, timeou
 	f := func(id uint32) ([]byte, error) {
 		return encode.SetTimeRequest(id, datetime)
 	}
-	
+
 	return exec[T, SetTimeResponse](u, controller, f, timeout)
 }
 
@@ -47,7 +47,7 @@ func GetListener[T TController](u Uhppoted, controller T, timeout time.Duration)
 	f := func(id uint32) ([]byte, error) {
 		return encode.GetListenerRequest(id)
 	}
-	
+
 	return exec[T, GetListenerResponse](u, controller, f, timeout)
 }
 
@@ -56,7 +56,7 @@ func SetListener[T TController](u Uhppoted, controller T, listener netip.AddrPor
 	f := func(id uint32) ([]byte, error) {
 		return encode.SetListenerAddressPortRequest(id, listener, interval)
 	}
-	
+
 	return exec[T, SetListenerResponse](u, controller, f, timeout)
 }
 
@@ -65,7 +65,7 @@ func GetDoor[T TController](u Uhppoted, controller T, door uint8, timeout time.D
 	f := func(id uint32) ([]byte, error) {
 		return encode.GetDoorRequest(id, door)
 	}
-	
+
 	return exec[T, GetDoorResponse](u, controller, f, timeout)
 }
 
@@ -74,7 +74,7 @@ func SetDoor[T TController](u Uhppoted, controller T, door uint8, mode uint8, de
 	f := func(id uint32) ([]byte, error) {
 		return encode.SetDoorRequest(id, door, mode, delay)
 	}
-	
+
 	return exec[T, SetDoorResponse](u, controller, f, timeout)
 }
 
@@ -83,7 +83,7 @@ func SetDoorPasscodes[T TController](u Uhppoted, controller T, door uint8, passc
 	f := func(id uint32) ([]byte, error) {
 		return encode.SetDoorPasscodesRequest(id, door, passcode1, passcode2, passcode3, passcode4)
 	}
-	
+
 	return exec[T, SetDoorPasscodesResponse](u, controller, f, timeout)
 }
 
@@ -92,7 +92,7 @@ func OpenDoor[T TController](u Uhppoted, controller T, door uint8, timeout time.
 	f := func(id uint32) ([]byte, error) {
 		return encode.OpenDoorRequest(id, door)
 	}
-	
+
 	return exec[T, OpenDoorResponse](u, controller, f, timeout)
 }
 
@@ -101,7 +101,7 @@ func GetStatus[T TController](u Uhppoted, controller T, timeout time.Duration) (
 	f := func(id uint32) ([]byte, error) {
 		return encode.GetStatusRequest(id)
 	}
-	
+
 	return exec[T, GetStatusResponse](u, controller, f, timeout)
 }
 
@@ -110,7 +110,7 @@ func GetCards[T TController](u Uhppoted, controller T, timeout time.Duration) (G
 	f := func(id uint32) ([]byte, error) {
 		return encode.GetCardsRequest(id)
 	}
-	
+
 	return exec[T, GetCardsResponse](u, controller, f, timeout)
 }
 
@@ -119,7 +119,7 @@ func GetCard[T TController](u Uhppoted, controller T, cardnumber uint32, timeout
 	f := func(id uint32) ([]byte, error) {
 		return encode.GetCardRequest(id, cardnumber)
 	}
-	
+
 	return exec[T, GetCardResponse](u, controller, f, timeout)
 }
 
@@ -128,7 +128,7 @@ func GetCardAtIndex[T TController](u Uhppoted, controller T, index uint32, timeo
 	f := func(id uint32) ([]byte, error) {
 		return encode.GetCardAtIndexRequest(id, index)
 	}
-	
+
 	return exec[T, GetCardAtIndexResponse](u, controller, f, timeout)
 }
 
@@ -137,7 +137,7 @@ func PutCard[T TController](u Uhppoted, controller T, card uint32, startdate tim
 	f := func(id uint32) ([]byte, error) {
 		return encode.PutCardRequest(id, card, startdate, enddate, door1, door2, door3, door4, PIN)
 	}
-	
+
 	return exec[T, PutCardResponse](u, controller, f, timeout)
 }
 
@@ -146,16 +146,16 @@ func DeleteCard[T TController](u Uhppoted, controller T, cardnumber uint32, time
 	f := func(id uint32) ([]byte, error) {
 		return encode.DeleteCardRequest(id, cardnumber)
 	}
-	
+
 	return exec[T, DeleteCardResponse](u, controller, f, timeout)
 }
 
 // [Deletes all card records stored on an access controller.]
 func DeleteAllCards[T TController](u Uhppoted, controller T, timeout time.Duration) (DeleteAllCardsResponse, error) {
 	f := func(id uint32) ([]byte, error) {
-		return encode.DeleteCardsRequest(id, )
+		return encode.DeleteCardsRequest(id)
 	}
-	
+
 	return exec[T, DeleteAllCardsResponse](u, controller, f, timeout)
 }
 
@@ -164,7 +164,7 @@ func GetEvent[T TController](u Uhppoted, controller T, eventindex uint32, timeou
 	f := func(id uint32) ([]byte, error) {
 		return encode.GetEventRequest(id, eventindex)
 	}
-	
+
 	return exec[T, GetEventResponse](u, controller, f, timeout)
 }
 
@@ -173,15 +173,15 @@ func GetEventIndex[T TController](u Uhppoted, controller T, timeout time.Duratio
 	f := func(id uint32) ([]byte, error) {
 		return encode.GetEventIndexRequest(id)
 	}
-	
+
 	return exec[T, GetEventIndexResponse](u, controller, f, timeout)
 }
 
 // [Sets the downloaded event index on an access controller.]
 func SetEventIndex[T TController](u Uhppoted, controller T, eventindex uint32, timeout time.Duration) (SetEventIndexResponse, error) {
 	f := func(id uint32) ([]byte, error) {
-		return encode.SetEventIndexRequest(id, eventindex, )
+		return encode.SetEventIndexRequest(id, eventindex)
 	}
-	
+
 	return exec[T, SetEventIndexResponse](u, controller, f, timeout)
 }
