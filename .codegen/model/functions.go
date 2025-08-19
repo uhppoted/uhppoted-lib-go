@@ -33,7 +33,7 @@ var API = []types.Function{
 
 var FindControllers = types.Function{
 	Name:        "find-controllers",
-	Description: "FindControllers retrieves a list of all UHPPOTE controllers accessible on the local LAN.",
+	Description: []string{"FindControllers retrieves a list of all UHPPOTE controllers accessible on the local LAN."},
 	Protocols:   []string{"broadcast"},
 	Tests: []libx.FuncTest{
 		{
@@ -93,7 +93,7 @@ var SetDoorPasscodes = types.Function(lib.SetDoorPasscodes)
 
 var GetListener = types.Function{
 	Name:        "get-listener",
-	Description: "GetListener retrieves the access controller event listener IPv4 address:port and auto-send interval.",
+	Description: []string{"GetListener retrieves the access controller event listener IPv4 address:port and auto-send interval."},
 	Request:     GetListenerRequest.Message,
 	Response:    GetListenerResponse.Message,
 	Protocols:   []string{"broadcast", "udp", "tcp"},
@@ -151,7 +151,7 @@ var GetListener = types.Function{
 // - interval: status auto-send interval (seconds) for events (0 disables auto-send).
 var SetListener = types.Function{
 	Name:        "set-listener",
-	Description: "SetListener sets the access controller event listener IPv4 address:port and auto-send interval.",
+	Description: []string{"SetListener sets the access controller event listener IPv4 address:port and auto-send interval."},
 	Request:     SetListenerRequest.Message,
 	Response:    SetListenerResponse.Message,
 	Protocols:   []string{"broadcast", "udp", "tcp"},
@@ -216,7 +216,7 @@ var SetListener = types.Function{
 
 var GetDoor = types.Function{
 	Name:        "get-door",
-	Description: "GetDoor retrieves the control mode and unlock delay time for an access controller door.",
+	Description: []string{"GetDoor retrieves the control mode and unlock delay time for an access controller door."},
 	Request:     GetDoorRequest.Message,
 	Response:    GetDoorResponse.Message,
 	Protocols:   []string{"broadcast", "udp", "tcp"},
@@ -291,7 +291,7 @@ var GetDoor = types.Function{
 // `,
 var SetDoor = types.Function{
 	Name:        "set-door",
-	Description: "SetDoor sets the control mode and unlock delay time for an access controller door.",
+	Description: []string{"SetDoor sets the control mode and unlock delay time for an access controller door."},
 	Request:     SetDoorRequest.Message,
 	Response:    SetDoorResponse.Message,
 	Protocols:   []string{"broadcast", "udp", "tcp"},
@@ -373,7 +373,7 @@ var SetDoor = types.Function{
 
 // var SetDoorPasscodes = types.Function{
 // 	Name:        "set-door-passcodes",
-// 	Description: "Sets up to 4 passcodes for a controller door.",
+// 	Description: []string{"Sets up to 4 passcodes for a controller door."},
 // 	Request:     SetDoorPasscodesRequest.Message,
 // 	Response:    SetDoorPasscodesResponse.Message,
 // 	Protocols:   []string{"broadcast", "udp", "tcp"},
@@ -459,7 +459,7 @@ var SetDoor = types.Function{
 
 // var OpenDoor = types.Function{
 // 	Name:        "open-door",
-// 	Description: "Unlocks a door controlled by an access controller.",
+// 	Description: []string{"Unlocks a door controlled by an access controller."},
 // 	Request:     OpenDoorRequest.Message,
 // 	Response:    OpenDoorResponse.Message,
 // 	Protocols:   []string{"broadcast", "udp", "tcp"},
@@ -517,7 +517,7 @@ var SetDoor = types.Function{
 
 var GetStatus = types.Function{
 	Name:        "get-status",
-	Description: "GetStatus retrieves the system status from an access controller.",
+	Description: []string{"GetStatus retrieves the system status from an access controller."},
 	Request:     GetStatusRequest.Message,
 	Response:    GetStatusResponse.Message,
 	Protocols:   []string{"broadcast", "udp", "tcp"},
@@ -582,7 +582,7 @@ var GetStatus = types.Function{
 
 var GetCards = types.Function{
 	Name:        "get-cards",
-	Description: "Retrieves the number of cards stored on an access controller.",
+	Description: []string{"Retrieves the number of cards stored on an access controller."},
 	Request:     GetCardsRequest.Message,
 	Response:    GetCardsResponse.Message,
 	Protocols:   []string{"broadcast", "udp", "tcp"},
@@ -633,7 +633,7 @@ var GetCards = types.Function{
 
 var GetCard = types.Function{
 	Name:        "get-card",
-	Description: "Retrieves the card information for a card number from an access controller.",
+	Description: []string{"Retrieves the card information for a card number from an access controller."},
 	Request:     GetCardRequest.Message,
 	Response:    GetCardResponse.Message,
 	Protocols:   []string{"broadcast", "udp", "tcp"},
@@ -808,7 +808,7 @@ var GetCard = types.Function{
 
 var GetCardAtIndex = types.Function{
 	Name:        "get card at index",
-	Description: "Retrieves card record stored at the index.",
+	Description: []string{"Retrieves card record stored at the index."},
 	Request:     GetCardAtIndexRequest.Message,
 	Response:    GetCardAtIndexResponse.Message,
 
@@ -1064,7 +1064,7 @@ var GetCardAtIndex = types.Function{
 
 var PutCard = types.Function{
 	Name:        "put card",
-	Description: "Adds or updates an access controller card record.",
+	Description: []string{"Adds or updates an access controller card record."},
 	Request:     PutCardRequest.Message,
 	Response:    PutCardResponse.Message,
 	Protocols:   []string{"broadcast", "udp", "tcp"},
@@ -1171,7 +1171,7 @@ var PutCard = types.Function{
 
 var DeleteCard = types.Function{
 	Name:        "delete card",
-	Description: "DeleteCard removes a card record stored on a controller.",
+	Description: []string{"DeleteCard removes a card record stored on a controller."},
 	Request:     DeleteCardRequest.Message,
 	Response:    DeleteCardResponse.Message,
 	Protocols:   []string{"broadcast", "udp", "tcp"},
@@ -1229,7 +1229,7 @@ var DeleteCard = types.Function{
 
 var DeleteAllCards = types.Function{
 	Name:        "delete all cards",
-	Description: "Deletes all card records stored on an access controller.",
+	Description: []string{"Deletes all card records stored on an access controller."},
 	Request:     DeleteAllCardsRequest.Message,
 	Response:    DeleteAllCardsResponse.Message,
 	Protocols:   []string{"broadcast", "udp", "tcp"},
@@ -1280,7 +1280,7 @@ var DeleteAllCards = types.Function{
 
 var GetEvent = types.Function{
 	Name:        "get event",
-	Description: "Retrieves an event record stored on an access controller.",
+	Description: []string{"Retrieves an event record stored on an access controller."},
 	Request:     GetEventRequest.Message,
 	Response:    GetEventResponse.Message,
 	Protocols:   []string{"broadcast", "udp", "tcp"},

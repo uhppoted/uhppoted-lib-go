@@ -15,23 +15,21 @@ import (
 )
 
 func Structs() {
-	file := filepath.Join("types", "_structs.go")
+	file := filepath.Join("types", "generated.go")
 
 	imports := []string{
 		"net/netip",
 		"time",
-
-		"github.com/uhppoted/uhppoted-lib-go/uhppoted/codec/encode",
 	}
 
 	types := []*ast.GenDecl{}
 	functions := []*ast.FuncDecl{}
 
-	for _, f := range model.Responses[:1] {
+	for _, f := range model.Responses[:2] {
 		types = append(types, typedef(f))
 	}
 
-	AST := codegen.NewAST("uhppoted", imports, types, functions)
+	AST := codegen.NewAST("types", imports, types, functions)
 
 	if err := AST.Generate(file); err != nil {
 		log.Fatalf("error generating %v (%v)", file, err)
@@ -42,15 +40,17 @@ func Structs() {
 
 func typedef(r types.Response) *ast.GenDecl {
 	name := codegen.TitleCase(r.Name)
+	description := godoc(r)
 	fields := []*ast.Field{}
 
 	for _, f := range r.Fields {
 		ident := ast.NewIdent(codegen.TitleCase(f.Name))
-		tag := fmt.Sprintf(`json:"%v"`, f.Tag)
+		ftype := gotype(f)
+		tag := fmt.Sprintf("`json:%v`", gotag(f))
 
 		field := ast.Field{
 			Names: []*ast.Ident{ident},
-			Type:  ast.NewIdent("uint32"),
+			Type:  ast.NewIdent(ftype),
 			Tag:   &ast.BasicLit{Kind: token.STRING, Value: tag},
 		}
 
@@ -59,6 +59,9 @@ func typedef(r types.Response) *ast.GenDecl {
 
 	decl := ast.GenDecl{
 		Tok: token.TYPE,
+		Doc: &ast.CommentGroup{
+			List: description,
+		},
 		Specs: []ast.Spec{
 			&ast.TypeSpec{
 				Name: ast.NewIdent(name),
@@ -74,64 +77,52 @@ func typedef(r types.Response) *ast.GenDecl {
 	return &decl
 }
 
-// &ast.GenDecl{
-//     Tok: token.TYPE,
-//     Specs: []ast.Spec{
-//         &ast.TypeSpec{
-//             Name: ast.NewIdent("GetControllerResponse"),
-//             Type: &ast.StructType{
-//                 Fields: &ast.FieldList{
-//                     List: []*ast.Field{
-//                         {
-//                             Names: []*ast.Ident{ast.NewIdent("Controller")},
-//                             Type:  ast.NewIdent("uint32"),
-//                             Tag:   &ast.BasicLit{Kind: token.STRING, Value: "`json:\"controller\"`"},
-//                         },
-//                         {
-//                             Names: []*ast.Ident{ast.NewIdent("IpAddress")},
-//                             Type: &ast.SelectorExpr{
-//                                 X:   ast.NewIdent("netip"),
-//                                 Sel: ast.NewIdent("Addr"),
-//                             },
-//                             Tag: &ast.BasicLit{Kind: token.STRING, Value: "`json:\"ip-address\"`"},
-//                         },
-//                         {
-//                             Names: []*ast.Ident{ast.NewIdent("SubnetMask")},
-//                             Type: &ast.SelectorExpr{
-//                                 X:   ast.NewIdent("netip"),
-//                                 Sel: ast.NewIdent("Addr"),
-//                             },
-//                             Tag: &ast.BasicLit{Kind: token.STRING, Value: "`json:\"subnet-mask\"`"},
-//                         },
-//                         {
-//                             Names: []*ast.Ident{ast.NewIdent("Gateway")},
-//                             Type: &ast.SelectorExpr{
-//                                 X:   ast.NewIdent("netip"),
-//                                 Sel: ast.NewIdent("Addr"),
-//                             },
-//                             Tag: &ast.BasicLit{Kind: token.STRING, Value: "`json:\"gateway\"`"},
-//                         },
-//                         {
-//                             Names: []*ast.Ident{ast.NewIdent("MACAddress")},
-//                             Type:  ast.NewIdent("string"),
-//                             Tag:   &ast.BasicLit{Kind: token.STRING, Value: "`json:\"MAC-address\"`"},
-//                         },
-//                         {
-//                             Names: []*ast.Ident{ast.NewIdent("Version")},
-//                             Type:  ast.NewIdent("string"),
-//                             Tag:   &ast.BasicLit{Kind: token.STRING, Value: "`json:\"version\"`"},
-//                         },
-//                         {
-//                             Names: []*ast.Ident{ast.NewIdent("Date")},
-//                             Type: &ast.SelectorExpr{
-//                                 X:   ast.NewIdent("time"),
-//                                 Sel: ast.NewIdent("Time"),
-//                             },
-//                             Tag: &ast.BasicLit{Kind: token.STRING, Value: "`json:\"date\"`"},
-//                         },
-//                     },
-//                 },
-//             },
-//         },
-//     },
-// }
+func godoc(r types.Response) []*ast.Comment {
+	doc := []*ast.Comment{
+		{Text: fmt.Sprintf("// -- line intentionally left blank --")},
+	}
+
+	for _, line := range r.Description {
+		text := fmt.Sprintf("// %v", line)
+		comment := ast.Comment{
+			Text: text,
+		}
+
+		doc = append(doc, &comment)
+	}
+
+	return doc
+}
+
+func gotype(field types.Field) string {
+	switch field.Type {
+	case "bool":
+		return "bool"
+
+	case "uint32":
+		return "uint32"
+
+	case "date":
+		return "time.Time"
+
+	case "IPv4":
+		return "netip.Addr"
+
+	case "MAC":
+		return "string"
+
+	case "version":
+		return "string"
+
+	default:
+		return "unknown"
+	}
+}
+
+func gotag(field types.Field) string {
+	if field.Tag != "" {
+		return fmt.Sprintf(`"%v"`, field.Tag)
+	}
+
+	return `"-"`
+}

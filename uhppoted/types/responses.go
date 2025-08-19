@@ -1,5 +1,3 @@
-// Package codec defines the data structures and helper types for encoding and
-// decoding messages exchanged with UHPPOTE controllers.
 package types
 
 import (
@@ -7,24 +5,24 @@ import (
 	"time"
 )
 
-// GetControllerResponse is a container struct for the response returned from a controller
-// when retrieving the network configuration, firmware version and firmware release date.
-type GetControllerResponse struct {
-	Controller uint32     `json:"controller"`
-	IpAddress  netip.Addr `json:"ip-address"`
-	SubnetMask netip.Addr `json:"subnet-mask"`
-	Gateway    netip.Addr `json:"gateway"`
-	MACAddress string     `json:"MAC-address"`
-	Version    string     `json:"version"`
-	Date       time.Time  `json:"date"`
-}
+// // GetControllerResponse is a container struct for the response returned from a controller
+// // when retrieving the network configuration, firmware version and firmware release date.
+// type GetControllerResponse struct {
+// 	Controller uint32     `json:"controller"`
+// 	IpAddress  netip.Addr `json:"ip-address"`
+// 	SubnetMask netip.Addr `json:"subnet-mask"`
+// 	Gateway    netip.Addr `json:"gateway"`
+// 	MACAddress string     `json:"MAC-address"`
+// 	Version    string     `json:"version"`
+// 	Date       time.Time  `json:"date"`
+// }
 
-// SetIPv4Response is a synthesized response - the controller does not return a respons
-// to a 'set-IPv4' request.
-type SetIPv4Response struct {
-	Controller uint32 `json:"controller"`
-	Ok         bool   `json:"ok"`
-}
+// // SetIPv4Response is a synthesized response - the controller does not return a respons
+// // to a 'set-IPv4' request.
+// type SetIPv4Response struct {
+// 	Controller uint32 `json:"controller"`
+// 	Ok         bool   `json:"ok"`
+// }
 
 // GetTimeResponse is a container struct for the response returned by a controller
 // when retrieving the system date/time.
