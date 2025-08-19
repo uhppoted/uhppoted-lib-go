@@ -415,3 +415,25 @@ func GetEventIndexRequest(controller uint32) ([]byte, error) {
 
 	return packet, nil
 }
+
+// Encodes a set-event-index-request.
+//
+//	Parameters:
+//	    controller  (uint32)  controller serial number
+//	    event index  (uint32)
+//	      (magic)
+//
+//	Returns:
+//	    64 byte packet.
+func SetEventIndexRequest(controller uint32, eventindex uint32) ([]byte, error) {
+	packet := make([]byte, 64)
+
+	packet[0] = SOM
+	packet[1] = 178
+
+	packUint32(controller, packet, 4)
+	packUint32(eventindex, packet, 8)
+	packUint32(0x55aaaa55, packet, 12)
+
+	return packet, nil
+}

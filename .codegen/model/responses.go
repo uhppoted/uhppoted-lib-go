@@ -26,6 +26,7 @@ var Responses = []types.Response{
 	DeleteAllCardsResponse,
 	GetEventResponse,
 	GetEventIndexResponse,
+	SetEventIndexResponse,
 }
 
 var GetControllerResponse = lib.GetControllerResponse
@@ -47,3 +48,4 @@ var DeleteCardResponse = lib.DeleteCardResponse
 var DeleteAllCardsResponse = lib.DeleteAllCardsResponse
 var GetEventResponse = lib.GetEventResponse
 var GetEventIndexResponse = lib.GetEventIndexResponse
+var SetEventIndexResponse = lib.SetEventIndexResponse

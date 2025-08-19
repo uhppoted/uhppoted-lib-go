@@ -85,6 +85,9 @@ func decode(packet []byte) (any, error) {
 	case 0xb4:
 		return decoder.GetEventIndexResponse(packet)
 
+	case 0xb2:
+		return decoder.SetEventIndexResponse(packet)
+
 	default:
 		return nil, fmt.Errorf("unknown message type (%02x)", packet[1])
 	}

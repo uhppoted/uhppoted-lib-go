@@ -1,7 +1,5 @@
 # TODO
 
-- [x] README
-- [x] github workflow
 - [x] get-all-controllers
 - [x] get-controller
 - [x] set-IPv4
@@ -22,6 +20,7 @@
 - [x] delete-card
 - [x] delete-all-cards
 - [x] get-event
+- [x] get-event-index
 - [x] get-event-index
    - [x] API
    - [x] CLI

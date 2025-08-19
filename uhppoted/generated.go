@@ -168,10 +168,20 @@ func GetEvent[T TController](u Uhppoted, controller T, eventindex uint32, timeou
 	return exec[T, GetEventResponse](u, controller, f, timeout)
 }
 
+// Retrieves the downloaded event index from an access controller.
 func GetEventIndex[T TController](u Uhppoted, controller T, timeout time.Duration) (GetEventIndexResponse, error) {
 	f := func(id uint32) ([]byte, error) {
 		return encode.GetEventIndexRequest(id)
 	}
 
 	return exec[T, GetEventIndexResponse](u, controller, f, timeout)
+}
+
+// Sets the downloaded event index on an access controller.
+func SetEventIndex[T TController](u Uhppoted, controller T, eventindex uint32, timeout time.Duration) (SetEventIndexResponse, error) {
+	f := func(id uint32) ([]byte, error) {
+		return encode.SetEventIndexRequest(id, eventindex)
+	}
+
+	return exec[T, SetEventIndexResponse](u, controller, f, timeout)
 }

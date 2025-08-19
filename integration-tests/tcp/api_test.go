@@ -108,7 +108,7 @@ func TestSetDoor(t *testing.T) {
 }
 
 func TestSetDoorPasscodes(t *testing.T) {
-	door := uint8(3)
+	door := uint8(4)
 	passcode1 := uint32(12345)
 	passcode2 := uint32(54321)
 	passcode3 := uint32(999999)
@@ -124,7 +124,7 @@ func TestSetDoorPasscodes(t *testing.T) {
 }
 
 func TestOpenDoor(t *testing.T) {
-	door := uint8(3)
+	door := uint8(4)
 
 	response, err := lib.OpenDoor(u, controller, door, timeout)
 
@@ -267,5 +267,17 @@ func TestGetEventIndex(t *testing.T) {
 		t.Fatalf("%v", err)
 	} else if !reflect.DeepEqual(response, test.Expected.GetEventIndex) {
 		t.Errorf("incorrect response\n   expected:%#v\n   got:     %#v", test.Expected.GetEventIndex, response)
+	}
+}
+
+func TestSetEventIndex(t *testing.T) {
+	index := uint32(13579)
+
+	response, err := lib.SetEventIndex(u, controller, index, timeout)
+
+	if err != nil {
+		t.Fatalf("%v", err)
+	} else if !reflect.DeepEqual(response, test.Expected.SetEventIndex) {
+		t.Errorf("incorrect response\n   expected:%#v\n   got:     %#v", test.Expected.SetEventIndex, response)
 	}
 }

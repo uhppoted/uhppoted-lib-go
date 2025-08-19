@@ -50,3 +50,4 @@ folder.
 - [`DeleteAllCards`](API.md#deleteallcards)
 - [`GetEvent`](API.md#getevent)
 - [`GetEventIndex`](API.md#geteventindex)
+- [`SetEventIndex`](API.md#seteventindex)

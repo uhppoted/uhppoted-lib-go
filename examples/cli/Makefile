@@ -241,3 +241,12 @@ get-event-index-udp: build
 get-event-index-tcp: build
 	$(CMD) get-event-index --controller $(CONTROLLER) --dest $(DEST) --tcp
 
+set-event-index: build
+	$(CMD) set-event-index --controller $(CONTROLLER) --index 29
+
+set-event-index-udp: build
+	$(CMD) set-event-index --controller $(CONTROLLER) --dest $(DEST) --index 29
+
+set-event-index-tcp: build
+	$(CMD) set-event-index --controller $(CONTROLLER) --dest $(DEST) --tcp --index 29
+

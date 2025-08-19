@@ -34,6 +34,7 @@ var Expected = struct {
 	GetEventNotFound       lib.GetEventResponse
 	GetEventOverwritten    lib.GetEventResponse
 	GetEventIndex          lib.GetEventIndexResponse
+	SetEventIndex          lib.SetEventIndexResponse
 }{
 	FindControllers: []lib.GetControllerResponse{
 		lib.GetControllerResponse{
@@ -271,6 +272,11 @@ var Expected = struct {
 	GetEventIndex: lib.GetEventIndexResponse{
 		Controller: 405419896,
 		Index:      13579,
+	},
+
+	SetEventIndex: lib.SetEventIndexResponse{
+		Controller: 405419896,
+		Ok:         true,
 	},
 }
 

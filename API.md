@@ -20,6 +20,7 @@
 - [`DeleteAllCards`](#deleteallcards)
 - [`GetEvent`](#getevent)
 - [`GetEventIndex`](#geteventindex)
+- [`SetEventIndex`](#seteventindex)
 ---
 Invoking an API function requires an instance of the `Uhppoted` struct initialised with the information required
 to access a controller:
@@ -355,6 +356,18 @@ timeout     maximum time to wait for a response from a controller
 Returns a `GetEventIndexResponse`.
 ```
 
+### `SetEventIndex`
+```
+SetEventIndex(u Uhppoted, controller TController, index uint32, timeout time.Duration) (GetEventResponse,error)
+
+u           Uhppoted struct initialised with the bind address, broadcast address, etc
+controller  uint32|Controller controller serial number or {id, address, protocol} Controller struct
+index       Downloaded event index
+timeout     maximum time to wait for a response from a controller
+
+Returns a `SetEventIndexResponse`.
+```
+
 
 ## Types
 
@@ -645,7 +658,18 @@ Reasons:
 Container class for the decoded response from a _GetEventIndex_ request.
 ```
 type GetEventResponse struct {
-  Controller     uint32     `json:"controller"`     // controller serial number
-  Index          uint32     `json:"index"`          // event index
+  Controller  uint32  `json:"controller"` // controller serial number
+  Index       uint32  `json:"index"`      // event index
+}
+```
+
+
+### `GetEventIndexResponse`
+
+Container class for the decoded response from a _SetEventIndex_ request.
+```
+type SetEventResponse struct {
+  Controller  uint32  `json:"controller"` // controller serial number
+  Ok          bool    `json:"ok"`         // succeeded/failed
 }
 ```
