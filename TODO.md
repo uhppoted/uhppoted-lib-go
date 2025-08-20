@@ -28,6 +28,7 @@
    - [x] integration test
    - [x] README
 
+- [ ] get/set-listener + get/set-listener-addrport
 - [ ] custom date/time types
 - [ ] check for controller = 0
 - [ ] check response.controller == request.controller

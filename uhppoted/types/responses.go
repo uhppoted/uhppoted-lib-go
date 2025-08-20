@@ -1,7 +1,6 @@
 package types
 
 import (
-	"net/netip"
 	"time"
 )
 
@@ -38,20 +37,20 @@ type SetTimeResponse struct {
 	DateTime   time.Time `json:"datetime"`
 }
 
-// GetListenerResponse is a container struct for the response returned by a controller
-// when retrieving the configured event listener IPv4 address and port.
-type GetListenerResponse struct {
-	Controller uint32         `json:"controller"`
-	Listener   netip.AddrPort `json:"listener"`
-	Interval   uint8          `json:"interval"`
-}
+// // GetListenerResponse is a container struct for the response returned by a controller
+// // when retrieving the configured event listener IPv4 address and port.
+// type GetListenerResponse struct {
+// 	Controller uint32         `json:"controller"`
+// 	Listener   netip.AddrPort `json:"listener"`
+// 	Interval   uint8          `json:"interval"`
+// }
 
-// SetListenerResponse is a container struct for the response returned by a controller
-// when retrieving the configured event listener IPv4 address and port.
-type SetListenerResponse struct {
-	Controller uint32 `json:"controller"`
-	Ok         bool   `json:"ok"`
-}
+// // SetListenerResponse is a container struct for the response returned by a controller
+// // when retrieving the configured event listener IPv4 address and port.
+// type SetListenerResponse struct {
+// 	Controller uint32 `json:"controller"`
+// 	Ok         bool   `json:"ok"`
+// }
 
 // GetDoorResponse is a container struct for the response returned by a controller
 // when retrieving the control mode and unlock delay for a controller door.

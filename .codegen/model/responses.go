@@ -6,37 +6,39 @@ import (
 	"github.com/uhppoted/uhppoted-codegen/model/types"
 )
 
-var Responses = []types.Response{
-	GetControllerResponse,
-	SetIPv4Response,
-	GetStatusResponse,
-	GetTimeResponse,
-	SetTimeResponse,
-	GetListenerResponse,
-	// SetListenerResponse,
-	SetListenerAddrPortResponse,
-	GetDoorResponse,
-	SetDoorResponse,
-	SetDoorPasscodesResponse,
-	OpenDoorResponse,
-	GetCardsResponse,
-	GetCardResponse,
-	GetCardAtIndexResponse,
-	PutCardResponse,
-	DeleteCardResponse,
-	DeleteAllCardsResponse,
-	GetEventResponse,
-	GetEventIndexResponse,
-	SetEventIndexResponse,
-	RecordSpecialEventsResponse,
+var Responses = []*types.Response{
+	&GetControllerResponse,
+	&SetIPv4Response,
+	&GetStatusResponse,
+	&GetTimeResponse,
+	&SetTimeResponse,
+	&GetListenerResponse,
+	&SetListenerResponse,
+	&GetListenerAddrPortResponse,
+	&SetListenerAddrPortResponse,
+	&GetDoorResponse,
+	&SetDoorResponse,
+	&SetDoorPasscodesResponse,
+	&OpenDoorResponse,
+	&GetCardsResponse,
+	&GetCardResponse,
+	&GetCardAtIndexResponse,
+	&PutCardResponse,
+	&DeleteCardResponse,
+	&DeleteAllCardsResponse,
+	&GetEventResponse,
+	&GetEventIndexResponse,
+	&SetEventIndexResponse,
+	&RecordSpecialEventsResponse,
 }
 
 var GetControllerResponse = lib.GetControllerResponse
 var SetIPv4Response = lib.SetIPv4Response
 var GetTimeResponse = lib.GetTimeResponse
 var SetTimeResponse = lib.SetTimeResponse
-var GetListenerResponse = lib.GetListenerAddrPortResponse
+var GetListenerResponse = lib.GetListenerResponse
 var SetListenerResponse = lib.SetListenerResponse
+var GetListenerAddrPortResponse = lib.GetListenerAddrPortResponse
 var SetListenerAddrPortResponse = lib.SetListenerAddrPortResponse
 var GetDoorResponse = lib.GetDoorResponse
 var SetDoorResponse = lib.SetDoorResponse

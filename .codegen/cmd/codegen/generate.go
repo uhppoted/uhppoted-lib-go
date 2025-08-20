@@ -5,6 +5,7 @@ import (
 	"os"
 
 	"codegen/api"
+	"codegen/codec"
 	"codegen/codegen"
 	"codegen/readme"
 )
@@ -17,7 +18,7 @@ func main() {
 
 		switch args[0] {
 		case "codec":
-			codec()
+			codec.Codec()
 
 		case "integration-tests":
 			integrationTests()

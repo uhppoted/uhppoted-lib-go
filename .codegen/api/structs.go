@@ -25,6 +25,9 @@ func Structs() {
 	structs := []types.Response{
 		model.GetControllerResponse,
 		model.SetIPv4Response,
+		model.GetListenerResponse,
+		model.SetListenerResponse,
+		model.GetListenerAddrPortResponse,
 		model.SetListenerAddrPortResponse,
 		model.SetEventIndexResponse,
 		model.RecordSpecialEventsResponse,
@@ -107,6 +110,12 @@ func gotype(field types.Field) string {
 	case "bool":
 		return "bool"
 
+	case "uint8":
+		return "uint8"
+
+	case "uint16":
+		return "uint16"
+
 	case "uint32":
 		return "uint32"
 
@@ -115,6 +124,9 @@ func gotype(field types.Field) string {
 
 	case "IPv4":
 		return "netip.Addr"
+
+	case "address:port":
+		return "netip.AddrPort"
 
 	case "MAC":
 		return "string"

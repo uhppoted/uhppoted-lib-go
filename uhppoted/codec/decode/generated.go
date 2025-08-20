@@ -201,6 +201,64 @@ func GetListenerResponse(packet []byte) (types.GetListenerResponse, error) {
 
 	return types.GetListenerResponse{
 		Controller: unpackUint32(packet, 4),
+		Address:    unpackIPv4(packet, 8),
+		Port:       unpackUint16(packet, 12),
+		Interval:   unpackUint8(packet, 14),
+	}, nil
+}
+
+// Decodes a set-listener-response response.
+//
+//	Parameters:
+//	    packet  (bytearray)  64 byte UDP packet.
+//
+//	Returns:
+//	    - SetListenerResponse initialised from the UDP packet.
+//	    - error if the packet is not 64 bytes, has an invalid start-of-message byte or has
+//	               the incorrect message type.
+func SetListenerResponse(packet []byte) (types.SetListenerResponse, error) {
+	if len(packet) != 64 {
+		return types.SetListenerResponse{}, fmt.Errorf("invalid reply packet length (%v)", len(packet))
+	}
+
+	if packet[0] != SOM {
+		return types.SetListenerResponse{}, fmt.Errorf("invalid reply start of message byte (%02x)", packet[0])
+	}
+
+	if packet[1] != 144 {
+		return types.SetListenerResponse{}, fmt.Errorf("invalid reply function code (%02x)", packet[1])
+	}
+
+	return types.SetListenerResponse{
+		Controller: unpackUint32(packet, 4),
+		Ok:         unpackBool(packet, 8),
+	}, nil
+}
+
+// Decodes a get-listener-addr:port-response response.
+//
+//	Parameters:
+//	    packet  (bytearray)  64 byte UDP packet.
+//
+//	Returns:
+//	    - GetListenerAddrPortResponse initialised from the UDP packet.
+//	    - error if the packet is not 64 bytes, has an invalid start-of-message byte or has
+//	               the incorrect message type.
+func GetListenerAddrPortResponse(packet []byte) (types.GetListenerAddrPortResponse, error) {
+	if len(packet) != 64 {
+		return types.GetListenerAddrPortResponse{}, fmt.Errorf("invalid reply packet length (%v)", len(packet))
+	}
+
+	if packet[0] != SOM {
+		return types.GetListenerAddrPortResponse{}, fmt.Errorf("invalid reply start of message byte (%02x)", packet[0])
+	}
+
+	if packet[1] != 146 {
+		return types.GetListenerAddrPortResponse{}, fmt.Errorf("invalid reply function code (%02x)", packet[1])
+	}
+
+	return types.GetListenerAddrPortResponse{
+		Controller: unpackUint32(packet, 4),
 		Listener:   unpackAddrPort(packet, 8),
 		Interval:   unpackUint8(packet, 14),
 	}, nil

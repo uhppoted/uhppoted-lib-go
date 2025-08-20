@@ -44,7 +44,7 @@ func decode(packet []byte) (any, error) {
 		return decoder.SetTimeResponse(packet)
 
 	case 0x92:
-		return decoder.GetListenerResponse(packet)
+		return decoder.GetListenerAddrPortResponse(packet)
 
 	case 0x90:
 		return decoder.SetListenerAddrPortResponse(packet)

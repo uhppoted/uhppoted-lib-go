@@ -24,6 +24,32 @@ type SetIPv4Response struct {
 	Ok         bool   `json:"ok"`
 }
 
+// Container struct for the response returned by a controller when retrieving
+// the configured event listener IPv4 address and port.
+type GetListenerResponse struct {
+	Controller uint32     `json:"controller"`
+	Address    netip.Addr `json:"address"`
+	Port       uint16     `json:"port"`
+	Interval   uint8      `json:"interval"`
+}
+
+// Container struct for the response returned by a controller when setting
+// the event listener IPv4 address and port.
+type SetListenerResponse struct {
+	Controller uint32 `json:"controller"`
+	Ok         bool   `json:"ok"`
+}
+
+// Container struct for the response returned by a controller when retrieving
+// the configured event listener IPv4 address and port.
+type GetListenerAddrPortResponse struct {
+	Controller uint32         `json:"controller"`
+	Listener   netip.AddrPort `json:"listener"`
+	Interval   uint8          `json:"interval"`
+}
+
+// Container struct for the response returned by a controller when setting
+// the event listener IPv4 address and port.
 type SetListenerAddrPortResponse struct {
 	Controller uint32 `json:"controller"`
 	Ok         bool   `json:"ok"`

@@ -43,12 +43,12 @@ func SetTime[T TController](u Uhppoted, controller T, datetime time.Time, timeou
 }
 
 // [Retrieves the access controller event listener IPv4 address:port and auto-send interval.]
-func GetListener[T TController](u Uhppoted, controller T, timeout time.Duration) (GetListenerResponse, error) {
+func GetListener[T TController](u Uhppoted, controller T, timeout time.Duration) (GetListenerAddrPortResponse, error) {
 	f := func(id uint32) ([]byte, error) {
 		return encode.GetListenerRequest(id)
 	}
 
-	return exec[T, GetListenerResponse](u, controller, f, timeout)
+	return exec[T, GetListenerAddrPortResponse](u, controller, f, timeout)
 }
 
 // [Sets the access controller event listener IPv4 address:port and auto-send interval.]

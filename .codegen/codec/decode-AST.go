@@ -1,4 +1,4 @@
-package main
+package codec
 
 import (
 	_ "embed"
@@ -281,6 +281,16 @@ func buildDecoderFactoryBody() *ast.BlockStmt {
 
 	// ... message types
 	for _, response := range model.Responses {
+		if response == &model.GetListenerResponse {
+			println("skipping get-listener (duplicates get-listener-addrport)")
+			continue
+		}
+
+		if response == &model.SetListenerResponse {
+			println("skipping set-listener (duplicates set-listener-addrport)")
+			continue
+		}
+
 		name := fmt.Sprintf("%v", codegen.TitleCase(response.Message.Name))
 
 		clause := ast.CaseClause{

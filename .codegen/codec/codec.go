@@ -1,4 +1,4 @@
-package main
+package codec
 
 import (
 	_ "embed"
@@ -6,22 +6,25 @@ import (
 	"os"
 	"text/template"
 
+	"codegen/codegen"
 	"codegen/model"
 )
 
-//go:embed templates/codec/encode.template
+//go:embed templates/encode.template
 var encodeTemplate string
 
-//go:embed templates/codec/encode_test.template
+//go:embed templates/encode_test.template
 var encodeTestTemplate string
 
-//go:embed templates/codec/decode.template
+//go:embed templates/decode.template
 var decodeTemplate string
 
-//go:embed templates/codec/decode_test.template
+//go:embed templates/decode_test.template
 var decodeTestTemplate string
 
-func codec() {
+var functions = codegen.Functions
+
+func Codec() {
 	encode()
 	encodeTest()
 
