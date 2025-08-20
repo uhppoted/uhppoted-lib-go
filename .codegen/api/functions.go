@@ -99,11 +99,18 @@ func function(f types.Function) *ast.FuncDecl {
 	})
 
 	// ... godoc
-	godoc := ast.CommentGroup{
-		List: []*ast.Comment{
-			{Text: fmt.Sprintf("// -- line intentionally left blank --")},
-			{Text: fmt.Sprintf("// %v", f.Description)},
-		},
+	// godoc := ast.CommentGroup{
+	godoc := []*ast.Comment{
+		{Text: fmt.Sprintf("// -- line intentionally left blank --")},
+	}
+
+	for _, line := range f.Description {
+		text := fmt.Sprintf("// %v", line)
+		comment := ast.Comment{
+			Text: text,
+		}
+
+		godoc = append(godoc, &comment)
 	}
 
 	// ... compose func
@@ -133,7 +140,9 @@ func function(f types.Function) *ast.FuncDecl {
 			},
 		},
 		Body: impl(f),
-		Doc:  &godoc,
+		Doc: &ast.CommentGroup{
+			List: godoc,
+		},
 	}
 }
 

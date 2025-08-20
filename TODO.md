@@ -42,7 +42,7 @@
    - [ ] use/extend uhppoted-codegen models
       - [ ] functions
          - **NB:** use Function::Args
-         - [ ] godoc
+         - [x] godoc
 
    - [x] encode
    - [x] encode_test

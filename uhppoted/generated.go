@@ -6,7 +6,7 @@ import (
 	"time"
 )
 
-// [Retrieves the system information for an access controller.]
+// Retrieves the system information for an access controller.
 func GetController[T TController](u Uhppoted, controller T, timeout time.Duration) (GetControllerResponse, error) {
 	f := func(id uint32) ([]byte, error) {
 		return encode.GetControllerRequest(id)
@@ -15,7 +15,7 @@ func GetController[T TController](u Uhppoted, controller T, timeout time.Duratio
 	return exec[T, GetControllerResponse](u, controller, f, timeout)
 }
 
-// [Sets the controller IPv4 address, netmask and gateway address.]
+// Sets the controller IPv4 address, netmask and gateway address.
 func SetIPv4[T TController](u Uhppoted, controller T, address netip.Addr, netmask netip.Addr, gateway netip.Addr, timeout time.Duration) (SetIPv4Response, error) {
 	f := func(id uint32) ([]byte, error) {
 		return encode.SetIPv4Request(id, address, netmask, gateway)
@@ -24,7 +24,7 @@ func SetIPv4[T TController](u Uhppoted, controller T, address netip.Addr, netmas
 	return exec[T, SetIPv4Response](u, controller, f, timeout)
 }
 
-// [Retrieves the access controller system date and time.]
+// Retrieves the access controller system date and time.
 func GetTime[T TController](u Uhppoted, controller T, timeout time.Duration) (GetTimeResponse, error) {
 	f := func(id uint32) ([]byte, error) {
 		return encode.GetTimeRequest(id)
@@ -33,7 +33,7 @@ func GetTime[T TController](u Uhppoted, controller T, timeout time.Duration) (Ge
 	return exec[T, GetTimeResponse](u, controller, f, timeout)
 }
 
-// [Sets the access controller system date and time.]
+// Sets the access controller system date and time.
 func SetTime[T TController](u Uhppoted, controller T, datetime time.Time, timeout time.Duration) (SetTimeResponse, error) {
 	f := func(id uint32) ([]byte, error) {
 		return encode.SetTimeRequest(id, datetime)
@@ -42,7 +42,7 @@ func SetTime[T TController](u Uhppoted, controller T, datetime time.Time, timeou
 	return exec[T, SetTimeResponse](u, controller, f, timeout)
 }
 
-// [Retrieves the access controller event listener IPv4 address:port and auto-send interval.]
+// Retrieves the access controller event listener IPv4 address:port and auto-send interval.
 func GetListener[T TController](u Uhppoted, controller T, timeout time.Duration) (GetListenerAddrPortResponse, error) {
 	f := func(id uint32) ([]byte, error) {
 		return encode.GetListenerRequest(id)
@@ -51,7 +51,7 @@ func GetListener[T TController](u Uhppoted, controller T, timeout time.Duration)
 	return exec[T, GetListenerAddrPortResponse](u, controller, f, timeout)
 }
 
-// [Sets the access controller event listener IPv4 address:port and auto-send interval.]
+// Sets the access controller event listener IPv4 address:port and auto-send interval.
 func SetListener[T TController](u Uhppoted, controller T, listener netip.AddrPort, interval uint8, timeout time.Duration) (SetListenerAddrPortResponse, error) {
 	f := func(id uint32) ([]byte, error) {
 		return encode.SetListenerAddressPortRequest(id, listener, interval)
@@ -60,7 +60,7 @@ func SetListener[T TController](u Uhppoted, controller T, listener netip.AddrPor
 	return exec[T, SetListenerAddrPortResponse](u, controller, f, timeout)
 }
 
-// [GetDoor retrieves the control mode and unlock delay time for an access controller door.]
+// GetDoor retrieves the control mode and unlock delay time for an access controller door.
 func GetDoor[T TController](u Uhppoted, controller T, door uint8, timeout time.Duration) (GetDoorResponse, error) {
 	f := func(id uint32) ([]byte, error) {
 		return encode.GetDoorRequest(id, door)
@@ -69,7 +69,7 @@ func GetDoor[T TController](u Uhppoted, controller T, door uint8, timeout time.D
 	return exec[T, GetDoorResponse](u, controller, f, timeout)
 }
 
-// [SetDoor sets the control mode and unlock delay time for an access controller door.]
+// SetDoor sets the control mode and unlock delay time for an access controller door.
 func SetDoor[T TController](u Uhppoted, controller T, door uint8, mode uint8, delay uint8, timeout time.Duration) (SetDoorResponse, error) {
 	f := func(id uint32) ([]byte, error) {
 		return encode.SetDoorRequest(id, door, mode, delay)
@@ -78,7 +78,7 @@ func SetDoor[T TController](u Uhppoted, controller T, door uint8, mode uint8, de
 	return exec[T, SetDoorResponse](u, controller, f, timeout)
 }
 
-// [Sets up to 4 passcodes for a controller door.]
+// Sets up to 4 passcodes for a controller door.
 func SetDoorPasscodes[T TController](u Uhppoted, controller T, door uint8, passcode1 uint32, passcode2 uint32, passcode3 uint32, passcode4 uint32, timeout time.Duration) (SetDoorPasscodesResponse, error) {
 	f := func(id uint32) ([]byte, error) {
 		return encode.SetDoorPasscodesRequest(id, door, passcode1, passcode2, passcode3, passcode4)
@@ -87,7 +87,7 @@ func SetDoorPasscodes[T TController](u Uhppoted, controller T, door uint8, passc
 	return exec[T, SetDoorPasscodesResponse](u, controller, f, timeout)
 }
 
-// [Unlocks a door controlled by an access controller.]
+// Unlocks a door controlled by an access controller.
 func OpenDoor[T TController](u Uhppoted, controller T, door uint8, timeout time.Duration) (OpenDoorResponse, error) {
 	f := func(id uint32) ([]byte, error) {
 		return encode.OpenDoorRequest(id, door)
@@ -96,7 +96,7 @@ func OpenDoor[T TController](u Uhppoted, controller T, door uint8, timeout time.
 	return exec[T, OpenDoorResponse](u, controller, f, timeout)
 }
 
-// [GetStatus retrieves the system status from an access controller.]
+// GetStatus retrieves the system status from an access controller.
 func GetStatus[T TController](u Uhppoted, controller T, timeout time.Duration) (GetStatusResponse, error) {
 	f := func(id uint32) ([]byte, error) {
 		return encode.GetStatusRequest(id)
@@ -105,7 +105,7 @@ func GetStatus[T TController](u Uhppoted, controller T, timeout time.Duration) (
 	return exec[T, GetStatusResponse](u, controller, f, timeout)
 }
 
-// [Retrieves the number of cards stored on an access controller.]
+// Retrieves the number of cards stored on an access controller.
 func GetCards[T TController](u Uhppoted, controller T, timeout time.Duration) (GetCardsResponse, error) {
 	f := func(id uint32) ([]byte, error) {
 		return encode.GetCardsRequest(id)
@@ -114,7 +114,7 @@ func GetCards[T TController](u Uhppoted, controller T, timeout time.Duration) (G
 	return exec[T, GetCardsResponse](u, controller, f, timeout)
 }
 
-// [Retrieves the card information for a card number from an access controller.]
+// Retrieves the card information for a card number from an access controller.
 func GetCard[T TController](u Uhppoted, controller T, cardnumber uint32, timeout time.Duration) (GetCardResponse, error) {
 	f := func(id uint32) ([]byte, error) {
 		return encode.GetCardRequest(id, cardnumber)
@@ -123,7 +123,7 @@ func GetCard[T TController](u Uhppoted, controller T, cardnumber uint32, timeout
 	return exec[T, GetCardResponse](u, controller, f, timeout)
 }
 
-// [Retrieves card record stored at the index.]
+// Retrieves card record stored at the index.
 func GetCardAtIndex[T TController](u Uhppoted, controller T, index uint32, timeout time.Duration) (GetCardAtIndexResponse, error) {
 	f := func(id uint32) ([]byte, error) {
 		return encode.GetCardAtIndexRequest(id, index)
@@ -132,7 +132,7 @@ func GetCardAtIndex[T TController](u Uhppoted, controller T, index uint32, timeo
 	return exec[T, GetCardAtIndexResponse](u, controller, f, timeout)
 }
 
-// [Adds or updates an access controller card record.]
+// Adds or updates an access controller card record.
 func PutCard[T TController](u Uhppoted, controller T, card uint32, startdate time.Time, enddate time.Time, door1 uint8, door2 uint8, door3 uint8, door4 uint8, PIN uint32, timeout time.Duration) (PutCardResponse, error) {
 	f := func(id uint32) ([]byte, error) {
 		return encode.PutCardRequest(id, card, startdate, enddate, door1, door2, door3, door4, PIN)
@@ -141,7 +141,7 @@ func PutCard[T TController](u Uhppoted, controller T, card uint32, startdate tim
 	return exec[T, PutCardResponse](u, controller, f, timeout)
 }
 
-// [DeleteCard removes a card record stored on a controller.]
+// DeleteCard removes a card record stored on a controller.
 func DeleteCard[T TController](u Uhppoted, controller T, cardnumber uint32, timeout time.Duration) (DeleteCardResponse, error) {
 	f := func(id uint32) ([]byte, error) {
 		return encode.DeleteCardRequest(id, cardnumber)
@@ -150,7 +150,7 @@ func DeleteCard[T TController](u Uhppoted, controller T, cardnumber uint32, time
 	return exec[T, DeleteCardResponse](u, controller, f, timeout)
 }
 
-// [Deletes all card records stored on an access controller.]
+// Deletes all card records stored on an access controller.
 func DeleteAllCards[T TController](u Uhppoted, controller T, timeout time.Duration) (DeleteAllCardsResponse, error) {
 	f := func(id uint32) ([]byte, error) {
 		return encode.DeleteCardsRequest(id)
@@ -159,7 +159,7 @@ func DeleteAllCards[T TController](u Uhppoted, controller T, timeout time.Durati
 	return exec[T, DeleteAllCardsResponse](u, controller, f, timeout)
 }
 
-// [Retrieves an event record stored on an access controller.]
+// Retrieves an event record stored on an access controller.
 func GetEvent[T TController](u Uhppoted, controller T, eventindex uint32, timeout time.Duration) (GetEventResponse, error) {
 	f := func(id uint32) ([]byte, error) {
 		return encode.GetEventRequest(id, eventindex)
@@ -168,7 +168,7 @@ func GetEvent[T TController](u Uhppoted, controller T, eventindex uint32, timeou
 	return exec[T, GetEventResponse](u, controller, f, timeout)
 }
 
-// [Retrieves the downloaded event index from an access controller.]
+// Retrieves the downloaded event index from an access controller.
 func GetEventIndex[T TController](u Uhppoted, controller T, timeout time.Duration) (GetEventIndexResponse, error) {
 	f := func(id uint32) ([]byte, error) {
 		return encode.GetEventIndexRequest(id)
@@ -177,7 +177,7 @@ func GetEventIndex[T TController](u Uhppoted, controller T, timeout time.Duratio
 	return exec[T, GetEventIndexResponse](u, controller, f, timeout)
 }
 
-// [Sets the downloaded event index on an access controller.]
+// Sets the downloaded event index on an access controller.
 func SetEventIndex[T TController](u Uhppoted, controller T, eventindex uint32, timeout time.Duration) (SetEventIndexResponse, error) {
 	f := func(id uint32) ([]byte, error) {
 		return encode.SetEventIndexRequest(id, eventindex)
@@ -186,7 +186,7 @@ func SetEventIndex[T TController](u Uhppoted, controller T, eventindex uint32, t
 	return exec[T, SetEventIndexResponse](u, controller, f, timeout)
 }
 
-// [Enables/disables events for door opened, door closed and door button pressed.]
+// Enables/disables events for door opened, door closed and door button pressed.
 func RecordSpecialEvents[T TController](u Uhppoted, controller T, enabled bool, timeout time.Duration) (RecordSpecialEventsResponse, error) {
 	f := func(id uint32) ([]byte, error) {
 		return encode.RecordSpecialEventsRequest(id, enabled)
