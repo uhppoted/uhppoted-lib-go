@@ -21,6 +21,7 @@
 - [`GetEvent`](#getevent)
 - [`GetEventIndex`](#geteventindex)
 - [`SetEventIndex`](#seteventindex)
+- [`RecordSpecialEvents`](#recordspecialevents)
 ---
 Invoking an API function requires an instance of the `Uhppoted` struct initialised with the information required
 to access a controller:
@@ -368,6 +369,19 @@ timeout     maximum time to wait for a response from a controller
 Returns a `SetEventIndexResponse`.
 ```
 
+### `RecordSpecialEvents`
+```
+RecordSpecialEvents(u Uhppoted, controller TController, enabled bool, timeout time.Duration) (GetEventResponse,error)
+
+u           Uhppoted struct initialised with the bind address, broadcast address, etc
+controller  uint32|Controller controller serial number or {id, address, protocol} Controller struct
+enabled     Enables door opened, door closed and button pressed events if true.
+index       Downloaded event index
+timeout     maximum time to wait for a response from a controller
+
+Returns a `RecordSpecialEventsResponse`.
+```
+
 
 ## Types
 
@@ -663,12 +677,21 @@ type GetEventResponse struct {
 }
 ```
 
-
 ### `GetEventIndexResponse`
 
 Container class for the decoded response from a _SetEventIndex_ request.
 ```
 type SetEventResponse struct {
+  Controller  uint32  `json:"controller"` // controller serial number
+  Ok          bool    `json:"ok"`         // succeeded/failed
+}
+```
+
+### `RecordSpecialEventsResponse`
+
+Container class for the decoded response from a _RecordSpecialEvents_ request.
+```
+type RecordSpecialEventsResponse struct {
   Controller  uint32  `json:"controller"` // controller serial number
   Ok          bool    `json:"ok"`         // succeeded/failed
 }

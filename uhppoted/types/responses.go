@@ -191,9 +191,9 @@ type GetEventIndexResponse struct {
 	Index      uint32 `json:"index"`
 }
 
-// SetEventIndexResponse is a container struct for the response returned from a controller
-// when setting the downloaded event index.
-type SetEventIndexResponse struct {
-	Controller uint32 `json:"controller"`
-	Ok         bool   `json:"ok"`
-}
+// // SetEventIndexResponse is a container struct for the response returned from a controller
+// // when setting the downloaded event index.
+// type SetEventIndexResponse struct {
+// 	Controller uint32 `json:"controller"`
+// 	Ok         bool   `json:"ok"`
+// }

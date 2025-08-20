@@ -250,3 +250,12 @@ set-event-index-udp: build
 set-event-index-tcp: build
 	$(CMD) set-event-index --controller $(CONTROLLER) --dest $(DEST) --tcp --index 29
 
+record-special-events: build
+	$(CMD) record-special-events --controller $(CONTROLLER) --enabled true
+
+record-special-events-udp: build
+	$(CMD) record-special-events --controller $(CONTROLLER) --dest $(DEST) --enabled true
+
+record-special-events-tcp: build
+	$(CMD) record-special-events --controller $(CONTROLLER) --dest $(DEST) --tcp --enabled true
+

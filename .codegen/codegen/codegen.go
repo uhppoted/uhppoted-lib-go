@@ -168,6 +168,9 @@ func pack(field lib.Field) string {
 	name := regexp.MustCompile(`\s+`).ReplaceAllString(field.Name, "")
 
 	switch field.Type {
+	case "bool":
+		return fmt.Sprintf("packBool(%v, packet, %v)", name, field.Offset)
+
 	case "uint8":
 		return fmt.Sprintf("packUint8(%v, packet, %v)", name, field.Offset)
 

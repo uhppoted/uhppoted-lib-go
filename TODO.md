@@ -22,6 +22,7 @@
 - [x] get-event
 - [x] get-event-index
 - [x] get-event-index
+- [x] record-special-events
    - [x] API
    - [x] CLI
    - [x] integration test

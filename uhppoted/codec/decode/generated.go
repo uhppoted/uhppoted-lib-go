@@ -206,29 +206,29 @@ func GetListenerResponse(packet []byte) (types.GetListenerResponse, error) {
 	}, nil
 }
 
-// Decodes a set-listener-response response.
+// Decodes a set-listener-addr:port-response response.
 //
 //	Parameters:
 //	    packet  (bytearray)  64 byte UDP packet.
 //
 //	Returns:
-//	    - SetListenerResponse initialised from the UDP packet.
+//	    - SetListenerAddrPortResponse initialised from the UDP packet.
 //	    - error if the packet is not 64 bytes, has an invalid start-of-message byte or has
 //	               the incorrect message type.
-func SetListenerResponse(packet []byte) (types.SetListenerResponse, error) {
+func SetListenerAddrPortResponse(packet []byte) (types.SetListenerAddrPortResponse, error) {
 	if len(packet) != 64 {
-		return types.SetListenerResponse{}, fmt.Errorf("invalid reply packet length (%v)", len(packet))
+		return types.SetListenerAddrPortResponse{}, fmt.Errorf("invalid reply packet length (%v)", len(packet))
 	}
 
 	if packet[0] != SOM {
-		return types.SetListenerResponse{}, fmt.Errorf("invalid reply start of message byte (%02x)", packet[0])
+		return types.SetListenerAddrPortResponse{}, fmt.Errorf("invalid reply start of message byte (%02x)", packet[0])
 	}
 
 	if packet[1] != 144 {
-		return types.SetListenerResponse{}, fmt.Errorf("invalid reply function code (%02x)", packet[1])
+		return types.SetListenerAddrPortResponse{}, fmt.Errorf("invalid reply function code (%02x)", packet[1])
 	}
 
-	return types.SetListenerResponse{
+	return types.SetListenerAddrPortResponse{
 		Controller: unpackUint32(packet, 4),
 		Ok:         unpackBool(packet, 8),
 	}, nil
@@ -618,6 +618,34 @@ func SetEventIndexResponse(packet []byte) (types.SetEventIndexResponse, error) {
 	}
 
 	return types.SetEventIndexResponse{
+		Controller: unpackUint32(packet, 4),
+		Ok:         unpackBool(packet, 8),
+	}, nil
+}
+
+// Decodes a record-special-events-response response.
+//
+//	Parameters:
+//	    packet  (bytearray)  64 byte UDP packet.
+//
+//	Returns:
+//	    - RecordSpecialEventsResponse initialised from the UDP packet.
+//	    - error if the packet is not 64 bytes, has an invalid start-of-message byte or has
+//	               the incorrect message type.
+func RecordSpecialEventsResponse(packet []byte) (types.RecordSpecialEventsResponse, error) {
+	if len(packet) != 64 {
+		return types.RecordSpecialEventsResponse{}, fmt.Errorf("invalid reply packet length (%v)", len(packet))
+	}
+
+	if packet[0] != SOM {
+		return types.RecordSpecialEventsResponse{}, fmt.Errorf("invalid reply start of message byte (%02x)", packet[0])
+	}
+
+	if packet[1] != 142 {
+		return types.RecordSpecialEventsResponse{}, fmt.Errorf("invalid reply function code (%02x)", packet[1])
+	}
+
+	return types.RecordSpecialEventsResponse{
 		Controller: unpackUint32(packet, 4),
 		Ok:         unpackBool(packet, 8),
 	}, nil

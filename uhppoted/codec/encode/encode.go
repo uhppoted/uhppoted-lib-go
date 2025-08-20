@@ -17,6 +17,21 @@ import (
 const SOM byte = 0x17
 const SOM_v6_62 byte = 0x19
 
+// Packs a boolean value 'in-place' as a 1-byte true (0x01) or false (0x00) value
+// into the packet at the offset.
+//
+//	Parameters:
+//	   v      (uint8)     uint8 value to encode.
+//	   packet (bytearray)  64 byte array.
+//	   offset (int)        Value location in array.
+func packBool(v bool, packet []byte, offset int) {
+	if v {
+		packet[offset] = 0x01
+	} else {
+		packet[offset] = 0x00
+	}
+}
+
 // Packs a uint8 value 'in-place' as a 1-byte value into the packet at the offset.
 //
 //	Parameters:

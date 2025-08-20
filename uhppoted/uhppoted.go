@@ -58,7 +58,7 @@ type SetIPv4Response = types.SetIPv4Response
 type GetTimeResponse = types.GetTimeResponse
 type SetTimeResponse = types.SetTimeResponse
 type GetListenerResponse = types.GetListenerResponse
-type SetListenerResponse = types.SetListenerResponse
+type SetListenerAddrPortResponse = types.SetListenerAddrPortResponse
 type GetDoorResponse = types.GetDoorResponse
 type SetDoorResponse = types.SetDoorResponse
 type SetDoorPasscodesResponse = types.SetDoorPasscodesResponse
@@ -73,6 +73,7 @@ type DeleteAllCardsResponse = types.DeleteAllCardsResponse
 type GetEventResponse = types.GetEventResponse
 type GetEventIndexResponse = types.GetEventIndexResponse
 type SetEventIndexResponse = types.SetEventIndexResponse
+type RecordSpecialEventsResponse = types.RecordSpecialEventsResponse
 
 // NewUhppoted creates a new instance of the uhppoted service, configured with the supplied
 // local bind address, broadcast address, and listen address. The debug flag enables or

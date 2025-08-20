@@ -22,10 +22,18 @@ func Structs() {
 		"time",
 	}
 
+	structs := []types.Response{
+		model.GetControllerResponse,
+		model.SetIPv4Response,
+		model.SetListenerAddrPortResponse,
+		model.SetEventIndexResponse,
+		model.RecordSpecialEventsResponse,
+	}
+
 	types := []*ast.GenDecl{}
 	functions := []*ast.FuncDecl{}
 
-	for _, f := range model.Responses[:2] {
+	for _, f := range structs {
 		types = append(types, typedef(f))
 	}
 

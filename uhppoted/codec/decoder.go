@@ -47,7 +47,7 @@ func decode(packet []byte) (any, error) {
 		return decoder.GetListenerResponse(packet)
 
 	case 0x90:
-		return decoder.SetListenerResponse(packet)
+		return decoder.SetListenerAddrPortResponse(packet)
 
 	case 0x82:
 		return decoder.GetDoorResponse(packet)
@@ -87,6 +87,9 @@ func decode(packet []byte) (any, error) {
 
 	case 0xb2:
 		return decoder.SetEventIndexResponse(packet)
+
+	case 0x8e:
+		return decoder.RecordSpecialEventsResponse(packet)
 
 	default:
 		return nil, fmt.Errorf("unknown message type (%02x)", packet[1])

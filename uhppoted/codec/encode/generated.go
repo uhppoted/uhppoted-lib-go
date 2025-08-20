@@ -437,3 +437,23 @@ func SetEventIndexRequest(controller uint32, eventindex uint32) ([]byte, error) 
 
 	return packet, nil
 }
+
+// Encodes a record-special-events-request.
+//
+//	Parameters:
+//	    controller  (uint32)  controller serial number
+//	    enabled  (bool)
+//
+//	Returns:
+//	    64 byte packet.
+func RecordSpecialEventsRequest(controller uint32, enabled bool) ([]byte, error) {
+	packet := make([]byte, 64)
+
+	packet[0] = SOM
+	packet[1] = 142
+
+	packUint32(controller, packet, 4)
+	packBool(enabled, packet, 8)
+
+	return packet, nil
+}

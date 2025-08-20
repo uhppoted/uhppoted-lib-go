@@ -13,7 +13,8 @@ var Responses = []types.Response{
 	GetTimeResponse,
 	SetTimeResponse,
 	GetListenerResponse,
-	SetListenerResponse,
+	// SetListenerResponse,
+	SetListenerAddrPortResponse,
 	GetDoorResponse,
 	SetDoorResponse,
 	SetDoorPasscodesResponse,
@@ -27,6 +28,7 @@ var Responses = []types.Response{
 	GetEventResponse,
 	GetEventIndexResponse,
 	SetEventIndexResponse,
+	RecordSpecialEventsResponse,
 }
 
 var GetControllerResponse = lib.GetControllerResponse
@@ -35,6 +37,7 @@ var GetTimeResponse = lib.GetTimeResponse
 var SetTimeResponse = lib.SetTimeResponse
 var GetListenerResponse = lib.GetListenerAddrPortResponse
 var SetListenerResponse = lib.SetListenerResponse
+var SetListenerAddrPortResponse = lib.SetListenerAddrPortResponse
 var GetDoorResponse = lib.GetDoorResponse
 var SetDoorResponse = lib.SetDoorResponse
 var SetDoorPasscodesResponse = lib.SetDoorPasscodesResponse
@@ -49,3 +52,4 @@ var DeleteAllCardsResponse = lib.DeleteAllCardsResponse
 var GetEventResponse = lib.GetEventResponse
 var GetEventIndexResponse = lib.GetEventIndexResponse
 var SetEventIndexResponse = lib.SetEventIndexResponse
+var RecordSpecialEventsResponse = lib.RecordSpecialEventsResponse

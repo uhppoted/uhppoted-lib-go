@@ -42,7 +42,7 @@ func SetTime[T TController](u Uhppoted, controller T, datetime time.Time, timeou
 	return exec[T, SetTimeResponse](u, controller, f, timeout)
 }
 
-// [GetListener retrieves the access controller event listener IPv4 address:port and auto-send interval.]
+// [Retrieves the access controller event listener IPv4 address:port and auto-send interval.]
 func GetListener[T TController](u Uhppoted, controller T, timeout time.Duration) (GetListenerResponse, error) {
 	f := func(id uint32) ([]byte, error) {
 		return encode.GetListenerRequest(id)
@@ -51,13 +51,13 @@ func GetListener[T TController](u Uhppoted, controller T, timeout time.Duration)
 	return exec[T, GetListenerResponse](u, controller, f, timeout)
 }
 
-// [SetListener sets the access controller event listener IPv4 address:port and auto-send interval.]
-func SetListener[T TController](u Uhppoted, controller T, listener netip.AddrPort, interval uint8, timeout time.Duration) (SetListenerResponse, error) {
+// [Sets the access controller event listener IPv4 address:port and auto-send interval.]
+func SetListener[T TController](u Uhppoted, controller T, listener netip.AddrPort, interval uint8, timeout time.Duration) (SetListenerAddrPortResponse, error) {
 	f := func(id uint32) ([]byte, error) {
 		return encode.SetListenerAddressPortRequest(id, listener, interval)
 	}
 
-	return exec[T, SetListenerResponse](u, controller, f, timeout)
+	return exec[T, SetListenerAddrPortResponse](u, controller, f, timeout)
 }
 
 // [GetDoor retrieves the control mode and unlock delay time for an access controller door.]
@@ -184,4 +184,13 @@ func SetEventIndex[T TController](u Uhppoted, controller T, eventindex uint32, t
 	}
 
 	return exec[T, SetEventIndexResponse](u, controller, f, timeout)
+}
+
+// [Enables/disables events for door opened, door closed and door button pressed.]
+func RecordSpecialEvents[T TController](u Uhppoted, controller T, enabled bool, timeout time.Duration) (RecordSpecialEventsResponse, error) {
+	f := func(id uint32) ([]byte, error) {
+		return encode.RecordSpecialEventsRequest(id, enabled)
+	}
+
+	return exec[T, RecordSpecialEventsResponse](u, controller, f, timeout)
 }

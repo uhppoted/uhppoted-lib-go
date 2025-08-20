@@ -20,6 +20,25 @@ type GetControllerResponse struct {
 // SetIPv4Response is a synthesized response provided to simplify code generation. The controller
 // does not return a response to a 'set-IPv4' request.
 type SetIPv4Response struct {
-	Controller uint32 `json:"-"`
-	Ok         bool   `json:"-"`
+	Controller uint32 `json:"controller"`
+	Ok         bool   `json:"ok"`
+}
+
+type SetListenerAddrPortResponse struct {
+	Controller uint32 `json:"controller"`
+	Ok         bool   `json:"ok"`
+}
+
+// Container struct for the response returned from an access controller when setting the
+// downloaded event index.
+type SetEventIndexResponse struct {
+	Controller uint32 `json:"controller"`
+	Ok         bool   `json:"ok"`
+}
+
+// Container struct for the response returned from an access controller when enabling or
+// disabling events for door opened, door closed and button pressed.
+type RecordSpecialEventsResponse struct {
+	Controller uint32 `json:"controller"`
+	Ok         bool   `json:"ok"`
 }

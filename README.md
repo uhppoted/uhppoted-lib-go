@@ -51,3 +51,4 @@ folder.
 - [`GetEvent`](API.md#getevent)
 - [`GetEventIndex`](API.md#geteventindex)
 - [`SetEventIndex`](API.md#seteventindex)
+- [`RecordSpecialEvents`](API.md#recordspecialevents)

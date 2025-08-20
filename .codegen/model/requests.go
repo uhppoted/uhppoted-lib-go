@@ -26,6 +26,7 @@ var Requests = []types.Request{
 	GetEventRequest,
 	GetEventIndexRequest,
 	SetEventIndexRequest,
+	RecordSpecialEventsRequest,
 }
 
 var GetControllerRequest = lib.GetControllerRequest
@@ -48,3 +49,4 @@ var DeleteAllCardsRequest = lib.DeleteAllCardsRequest
 var GetEventRequest = lib.GetEventRequest
 var GetEventIndexRequest = lib.GetEventIndexRequest
 var SetEventIndexRequest = lib.SetEventIndexRequest
+var RecordSpecialEventsRequest = lib.RecordSpecialEventsRequest

@@ -281,3 +281,15 @@ func TestSetEventIndex(t *testing.T) {
 		t.Errorf("incorrect response\n   expected:%#v\n   got:     %#v", test.Expected.SetEventIndex, response)
 	}
 }
+
+func TestRecordSpecialEvents(t *testing.T) {
+	enabled := true
+
+	response, err := lib.RecordSpecialEvents(u, controller, enabled, timeout)
+
+	if err != nil {
+		t.Fatalf("%v", err)
+	} else if !reflect.DeepEqual(response, test.Expected.RecordSpecialEvents) {
+		t.Errorf("incorrect response\n   expected:%#v\n   got:     %#v", test.Expected.RecordSpecialEvents, response)
+	}
+}

@@ -15,7 +15,7 @@ var Expected = struct {
 	GetTime                lib.GetTimeResponse
 	SetTime                lib.SetTimeResponse
 	GetListener            lib.GetListenerResponse
-	SetListener            lib.SetListenerResponse
+	SetListener            lib.SetListenerAddrPortResponse
 	GetDoor                lib.GetDoorResponse
 	SetDoor                lib.SetDoorResponse
 	SetDoorPasscodes       lib.SetDoorPasscodesResponse
@@ -35,6 +35,7 @@ var Expected = struct {
 	GetEventOverwritten    lib.GetEventResponse
 	GetEventIndex          lib.GetEventIndexResponse
 	SetEventIndex          lib.SetEventIndexResponse
+	RecordSpecialEvents    lib.RecordSpecialEventsResponse
 }{
 	FindControllers: []lib.GetControllerResponse{
 		lib.GetControllerResponse{
@@ -94,10 +95,10 @@ var Expected = struct {
 	GetListener: lib.GetListenerResponse{
 		Controller: 405419896,
 		Listener:   addrport("192.168.1.100:60001"),
-		Interval:   17,
+		Interval:   13,
 	},
 
-	SetListener: lib.SetListenerResponse{
+	SetListener: lib.SetListenerAddrPortResponse{
 		Controller: 405419896,
 		Ok:         true,
 	},
@@ -275,6 +276,11 @@ var Expected = struct {
 	},
 
 	SetEventIndex: lib.SetEventIndexResponse{
+		Controller: 405419896,
+		Ok:         true,
+	},
+
+	RecordSpecialEvents: lib.RecordSpecialEventsResponse{
 		Controller: 405419896,
 		Ok:         true,
 	},
