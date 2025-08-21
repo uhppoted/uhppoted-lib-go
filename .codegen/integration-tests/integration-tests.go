@@ -1,4 +1,4 @@
-package main
+package integration_tests
 
 import (
 	_ "embed"
@@ -7,25 +7,28 @@ import (
 	"path/filepath"
 	"text/template"
 
+	"codegen/codegen"
 	"codegen/model"
 )
 
-//go:embed templates/integration-tests/messages.template
+//go:embed templates/messages.template
 var messagesTemplate string
 
-//go:embed templates/integration-tests/expected.template
+//go:embed templates/expected.template
 var expectedTemplate string
 
-//go:embed templates/integration-tests/default.template
+//go:embed templates/default.template
 var defaultTemplate string
 
-//go:embed templates/integration-tests/udp.template
+//go:embed templates/udp.template
 var udpTemplate string
 
-//go:embed templates/integration-tests/tcp.template
+//go:embed templates/tcp.template
 var tcpTemplate string
 
-func integrationTests() {
+var functions = codegen.Functions
+
+func IntegrationTests() {
 	messages()
 	expected()
 	broadcast()

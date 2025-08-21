@@ -6,11 +6,9 @@ import (
 
 	"codegen/api"
 	"codegen/codec"
-	"codegen/codegen"
+	"codegen/integration-tests"
 	"codegen/readme"
 )
-
-var functions = codegen.Functions
 
 func main() {
 	if len(os.Args) > 1 {
@@ -21,7 +19,7 @@ func main() {
 			codec.Codec()
 
 		case "integration-tests":
-			integrationTests()
+			integration_tests.IntegrationTests()
 
 		case "API":
 			api.API()

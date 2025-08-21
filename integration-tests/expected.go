@@ -106,14 +106,14 @@ var Expected = struct {
 
 	GetDoor: lib.GetDoorResponse{
 		Controller: 405419896,
-		Door:       3,
-		Mode:       2,
+		Door:       4,
+		Mode:       3,
 		Delay:      7,
 	},
 
 	SetDoor: lib.SetDoorResponse{
 		Controller: 405419896,
-		Door:       3,
+		Door:       4,
 		Mode:       2,
 		Delay:      17,
 	},

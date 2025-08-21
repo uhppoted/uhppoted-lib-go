@@ -82,7 +82,7 @@ func TestSetListener(t *testing.T) {
 }
 
 func TestGetDoor(t *testing.T) {
-	door := uint8(3)
+	door := uint8(4)
 
 	response, err := lib.GetDoor(u, controller, door, timeout)
 
@@ -94,7 +94,7 @@ func TestGetDoor(t *testing.T) {
 }
 
 func TestSetDoor(t *testing.T) {
-	door := uint8(3)
+	door := uint8(4)
 	mode := uint8(2)
 	delay := uint8(17)
 

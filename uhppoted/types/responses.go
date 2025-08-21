@@ -4,25 +4,6 @@ import (
 	"time"
 )
 
-// // GetControllerResponse is a container struct for the response returned from a controller
-// // when retrieving the network configuration, firmware version and firmware release date.
-// type GetControllerResponse struct {
-// 	Controller uint32     `json:"controller"`
-// 	IpAddress  netip.Addr `json:"ip-address"`
-// 	SubnetMask netip.Addr `json:"subnet-mask"`
-// 	Gateway    netip.Addr `json:"gateway"`
-// 	MACAddress string     `json:"MAC-address"`
-// 	Version    string     `json:"version"`
-// 	Date       time.Time  `json:"date"`
-// }
-
-// // SetIPv4Response is a synthesized response - the controller does not return a respons
-// // to a 'set-IPv4' request.
-// type SetIPv4Response struct {
-// 	Controller uint32 `json:"controller"`
-// 	Ok         bool   `json:"ok"`
-// }
-
 // GetTimeResponse is a container struct for the response returned by a controller
 // when retrieving the system date/time.
 type GetTimeResponse struct {
@@ -37,52 +18,37 @@ type SetTimeResponse struct {
 	DateTime   time.Time `json:"datetime"`
 }
 
-// // GetListenerResponse is a container struct for the response returned by a controller
-// // when retrieving the configured event listener IPv4 address and port.
-// type GetListenerResponse struct {
-// 	Controller uint32         `json:"controller"`
-// 	Listener   netip.AddrPort `json:"listener"`
-// 	Interval   uint8          `json:"interval"`
+// // GetDoorResponse is a container struct for the response returned by a controller
+// // when retrieving the control mode and unlock delay for a controller door.
+// type GetDoorResponse struct {
+// 	Controller uint32 `json:"controller"`
+// 	Door       uint8  `json:"door"`
+// 	Mode       uint8  `json:"mode"` // 1:normally open, 2:normally closed. 3:controlled
+// 	Delay      uint8  `json:"delay"`
 // }
 
-// // SetListenerResponse is a container struct for the response returned by a controller
-// // when retrieving the configured event listener IPv4 address and port.
-// type SetListenerResponse struct {
+// // SetDoorResponse is a container struct for the response returned by a controller
+// // after setting the control mode and unlock delay for a controller door.
+// type SetDoorResponse struct {
+// 	Controller uint32 `json:"controller"`
+// 	Door       uint8  `json:"door"`
+// 	Mode       uint8  `json:"mode"` // 1:normally open, 2:normally closed. 3:controlled
+// 	Delay      uint8  `json:"delay"`
+// }
+
+// // SetDoorPasscodesResponse is a container struct for the response returned by a controller
+// // after setting the passcodes for a controller door.
+// type SetDoorPasscodesResponse struct {
 // 	Controller uint32 `json:"controller"`
 // 	Ok         bool   `json:"ok"`
 // }
 
-// GetDoorResponse is a container struct for the response returned by a controller
-// when retrieving the control mode and unlock delay for a controller door.
-type GetDoorResponse struct {
-	Controller uint32 `json:"controller"`
-	Door       uint8  `json:"door"`
-	Mode       uint8  `json:"mode"` // 1:normally open, 2:normally closed. 3:controlled
-	Delay      uint8  `json:"delay"`
-}
-
-// SetDoorResponse is a container struct for the response returned by a controller
-// after setting the control mode and unlock delay for a controller door.
-type SetDoorResponse struct {
-	Controller uint32 `json:"controller"`
-	Door       uint8  `json:"door"`
-	Mode       uint8  `json:"mode"` // 1:normally open, 2:normally closed. 3:controlled
-	Delay      uint8  `json:"delay"`
-}
-
-// SetDoorPasscodesResponse is a container struct for the response returned by a controller
-// after setting the passcodes for a controller door.
-type SetDoorPasscodesResponse struct {
-	Controller uint32 `json:"controller"`
-	Ok         bool   `json:"ok"`
-}
-
-// OpenDoorResponse is a container struct for the response returned by a controller
-// after remotely opening a controller door.
-type OpenDoorResponse struct {
-	Controller uint32 `json:"controller"`
-	Ok         bool   `json:"ok"`
-}
+// // OpenDoorResponse is a container struct for the response returned by a controller
+// // after remotely opening a controller door.
+// type OpenDoorResponse struct {
+// 	Controller uint32 `json:"controller"`
+// 	Ok         bool   `json:"ok"`
+// }
 
 // GetStatusResponse is a container struct for the response returned from a controller
 // when retrieving the current runtime status.
@@ -183,12 +149,12 @@ type GetEventResponse struct {
 	Reason        uint8     `json:"reason"`
 }
 
-// GetEventIndexResponse is a container struct for the response returned from a controller
-// when retrieving the downloaded event index.
-type GetEventIndexResponse struct {
-	Controller uint32 `json:"controller"`
-	Index      uint32 `json:"index"`
-}
+// // GetEventIndexResponse is a container struct for the response returned from a controller
+// // when retrieving the downloaded event index.
+// type GetEventIndexResponse struct {
+// 	Controller uint32 `json:"controller"`
+// 	Index      uint32 `json:"index"`
+// }
 
 // // SetEventIndexResponse is a container struct for the response returned from a controller
 // // when setting the downloaded event index.

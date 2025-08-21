@@ -41,9 +41,7 @@
 
 - [ ] code generation
    - [ ] use/extend uhppoted-codegen models
-      - [ ] functions
-         - **NB:** use Function::Args
-         - [x] godoc
+      - [ ] **NB:** use Function::Args
 
    - [x] encode
    - [x] encode_test
