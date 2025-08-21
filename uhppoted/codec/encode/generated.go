@@ -457,3 +457,23 @@ func RecordSpecialEventsRequest(controller uint32, enabled bool) ([]byte, error)
 
 	return packet, nil
 }
+
+// Encodes a get-time-profile-request.
+//
+//	Parameters:
+//	    controller  (uint32)  controller serial number
+//	    profile  (uint8)
+//
+//	Returns:
+//	    64 byte packet.
+func GetTimeProfileRequest(controller uint32, profile uint8) ([]byte, error) {
+	packet := make([]byte, 64)
+
+	packet[0] = SOM
+	packet[1] = 152
+
+	packUint32(controller, packet, 4)
+	packUint8(profile, packet, 8)
+
+	return packet, nil
+}

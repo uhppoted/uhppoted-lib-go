@@ -30,6 +30,7 @@ var API = []types.Function{
 	GetEventIndex,
 	SetEventIndex,
 	RecordSpecialEvents,
+	GetTimeProfile,
 }
 
 var FindControllers = types.Function{
@@ -1542,3 +1543,4 @@ var GetEvent = types.Function(lib.GetEvent)
 var GetEventIndex = types.Function(lib.GetEventIndex)
 var SetEventIndex = types.Function(lib.SetEventIndex)
 var RecordSpecialEvents = types.Function(lib.RecordSpecialEvents)
+var GetTimeProfile = types.Function(lib.GetTimeProfile)

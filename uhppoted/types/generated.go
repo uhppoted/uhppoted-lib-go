@@ -68,3 +68,26 @@ type RecordSpecialEventsResponse struct {
 	Controller uint32 `json:"controller"`
 	Ok         bool   `json:"ok"`
 }
+
+// Container struct for the response returned from an access controller when retrieving
+// an access time profile.
+type GetTimeProfileResponse struct {
+	Controller    uint32    `json:"controller"`
+	Profile       uint8     `json:"profile"`
+	StartDate     time.Time `json:"start-date"`
+	EndDate       time.Time `json:"end-date"`
+	Monday        bool      `json:"monday"`
+	Tuesday       bool      `json:"tuesday"`
+	Wednesday     bool      `json:"wednesday"`
+	Thursday      bool      `json:"thursday"`
+	Friday        bool      `json:"friday"`
+	Saturday      bool      `json:"saturday"`
+	Sunday        bool      `json:"sunday"`
+	Segment1Start time.Time `json:"segment1-start"`
+	Segment1End   time.Time `json:"segment1-end"`
+	Segment2Start time.Time `json:"segment2-start"`
+	Segment2End   time.Time `json:"segment2-end"`
+	Segment3Start time.Time `json:"segment3-start"`
+	Segment3End   time.Time `json:"segment3-end"`
+	LinkedProfile uint8     `json:"linked-profile"`
+}

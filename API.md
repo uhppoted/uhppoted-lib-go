@@ -22,6 +22,7 @@
 - [`GetEventIndex`](#geteventindex)
 - [`SetEventIndex`](#seteventindex)
 - [`RecordSpecialEvents`](#recordspecialevents)
+- [`GetTimeProfile`](#gettimeprofile)
 ---
 Invoking an API function requires an instance of the `Uhppoted` struct initialised with the information required
 to access a controller:
@@ -359,7 +360,7 @@ Returns a `GetEventIndexResponse`.
 
 ### `SetEventIndex`
 ```
-SetEventIndex(u Uhppoted, controller TController, index uint32, timeout time.Duration) (GetEventResponse,error)
+SetEventIndex(u Uhppoted, controller TController, index uint32, timeout time.Duration) (SetEventResponse,error)
 
 u           Uhppoted struct initialised with the bind address, broadcast address, etc
 controller  uint32|Controller controller serial number or {id, address, protocol} Controller struct
@@ -371,15 +372,26 @@ Returns a `SetEventIndexResponse`.
 
 ### `RecordSpecialEvents`
 ```
-RecordSpecialEvents(u Uhppoted, controller TController, enabled bool, timeout time.Duration) (GetEventResponse,error)
+RecordSpecialEvents(u Uhppoted, controller TController, enabled bool, timeout time.Duration) (RecordSpecialEventsResponse,error)
 
 u           Uhppoted struct initialised with the bind address, broadcast address, etc
 controller  uint32|Controller controller serial number or {id, address, protocol} Controller struct
 enabled     Enables door opened, door closed and button pressed events if true.
-index       Downloaded event index
 timeout     maximum time to wait for a response from a controller
 
 Returns a `RecordSpecialEventsResponse`.
+```
+
+### `GetTimeProfile`
+```
+GetTimeProfile(u Uhppoted, controller TController, profile uint8, timeout time.Duration) (GetTimeProfileResponse,error)
+
+u           Uhppoted struct initialised with the bind address, broadcast address, etc
+controller  uint32|Controller controller serial number or {id, address, protocol} Controller struct
+profile     Profile Id ([2..254] to fetch.
+timeout     maximum time to wait for a response from a controller
+
+Returns a `GetTimeProfileResponse`.
 ```
 
 
@@ -694,5 +706,31 @@ Container class for the decoded response from a _RecordSpecialEvents_ request.
 type RecordSpecialEventsResponse struct {
   Controller  uint32  `json:"controller"` // controller serial number
   Ok          bool    `json:"ok"`         // succeeded/failed
+}
+```
+
+### `GetTimeProfileResponse`
+
+Container class for the decoded response from a _GetTimeProfile_ request.
+```
+type GetTimeProfileResponse struct {
+  Controller     uint32     `json:"controller"`      // controller serial number
+  Profile        uint8      `json:"profile"`         // profile ID [2..254]
+  StartDate      time.Time  `json:"start-date"`      // date from which profile is valid (inclusive)
+  EndDate        time.Time  `json:"end-date"`        // date after which profile is invalid
+  Monday         bool       `json:"monday"`          // profile enabled on Monday if true
+  Tuesday        bool       `json:"tuesday"`         // profile enabled on Tuesday if true
+  Wednesday      bool       `json:"wednesday"`       // profile enabled on Wednesday if true
+  Thursday       bool       `json:"thursday"`        // profile enabled on Thursday if true
+  Friday         bool       `json:"friday"`          // profile enabled on Monday if true
+  Saturday       bool       `json:"saturday"`        // profile enabled on Friday if true
+  Sunday         bool       `json:"sunday"`          // profile enabled on Sunday if true
+  Segment1Start  time.Time  `json:"segment1-start"`  // start time for first time segment
+  Segment1End    time.Time  `json:"segment1-end"`    // end time for first time segment
+  Segment2Start  time.Time  `json:"segment2-start"`  // start time for second time segment
+  Segment2End    time.Time  `json:"segment2-end"`    // end time for second time segment
+  Segment3Start  time.Time  `json:"segment3-start"`  // start time for third time segment
+  Segment3End    time.Time  `json:"segment3-end"`    // end time for third time segment
+  LinkedProfile  uint8      `json:"linked-profile"`  // ID of linked profile (0 if not linked)
 }
 ```

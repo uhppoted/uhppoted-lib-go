@@ -91,6 +91,9 @@ func decode(packet []byte) (any, error) {
 	case 0x8e:
 		return decoder.RecordSpecialEventsResponse(packet)
 
+	case 0x98:
+		return decoder.GetTimeProfileResponse(packet)
+
 	default:
 		return nil, fmt.Errorf("unknown message type (%02x)", packet[1])
 	}

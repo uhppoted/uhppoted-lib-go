@@ -194,3 +194,12 @@ func RecordSpecialEvents[T TController](u Uhppoted, controller T, enabled bool, 
 
 	return exec[T, RecordSpecialEventsResponse](u, controller, f, timeout)
 }
+
+// Retrieves the requested access time profile from a controller.
+func GetTimeProfile[T TController](u Uhppoted, controller T, profile uint8, timeout time.Duration) (GetTimeProfileResponse, error) {
+	f := func(id uint32) ([]byte, error) {
+		return encode.GetTimeProfileRequest(id, profile)
+	}
+
+	return exec[T, GetTimeProfileResponse](u, controller, f, timeout)
+}

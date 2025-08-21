@@ -660,6 +660,44 @@ func TestRecordSpecialEvents(t *testing.T) {
 	}
 }
 
+func TestGetTimeProfile(t *testing.T) {
+	packet := []byte{
+		0x17, 0x98, 0x00, 0x00, 0x78, 0x37, 0x2a, 0x18, 0x25, 0x20, 0x25, 0x11, 0x26, 0x20, 0x25, 0x12,
+		0x29, 0x01, 0x01, 0x00, 0x01, 0x00, 0x01, 0x01, 0x08, 0x30, 0x09, 0x45, 0x11, 0x35, 0x13, 0x15,
+		0x14, 0x01, 0x17, 0x59, 0x13, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+		0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+	}
+
+	expected := types.GetTimeProfileResponse{
+		Controller:    405419896,
+		Profile:       37,
+		StartDate:     string2date("2025-11-26"),
+		EndDate:       string2date("2025-12-29"),
+		Monday:        true,
+		Tuesday:       true,
+		Wednesday:     false,
+		Thursday:      true,
+		Friday:        false,
+		Saturday:      true,
+		Sunday:        true,
+		Segment1Start: string2HHmm("08:30"),
+		Segment1End:   string2HHmm("09:45"),
+		Segment2Start: string2HHmm("11:35"),
+		Segment2End:   string2HHmm("13:15"),
+		Segment3Start: string2HHmm("14:01"),
+		Segment3End:   string2HHmm("17:59"),
+		LinkedProfile: 19,
+	}
+
+	response, err := GetTimeProfileResponse(packet)
+
+	if err != nil {
+		t.Fatalf("%v", err)
+	} else if !reflect.DeepEqual(response, expected) {
+		t.Errorf("incorrectly decoded response:\n   expected: %#v\n   got:      %#v", expected, response)
+	}
+}
+
 func IPv4(v string) netip.Addr {
 	return netip.MustParseAddr(v)
 }
@@ -686,6 +724,14 @@ func string2date(v string) time.Time {
 
 func string2time(v string) time.Time {
 	if d, err := time.ParseInLocation("15:04:05", v, time.Local); err != nil {
+		panic(fmt.Sprintf("invalid time (%v)", v))
+	} else {
+		return d
+	}
+}
+
+func string2HHmm(v string) time.Time {
+	if d, err := time.ParseInLocation("15:04", v, time.Local); err != nil {
 		panic(fmt.Sprintf("invalid time (%v)", v))
 	} else {
 		return d

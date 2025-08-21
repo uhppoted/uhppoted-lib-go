@@ -36,6 +36,7 @@ var Expected = struct {
 	GetEventIndex          lib.GetEventIndexResponse
 	SetEventIndex          lib.SetEventIndexResponse
 	RecordSpecialEvents    lib.RecordSpecialEventsResponse
+	GetTimeProfile         lib.GetTimeProfileResponse
 }{
 	FindControllers: []lib.GetControllerResponse{
 		lib.GetControllerResponse{
@@ -284,6 +285,27 @@ var Expected = struct {
 		Controller: 405419896,
 		Ok:         true,
 	},
+
+	GetTimeProfile: lib.GetTimeProfileResponse{
+		Controller:    405419896,
+		Profile:       37,
+		StartDate:     string2date("2025-11-26"),
+		EndDate:       string2date("2025-12-29"),
+		Monday:        true,
+		Tuesday:       true,
+		Wednesday:     false,
+		Thursday:      true,
+		Friday:        false,
+		Saturday:      true,
+		Sunday:        true,
+		Segment1Start: string2HHmm("08:30"),
+		Segment1End:   string2HHmm("09:45"),
+		Segment2Start: string2HHmm("11:35"),
+		Segment2End:   string2HHmm("13:15"),
+		Segment3Start: string2HHmm("14:01"),
+		Segment3End:   string2HHmm("17:59"),
+		LinkedProfile: 19,
+	},
 }
 
 func IPv4(v string) netip.Addr {
@@ -312,6 +334,14 @@ func string2date(v string) time.Time {
 
 func string2time(v string) time.Time {
 	if d, err := time.ParseInLocation("15:04:05", v, time.Local); err != nil {
+		panic(fmt.Sprintf("invalid time (%v)", v))
+	} else {
+		return d
+	}
+}
+
+func string2HHmm(v string) time.Time {
+	if d, err := time.ParseInLocation("15:04", v, time.Local); err != nil {
 		panic(fmt.Sprintf("invalid time (%v)", v))
 	} else {
 		return d

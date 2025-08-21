@@ -31,6 +31,7 @@ func Structs() {
 		model.SetListenerAddrPortResponse,
 		model.SetEventIndexResponse,
 		model.RecordSpecialEventsResponse,
+		model.GetTimeProfileResponse,
 	}
 
 	types := []*ast.GenDecl{}
@@ -120,6 +121,12 @@ func gotype(field types.Field) string {
 		return "uint32"
 
 	case "date":
+		return "time.Time"
+
+	case "optional date":
+		return "time.Time"
+
+	case "HHmm":
 		return "time.Time"
 
 	case "IPv4":

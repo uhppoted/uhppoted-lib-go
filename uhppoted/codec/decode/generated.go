@@ -708,3 +708,47 @@ func RecordSpecialEventsResponse(packet []byte) (types.RecordSpecialEventsRespon
 		Ok:         unpackBool(packet, 8),
 	}, nil
 }
+
+// Decodes a get-time-profile-response response.
+//
+//	Parameters:
+//	    packet  (bytearray)  64 byte UDP packet.
+//
+//	Returns:
+//	    - GetTimeProfileResponse initialised from the UDP packet.
+//	    - error if the packet is not 64 bytes, has an invalid start-of-message byte or has
+//	               the incorrect message type.
+func GetTimeProfileResponse(packet []byte) (types.GetTimeProfileResponse, error) {
+	if len(packet) != 64 {
+		return types.GetTimeProfileResponse{}, fmt.Errorf("invalid reply packet length (%v)", len(packet))
+	}
+
+	if packet[0] != SOM {
+		return types.GetTimeProfileResponse{}, fmt.Errorf("invalid reply start of message byte (%02x)", packet[0])
+	}
+
+	if packet[1] != 152 {
+		return types.GetTimeProfileResponse{}, fmt.Errorf("invalid reply function code (%02x)", packet[1])
+	}
+
+	return types.GetTimeProfileResponse{
+		Controller:    unpackUint32(packet, 4),
+		Profile:       unpackUint8(packet, 8),
+		StartDate:     unpackOptionalDate(packet, 9),
+		EndDate:       unpackOptionalDate(packet, 13),
+		Monday:        unpackBool(packet, 17),
+		Tuesday:       unpackBool(packet, 18),
+		Wednesday:     unpackBool(packet, 19),
+		Thursday:      unpackBool(packet, 20),
+		Friday:        unpackBool(packet, 21),
+		Saturday:      unpackBool(packet, 22),
+		Sunday:        unpackBool(packet, 23),
+		Segment1Start: unpackHHMM(packet, 24),
+		Segment1End:   unpackHHMM(packet, 26),
+		Segment2Start: unpackHHMM(packet, 28),
+		Segment2End:   unpackHHMM(packet, 30),
+		Segment3Start: unpackHHMM(packet, 32),
+		Segment3End:   unpackHHMM(packet, 34),
+		LinkedProfile: unpackUint8(packet, 36),
+	}, nil
+}

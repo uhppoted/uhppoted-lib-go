@@ -238,6 +238,9 @@ func unpack(field lib.Field) string {
 	case "time":
 		return fmt.Sprintf("unpackHHMMSS(packet, %v)", field.Offset)
 
+	case "HHmm":
+		return fmt.Sprintf("unpackHHMM(packet, %v)", field.Offset)
+
 	case "IPv4":
 		return fmt.Sprintf("unpackIPv4(packet, %v)", field.Offset)
 
@@ -326,8 +329,14 @@ func value(v any, vtype string) string {
 	case "date":
 		return fmt.Sprintf(`string2date("%v")`, v)
 
+	case "optional date":
+		return fmt.Sprintf(`string2date("%v")`, v)
+
 	case "time":
 		return fmt.Sprintf(`string2time("%v")`, v)
+
+	case "HHmm":
+		return fmt.Sprintf(`string2HHmm("%v")`, v)
 
 	case "string":
 		return fmt.Sprintf(`"%v"`, v)

@@ -339,3 +339,15 @@ func TestRecordSpecialEvents(t *testing.T) {
 		t.Errorf("incorrect response\n   expected:%#v\n   got:     %#v", test.Expected.RecordSpecialEvents, response)
 	}
 }
+
+func TestGetTimeProfile(t *testing.T) {
+	profile := uint8(37)
+
+	response, err := lib.GetTimeProfile(u, controller, profile, timeout)
+
+	if err != nil {
+		t.Fatalf("%v", err)
+	} else if !reflect.DeepEqual(response, test.Expected.GetTimeProfile) {
+		t.Errorf("incorrect response\n   expected:%#v\n   got:     %#v", test.Expected.GetTimeProfile, response)
+	}
+}

@@ -28,7 +28,7 @@ build: format
 	go build -trimpath ./...
 
 debug: build
-	cd examples/cli && make record-special-events
+	cd examples/cli && make get-time-profile
 
 test: build
 	go test ./uhppoted/...
@@ -179,3 +179,8 @@ record-special-events: build
 	cd examples/cli && make record-special-events
 	cd examples/cli && make record-special-events-udp
 	cd examples/cli && make record-special-events-tcp
+
+get-time-profile: build
+	cd examples/cli && make get-time-profile
+	cd examples/cli && make get-time-profile-udp
+	cd examples/cli && make get-time-profile-tcp

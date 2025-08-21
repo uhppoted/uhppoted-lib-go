@@ -148,10 +148,20 @@ func unpackOptionalDate(packet []byte, offset uint8) time.Time {
 func unpackHHMMSS(packet []byte, offset uint8) time.Time {
 	bcd := bcd2string(packet[offset : offset+3])
 
-	if date, err := time.ParseInLocation("150405", bcd, time.Local); err != nil {
+	if t, err := time.ParseInLocation("150405", bcd, time.Local); err != nil {
 		return time.Time{}
 	} else {
-		return date
+		return t
+	}
+}
+
+func unpackHHMM(packet []byte, offset uint8) time.Time {
+	bcd := bcd2string(packet[offset : offset+2])
+
+	if t, err := time.ParseInLocation("1504", bcd, time.Local); err != nil {
+		return time.Time{}
+	} else {
+		return t
 	}
 }
 

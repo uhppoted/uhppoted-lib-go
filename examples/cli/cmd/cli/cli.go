@@ -31,6 +31,7 @@ var commands = map[string]func(u lib.Uhppoted, args []string) error{
 	"get-event-index":       getEventIndex,
 	"set-event-index":       setEventIndex,
 	"record-special-events": recordSpecialEvents,
+	"get-time-profile":      getTimeProfile,
 }
 
 func exec(args controller, flagset *flag.FlagSet, f func(c uint32) (any, error), g func(c lib.Controller) (any, error)) (any, error) {

@@ -259,3 +259,12 @@ record-special-events-udp: build
 record-special-events-tcp: build
 	$(CMD) record-special-events --controller $(CONTROLLER) --dest $(DEST) --tcp --enabled true
 
+get-time-profile: build
+	$(CMD) get-time-profile --controller $(CONTROLLER) --profile 29
+
+get-time-profile-udp: build
+	$(CMD) get-time-profile --controller $(CONTROLLER) --dest $(DEST) --profile 29
+
+get-time-profile-tcp: build
+	$(CMD) get-time-profile --controller $(CONTROLLER) --dest $(DEST) --tcp --profile 29
+

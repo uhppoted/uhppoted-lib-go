@@ -74,6 +74,7 @@ type GetEventResponse = types.GetEventResponse
 type GetEventIndexResponse = types.GetEventIndexResponse
 type SetEventIndexResponse = types.SetEventIndexResponse
 type RecordSpecialEventsResponse = types.RecordSpecialEventsResponse
+type GetTimeProfileResponse = types.GetTimeProfileResponse
 
 // NewUhppoted creates a new instance of the uhppoted service, configured with the supplied
 // local bind address, broadcast address, and listen address. The debug flag enables or
