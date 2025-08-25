@@ -37,6 +37,7 @@ func Structs() {
 		model.SetEventIndexResponse,
 		model.RecordSpecialEventsResponse,
 		model.GetTimeProfileResponse,
+		model.SetTimeProfileResponse,
 	}
 
 	types := []*ast.GenDecl{}

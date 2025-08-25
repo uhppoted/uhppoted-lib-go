@@ -146,6 +146,17 @@ func TestGetStatus(t *testing.T) {
 	}
 }
 
+func TestGetStatusNoEvent(t *testing.T) {
+
+	response, err := lib.GetStatus(u, controller, timeout)
+
+	if err != nil {
+		t.Fatalf("%v", err)
+	} else if !reflect.DeepEqual(response, test.Expected.GetStatusNoEvent) {
+		t.Errorf("incorrect response\n   expected:%#v\n   got:     %#v", test.Expected.GetStatusNoEvent, response)
+	}
+}
+
 func TestGetCards(t *testing.T) {
 
 	response, err := lib.GetCards(u, controller, timeout)
@@ -303,5 +314,33 @@ func TestGetTimeProfile(t *testing.T) {
 		t.Fatalf("%v", err)
 	} else if !reflect.DeepEqual(response, test.Expected.GetTimeProfile) {
 		t.Errorf("incorrect response\n   expected:%#v\n   got:     %#v", test.Expected.GetTimeProfile, response)
+	}
+}
+
+func TestSetTimeProfile(t *testing.T) {
+	profile := uint8(37)
+	startDate := string2date("2025-11-26")
+	endDate := string2date("2025-12-29")
+	monday := true
+	tuesday := true
+	wednesday := false
+	thursday := true
+	friday := false
+	saturday := true
+	sunday := true
+	segment1Start := string2HHmm("8:30")
+	segment1End := string2HHmm("9:45")
+	segment2Start := string2HHmm("11:35")
+	segment2End := string2HHmm("13:15")
+	segment3Start := string2HHmm("14:01")
+	segment3End := string2HHmm("17:59")
+	linkedProfileId := uint8(19)
+
+	response, err := lib.SetTimeProfile(u, controller, profile, startDate, endDate, monday, tuesday, wednesday, thursday, friday, saturday, sunday, segment1Start, segment1End, segment2Start, segment2End, segment3Start, segment3End, linkedProfileId, timeout)
+
+	if err != nil {
+		t.Fatalf("%v", err)
+	} else if !reflect.DeepEqual(response, test.Expected.SetTimeProfile) {
+		t.Errorf("incorrect response\n   expected:%#v\n   got:     %#v", test.Expected.SetTimeProfile, response)
 	}
 }

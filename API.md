@@ -23,6 +23,7 @@
 - [`SetEventIndex`](#seteventindex)
 - [`RecordSpecialEvents`](#recordspecialevents)
 - [`GetTimeProfile`](#gettimeprofile)
+- [`SetTimeProfile`](#settimeprofile)
 ---
 Invoking an API function requires an instance of the `Uhppoted` struct initialised with the information required
 to access a controller:
@@ -394,6 +395,52 @@ timeout     maximum time to wait for a response from a controller
 Returns a `GetTimeProfileResponse`.
 ```
 
+### `SetTimeProfile`
+```
+SetTimeProfile(u Uhppoted, controller     TController, 
+                           profile        uint8, 
+                           startDate      time.Time,
+                           endDate        time.Time,
+                           monday         bool,
+                           tuesday        bool,
+                           wednesday      bool,
+                           thursday       bool,
+                           friday         bool,
+                           saturday       bool,
+                           sunday         bool,
+                           segment1Start  time.Time,
+                           segment1End    time.Time,
+                           segment2Start  time.Time,
+                           segment2End    time.Time,
+                           segment3Start  time.Time,
+                           segment3End    time.Time,
+                           linkedProfile  uint8,
+                           timeout        time.Duration) (SetTimeProfileResponse,error)
+
+u              Uhppoted struct initialised with the bind address, broadcast address, etc
+controller     uint32|Controller controller serial number or {id, address, protocol} Controller struct
+profile        uint8             profile Id ([2..254] to create/update
+startDate      time.Time         date from which profile is valid (inclusive)
+endDate        time.Time         date after which profile is invalid
+monday         bool              profile enabled on Monday if true
+tuesday        bool              profile enabled on Tuesday if true
+wednesday      bool              profile enabled on Wednesday if true
+thursday       bool              profile enabled on Thursday if true
+friday         bool              profile enabled on Monday if true
+saturday       bool              profile enabled on Friday if true
+sunday         bool              profile enabled on Sunday if true
+segment1Start  time.Time         start time for first time segment
+segment1End    time.Time         end time for first time segment
+segment2Start  time.Time         start time for second time segment
+segment2End    time.Time         end time for second time segment
+segment3Start  time.Time         start time for third time segment
+segment3End    time.Time         end time for third time segment
+linkedProfile  uint8             ID of linked profile (0 if not linked)
+timeout        maximum time to wait for a response from a controller
+
+Returns a `SetTimeProfileResponse`.
+```
+
 
 ## Types
 
@@ -732,5 +779,15 @@ type GetTimeProfileResponse struct {
   Segment3Start  time.Time  `json:"segment3-start"`  // start time for third time segment
   Segment3End    time.Time  `json:"segment3-end"`    // end time for third time segment
   LinkedProfile  uint8      `json:"linked-profile"`  // ID of linked profile (0 if not linked)
+}
+```
+
+### `SetTimeProfileResponse`
+
+Container class for the decoded response from a _SetTimeProfile_ request.
+```
+type SetTimeProfileResponse struct {
+  Controller  uint32  `json:"controller"` // controller serial number
+  Ok          bool    `json:"ok"`         // succeeded/failed
 }
 ```

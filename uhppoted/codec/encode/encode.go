@@ -116,6 +116,19 @@ func packDate(v time.Time, packet []byte, offset int) {
 	copy(packet[offset:], bytes)
 }
 
+// Packs an hour:minute value 'in-place' as a 2-byte BCD value into the packet at the offset.
+//
+//	Parameters:
+//	   v      (time.Time)  date/time.
+//	   packet (bytearray)  64 byte array.
+//	   offset (int)        Value location in array.
+func packHHmm(v time.Time, packet []byte, offset uint8) {
+	s := v.Format("1504")
+	bytes := string2bcd(s)
+
+	copy(packet[offset:], bytes)
+}
+
 // Packs a 6 digit PIN as a 3-byte uint value into the packet at the offset.
 //
 //	Parameters:

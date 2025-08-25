@@ -78,6 +78,9 @@ func function(f types.Function) *ast.FuncDecl {
 			case "datetime":
 				t = "time.Time"
 
+			case "HHmm":
+				t = "time.Time"
+
 			case "pin":
 				t = "uint32"
 			}

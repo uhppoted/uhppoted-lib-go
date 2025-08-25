@@ -31,6 +31,7 @@ var Responses = []*types.Response{
 	&SetEventIndexResponse,
 	&RecordSpecialEventsResponse,
 	&GetTimeProfileResponse,
+	&SetTimeProfileResponse,
 }
 
 var GetControllerResponse = lib.GetControllerResponse
@@ -57,3 +58,4 @@ var GetEventIndexResponse = lib.GetEventIndexResponse
 var SetEventIndexResponse = lib.SetEventIndexResponse
 var RecordSpecialEventsResponse = lib.RecordSpecialEventsResponse
 var GetTimeProfileResponse = lib.GetTimeProfileResponse
+var SetTimeProfileResponse = lib.SetTimeProfileResponse

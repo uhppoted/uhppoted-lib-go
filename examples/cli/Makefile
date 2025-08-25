@@ -268,3 +268,12 @@ get-time-profile-udp: build
 get-time-profile-tcp: build
 	$(CMD) get-time-profile --controller $(CONTROLLER) --dest $(DEST) --tcp --profile 29
 
+set-time-profile: build
+	$(CMD) set-time-profile --controller $(CONTROLLER) --profile 29
+
+set-time-profile-udp: build
+	$(CMD) set-time-profile --controller $(CONTROLLER) --dest $(DEST) --profile 29
+
+set-time-profile-tcp: build
+	$(CMD) set-time-profile --controller $(CONTROLLER) --dest $(DEST) --tcp --profile 29
+

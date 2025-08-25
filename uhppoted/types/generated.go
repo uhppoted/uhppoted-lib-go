@@ -120,3 +120,10 @@ type GetTimeProfileResponse struct {
 	Segment3End   time.Time `json:"segment3-end"`
 	LinkedProfile uint8     `json:"linked-profile"`
 }
+
+// Container struct for the response returned from an access controller when adding/updating
+// an access time profile.
+type SetTimeProfileResponse struct {
+	Controller uint32 `json:"controller"`
+	Ok         bool   `json:"ok"`
+}

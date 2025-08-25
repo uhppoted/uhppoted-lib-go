@@ -477,3 +477,55 @@ func GetTimeProfileRequest(controller uint32, profile uint8) ([]byte, error) {
 
 	return packet, nil
 }
+
+// Encodes a set-time-profile-request.
+//
+//	Parameters:
+//	    controller  (uint32)  controller serial number
+//	    profile  (uint8)
+//	    start date  (date)
+//	    end date  (date)
+//	    monday  (bool)
+//	    tuesday  (bool)
+//	    wednesday  (bool)
+//	    thursday  (bool)
+//	    friday  (bool)
+//	    saturday  (bool)
+//	    sunday  (bool)
+//	    segment 1 start  (HHmm)
+//	    segment 1 end  (HHmm)
+//	    segment 2 start  (HHmm)
+//	    segment 2 end  (HHmm)
+//	    segment 3 start  (HHmm)
+//	    segment 3 end  (HHmm)
+//	    linked profile id  (uint8)
+//
+//	Returns:
+//	    64 byte packet.
+func SetTimeProfileRequest(controller uint32, profile uint8, startdate time.Time, enddate time.Time, monday bool, tuesday bool, wednesday bool, thursday bool, friday bool, saturday bool, sunday bool, segment1start time.Time, segment1end time.Time, segment2start time.Time, segment2end time.Time, segment3start time.Time, segment3end time.Time, linkedprofileid uint8) ([]byte, error) {
+	packet := make([]byte, 64)
+
+	packet[0] = SOM
+	packet[1] = 136
+
+	packUint32(controller, packet, 4)
+	packUint8(profile, packet, 8)
+	packDate(startdate, packet, 9)
+	packDate(enddate, packet, 13)
+	packBool(monday, packet, 17)
+	packBool(tuesday, packet, 18)
+	packBool(wednesday, packet, 19)
+	packBool(thursday, packet, 20)
+	packBool(friday, packet, 21)
+	packBool(saturday, packet, 22)
+	packBool(sunday, packet, 23)
+	packHHmm(segment1start, packet, 24)
+	packHHmm(segment1end, packet, 26)
+	packHHmm(segment2start, packet, 28)
+	packHHmm(segment2end, packet, 30)
+	packHHmm(segment3start, packet, 32)
+	packHHmm(segment3end, packet, 34)
+	packUint8(linkedprofileid, packet, 36)
+
+	return packet, nil
+}

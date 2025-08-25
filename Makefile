@@ -28,7 +28,7 @@ build: format
 	go build -trimpath ./...
 
 debug: build
-	cd examples/cli && make get-time-profile
+	cd examples/cli && make set-time-profile
 
 test: build
 	go test ./uhppoted/...
@@ -184,3 +184,8 @@ get-time-profile: build
 	cd examples/cli && make get-time-profile
 	cd examples/cli && make get-time-profile-udp
 	cd examples/cli && make get-time-profile-tcp
+
+set-time-profile: build
+	cd examples/cli && make set-time-profile
+	cd examples/cli && make set-time-profile-udp
+	cd examples/cli && make set-time-profile-tcp

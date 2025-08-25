@@ -24,6 +24,7 @@
 - [x] get-event-index
 - [x] record-special-events
 - [x] get-time-profile
+- [x] set-time-profile
    - [x] API
    - [x] CLI
    - [x] integration test

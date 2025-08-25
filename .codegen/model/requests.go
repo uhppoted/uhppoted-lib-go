@@ -28,6 +28,7 @@ var Requests = []types.Request{
 	SetEventIndexRequest,
 	RecordSpecialEventsRequest,
 	GetTimeProfileRequest,
+	SetTimeProfileRequest,
 }
 
 var GetControllerRequest = lib.GetControllerRequest
@@ -52,3 +53,4 @@ var GetEventIndexRequest = lib.GetEventIndexRequest
 var SetEventIndexRequest = lib.SetEventIndexRequest
 var RecordSpecialEventsRequest = lib.RecordSpecialEventsRequest
 var GetTimeProfileRequest = lib.GetTimeProfileRequest
+var SetTimeProfileRequest = lib.SetTimeProfileRequest

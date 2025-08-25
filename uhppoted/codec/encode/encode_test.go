@@ -417,6 +417,23 @@ func TestGetTimeProfile(t *testing.T) {
 		t.Errorf("get time profile request: incorrectly encoded request\n   expected:%v\n   got:     %v", expected, packet)
 	}
 }
+
+func TestSetTimeProfile(t *testing.T) {
+	expected := []byte{
+		0x17, 0x88, 0x00, 0x00, 0x78, 0x37, 0x2a, 0x18, 0x25, 0x20, 0x25, 0x11, 0x26, 0x20, 0x25, 0x12,
+		0x29, 0x01, 0x01, 0x00, 0x01, 0x00, 0x01, 0x01, 0x08, 0x30, 0x09, 0x45, 0x11, 0x35, 0x13, 0x15,
+		0x14, 0x01, 0x17, 0x59, 0x13, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+		0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+	}
+
+	packet, err := SetTimeProfileRequest(uint32(405419896), uint8(37), string2date("2025-11-26"), string2date("2025-12-29"), true, true, false, true, false, true, true, string2HHmm("8:30"), string2HHmm("9:45"), string2HHmm("11:35"), string2HHmm("13:15"), string2HHmm("14:01"), string2HHmm("17:59"), uint8(19))
+
+	if err != nil {
+		t.Fatalf("%v", err)
+	} else if !slices.Equal(packet, expected) {
+		t.Errorf("set time profile request: incorrectly encoded request\n   expected:%v\n   got:     %v", expected, packet)
+	}
+}
 func string2datetime(v string) time.Time {
 	if d, err := time.ParseInLocation("2006-01-02 15:04:05", v, time.Local); err != nil {
 		panic(fmt.Sprintf("invalid datetime (%v)", v))
@@ -430,5 +447,13 @@ func string2date(v string) time.Time {
 		panic(fmt.Sprintf("invalid date (%v)", v))
 	} else {
 		return d
+	}
+}
+
+func string2HHmm(v string) time.Time {
+	if t, err := time.ParseInLocation("15:04", v, time.Local); err != nil {
+		panic(fmt.Sprintf("invalid time (%v)", v))
+	} else {
+		return t
 	}
 }

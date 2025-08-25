@@ -53,3 +53,4 @@ folder.
 - [`SetEventIndex`](API.md#seteventindex)
 - [`RecordSpecialEvents`](API.md#recordspecialevents)
 - [`GetTimeProfile`](API.md#gettimeprofile)
+- [`SetTimeProfile`](API.md#settimeprofile)

@@ -124,6 +124,9 @@ func testarg(arg lib.TestArg) string {
 	case "date":
 		return fmt.Sprintf(`string2date("%v")`, arg.Value)
 
+	case "HHmm":
+		return fmt.Sprintf(`string2HHmm("%v")`, arg.Value)
+
 	case "pin":
 		return fmt.Sprintf(`uint32(%v)`, arg.Value)
 
@@ -148,6 +151,9 @@ func fields2args(fields []lib.Field) string {
 			args = append(args, fmt.Sprintf("%v time.Time", name))
 
 		case "date":
+			args = append(args, fmt.Sprintf("%v time.Time", name))
+
+		case "HHmm":
 			args = append(args, fmt.Sprintf("%v time.Time", name))
 
 		case "pin":
@@ -191,6 +197,9 @@ func pack(field lib.Field) string {
 
 	case "date":
 		return fmt.Sprintf("packDate(%v, packet, %v)", name, field.Offset)
+
+	case "HHmm":
+		return fmt.Sprintf("packHHmm(%v, packet, %v)", name, field.Offset)
 
 	case "pin":
 		return fmt.Sprintf("packPIN(%v, packet, %v)", name, field.Offset)
@@ -281,7 +290,7 @@ func lookup(path, key, defval string) any {
 		"shortdate":  "Date",
 		"time":       "Time",
 		"datetime":   "DateTime",
-		"HHmm":       "HHmm",
+		"HHmm":       "time.Time",
 		"pin":        "PIN",
 		"controller": "Controller",
 

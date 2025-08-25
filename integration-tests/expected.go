@@ -21,6 +21,7 @@ var Expected = struct {
 	SetDoorPasscodes       lib.SetDoorPasscodesResponse
 	OpenDoor               lib.OpenDoorResponse
 	GetStatus              lib.GetStatusResponse
+	GetStatusNoEvent       lib.GetStatusResponse
 	GetCards               lib.GetCardsResponse
 	GetCard                lib.GetCardResponse
 	GetCardNotFound        lib.GetCardResponse
@@ -37,6 +38,7 @@ var Expected = struct {
 	SetEventIndex          lib.SetEventIndexResponse
 	RecordSpecialEvents    lib.RecordSpecialEventsResponse
 	GetTimeProfile         lib.GetTimeProfileResponse
+	SetTimeProfile         lib.SetTimeProfileResponse
 }{
 	FindControllers: []lib.GetControllerResponse{
 		lib.GetControllerResponse{
@@ -129,6 +131,33 @@ var Expected = struct {
 	},
 
 	GetStatus: lib.GetStatusResponse{
+		Controller:         405419896,
+		SystemDate:         string2date("2022-08-23"),
+		SystemTime:         string2time("09:49:39"),
+		Door1Open:          false,
+		Door2Open:          true,
+		Door3Open:          false,
+		Door4Open:          false,
+		Door1Button:        false,
+		Door2Button:        false,
+		Door3Button:        false,
+		Door4Button:        true,
+		Relays:             7,
+		Inputs:             9,
+		SystemError:        3,
+		SpecialInfo:        39,
+		EventIndex:         78,
+		EventType:          2,
+		EventAccessGranted: true,
+		EventDoor:          3,
+		EventDirection:     1,
+		EventCard:          8165537,
+		EventTimestamp:     string2datetime("2022-08-23 09:47:06"),
+		EventReason:        44,
+		SequenceNo:         0,
+	},
+
+	GetStatusNoEvent: lib.GetStatusResponse{
 		Controller:         405419896,
 		SystemDate:         string2date("2022-08-23"),
 		SystemTime:         string2time("09:49:39"),
@@ -305,6 +334,11 @@ var Expected = struct {
 		Segment3Start: string2HHmm("14:01"),
 		Segment3End:   string2HHmm("17:59"),
 		LinkedProfile: 19,
+	},
+
+	SetTimeProfile: lib.SetTimeProfileResponse{
+		Controller: 405419896,
+		Ok:         true,
 	},
 }
 

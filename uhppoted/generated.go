@@ -96,7 +96,7 @@ func OpenDoor[T TController](u Uhppoted, controller T, door uint8, timeout time.
 	return exec[T, OpenDoorResponse](u, controller, f, timeout)
 }
 
-// GetStatus retrieves the system status from an access controller.
+// Retrieves the system status from an access controller.
 func GetStatus[T TController](u Uhppoted, controller T, timeout time.Duration) (GetStatusResponse, error) {
 	f := func(id uint32) ([]byte, error) {
 		return encode.GetStatusRequest(id)
@@ -202,4 +202,13 @@ func GetTimeProfile[T TController](u Uhppoted, controller T, profile uint8, time
 	}
 
 	return exec[T, GetTimeProfileResponse](u, controller, f, timeout)
+}
+
+// Adds or updates an access time profile stored on a controller.
+func SetTimeProfile[T TController](u Uhppoted, controller T, profile uint8, startdate time.Time, enddate time.Time, monday bool, tuesday bool, wednesday bool, thursday bool, friday bool, saturday bool, sunday bool, segment1start time.Time, segment1end time.Time, segment2start time.Time, segment2end time.Time, segment3start time.Time, segment3end time.Time, linkedprofileid uint8, timeout time.Duration) (SetTimeProfileResponse, error) {
+	f := func(id uint32) ([]byte, error) {
+		return encode.SetTimeProfileRequest(id, profile, startdate, enddate, monday, tuesday, wednesday, thursday, friday, saturday, sunday, segment1start, segment1end, segment2start, segment2end, segment3start, segment3end, linkedprofileid)
+	}
+
+	return exec[T, SetTimeProfileResponse](u, controller, f, timeout)
 }
