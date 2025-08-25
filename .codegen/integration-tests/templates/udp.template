@@ -11,6 +11,13 @@ import (
 
 {{ range $func := . }}{{ if includes $func.Protocols "udp"}}{{ range $test := $func.Tests }}
 func Test{{ titleCase $test.Name }}(t *testing.T) {
+{{- range $arg := $test.Args }}{{ if eq $arg.Name "controller"}}
+      controller := lib.Controller{
+                        ID: {{ testarg $arg }},
+                        Address:  netip.MustParseAddrPort("127.0.0.1:50002"),
+                        Protocol: "udp",
+                     }{{ end }}
+{{ end }}
 {{- range $arg := $test.Args }}{{ if ne $arg.Name "controller"}}      {{ camelCase $arg.Name }} := {{ testarg $arg }}{{ end }}
 {{ end }}
     response, err := lib.{{ titleCase $func.Name }}(u{{ range $arg := $test.Args }}, {{ camelCase $arg.Name }}{{end }}, timeout)

@@ -16,9 +16,7 @@ import (
 var bind = netip.MustParseAddrPort("0.0.0.0:0")
 var broadcast = netip.MustParseAddrPort("255.255.255.255:50001")
 var listen = netip.MustParseAddrPort("0.0.0.0:60001")
-
 var u = lib.NewUhppoted(bind, broadcast, listen, false)
-var controller = uint32(405419896)
 
 const timeout = 1000 * time.Millisecond
 

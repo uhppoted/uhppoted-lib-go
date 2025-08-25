@@ -10,6 +10,11 @@ import (
 )
 
 func TestGetController(t *testing.T) {
+	controller := lib.Controller{
+		ID:       uint32(405419896),
+		Address:  netip.MustParseAddrPort("127.0.0.1:50002"),
+		Protocol: "udp",
+	}
 
 	response, err := lib.GetController(u, controller, timeout)
 
@@ -21,6 +26,12 @@ func TestGetController(t *testing.T) {
 }
 
 func TestSetIPv4(t *testing.T) {
+	controller := lib.Controller{
+		ID:       uint32(405419896),
+		Address:  netip.MustParseAddrPort("127.0.0.1:50002"),
+		Protocol: "udp",
+	}
+
 	address := netip.MustParseAddr("192.168.1.125")
 	netmask := netip.MustParseAddr("255.255.255.0")
 	gateway := netip.MustParseAddr("192.168.1.1")
@@ -35,6 +46,11 @@ func TestSetIPv4(t *testing.T) {
 }
 
 func TestGetTime(t *testing.T) {
+	controller := lib.Controller{
+		ID:       uint32(405419896),
+		Address:  netip.MustParseAddrPort("127.0.0.1:50002"),
+		Protocol: "udp",
+	}
 
 	response, err := lib.GetTime(u, controller, timeout)
 
@@ -46,6 +62,12 @@ func TestGetTime(t *testing.T) {
 }
 
 func TestSetTime(t *testing.T) {
+	controller := lib.Controller{
+		ID:       uint32(405419896),
+		Address:  netip.MustParseAddrPort("127.0.0.1:50002"),
+		Protocol: "udp",
+	}
+
 	dateTime := string2datetime("2025-11-04 12:34:56")
 
 	response, err := lib.SetTime(u, controller, dateTime, timeout)
@@ -58,6 +80,11 @@ func TestSetTime(t *testing.T) {
 }
 
 func TestGetListener(t *testing.T) {
+	controller := lib.Controller{
+		ID:       uint32(405419896),
+		Address:  netip.MustParseAddrPort("127.0.0.1:50002"),
+		Protocol: "udp",
+	}
 
 	response, err := lib.GetListener(u, controller, timeout)
 
@@ -69,6 +96,12 @@ func TestGetListener(t *testing.T) {
 }
 
 func TestSetListener(t *testing.T) {
+	controller := lib.Controller{
+		ID:       uint32(405419896),
+		Address:  netip.MustParseAddrPort("127.0.0.1:50002"),
+		Protocol: "udp",
+	}
+
 	listener := netip.MustParseAddrPort("192.168.1.100:60001")
 	interval := uint8(17)
 
@@ -82,6 +115,12 @@ func TestSetListener(t *testing.T) {
 }
 
 func TestGetDoor(t *testing.T) {
+	controller := lib.Controller{
+		ID:       uint32(405419896),
+		Address:  netip.MustParseAddrPort("127.0.0.1:50002"),
+		Protocol: "udp",
+	}
+
 	door := uint8(4)
 
 	response, err := lib.GetDoor(u, controller, door, timeout)
@@ -94,6 +133,12 @@ func TestGetDoor(t *testing.T) {
 }
 
 func TestSetDoor(t *testing.T) {
+	controller := lib.Controller{
+		ID:       uint32(405419896),
+		Address:  netip.MustParseAddrPort("127.0.0.1:50002"),
+		Protocol: "udp",
+	}
+
 	door := uint8(4)
 	mode := uint8(2)
 	delay := uint8(17)
@@ -108,6 +153,12 @@ func TestSetDoor(t *testing.T) {
 }
 
 func TestSetDoorPasscodes(t *testing.T) {
+	controller := lib.Controller{
+		ID:       uint32(405419896),
+		Address:  netip.MustParseAddrPort("127.0.0.1:50002"),
+		Protocol: "udp",
+	}
+
 	door := uint8(4)
 	passcode1 := uint32(12345)
 	passcode2 := uint32(54321)
@@ -124,6 +175,12 @@ func TestSetDoorPasscodes(t *testing.T) {
 }
 
 func TestOpenDoor(t *testing.T) {
+	controller := lib.Controller{
+		ID:       uint32(405419896),
+		Address:  netip.MustParseAddrPort("127.0.0.1:50002"),
+		Protocol: "udp",
+	}
+
 	door := uint8(4)
 
 	response, err := lib.OpenDoor(u, controller, door, timeout)
@@ -136,6 +193,11 @@ func TestOpenDoor(t *testing.T) {
 }
 
 func TestGetStatus(t *testing.T) {
+	controller := lib.Controller{
+		ID:       uint32(405419896),
+		Address:  netip.MustParseAddrPort("127.0.0.1:50002"),
+		Protocol: "udp",
+	}
 
 	response, err := lib.GetStatus(u, controller, timeout)
 
@@ -147,6 +209,11 @@ func TestGetStatus(t *testing.T) {
 }
 
 func TestGetStatusNoEvent(t *testing.T) {
+	controller := lib.Controller{
+		ID:       uint32(405419897),
+		Address:  netip.MustParseAddrPort("127.0.0.1:50002"),
+		Protocol: "udp",
+	}
 
 	response, err := lib.GetStatus(u, controller, timeout)
 
@@ -158,6 +225,11 @@ func TestGetStatusNoEvent(t *testing.T) {
 }
 
 func TestGetCards(t *testing.T) {
+	controller := lib.Controller{
+		ID:       uint32(405419896),
+		Address:  netip.MustParseAddrPort("127.0.0.1:50002"),
+		Protocol: "udp",
+	}
 
 	response, err := lib.GetCards(u, controller, timeout)
 
@@ -169,6 +241,12 @@ func TestGetCards(t *testing.T) {
 }
 
 func TestGetCard(t *testing.T) {
+	controller := lib.Controller{
+		ID:       uint32(405419896),
+		Address:  netip.MustParseAddrPort("127.0.0.1:50002"),
+		Protocol: "udp",
+	}
+
 	card := uint32(10058400)
 
 	response, err := lib.GetCard(u, controller, card, timeout)
@@ -181,6 +259,12 @@ func TestGetCard(t *testing.T) {
 }
 
 func TestGetCardNotFound(t *testing.T) {
+	controller := lib.Controller{
+		ID:       uint32(405419896),
+		Address:  netip.MustParseAddrPort("127.0.0.1:50002"),
+		Protocol: "udp",
+	}
+
 	card := uint32(10058401)
 
 	response, err := lib.GetCard(u, controller, card, timeout)
@@ -193,6 +277,12 @@ func TestGetCardNotFound(t *testing.T) {
 }
 
 func TestPutCard(t *testing.T) {
+	controller := lib.Controller{
+		ID:       uint32(405419896),
+		Address:  netip.MustParseAddrPort("127.0.0.1:50002"),
+		Protocol: "udp",
+	}
+
 	card := uint32(10058400)
 	startDate := string2date("2025-01-01")
 	endDate := string2date("2025-12-31")
@@ -212,6 +302,12 @@ func TestPutCard(t *testing.T) {
 }
 
 func TestDeleteCard(t *testing.T) {
+	controller := lib.Controller{
+		ID:       uint32(405419896),
+		Address:  netip.MustParseAddrPort("127.0.0.1:50002"),
+		Protocol: "udp",
+	}
+
 	card := uint32(10058400)
 
 	response, err := lib.DeleteCard(u, controller, card, timeout)
@@ -224,6 +320,11 @@ func TestDeleteCard(t *testing.T) {
 }
 
 func TestDeleteAllCards(t *testing.T) {
+	controller := lib.Controller{
+		ID:       uint32(405419896),
+		Address:  netip.MustParseAddrPort("127.0.0.1:50002"),
+		Protocol: "udp",
+	}
 
 	response, err := lib.DeleteAllCards(u, controller, timeout)
 
@@ -235,6 +336,12 @@ func TestDeleteAllCards(t *testing.T) {
 }
 
 func TestGetEvent(t *testing.T) {
+	controller := lib.Controller{
+		ID:       uint32(405419896),
+		Address:  netip.MustParseAddrPort("127.0.0.1:50002"),
+		Protocol: "udp",
+	}
+
 	eventIndex := uint32(13579)
 
 	response, err := lib.GetEvent(u, controller, eventIndex, timeout)
@@ -247,6 +354,12 @@ func TestGetEvent(t *testing.T) {
 }
 
 func TestGetEventNotFound(t *testing.T) {
+	controller := lib.Controller{
+		ID:       uint32(405419896),
+		Address:  netip.MustParseAddrPort("127.0.0.1:50002"),
+		Protocol: "udp",
+	}
+
 	eventIndex := uint32(24680)
 
 	response, err := lib.GetEvent(u, controller, eventIndex, timeout)
@@ -259,6 +372,12 @@ func TestGetEventNotFound(t *testing.T) {
 }
 
 func TestGetEventOverwritten(t *testing.T) {
+	controller := lib.Controller{
+		ID:       uint32(405419896),
+		Address:  netip.MustParseAddrPort("127.0.0.1:50002"),
+		Protocol: "udp",
+	}
+
 	eventIndex := uint32(98765)
 
 	response, err := lib.GetEvent(u, controller, eventIndex, timeout)
@@ -271,6 +390,11 @@ func TestGetEventOverwritten(t *testing.T) {
 }
 
 func TestGetEventIndex(t *testing.T) {
+	controller := lib.Controller{
+		ID:       uint32(405419896),
+		Address:  netip.MustParseAddrPort("127.0.0.1:50002"),
+		Protocol: "udp",
+	}
 
 	response, err := lib.GetEventIndex(u, controller, timeout)
 
@@ -282,6 +406,12 @@ func TestGetEventIndex(t *testing.T) {
 }
 
 func TestSetEventIndex(t *testing.T) {
+	controller := lib.Controller{
+		ID:       uint32(405419896),
+		Address:  netip.MustParseAddrPort("127.0.0.1:50002"),
+		Protocol: "udp",
+	}
+
 	index := uint32(13579)
 
 	response, err := lib.SetEventIndex(u, controller, index, timeout)
@@ -294,6 +424,12 @@ func TestSetEventIndex(t *testing.T) {
 }
 
 func TestRecordSpecialEvents(t *testing.T) {
+	controller := lib.Controller{
+		ID:       uint32(405419896),
+		Address:  netip.MustParseAddrPort("127.0.0.1:50002"),
+		Protocol: "udp",
+	}
+
 	enabled := true
 
 	response, err := lib.RecordSpecialEvents(u, controller, enabled, timeout)
@@ -306,6 +442,12 @@ func TestRecordSpecialEvents(t *testing.T) {
 }
 
 func TestGetTimeProfile(t *testing.T) {
+	controller := lib.Controller{
+		ID:       uint32(405419896),
+		Address:  netip.MustParseAddrPort("127.0.0.1:50002"),
+		Protocol: "udp",
+	}
+
 	profile := uint8(37)
 
 	response, err := lib.GetTimeProfile(u, controller, profile, timeout)
@@ -318,6 +460,12 @@ func TestGetTimeProfile(t *testing.T) {
 }
 
 func TestSetTimeProfile(t *testing.T) {
+	controller := lib.Controller{
+		ID:       uint32(405419896),
+		Address:  netip.MustParseAddrPort("127.0.0.1:50002"),
+		Protocol: "udp",
+	}
+
 	profile := uint8(37)
 	startDate := string2date("2025-11-26")
 	endDate := string2date("2025-12-29")

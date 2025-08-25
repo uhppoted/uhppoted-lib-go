@@ -28,7 +28,8 @@ build: format
 	go build -trimpath ./...
 
 debug: build
-	cd examples/cli && make set-time-profile
+	# cd examples/cli && make set-time-profile
+	go test ./integration-tests/... -run TestTCPGetStatus
 
 test: build
 	go test ./uhppoted/...
