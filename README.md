@@ -54,3 +54,4 @@ folder.
 - [`RecordSpecialEvents`](API.md#recordspecialevents)
 - [`GetTimeProfile`](API.md#gettimeprofile)
 - [`SetTimeProfile`](API.md#settimeprofile)
+- [`ClearTimeProfiles`](API.md#cleartimeprofiles)

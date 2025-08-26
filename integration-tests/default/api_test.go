@@ -440,3 +440,15 @@ func TestSetTimeProfile(t *testing.T) {
 		t.Errorf("incorrect response\n   expected:%#v\n   got:     %#v", test.Expected.SetTimeProfile, response)
 	}
 }
+
+func TestClearTimeProfiles(t *testing.T) {
+	controller := uint32(405419896)
+
+	response, err := lib.ClearTimeProfiles(u, controller, timeout)
+
+	if err != nil {
+		t.Fatalf("%v", err)
+	} else if !reflect.DeepEqual(response, test.Expected.ClearTimeProfiles) {
+		t.Errorf("incorrect response\n   expected:%#v\n   got:     %#v", test.Expected.ClearTimeProfiles, response)
+	}
+}

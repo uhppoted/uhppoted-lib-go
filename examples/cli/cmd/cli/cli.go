@@ -33,6 +33,7 @@ var commands = map[string]func(u lib.Uhppoted, args []string) error{
 	"record-special-events": recordSpecialEvents,
 	"get-time-profile":      getTimeProfile,
 	"set-time-profile":      setTimeProfile,
+	"clear-time-profiles":   clearTimeProfiles,
 }
 
 func exec(args controller, flagset *flag.FlagSet, f func(c uint32) (any, error), g func(c lib.Controller) (any, error)) (any, error) {

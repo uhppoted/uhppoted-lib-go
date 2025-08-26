@@ -4,7 +4,6 @@
 - [x] get-controller
 - [x] set-IPv4
 - [x] get-status
-   - [x] get-status-no-event
 - [x] get-time
 - [x] set-time
 - [x] get-listener
@@ -24,7 +23,8 @@
 - [x] get-event-index
 - [x] record-special-events
 - [x] get-time-profile
-- [x] set-time-pZrofile
+- [x] set-time-profile
+- [x] clear-time-profiles
    - [x] API
    - [x] CLI
    - [x] integration test

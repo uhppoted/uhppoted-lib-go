@@ -212,3 +212,12 @@ func SetTimeProfile[T TController](u Uhppoted, controller T, profile uint8, star
 
 	return exec[T, SetTimeProfileResponse](u, controller, f, timeout)
 }
+
+// Clears all access time profiles stored on a controller.
+func ClearTimeProfiles[T TController](u Uhppoted, controller T, timeout time.Duration) (ClearTimeProfilesResponse, error) {
+	f := func(id uint32) ([]byte, error) {
+		return encode.ClearTimeProfilesRequest(id)
+	}
+
+	return exec[T, ClearTimeProfilesResponse](u, controller, f, timeout)
+}

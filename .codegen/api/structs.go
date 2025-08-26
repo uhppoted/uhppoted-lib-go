@@ -25,19 +25,32 @@ func Structs() {
 	structs := []types.Response{
 		model.GetControllerResponse,
 		model.SetIPv4Response,
-		model.GetDoorResponse,
-		model.SetDoorResponse,
-		model.SetDoorPasscodesResponse,
-		model.OpenDoorResponse,
+		model.GetTimeResponse,
+		model.SetTimeResponse,
 		model.GetListenerResponse,
 		model.SetListenerResponse,
 		model.GetListenerAddrPortResponse,
 		model.SetListenerAddrPortResponse,
+		model.GetDoorResponse,
+		model.SetDoorResponse,
+		model.SetDoorPasscodesResponse,
+		model.OpenDoorResponse,
+		// GetStatus,
+		// GetCards,
+		// GetCard,
+		// GetCardAtIndex,
+		// PutCard,
+		// DeleteCard,
+		// DeleteAllCards,
+		// GetEvent,
+		// GetEventIndex,
+		// SetEventIndex,
 		model.GetEventIndexResponse,
 		model.SetEventIndexResponse,
 		model.RecordSpecialEventsResponse,
 		model.GetTimeProfileResponse,
 		model.SetTimeProfileResponse,
+		model.ClearTimeProfilesResponse,
 	}
 
 	types := []*ast.GenDecl{}
@@ -125,6 +138,9 @@ func gotype(field types.Field) string {
 
 	case "uint32":
 		return "uint32"
+
+	case "datetime":
+		return "time.Time"
 
 	case "date":
 		return "time.Time"

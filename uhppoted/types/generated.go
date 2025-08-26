@@ -24,28 +24,16 @@ type SetIPv4Response struct {
 	Ok         bool   `json:"ok"`
 }
 
-type GetDoorResponse struct {
-	Controller uint32 `json:"controller"`
-	Door       uint8  `json:"door"`
-	Mode       uint8  `json:"mode"`
-	Delay      uint8  `json:"delay"`
+// Container struct for the response returned by a controller when retrieving the system date/time.
+type GetTimeResponse struct {
+	Controller uint32    `json:"-"`
+	DateTime   time.Time `json:"-"`
 }
 
-type SetDoorResponse struct {
-	Controller uint32 `json:"controller"`
-	Door       uint8  `json:"door"`
-	Mode       uint8  `json:"mode"`
-	Delay      uint8  `json:"delay"`
-}
-
-type SetDoorPasscodesResponse struct {
-	Controller uint32 `json:"controller"`
-	Ok         bool   `json:"ok"`
-}
-
-type OpenDoorResponse struct {
-	Controller uint32 `json:"controller"`
-	Ok         bool   `json:"ok"`
+// Container struct for the response returned by a controller after setting the system date/time.
+type SetTimeResponse struct {
+	Controller uint32    `json:"-"`
+	DateTime   time.Time `json:"-"`
 }
 
 // Container struct for the response returned by a controller when retrieving
@@ -75,6 +63,30 @@ type GetListenerAddrPortResponse struct {
 // Container struct for the response returned by a controller when setting
 // the event listener IPv4 address and port.
 type SetListenerAddrPortResponse struct {
+	Controller uint32 `json:"controller"`
+	Ok         bool   `json:"ok"`
+}
+
+type GetDoorResponse struct {
+	Controller uint32 `json:"controller"`
+	Door       uint8  `json:"door"`
+	Mode       uint8  `json:"mode"`
+	Delay      uint8  `json:"delay"`
+}
+
+type SetDoorResponse struct {
+	Controller uint32 `json:"controller"`
+	Door       uint8  `json:"door"`
+	Mode       uint8  `json:"mode"`
+	Delay      uint8  `json:"delay"`
+}
+
+type SetDoorPasscodesResponse struct {
+	Controller uint32 `json:"controller"`
+	Ok         bool   `json:"ok"`
+}
+
+type OpenDoorResponse struct {
 	Controller uint32 `json:"controller"`
 	Ok         bool   `json:"ok"`
 }
@@ -124,6 +136,13 @@ type GetTimeProfileResponse struct {
 // Container struct for the response returned from an access controller when adding/updating
 // an access time profile.
 type SetTimeProfileResponse struct {
+	Controller uint32 `json:"controller"`
+	Ok         bool   `json:"ok"`
+}
+
+// Container struct for the response returned from an access controller when clearing all
+// stored time profiles.
+type ClearTimeProfilesResponse struct {
 	Controller uint32 `json:"controller"`
 	Ok         bool   `json:"ok"`
 }

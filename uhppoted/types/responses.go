@@ -4,19 +4,19 @@ import (
 	"time"
 )
 
-// GetTimeResponse is a container struct for the response returned by a controller
-// when retrieving the system date/time.
-type GetTimeResponse struct {
-	Controller uint32    `json:"controller"`
-	DateTime   time.Time `json:"datetime"`
-}
+// // GetTimeResponse is a container struct for the response returned by a controller
+// // when retrieving the system date/time.
+// type GetTimeResponse struct {
+// 	Controller uint32    `json:"controller"`
+// 	DateTime   time.Time `json:"datetime"`
+// }
 
-// SetTimeResponse is a container struct for the response returned by a controller
-// when setting the system date/time.
-type SetTimeResponse struct {
-	Controller uint32    `json:"controller"`
-	DateTime   time.Time `json:"datetime"`
-}
+// // SetTimeResponse is a container struct for the response returned by a controller
+// // when setting the system date/time.
+// type SetTimeResponse struct {
+// 	Controller uint32    `json:"controller"`
+// 	DateTime   time.Time `json:"datetime"`
+// }
 
 // // GetDoorResponse is a container struct for the response returned by a controller
 // // when retrieving the control mode and unlock delay for a controller door.

@@ -24,6 +24,7 @@
 - [`RecordSpecialEvents`](#recordspecialevents)
 - [`GetTimeProfile`](#gettimeprofile)
 - [`SetTimeProfile`](#settimeprofile)
+- [`ClearTimeProfiles`](#cleartimeprofiles)
 ---
 Invoking an API function requires an instance of the `Uhppoted` struct initialised with the information required
 to access a controller:
@@ -441,6 +442,17 @@ timeout        maximum time to wait for a response from a controller
 Returns a `SetTimeProfileResponse`.
 ```
 
+### `ClearTimeProfiles`
+```
+ClearTimeProfiles(u Uhppoted, controller TController, timeout time.Duration) (ClearTimeProfilesResponse,error)
+
+u           Uhppoted struct initialised with the bind address, broadcast address, etc
+controller  uint32|Controller controller serial number or {id, address, protocol} Controller struct
+timeout     maximum time to wait for a response from a controller
+
+Returns a `ClearTimeProfilesResponse`.
+```
+
 
 ## Types
 
@@ -791,3 +803,14 @@ type SetTimeProfileResponse struct {
   Ok          bool    `json:"ok"`         // succeeded/failed
 }
 ```
+
+### `ClearTimeProfilesResponse`
+
+Container class for the decoded response from a _ClearTimeProfiles_ request.
+```
+type ClearTimeProfilesResponse struct {
+  Controller  uint32  `json:"controller"` // controller serial number
+  Ok          bool    `json:"ok"`         // succeeded/failed
+}
+```
+

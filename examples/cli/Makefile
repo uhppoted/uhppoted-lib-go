@@ -277,3 +277,12 @@ set-time-profile-udp: build
 set-time-profile-tcp: build
 	$(CMD) set-time-profile --controller $(CONTROLLER) --dest $(DEST) --tcp --profile 29
 
+clear-time-profiles: build
+	$(CMD) clear-time-profiles --controller $(CONTROLLER)
+
+clear-time-profiles-udp: build
+	$(CMD) clear-time-profiles --controller $(CONTROLLER) --dest $(DEST)
+
+clear-time-profiles-tcp: build
+	$(CMD) clear-time-profiles --controller $(CONTROLLER) --dest $(DEST) --tcp
+

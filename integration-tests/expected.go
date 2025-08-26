@@ -39,6 +39,7 @@ var Expected = struct {
 	RecordSpecialEvents    lib.RecordSpecialEventsResponse
 	GetTimeProfile         lib.GetTimeProfileResponse
 	SetTimeProfile         lib.SetTimeProfileResponse
+	ClearTimeProfiles      lib.ClearTimeProfilesResponse
 }{
 	FindControllers: []lib.GetControllerResponse{
 		lib.GetControllerResponse{
@@ -337,6 +338,11 @@ var Expected = struct {
 	},
 
 	SetTimeProfile: lib.SetTimeProfileResponse{
+		Controller: 405419896,
+		Ok:         true,
+	},
+
+	ClearTimeProfiles: lib.ClearTimeProfilesResponse{
 		Controller: 405419896,
 		Ok:         true,
 	},
