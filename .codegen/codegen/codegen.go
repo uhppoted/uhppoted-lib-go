@@ -106,6 +106,9 @@ func testarg(arg lib.TestArg) string {
 	case "uint8":
 		return fmt.Sprintf(`uint8(%v)`, arg.Value)
 
+	case "uint16":
+		return fmt.Sprintf(`uint16(%v)`, arg.Value)
+
 	case "uint32":
 		return fmt.Sprintf(`uint32(%v)`, arg.Value)
 

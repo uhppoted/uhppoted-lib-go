@@ -4,52 +4,6 @@ import (
 	"time"
 )
 
-// // GetTimeResponse is a container struct for the response returned by a controller
-// // when retrieving the system date/time.
-// type GetTimeResponse struct {
-// 	Controller uint32    `json:"controller"`
-// 	DateTime   time.Time `json:"datetime"`
-// }
-
-// // SetTimeResponse is a container struct for the response returned by a controller
-// // when setting the system date/time.
-// type SetTimeResponse struct {
-// 	Controller uint32    `json:"controller"`
-// 	DateTime   time.Time `json:"datetime"`
-// }
-
-// // GetDoorResponse is a container struct for the response returned by a controller
-// // when retrieving the control mode and unlock delay for a controller door.
-// type GetDoorResponse struct {
-// 	Controller uint32 `json:"controller"`
-// 	Door       uint8  `json:"door"`
-// 	Mode       uint8  `json:"mode"` // 1:normally open, 2:normally closed. 3:controlled
-// 	Delay      uint8  `json:"delay"`
-// }
-
-// // SetDoorResponse is a container struct for the response returned by a controller
-// // after setting the control mode and unlock delay for a controller door.
-// type SetDoorResponse struct {
-// 	Controller uint32 `json:"controller"`
-// 	Door       uint8  `json:"door"`
-// 	Mode       uint8  `json:"mode"` // 1:normally open, 2:normally closed. 3:controlled
-// 	Delay      uint8  `json:"delay"`
-// }
-
-// // SetDoorPasscodesResponse is a container struct for the response returned by a controller
-// // after setting the passcodes for a controller door.
-// type SetDoorPasscodesResponse struct {
-// 	Controller uint32 `json:"controller"`
-// 	Ok         bool   `json:"ok"`
-// }
-
-// // OpenDoorResponse is a container struct for the response returned by a controller
-// // after remotely opening a controller door.
-// type OpenDoorResponse struct {
-// 	Controller uint32 `json:"controller"`
-// 	Ok         bool   `json:"ok"`
-// }
-
 // GetStatusResponse is a container struct for the response returned from a controller
 // when retrieving the current runtime status.
 type GetStatusResponse struct {
@@ -77,13 +31,6 @@ type GetStatusResponse struct {
 	EventTimestamp     time.Time `json:"event-timestamp"`
 	EventReason        uint8     `json:"event-reason"`
 	SequenceNo         uint32    `json:"sequence-no"`
-}
-
-// GetCardsResponse is a container struct for the response returned from a controller
-// when retrieving the number of cards stored on the controller.
-type GetCardsResponse struct {
-	Controller uint32 `json:"controller"`
-	Cards      uint32 `json:"cards"`
 }
 
 // GetCardResponse is a container struct for the response returned from a controller
@@ -135,30 +82,16 @@ type DeleteAllCardsResponse struct {
 	Ok         bool   `json:"ok"`
 }
 
-// GetEventResponse is a container struct for the response returned from a controller
-// when retrieving the record for an event.
-type GetEventResponse struct {
-	Controller    uint32    `json:"controller"`
-	Index         uint32    `json:"index"`
-	Timestamp     time.Time `json:"timestamp"`
-	EventType     uint8     `json:"event-type"`
-	AccessGranted bool      `json:"access-granted"`
-	Door          uint8     `json:"door"`
-	Direction     uint8     `json:"direction"`
-	Card          uint32    `json:"card"`
-	Reason        uint8     `json:"reason"`
-}
-
-// // GetEventIndexResponse is a container struct for the response returned from a controller
-// // when retrieving the downloaded event index.
-// type GetEventIndexResponse struct {
-// 	Controller uint32 `json:"controller"`
-// 	Index      uint32 `json:"index"`
-// }
-
-// // SetEventIndexResponse is a container struct for the response returned from a controller
-// // when setting the downloaded event index.
-// type SetEventIndexResponse struct {
-// 	Controller uint32 `json:"controller"`
-// 	Ok         bool   `json:"ok"`
+// // GetEventResponse is a container struct for the response returned from a controller
+// // when retrieving the record for an event.
+// type GetEventResponse struct {
+// 	Controller    uint32    `json:"controller"`
+// 	Index         uint32    `json:"index"`
+// 	Timestamp     time.Time `json:"timestamp"`
+// 	EventType     uint8     `json:"event-type"`
+// 	AccessGranted bool      `json:"access-granted"`
+// 	Door          uint8     `json:"door"`
+// 	Direction     uint8     `json:"direction"`
+// 	Card          uint32    `json:"card"`
+// 	Reason        uint8     `json:"reason"`
 // }

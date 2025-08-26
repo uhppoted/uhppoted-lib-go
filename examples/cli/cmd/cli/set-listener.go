@@ -26,11 +26,11 @@ func setListener(u lib.Uhppoted, args []string) error {
 		return fmt.Errorf("invalid auto-send interval (%v)", interval)
 	} else {
 		f := func(c uint32) (any, error) {
-			return lib.SetListener(u, c, addrport, uint8(interval), options.timeout)
+			return lib.SetListener(u, c, addrport.Addr(), addrport.Port(), uint8(interval), options.timeout)
 		}
 
 		g := func(c lib.Controller) (any, error) {
-			return lib.SetListener(u, c, addrport, uint8(interval), options.timeout)
+			return lib.SetListener(u, c, addrport.Addr(), addrport.Port(), uint8(interval), options.timeout)
 		}
 
 		if v, err := exec(controller, flagset, f, g); err != nil {

@@ -132,6 +132,48 @@ func GetListenerRequest(controller uint32) ([]byte, error) {
 	return packet, nil
 }
 
+// Encodes a set-listener-request.
+//
+//	Parameters:
+//	    controller  (uint32)  controller serial number
+//	    address  (IPv4)  event listener IPv4 address
+//	    port  (uint16)  event listener IPv4 port
+//	    interval  (uint8)  status auto-send interval (seconds)
+//
+//	Returns:
+//	    64 byte packet.
+func SetListenerRequest(controller uint32, address netip.Addr, port uint16, interval uint8) ([]byte, error) {
+	packet := make([]byte, 64)
+
+	packet[0] = SOM
+	packet[1] = 144
+
+	packUint32(controller, packet, 4)
+	packIPv4(address, packet, 8)
+	packUint16(port, packet, 12)
+	packUint8(interval, packet, 14)
+
+	return packet, nil
+}
+
+// Encodes a get-listener-addr-port-request.
+//
+//	Parameters:
+//	    controller  (uint32)  controller serial number
+//
+//	Returns:
+//	    64 byte packet.
+func GetListenerAddrPortRequest(controller uint32) ([]byte, error) {
+	packet := make([]byte, 64)
+
+	packet[0] = SOM
+	packet[1] = 146
+
+	packUint32(controller, packet, 4)
+
+	return packet, nil
+}
+
 // Encodes a set-listener-address:port-request.
 //
 //	Parameters:

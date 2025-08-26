@@ -281,13 +281,13 @@ func buildDecoderFactoryBody() *ast.BlockStmt {
 
 	// ... message types
 	for _, response := range model.Responses {
-		if response == &model.GetListenerResponse {
-			println("skipping get-listener (duplicates get-listener-addrport)")
+		if response == &model.GetListenerAddrPortResponse {
+			println("skipping get-listener-addrport (duplicates get-listener)")
 			continue
 		}
 
-		if response == &model.SetListenerResponse {
-			println("skipping set-listener (duplicates set-listener-addrport)")
+		if response == &model.SetListenerAddrPortResponse {
+			println("skipping set-listener-addrport (duplicates set-listener)")
 			continue
 		}
 

@@ -26,14 +26,14 @@ type SetIPv4Response struct {
 
 // Container struct for the response returned by a controller when retrieving the system date/time.
 type GetTimeResponse struct {
-	Controller uint32    `json:"-"`
-	DateTime   time.Time `json:"-"`
+	Controller uint32    `json:"controller"`
+	DateTime   time.Time `json:"date-time"`
 }
 
 // Container struct for the response returned by a controller after setting the system date/time.
 type SetTimeResponse struct {
-	Controller uint32    `json:"-"`
-	DateTime   time.Time `json:"-"`
+	Controller uint32    `json:"controller"`
+	DateTime   time.Time `json:"date-time"`
 }
 
 // Container struct for the response returned by a controller when retrieving
@@ -89,6 +89,26 @@ type SetDoorPasscodesResponse struct {
 type OpenDoorResponse struct {
 	Controller uint32 `json:"controller"`
 	Ok         bool   `json:"ok"`
+}
+
+// Container struct for the response returned from a controller when retrieving the number of
+// cards stored on the controller.
+type GetCardsResponse struct {
+	Controller uint32 `json:"controller"`
+	Cards      uint32 `json:"cards"`
+}
+
+// Container struct for the response returned from a controller for an event record request.
+type GetEventResponse struct {
+	Controller    uint32    `json:"controller"`
+	Index         uint32    `json:"index"`
+	EventType     uint8     `json:"event-type"`
+	AccessGranted bool      `json:"granted"`
+	Door          uint8     `json:"door"`
+	Direction     uint8     `json:"direction"`
+	Card          uint32    `json:"card"`
+	Timestamp     time.Time `json:"timestamp"`
+	Reason        uint8     `json:"reason"`
 }
 
 type GetEventIndexResponse struct {

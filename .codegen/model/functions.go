@@ -15,6 +15,8 @@ var API = []types.Function{
 	SetTime,
 	GetListener,
 	SetListener,
+	// GetListenerAddPort,
+	// SetListenerAddrPort,
 	GetDoor,
 	SetDoor,
 	SetDoorPasscodes,
@@ -92,8 +94,11 @@ var GetController = types.Function(lib.GetController)
 var SetIPv4 = types.Function(lib.SetIPv4)
 var GetTime = types.Function(lib.GetTime)
 var SetTime = types.Function(lib.SetTime)
-var GetListener = types.Function(lib.GetListenerAddrPort)
-var SetListener = types.Function(lib.SetListenerAddrPort)
+var GetListener = types.Function(lib.GetListener)
+var SetListener = types.Function(lib.SetListener)
+
+// var GetListenerAddrPort = types.Function(lib.GetListenerAddrPort)
+// var SetListenerAddrPort = types.Function(lib.SetListenerAddrPort)
 var GetDoor = types.Function(lib.GetDoor)
 var SetDoor = types.Function(lib.SetDoor)
 var OpenDoor = types.Function(lib.OpenDoor)

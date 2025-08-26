@@ -49,9 +49,9 @@ func packUint8(v uint8, packet []byte, offset int) {
 //	   v      (uint16)     uint16 value to encode.
 //	   packet (bytearray)  64 byte array.
 //	   offset (int)        Value location in array.
-// func packUint16(v uint16, packet []byte, offset int) {
-// 	binary.LittleEndian.PutUint16(packet[offset:offset+2], v)
-// }
+func packUint16(v uint16, packet []byte, offset int) {
+	binary.LittleEndian.PutUint16(packet[offset:offset+2], v)
+}
 
 // Packs a uint32 value 'in-place' as a 4-byte little endian value into the packet
 // at the offset.

@@ -29,6 +29,7 @@ build: format
 
 debug: build
 	cd examples/cli && make clear-time-profiles
+	# go test ./integration-tests/... --run TestGetListener
 
 test: build
 	go test ./uhppoted/...

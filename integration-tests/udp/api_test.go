@@ -102,10 +102,11 @@ func TestSetListener(t *testing.T) {
 		Protocol: "udp",
 	}
 
-	listener := netip.MustParseAddrPort("192.168.1.100:60001")
+	address := netip.MustParseAddr("192.168.1.100")
+	port := uint16(60001)
 	interval := uint8(17)
 
-	response, err := lib.SetListener(u, controller, listener, interval, timeout)
+	response, err := lib.SetListener(u, controller, address, port, interval, timeout)
 
 	if err != nil {
 		t.Fatalf("%v", err)

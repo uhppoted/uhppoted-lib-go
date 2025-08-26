@@ -13,6 +13,8 @@ var Requests = []types.Request{
 	SetTimeRequest,
 	GetListenerRequest,
 	SetListenerRequest,
+	GetListenerAddrPortRequest,
+	SetListenerAddrPortRequest,
 	GetDoorRequest,
 	SetDoorRequest,
 	SetDoorPasscodesRequest,
@@ -37,7 +39,9 @@ var SetIPv4Request = lib.SetIPv4Request
 var GetTimeRequest = lib.GetTimeRequest
 var SetTimeRequest = lib.SetTimeRequest
 var GetListenerRequest = lib.GetListenerRequest
-var SetListenerRequest = lib.SetListenerAddrPortRequest
+var SetListenerRequest = lib.SetListenerRequest
+var GetListenerAddrPortRequest = lib.GetListenerAddrPortRequest
+var SetListenerAddrPortRequest = lib.SetListenerAddrPortRequest
 var GetDoorRequest = lib.GetDoorRequest
 var SetDoorRequest = lib.SetDoorRequest
 var SetDoorPasscodesRequest = lib.SetDoorPasscodesRequest

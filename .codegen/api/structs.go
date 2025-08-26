@@ -36,15 +36,13 @@ func Structs() {
 		model.SetDoorPasscodesResponse,
 		model.OpenDoorResponse,
 		// GetStatus,
-		// GetCards,
+		model.GetCardsResponse,
 		// GetCard,
 		// GetCardAtIndex,
 		// PutCard,
 		// DeleteCard,
 		// DeleteAllCards,
-		// GetEvent,
-		// GetEventIndex,
-		// SetEventIndex,
+		model.GetEventResponse,
 		model.GetEventIndexResponse,
 		model.SetEventIndexResponse,
 		model.RecordSpecialEventsResponse,
@@ -140,6 +138,9 @@ func gotype(field types.Field) string {
 		return "uint32"
 
 	case "datetime":
+		return "time.Time"
+
+	case "optional datetime":
 		return "time.Time"
 
 	case "date":

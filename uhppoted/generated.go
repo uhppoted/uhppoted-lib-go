@@ -43,21 +43,21 @@ func SetTime[T TController](u Uhppoted, controller T, datetime time.Time, timeou
 }
 
 // Retrieves the access controller event listener IPv4 address:port and auto-send interval.
-func GetListener[T TController](u Uhppoted, controller T, timeout time.Duration) (GetListenerAddrPortResponse, error) {
+func GetListener[T TController](u Uhppoted, controller T, timeout time.Duration) (GetListenerResponse, error) {
 	f := func(id uint32) ([]byte, error) {
 		return encode.GetListenerRequest(id)
 	}
 
-	return exec[T, GetListenerAddrPortResponse](u, controller, f, timeout)
+	return exec[T, GetListenerResponse](u, controller, f, timeout)
 }
 
 // Sets the access controller event listener IPv4 address:port and auto-send interval.
-func SetListener[T TController](u Uhppoted, controller T, listener netip.AddrPort, interval uint8, timeout time.Duration) (SetListenerAddrPortResponse, error) {
+func SetListener[T TController](u Uhppoted, controller T, address netip.Addr, port uint16, interval uint8, timeout time.Duration) (SetListenerResponse, error) {
 	f := func(id uint32) ([]byte, error) {
-		return encode.SetListenerAddressPortRequest(id, listener, interval)
+		return encode.SetListenerRequest(id, address, port, interval)
 	}
 
-	return exec[T, SetListenerAddrPortResponse](u, controller, f, timeout)
+	return exec[T, SetListenerResponse](u, controller, f, timeout)
 }
 
 // Retrieves the control mode and unlock delay time for an access controller door.

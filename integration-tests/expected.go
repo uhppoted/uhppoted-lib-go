@@ -14,8 +14,8 @@ var Expected = struct {
 	SetIPv4                lib.SetIPv4Response
 	GetTime                lib.GetTimeResponse
 	SetTime                lib.SetTimeResponse
-	GetListener            lib.GetListenerAddrPortResponse
-	SetListener            lib.SetListenerAddrPortResponse
+	GetListener            lib.GetListenerResponse
+	SetListener            lib.SetListenerResponse
 	GetDoor                lib.GetDoorResponse
 	SetDoor                lib.SetDoorResponse
 	SetDoorPasscodes       lib.SetDoorPasscodesResponse
@@ -96,13 +96,14 @@ var Expected = struct {
 		DateTime:   string2datetime("2025-11-01 12:34:56"),
 	},
 
-	GetListener: lib.GetListenerAddrPortResponse{
+	GetListener: lib.GetListenerResponse{
 		Controller: 405419896,
-		Listener:   addrport("192.168.1.100:60001"),
+		Address:    IPv4("192.168.1.100"),
+		Port:       60001,
 		Interval:   13,
 	},
 
-	SetListener: lib.SetListenerAddrPortResponse{
+	SetListener: lib.SetListenerResponse{
 		Controller: 405419896,
 		Ok:         true,
 	},
