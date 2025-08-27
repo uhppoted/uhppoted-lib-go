@@ -1,6 +1,7 @@
 package uhppoted
 
 import (
+	"net/netip"
 	"time"
 
 	"github.com/uhppoted/uhppoted-lib-go/uhppoted/codec/decode"
@@ -27,6 +28,36 @@ func FindControllers(u Uhppoted, timeout time.Duration) ([]GetControllerResponse
 		}
 
 		return responses, nil
+	}
+}
+
+// Retrieves the access controller event listener IPv4 address:port and auto-send interval.
+func GetListenerAddrPort[T TController](u Uhppoted, controller T, timeout time.Duration) (GetListenerAddrPortResponse, error) {
+	var zero GetListenerAddrPortResponse
+
+	if c, err := resolve(controller); err != nil {
+		return zero, err
+	} else if request, err := encode.GetListenerAddrPortRequest(c.ID); err != nil {
+		return zero, err
+	} else if reply, err := send(u, c, request, timeout); err != nil {
+		return zero, err
+	} else {
+		return decode.GetListenerAddrPortResponse(reply)
+	}
+}
+
+// Sets the access controller event listener IPv4 address:port and auto-send interval.
+func SetListenerAddrPort[T TController](u Uhppoted, controller T, address netip.AddrPort, interval uint8, timeout time.Duration) (SetListenerAddrPortResponse, error) {
+	var zero SetListenerAddrPortResponse
+
+	if c, err := resolve(controller); err != nil {
+		return zero, err
+	} else if request, err := encode.SetListenerAddrPortRequest(c.ID, address, interval); err != nil {
+		return zero, err
+	} else if reply, err := send(u, c, request, timeout); err != nil {
+		return zero, err
+	} else {
+		return decode.SetListenerAddrPortResponse(reply)
 	}
 }
 

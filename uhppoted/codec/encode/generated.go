@@ -174,7 +174,7 @@ func GetListenerAddrPortRequest(controller uint32) ([]byte, error) {
 	return packet, nil
 }
 
-// Encodes a set-listener-address:port-request.
+// Encodes a set-listener-addr:port-request.
 //
 //	Parameters:
 //	    controller  (uint32)  controller serial number
@@ -183,7 +183,7 @@ func GetListenerAddrPortRequest(controller uint32) ([]byte, error) {
 //
 //	Returns:
 //	    64 byte packet.
-func SetListenerAddressPortRequest(controller uint32, listener netip.AddrPort, interval uint8) ([]byte, error) {
+func SetListenerAddrPortRequest(controller uint32, listener netip.AddrPort, interval uint8) ([]byte, error) {
 	packet := make([]byte, 64)
 
 	packet[0] = SOM

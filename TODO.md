@@ -8,6 +8,16 @@
 - [x] set-time
 - [x] get-listener
 - [x] set-listener
+- [x] get-listener-addrport
+   - [x] API
+   - [x] CLI
+   - [x] integration test
+   - [x] README
+- [x] set-listener-addrport
+   - [x] API
+   - [x] CLI
+   - [x] integration test
+   - [x] README
 - [x] get-door
 - [x] set-door
 - [x] set-door-passcodes
@@ -31,7 +41,6 @@
    - [x] integration test
    - [x] README
 
-- [ ] get/set-listener + get/set-listener-addrport
 - [ ] custom date/time types
 - [ ] check for controller = 0
 - [ ] check response.controller == request.controller
@@ -44,6 +53,7 @@
 - [ ] code generation
    - [ ] use/extend uhppoted-codegen models
       - [ ] **NB:** use Function::Args
+      - [ ] use 'exclude' lists for get/set-listener-addrport
 
    - [x] response structs
    - [x] encode

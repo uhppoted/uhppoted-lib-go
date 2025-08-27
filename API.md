@@ -7,6 +7,8 @@
 - [`SetTime`](#settime)
 - [`GetListener`](#getlistener)
 - [`SetListener`](#setlistener)
+- [`GetListenerAddrPort`](#getlisteneraddrport)
+- [`SetListenerAddrPort`](#setlisteneraddrport)
 - [`GetDoor`](#getdoor)
 - [`SetDoor`](#setdoor)
 - [`SetDoorPasscodes`](#setdoorpasscodes)
@@ -175,13 +177,40 @@ u           Uhppoted struct initialised with the bind address, broadcast address
 controller  uint32|Controller controller serial number or {id, address, protocol} Controller struct
 timeout     maximum time to wait for a response from a controller
 
-Returns a `GetListenerResponse` with the configured event listener IPv4 address:port and the auto-send 
+Returns a `GetListenerResponse` with the configured event listener IPv4 address and port and the auto-send 
 interval.
 ```
 
 ### `SetListener`
 ```
-SetListener(u Uhppoted, controller TController, listener netip.AddrPort, interval uint8, timeout time.Duration) (SetListenerResponse,error)
+SetListener(u Uhppoted, controller TController, address netip.Addr, port uint16, interval uint8, timeout time.Duration) (SetListenerResponse,error)
+
+u           Uhppoted struct initialised with the bind address, broadcast address, etc
+controller  uint32|Controller controller serial number or {id, address, protocol} Controller struct
+address     IPv4 address of host to receive controller events
+port        UDP port of host for controller events
+interval    status auto-send interval (seconds). A 0 interval disables auto-send.
+timeout     maximum time to wait for a response from a controller
+
+Returns a `SetListenerResponse`. 
+interval.
+```
+
+### `GetListenerAddrPort`
+```
+GetListenerAddrPort(u Uhppoted, controller TController, timeout time.Duration) (GetListenerAddrPortResponse,error)
+
+u           Uhppoted struct initialised with the bind address, broadcast address, etc
+controller  uint32|Controller controller serial number or {id, address, protocol} Controller struct
+timeout     maximum time to wait for a response from a controller
+
+Returns a `GetListenerAddrPortResponse` with the configured event listener IPv4 address:port and the auto-send 
+interval.
+```
+
+### `SetListenerAddrPort`
+```
+SetListenerAddrPort(u Uhppoted, controller TController, listener netip.AddrPort, interval uint8, timeout time.Duration) (SetListenerAddrPortResponse,error)
 
 u           Uhppoted struct initialised with the bind address, broadcast address, etc
 controller  uint32|Controller controller serial number or {id, address, protocol} Controller struct
@@ -189,7 +218,7 @@ listener    IPv4 address:port of host to receive controller events
 interval    status auto-send interval (seconds). A 0 interval disables auto-send.
 timeout     maximum time to wait for a response from a controller
 
-Returns a `GetListenerResponse` with the configured event listener IPv4 address:port and the auto-send 
+Returns a `SetListenerAddrPortResponse`.
 interval.
 ```
 
@@ -525,7 +554,7 @@ type GetControllerResponse struct {
 }
 ```
 
-### `setIPv4Response`
+### `SetIPv4Response`
 
 Container class for the decoded response from a _SetIPv4_ request.
 ```
@@ -559,10 +588,11 @@ type SetTimeResponse struct {
 
 Container class for the decoded response from a _GetListener_ request.
 ```
-type GetTimeResponse struct {
-  Controller  uint32          `json:"controller"` // controller serial number
-  Address     netip.AddrPort  `json:"address"`    // event listener IPv4 address:port
-  Interval    uint8           `json:"interval"`   // auto-send interval (seconds)
+type GetListenerResponse struct {
+  Controller  uint32      `json:"controller"` // controller serial number
+  Address     netip.Addr  `json:"address"`    // event listener IPv4 address
+  Port        uint16      `json:"port"`       // event listener UDP port
+  Interval    uint8       `json:"interval"`   // auto-send interval (seconds)
 }
 ```
 
@@ -570,7 +600,28 @@ type GetTimeResponse struct {
 
 Container class for the decoded response from a _SetListener_ request.
 ```
-type SetTimeResponse struct {
+type SetListenerResponse struct {
+  Controller  uint32  `json:"controller"` // controller serial number
+  Ok          bool    `json:"ok"`         // true if request succeeded
+}
+```
+
+### `GetListenerAddrPortResponse`
+
+Container class for the decoded response from a _GetListener_ request.
+```
+type GetListenerAddrPortResponse struct {
+  Controller  uint32          `json:"controller"` // controller serial number
+  Listener    netip.AddrPort  `json:"listener"`   // event listener IPv4 address:port
+  Interval    uint8           `json:"interval"`   // auto-send interval (seconds)
+}
+```
+
+### `SetListenerAddrPortResponse`
+
+Container class for the decoded response from a _SetListenerAddrPort_ request.
+```
+type SetListenerAddrPortResponse struct {
   Controller  uint32  `json:"controller"` // controller serial number
   Ok          bool    `json:"ok"`         // true if request succeeded
 }

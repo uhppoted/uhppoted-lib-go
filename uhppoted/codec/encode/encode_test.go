@@ -163,7 +163,7 @@ func TestGetListenerAddrPort(t *testing.T) {
 	}
 }
 
-func TestSetListenerAddport(t *testing.T) {
+func TestSetListenerAddrport(t *testing.T) {
 	expected := []byte{
 		0x17, 0x90, 0x00, 0x00, 0x78, 0x37, 0x2a, 0x18, 0xc0, 0xa8, 0x01, 0x64, 0x61, 0xea, 0x11, 0x00,
 		0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
@@ -171,12 +171,12 @@ func TestSetListenerAddport(t *testing.T) {
 		0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
 	}
 
-	packet, err := SetListenerAddressPortRequest(uint32(405419896), netip.MustParseAddrPort("192.168.1.100:60001"), uint8(17))
+	packet, err := SetListenerAddrPortRequest(uint32(405419896), netip.MustParseAddrPort("192.168.1.100:60001"), uint8(17))
 
 	if err != nil {
 		t.Fatalf("%v", err)
 	} else if !slices.Equal(packet, expected) {
-		t.Errorf("set listener address:port request: incorrectly encoded request\n   expected:%v\n   got:     %v", expected, packet)
+		t.Errorf("set listener addr:port request: incorrectly encoded request\n   expected:%v\n   got:     %v", expected, packet)
 	}
 }
 

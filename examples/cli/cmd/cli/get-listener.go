@@ -15,11 +15,11 @@ func getListener(u lib.Uhppoted, args []string) error {
 		return err
 	} else {
 		f := func(c uint32) (any, error) {
-			return lib.GetListener(u, c, options.timeout)
+			return lib.GetListenerAddrPort(u, c, options.timeout)
 		}
 
 		g := func(c lib.Controller) (any, error) {
-			return lib.GetListener(u, c, options.timeout)
+			return lib.GetListenerAddrPort(u, c, options.timeout)
 		}
 
 		if v, err := exec(controller, flagset, f, g); err != nil {

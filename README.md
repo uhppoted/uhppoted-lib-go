@@ -56,3 +56,5 @@ folder.
 - [`SetTimeProfile`](API.md#settimeprofile)
 - [`ClearTimeProfiles`](API.md#cleartimeprofiles)
 - [`AddTask`](API.md#addtask)
+- [`GetListenerAddrPort`](API.md#getlisteneraddr:port)
+- [`SetListenerAddrPort`](API.md#setlisteneraddr:port)
