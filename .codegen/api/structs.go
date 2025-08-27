@@ -22,41 +22,11 @@ func Structs() {
 		"time",
 	}
 
-	structs := []types.Response{
-		model.GetControllerResponse,
-		model.SetIPv4Response,
-		model.GetTimeResponse,
-		model.SetTimeResponse,
-		model.GetListenerResponse,
-		model.SetListenerResponse,
-		model.GetListenerAddrPortResponse,
-		model.SetListenerAddrPortResponse,
-		model.GetDoorResponse,
-		model.SetDoorResponse,
-		model.SetDoorPasscodesResponse,
-		model.OpenDoorResponse,
-		// GetStatus,
-		model.GetCardsResponse,
-		// GetCard,
-		// GetCardAtIndex,
-		// PutCard,
-		// DeleteCard,
-		// DeleteAllCards,
-		model.GetEventResponse,
-		model.GetEventIndexResponse,
-		model.SetEventIndexResponse,
-		model.RecordSpecialEventsResponse,
-		model.GetTimeProfileResponse,
-		model.SetTimeProfileResponse,
-		model.ClearTimeProfilesResponse,
-		model.AddTaskResponse,
-	}
-
 	types := []*ast.GenDecl{}
 	functions := []*ast.FuncDecl{}
 
-	for _, f := range structs {
-		types = append(types, typedef(f))
+	for _, f := range model.Responses {
+		types = append(types, typedef(*f))
 	}
 
 	AST := codegen.NewAST("types", imports, types, functions)
@@ -147,7 +117,13 @@ func gotype(field types.Field) string {
 	case "date":
 		return "time.Time"
 
+	case "shortdate":
+		return "time.Time"
+
 	case "optional date":
+		return "time.Time"
+
+	case "time":
 		return "time.Time"
 
 	case "HHmm":
@@ -161,6 +137,9 @@ func gotype(field types.Field) string {
 
 	case "MAC":
 		return "string"
+
+	case "pin":
+		return "uint32"
 
 	case "version":
 		return "string"

@@ -45,7 +45,7 @@
    - [ ] use/extend uhppoted-codegen models
       - [ ] **NB:** use Function::Args
 
-   - [ ] response structs
+   - [x] response structs
    - [x] encode
    - [x] encode_test
    - [x] decode
