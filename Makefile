@@ -28,7 +28,7 @@ build: format
 	go build -trimpath ./...
 
 debug: build
-	cd examples/cli && make clear-time-profiles
+	cd examples/cli && make add-task
 	# go test ./integration-tests/... --run TestGetListener
 
 test: build
@@ -195,3 +195,8 @@ clear-time-profiles: build
 	cd examples/cli && make clear-time-profiles
 	cd examples/cli && make clear-time-profiles-udp
 	cd examples/cli && make clear-time-profiles-tcp
+
+add-task: build
+	cd examples/cli && make add-task
+	cd examples/cli && make add-task-udp
+	cd examples/cli && make add-task-tcp

@@ -591,3 +591,47 @@ func ClearTimeProfilesRequest(controller uint32) ([]byte, error) {
 
 	return packet, nil
 }
+
+// Encodes a add-task-request.
+//
+//	Parameters:
+//	    controller  (uint32)  controller serial number
+//	    task  (uint8)
+//	    start date  (date)
+//	    end date  (date)
+//	    monday  (bool)
+//	    tuesday  (bool)
+//	    wednesday  (bool)
+//	    thursday  (bool)
+//	    friday  (bool)
+//	    saturday  (bool)
+//	    sunday  (bool)
+//	    start time  (HHmm)
+//	    door  (uint8)
+//	    more cards  (uint8)
+//
+//	Returns:
+//	    64 byte packet.
+func AddTaskRequest(controller uint32, task uint8, startdate time.Time, enddate time.Time, monday bool, tuesday bool, wednesday bool, thursday bool, friday bool, saturday bool, sunday bool, starttime time.Time, door uint8, morecards uint8) ([]byte, error) {
+	packet := make([]byte, 64)
+
+	packet[0] = SOM
+	packet[1] = 168
+
+	packUint32(controller, packet, 4)
+	packUint8(task, packet, 26)
+	packDate(startdate, packet, 8)
+	packDate(enddate, packet, 12)
+	packBool(monday, packet, 16)
+	packBool(tuesday, packet, 17)
+	packBool(wednesday, packet, 18)
+	packBool(thursday, packet, 19)
+	packBool(friday, packet, 20)
+	packBool(saturday, packet, 21)
+	packBool(sunday, packet, 22)
+	packHHmm(starttime, packet, 23)
+	packUint8(door, packet, 25)
+	packUint8(morecards, packet, 27)
+
+	return packet, nil
+}

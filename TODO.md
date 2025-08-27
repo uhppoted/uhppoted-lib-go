@@ -25,6 +25,7 @@
 - [x] get-time-profile
 - [x] set-time-profile
 - [x] clear-time-profiles
+- [x] add-task
    - [x] API
    - [x] CLI
    - [x] integration test

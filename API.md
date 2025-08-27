@@ -25,6 +25,7 @@
 - [`GetTimeProfile`](#gettimeprofile)
 - [`SetTimeProfile`](#settimeprofile)
 - [`ClearTimeProfiles`](#cleartimeprofiles)
+- [`AddTask`](#addtask)
 ---
 Invoking an API function requires an instance of the `Uhppoted` struct initialised with the information required
 to access a controller:
@@ -453,6 +454,59 @@ timeout     maximum time to wait for a response from a controller
 Returns a `ClearTimeProfilesResponse`.
 ```
 
+### `AddTask`
+```
+AddTask(u Uhppoted, controller     TController, 
+                    task           uint8, 
+                    startDate      time.Time,
+                    endDate        time.Time,
+                    monday         bool,
+                    tuesday        bool,
+                    wednesday      bool,
+                    thursday       bool,
+                    friday         bool,
+                    saturday       bool,
+                    sunday         bool,
+                    startTime      time.Time,
+                    door           uint8,
+                    moreCards      uint8,
+                    timeout        time.Duration) (SetTimeProfileResponse,error)
+
+u              Uhppoted struct initialised with the bind address, broadcast address, etc
+controller     uint32|Controller controller serial number or {id, address, protocol} Controller struct
+task           uint8             task type
+startDate      time.Time         date from which task is valid (inclusive)
+endDate        time.Time         date after which task is invalid
+monday         bool              task enabled on Monday if true
+tuesday        bool              task enabled on Tuesday if true
+wednesday      bool              task enabled on Wednesday if true
+thursday       bool              task enabled on Thursday if true
+friday         bool              task enabled on Monday if true
+saturday       bool              task enabled on Friday if true
+sunday         bool              task enabled on Sunday if true
+startTime      time.Time         time at which task is scheduled
+door           uint8             door ([1..4] to which task is linked
+moreCards      uint8             number of 'more cards' for the MORE CARDS task type
+timeout        maximum time to wait for a response from a controller
+
+Returns an `AddTaskResponse`.
+```
+Task types:
+```
+0:  control door
+1:  unlock door
+2:  lock door
+3:  disable time profiles
+4:  enable time profiles
+5:  enable card, no password
+6:  enable card+IN password
+7:  enable card+password
+8:  enable more cards
+9:  disable more cards
+10: trigger once
+11: disable pushbutton
+12: enable pushbutton
+```
 
 ## Types
 
@@ -809,6 +863,16 @@ type SetTimeProfileResponse struct {
 Container class for the decoded response from a _ClearTimeProfiles_ request.
 ```
 type ClearTimeProfilesResponse struct {
+  Controller  uint32  `json:"controller"` // controller serial number
+  Ok          bool    `json:"ok"`         // succeeded/failed
+}
+```
+
+### `AddTaskResponse`
+
+Container class for the decoded response from an _AddTaskProfiles_ request.
+```
+type AddTaskResponse struct {
   Controller  uint32  `json:"controller"` // controller serial number
   Ok          bool    `json:"ok"`         // succeeded/failed
 }

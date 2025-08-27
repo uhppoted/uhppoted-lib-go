@@ -40,6 +40,7 @@ var Expected = struct {
 	GetTimeProfile         lib.GetTimeProfileResponse
 	SetTimeProfile         lib.SetTimeProfileResponse
 	ClearTimeProfiles      lib.ClearTimeProfilesResponse
+	AddTask                lib.AddTaskResponse
 }{
 	FindControllers: []lib.GetControllerResponse{
 		lib.GetControllerResponse{
@@ -347,15 +348,20 @@ var Expected = struct {
 		Controller: 405419896,
 		Ok:         true,
 	},
+
+	AddTask: lib.AddTaskResponse{
+		Controller: 405419896,
+		Ok:         true,
+	},
 }
 
 func IPv4(v string) netip.Addr {
 	return netip.MustParseAddr(v)
 }
 
-func addrport(v string) netip.AddrPort {
-	return netip.MustParseAddrPort(v)
-}
+// func addrport(v string) netip.AddrPort {
+//     return netip.MustParseAddrPort(v)
+// }
 
 func string2datetime(v string) time.Time {
 	if d, err := time.ParseInLocation("2006-01-02 15:04:05", v, time.Local); err != nil {

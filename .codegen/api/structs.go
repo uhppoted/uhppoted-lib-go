@@ -49,6 +49,7 @@ func Structs() {
 		model.GetTimeProfileResponse,
 		model.SetTimeProfileResponse,
 		model.ClearTimeProfilesResponse,
+		model.AddTaskResponse,
 	}
 
 	types := []*ast.GenDecl{}

@@ -509,3 +509,33 @@ func TestClearTimeProfiles(t *testing.T) {
 		t.Errorf("incorrect response\n   expected:%#v\n   got:     %#v", test.Expected.ClearTimeProfiles, response)
 	}
 }
+
+func TestAddTask(t *testing.T) {
+	controller := lib.Controller{
+		ID:       uint32(405419896),
+		Address:  netip.MustParseAddrPort("127.0.0.1:50002"),
+		Protocol: "udp",
+	}
+
+	task := uint8(2)
+	startDate := string2date("2025-01-01")
+	endDate := string2date("2025-12-31")
+	monday := true
+	tuesday := true
+	wednesday := false
+	thursday := true
+	friday := false
+	saturday := true
+	sunday := true
+	startTime := string2HHmm("08:45")
+	door := uint8(3)
+	moreCards := uint8(7)
+
+	response, err := lib.AddTask(u, controller, task, startDate, endDate, monday, tuesday, wednesday, thursday, friday, saturday, sunday, startTime, door, moreCards, timeout)
+
+	if err != nil {
+		t.Fatalf("%v", err)
+	} else if !reflect.DeepEqual(response, test.Expected.AddTask) {
+		t.Errorf("incorrect response\n   expected:%#v\n   got:     %#v", test.Expected.AddTask, response)
+	}
+}

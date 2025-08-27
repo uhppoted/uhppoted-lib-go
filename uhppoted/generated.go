@@ -221,3 +221,27 @@ func ClearTimeProfiles[T TController](u Uhppoted, controller T, timeout time.Dur
 
 	return exec[T, ClearTimeProfilesResponse](u, controller, f, timeout)
 }
+
+// Creates a scheduled task.
+//
+// Task types
+// 0:  control door
+// 1:  unlock door
+// 2:  lock door
+// 3:  disable time profiles
+// 4:  enable time profiles
+// 5:  enable card, no password
+// 6:  enable card+IN password
+// 7:  enable card+password
+// 8:  enable more cards
+// 9:  disable more cards
+// 10: trigger once
+// 11: disable pushbutton
+// 12: enable pushbutton
+func AddTask[T TController](u Uhppoted, controller T, task uint8, startdate time.Time, enddate time.Time, monday bool, tuesday bool, wednesday bool, thursday bool, friday bool, saturday bool, sunday bool, starttime time.Time, door uint8, morecards uint8, timeout time.Duration) (AddTaskResponse, error) {
+	f := func(id uint32) ([]byte, error) {
+		return encode.AddTaskRequest(id, task, startdate, enddate, monday, tuesday, wednesday, thursday, friday, saturday, sunday, starttime, door, morecards)
+	}
+
+	return exec[T, AddTaskResponse](u, controller, f, timeout)
+}

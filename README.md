@@ -55,3 +55,4 @@ folder.
 - [`GetTimeProfile`](API.md#gettimeprofile)
 - [`SetTimeProfile`](API.md#settimeprofile)
 - [`ClearTimeProfiles`](API.md#cleartimeprofiles)
+- [`AddTask`](API.md#addtask)

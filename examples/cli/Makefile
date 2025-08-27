@@ -286,3 +286,12 @@ clear-time-profiles-udp: build
 clear-time-profiles-tcp: build
 	$(CMD) clear-time-profiles --controller $(CONTROLLER) --dest $(DEST) --tcp
 
+add-task: build
+	$(CMD) add-task --controller $(CONTROLLER)
+
+add-task-udp: build
+	$(CMD) add-task --controller $(CONTROLLER) --dest $(DEST)
+
+add-task-tcp: build
+	$(CMD) add-task --controller $(CONTROLLER) --dest $(DEST) --tcp
+

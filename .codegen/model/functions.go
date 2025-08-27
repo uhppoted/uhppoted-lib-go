@@ -35,6 +35,7 @@ var API = []types.Function{
 	GetTimeProfile,
 	SetTimeProfile,
 	ClearTimeProfiles,
+	AddTask,
 }
 
 var FindControllers = types.Function{
@@ -761,3 +762,4 @@ var RecordSpecialEvents = types.Function(lib.RecordSpecialEvents)
 var GetTimeProfile = types.Function(lib.GetTimeProfile)
 var SetTimeProfile = types.Function(lib.SetTimeProfile)
 var ClearTimeProfiles = types.Function(lib.ClearTimeProfiles)
+var AddTask = types.Function(lib.AddTask)

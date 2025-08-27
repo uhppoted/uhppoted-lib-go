@@ -33,6 +33,7 @@ var Responses = []*types.Response{
 	&GetTimeProfileResponse,
 	&SetTimeProfileResponse,
 	&ClearTimeProfilesResponse,
+	&AddTaskResponse,
 }
 
 var GetControllerResponse = lib.GetControllerResponse
@@ -61,3 +62,4 @@ var RecordSpecialEventsResponse = lib.RecordSpecialEventsResponse
 var GetTimeProfileResponse = lib.GetTimeProfileResponse
 var SetTimeProfileResponse = lib.SetTimeProfileResponse
 var ClearTimeProfilesResponse = lib.ClearTimeProfilesResponse
+var AddTaskResponse = lib.AddTaskResponse
