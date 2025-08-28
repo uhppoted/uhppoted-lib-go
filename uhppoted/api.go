@@ -6,6 +6,7 @@ import (
 
 	"github.com/uhppoted/uhppoted-lib-go/uhppoted/codec/decode"
 	"github.com/uhppoted/uhppoted-lib-go/uhppoted/codec/encode"
+	"github.com/uhppoted/uhppoted-lib-go/uhppoted/responses"
 )
 
 // FindControllers retrieves a list of all UHPPOTE controllers accessible on the local LAN.
@@ -13,13 +14,13 @@ import (
 // It broadcasts a UDP `get controller` request to the local network and returns a list of
 // decoded responses from controllers that reply within the timeout. Responses that cannot
 // be decoded are silently ignored.
-func FindControllers(u Uhppoted, timeout time.Duration) ([]GetControllerResponse, error) {
+func FindControllers(u Uhppoted, timeout time.Duration) ([]responses.GetControllerResponse, error) {
 	if request, err := encode.GetControllerRequest(0); err != nil {
 		return nil, err
 	} else if replies, err := u.udp.broadcast(request, timeout); err != nil {
 		return nil, err
 	} else {
-		responses := []GetControllerResponse{}
+		responses := []responses.GetControllerResponse{}
 
 		for _, reply := range replies {
 			if response, err := decode.GetControllerResponse(reply); err == nil {
@@ -32,8 +33,8 @@ func FindControllers(u Uhppoted, timeout time.Duration) ([]GetControllerResponse
 }
 
 // Retrieves the access controller event listener IPv4 address:port and auto-send interval.
-func GetListenerAddrPort[T TController](u Uhppoted, controller T, timeout time.Duration) (GetListenerAddrPortResponse, error) {
-	var zero GetListenerAddrPortResponse
+func GetListenerAddrPort[T TController](u Uhppoted, controller T, timeout time.Duration) (responses.GetListenerAddrPortResponse, error) {
+	var zero responses.GetListenerAddrPortResponse
 
 	if c, err := resolve(controller); err != nil {
 		return zero, err
@@ -47,8 +48,8 @@ func GetListenerAddrPort[T TController](u Uhppoted, controller T, timeout time.D
 }
 
 // Sets the access controller event listener IPv4 address:port and auto-send interval.
-func SetListenerAddrPort[T TController](u Uhppoted, controller T, address netip.AddrPort, interval uint8, timeout time.Duration) (SetListenerAddrPortResponse, error) {
-	var zero SetListenerAddrPortResponse
+func SetListenerAddrPort[T TController](u Uhppoted, controller T, address netip.AddrPort, interval uint8, timeout time.Duration) (responses.SetListenerAddrPortResponse, error) {
+	var zero responses.SetListenerAddrPortResponse
 
 	if c, err := resolve(controller); err != nil {
 		return zero, err
@@ -62,4 +63,4 @@ func SetListenerAddrPort[T TController](u Uhppoted, controller T, address netip.
 }
 
 //go:generate ../.codegen/bin/codegen API
-//go:generate ../.codegen/bin/codegen README
+//go:generate ../.codegen/bin/codegen responses

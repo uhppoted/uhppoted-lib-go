@@ -7,7 +7,7 @@ import (
 	"testing"
 	"time"
 
-	"github.com/uhppoted/uhppoted-lib-go/uhppoted/types"
+	"github.com/uhppoted/uhppoted-lib-go/uhppoted/responses"
 )
 
 func TestDecodeGetControllerResponse(t *testing.T) {
@@ -18,7 +18,7 @@ func TestDecodeGetControllerResponse(t *testing.T) {
 		0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
 	}
 
-	expected := types.GetControllerResponse{
+	expected := responses.GetControllerResponse{
 		Controller: 405419896,
 		IpAddress:  netip.MustParseAddr("192.168.1.100"),
 		SubnetMask: netip.MustParseAddr("255.255.255.0"),
@@ -28,7 +28,7 @@ func TestDecodeGetControllerResponse(t *testing.T) {
 		Date:       string2date("2018-11-05"),
 	}
 
-	if response, err := Decode[types.GetControllerResponse](packet); err != nil {
+	if response, err := Decode[responses.GetControllerResponse](packet); err != nil {
 		t.Fatalf("%v", err)
 	} else if !reflect.DeepEqual(response, expected) {
 		t.Errorf("incorrectly decoded response:\n   expected: %#v\n   got:      %#v", expected, response)
@@ -43,12 +43,12 @@ func TestDecodeSetIPv4Response(t *testing.T) {
 		0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
 	}
 
-	expected := types.SetIPv4Response{
+	expected := responses.SetIPv4Response{
 		Controller: 405419896,
 		Ok:         true,
 	}
 
-	if response, err := Decode[types.SetIPv4Response](packet); err != nil {
+	if response, err := Decode[responses.SetIPv4Response](packet); err != nil {
 		t.Fatalf("%v", err)
 	} else if !reflect.DeepEqual(response, expected) {
 		t.Errorf("incorrectly decoded response:\n   expected: %#v\n   got:      %#v", expected, response)

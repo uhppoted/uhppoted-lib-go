@@ -5,16 +5,16 @@ import (
     "net/netip"
     "time"
 
-    lib "github.com/uhppoted/uhppoted-lib-go/uhppoted"
+    "github.com/uhppoted/uhppoted-lib-go/uhppoted/responses"
 )
 
 var Expected = struct { 
-    FindControllers []lib.GetControllerResponse
+    FindControllers []responses.GetControllerResponse
 {{- range $i,$func := . }}{{ if $i }}{{ range $test := $func.Tests}}
-    {{ titleCase $test.Name }} lib.{{ titleCase $func.Response.Name }}{{ end }}{{ end }}{{end}}
+    {{ titleCase $test.Name }} responses.{{ titleCase $func.Response.Name }}{{ end }}{{ end }}{{end}}
 }{ 
-    FindControllers: []lib.GetControllerResponse{
-        lib.GetControllerResponse{
+    FindControllers: []responses.GetControllerResponse{
+        responses.GetControllerResponse{
             Controller: 201020304,
             IpAddress:  netip.MustParseAddr("192.168.1.101"),
             SubnetMask: netip.MustParseAddr("255.255.255.0"),
@@ -23,7 +23,7 @@ var Expected = struct {
             Version:    "v6.62",
             Date:       time.Date(2020, 1, 1, 0, 0, 0, 0, time.Local),
         },
-        lib.GetControllerResponse{
+        responses.GetControllerResponse{
             Controller: 303986753,
             IpAddress:  netip.MustParseAddr("192.168.1.100"),
             SubnetMask: netip.MustParseAddr("255.255.255.0"),
@@ -32,7 +32,7 @@ var Expected = struct {
             Version:    "v8.92",
             Date:       time.Date(2019, 8, 15, 0, 0, 0, 0, time.Local),
         },
-        lib.GetControllerResponse{
+        responses.GetControllerResponse{
             Controller: 405419896,
             IpAddress:  netip.MustParseAddr("192.168.1.100"),
             SubnetMask: netip.MustParseAddr("255.255.255.0"),
@@ -43,7 +43,7 @@ var Expected = struct {
         },
     },
 {{ range $i,$func := . }}{{ if $i }}{{ range $test := $func.Tests}}
-    {{ titleCase $test.Name }}: lib.{{ titleCase $func.Response.Name }} { {{- range $i,$reply := $test.Replies }}
+    {{ titleCase $test.Name }}: responses.{{ titleCase $func.Response.Name }} { {{- range $i,$reply := $test.Replies }}
 {{- range $value := $reply.Response}}
         {{ titleCase $value.Name }}: {{ value $value.Value $value.Type }},
 {{- end }}

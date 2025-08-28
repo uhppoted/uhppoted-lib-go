@@ -9,7 +9,7 @@ import (
 	"testing"
 	"time"
 
-	"github.com/uhppoted/uhppoted-lib-go/uhppoted/types"
+	"github.com/uhppoted/uhppoted-lib-go/uhppoted/responses"
 )
 
 func TestGetController(t *testing.T) {
@@ -20,7 +20,7 @@ func TestGetController(t *testing.T) {
 		0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
 	}
 
-	expected := types.GetControllerResponse{
+	expected := responses.GetControllerResponse{
 		Controller: 405419896,
 		IpAddress:  IPv4("192.168.1.100"),
 		SubnetMask: IPv4("255.255.255.0"),
@@ -47,7 +47,7 @@ func TestSetIPv4(t *testing.T) {
 		0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
 	}
 
-	expected := types.SetIPv4Response{
+	expected := responses.SetIPv4Response{
 		Controller: 405419896,
 		Ok:         true,
 	}
@@ -69,7 +69,7 @@ func TestGetStatus(t *testing.T) {
 		0x27, 0x07, 0x09, 0x22, 0x08, 0x23, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
 	}
 
-	expected := types.GetStatusResponse{
+	expected := responses.GetStatusResponse{
 		Controller:         405419896,
 		SystemDate:         string2date("2022-08-23"),
 		SystemTime:         string2time("09:49:39"),
@@ -113,7 +113,7 @@ func TestGetTime(t *testing.T) {
 		0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
 	}
 
-	expected := types.GetTimeResponse{
+	expected := responses.GetTimeResponse{
 		Controller: 405419896,
 		DateTime:   string2datetime("2025-11-01 12:34:56"),
 	}
@@ -135,7 +135,7 @@ func TestSetTime(t *testing.T) {
 		0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
 	}
 
-	expected := types.SetTimeResponse{
+	expected := responses.SetTimeResponse{
 		Controller: 405419896,
 		DateTime:   string2datetime("2025-11-01 12:34:56"),
 	}
@@ -157,7 +157,7 @@ func TestGetListener(t *testing.T) {
 		0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
 	}
 
-	expected := types.GetListenerResponse{
+	expected := responses.GetListenerResponse{
 		Controller: 405419896,
 		Address:    IPv4("192.168.1.100"),
 		Port:       60001,
@@ -181,7 +181,7 @@ func TestSetListener(t *testing.T) {
 		0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
 	}
 
-	expected := types.SetListenerResponse{
+	expected := responses.SetListenerResponse{
 		Controller: 405419896,
 		Ok:         true,
 	}
@@ -203,7 +203,7 @@ func TestGetListenerAddressPort(t *testing.T) {
 		0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
 	}
 
-	expected := types.GetListenerAddrPortResponse{
+	expected := responses.GetListenerAddrPortResponse{
 		Controller: 405419896,
 		Listener:   addrport("192.168.1.100:60001"),
 		Interval:   17,
@@ -226,7 +226,7 @@ func TestSetListenerAddressPort(t *testing.T) {
 		0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
 	}
 
-	expected := types.SetListenerAddrPortResponse{
+	expected := responses.SetListenerAddrPortResponse{
 		Controller: 405419896,
 		Ok:         true,
 	}
@@ -248,7 +248,7 @@ func TestGetDoor(t *testing.T) {
 		0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
 	}
 
-	expected := types.GetDoorResponse{
+	expected := responses.GetDoorResponse{
 		Controller: 405419896,
 		Door:       3,
 		Mode:       2,
@@ -272,7 +272,7 @@ func TestSetDoor(t *testing.T) {
 		0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
 	}
 
-	expected := types.SetDoorResponse{
+	expected := responses.SetDoorResponse{
 		Controller: 405419896,
 		Door:       3,
 		Mode:       2,
@@ -296,7 +296,7 @@ func TestSetDoorPasscodes(t *testing.T) {
 		0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
 	}
 
-	expected := types.SetDoorPasscodesResponse{
+	expected := responses.SetDoorPasscodesResponse{
 		Controller: 405419896,
 		Ok:         true,
 	}
@@ -318,7 +318,7 @@ func TestOpenDoor(t *testing.T) {
 		0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
 	}
 
-	expected := types.OpenDoorResponse{
+	expected := responses.OpenDoorResponse{
 		Controller: 405419896,
 		Ok:         true,
 	}
@@ -340,7 +340,7 @@ func TestGetCards(t *testing.T) {
 		0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
 	}
 
-	expected := types.GetCardsResponse{
+	expected := responses.GetCardsResponse{
 		Controller: 405419896,
 		Cards:      13579,
 	}
@@ -362,7 +362,7 @@ func TestGetCard(t *testing.T) {
 		0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
 	}
 
-	expected := types.GetCardResponse{
+	expected := responses.GetCardResponse{
 		Controller: 405419896,
 		Card:       10058400,
 		StartDate:  string2date("2024-01-01"),
@@ -391,7 +391,7 @@ func TestGetCardNotFound(t *testing.T) {
 		0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
 	}
 
-	expected := types.GetCardResponse{
+	expected := responses.GetCardResponse{
 		Controller: 405419896,
 		Card:       0,
 		StartDate:  string2date("0001-01-01"),
@@ -420,7 +420,7 @@ func TestGetCardAtIndex(t *testing.T) {
 		0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
 	}
 
-	expected := types.GetCardAtIndexResponse{
+	expected := responses.GetCardAtIndexResponse{
 		Controller: 405419896,
 		Card:       10058400,
 		StartDate:  string2date("2024-01-01"),
@@ -449,7 +449,7 @@ func TestPutCard(t *testing.T) {
 		0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
 	}
 
-	expected := types.PutCardResponse{
+	expected := responses.PutCardResponse{
 		Controller: 405419896,
 		Ok:         true,
 	}
@@ -471,7 +471,7 @@ func TestDeleteCard(t *testing.T) {
 		0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
 	}
 
-	expected := types.DeleteCardResponse{
+	expected := responses.DeleteCardResponse{
 		Controller: 405419896,
 		Ok:         true,
 	}
@@ -493,7 +493,7 @@ func TestDeleteAllCards(t *testing.T) {
 		0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
 	}
 
-	expected := types.DeleteAllCardsResponse{
+	expected := responses.DeleteAllCardsResponse{
 		Controller: 405419896,
 		Ok:         true,
 	}
@@ -515,7 +515,7 @@ func TestGetEvent(t *testing.T) {
 		0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
 	}
 
-	expected := types.GetEventResponse{
+	expected := responses.GetEventResponse{
 		Controller:    405419896,
 		Index:         13579,
 		Timestamp:     string2datetime("2025-11-17 12:34:56"),
@@ -544,7 +544,7 @@ func TestGetEventNotFound(t *testing.T) {
 		0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
 	}
 
-	expected := types.GetEventResponse{
+	expected := responses.GetEventResponse{
 		Controller:    405419896,
 		Index:         24680,
 		Timestamp:     string2datetime("0001-01-01 00:00:00"),
@@ -573,7 +573,7 @@ func TestGetEventOverwritten(t *testing.T) {
 		0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
 	}
 
-	expected := types.GetEventResponse{
+	expected := responses.GetEventResponse{
 		Controller:    405419896,
 		Index:         98765,
 		Timestamp:     string2datetime("0001-01-01 00:00:00"),
@@ -602,7 +602,7 @@ func TestGetEventIndex(t *testing.T) {
 		0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
 	}
 
-	expected := types.GetEventIndexResponse{
+	expected := responses.GetEventIndexResponse{
 		Controller: 405419896,
 		Index:      13579,
 	}
@@ -624,7 +624,7 @@ func TestSetEventIndex(t *testing.T) {
 		0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
 	}
 
-	expected := types.SetEventIndexResponse{
+	expected := responses.SetEventIndexResponse{
 		Controller: 405419896,
 		Ok:         true,
 	}
@@ -646,7 +646,7 @@ func TestRecordSpecialEvents(t *testing.T) {
 		0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
 	}
 
-	expected := types.RecordSpecialEventsResponse{
+	expected := responses.RecordSpecialEventsResponse{
 		Controller: 405419896,
 		Ok:         true,
 	}
@@ -668,7 +668,7 @@ func TestGetTimeProfile(t *testing.T) {
 		0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
 	}
 
-	expected := types.GetTimeProfileResponse{
+	expected := responses.GetTimeProfileResponse{
 		Controller:    405419896,
 		Profile:       37,
 		StartDate:     string2date("2025-11-26"),
@@ -706,7 +706,7 @@ func TestSetTimeProfile(t *testing.T) {
 		0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
 	}
 
-	expected := types.SetTimeProfileResponse{
+	expected := responses.SetTimeProfileResponse{
 		Controller: 405419896,
 		Ok:         true,
 	}
@@ -728,7 +728,7 @@ func TestClearTimeProfiles(t *testing.T) {
 		0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
 	}
 
-	expected := types.ClearTimeProfilesResponse{
+	expected := responses.ClearTimeProfilesResponse{
 		Controller: 405419896,
 		Ok:         true,
 	}
@@ -750,7 +750,7 @@ func TestAddTask(t *testing.T) {
 		0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
 	}
 
-	expected := types.AddTaskResponse{
+	expected := responses.AddTaskResponse{
 		Controller: 405419896,
 		Ok:         true,
 	}
@@ -772,7 +772,7 @@ func TestRefreshTasklist(t *testing.T) {
 		0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
 	}
 
-	expected := types.RefreshTaskListResponse{
+	expected := responses.RefreshTaskListResponse{
 		Controller: 405419896,
 		Ok:         true,
 	}

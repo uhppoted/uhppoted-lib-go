@@ -5,46 +5,46 @@ import (
 	"net/netip"
 	"time"
 
-	lib "github.com/uhppoted/uhppoted-lib-go/uhppoted"
+	"github.com/uhppoted/uhppoted-lib-go/uhppoted/responses"
 )
 
 var Expected = struct {
-	FindControllers        []lib.GetControllerResponse
-	GetController          lib.GetControllerResponse
-	SetIPv4                lib.SetIPv4Response
-	GetTime                lib.GetTimeResponse
-	SetTime                lib.SetTimeResponse
-	GetListener            lib.GetListenerResponse
-	SetListener            lib.SetListenerResponse
-	GetDoor                lib.GetDoorResponse
-	SetDoor                lib.SetDoorResponse
-	SetDoorPasscodes       lib.SetDoorPasscodesResponse
-	OpenDoor               lib.OpenDoorResponse
-	GetStatus              lib.GetStatusResponse
-	GetStatusNoEvent       lib.GetStatusResponse
-	GetCards               lib.GetCardsResponse
-	GetCard                lib.GetCardResponse
-	GetCardNotFound        lib.GetCardResponse
-	GetCardAtIndex         lib.GetCardAtIndexResponse
-	GetCardAtIndexNotFound lib.GetCardAtIndexResponse
-	GetCardAtIndexDeleted  lib.GetCardAtIndexResponse
-	PutCard                lib.PutCardResponse
-	DeleteCard             lib.DeleteCardResponse
-	DeleteAllCards         lib.DeleteAllCardsResponse
-	GetEvent               lib.GetEventResponse
-	GetEventNotFound       lib.GetEventResponse
-	GetEventOverwritten    lib.GetEventResponse
-	GetEventIndex          lib.GetEventIndexResponse
-	SetEventIndex          lib.SetEventIndexResponse
-	RecordSpecialEvents    lib.RecordSpecialEventsResponse
-	GetTimeProfile         lib.GetTimeProfileResponse
-	SetTimeProfile         lib.SetTimeProfileResponse
-	ClearTimeProfiles      lib.ClearTimeProfilesResponse
-	AddTask                lib.AddTaskResponse
-	RefreshTaskList        lib.RefreshTaskListResponse
+	FindControllers        []responses.GetControllerResponse
+	GetController          responses.GetControllerResponse
+	SetIPv4                responses.SetIPv4Response
+	GetTime                responses.GetTimeResponse
+	SetTime                responses.SetTimeResponse
+	GetListener            responses.GetListenerResponse
+	SetListener            responses.SetListenerResponse
+	GetDoor                responses.GetDoorResponse
+	SetDoor                responses.SetDoorResponse
+	SetDoorPasscodes       responses.SetDoorPasscodesResponse
+	OpenDoor               responses.OpenDoorResponse
+	GetStatus              responses.GetStatusResponse
+	GetStatusNoEvent       responses.GetStatusResponse
+	GetCards               responses.GetCardsResponse
+	GetCard                responses.GetCardResponse
+	GetCardNotFound        responses.GetCardResponse
+	GetCardAtIndex         responses.GetCardAtIndexResponse
+	GetCardAtIndexNotFound responses.GetCardAtIndexResponse
+	GetCardAtIndexDeleted  responses.GetCardAtIndexResponse
+	PutCard                responses.PutCardResponse
+	DeleteCard             responses.DeleteCardResponse
+	DeleteAllCards         responses.DeleteAllCardsResponse
+	GetEvent               responses.GetEventResponse
+	GetEventNotFound       responses.GetEventResponse
+	GetEventOverwritten    responses.GetEventResponse
+	GetEventIndex          responses.GetEventIndexResponse
+	SetEventIndex          responses.SetEventIndexResponse
+	RecordSpecialEvents    responses.RecordSpecialEventsResponse
+	GetTimeProfile         responses.GetTimeProfileResponse
+	SetTimeProfile         responses.SetTimeProfileResponse
+	ClearTimeProfiles      responses.ClearTimeProfilesResponse
+	AddTask                responses.AddTaskResponse
+	RefreshTaskList        responses.RefreshTaskListResponse
 }{
-	FindControllers: []lib.GetControllerResponse{
-		lib.GetControllerResponse{
+	FindControllers: []responses.GetControllerResponse{
+		responses.GetControllerResponse{
 			Controller: 201020304,
 			IpAddress:  netip.MustParseAddr("192.168.1.101"),
 			SubnetMask: netip.MustParseAddr("255.255.255.0"),
@@ -53,7 +53,7 @@ var Expected = struct {
 			Version:    "v6.62",
 			Date:       time.Date(2020, 1, 1, 0, 0, 0, 0, time.Local),
 		},
-		lib.GetControllerResponse{
+		responses.GetControllerResponse{
 			Controller: 303986753,
 			IpAddress:  netip.MustParseAddr("192.168.1.100"),
 			SubnetMask: netip.MustParseAddr("255.255.255.0"),
@@ -62,7 +62,7 @@ var Expected = struct {
 			Version:    "v8.92",
 			Date:       time.Date(2019, 8, 15, 0, 0, 0, 0, time.Local),
 		},
-		lib.GetControllerResponse{
+		responses.GetControllerResponse{
 			Controller: 405419896,
 			IpAddress:  netip.MustParseAddr("192.168.1.100"),
 			SubnetMask: netip.MustParseAddr("255.255.255.0"),
@@ -73,7 +73,7 @@ var Expected = struct {
 		},
 	},
 
-	GetController: lib.GetControllerResponse{
+	GetController: responses.GetControllerResponse{
 		Controller: 405419896,
 		IpAddress:  IPv4("192.168.1.100"),
 		SubnetMask: IPv4("255.255.255.0"),
@@ -83,58 +83,58 @@ var Expected = struct {
 		Date:       string2date("2018-11-05"),
 	},
 
-	SetIPv4: lib.SetIPv4Response{
+	SetIPv4: responses.SetIPv4Response{
 		Controller: 405419896,
 		Ok:         true,
 	},
 
-	GetTime: lib.GetTimeResponse{
+	GetTime: responses.GetTimeResponse{
 		Controller: 405419896,
 		DateTime:   string2datetime("2025-11-01 12:34:56"),
 	},
 
-	SetTime: lib.SetTimeResponse{
+	SetTime: responses.SetTimeResponse{
 		Controller: 405419896,
 		DateTime:   string2datetime("2025-11-01 12:34:56"),
 	},
 
-	GetListener: lib.GetListenerResponse{
+	GetListener: responses.GetListenerResponse{
 		Controller: 405419896,
 		Address:    IPv4("192.168.1.100"),
 		Port:       60001,
 		Interval:   13,
 	},
 
-	SetListener: lib.SetListenerResponse{
+	SetListener: responses.SetListenerResponse{
 		Controller: 405419896,
 		Ok:         true,
 	},
 
-	GetDoor: lib.GetDoorResponse{
+	GetDoor: responses.GetDoorResponse{
 		Controller: 405419896,
 		Door:       4,
 		Mode:       3,
 		Delay:      7,
 	},
 
-	SetDoor: lib.SetDoorResponse{
+	SetDoor: responses.SetDoorResponse{
 		Controller: 405419896,
 		Door:       4,
 		Mode:       2,
 		Delay:      17,
 	},
 
-	SetDoorPasscodes: lib.SetDoorPasscodesResponse{
+	SetDoorPasscodes: responses.SetDoorPasscodesResponse{
 		Controller: 405419896,
 		Ok:         true,
 	},
 
-	OpenDoor: lib.OpenDoorResponse{
+	OpenDoor: responses.OpenDoorResponse{
 		Controller: 405419896,
 		Ok:         true,
 	},
 
-	GetStatus: lib.GetStatusResponse{
+	GetStatus: responses.GetStatusResponse{
 		Controller:         405419896,
 		SystemDate:         string2date("2022-08-23"),
 		SystemTime:         string2time("09:49:39"),
@@ -161,7 +161,7 @@ var Expected = struct {
 		SequenceNo:         0,
 	},
 
-	GetStatusNoEvent: lib.GetStatusResponse{
+	GetStatusNoEvent: responses.GetStatusResponse{
 		Controller:         405419897,
 		SystemDate:         string2date("2025-11-23"),
 		SystemTime:         string2time("14:37:53"),
@@ -188,12 +188,12 @@ var Expected = struct {
 		SequenceNo:         21987,
 	},
 
-	GetCards: lib.GetCardsResponse{
+	GetCards: responses.GetCardsResponse{
 		Controller: 405419896,
 		Cards:      13579,
 	},
 
-	GetCard: lib.GetCardResponse{
+	GetCard: responses.GetCardResponse{
 		Controller: 405419896,
 		Card:       10058400,
 		StartDate:  string2date("2025-01-01"),
@@ -205,7 +205,7 @@ var Expected = struct {
 		PIN:        7531,
 	},
 
-	GetCardNotFound: lib.GetCardResponse{
+	GetCardNotFound: responses.GetCardResponse{
 		Controller: 405419896,
 		Card:       0,
 		StartDate:  string2date("0001-01-01"),
@@ -217,7 +217,7 @@ var Expected = struct {
 		PIN:        0,
 	},
 
-	GetCardAtIndex: lib.GetCardAtIndexResponse{
+	GetCardAtIndex: responses.GetCardAtIndexResponse{
 		Controller: 405419896,
 		Card:       10058400,
 		StartDate:  string2date("2025-01-01"),
@@ -229,7 +229,7 @@ var Expected = struct {
 		PIN:        7531,
 	},
 
-	GetCardAtIndexNotFound: lib.GetCardAtIndexResponse{
+	GetCardAtIndexNotFound: responses.GetCardAtIndexResponse{
 		Controller: 405419896,
 		Card:       0,
 		StartDate:  string2date("0001-01-01"),
@@ -241,7 +241,7 @@ var Expected = struct {
 		PIN:        0,
 	},
 
-	GetCardAtIndexDeleted: lib.GetCardAtIndexResponse{
+	GetCardAtIndexDeleted: responses.GetCardAtIndexResponse{
 		Controller: 405419896,
 		Card:       4294967295,
 		StartDate:  string2date("0001-01-01"),
@@ -253,22 +253,22 @@ var Expected = struct {
 		PIN:        0,
 	},
 
-	PutCard: lib.PutCardResponse{
+	PutCard: responses.PutCardResponse{
 		Controller: 405419896,
 		Ok:         true,
 	},
 
-	DeleteCard: lib.DeleteCardResponse{
+	DeleteCard: responses.DeleteCardResponse{
 		Controller: 405419896,
 		Ok:         true,
 	},
 
-	DeleteAllCards: lib.DeleteAllCardsResponse{
+	DeleteAllCards: responses.DeleteAllCardsResponse{
 		Controller: 405419896,
 		Ok:         true,
 	},
 
-	GetEvent: lib.GetEventResponse{
+	GetEvent: responses.GetEventResponse{
 		Controller:    405419896,
 		Index:         13579,
 		Timestamp:     string2datetime("2025-11-17 12:34:56"),
@@ -280,7 +280,7 @@ var Expected = struct {
 		Reason:        21,
 	},
 
-	GetEventNotFound: lib.GetEventResponse{
+	GetEventNotFound: responses.GetEventResponse{
 		Controller:    405419896,
 		Index:         24680,
 		Timestamp:     string2datetime("0001-01-01 00:00:00"),
@@ -292,7 +292,7 @@ var Expected = struct {
 		Reason:        0,
 	},
 
-	GetEventOverwritten: lib.GetEventResponse{
+	GetEventOverwritten: responses.GetEventResponse{
 		Controller:    405419896,
 		Index:         98765,
 		Timestamp:     string2datetime("0001-01-01 00:00:00"),
@@ -304,22 +304,22 @@ var Expected = struct {
 		Reason:        0,
 	},
 
-	GetEventIndex: lib.GetEventIndexResponse{
+	GetEventIndex: responses.GetEventIndexResponse{
 		Controller: 405419896,
 		Index:      13579,
 	},
 
-	SetEventIndex: lib.SetEventIndexResponse{
+	SetEventIndex: responses.SetEventIndexResponse{
 		Controller: 405419896,
 		Ok:         true,
 	},
 
-	RecordSpecialEvents: lib.RecordSpecialEventsResponse{
+	RecordSpecialEvents: responses.RecordSpecialEventsResponse{
 		Controller: 405419896,
 		Ok:         true,
 	},
 
-	GetTimeProfile: lib.GetTimeProfileResponse{
+	GetTimeProfile: responses.GetTimeProfileResponse{
 		Controller:    405419896,
 		Profile:       37,
 		StartDate:     string2date("2025-11-26"),
@@ -340,22 +340,22 @@ var Expected = struct {
 		LinkedProfile: 19,
 	},
 
-	SetTimeProfile: lib.SetTimeProfileResponse{
+	SetTimeProfile: responses.SetTimeProfileResponse{
 		Controller: 405419896,
 		Ok:         true,
 	},
 
-	ClearTimeProfiles: lib.ClearTimeProfilesResponse{
+	ClearTimeProfiles: responses.ClearTimeProfilesResponse{
 		Controller: 405419896,
 		Ok:         true,
 	},
 
-	AddTask: lib.AddTaskResponse{
+	AddTask: responses.AddTaskResponse{
 		Controller: 405419896,
 		Ok:         true,
 	},
 
-	RefreshTaskList: lib.RefreshTaskListResponse{
+	RefreshTaskList: responses.RefreshTaskListResponse{
 		Controller: 405419896,
 		Ok:         true,
 	},

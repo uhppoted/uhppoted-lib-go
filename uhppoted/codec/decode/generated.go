@@ -7,7 +7,7 @@ package decode
 import (
 	"fmt"
 
-	"github.com/uhppoted/uhppoted-lib-go/uhppoted/types"
+	"github.com/uhppoted/uhppoted-lib-go/uhppoted/responses"
 )
 
 // Decodes a get-controller-response response.
@@ -19,20 +19,20 @@ import (
 //	    - GetControllerResponse initialised from the UDP packet.
 //	    - error if the packet is not 64 bytes, has an invalid start-of-message byte or has
 //	               the incorrect message type.
-func GetControllerResponse(packet []byte) (types.GetControllerResponse, error) {
+func GetControllerResponse(packet []byte) (responses.GetControllerResponse, error) {
 	if len(packet) != 64 {
-		return types.GetControllerResponse{}, fmt.Errorf("invalid reply packet length (%v)", len(packet))
+		return responses.GetControllerResponse{}, fmt.Errorf("invalid reply packet length (%v)", len(packet))
 	}
 
 	if packet[0] != SOM {
-		return types.GetControllerResponse{}, fmt.Errorf("invalid reply start of message byte (%02x)", packet[0])
+		return responses.GetControllerResponse{}, fmt.Errorf("invalid reply start of message byte (%02x)", packet[0])
 	}
 
 	if packet[1] != 148 {
-		return types.GetControllerResponse{}, fmt.Errorf("invalid reply function code (%02x)", packet[1])
+		return responses.GetControllerResponse{}, fmt.Errorf("invalid reply function code (%02x)", packet[1])
 	}
 
-	return types.GetControllerResponse{
+	return responses.GetControllerResponse{
 		Controller: unpackUint32(packet, 4),
 		IpAddress:  unpackIPv4(packet, 8),
 		SubnetMask: unpackIPv4(packet, 12),
@@ -52,20 +52,20 @@ func GetControllerResponse(packet []byte) (types.GetControllerResponse, error) {
 //	    - SetIPv4Response initialised from the UDP packet.
 //	    - error if the packet is not 64 bytes, has an invalid start-of-message byte or has
 //	               the incorrect message type.
-func SetIPv4Response(packet []byte) (types.SetIPv4Response, error) {
+func SetIPv4Response(packet []byte) (responses.SetIPv4Response, error) {
 	if len(packet) != 64 {
-		return types.SetIPv4Response{}, fmt.Errorf("invalid reply packet length (%v)", len(packet))
+		return responses.SetIPv4Response{}, fmt.Errorf("invalid reply packet length (%v)", len(packet))
 	}
 
 	if packet[0] != SOM {
-		return types.SetIPv4Response{}, fmt.Errorf("invalid reply start of message byte (%02x)", packet[0])
+		return responses.SetIPv4Response{}, fmt.Errorf("invalid reply start of message byte (%02x)", packet[0])
 	}
 
 	if packet[1] != 150 {
-		return types.SetIPv4Response{}, fmt.Errorf("invalid reply function code (%02x)", packet[1])
+		return responses.SetIPv4Response{}, fmt.Errorf("invalid reply function code (%02x)", packet[1])
 	}
 
-	return types.SetIPv4Response{
+	return responses.SetIPv4Response{
 		Controller: unpackUint32(packet, 4),
 		Ok:         unpackBool(packet, 8),
 	}, nil
@@ -80,20 +80,20 @@ func SetIPv4Response(packet []byte) (types.SetIPv4Response, error) {
 //	    - GetStatusResponse initialised from the UDP packet.
 //	    - error if the packet is not 64 bytes, has an invalid start-of-message byte or has
 //	               the incorrect message type.
-func GetStatusResponse(packet []byte) (types.GetStatusResponse, error) {
+func GetStatusResponse(packet []byte) (responses.GetStatusResponse, error) {
 	if len(packet) != 64 {
-		return types.GetStatusResponse{}, fmt.Errorf("invalid reply packet length (%v)", len(packet))
+		return responses.GetStatusResponse{}, fmt.Errorf("invalid reply packet length (%v)", len(packet))
 	}
 
 	if packet[0] != SOM {
-		return types.GetStatusResponse{}, fmt.Errorf("invalid reply start of message byte (%02x)", packet[0])
+		return responses.GetStatusResponse{}, fmt.Errorf("invalid reply start of message byte (%02x)", packet[0])
 	}
 
 	if packet[1] != 32 {
-		return types.GetStatusResponse{}, fmt.Errorf("invalid reply function code (%02x)", packet[1])
+		return responses.GetStatusResponse{}, fmt.Errorf("invalid reply function code (%02x)", packet[1])
 	}
 
-	return types.GetStatusResponse{
+	return responses.GetStatusResponse{
 		Controller:         unpackUint32(packet, 4),
 		SystemDate:         unpackShortDate(packet, 51),
 		SystemTime:         unpackHHMMSS(packet, 37),
@@ -130,20 +130,20 @@ func GetStatusResponse(packet []byte) (types.GetStatusResponse, error) {
 //	    - GetTimeResponse initialised from the UDP packet.
 //	    - error if the packet is not 64 bytes, has an invalid start-of-message byte or has
 //	               the incorrect message type.
-func GetTimeResponse(packet []byte) (types.GetTimeResponse, error) {
+func GetTimeResponse(packet []byte) (responses.GetTimeResponse, error) {
 	if len(packet) != 64 {
-		return types.GetTimeResponse{}, fmt.Errorf("invalid reply packet length (%v)", len(packet))
+		return responses.GetTimeResponse{}, fmt.Errorf("invalid reply packet length (%v)", len(packet))
 	}
 
 	if packet[0] != SOM {
-		return types.GetTimeResponse{}, fmt.Errorf("invalid reply start of message byte (%02x)", packet[0])
+		return responses.GetTimeResponse{}, fmt.Errorf("invalid reply start of message byte (%02x)", packet[0])
 	}
 
 	if packet[1] != 50 {
-		return types.GetTimeResponse{}, fmt.Errorf("invalid reply function code (%02x)", packet[1])
+		return responses.GetTimeResponse{}, fmt.Errorf("invalid reply function code (%02x)", packet[1])
 	}
 
-	return types.GetTimeResponse{
+	return responses.GetTimeResponse{
 		Controller: unpackUint32(packet, 4),
 		DateTime:   unpackDateTime(packet, 8),
 	}, nil
@@ -158,20 +158,20 @@ func GetTimeResponse(packet []byte) (types.GetTimeResponse, error) {
 //	    - SetTimeResponse initialised from the UDP packet.
 //	    - error if the packet is not 64 bytes, has an invalid start-of-message byte or has
 //	               the incorrect message type.
-func SetTimeResponse(packet []byte) (types.SetTimeResponse, error) {
+func SetTimeResponse(packet []byte) (responses.SetTimeResponse, error) {
 	if len(packet) != 64 {
-		return types.SetTimeResponse{}, fmt.Errorf("invalid reply packet length (%v)", len(packet))
+		return responses.SetTimeResponse{}, fmt.Errorf("invalid reply packet length (%v)", len(packet))
 	}
 
 	if packet[0] != SOM {
-		return types.SetTimeResponse{}, fmt.Errorf("invalid reply start of message byte (%02x)", packet[0])
+		return responses.SetTimeResponse{}, fmt.Errorf("invalid reply start of message byte (%02x)", packet[0])
 	}
 
 	if packet[1] != 48 {
-		return types.SetTimeResponse{}, fmt.Errorf("invalid reply function code (%02x)", packet[1])
+		return responses.SetTimeResponse{}, fmt.Errorf("invalid reply function code (%02x)", packet[1])
 	}
 
-	return types.SetTimeResponse{
+	return responses.SetTimeResponse{
 		Controller: unpackUint32(packet, 4),
 		DateTime:   unpackDateTime(packet, 8),
 	}, nil
@@ -186,20 +186,20 @@ func SetTimeResponse(packet []byte) (types.SetTimeResponse, error) {
 //	    - GetListenerResponse initialised from the UDP packet.
 //	    - error if the packet is not 64 bytes, has an invalid start-of-message byte or has
 //	               the incorrect message type.
-func GetListenerResponse(packet []byte) (types.GetListenerResponse, error) {
+func GetListenerResponse(packet []byte) (responses.GetListenerResponse, error) {
 	if len(packet) != 64 {
-		return types.GetListenerResponse{}, fmt.Errorf("invalid reply packet length (%v)", len(packet))
+		return responses.GetListenerResponse{}, fmt.Errorf("invalid reply packet length (%v)", len(packet))
 	}
 
 	if packet[0] != SOM {
-		return types.GetListenerResponse{}, fmt.Errorf("invalid reply start of message byte (%02x)", packet[0])
+		return responses.GetListenerResponse{}, fmt.Errorf("invalid reply start of message byte (%02x)", packet[0])
 	}
 
 	if packet[1] != 146 {
-		return types.GetListenerResponse{}, fmt.Errorf("invalid reply function code (%02x)", packet[1])
+		return responses.GetListenerResponse{}, fmt.Errorf("invalid reply function code (%02x)", packet[1])
 	}
 
-	return types.GetListenerResponse{
+	return responses.GetListenerResponse{
 		Controller: unpackUint32(packet, 4),
 		Address:    unpackIPv4(packet, 8),
 		Port:       unpackUint16(packet, 12),
@@ -216,20 +216,20 @@ func GetListenerResponse(packet []byte) (types.GetListenerResponse, error) {
 //	    - SetListenerResponse initialised from the UDP packet.
 //	    - error if the packet is not 64 bytes, has an invalid start-of-message byte or has
 //	               the incorrect message type.
-func SetListenerResponse(packet []byte) (types.SetListenerResponse, error) {
+func SetListenerResponse(packet []byte) (responses.SetListenerResponse, error) {
 	if len(packet) != 64 {
-		return types.SetListenerResponse{}, fmt.Errorf("invalid reply packet length (%v)", len(packet))
+		return responses.SetListenerResponse{}, fmt.Errorf("invalid reply packet length (%v)", len(packet))
 	}
 
 	if packet[0] != SOM {
-		return types.SetListenerResponse{}, fmt.Errorf("invalid reply start of message byte (%02x)", packet[0])
+		return responses.SetListenerResponse{}, fmt.Errorf("invalid reply start of message byte (%02x)", packet[0])
 	}
 
 	if packet[1] != 144 {
-		return types.SetListenerResponse{}, fmt.Errorf("invalid reply function code (%02x)", packet[1])
+		return responses.SetListenerResponse{}, fmt.Errorf("invalid reply function code (%02x)", packet[1])
 	}
 
-	return types.SetListenerResponse{
+	return responses.SetListenerResponse{
 		Controller: unpackUint32(packet, 4),
 		Ok:         unpackBool(packet, 8),
 	}, nil
@@ -244,20 +244,20 @@ func SetListenerResponse(packet []byte) (types.SetListenerResponse, error) {
 //	    - GetListenerAddrPortResponse initialised from the UDP packet.
 //	    - error if the packet is not 64 bytes, has an invalid start-of-message byte or has
 //	               the incorrect message type.
-func GetListenerAddrPortResponse(packet []byte) (types.GetListenerAddrPortResponse, error) {
+func GetListenerAddrPortResponse(packet []byte) (responses.GetListenerAddrPortResponse, error) {
 	if len(packet) != 64 {
-		return types.GetListenerAddrPortResponse{}, fmt.Errorf("invalid reply packet length (%v)", len(packet))
+		return responses.GetListenerAddrPortResponse{}, fmt.Errorf("invalid reply packet length (%v)", len(packet))
 	}
 
 	if packet[0] != SOM {
-		return types.GetListenerAddrPortResponse{}, fmt.Errorf("invalid reply start of message byte (%02x)", packet[0])
+		return responses.GetListenerAddrPortResponse{}, fmt.Errorf("invalid reply start of message byte (%02x)", packet[0])
 	}
 
 	if packet[1] != 146 {
-		return types.GetListenerAddrPortResponse{}, fmt.Errorf("invalid reply function code (%02x)", packet[1])
+		return responses.GetListenerAddrPortResponse{}, fmt.Errorf("invalid reply function code (%02x)", packet[1])
 	}
 
-	return types.GetListenerAddrPortResponse{
+	return responses.GetListenerAddrPortResponse{
 		Controller: unpackUint32(packet, 4),
 		Listener:   unpackAddrPort(packet, 8),
 		Interval:   unpackUint8(packet, 14),
@@ -273,20 +273,20 @@ func GetListenerAddrPortResponse(packet []byte) (types.GetListenerAddrPortRespon
 //	    - SetListenerAddrPortResponse initialised from the UDP packet.
 //	    - error if the packet is not 64 bytes, has an invalid start-of-message byte or has
 //	               the incorrect message type.
-func SetListenerAddrPortResponse(packet []byte) (types.SetListenerAddrPortResponse, error) {
+func SetListenerAddrPortResponse(packet []byte) (responses.SetListenerAddrPortResponse, error) {
 	if len(packet) != 64 {
-		return types.SetListenerAddrPortResponse{}, fmt.Errorf("invalid reply packet length (%v)", len(packet))
+		return responses.SetListenerAddrPortResponse{}, fmt.Errorf("invalid reply packet length (%v)", len(packet))
 	}
 
 	if packet[0] != SOM {
-		return types.SetListenerAddrPortResponse{}, fmt.Errorf("invalid reply start of message byte (%02x)", packet[0])
+		return responses.SetListenerAddrPortResponse{}, fmt.Errorf("invalid reply start of message byte (%02x)", packet[0])
 	}
 
 	if packet[1] != 144 {
-		return types.SetListenerAddrPortResponse{}, fmt.Errorf("invalid reply function code (%02x)", packet[1])
+		return responses.SetListenerAddrPortResponse{}, fmt.Errorf("invalid reply function code (%02x)", packet[1])
 	}
 
-	return types.SetListenerAddrPortResponse{
+	return responses.SetListenerAddrPortResponse{
 		Controller: unpackUint32(packet, 4),
 		Ok:         unpackBool(packet, 8),
 	}, nil
@@ -301,20 +301,20 @@ func SetListenerAddrPortResponse(packet []byte) (types.SetListenerAddrPortRespon
 //	    - GetDoorResponse initialised from the UDP packet.
 //	    - error if the packet is not 64 bytes, has an invalid start-of-message byte or has
 //	               the incorrect message type.
-func GetDoorResponse(packet []byte) (types.GetDoorResponse, error) {
+func GetDoorResponse(packet []byte) (responses.GetDoorResponse, error) {
 	if len(packet) != 64 {
-		return types.GetDoorResponse{}, fmt.Errorf("invalid reply packet length (%v)", len(packet))
+		return responses.GetDoorResponse{}, fmt.Errorf("invalid reply packet length (%v)", len(packet))
 	}
 
 	if packet[0] != SOM {
-		return types.GetDoorResponse{}, fmt.Errorf("invalid reply start of message byte (%02x)", packet[0])
+		return responses.GetDoorResponse{}, fmt.Errorf("invalid reply start of message byte (%02x)", packet[0])
 	}
 
 	if packet[1] != 130 {
-		return types.GetDoorResponse{}, fmt.Errorf("invalid reply function code (%02x)", packet[1])
+		return responses.GetDoorResponse{}, fmt.Errorf("invalid reply function code (%02x)", packet[1])
 	}
 
-	return types.GetDoorResponse{
+	return responses.GetDoorResponse{
 		Controller: unpackUint32(packet, 4),
 		Door:       unpackUint8(packet, 8),
 		Mode:       unpackUint8(packet, 9),
@@ -331,20 +331,20 @@ func GetDoorResponse(packet []byte) (types.GetDoorResponse, error) {
 //	    - SetDoorResponse initialised from the UDP packet.
 //	    - error if the packet is not 64 bytes, has an invalid start-of-message byte or has
 //	               the incorrect message type.
-func SetDoorResponse(packet []byte) (types.SetDoorResponse, error) {
+func SetDoorResponse(packet []byte) (responses.SetDoorResponse, error) {
 	if len(packet) != 64 {
-		return types.SetDoorResponse{}, fmt.Errorf("invalid reply packet length (%v)", len(packet))
+		return responses.SetDoorResponse{}, fmt.Errorf("invalid reply packet length (%v)", len(packet))
 	}
 
 	if packet[0] != SOM {
-		return types.SetDoorResponse{}, fmt.Errorf("invalid reply start of message byte (%02x)", packet[0])
+		return responses.SetDoorResponse{}, fmt.Errorf("invalid reply start of message byte (%02x)", packet[0])
 	}
 
 	if packet[1] != 128 {
-		return types.SetDoorResponse{}, fmt.Errorf("invalid reply function code (%02x)", packet[1])
+		return responses.SetDoorResponse{}, fmt.Errorf("invalid reply function code (%02x)", packet[1])
 	}
 
-	return types.SetDoorResponse{
+	return responses.SetDoorResponse{
 		Controller: unpackUint32(packet, 4),
 		Door:       unpackUint8(packet, 8),
 		Mode:       unpackUint8(packet, 9),
@@ -361,20 +361,20 @@ func SetDoorResponse(packet []byte) (types.SetDoorResponse, error) {
 //	    - SetDoorPasscodesResponse initialised from the UDP packet.
 //	    - error if the packet is not 64 bytes, has an invalid start-of-message byte or has
 //	               the incorrect message type.
-func SetDoorPasscodesResponse(packet []byte) (types.SetDoorPasscodesResponse, error) {
+func SetDoorPasscodesResponse(packet []byte) (responses.SetDoorPasscodesResponse, error) {
 	if len(packet) != 64 {
-		return types.SetDoorPasscodesResponse{}, fmt.Errorf("invalid reply packet length (%v)", len(packet))
+		return responses.SetDoorPasscodesResponse{}, fmt.Errorf("invalid reply packet length (%v)", len(packet))
 	}
 
 	if packet[0] != SOM {
-		return types.SetDoorPasscodesResponse{}, fmt.Errorf("invalid reply start of message byte (%02x)", packet[0])
+		return responses.SetDoorPasscodesResponse{}, fmt.Errorf("invalid reply start of message byte (%02x)", packet[0])
 	}
 
 	if packet[1] != 140 {
-		return types.SetDoorPasscodesResponse{}, fmt.Errorf("invalid reply function code (%02x)", packet[1])
+		return responses.SetDoorPasscodesResponse{}, fmt.Errorf("invalid reply function code (%02x)", packet[1])
 	}
 
-	return types.SetDoorPasscodesResponse{
+	return responses.SetDoorPasscodesResponse{
 		Controller: unpackUint32(packet, 4),
 		Ok:         unpackBool(packet, 8),
 	}, nil
@@ -389,20 +389,20 @@ func SetDoorPasscodesResponse(packet []byte) (types.SetDoorPasscodesResponse, er
 //	    - OpenDoorResponse initialised from the UDP packet.
 //	    - error if the packet is not 64 bytes, has an invalid start-of-message byte or has
 //	               the incorrect message type.
-func OpenDoorResponse(packet []byte) (types.OpenDoorResponse, error) {
+func OpenDoorResponse(packet []byte) (responses.OpenDoorResponse, error) {
 	if len(packet) != 64 {
-		return types.OpenDoorResponse{}, fmt.Errorf("invalid reply packet length (%v)", len(packet))
+		return responses.OpenDoorResponse{}, fmt.Errorf("invalid reply packet length (%v)", len(packet))
 	}
 
 	if packet[0] != SOM {
-		return types.OpenDoorResponse{}, fmt.Errorf("invalid reply start of message byte (%02x)", packet[0])
+		return responses.OpenDoorResponse{}, fmt.Errorf("invalid reply start of message byte (%02x)", packet[0])
 	}
 
 	if packet[1] != 64 {
-		return types.OpenDoorResponse{}, fmt.Errorf("invalid reply function code (%02x)", packet[1])
+		return responses.OpenDoorResponse{}, fmt.Errorf("invalid reply function code (%02x)", packet[1])
 	}
 
-	return types.OpenDoorResponse{
+	return responses.OpenDoorResponse{
 		Controller: unpackUint32(packet, 4),
 		Ok:         unpackBool(packet, 8),
 	}, nil
@@ -417,20 +417,20 @@ func OpenDoorResponse(packet []byte) (types.OpenDoorResponse, error) {
 //	    - GetCardsResponse initialised from the UDP packet.
 //	    - error if the packet is not 64 bytes, has an invalid start-of-message byte or has
 //	               the incorrect message type.
-func GetCardsResponse(packet []byte) (types.GetCardsResponse, error) {
+func GetCardsResponse(packet []byte) (responses.GetCardsResponse, error) {
 	if len(packet) != 64 {
-		return types.GetCardsResponse{}, fmt.Errorf("invalid reply packet length (%v)", len(packet))
+		return responses.GetCardsResponse{}, fmt.Errorf("invalid reply packet length (%v)", len(packet))
 	}
 
 	if packet[0] != SOM {
-		return types.GetCardsResponse{}, fmt.Errorf("invalid reply start of message byte (%02x)", packet[0])
+		return responses.GetCardsResponse{}, fmt.Errorf("invalid reply start of message byte (%02x)", packet[0])
 	}
 
 	if packet[1] != 88 {
-		return types.GetCardsResponse{}, fmt.Errorf("invalid reply function code (%02x)", packet[1])
+		return responses.GetCardsResponse{}, fmt.Errorf("invalid reply function code (%02x)", packet[1])
 	}
 
-	return types.GetCardsResponse{
+	return responses.GetCardsResponse{
 		Controller: unpackUint32(packet, 4),
 		Cards:      unpackUint32(packet, 8),
 	}, nil
@@ -445,20 +445,20 @@ func GetCardsResponse(packet []byte) (types.GetCardsResponse, error) {
 //	    - GetCardResponse initialised from the UDP packet.
 //	    - error if the packet is not 64 bytes, has an invalid start-of-message byte or has
 //	               the incorrect message type.
-func GetCardResponse(packet []byte) (types.GetCardResponse, error) {
+func GetCardResponse(packet []byte) (responses.GetCardResponse, error) {
 	if len(packet) != 64 {
-		return types.GetCardResponse{}, fmt.Errorf("invalid reply packet length (%v)", len(packet))
+		return responses.GetCardResponse{}, fmt.Errorf("invalid reply packet length (%v)", len(packet))
 	}
 
 	if packet[0] != SOM {
-		return types.GetCardResponse{}, fmt.Errorf("invalid reply start of message byte (%02x)", packet[0])
+		return responses.GetCardResponse{}, fmt.Errorf("invalid reply start of message byte (%02x)", packet[0])
 	}
 
 	if packet[1] != 90 {
-		return types.GetCardResponse{}, fmt.Errorf("invalid reply function code (%02x)", packet[1])
+		return responses.GetCardResponse{}, fmt.Errorf("invalid reply function code (%02x)", packet[1])
 	}
 
-	return types.GetCardResponse{
+	return responses.GetCardResponse{
 		Controller: unpackUint32(packet, 4),
 		Card:       unpackUint32(packet, 8),
 		StartDate:  unpackOptionalDate(packet, 12),
@@ -480,20 +480,20 @@ func GetCardResponse(packet []byte) (types.GetCardResponse, error) {
 //	    - GetCardAtIndexResponse initialised from the UDP packet.
 //	    - error if the packet is not 64 bytes, has an invalid start-of-message byte or has
 //	               the incorrect message type.
-func GetCardAtIndexResponse(packet []byte) (types.GetCardAtIndexResponse, error) {
+func GetCardAtIndexResponse(packet []byte) (responses.GetCardAtIndexResponse, error) {
 	if len(packet) != 64 {
-		return types.GetCardAtIndexResponse{}, fmt.Errorf("invalid reply packet length (%v)", len(packet))
+		return responses.GetCardAtIndexResponse{}, fmt.Errorf("invalid reply packet length (%v)", len(packet))
 	}
 
 	if packet[0] != SOM {
-		return types.GetCardAtIndexResponse{}, fmt.Errorf("invalid reply start of message byte (%02x)", packet[0])
+		return responses.GetCardAtIndexResponse{}, fmt.Errorf("invalid reply start of message byte (%02x)", packet[0])
 	}
 
 	if packet[1] != 92 {
-		return types.GetCardAtIndexResponse{}, fmt.Errorf("invalid reply function code (%02x)", packet[1])
+		return responses.GetCardAtIndexResponse{}, fmt.Errorf("invalid reply function code (%02x)", packet[1])
 	}
 
-	return types.GetCardAtIndexResponse{
+	return responses.GetCardAtIndexResponse{
 		Controller: unpackUint32(packet, 4),
 		Card:       unpackUint32(packet, 8),
 		StartDate:  unpackOptionalDate(packet, 12),
@@ -515,20 +515,20 @@ func GetCardAtIndexResponse(packet []byte) (types.GetCardAtIndexResponse, error)
 //	    - PutCardResponse initialised from the UDP packet.
 //	    - error if the packet is not 64 bytes, has an invalid start-of-message byte or has
 //	               the incorrect message type.
-func PutCardResponse(packet []byte) (types.PutCardResponse, error) {
+func PutCardResponse(packet []byte) (responses.PutCardResponse, error) {
 	if len(packet) != 64 {
-		return types.PutCardResponse{}, fmt.Errorf("invalid reply packet length (%v)", len(packet))
+		return responses.PutCardResponse{}, fmt.Errorf("invalid reply packet length (%v)", len(packet))
 	}
 
 	if packet[0] != SOM {
-		return types.PutCardResponse{}, fmt.Errorf("invalid reply start of message byte (%02x)", packet[0])
+		return responses.PutCardResponse{}, fmt.Errorf("invalid reply start of message byte (%02x)", packet[0])
 	}
 
 	if packet[1] != 80 {
-		return types.PutCardResponse{}, fmt.Errorf("invalid reply function code (%02x)", packet[1])
+		return responses.PutCardResponse{}, fmt.Errorf("invalid reply function code (%02x)", packet[1])
 	}
 
-	return types.PutCardResponse{
+	return responses.PutCardResponse{
 		Controller: unpackUint32(packet, 4),
 		Ok:         unpackBool(packet, 8),
 	}, nil
@@ -543,20 +543,20 @@ func PutCardResponse(packet []byte) (types.PutCardResponse, error) {
 //	    - DeleteCardResponse initialised from the UDP packet.
 //	    - error if the packet is not 64 bytes, has an invalid start-of-message byte or has
 //	               the incorrect message type.
-func DeleteCardResponse(packet []byte) (types.DeleteCardResponse, error) {
+func DeleteCardResponse(packet []byte) (responses.DeleteCardResponse, error) {
 	if len(packet) != 64 {
-		return types.DeleteCardResponse{}, fmt.Errorf("invalid reply packet length (%v)", len(packet))
+		return responses.DeleteCardResponse{}, fmt.Errorf("invalid reply packet length (%v)", len(packet))
 	}
 
 	if packet[0] != SOM {
-		return types.DeleteCardResponse{}, fmt.Errorf("invalid reply start of message byte (%02x)", packet[0])
+		return responses.DeleteCardResponse{}, fmt.Errorf("invalid reply start of message byte (%02x)", packet[0])
 	}
 
 	if packet[1] != 82 {
-		return types.DeleteCardResponse{}, fmt.Errorf("invalid reply function code (%02x)", packet[1])
+		return responses.DeleteCardResponse{}, fmt.Errorf("invalid reply function code (%02x)", packet[1])
 	}
 
-	return types.DeleteCardResponse{
+	return responses.DeleteCardResponse{
 		Controller: unpackUint32(packet, 4),
 		Ok:         unpackBool(packet, 8),
 	}, nil
@@ -571,20 +571,20 @@ func DeleteCardResponse(packet []byte) (types.DeleteCardResponse, error) {
 //	    - DeleteAllCardsResponse initialised from the UDP packet.
 //	    - error if the packet is not 64 bytes, has an invalid start-of-message byte or has
 //	               the incorrect message type.
-func DeleteAllCardsResponse(packet []byte) (types.DeleteAllCardsResponse, error) {
+func DeleteAllCardsResponse(packet []byte) (responses.DeleteAllCardsResponse, error) {
 	if len(packet) != 64 {
-		return types.DeleteAllCardsResponse{}, fmt.Errorf("invalid reply packet length (%v)", len(packet))
+		return responses.DeleteAllCardsResponse{}, fmt.Errorf("invalid reply packet length (%v)", len(packet))
 	}
 
 	if packet[0] != SOM {
-		return types.DeleteAllCardsResponse{}, fmt.Errorf("invalid reply start of message byte (%02x)", packet[0])
+		return responses.DeleteAllCardsResponse{}, fmt.Errorf("invalid reply start of message byte (%02x)", packet[0])
 	}
 
 	if packet[1] != 84 {
-		return types.DeleteAllCardsResponse{}, fmt.Errorf("invalid reply function code (%02x)", packet[1])
+		return responses.DeleteAllCardsResponse{}, fmt.Errorf("invalid reply function code (%02x)", packet[1])
 	}
 
-	return types.DeleteAllCardsResponse{
+	return responses.DeleteAllCardsResponse{
 		Controller: unpackUint32(packet, 4),
 		Ok:         unpackBool(packet, 8),
 	}, nil
@@ -599,20 +599,20 @@ func DeleteAllCardsResponse(packet []byte) (types.DeleteAllCardsResponse, error)
 //	    - GetEventResponse initialised from the UDP packet.
 //	    - error if the packet is not 64 bytes, has an invalid start-of-message byte or has
 //	               the incorrect message type.
-func GetEventResponse(packet []byte) (types.GetEventResponse, error) {
+func GetEventResponse(packet []byte) (responses.GetEventResponse, error) {
 	if len(packet) != 64 {
-		return types.GetEventResponse{}, fmt.Errorf("invalid reply packet length (%v)", len(packet))
+		return responses.GetEventResponse{}, fmt.Errorf("invalid reply packet length (%v)", len(packet))
 	}
 
 	if packet[0] != SOM {
-		return types.GetEventResponse{}, fmt.Errorf("invalid reply start of message byte (%02x)", packet[0])
+		return responses.GetEventResponse{}, fmt.Errorf("invalid reply start of message byte (%02x)", packet[0])
 	}
 
 	if packet[1] != 176 {
-		return types.GetEventResponse{}, fmt.Errorf("invalid reply function code (%02x)", packet[1])
+		return responses.GetEventResponse{}, fmt.Errorf("invalid reply function code (%02x)", packet[1])
 	}
 
-	return types.GetEventResponse{
+	return responses.GetEventResponse{
 		Controller:    unpackUint32(packet, 4),
 		Index:         unpackUint32(packet, 8),
 		EventType:     unpackUint8(packet, 12),
@@ -634,20 +634,20 @@ func GetEventResponse(packet []byte) (types.GetEventResponse, error) {
 //	    - GetEventIndexResponse initialised from the UDP packet.
 //	    - error if the packet is not 64 bytes, has an invalid start-of-message byte or has
 //	               the incorrect message type.
-func GetEventIndexResponse(packet []byte) (types.GetEventIndexResponse, error) {
+func GetEventIndexResponse(packet []byte) (responses.GetEventIndexResponse, error) {
 	if len(packet) != 64 {
-		return types.GetEventIndexResponse{}, fmt.Errorf("invalid reply packet length (%v)", len(packet))
+		return responses.GetEventIndexResponse{}, fmt.Errorf("invalid reply packet length (%v)", len(packet))
 	}
 
 	if packet[0] != SOM {
-		return types.GetEventIndexResponse{}, fmt.Errorf("invalid reply start of message byte (%02x)", packet[0])
+		return responses.GetEventIndexResponse{}, fmt.Errorf("invalid reply start of message byte (%02x)", packet[0])
 	}
 
 	if packet[1] != 180 {
-		return types.GetEventIndexResponse{}, fmt.Errorf("invalid reply function code (%02x)", packet[1])
+		return responses.GetEventIndexResponse{}, fmt.Errorf("invalid reply function code (%02x)", packet[1])
 	}
 
-	return types.GetEventIndexResponse{
+	return responses.GetEventIndexResponse{
 		Controller: unpackUint32(packet, 4),
 		Index:      unpackUint32(packet, 8),
 	}, nil
@@ -662,20 +662,20 @@ func GetEventIndexResponse(packet []byte) (types.GetEventIndexResponse, error) {
 //	    - SetEventIndexResponse initialised from the UDP packet.
 //	    - error if the packet is not 64 bytes, has an invalid start-of-message byte or has
 //	               the incorrect message type.
-func SetEventIndexResponse(packet []byte) (types.SetEventIndexResponse, error) {
+func SetEventIndexResponse(packet []byte) (responses.SetEventIndexResponse, error) {
 	if len(packet) != 64 {
-		return types.SetEventIndexResponse{}, fmt.Errorf("invalid reply packet length (%v)", len(packet))
+		return responses.SetEventIndexResponse{}, fmt.Errorf("invalid reply packet length (%v)", len(packet))
 	}
 
 	if packet[0] != SOM {
-		return types.SetEventIndexResponse{}, fmt.Errorf("invalid reply start of message byte (%02x)", packet[0])
+		return responses.SetEventIndexResponse{}, fmt.Errorf("invalid reply start of message byte (%02x)", packet[0])
 	}
 
 	if packet[1] != 178 {
-		return types.SetEventIndexResponse{}, fmt.Errorf("invalid reply function code (%02x)", packet[1])
+		return responses.SetEventIndexResponse{}, fmt.Errorf("invalid reply function code (%02x)", packet[1])
 	}
 
-	return types.SetEventIndexResponse{
+	return responses.SetEventIndexResponse{
 		Controller: unpackUint32(packet, 4),
 		Ok:         unpackBool(packet, 8),
 	}, nil
@@ -690,20 +690,20 @@ func SetEventIndexResponse(packet []byte) (types.SetEventIndexResponse, error) {
 //	    - RecordSpecialEventsResponse initialised from the UDP packet.
 //	    - error if the packet is not 64 bytes, has an invalid start-of-message byte or has
 //	               the incorrect message type.
-func RecordSpecialEventsResponse(packet []byte) (types.RecordSpecialEventsResponse, error) {
+func RecordSpecialEventsResponse(packet []byte) (responses.RecordSpecialEventsResponse, error) {
 	if len(packet) != 64 {
-		return types.RecordSpecialEventsResponse{}, fmt.Errorf("invalid reply packet length (%v)", len(packet))
+		return responses.RecordSpecialEventsResponse{}, fmt.Errorf("invalid reply packet length (%v)", len(packet))
 	}
 
 	if packet[0] != SOM {
-		return types.RecordSpecialEventsResponse{}, fmt.Errorf("invalid reply start of message byte (%02x)", packet[0])
+		return responses.RecordSpecialEventsResponse{}, fmt.Errorf("invalid reply start of message byte (%02x)", packet[0])
 	}
 
 	if packet[1] != 142 {
-		return types.RecordSpecialEventsResponse{}, fmt.Errorf("invalid reply function code (%02x)", packet[1])
+		return responses.RecordSpecialEventsResponse{}, fmt.Errorf("invalid reply function code (%02x)", packet[1])
 	}
 
-	return types.RecordSpecialEventsResponse{
+	return responses.RecordSpecialEventsResponse{
 		Controller: unpackUint32(packet, 4),
 		Ok:         unpackBool(packet, 8),
 	}, nil
@@ -718,20 +718,20 @@ func RecordSpecialEventsResponse(packet []byte) (types.RecordSpecialEventsRespon
 //	    - GetTimeProfileResponse initialised from the UDP packet.
 //	    - error if the packet is not 64 bytes, has an invalid start-of-message byte or has
 //	               the incorrect message type.
-func GetTimeProfileResponse(packet []byte) (types.GetTimeProfileResponse, error) {
+func GetTimeProfileResponse(packet []byte) (responses.GetTimeProfileResponse, error) {
 	if len(packet) != 64 {
-		return types.GetTimeProfileResponse{}, fmt.Errorf("invalid reply packet length (%v)", len(packet))
+		return responses.GetTimeProfileResponse{}, fmt.Errorf("invalid reply packet length (%v)", len(packet))
 	}
 
 	if packet[0] != SOM {
-		return types.GetTimeProfileResponse{}, fmt.Errorf("invalid reply start of message byte (%02x)", packet[0])
+		return responses.GetTimeProfileResponse{}, fmt.Errorf("invalid reply start of message byte (%02x)", packet[0])
 	}
 
 	if packet[1] != 152 {
-		return types.GetTimeProfileResponse{}, fmt.Errorf("invalid reply function code (%02x)", packet[1])
+		return responses.GetTimeProfileResponse{}, fmt.Errorf("invalid reply function code (%02x)", packet[1])
 	}
 
-	return types.GetTimeProfileResponse{
+	return responses.GetTimeProfileResponse{
 		Controller:    unpackUint32(packet, 4),
 		Profile:       unpackUint8(packet, 8),
 		StartDate:     unpackOptionalDate(packet, 9),
@@ -762,20 +762,20 @@ func GetTimeProfileResponse(packet []byte) (types.GetTimeProfileResponse, error)
 //	    - SetTimeProfileResponse initialised from the UDP packet.
 //	    - error if the packet is not 64 bytes, has an invalid start-of-message byte or has
 //	               the incorrect message type.
-func SetTimeProfileResponse(packet []byte) (types.SetTimeProfileResponse, error) {
+func SetTimeProfileResponse(packet []byte) (responses.SetTimeProfileResponse, error) {
 	if len(packet) != 64 {
-		return types.SetTimeProfileResponse{}, fmt.Errorf("invalid reply packet length (%v)", len(packet))
+		return responses.SetTimeProfileResponse{}, fmt.Errorf("invalid reply packet length (%v)", len(packet))
 	}
 
 	if packet[0] != SOM {
-		return types.SetTimeProfileResponse{}, fmt.Errorf("invalid reply start of message byte (%02x)", packet[0])
+		return responses.SetTimeProfileResponse{}, fmt.Errorf("invalid reply start of message byte (%02x)", packet[0])
 	}
 
 	if packet[1] != 136 {
-		return types.SetTimeProfileResponse{}, fmt.Errorf("invalid reply function code (%02x)", packet[1])
+		return responses.SetTimeProfileResponse{}, fmt.Errorf("invalid reply function code (%02x)", packet[1])
 	}
 
-	return types.SetTimeProfileResponse{
+	return responses.SetTimeProfileResponse{
 		Controller: unpackUint32(packet, 4),
 		Ok:         unpackBool(packet, 8),
 	}, nil
@@ -790,20 +790,20 @@ func SetTimeProfileResponse(packet []byte) (types.SetTimeProfileResponse, error)
 //	    - ClearTimeProfilesResponse initialised from the UDP packet.
 //	    - error if the packet is not 64 bytes, has an invalid start-of-message byte or has
 //	               the incorrect message type.
-func ClearTimeProfilesResponse(packet []byte) (types.ClearTimeProfilesResponse, error) {
+func ClearTimeProfilesResponse(packet []byte) (responses.ClearTimeProfilesResponse, error) {
 	if len(packet) != 64 {
-		return types.ClearTimeProfilesResponse{}, fmt.Errorf("invalid reply packet length (%v)", len(packet))
+		return responses.ClearTimeProfilesResponse{}, fmt.Errorf("invalid reply packet length (%v)", len(packet))
 	}
 
 	if packet[0] != SOM {
-		return types.ClearTimeProfilesResponse{}, fmt.Errorf("invalid reply start of message byte (%02x)", packet[0])
+		return responses.ClearTimeProfilesResponse{}, fmt.Errorf("invalid reply start of message byte (%02x)", packet[0])
 	}
 
 	if packet[1] != 138 {
-		return types.ClearTimeProfilesResponse{}, fmt.Errorf("invalid reply function code (%02x)", packet[1])
+		return responses.ClearTimeProfilesResponse{}, fmt.Errorf("invalid reply function code (%02x)", packet[1])
 	}
 
-	return types.ClearTimeProfilesResponse{
+	return responses.ClearTimeProfilesResponse{
 		Controller: unpackUint32(packet, 4),
 		Ok:         unpackBool(packet, 8),
 	}, nil
@@ -818,20 +818,20 @@ func ClearTimeProfilesResponse(packet []byte) (types.ClearTimeProfilesResponse, 
 //	    - AddTaskResponse initialised from the UDP packet.
 //	    - error if the packet is not 64 bytes, has an invalid start-of-message byte or has
 //	               the incorrect message type.
-func AddTaskResponse(packet []byte) (types.AddTaskResponse, error) {
+func AddTaskResponse(packet []byte) (responses.AddTaskResponse, error) {
 	if len(packet) != 64 {
-		return types.AddTaskResponse{}, fmt.Errorf("invalid reply packet length (%v)", len(packet))
+		return responses.AddTaskResponse{}, fmt.Errorf("invalid reply packet length (%v)", len(packet))
 	}
 
 	if packet[0] != SOM {
-		return types.AddTaskResponse{}, fmt.Errorf("invalid reply start of message byte (%02x)", packet[0])
+		return responses.AddTaskResponse{}, fmt.Errorf("invalid reply start of message byte (%02x)", packet[0])
 	}
 
 	if packet[1] != 168 {
-		return types.AddTaskResponse{}, fmt.Errorf("invalid reply function code (%02x)", packet[1])
+		return responses.AddTaskResponse{}, fmt.Errorf("invalid reply function code (%02x)", packet[1])
 	}
 
-	return types.AddTaskResponse{
+	return responses.AddTaskResponse{
 		Controller: unpackUint32(packet, 4),
 		Ok:         unpackBool(packet, 8),
 	}, nil
@@ -846,20 +846,20 @@ func AddTaskResponse(packet []byte) (types.AddTaskResponse, error) {
 //	    - RefreshTaskListResponse initialised from the UDP packet.
 //	    - error if the packet is not 64 bytes, has an invalid start-of-message byte or has
 //	               the incorrect message type.
-func RefreshTaskListResponse(packet []byte) (types.RefreshTaskListResponse, error) {
+func RefreshTaskListResponse(packet []byte) (responses.RefreshTaskListResponse, error) {
 	if len(packet) != 64 {
-		return types.RefreshTaskListResponse{}, fmt.Errorf("invalid reply packet length (%v)", len(packet))
+		return responses.RefreshTaskListResponse{}, fmt.Errorf("invalid reply packet length (%v)", len(packet))
 	}
 
 	if packet[0] != SOM {
-		return types.RefreshTaskListResponse{}, fmt.Errorf("invalid reply start of message byte (%02x)", packet[0])
+		return responses.RefreshTaskListResponse{}, fmt.Errorf("invalid reply start of message byte (%02x)", packet[0])
 	}
 
 	if packet[1] != 172 {
-		return types.RefreshTaskListResponse{}, fmt.Errorf("invalid reply function code (%02x)", packet[1])
+		return responses.RefreshTaskListResponse{}, fmt.Errorf("invalid reply function code (%02x)", packet[1])
 	}
 
-	return types.RefreshTaskListResponse{
+	return responses.RefreshTaskListResponse{
 		Controller: unpackUint32(packet, 4),
 		Ok:         unpackBool(packet, 8),
 	}, nil

@@ -35,6 +35,7 @@
    - [x] README
 
 - [ ] custom date/time types
+- [ ] card/event/profile/task records
 - [ ] check for controller = 0
 - [ ] check response.controller == request.controller
 - [ ] check response.card == request.card
@@ -47,7 +48,7 @@
    - [ ] use/extend uhppoted-codegen models
       - [ ] **NB:** use Function::Args
       - [ ] use 'exclude' lists for get/set-listener-addrport
-      - [ ] separate packages for responses/requests/entities
+      - [x] separate packages for responses/requests/entities
 
    - [x] response structs
    - [x] encode

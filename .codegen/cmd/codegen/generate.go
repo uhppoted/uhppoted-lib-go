@@ -23,7 +23,9 @@ func main() {
 
 		case "API":
 			api.API()
-			api.Structs()
+
+		case "responses":
+			api.Responses()
 
 		case "README":
 			readme.README()

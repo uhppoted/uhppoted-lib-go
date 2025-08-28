@@ -30,7 +30,7 @@ import (
 
 	"github.com/uhppoted/uhppoted-lib-go/uhppoted/codec"
 	"github.com/uhppoted/uhppoted-lib-go/uhppoted/log"
-	"github.com/uhppoted/uhppoted-lib-go/uhppoted/types"
+	"github.com/uhppoted/uhppoted-lib-go/uhppoted/responses"
 )
 
 type Uhppoted struct {
@@ -53,34 +53,34 @@ type Controller struct {
 	Protocol string
 }
 
-type GetControllerResponse = types.GetControllerResponse
-type SetIPv4Response = types.SetIPv4Response
-type GetTimeResponse = types.GetTimeResponse
-type SetTimeResponse = types.SetTimeResponse
-type GetListenerResponse = types.GetListenerResponse
-type SetListenerResponse = types.SetListenerResponse
-type GetListenerAddrPortResponse = types.GetListenerAddrPortResponse
-type SetListenerAddrPortResponse = types.SetListenerAddrPortResponse
-type GetDoorResponse = types.GetDoorResponse
-type SetDoorResponse = types.SetDoorResponse
-type SetDoorPasscodesResponse = types.SetDoorPasscodesResponse
-type OpenDoorResponse = types.OpenDoorResponse
-type GetStatusResponse = types.GetStatusResponse
-type GetCardsResponse = types.GetCardsResponse
-type GetCardResponse = types.GetCardResponse
-type GetCardAtIndexResponse = types.GetCardAtIndexResponse
-type PutCardResponse = types.PutCardResponse
-type DeleteCardResponse = types.DeleteCardResponse
-type DeleteAllCardsResponse = types.DeleteAllCardsResponse
-type GetEventResponse = types.GetEventResponse
-type GetEventIndexResponse = types.GetEventIndexResponse
-type SetEventIndexResponse = types.SetEventIndexResponse
-type RecordSpecialEventsResponse = types.RecordSpecialEventsResponse
-type GetTimeProfileResponse = types.GetTimeProfileResponse
-type SetTimeProfileResponse = types.SetTimeProfileResponse
-type ClearTimeProfilesResponse = types.ClearTimeProfilesResponse
-type AddTaskResponse = types.AddTaskResponse
-type RefreshTaskListResponse = types.RefreshTaskListResponse
+type GetControllerResponse = responses.GetControllerResponse
+type SetIPv4Response = responses.SetIPv4Response
+type GetTimeResponse = responses.GetTimeResponse
+type SetTimeResponse = responses.SetTimeResponse
+type GetListenerResponse = responses.GetListenerResponse
+type SetListenerResponse = responses.SetListenerResponse
+type GetListenerAddrPortResponse = responses.GetListenerAddrPortResponse
+type SetListenerAddrPortResponse = responses.SetListenerAddrPortResponse
+type GetDoorResponse = responses.GetDoorResponse
+type SetDoorResponse = responses.SetDoorResponse
+type SetDoorPasscodesResponse = responses.SetDoorPasscodesResponse
+type OpenDoorResponse = responses.OpenDoorResponse
+type GetStatusResponse = responses.GetStatusResponse
+type GetCardsResponse = responses.GetCardsResponse
+type GetCardResponse = responses.GetCardResponse
+type GetCardAtIndexResponse = responses.GetCardAtIndexResponse
+type PutCardResponse = responses.PutCardResponse
+type DeleteCardResponse = responses.DeleteCardResponse
+type DeleteAllCardsResponse = responses.DeleteAllCardsResponse
+type GetEventResponse = responses.GetEventResponse
+type GetEventIndexResponse = responses.GetEventIndexResponse
+type SetEventIndexResponse = responses.SetEventIndexResponse
+type RecordSpecialEventsResponse = responses.RecordSpecialEventsResponse
+type GetTimeProfileResponse = responses.GetTimeProfileResponse
+type SetTimeProfileResponse = responses.SetTimeProfileResponse
+type ClearTimeProfilesResponse = responses.ClearTimeProfilesResponse
+type AddTaskResponse = responses.AddTaskResponse
+type RefreshTaskListResponse = responses.RefreshTaskListResponse
 
 // NewUhppoted creates a new instance of the uhppoted service, configured with the supplied
 // local bind address, broadcast address, and listen address. The debug flag enables or

@@ -14,8 +14,8 @@ import (
 	"codegen/model"
 )
 
-func Structs() {
-	file := filepath.Join("types", "generated.go")
+func Responses() {
+	file := filepath.Join("responses", "generated.go")
 
 	imports := []string{
 		"net/netip",
@@ -29,7 +29,7 @@ func Structs() {
 		types = append(types, typedef(*f))
 	}
 
-	AST := codegen.NewAST("types", imports, types, functions)
+	AST := codegen.NewAST("responses", imports, types, functions)
 
 	if err := AST.Generate(file); err != nil {
 		log.Fatalf("error generating %v (%v)", file, err)
