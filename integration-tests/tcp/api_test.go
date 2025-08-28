@@ -277,6 +277,60 @@ func TestGetCardNotFound(t *testing.T) {
 	}
 }
 
+func TestGetCardAtIndex(t *testing.T) {
+	controller := lib.Controller{
+		ID:       uint32(405419896),
+		Address:  netip.MustParseAddrPort("127.0.0.1:50003"),
+		Protocol: "tcp",
+	}
+
+	index := uint32(135)
+
+	response, err := lib.GetCardAtIndex(u, controller, index, timeout)
+
+	if err != nil {
+		t.Fatalf("%v", err)
+	} else if !reflect.DeepEqual(response, test.Expected.GetCardAtIndex) {
+		t.Errorf("incorrect response\n   expected:%#v\n   got:     %#v", test.Expected.GetCardAtIndex, response)
+	}
+}
+
+func TestGetCardAtIndexNotFound(t *testing.T) {
+	controller := lib.Controller{
+		ID:       uint32(405419896),
+		Address:  netip.MustParseAddrPort("127.0.0.1:50003"),
+		Protocol: "tcp",
+	}
+
+	index := uint32(136)
+
+	response, err := lib.GetCardAtIndex(u, controller, index, timeout)
+
+	if err != nil {
+		t.Fatalf("%v", err)
+	} else if !reflect.DeepEqual(response, test.Expected.GetCardAtIndexNotFound) {
+		t.Errorf("incorrect response\n   expected:%#v\n   got:     %#v", test.Expected.GetCardAtIndexNotFound, response)
+	}
+}
+
+func TestGetCardAtIndexDeleted(t *testing.T) {
+	controller := lib.Controller{
+		ID:       uint32(405419896),
+		Address:  netip.MustParseAddrPort("127.0.0.1:50003"),
+		Protocol: "tcp",
+	}
+
+	index := uint32(137)
+
+	response, err := lib.GetCardAtIndex(u, controller, index, timeout)
+
+	if err != nil {
+		t.Fatalf("%v", err)
+	} else if !reflect.DeepEqual(response, test.Expected.GetCardAtIndexDeleted) {
+		t.Errorf("incorrect response\n   expected:%#v\n   got:     %#v", test.Expected.GetCardAtIndexDeleted, response)
+	}
+}
+
 func TestPutCard(t *testing.T) {
 	controller := lib.Controller{
 		ID:       uint32(405419896),

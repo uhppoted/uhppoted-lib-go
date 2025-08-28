@@ -114,7 +114,7 @@ func GetCards[T TController](u Uhppoted, controller T, timeout time.Duration) (G
 	return exec[T, GetCardsResponse](u, controller, f, timeout)
 }
 
-// Retrieves the card information for a card number from an access controller.
+// Retrieves the card record for a given card number.
 func GetCard[T TController](u Uhppoted, controller T, cardnumber uint32, timeout time.Duration) (GetCardResponse, error) {
 	f := func(id uint32) ([]byte, error) {
 		return encode.GetCardRequest(id, cardnumber)
@@ -123,7 +123,7 @@ func GetCard[T TController](u Uhppoted, controller T, cardnumber uint32, timeout
 	return exec[T, GetCardResponse](u, controller, f, timeout)
 }
 
-// Retrieves card record stored at the index.
+// Retrieves the card record stored at a given index.
 func GetCardAtIndex[T TController](u Uhppoted, controller T, index uint32, timeout time.Duration) (GetCardAtIndexResponse, error) {
 	f := func(id uint32) ([]byte, error) {
 		return encode.GetCardAtIndexRequest(id, index)
@@ -132,7 +132,7 @@ func GetCardAtIndex[T TController](u Uhppoted, controller T, index uint32, timeo
 	return exec[T, GetCardAtIndexResponse](u, controller, f, timeout)
 }
 
-// Adds or updates an access controller card record.
+// Creates or updates a card record stored on an access controller.
 func PutCard[T TController](u Uhppoted, controller T, card uint32, startdate time.Time, enddate time.Time, door1 uint8, door2 uint8, door3 uint8, door4 uint8, PIN uint32, timeout time.Duration) (PutCardResponse, error) {
 	f := func(id uint32) ([]byte, error) {
 		return encode.PutCardRequest(id, card, startdate, enddate, door1, door2, door3, door4, PIN)
@@ -141,7 +141,7 @@ func PutCard[T TController](u Uhppoted, controller T, card uint32, startdate tim
 	return exec[T, PutCardResponse](u, controller, f, timeout)
 }
 
-// DeleteCard removes a card record stored on a controller.
+// Removes a card record stored on a controller.
 func DeleteCard[T TController](u Uhppoted, controller T, cardnumber uint32, timeout time.Duration) (DeleteCardResponse, error) {
 	f := func(id uint32) ([]byte, error) {
 		return encode.DeleteCardRequest(id, cardnumber)
