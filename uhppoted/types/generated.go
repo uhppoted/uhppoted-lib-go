@@ -258,3 +258,10 @@ type AddTaskResponse struct {
 	Controller uint32 `json:"controller"`
 	Ok         bool   `json:"ok"`
 }
+
+// Container struct for the response returned from an access controller when updating
+// the task list scheduler.
+type RefreshTaskListResponse struct {
+	Controller uint32 `json:"controller"`
+	Ok         bool   `json:"ok"`
+}

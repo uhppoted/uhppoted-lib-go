@@ -35,6 +35,7 @@ var commands = map[string]func(u lib.Uhppoted, args []string) error{
 	"set-time-profile":      setTimeProfile,
 	"clear-time-profiles":   clearTimeProfiles,
 	"add-task":              addTask,
+	"refresh-tasklist":      refreshTaskList,
 }
 
 func exec(args controller, flagset *flag.FlagSet, f func(c uint32) (any, error), g func(c lib.Controller) (any, error)) (any, error) {

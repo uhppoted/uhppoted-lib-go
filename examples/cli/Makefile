@@ -295,3 +295,12 @@ add-task-udp: build
 add-task-tcp: build
 	$(CMD) add-task --controller $(CONTROLLER) --dest $(DEST) --tcp
 
+refresh-tasklist: build
+	$(CMD) refresh-tasklist --controller $(CONTROLLER)
+
+refresh-tasklist-udp: build
+	$(CMD) refresh-tasklist --controller $(CONTROLLER) --dest $(DEST)
+
+refresh-tasklist-tcp: build
+	$(CMD) refresh-tasklist --controller $(CONTROLLER) --dest $(DEST) --tcp
+

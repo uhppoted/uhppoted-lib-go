@@ -9,15 +9,7 @@
 - [x] get-listener
 - [x] set-listener
 - [x] get-listener-addrport
-   - [x] API
-   - [x] CLI
-   - [x] integration test
-   - [x] README
 - [x] set-listener-addrport
-   - [x] API
-   - [x] CLI
-   - [x] integration test
-   - [x] README
 - [x] get-door
 - [x] set-door
 - [x] set-door-passcodes
@@ -36,6 +28,7 @@
 - [x] set-time-profile
 - [x] clear-time-profiles
 - [x] add-task
+- [x] refresh-tasklist
    - [x] API
    - [x] CLI
    - [x] integration test
@@ -54,6 +47,7 @@
    - [ ] use/extend uhppoted-codegen models
       - [ ] **NB:** use Function::Args
       - [ ] use 'exclude' lists for get/set-listener-addrport
+      - [ ] separate packages for responses/requests/entities
 
    - [x] response structs
    - [x] encode

@@ -33,6 +33,7 @@ var Requests = []types.Request{
 	SetTimeProfileRequest,
 	ClearTimeProfilesRequest,
 	AddTaskRequest,
+	RefreshTaskListRequest,
 }
 
 var GetControllerRequest = lib.GetControllerRequest
@@ -62,3 +63,4 @@ var GetTimeProfileRequest = lib.GetTimeProfileRequest
 var SetTimeProfileRequest = lib.SetTimeProfileRequest
 var ClearTimeProfilesRequest = lib.ClearTimeProfilesRequest
 var AddTaskRequest = lib.AddTaskRequest
+var RefreshTaskListRequest = lib.RefreshTaskListRequest

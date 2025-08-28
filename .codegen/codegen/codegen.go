@@ -69,7 +69,7 @@ func hyphenate(s string) string {
 }
 
 func clean(s string) string {
-	re := regexp.MustCompile("[ -]+")
+	re := regexp.MustCompile(`[ :\-]+`)
 
 	return strings.ToLower(re.ReplaceAllString(s, ""))
 }

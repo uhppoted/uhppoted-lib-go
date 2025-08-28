@@ -28,6 +28,7 @@
 - [`SetTimeProfile`](#settimeprofile)
 - [`ClearTimeProfiles`](#cleartimeprofiles)
 - [`AddTask`](#addtask)
+- [`RefreshTaskList`](#refreshtasklist)
 ---
 Invoking an API function requires an instance of the `Uhppoted` struct initialised with the information required
 to access a controller:
@@ -537,6 +538,18 @@ Task types:
 12: enable pushbutton
 ```
 
+### `RefreshTaskList`
+```
+RefreshTaskList(u Uhppoted, controller TController, timeout time.Duration) (RefreshTaskListResponse,error)
+
+u           Uhppoted struct initialised with the bind address, broadcast address, etc
+controller  uint32|Controller controller serial number or {id, address, protocol} Controller struct
+timeout     maximum time to wait for a response from a controller
+
+Returns a `RefreshTaskListResponse`.
+```
+
+
 ## Types
 
 ### `GetControllerResponse`
@@ -921,9 +934,19 @@ type ClearTimeProfilesResponse struct {
 
 ### `AddTaskResponse`
 
-Container class for the decoded response from an _AddTaskProfiles_ request.
+Container class for the decoded response from an _AddTask_ request.
 ```
 type AddTaskResponse struct {
+  Controller  uint32  `json:"controller"` // controller serial number
+  Ok          bool    `json:"ok"`         // succeeded/failed
+}
+```
+
+### `RefreshTasklistResponse`
+
+Container class for the decoded response from a _RefreshTasklist_ request.
+```
+type RefreshTasklistResponse struct {
   Controller  uint32  `json:"controller"` // controller serial number
   Ok          bool    `json:"ok"`         // succeeded/failed
 }

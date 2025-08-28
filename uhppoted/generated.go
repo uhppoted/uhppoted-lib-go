@@ -245,3 +245,12 @@ func AddTask[T TController](u Uhppoted, controller T, task uint8, startdate time
 
 	return exec[T, AddTaskResponse](u, controller, f, timeout)
 }
+
+// Updates scheduler with newly created scheduled tasks.
+func RefreshTaskList[T TController](u Uhppoted, controller T, timeout time.Duration) (RefreshTaskListResponse, error) {
+	f := func(id uint32) ([]byte, error) {
+		return encode.RefreshTaskListRequest(id)
+	}
+
+	return exec[T, RefreshTaskListResponse](u, controller, f, timeout)
+}

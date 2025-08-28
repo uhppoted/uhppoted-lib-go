@@ -836,3 +836,31 @@ func AddTaskResponse(packet []byte) (types.AddTaskResponse, error) {
 		Ok:         unpackBool(packet, 8),
 	}, nil
 }
+
+// Decodes a refresh-task-list-response response.
+//
+//	Parameters:
+//	    packet  (bytearray)  64 byte UDP packet.
+//
+//	Returns:
+//	    - RefreshTaskListResponse initialised from the UDP packet.
+//	    - error if the packet is not 64 bytes, has an invalid start-of-message byte or has
+//	               the incorrect message type.
+func RefreshTaskListResponse(packet []byte) (types.RefreshTaskListResponse, error) {
+	if len(packet) != 64 {
+		return types.RefreshTaskListResponse{}, fmt.Errorf("invalid reply packet length (%v)", len(packet))
+	}
+
+	if packet[0] != SOM {
+		return types.RefreshTaskListResponse{}, fmt.Errorf("invalid reply start of message byte (%02x)", packet[0])
+	}
+
+	if packet[1] != 172 {
+		return types.RefreshTaskListResponse{}, fmt.Errorf("invalid reply function code (%02x)", packet[1])
+	}
+
+	return types.RefreshTaskListResponse{
+		Controller: unpackUint32(packet, 4),
+		Ok:         unpackBool(packet, 8),
+	}, nil
+}

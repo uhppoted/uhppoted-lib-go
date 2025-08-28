@@ -41,6 +41,7 @@ var Expected = struct {
 	SetTimeProfile         lib.SetTimeProfileResponse
 	ClearTimeProfiles      lib.ClearTimeProfilesResponse
 	AddTask                lib.AddTaskResponse
+	RefreshTaskList        lib.RefreshTaskListResponse
 }{
 	FindControllers: []lib.GetControllerResponse{
 		lib.GetControllerResponse{
@@ -350,6 +351,11 @@ var Expected = struct {
 	},
 
 	AddTask: lib.AddTaskResponse{
+		Controller: 405419896,
+		Ok:         true,
+	},
+
+	RefreshTaskList: lib.RefreshTaskListResponse{
 		Controller: 405419896,
 		Ok:         true,
 	},

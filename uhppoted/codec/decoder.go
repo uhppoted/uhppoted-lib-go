@@ -103,6 +103,9 @@ func decode(packet []byte) (any, error) {
 	case 0xa8:
 		return decoder.AddTaskResponse(packet)
 
+	case 0xac:
+		return decoder.RefreshTaskListResponse(packet)
+
 	default:
 		return nil, fmt.Errorf("unknown message type (%02x)", packet[1])
 	}

@@ -539,3 +539,19 @@ func TestAddTask(t *testing.T) {
 		t.Errorf("incorrect response\n   expected:%#v\n   got:     %#v", test.Expected.AddTask, response)
 	}
 }
+
+func TestRefreshTaskList(t *testing.T) {
+	controller := lib.Controller{
+		ID:       uint32(405419896),
+		Address:  netip.MustParseAddrPort("127.0.0.1:50002"),
+		Protocol: "udp",
+	}
+
+	response, err := lib.RefreshTaskList(u, controller, timeout)
+
+	if err != nil {
+		t.Fatalf("%v", err)
+	} else if !reflect.DeepEqual(response, test.Expected.RefreshTaskList) {
+		t.Errorf("incorrect response\n   expected:%#v\n   got:     %#v", test.Expected.RefreshTaskList, response)
+	}
+}
