@@ -43,13 +43,6 @@ func buildDecoderTest() *ast.File {
 					Value: `"testing"`,
 				},
 			},
-			// {
-			//     Name: ast.NewIdent("decoder"),
-			//     Path: &ast.BasicLit{
-			//         Kind:  token.STRING,
-			//         Value: `"github.com/uhppoted/uhppoted-lib-go/uhppoted/codec/decode"`,
-			//     },
-			// },
 		},
 
 		Decls: []ast.Decl{
@@ -76,12 +69,12 @@ func buildDecoderTest() *ast.File {
 					//     },
 				},
 			},
-			buildDecoderTestFunc(model.GetControllerResponse.Tests[0]),
+			buildDecoderTestFunc(model.GetControllerResponse, model.GetControllerResponse.Tests[0]),
 		},
 	}
 }
 
-func buildDecoderTestFunc(test libx.ResponseTest) *ast.FuncDecl {
+func buildDecoderTestFunc(response libx.Response, test libx.ResponseTest) *ast.FuncDecl {
 	name := fmt.Sprintf("TestDecode%vResponse", codegen.TitleCase(test.Name))
 	return &ast.FuncDecl{
 		Name: ast.NewIdent(name),
@@ -97,12 +90,12 @@ func buildDecoderTestFunc(test libx.ResponseTest) *ast.FuncDecl {
 				},
 			},
 		},
-		Body: buildDecoderTestImpl(test),
+		Body: buildDecoderTestImpl(response, test),
 		Doc:  &ast.CommentGroup{},
 	}
 }
 
-func buildDecoderTestImpl(test libx.ResponseTest) *ast.BlockStmt {
+func buildDecoderTestImpl(response libx.Response, test libx.ResponseTest) *ast.BlockStmt {
 	packet := make([]ast.Expr, 64)
 	for i, b := range test.Response {
 		packet[i] = &ast.BasicLit{
@@ -130,111 +123,91 @@ func buildDecoderTestImpl(test libx.ResponseTest) *ast.BlockStmt {
 				},
 			},
 
-			// // blank line
-			// &ast.ExprStmt{
-			//     X: &ast.BasicLit{
-			//         Kind: token.STRING,
-			//     },
-			// },
+			// blank line
+			&ast.ExprStmt{
+				X: &ast.BasicLit{
+					Kind: token.STRING,
+				},
+			},
 
-			// // if v, err := decode(packet); err != nil {
-			// //     return zero, fmt.Errorf("invalid packet")
-			// // } else if response, ok := v.(R); !ok {
-			// //     return zero, fmt.Errorf("invalid packet")
-			// // } else {
-			// //     return response, nil
-			// // }
-			// &ast.IfStmt{
-			//     Init: &ast.AssignStmt{
-			//         Lhs: []ast.Expr{
-			//             ast.NewIdent("v"),
-			//             ast.NewIdent("err"),
-			//         },
-			//         Tok: token.DEFINE,
-			//         Rhs: []ast.Expr{
-			//             &ast.CallExpr{
-			//                 Fun:  ast.NewIdent("decode"),
-			//                 Args: []ast.Expr{ast.NewIdent("packet")},
-			//             },
-			//         },
-			//     },
-			//     Cond: &ast.BinaryExpr{
-			//         X:  ast.NewIdent("err"),
-			//         Op: token.NEQ,
-			//         Y:  ast.NewIdent("nil"),
-			//     },
-			//     Body: &ast.BlockStmt{
-			//         List: []ast.Stmt{
-			//             &ast.ReturnStmt{
-			//                 Results: []ast.Expr{
-			//                     ast.NewIdent("zero"),
-			//                     &ast.CallExpr{
-			//                         Fun: &ast.SelectorExpr{
-			//                             X:   ast.NewIdent("fmt"),
-			//                             Sel: ast.NewIdent("Errorf"),
-			//                         },
-			//                         Args: []ast.Expr{
-			//                             &ast.BasicLit{
-			//                                 Kind:  token.STRING,
-			//                                 Value: `"invalid packet"`,
-			//                             },
-			//                         },
-			//                     },
-			//                 },
-			//             },
-			//         },
-			//     },
-			//     Else: &ast.IfStmt{
-			//         Init: &ast.AssignStmt{
-			//             Lhs: []ast.Expr{
-			//                 ast.NewIdent("response"),
-			//                 ast.NewIdent("ok"),
-			//             },
-			//             Tok: token.DEFINE,
-			//             Rhs: []ast.Expr{
-			//                 &ast.TypeAssertExpr{
-			//                     X:    ast.NewIdent("v"),
-			//                     Type: ast.NewIdent("R"),
-			//                 },
-			//             },
-			//         },
-			//         Cond: &ast.UnaryExpr{
-			//             Op: token.NOT,
-			//             X:  ast.NewIdent("ok"),
-			//         },
-			//         Body: &ast.BlockStmt{
-			//             List: []ast.Stmt{
-			//                 &ast.ReturnStmt{
-			//                     Results: []ast.Expr{
-			//                         ast.NewIdent("zero"),
-			//                         &ast.CallExpr{
-			//                             Fun: &ast.SelectorExpr{
-			//                                 X:   ast.NewIdent("fmt"),
-			//                                 Sel: ast.NewIdent("Errorf"),
-			//                             },
-			//                             Args: []ast.Expr{
-			//                                 &ast.BasicLit{
-			//                                     Kind:  token.STRING,
-			//                                     Value: `"invalid packet"`,
-			//                                 },
-			//                             },
-			//                         },
-			//                     },
-			//                 },
-			//             },
-			//         },
-			//         Else: &ast.BlockStmt{
-			//             List: []ast.Stmt{
-			//                 &ast.ReturnStmt{
-			//                     Results: []ast.Expr{
-			//                         ast.NewIdent("response"),
-			//                         ast.NewIdent("nil"),
-			//                     },
-			//                 },
-			//             },
-			//         },
-			//     },
-			// },
+			// expected := ...
+			&ast.AssignStmt{
+				Lhs: []ast.Expr{
+					&ast.Ident{Name: "expected"},
+				},
+				Tok: token.DEFINE,
+				Rhs: []ast.Expr{
+					buildExpected(response, test.Expected),
+				},
+			},
 		},
+	}
+}
+
+func buildExpected(response libx.Response, values []libx.Value) ast.Expr {
+	name := codegen.TitleCase(response.Name)
+	fields := []ast.Expr{}
+
+	for _, field := range response.Fields {
+		name := codegen.TitleCase(field.Name)
+
+		for _, v := range values {
+			if v.Name == field.Name {
+				value := makeValue(field, v)
+
+				f := ast.KeyValueExpr{
+					Key:   &ast.Ident{Name: name},
+					Value: value,
+				}
+
+				fields = append(fields, &f)
+			}
+		}
+	}
+
+	return &ast.CompositeLit{
+		Type: &ast.SelectorExpr{
+			X:   &ast.Ident{Name: "responses"},
+			Sel: &ast.Ident{Name: name},
+		},
+		Elts: fields,
+	}
+}
+
+func makeValue(field libx.Field, value libx.Value) ast.Expr {
+	switch field.Type {
+	case "uint32":
+		return &ast.BasicLit{Kind: token.INT, Value: fmt.Sprintf("%v", value.Value)}
+
+	case "IPv4":
+		return &ast.CallExpr{
+			Fun: &ast.SelectorExpr{
+				X:   &ast.Ident{Name: "netip"},
+				Sel: &ast.Ident{Name: "MustParseAddr"},
+			},
+			Args: []ast.Expr{
+				&ast.BasicLit{Kind: token.STRING, Value: fmt.Sprintf(`"%v"`, value.Value)},
+			},
+		}
+
+	case "MAC":
+		return &ast.BasicLit{Kind: token.STRING, Value: fmt.Sprintf(`"%v"`, value.Value)}
+
+	case "version":
+		return &ast.BasicLit{Kind: token.STRING, Value: fmt.Sprintf(`"%v"`, value.Value)}
+
+	case "date":
+		return &ast.CallExpr{
+			Fun: &ast.SelectorExpr{
+				X:   &ast.Ident{Name: "entities"},
+				Sel: &ast.Ident{Name: "MustParseDate"},
+			},
+			Args: []ast.Expr{
+				&ast.BasicLit{Kind: token.STRING, Value: fmt.Sprintf(`"%v"`, value.Value)},
+			},
+		}
+
+	default:
+		return &ast.BasicLit{Kind: token.STRING, Value: `"???"`}
 	}
 }
