@@ -491,3 +491,15 @@ func TestRefreshTaskList(t *testing.T) {
 		t.Errorf("incorrect response\n   expected:%#v\n   got:     %#v", test.Expected.RefreshTaskList, response)
 	}
 }
+
+func TestClearTaskList(t *testing.T) {
+	controller := uint32(405419896)
+
+	response, err := lib.ClearTaskList(u, controller, timeout)
+
+	if err != nil {
+		t.Fatalf("%v", err)
+	} else if !reflect.DeepEqual(response, test.Expected.ClearTaskList) {
+		t.Errorf("incorrect response\n   expected:%#v\n   got:     %#v", test.Expected.ClearTaskList, response)
+	}
+}

@@ -304,3 +304,12 @@ refresh-tasklist-udp: build
 refresh-tasklist-tcp: build
 	$(CMD) refresh-tasklist --controller $(CONTROLLER) --dest $(DEST) --tcp
 
+clear-tasklist: build
+	$(CMD) clear-tasklist --controller $(CONTROLLER)
+
+clear-tasklist-udp: build
+	$(CMD) clear-tasklist --controller $(CONTROLLER) --dest $(DEST)
+
+clear-tasklist-tcp: build
+	$(CMD) clear-tasklist --controller $(CONTROLLER) --dest $(DEST) --tcp
+

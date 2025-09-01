@@ -35,6 +35,7 @@ var API = []types.Function{
 	ClearTimeProfiles,
 	AddTask,
 	RefreshTaskList,
+	ClearTaskList,
 }
 
 var FindControllers = types.Function{
@@ -118,3 +119,4 @@ var SetTimeProfile = types.Function(lib.SetTimeProfile)
 var ClearTimeProfiles = types.Function(lib.ClearTimeProfiles)
 var AddTask = types.Function(lib.AddTask)
 var RefreshTaskList = types.Function(lib.RefreshTaskList)
+var ClearTaskList = types.Function(lib.ClearTaskList)

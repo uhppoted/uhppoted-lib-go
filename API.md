@@ -29,6 +29,7 @@
 - [`ClearTimeProfiles`](#cleartimeprofiles)
 - [`AddTask`](#addtask)
 - [`RefreshTaskList`](#refreshtasklist)
+- [`ClearTaskList`](#cleartasklist)
 ---
 Invoking an API function requires an instance of the `Uhppoted` struct initialised with the information required
 to access a controller:
@@ -549,6 +550,17 @@ timeout     maximum time to wait for a response from a controller
 Returns a `RefreshTaskListResponse`.
 ```
 
+### `ClearTaskList`
+```
+ClearTaskList(u Uhppoted, controller TController, timeout time.Duration) (ClearTaskListResponse,error)
+
+u           Uhppoted struct initialised with the bind address, broadcast address, etc
+controller  uint32|Controller controller serial number or {id, address, protocol} Controller struct
+timeout     maximum time to wait for a response from a controller
+
+Returns a `ClearTaskListResponse`.
+```
+
 
 ## Types
 
@@ -947,6 +959,17 @@ type AddTaskResponse struct {
 Container class for the decoded response from a _RefreshTasklist_ request.
 ```
 type RefreshTasklistResponse struct {
+  Controller  uint32  `json:"controller"` // controller serial number
+  Ok          bool    `json:"ok"`         // succeeded/failed
+}
+```
+
+
+### `ClearTasklistResponse`
+
+Container class for the decoded response from a _ClearTasklist_ request.
+```
+type ClearTasklistResponse struct {
   Controller  uint32  `json:"controller"` // controller serial number
   Ok          bool    `json:"ok"`         // succeeded/failed
 }

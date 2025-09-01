@@ -29,10 +29,17 @@
 - [x] clear-time-profiles
 - [x] add-task
 - [x] refresh-tasklist
+- [x] clear-tasklist,
    - [x] API
    - [x] CLI
    - [x] integration test
    - [x] README
+- [ ] set-pc-control,
+- [ ] set-interlock,
+- [ ] activate-keypads,
+- [ ] get-antipassback,
+- [ ] set-antipassback,
+- [ ] restore-default-parameters,
 
 - [ ] custom date/time types
 - [ ] card/event/profile/task records

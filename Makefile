@@ -28,7 +28,7 @@ build: format
 	go build -trimpath ./...
 
 debug: build
-	cd examples/cli && make refresh-tasklist
+	cd examples/cli && make clear-tasklist
 	# go test ./integration-tests/... --run TestGetListener
 
 test: build
@@ -205,3 +205,8 @@ refresh-tasklist: build
 	cd examples/cli && make refresh-tasklist
 	cd examples/cli && make refresh-tasklist-udp
 	cd examples/cli && make refresh-tasklist-tcp
+
+clear-tasklist: build
+	cd examples/cli && make clear-tasklist
+	cd examples/cli && make clear-tasklist-udp
+	cd examples/cli && make clear-tasklist-tcp

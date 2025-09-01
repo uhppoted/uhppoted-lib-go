@@ -255,3 +255,12 @@ func RefreshTaskList[T TController](u Uhppoted, controller T, timeout time.Durat
 
 	return exec[T, responses.RefreshTaskListResponse](u, controller, f, timeout)
 }
+
+// Removes all scheduled tasks.
+func ClearTaskList[T TController](u Uhppoted, controller T, timeout time.Duration) (responses.ClearTasklistResponse, error) {
+	f := func(id uint32) ([]byte, error) {
+		return encode.ClearTasklistRequest(id)
+	}
+
+	return exec[T, responses.ClearTasklistResponse](u, controller, f, timeout)
+}
