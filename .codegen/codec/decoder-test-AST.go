@@ -17,7 +17,7 @@ import (
 )
 
 func decoderTest() {
-	const output = "_decoder_test.go"
+	const output = "generated_test.go"
 
 	f, err := os.Create(output)
 	if err != nil {
@@ -33,6 +33,69 @@ func decoderTest() {
 }
 
 func buildDecoderTest() *ast.File {
+	imports := &ast.GenDecl{
+		Tok: token.IMPORT,
+		Specs: []ast.Spec{
+			&ast.ImportSpec{
+				Path: &ast.BasicLit{
+					Kind:  token.STRING,
+					Value: `"net/netip"`,
+				},
+			},
+
+			&ast.ImportSpec{
+				Path: &ast.BasicLit{
+					Kind:  token.STRING,
+					Value: `"reflect"`,
+				},
+			},
+
+			&ast.ImportSpec{
+				Path: &ast.BasicLit{
+					Kind:  token.STRING,
+					Value: `"testing"`,
+				},
+			},
+			&ast.ImportSpec{
+				Path: &ast.BasicLit{
+					Kind: token.STRING,
+				},
+			},
+			// &ast.ImportSpec{
+			// 	Path: &ast.BasicLit{
+			// 		Kind:  token.STRING,
+			// 		Value: `"github.com/uhppoted/uhppoted-lib-go/uhppoted/entities"`,
+			// 	},
+			// },
+			&ast.ImportSpec{
+				Path: &ast.BasicLit{
+					Kind:  token.STRING,
+					Value: `"github.com/uhppoted/uhppoted-lib-go/uhppoted/responses"`,
+				},
+			},
+		},
+	}
+
+	tests := []ast.Decl{}
+
+	for _, response := range model.Responses {
+		if response == &model.GetListenerAddrPortResponse {
+			println("skipping get-listener-addrport (duplicates get-listener)")
+			continue
+		}
+
+		if response == &model.SetListenerAddrPortResponse {
+			println("skipping set-listener-addrport (duplicates set-listener)")
+			continue
+		}
+
+		for _, test := range response.Tests {
+			f := buildDecoderTestFunc(*response, test)
+
+			tests = append(tests, f)
+		}
+	}
+
 	return &ast.File{
 		Name: ast.NewIdent("codec"),
 
@@ -40,37 +103,36 @@ func buildDecoderTest() *ast.File {
 			{
 				Path: &ast.BasicLit{
 					Kind:  token.STRING,
+					Value: `"net/netip"`,
+				},
+			},
+			{
+				Path: &ast.BasicLit{
+					Kind:  token.STRING,
+					Value: `"reflect"`,
+				},
+			},
+			{
+				Path: &ast.BasicLit{
+					Kind:  token.STRING,
 					Value: `"testing"`,
+				},
+			},
+			// {
+			// 	Path: &ast.BasicLit{
+			// 		Kind:  token.STRING,
+			// 		Value: `"github.com/uhppoted/uhppoted-lib-go/uhppoted/entities"`,
+			// 	},
+			// },
+			{
+				Path: &ast.BasicLit{
+					Kind:  token.STRING,
+					Value: `"github.com/uhppoted/uhppoted-lib-go/uhppoted/responses"`,
 				},
 			},
 		},
 
-		Decls: []ast.Decl{
-			&ast.GenDecl{
-				Tok: token.IMPORT,
-				Specs: []ast.Spec{
-					&ast.ImportSpec{
-						Path: &ast.BasicLit{
-							Kind:  token.STRING,
-							Value: `"testing"`,
-						},
-					},
-					//     &ast.ImportSpec{
-					//         Path: &ast.BasicLit{
-					//             Kind: token.STRING,
-					//         },
-					//     },
-					//     &ast.ImportSpec{
-					//         Name: ast.NewIdent("decoder"),
-					//         Path: &ast.BasicLit{
-					//             Kind:  token.STRING,
-					//             Value: `"github.com/uhppoted/uhppoted-lib-go/uhppoted/codec/decode"`,
-					//         },
-					//     },
-				},
-			},
-			buildDecoderTestFunc(model.GetControllerResponse, model.GetControllerResponse.Tests[0]),
-		},
+		Decls: append([]ast.Decl{imports}, tests...),
 	}
 }
 
@@ -83,8 +145,11 @@ func buildDecoderTestFunc(response libx.Response, test libx.ResponseTest) *ast.F
 				List: []*ast.Field{
 					{
 						Names: []*ast.Ident{ast.NewIdent("t")},
-						Type: &ast.ArrayType{
-							Elt: ast.NewIdent("*testing.T"),
+						Type: &ast.StarExpr{
+							X: &ast.SelectorExpr{
+								X:   &ast.Ident{Name: "testing"},
+								Sel: &ast.Ident{Name: "T"},
+							},
 						},
 					},
 				},
@@ -140,6 +205,16 @@ func buildDecoderTestImpl(response libx.Response, test libx.ResponseTest) *ast.B
 					buildExpected(response, test.Expected),
 				},
 			},
+
+			// blank line
+			&ast.ExprStmt{
+				X: &ast.BasicLit{
+					Kind: token.STRING,
+				},
+			},
+
+			// (exec)
+			buildExec(response),
 		},
 	}
 }
@@ -174,10 +249,101 @@ func buildExpected(response libx.Response, values []libx.Value) ast.Expr {
 	}
 }
 
+func buildExec(response libx.Response) ast.Stmt {
+	name := codegen.TitleCase(response.Name)
+
+	return &ast.IfStmt{
+		Init: &ast.AssignStmt{
+			Lhs: []ast.Expr{
+				&ast.Ident{Name: "response"},
+				&ast.Ident{Name: "err"},
+			},
+			Tok: token.DEFINE,
+			Rhs: []ast.Expr{
+				&ast.CallExpr{
+					Fun: &ast.IndexExpr{
+						X: &ast.Ident{Name: "Decode"},
+						Index: &ast.SelectorExpr{
+							X:   &ast.Ident{Name: "responses"},
+							Sel: &ast.Ident{Name: name},
+						},
+					},
+					Args: []ast.Expr{&ast.Ident{Name: "packet"}},
+				},
+			},
+		},
+		Cond: &ast.BinaryExpr{
+			X:  &ast.Ident{Name: "err"},
+			Op: token.NEQ,
+			Y:  &ast.Ident{Name: "nil"},
+		},
+		Body: &ast.BlockStmt{
+			List: []ast.Stmt{
+				&ast.ExprStmt{
+					X: &ast.CallExpr{
+						Fun: &ast.SelectorExpr{
+							X:   &ast.Ident{Name: "t"},
+							Sel: &ast.Ident{Name: "Fatalf"},
+						},
+						Args: []ast.Expr{
+							&ast.BasicLit{Kind: token.STRING, Value: `"%v"`},
+							&ast.Ident{Name: "err"},
+						},
+					},
+				},
+			},
+		},
+		Else: &ast.IfStmt{
+			Cond: &ast.UnaryExpr{
+				Op: token.NOT,
+				X: &ast.CallExpr{
+					Fun: &ast.SelectorExpr{
+						X:   &ast.Ident{Name: "reflect"},
+						Sel: &ast.Ident{Name: "DeepEqual"},
+					},
+					Args: []ast.Expr{
+						&ast.Ident{Name: "response"},
+						&ast.Ident{Name: "expected"},
+					},
+				},
+			},
+			Body: &ast.BlockStmt{
+				List: []ast.Stmt{
+					&ast.ExprStmt{
+						X: &ast.CallExpr{
+							Fun: &ast.SelectorExpr{
+								X:   &ast.Ident{Name: "t"},
+								Sel: &ast.Ident{Name: "Errorf"},
+							},
+							Args: []ast.Expr{
+								&ast.BasicLit{
+									Kind:  token.STRING,
+									Value: `"incorrectly decoded response:\n   expected: %#v\n   got:      %#v"`,
+								},
+								&ast.Ident{Name: "expected"},
+								&ast.Ident{Name: "response"},
+							},
+						},
+					},
+				},
+			},
+		},
+	}
+}
+
 func makeValue(field libx.Field, value libx.Value) ast.Expr {
 	switch field.Type {
+	case "uint8":
+		return &ast.BasicLit{Kind: token.INT, Value: fmt.Sprintf("%v", value.Value)}
+
+	case "uint16":
+		return &ast.BasicLit{Kind: token.INT, Value: fmt.Sprintf("%v", value.Value)}
+
 	case "uint32":
 		return &ast.BasicLit{Kind: token.INT, Value: fmt.Sprintf("%v", value.Value)}
+
+	case "bool":
+		return &ast.Ident{Name: fmt.Sprintf("%v", value.Value)}
 
 	case "IPv4":
 		return &ast.CallExpr{
@@ -190,24 +356,84 @@ func makeValue(field libx.Field, value libx.Value) ast.Expr {
 			},
 		}
 
-	case "MAC":
-		return &ast.BasicLit{Kind: token.STRING, Value: fmt.Sprintf(`"%v"`, value.Value)}
-
-	case "version":
-		return &ast.BasicLit{Kind: token.STRING, Value: fmt.Sprintf(`"%v"`, value.Value)}
-
-	case "date":
+	case "address:port":
 		return &ast.CallExpr{
 			Fun: &ast.SelectorExpr{
-				X:   &ast.Ident{Name: "entities"},
-				Sel: &ast.Ident{Name: "MustParseDate"},
+				X:   &ast.Ident{Name: "netip"},
+				Sel: &ast.Ident{Name: "MustParseAddrPort"},
 			},
 			Args: []ast.Expr{
 				&ast.BasicLit{Kind: token.STRING, Value: fmt.Sprintf(`"%v"`, value.Value)},
 			},
 		}
 
+	case "date":
+		return &ast.CallExpr{
+			Fun: &ast.Ident{Name: "string2date"},
+			Args: []ast.Expr{
+				&ast.BasicLit{Kind: token.STRING, Value: fmt.Sprintf(`"%v"`, value.Value)},
+			},
+		}
+
+	case "shortdate":
+		return &ast.CallExpr{
+			Fun: &ast.Ident{Name: "string2date"},
+			Args: []ast.Expr{
+				&ast.BasicLit{Kind: token.STRING, Value: fmt.Sprintf(`"%v"`, value.Value)},
+			},
+		}
+
+	case "optional date":
+		return &ast.CallExpr{
+			Fun: &ast.Ident{Name: "string2date"},
+			Args: []ast.Expr{
+				&ast.BasicLit{Kind: token.STRING, Value: fmt.Sprintf(`"%v"`, value.Value)},
+			},
+		}
+
+	case "time":
+		return &ast.CallExpr{
+			Fun: &ast.Ident{Name: "string2time"},
+			Args: []ast.Expr{
+				&ast.BasicLit{Kind: token.STRING, Value: fmt.Sprintf(`"%v"`, value.Value)},
+			},
+		}
+
+	case "HHmm":
+		return &ast.CallExpr{
+			Fun: &ast.Ident{Name: "string2HHmm"},
+			Args: []ast.Expr{
+				&ast.BasicLit{Kind: token.STRING, Value: fmt.Sprintf(`"%v"`, value.Value)},
+			},
+		}
+
+	case "datetime":
+		return &ast.CallExpr{
+			Fun: &ast.Ident{Name: "string2datetime"},
+			Args: []ast.Expr{
+				&ast.BasicLit{Kind: token.STRING, Value: fmt.Sprintf(`"%v"`, value.Value)},
+			},
+		}
+
+	case "optional datetime":
+		return &ast.CallExpr{
+			Fun: &ast.Ident{Name: "string2datetime"},
+			Args: []ast.Expr{
+				&ast.BasicLit{Kind: token.STRING, Value: fmt.Sprintf(`"%v"`, value.Value)},
+			},
+		}
+
+	case "MAC":
+		return &ast.BasicLit{Kind: token.STRING, Value: fmt.Sprintf(`"%v"`, value.Value)}
+
+	case "version":
+		return &ast.BasicLit{Kind: token.STRING, Value: fmt.Sprintf(`"%v"`, value.Value)}
+
+	case "pin":
+		return &ast.BasicLit{Kind: token.INT, Value: fmt.Sprintf("%v", value.Value)}
+
 	default:
+		fmt.Printf(">>>>>>>>>>>>>>>>>>>> EEEEK %v\n", field.Type)
 		return &ast.BasicLit{Kind: token.STRING, Value: `"???"`}
 	}
 }
