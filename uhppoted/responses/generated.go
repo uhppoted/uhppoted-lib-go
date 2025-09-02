@@ -272,3 +272,10 @@ type ClearTasklistResponse struct {
 	Controller uint32 `json:"controller"`
 	Ok         bool   `json:"ok"`
 }
+
+// Container struct for the response returned from an access controller when enabling or
+// disabling remote access control.
+type SetPCControlResponse struct {
+	Controller uint32 `json:"controller"`
+	Ok         bool   `json:"ok"`
+}

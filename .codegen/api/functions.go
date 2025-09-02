@@ -161,7 +161,9 @@ func impl(f types.Function) *ast.BlockStmt {
 	for _, arg := range f.Request.Fields[1:] {
 		name := regexp.MustCompile(`\s+`).ReplaceAllString(arg.Name, "")
 
-		args = append(args, &ast.Ident{Name: name})
+		if arg.Type != "magic" {
+			args = append(args, &ast.Ident{Name: name})
+		}
 	}
 
 	return &ast.BlockStmt{

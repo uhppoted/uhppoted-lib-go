@@ -892,3 +892,31 @@ func ClearTasklistResponse(packet []byte) (responses.ClearTasklistResponse, erro
 		Ok:         unpackBool(packet, 8),
 	}, nil
 }
+
+// Decodes a set-pc-control-response response.
+//
+//	Parameters:
+//	    packet  (bytearray)  64 byte UDP packet.
+//
+//	Returns:
+//	    - SetPCControlResponse initialised from the UDP packet.
+//	    - error if the packet is not 64 bytes, has an invalid start-of-message byte or has
+//	               the incorrect message type.
+func SetPCControlResponse(packet []byte) (responses.SetPCControlResponse, error) {
+	if len(packet) != 64 {
+		return responses.SetPCControlResponse{}, fmt.Errorf("invalid reply packet length (%v)", len(packet))
+	}
+
+	if packet[0] != SOM {
+		return responses.SetPCControlResponse{}, fmt.Errorf("invalid reply start of message byte (%02x)", packet[0])
+	}
+
+	if packet[1] != 160 {
+		return responses.SetPCControlResponse{}, fmt.Errorf("invalid reply function code (%02x)", packet[1])
+	}
+
+	return responses.SetPCControlResponse{
+		Controller: unpackUint32(packet, 4),
+		Ok:         unpackBool(packet, 8),
+	}, nil
+}

@@ -37,6 +37,7 @@ var commands = map[string]func(u lib.Uhppoted, args []string) error{
 	"add-task":              addTask,
 	"refresh-tasklist":      refreshTaskList,
 	"clear-tasklist":        clearTaskList,
+	"set-pc-control":        setPCControl,
 }
 
 func exec(args controller, flagset *flag.FlagSet, f func(c uint32) (any, error), g func(c lib.Controller) (any, error)) (any, error) {

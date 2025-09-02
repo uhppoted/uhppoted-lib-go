@@ -675,3 +675,25 @@ func ClearTasklistRequest(controller uint32) ([]byte, error) {
 
 	return packet, nil
 }
+
+// Encodes a set-pc-control-request.
+//
+//	Parameters:
+//	    controller  (uint32)  controller serial number
+//	      (magic)
+//	    enabled  (bool)
+//
+//	Returns:
+//	    64 byte packet.
+func SetPCControlRequest(controller uint32, enabled bool) ([]byte, error) {
+	packet := make([]byte, 64)
+
+	packet[0] = SOM
+	packet[1] = 160
+
+	packUint32(controller, packet, 4)
+	packUint32(0x55aaaa55, packet, 8)
+	packBool(enabled, packet, 12)
+
+	return packet, nil
+}

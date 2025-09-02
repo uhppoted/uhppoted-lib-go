@@ -264,3 +264,13 @@ func ClearTaskList[T TController](u Uhppoted, controller T, timeout time.Duratio
 
 	return exec[T, responses.ClearTasklistResponse](u, controller, f, timeout)
 }
+
+// Enables remote access control. Remote access control will remain in effect provided the controller
+// receives a message from the host at least once every 30 seconds.
+func SetPCControl[T TController](u Uhppoted, controller T, enabled bool, timeout time.Duration) (responses.SetPCControlResponse, error) {
+	f := func(id uint32) ([]byte, error) {
+		return encode.SetPCControlRequest(id, enabled)
+	}
+
+	return exec[T, responses.SetPCControlResponse](u, controller, f, timeout)
+}

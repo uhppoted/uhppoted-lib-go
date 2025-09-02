@@ -30,6 +30,7 @@
 - [`AddTask`](#addtask)
 - [`RefreshTaskList`](#refreshtasklist)
 - [`ClearTaskList`](#cleartasklist)
+- [`SetPCControl`](#setpccontrol)
 ---
 Invoking an API function requires an instance of the `Uhppoted` struct initialised with the information required
 to access a controller:
@@ -561,6 +562,19 @@ timeout     maximum time to wait for a response from a controller
 Returns a `ClearTaskListResponse`.
 ```
 
+### `SetPCControl`
+```
+SetPCControl(u Uhppoted, controller TController, enabled bool, timeout time.Duration) (SetPCControlResponse,error)
+
+u           Uhppoted struct initialised with the bind address, broadcast address, etc
+controller  uint32|Controller controller serial number or {id, address, protocol} Controller struct
+enabled     Enables/disables remote access control. The access controller reverts to on-board access 
+            control if it hasn't received a directive from the remote access control host in 30 seconds.
+timeout     maximum time to wait for a response from a controller
+
+Returns a `SetPCControlResponse`.
+```
+
 
 ## Types
 
@@ -964,7 +978,6 @@ type RefreshTasklistResponse struct {
 }
 ```
 
-
 ### `ClearTasklistResponse`
 
 Container class for the decoded response from a _ClearTasklist_ request.
@@ -974,4 +987,15 @@ type ClearTasklistResponse struct {
   Ok          bool    `json:"ok"`         // succeeded/failed
 }
 ```
+
+### `SetPCControlResponse`
+
+Container class for the decoded response from a _SetPCControl_ request.
+```
+type SetPCControlResponse struct {
+  Controller  uint32  `json:"controller"` // controller serial number
+  Ok          bool    `json:"ok"`         // succeeded/failed
+}
+```
+
 

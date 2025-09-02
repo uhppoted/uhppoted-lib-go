@@ -35,6 +35,7 @@ var Requests = []types.Request{
 	AddTaskRequest,
 	RefreshTaskListRequest,
 	ClearTaskListRequest,
+	SetPCControlRequest,
 }
 
 var GetControllerRequest = lib.GetControllerRequest
@@ -66,3 +67,4 @@ var ClearTimeProfilesRequest = lib.ClearTimeProfilesRequest
 var AddTaskRequest = lib.AddTaskRequest
 var RefreshTaskListRequest = lib.RefreshTaskListRequest
 var ClearTaskListRequest = lib.ClearTaskListRequest
+var SetPCControlRequest = lib.SetPCControlRequest

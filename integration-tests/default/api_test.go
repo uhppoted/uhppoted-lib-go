@@ -503,3 +503,17 @@ func TestClearTaskList(t *testing.T) {
 		t.Errorf("incorrect response\n   expected:%#v\n   got:     %#v", test.Expected.ClearTaskList, response)
 	}
 }
+
+func TestSetPcControl(t *testing.T) {
+	controller := uint32(405419896)
+
+	enabled := true
+
+	response, err := lib.SetPCControl(u, controller, enabled, timeout)
+
+	if err != nil {
+		t.Fatalf("%v", err)
+	} else if !reflect.DeepEqual(response, test.Expected.SetPcControl) {
+		t.Errorf("incorrect response\n   expected:%#v\n   got:     %#v", test.Expected.SetPcControl, response)
+	}
+}
