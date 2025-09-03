@@ -9,9 +9,10 @@ import (
 	"go/ast"
 	"go/token"
 
+	lib "github.com/uhppoted/uhppoted-codegen/model/types"
+
 	"codegen/codegen"
 	"codegen/model"
-	"codegen/model/types"
 )
 
 func API() {
@@ -29,7 +30,17 @@ func API() {
 	functions := []*ast.FuncDecl{}
 
 	for _, f := range model.API[1:] {
-		functions = append(functions, function(f))
+		if f == &model.GetListenerAddrPort {
+			println("skipping get-listener-addrport (duplicates get-listener)")
+			continue
+		}
+
+		if f == &model.SetListenerAddrPort {
+			println("skipping set-listener-addrport (duplicates set-listener)")
+			continue
+		}
+
+		functions = append(functions, function(*f))
 	}
 
 	AST := codegen.NewAST("uhppoted", imports, types, functions)
@@ -41,7 +52,7 @@ func API() {
 	}
 }
 
-func function(f types.Function) *ast.FuncDecl {
+func function(f lib.Function) *ast.FuncDecl {
 	name := codegen.TitleCase(f.Name)
 	response := fmt.Sprintf("responses.%v", codegen.TitleCase(f.Response.Name))
 
@@ -150,7 +161,7 @@ func function(f types.Function) *ast.FuncDecl {
 	}
 }
 
-func impl(f types.Function) *ast.BlockStmt {
+func impl(f lib.Function) *ast.BlockStmt {
 	request := codegen.TitleCase(f.Request.Name)
 	response := fmt.Sprintf("responses.%v", codegen.TitleCase(f.Response.Name))
 

@@ -29,6 +29,7 @@ build: format
 
 debug: build
 	cd examples/cli && make set-interlock
+	# go test ./integration-tests/... -run TestGetListenerAddrPort
 
 test: build
 	go test ./uhppoted/...

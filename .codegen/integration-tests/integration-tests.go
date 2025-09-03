@@ -9,7 +9,6 @@ import (
 
 	"codegen/codegen"
 	"codegen/model"
-	"codegen/model/types"
 )
 
 //go:embed templates/messages.template
@@ -46,10 +45,7 @@ func messages() {
 	}
 	defer f.Close()
 
-	var API = []types.Function{}
-	API = append(API, model.API...)
-	API = append(API, model.GetListenerAddrPort)
-	API = append(API, model.SetListenerAddrPort)
+	var API = model.API
 
 	tmpl := template.Must(template.New("encode").Funcs(functions).Parse(messagesTemplate))
 	if err := tmpl.Execute(f, API); err != nil {

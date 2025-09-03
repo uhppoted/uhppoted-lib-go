@@ -3,44 +3,44 @@ package model
 import (
 	lib "github.com/uhppoted/uhppoted-codegen/model"
 	libx "github.com/uhppoted/uhppoted-codegen/model/types"
-
-	"codegen/model/types"
 )
 
-var API = []types.Function{
-	FindControllers,
-	GetController,
-	SetIPv4,
-	GetTime,
-	SetTime,
-	GetListener,
-	SetListener,
-	GetDoor,
-	SetDoor,
-	SetDoorPasscodes,
-	OpenDoor,
-	GetStatus,
-	GetCards,
-	GetCard,
-	GetCardAtIndex,
-	PutCard,
-	DeleteCard,
-	DeleteAllCards,
-	GetEvent,
-	GetEventIndex,
-	SetEventIndex,
-	RecordSpecialEvents,
-	GetTimeProfile,
-	SetTimeProfile,
-	ClearTimeProfiles,
-	AddTask,
-	RefreshTaskList,
-	ClearTaskList,
-	SetPCControl,
-	SetInterlock,
+var API = []*libx.Function{
+	&FindControllers,
+	&GetController,
+	&SetIPv4,
+	&GetTime,
+	&SetTime,
+	&GetListener,
+	&SetListener,
+	&GetListenerAddrPort,
+	&SetListenerAddrPort,
+	&GetDoor,
+	&SetDoor,
+	&SetDoorPasscodes,
+	&OpenDoor,
+	&GetStatus,
+	&GetCards,
+	&GetCard,
+	&GetCardAtIndex,
+	&PutCard,
+	&DeleteCard,
+	&DeleteAllCards,
+	&GetEvent,
+	&GetEventIndex,
+	&SetEventIndex,
+	&RecordSpecialEvents,
+	&GetTimeProfile,
+	&SetTimeProfile,
+	&ClearTimeProfiles,
+	&AddTask,
+	&RefreshTaskList,
+	&ClearTaskList,
+	&SetPCControl,
+	&SetInterlock,
 }
 
-var FindControllers = types.Function{
+var FindControllers = libx.Function{
 	Name: "find-controllers",
 	Description: []string{
 		"FindControllers retrieves a list of all UHPPOTE controllers accessible via UDP broadcast",
@@ -97,34 +97,34 @@ var FindControllers = types.Function{
 	},
 }
 
-var GetController = types.Function(lib.GetController)
-var SetIPv4 = types.Function(lib.SetIPv4)
-var GetTime = types.Function(lib.GetTime)
-var SetTime = types.Function(lib.SetTime)
-var GetListener = types.Function(lib.GetListener)
-var SetListener = types.Function(lib.SetListener)
-var GetListenerAddrPort = types.Function(lib.GetListenerAddrPort)
-var SetListenerAddrPort = types.Function(lib.SetListenerAddrPort)
-var GetDoor = types.Function(lib.GetDoor)
-var SetDoor = types.Function(lib.SetDoor)
-var OpenDoor = types.Function(lib.OpenDoor)
-var SetDoorPasscodes = types.Function(lib.SetDoorPasscodes)
-var GetStatus = types.Function(lib.GetStatus)
-var GetCards = types.Function(lib.GetCards)
-var GetCard = types.Function(lib.GetCard)
-var GetCardAtIndex = types.Function(lib.GetCardAtIndex)
-var PutCard = types.Function(lib.PutCard)
-var DeleteCard = types.Function(lib.DeleteCard)
-var DeleteAllCards = types.Function(lib.DeleteAllCards)
-var GetEvent = types.Function(lib.GetEvent)
-var GetEventIndex = types.Function(lib.GetEventIndex)
-var SetEventIndex = types.Function(lib.SetEventIndex)
-var RecordSpecialEvents = types.Function(lib.RecordSpecialEvents)
-var GetTimeProfile = types.Function(lib.GetTimeProfile)
-var SetTimeProfile = types.Function(lib.SetTimeProfile)
-var ClearTimeProfiles = types.Function(lib.ClearTimeProfiles)
-var AddTask = types.Function(lib.AddTask)
-var RefreshTaskList = types.Function(lib.RefreshTaskList)
-var ClearTaskList = types.Function(lib.ClearTaskList)
-var SetPCControl = types.Function(lib.SetPCControl)
-var SetInterlock = types.Function(lib.SetInterlock)
+var GetController = lib.GetController
+var SetIPv4 = lib.SetIPv4
+var GetTime = lib.GetTime
+var SetTime = lib.SetTime
+var GetListener = lib.GetListener
+var SetListener = lib.SetListener
+var GetListenerAddrPort = lib.GetListenerAddrPort
+var SetListenerAddrPort = lib.SetListenerAddrPort
+var GetDoor = lib.GetDoor
+var SetDoor = lib.SetDoor
+var OpenDoor = lib.OpenDoor
+var SetDoorPasscodes = lib.SetDoorPasscodes
+var GetStatus = lib.GetStatus
+var GetCards = lib.GetCards
+var GetCard = lib.GetCard
+var GetCardAtIndex = lib.GetCardAtIndex
+var PutCard = lib.PutCard
+var DeleteCard = lib.DeleteCard
+var DeleteAllCards = lib.DeleteAllCards
+var GetEvent = lib.GetEvent
+var GetEventIndex = lib.GetEventIndex
+var SetEventIndex = lib.SetEventIndex
+var RecordSpecialEvents = lib.RecordSpecialEvents
+var GetTimeProfile = lib.GetTimeProfile
+var SetTimeProfile = lib.SetTimeProfile
+var ClearTimeProfiles = lib.ClearTimeProfiles
+var AddTask = lib.AddTask
+var RefreshTaskList = lib.RefreshTaskList
+var ClearTaskList = lib.ClearTaskList
+var SetPCControl = lib.SetPCControl
+var SetInterlock = lib.SetInterlock

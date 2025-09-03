@@ -36,9 +36,9 @@
    - [x] CLI
    - [x] integration test
    - [x] README
-- [ ] activate-keypads,
-- [ ] get-antipassback,
-- [ ] set-antipassback,
+- [ ] activate-keypads
+- [ ] get-antipassback
+- [ ] set-antipassback
 - [ ] restore-default-parameters
 - [ ] listen
 
@@ -60,7 +60,7 @@
             - functions
       - [x] separate packages for responses/requests/entities
       - [ ] remove Request/Response suffixes
-      - [ ] replace types.Function with lib.Function
+      - [x] replace types.Function with lib.Function
       - [ ] move FindControllers to uhppoted-codegen
       - https://stackoverflow.com/questions/31628613/comments-out-of-order-after-adding-item-to-go-ast
 

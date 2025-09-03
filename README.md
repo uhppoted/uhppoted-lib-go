@@ -37,6 +37,8 @@ folder.
 - [`SetTime`](API.md#settime)
 - [`GetListener`](API.md#getlistener)
 - [`SetListener`](API.md#setlistener)
+- [`GetListenerAddrPort`](API.md#getlisteneraddrport)
+- [`SetListenerAddrPort`](API.md#setlisteneraddrport)
 - [`GetDoor`](API.md#getdoor)
 - [`SetDoor`](API.md#setdoor)
 - [`SetDoorPasscodes`](API.md#setdoorpasscodes)

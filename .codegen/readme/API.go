@@ -10,7 +10,6 @@ import (
 
 	"codegen/codegen"
 	"codegen/model"
-	"codegen/model/types"
 )
 
 //go:embed templates/API.template
@@ -26,16 +25,12 @@ func API() {
 	defer f.Close()
 
 	var data = struct {
-		API       []types.Function
+		API       []*lib.Function
 		Responses []*lib.Response
 	}{
 		API:       model.API,
 		Responses: model.Responses,
 	}
-
-	// FIXME
-	// API = append(API, model.GetListenerAddrPort)
-	// API = append(API, model.SetListenerAddrPort)
 
 	tmpl := template.Must(template.New("encode").Funcs(codegen.Functions).Parse(apiTemplate))
 	if err := tmpl.Execute(f, data); err != nil {
