@@ -5,6 +5,7 @@ import (
 	"log"
 	"path/filepath"
 	"regexp"
+	"slices"
 
 	"go/ast"
 	"go/token"
@@ -28,15 +29,14 @@ func API() {
 
 	types := []*ast.GenDecl{}
 	functions := []*ast.FuncDecl{}
+	excluded := []*lib.Function{
+		&model.GetListenerAddrPort,
+		&model.SetListenerAddrPort,
+	}
 
 	for _, f := range model.API[1:] {
-		if f == &model.GetListenerAddrPort {
-			println("skipping get-listener-addrport (duplicates get-listener)")
-			continue
-		}
-
-		if f == &model.SetListenerAddrPort {
-			println("skipping set-listener-addrport (duplicates set-listener)")
+		if slices.Contains(excluded, f) {
+			log.Printf("skipping %v (excluded)", f.Name)
 			continue
 		}
 

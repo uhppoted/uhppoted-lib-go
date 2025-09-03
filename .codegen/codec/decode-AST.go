@@ -5,10 +5,13 @@ import (
 	"fmt"
 	"log"
 	"os"
+	"slices"
 
 	"go/ast"
 	"go/printer"
 	"go/token"
+
+	lib "github.com/uhppoted/uhppoted-codegen/model/types"
 
 	"codegen/codegen"
 	"codegen/model"
@@ -280,14 +283,14 @@ func buildDecoderFactoryBody() *ast.BlockStmt {
 	}
 
 	// ... message types
-	for _, response := range model.Responses {
-		if response == &model.GetListenerAddrPortResponse {
-			println("skipping get-listener-addrport (duplicates get-listener)")
-			continue
-		}
+	excluded := []*lib.Response{
+		&model.GetListenerAddrPortResponse,
+		&model.SetListenerAddrPortResponse,
+	}
 
-		if response == &model.SetListenerAddrPortResponse {
-			println("skipping set-listener-addrport (duplicates set-listener)")
+	for _, response := range model.Responses {
+		if slices.Contains(excluded, response) {
+			log.Printf("skipping %v (excluded)", response.Name)
 			continue
 		}
 

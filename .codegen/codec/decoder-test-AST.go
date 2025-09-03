@@ -5,12 +5,13 @@ import (
 	"fmt"
 	"log"
 	"os"
+	"slices"
 
 	"go/ast"
 	"go/printer"
 	"go/token"
 
-	libx "github.com/uhppoted/uhppoted-codegen/model/types"
+	lib "github.com/uhppoted/uhppoted-codegen/model/types"
 
 	"codegen/codegen"
 	"codegen/model"
@@ -78,14 +79,14 @@ func buildDecoderTest() *ast.File {
 
 	tests := []ast.Decl{}
 
-	for _, response := range model.Responses {
-		if response == &model.GetListenerAddrPortResponse {
-			println("skipping get-listener-addrport (duplicates get-listener)")
-			continue
-		}
+	excluded := []*lib.Response{
+		&model.GetListenerAddrPortResponse,
+		&model.SetListenerAddrPortResponse,
+	}
 
-		if response == &model.SetListenerAddrPortResponse {
-			println("skipping set-listener-addrport (duplicates set-listener)")
+	for _, response := range model.Responses {
+		if slices.Contains(excluded, response) {
+			log.Printf("skipping %v (excluded)", response.Name)
 			continue
 		}
 
@@ -136,7 +137,7 @@ func buildDecoderTest() *ast.File {
 	}
 }
 
-func buildDecoderTestFunc(response libx.Response, test libx.ResponseTest) *ast.FuncDecl {
+func buildDecoderTestFunc(response lib.Response, test lib.ResponseTest) *ast.FuncDecl {
 	name := fmt.Sprintf("TestDecode%vResponse", codegen.TitleCase(test.Name))
 	return &ast.FuncDecl{
 		Name: ast.NewIdent(name),
@@ -160,7 +161,7 @@ func buildDecoderTestFunc(response libx.Response, test libx.ResponseTest) *ast.F
 	}
 }
 
-func buildDecoderTestImpl(response libx.Response, test libx.ResponseTest) *ast.BlockStmt {
+func buildDecoderTestImpl(response lib.Response, test lib.ResponseTest) *ast.BlockStmt {
 	packet := make([]ast.Expr, 64)
 	for i, b := range test.Response {
 		packet[i] = &ast.BasicLit{
@@ -219,7 +220,7 @@ func buildDecoderTestImpl(response libx.Response, test libx.ResponseTest) *ast.B
 	}
 }
 
-func buildExpected(response libx.Response, values []libx.Value) ast.Expr {
+func buildExpected(response lib.Response, values []lib.Value) ast.Expr {
 	name := codegen.TitleCase(response.Name)
 	fields := []ast.Expr{}
 
@@ -249,7 +250,7 @@ func buildExpected(response libx.Response, values []libx.Value) ast.Expr {
 	}
 }
 
-func buildExec(response libx.Response) ast.Stmt {
+func buildExec(response lib.Response) ast.Stmt {
 	name := codegen.TitleCase(response.Name)
 
 	return &ast.IfStmt{
@@ -331,7 +332,7 @@ func buildExec(response libx.Response) ast.Stmt {
 	}
 }
 
-func makeValue(field libx.Field, value libx.Value) ast.Expr {
+func makeValue(field lib.Field, value lib.Value) ast.Expr {
 	switch field.Type {
 	case "uint8":
 		return &ast.BasicLit{Kind: token.INT, Value: fmt.Sprintf("%v", value.Value)}
