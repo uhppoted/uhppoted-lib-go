@@ -57,5 +57,6 @@ folder.
 - [`ClearTimeProfiles`](API.md#cleartimeprofiles)
 - [`AddTask`](API.md#addtask)
 - [`RefreshTaskList`](API.md#refreshtasklist)
-- [`GetListenerAddrPort`](API.md#getlisteneraddrport)
-- [`SetListenerAddrPort`](API.md#setlisteneraddrport)
+- [`ClearTaskList`](API.md#cleartasklist)
+- [`SetPCControl`](API.md#setpccontrol)
+- [`SetInterlock`](API.md#setinterlock)

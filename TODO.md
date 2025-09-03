@@ -42,7 +42,7 @@
 - [ ] restore-default-parameters
 - [ ] listen
 
-- [ ] custom date/time types
+- [ ] custom date/time/task/interlock types
 - [ ] card/event/profile/task records
 - [ ] check for controller = 0
 - [ ] check response.controller == request.controller
@@ -56,8 +56,12 @@
    - [ ] use/extend uhppoted-codegen models
       - [ ] **NB:** use Function::Args
       - [ ] use 'exclude' lists for get/set-listener-addrport
+            - responses
+            - functions
       - [x] separate packages for responses/requests/entities
       - [ ] remove Request/Response suffixes
+      - [ ] replace types.Function with lib.Function
+      - [ ] move FindControllers to uhppoted-codegen
       - https://stackoverflow.com/questions/31628613/comments-out-of-order-after-adding-item-to-go-ast
 
    - [x] response structs

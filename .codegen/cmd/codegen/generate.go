@@ -29,6 +29,7 @@ func main() {
 
 		case "README":
 			readme.README()
+			readme.API()
 		}
 	}
 }

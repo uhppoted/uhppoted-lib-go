@@ -8,7 +8,6 @@ import (
 
 	"codegen/codegen"
 	"codegen/model"
-	"codegen/model/types"
 )
 
 //go:embed templates/README.template
@@ -23,10 +22,11 @@ func README() {
 	}
 	defer f.Close()
 
-	var API = []types.Function{}
-	API = append(API, model.API...)
-	API = append(API, model.GetListenerAddrPort)
-	API = append(API, model.SetListenerAddrPort)
+	var API = model.API
+
+	// FIXME
+	// API = append(API, model.GetListenerAddrPort)
+	// API = append(API, model.SetListenerAddrPort)
 
 	tmpl := template.Must(template.New("encode").Funcs(codegen.Functions).Parse(readmeTemplate))
 	if err := tmpl.Execute(f, API); err != nil {

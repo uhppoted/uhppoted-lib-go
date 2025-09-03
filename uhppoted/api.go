@@ -64,3 +64,4 @@ func SetListenerAddrPort[T TController](u Uhppoted, controller T, address netip.
 
 //go:generate ../.codegen/bin/codegen API
 //go:generate ../.codegen/bin/codegen responses
+//go:generate ../.codegen/bin/codegen README

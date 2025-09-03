@@ -109,11 +109,11 @@ where:
 
 ## Functions
 
-### `GetAllControllers`
+### `FindControllers`
 Returns a list of all controllers that responded to a _get-controller_ request within the timeout.
 
 ```
-GetAllControllers(u Uhppoted, timeout time.Duration) ([]GetControllerResponse, error)
+FindControllers(u Uhppoted, timeout time.Duration) ([]GetControllerResponse, error)
 
 where:
 u        Uhppoted struct initialised with the bind address, broadcast address, etc

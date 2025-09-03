@@ -1,0 +1,108 @@
+# API
+{{ range $func := .API }}
+- [`{{ titleCase $func.Name }}`](#{{ clean $func.Name }}){{ end }}
+
+---
+Invoking an API function requires an instance of the `Uhppoted` struct initialised with the information required
+to access a controller:
+
+```
+        u := lib.NewUhppoted(bind, broadcast, listen, debug)
+
+where:
+
+bind        IPv4 address to which to bind the UDP socket
+broadcast   IPv4 address:port for broadcast UDP packets
+listen      IPv4 address:port for events from controller
+debug       Displays the controller requests/responses if true.
+```
+
+e.g.:
+```
+import (
+    "fmt"
+    "net/netip"
+
+    lib "github.com/uhppoted/uhppoted-lib-go/uhppoted"
+)
+
+...
+func main() {
+    bind := netip.MustParseAddr("0.0.0.0")
+    broadcast := netip.MustParseAddrPort("255.255.255.255:60000")
+    listen := netip.MustParseAddrPort("0.0.0.0:60001")
+    debug := true
+
+    u := lib.NewUhppoted(bind, broadcast, listen, options.debug)
+    
+    if controller, err := lib.GetController(u, 405419896); err != nil {
+        fmt.Printf("ERROR %v\n", err)
+    } else {
+        fmt.Printf("%v\n", controller)
+    }
+}
+```
+
+### Notes
+1. All API functions return an error if the call fails for any reason whatsoever.
+2. All API functions (other than `get_all_controllers` and `listen`) take a `controller` that may be either:
+   - a _uint32_ controller serial number (legacy)
+   - a Controller struct
+```
+type Controller struct {
+    ID       uint32
+    Address  netip.AddrPort
+    Protocol string
+}
+
+where:
+- ID        controller serial number
+- Address   controller IPv4 address and port. 
+            (optional - defaults to UDP broadcast if not provided)
+- Protocol  either "udp" or "tcp". 
+            (optional - defaults to "udp")
+```
+   e.g.:
+```
+   lib.GetController(u, 405419896, TIMEOUT)
+   lib.GetController(u, lib.Controller{
+                           405419896, 
+                           netip.MustParseAddrPort('192.168.1.100:60000'), 
+                           'tcp'}, TIMEOUT)
+```
+
+3. All API functions (other than `listen`) take a `timeout` parameter that sets the time limit for the request, 
+   e.g.:
+```
+   GetController(u, 405419896, 750*time.Millisecond)
+```
+
+## Functions
+{{ range $func := .API }}
+### `{{ titleCase $func.Name }}`
+{{ range $text := $func.Description}}{{ $text }}
+{{end -}}
+```
+{{ titleCase $func.Name }}(u{{range $arg := $func.Args}}, {{ $arg.Name}}{{end}}, timeout)
+
+where:
+- u           Uhppoted       Uhppoted struct initialised with the bind address, broadcast address, etc
+{{- range $arg := $func.Args}}
+- {{ $arg.Name }}  {{ $arg.Type }}    {{ $arg.Description }}{{end}}
+- timeout     time.Duration  maximum time to wait for a response from a controller
+
+Returns a `{{ titleCase $func.Response.Name }}`.
+```
+{{ end }}
+
+## Types
+{{ range $response := .Responses }}
+### `{{ titleCase $response.Name }}`
+{{ range $text := $response.Description}}{{ $text }}
+{{end -}}
+```
+type {{ titleCase $response.Name }} struct { {{ range $field := $response.Fields}}
+  {{ titleCase $field.Name }}  {{ $field.Type }}  `json:"{{ $field.Tag}}"` // {{ $field.Description }}{{ end }}
+}
+```
+{{ end }}

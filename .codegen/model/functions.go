@@ -41,9 +41,13 @@ var API = []types.Function{
 }
 
 var FindControllers = types.Function{
-	Name:        "find-controllers",
-	Description: []string{"FindControllers retrieves a list of all UHPPOTE controllers accessible on the local LAN."},
-	Protocols:   []string{"broadcast"},
+	Name: "find-controllers",
+	Description: []string{
+		"FindControllers retrieves a list of all UHPPOTE controllers accessible via UDP broadcast",
+		"on the local LAN.",
+	},
+	Args:      []libx.Arg{},
+	Protocols: []string{"broadcast"},
 	Tests: []libx.FuncTest{
 		{
 			Name: "find-controllers",
