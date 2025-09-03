@@ -1,6 +1,7 @@
 package responses
 
 import (
+	"github.com/uhppoted/uhppoted-lib-go/uhppoted/entities"
 	"net/netip"
 	"time"
 )
@@ -8,13 +9,13 @@ import (
 // Container struct for the response returned from an access controller when retrieving the
 // network configuration, firmware version and firmware release date.
 type GetControllerResponse struct {
-	Controller uint32     `json:"controller"`
-	IpAddress  netip.Addr `json:"ip-address"`
-	SubnetMask netip.Addr `json:"netmask"`
-	Gateway    netip.Addr `json:"gateway"`
-	MACAddress string     `json:"MAC"`
-	Version    string     `json:"version"`
-	Date       time.Time  `json:"date"`
+	Controller uint32        `json:"controller"`
+	IpAddress  netip.Addr    `json:"ip-address"`
+	SubnetMask netip.Addr    `json:"netmask"`
+	Gateway    netip.Addr    `json:"gateway"`
+	MACAddress string        `json:"MAC"`
+	Version    string        `json:"version"`
+	Date       entities.Date `json:"date"`
 }
 
 // SetIPv4Response is a synthesized response provided to simplify code generation. The controller

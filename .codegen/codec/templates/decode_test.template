@@ -9,6 +9,7 @@ import (
     "time"
     "reflect"
 
+   "github.com/uhppoted/uhppoted-lib-go/uhppoted/entities"
    "github.com/uhppoted/uhppoted-lib-go/uhppoted/responses"
 )
 

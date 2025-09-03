@@ -20,6 +20,7 @@ func Responses() {
 	imports := []string{
 		"net/netip",
 		"time",
+		"github.com/uhppoted/uhppoted-lib-go/uhppoted/entities",
 	}
 
 	types := []*ast.GenDecl{}
@@ -114,8 +115,11 @@ func gotype(field types.Field) string {
 	case "optional datetime":
 		return "time.Time"
 
+	// case "date":
+	// 	return "time.Time"
+
 	case "date":
-		return "time.Time"
+		return "entities.Date"
 
 	case "shortdate":
 		return "time.Time"

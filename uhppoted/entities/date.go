@@ -1,6 +1,7 @@
 package entities
 
 import (
+	"encoding/json"
 	"fmt"
 	"time"
 )
@@ -12,10 +13,25 @@ type Date struct {
 }
 
 func NewDate(year uint16, month time.Month, day uint8) Date {
+	yyyy := year
+	if yyyy < 1 {
+		yyyy = 1
+	}
+
+	mm := month
+	if mm < time.January || mm > time.December {
+		mm = time.January
+	}
+
+	dd := day
+	if dd < 1 {
+		dd = 1
+	}
+
 	return Date{
-		year:  year,
-		month: month,
-		day:   day,
+		year:  yyyy,
+		month: mm,
+		day:   dd,
 	}
 }
 
@@ -30,7 +46,7 @@ func MustParseDate(s string) Date {
 	}
 }
 
-// Parses a date string, returning a zero value Date{} and an
+// Parses a date string in "yyyy-mm-dd" format, returning a zero value Date{} and an
 // error if the string is blank or not a valid date.
 func ParseDate(s string) (Date, error) {
 	if s == "" {
@@ -44,8 +60,18 @@ func ParseDate(s string) (Date, error) {
 	}
 }
 
-func (d Date) String() string {
-	return fmt.Sprintf("%04v-%02v-%02v", d.year, uint8(d.month), d.day)
+// Parses a date string in "yyymmdd" format, returning a zero value Date{} and an
+// error if the string is blank or not a valid date.
+func ParseDateYYYYMMDD(s string) (Date, error) {
+	if s == "" {
+		return Date{}, fmt.Errorf("blank date string")
+	} else if date, err := time.ParseInLocation("20060102", s, time.Local); err != nil {
+		return Date{}, err
+	} else {
+		year, month, day := date.Date()
+
+		return NewDate(uint16(year), month, uint8(day)), nil
+	}
 }
 
 func (d Date) Year() uint16 {
@@ -58,4 +84,40 @@ func (d Date) Month() time.Month {
 
 func (d Date) Day() uint8 {
 	return d.day
+}
+
+func (d Date) IsZero() bool {
+	return d.year <= 1 && d.month <= 1 && d.day <= 1
+}
+
+func (d Date) String() string {
+	return fmt.Sprintf("%04v-%02v-%02v", d.year, uint8(d.month), d.day)
+}
+
+func (d Date) MarshalJSON() ([]byte, error) {
+	if d.IsZero() {
+		return json.Marshal("")
+	} else {
+		return json.Marshal(fmt.Sprintf("%v", d))
+	}
+}
+
+func (d *Date) UnmarshalJSON(bytes []byte) error {
+	var s string
+
+	if err := json.Unmarshal(bytes, &s); err != nil {
+		return err
+	} else if s == "" {
+		*d = Date{
+			year:  1,
+			month: time.January,
+			day:   1,
+		}
+	} else if date, err := ParseDate(s); err != nil {
+		return err
+	} else {
+		*d = Date(date)
+	}
+
+	return nil
 }

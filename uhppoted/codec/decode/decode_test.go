@@ -9,6 +9,7 @@ import (
 	"testing"
 	"time"
 
+	"github.com/uhppoted/uhppoted-lib-go/uhppoted/entities"
 	"github.com/uhppoted/uhppoted-lib-go/uhppoted/responses"
 )
 
@@ -27,7 +28,7 @@ func TestGetController(t *testing.T) {
 		Gateway:    IPv4("192.168.1.1"),
 		MACAddress: "00:12:23:34:45:56",
 		Version:    "v8.92",
-		Date:       string2date("2018-11-05"),
+		Date:       entities.MustParseDate("2018-11-05"),
 	}
 
 	response, err := GetControllerResponse(packet)

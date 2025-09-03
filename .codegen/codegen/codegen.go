@@ -339,6 +339,9 @@ func value(v any, vtype string) string {
 		return fmt.Sprintf(`string2datetime("%v")`, v)
 
 	case "date":
+		return fmt.Sprintf(`entities.MustParseDate("%v")`, v)
+
+	case "shortdate":
 		return fmt.Sprintf(`string2date("%v")`, v)
 
 	case "optional date":

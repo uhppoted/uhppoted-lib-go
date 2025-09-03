@@ -28,7 +28,8 @@ build: format
 	go build -trimpath ./...
 
 debug: build
-	cd examples/cli && make set-interlock
+	# cd examples/cli && make set-interlock
+	go test ./uhppoted/... -run TestDecodeGetControllerResponse
 	# go test ./integration-tests/... -run TestGetListenerAddrPort
 
 test: build

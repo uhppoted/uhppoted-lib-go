@@ -5,6 +5,7 @@ import (
 	"net/netip"
 	"time"
 
+	"github.com/uhppoted/uhppoted-lib-go/uhppoted/entities"
 	"github.com/uhppoted/uhppoted-lib-go/uhppoted/responses"
 )
 
@@ -56,7 +57,7 @@ var Expected = struct {
 			Gateway:    netip.MustParseAddr("192.168.1.1"),
 			MACAddress: "52:fd:fc:07:21:82",
 			Version:    "v6.62",
-			Date:       time.Date(2020, 1, 1, 0, 0, 0, 0, time.Local),
+			Date:       entities.MustParseDate("2020-01-01"),
 		},
 		responses.GetControllerResponse{
 			Controller: 303986753,
@@ -65,7 +66,7 @@ var Expected = struct {
 			Gateway:    netip.MustParseAddr("192.168.1.1"),
 			MACAddress: "52:fd:fc:07:21:82",
 			Version:    "v8.92",
-			Date:       time.Date(2019, 8, 15, 0, 0, 0, 0, time.Local),
+			Date:       entities.MustParseDate("2019-08-15"),
 		},
 		responses.GetControllerResponse{
 			Controller: 405419896,
@@ -74,7 +75,7 @@ var Expected = struct {
 			Gateway:    netip.MustParseAddr("192.168.1.1"),
 			MACAddress: "00:12:23:34:45:56",
 			Version:    "v8.92",
-			Date:       time.Date(2018, 11, 5, 0, 0, 0, 0, time.Local),
+			Date:       entities.MustParseDate("2018-11-05"),
 		},
 	},
 
@@ -85,7 +86,7 @@ var Expected = struct {
 		Gateway:    IPv4("192.168.1.1"),
 		MACAddress: "00:12:23:34:45:56",
 		Version:    "v8.92",
-		Date:       string2date("2018-11-05"),
+		Date:       entities.MustParseDate("2018-11-05"),
 	},
 
 	SetIPv4: responses.SetIPv4Response{

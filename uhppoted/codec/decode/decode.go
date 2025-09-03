@@ -7,6 +7,8 @@ import (
 	"net/netip"
 	"regexp"
 	"time"
+
+	"github.com/uhppoted/uhppoted-lib-go/uhppoted/entities"
 )
 
 // Message constants for the UHPPOTE request/response protocol.
@@ -115,11 +117,21 @@ func unpackOptionalDateTime(packet []byte, offset uint8) time.Time {
 	}
 }
 
-func unpackDate(packet []byte, offset uint8) time.Time {
+// func unpackDate(packet []byte, offset uint8) time.Time {
+// 	bcd := bcd2string(packet[offset : offset+4])
+//
+// 	if date, err := time.ParseInLocation("20060102", bcd, time.Local); err != nil {
+// 		return time.Time{}
+// 	} else {
+// 		return date
+// 	}
+// }
+
+func unpackDate(packet []byte, offset uint8) entities.Date {
 	bcd := bcd2string(packet[offset : offset+4])
 
-	if date, err := time.ParseInLocation("20060102", bcd, time.Local); err != nil {
-		return time.Time{}
+	if date, err := entities.ParseDateYYYYMMDD(bcd); err != nil {
+		return entities.Date{}
 	} else {
 		return date
 	}
