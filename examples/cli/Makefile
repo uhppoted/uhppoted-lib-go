@@ -154,3 +154,6 @@ clear-tasklist: build
 
 set-pc-control: build
 	$(CMD) set-pc-control --controller $(CONTROLLER) $(DEST) $(TCP) --enabled true
+
+set-interlock: build
+	$(CMD) set-interlock --controller $(CONTROLLER) $(DEST) $(TCP) --interlock "1&2,3&4"

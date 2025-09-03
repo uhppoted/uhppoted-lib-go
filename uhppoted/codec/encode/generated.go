@@ -697,3 +697,23 @@ func SetPCControlRequest(controller uint32, enabled bool) ([]byte, error) {
 
 	return packet, nil
 }
+
+// Encodes a set-interlock-request.
+//
+//	Parameters:
+//	    controller  (uint32)  controller serial number
+//	    interlock  (uint8)
+//
+//	Returns:
+//	    64 byte packet.
+func SetInterlockRequest(controller uint32, interlock uint8) ([]byte, error) {
+	packet := make([]byte, 64)
+
+	packet[0] = SOM
+	packet[1] = 162
+
+	packUint32(controller, packet, 4)
+	packUint8(interlock, packet, 8)
+
+	return packet, nil
+}

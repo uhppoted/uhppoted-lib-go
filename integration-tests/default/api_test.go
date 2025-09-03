@@ -517,3 +517,17 @@ func TestSetPcControl(t *testing.T) {
 		t.Errorf("incorrect response\n   expected:%#v\n   got:     %#v", test.Expected.SetPcControl, response)
 	}
 }
+
+func TestSetInterlock(t *testing.T) {
+	controller := uint32(405419896)
+
+	interlock := uint8(8)
+
+	response, err := lib.SetInterlock(u, controller, interlock, timeout)
+
+	if err != nil {
+		t.Fatalf("%v", err)
+	} else if !reflect.DeepEqual(response, test.Expected.SetInterlock) {
+		t.Errorf("incorrect response\n   expected:%#v\n   got:     %#v", test.Expected.SetInterlock, response)
+	}
+}

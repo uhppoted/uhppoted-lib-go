@@ -44,6 +44,7 @@ var Expected = struct {
 	RefreshTaskList        responses.RefreshTaskListResponse
 	ClearTaskList          responses.ClearTasklistResponse
 	SetPcControl           responses.SetPCControlResponse
+	SetInterlock           responses.SetInterlockResponse
 }{
 	FindControllers: []responses.GetControllerResponse{
 		responses.GetControllerResponse{
@@ -368,6 +369,11 @@ var Expected = struct {
 	},
 
 	SetPcControl: responses.SetPCControlResponse{
+		Controller: 405419896,
+		Ok:         true,
+	},
+
+	SetInterlock: responses.SetInterlockResponse{
 		Controller: 405419896,
 		Ok:         true,
 	},

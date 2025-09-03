@@ -31,15 +31,16 @@
 - [x] refresh-tasklist
 - [x] clear-tasklist,
 - [x] set-pc-control,
+- [x] set-interlock,
    - [x] API
    - [x] CLI
    - [x] integration test
    - [x] README
-- [ ] set-interlock,
 - [ ] activate-keypads,
 - [ ] get-antipassback,
 - [ ] set-antipassback,
-- [ ] restore-default-parameters,
+- [ ] restore-default-parameters
+- [ ] listen
 
 - [ ] custom date/time types
 - [ ] card/event/profile/task records

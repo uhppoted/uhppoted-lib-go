@@ -28,8 +28,7 @@ build: format
 	go build -trimpath ./...
 
 debug: build
-	cd examples/cli && make set-pc-control
-	# go test ./integration-tests/... --run TestGetListener
+	cd examples/cli && make set-interlock
 
 test: build
 	go test ./uhppoted/...
@@ -215,3 +214,8 @@ set-pc-control: build
 	cd examples/cli && make set-pc-control
 	cd examples/cli && make set-pc-control DEST="--dest 127.0.0.1" TCP=""
 	cd examples/cli && make set-pc-control DEST="--dest 127.0.0.1" TCP="- DEST="--dest 127.0.0.1" TCP="--tcp""
+
+set-interlock: build
+	cd examples/cli && make set-interlock
+	cd examples/cli && make set-interlock DEST="--dest 127.0.0.1" TCP=""
+	cd examples/cli && make set-interlock DEST="--dest 127.0.0.1" TCP="- DEST="--dest 127.0.0.1" TCP="--tcp""

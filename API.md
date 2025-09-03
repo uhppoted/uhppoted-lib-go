@@ -31,6 +31,7 @@
 - [`RefreshTaskList`](#refreshtasklist)
 - [`ClearTaskList`](#cleartasklist)
 - [`SetPCControl`](#setpccontrol)
+- [`SetInterlock`](#setinterlock)
 ---
 Invoking an API function requires an instance of the `Uhppoted` struct initialised with the information required
 to access a controller:
@@ -575,6 +576,24 @@ timeout     maximum time to wait for a response from a controller
 Returns a `SetPCControlResponse`.
 ```
 
+### `SetInterlock`
+```
+SetInterlock(u Uhppoted, controller TController, interlock uint8, timeout time.Duration) (SetInterlockResponse,error)
+
+u           Uhppoted struct initialised with the bind address, broadcast address, etc
+controller  uint32|Controller controller serial number or {id, address, protocol} Controller struct
+interlock   Door interlock mode:
+            - 0: disabled
+            - 1: doors 1&2
+            - 2: doors 3&4
+            - 3: doors 1&2, doors 3&4
+            - 4: doors 1,2&3
+            - 8: doors 1,2,3&4
+timeout     maximum time to wait for a response from a controller
+
+Returns a `SetInterlockResponse`.
+```
+
 
 ## Types
 
@@ -998,4 +1017,12 @@ type SetPCControlResponse struct {
 }
 ```
 
+### `SetInterlockResponse`
 
+Container class for the decoded response from a _SetInterlock_ request.
+```
+type SetInterlockResponse struct {
+  Controller  uint32  `json:"controller"` // controller serial number
+  Ok          bool    `json:"ok"`         // succeeded/failed
+}
+```

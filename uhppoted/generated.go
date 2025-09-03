@@ -274,3 +274,20 @@ func SetPCControl[T TController](u Uhppoted, controller T, enabled bool, timeout
 
 	return exec[T, responses.SetPCControlResponse](u, controller, f, timeout)
 }
+
+// Sets the door interlock mode on an access controller.
+//
+// The following interlock modes are supported:
+// - 0: disabled
+// - 1: doors 1&2
+// - 2: doors 3&4
+// - 3: doors 1&2, doors 3&4
+// - 4: doors 1,2&3
+// - 8: doors 1,2,3&4
+func SetInterlock[T TController](u Uhppoted, controller T, interlock uint8, timeout time.Duration) (responses.SetInterlockResponse, error) {
+	f := func(id uint32) ([]byte, error) {
+		return encode.SetInterlockRequest(id, interlock)
+	}
+
+	return exec[T, responses.SetInterlockResponse](u, controller, f, timeout)
+}
