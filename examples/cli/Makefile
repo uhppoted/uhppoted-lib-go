@@ -157,3 +157,6 @@ set-pc-control: build
 
 set-interlock: build
 	$(CMD) set-interlock --controller $(CONTROLLER) $(DEST) $(TCP) --interlock "1&2,3&4"
+
+activate-keypads: build
+	$(CMD) activate-keypads --controller $(CONTROLLER) $(DEST) $(TCP) --keypads "12,4"

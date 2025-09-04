@@ -291,3 +291,12 @@ func SetInterlock[T TController](u Uhppoted, controller T, interlock uint8, time
 
 	return exec[T, responses.SetInterlockResponse](u, controller, f, timeout)
 }
+
+// Enables/disables door keypad readers.
+func ActivateKeypads[T TController](u Uhppoted, controller T, reader1 bool, reader2 bool, reader3 bool, reader4 bool, timeout time.Duration) (responses.ActivateKeypadsResponse, error) {
+	f := func(id uint32) ([]byte, error) {
+		return encode.ActivateKeypadsRequest(id, reader1, reader2, reader3, reader4)
+	}
+
+	return exec[T, responses.ActivateKeypadsResponse](u, controller, f, timeout)
+}

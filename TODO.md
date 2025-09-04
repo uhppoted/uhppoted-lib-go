@@ -32,11 +32,11 @@
 - [x] clear-tasklist,
 - [x] set-pc-control,
 - [x] set-interlock,
+- [x] activate-keypads
    - [x] API
    - [x] CLI
    - [x] integration test
    - [x] README
-- [ ] activate-keypads
 - [ ] get-antipassback
 - [ ] set-antipassback
 - [ ] restore-default-parameters

@@ -717,3 +717,29 @@ func SetInterlockRequest(controller uint32, interlock uint8) ([]byte, error) {
 
 	return packet, nil
 }
+
+// Encodes a activate-keypads-request.
+//
+//	Parameters:
+//	    controller  (uint32)  controller serial number
+//	    reader 1  (bool)
+//	    reader 2  (bool)
+//	    reader 3  (bool)
+//	    reader 4  (bool)
+//
+//	Returns:
+//	    64 byte packet.
+func ActivateKeypadsRequest(controller uint32, reader1 bool, reader2 bool, reader3 bool, reader4 bool) ([]byte, error) {
+	packet := make([]byte, 64)
+
+	packet[0] = SOM
+	packet[1] = 164
+
+	packUint32(controller, packet, 4)
+	packBool(reader1, packet, 8)
+	packBool(reader2, packet, 9)
+	packBool(reader3, packet, 10)
+	packBool(reader4, packet, 11)
+
+	return packet, nil
+}

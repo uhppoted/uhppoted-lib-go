@@ -62,3 +62,4 @@ folder.
 - [`ClearTaskList`](API.md#cleartasklist)
 - [`SetPCControl`](API.md#setpccontrol)
 - [`SetInterlock`](API.md#setinterlock)
+- [`ActivateKeypads`](API.md#activatekeypads)

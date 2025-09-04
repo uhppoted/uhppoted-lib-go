@@ -287,3 +287,10 @@ type SetInterlockResponse struct {
 	Controller uint32 `json:"controller"`
 	Ok         bool   `json:"ok"`
 }
+
+// Container struct for the response returned from an access controller when enabling or
+// disabling door reader keypads.
+type ActivateKeypadsResponse struct {
+	Controller uint32 `json:"controller"`
+	Ok         bool   `json:"ok"`
+}

@@ -696,3 +696,24 @@ func TestSetInterlock(t *testing.T) {
 		t.Errorf("incorrect response\n   expected:%#v\n   got:     %#v", test.Expected.SetInterlock, response)
 	}
 }
+
+func TestActivateKeypads(t *testing.T) {
+	controller := lib.Controller{
+		ID:       uint32(405419896),
+		Address:  netip.MustParseAddrPort("127.0.0.1:50003"),
+		Protocol: "tcp",
+	}
+
+	reader1 := true
+	reader2 := true
+	reader3 := false
+	reader4 := true
+
+	response, err := lib.ActivateKeypads(u, controller, reader1, reader2, reader3, reader4, timeout)
+
+	if err != nil {
+		t.Fatalf("%v", err)
+	} else if !reflect.DeepEqual(response, test.Expected.ActivateKeypads) {
+		t.Errorf("incorrect response\n   expected:%#v\n   got:     %#v", test.Expected.ActivateKeypads, response)
+	}
+}

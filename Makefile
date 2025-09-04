@@ -28,8 +28,8 @@ build: format
 	go build -trimpath ./...
 
 debug: build
-	# cd examples/cli && make set-interlock
-	go test ./uhppoted/... -run TestDecodeGetControllerResponse
+	cd examples/cli && make activate-keypads
+	# go test ./uhppoted/... -run TestDecodeGetControllerResponse
 	# go test ./integration-tests/... -run TestGetListenerAddrPort
 
 test: build
@@ -221,3 +221,8 @@ set-interlock: build
 	cd examples/cli && make set-interlock
 	cd examples/cli && make set-interlock DEST="--dest 127.0.0.1" TCP=""
 	cd examples/cli && make set-interlock DEST="--dest 127.0.0.1" TCP="- DEST="--dest 127.0.0.1" TCP="--tcp""
+
+activate-keypads: build
+	cd examples/cli && make activate-keypads
+	cd examples/cli && make activate-keypads DEST="--dest 127.0.0.1" TCP=""
+	cd examples/cli && make activate-keypads DEST="--dest 127.0.0.1" TCP="- DEST="--dest 127.0.0.1" TCP="--tcp""

@@ -115,6 +115,9 @@ func decode(packet []byte) (any, error) {
 	case 0xa2:
 		return decoder.SetInterlockResponse(packet)
 
+	case 0xa4:
+		return decoder.ActivateKeypadsResponse(packet)
+
 	default:
 		return nil, fmt.Errorf("unknown message type (%02x)", packet[1])
 	}

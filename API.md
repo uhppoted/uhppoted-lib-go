@@ -32,6 +32,8 @@
 - [`ClearTaskList`](#cleartasklist)
 - [`SetPCControl`](#setpccontrol)
 - [`SetInterlock`](#setinterlock)
+- [`ActivateKeypads`](#activatekeypads)
+
 ---
 Invoking an API function requires an instance of the `Uhppoted` struct initialised with the information required
 to access a controller:
@@ -594,6 +596,23 @@ timeout     maximum time to wait for a response from a controller
 Returns a `SetInterlockResponse`.
 ```
 
+### `ActivateKeypads`
+Enables/disables door keypad readers.
+```
+ActivateKeypads(u, controller, reader 1, reader 2, reader 3, reader 4, timeout)
+
+where:
+- u           Uhppoted       Uhppoted struct initialised with the bind address, broadcast address, etc
+- controller  controller     uint32|Controller controller serial number or {id, address, protocol} Controller struct
+- reader 1    bool           enables/disables the keypad for reader 1
+- reader 2    bool           enables/disables the keypad for reader 2
+- reader 3    bool           enables/disables the keypad for reader 3
+- reader 4    bool           enables/disables the keypad for reader 4
+- timeout     time.Duration  maximum time to wait for a response from a controller
+
+Returns a `ActivateKeypadsResponse`.
+```
+
 
 ## Types
 
@@ -1026,3 +1045,14 @@ type SetInterlockResponse struct {
   Ok          bool    `json:"ok"`         // succeeded/failed
 }
 ```
+
+### `ActivateKeypadsResponse`
+Container struct for the response returned from an access controller when enabling or
+disabling door reader keypads.
+```
+type ActivateKeypadsResponse struct { 
+  Controller  uint32  `json:"controller"` // controller serial number
+  Ok          bool    `json:"ok"` // 
+}
+```
+

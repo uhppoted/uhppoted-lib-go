@@ -37,6 +37,7 @@ var Requests = []types.Request{
 	ClearTaskListRequest,
 	SetPCControlRequest,
 	SetInterlockRequest,
+	ActivateKeypadsRequest,
 }
 
 var GetControllerRequest = lib.GetControllerRequest
@@ -70,3 +71,4 @@ var RefreshTaskListRequest = lib.RefreshTaskListRequest
 var ClearTaskListRequest = lib.ClearTaskListRequest
 var SetPCControlRequest = lib.SetPCControlRequest
 var SetInterlockRequest = lib.SetInterlockRequest
+var ActivateKeypadsRequest = lib.ActivateKeypadsRequest
