@@ -65,45 +65,39 @@ func function(f lib.Function) *ast.FuncDecl {
 		Type: &ast.Ident{Name: "Uhppoted"},
 	})
 
-	args = append(args, &ast.Field{
-		Names: []*ast.Ident{
-			{Name: "controller"},
-		},
-		Type: &ast.Ident{Name: "T"},
-	})
-
-	for _, arg := range f.Request.Fields[1:] {
-		name := regexp.MustCompile(`\s+`).ReplaceAllString(arg.Name, "")
+	for _, arg := range f.Args {
+		name := regexp.MustCompile(`[ \-]+`).ReplaceAllString(arg.Name, "")
 		t := arg.Type
 
-		if t != "magic" {
-			switch arg.Type {
-			case "IPv4":
-				t = "netip.Addr"
+		switch arg.Type {
+		case "controller":
+			t = "T"
 
-			case "address:port":
-				t = "netip.AddrPort"
+		case "IPv4":
+			t = "netip.Addr"
 
-			case "date":
-				t = "time.Time"
+		case "address:port":
+			t = "netip.AddrPort"
 
-			case "datetime":
-				t = "time.Time"
+		case "date":
+			t = "time.Time"
 
-			case "HHmm":
-				t = "time.Time"
+		case "datetime":
+			t = "time.Time"
 
-			case "pin":
-				t = "uint32"
-			}
+		case "HHmm":
+			t = "time.Time"
 
-			args = append(args, &ast.Field{
-				Names: []*ast.Ident{
-					{Name: name},
-				},
-				Type: &ast.Ident{Name: t},
-			})
+		case "pin":
+			t = "uint32"
 		}
+
+		args = append(args, &ast.Field{
+			Names: []*ast.Ident{
+				{Name: name},
+			},
+			Type: &ast.Ident{Name: t},
+		})
 	}
 
 	args = append(args, &ast.Field{

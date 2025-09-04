@@ -54,10 +54,7 @@
 
 - [ ] code generation
    - [ ] use/extend uhppoted-codegen models
-      - [x] use 'exclude' lists for get/set-listener-addrport
-      - [x] separate packages for responses/requests/entities
-      - [x] replace types.Function with lib.Function
-      - [ ] **NB:** use Function::Args
+      - [x] use Function::Args
       - [ ] remove Request/Response suffixes
       - [ ] move FindControllers to uhppoted-codegen
       - https://stackoverflow.com/questions/31628613/comments-out-of-order-after-adding-item-to-go-ast
