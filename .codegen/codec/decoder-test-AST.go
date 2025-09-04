@@ -1,11 +1,14 @@
 package codec
 
 import (
+	"bytes"
 	_ "embed"
 	"fmt"
 	"log"
 	"os"
+	"regexp"
 	"slices"
+	"strings"
 
 	"go/ast"
 	"go/printer"
@@ -27,10 +30,42 @@ func decoderTest() {
 	defer f.Close()
 
 	decl := buildDecoderTest()
+	b := bytes.Buffer{}
 
-	printer.Fprint(f, token.NewFileSet(), decl)
+	printer.Fprint(&b, token.NewFileSet(), decl)
 
-	f.Close()
+	// ... format
+	lines := strings.Split(b.String(), "\n")
+
+	// ... format message packets
+	re := regexp.MustCompile(`^(\s*packet\s+:=\s+\[\]byte\s*{)(.*?)}\s*$`)
+	for _, line := range lines {
+		if match := re.FindStringSubmatch(line); len(match) > 1 {
+			hex := match[2]
+
+			if _, err = f.WriteString(match[1] + "\n"); err != nil {
+				log.Fatalf("Failed to create file %s: %v", output, err)
+			}
+
+			for len(hex) > 96 {
+				if _, err = f.WriteString("		" + hex[:96] + "\n"); err != nil {
+					log.Fatalf("Failed to create file %s: %v", output, err)
+				}
+
+				hex = hex[96:]
+			}
+			if _, err = f.WriteString("		" + hex + ",\n"); err != nil {
+				log.Fatalf("Failed to create file %s: %v", output, err)
+			}
+
+			if _, err = f.WriteString("	}\n"); err != nil {
+				log.Fatalf("Failed to create file %s: %v", output, err)
+			}
+
+		} else if _, err = f.WriteString(line + "\n"); err != nil {
+			log.Fatalf("Failed to create file %s: %v", output, err)
+		}
+	}
 }
 
 func buildDecoderTest() *ast.File {
@@ -84,7 +119,8 @@ func buildDecoderTest() *ast.File {
 		&model.SetListenerAddrPortResponse,
 	}
 
-	for _, response := range model.Responses {
+	responses := model.Responses
+	for _, response := range responses {
 		if slices.Contains(excluded, response) {
 			log.Printf("skipping %v (excluded)", response.Name)
 			continue
@@ -440,7 +476,7 @@ func makeValue(field lib.Field, value lib.Value) ast.Expr {
 		return &ast.BasicLit{Kind: token.INT, Value: fmt.Sprintf("%v", value.Value)}
 
 	default:
-		fmt.Printf(">>>>>>>>>>>>>>>>>>>> EEEEK %v\n", field.Type)
-		return &ast.BasicLit{Kind: token.STRING, Value: `"???"`}
+		panic(fmt.Sprintf("%v", field.Type))
+		// return &ast.BasicLit{Kind: token.STRING, Value: `"???"`}
 	}
 }
