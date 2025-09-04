@@ -86,12 +86,12 @@ where:
 {{ titleCase $func.Name }}(u{{range $arg := $func.Args}}, {{ $arg.Name}}{{end}}, timeout)
 
 where:
-- u           Uhppoted       Uhppoted struct initialised with the bind address, broadcast address, etc
+- u             Uhppoted        Uhppoted struct initialised with the bind address, broadcast address, etc
 {{- range $arg := $func.Args}}
-- {{ $arg.Name }}  {{ $arg.Type }}    {{ $arg.Description }}{{end}}
-- timeout     time.Duration  maximum time to wait for a response from a controller
+- {{ rpad $arg.Name 12 }}  {{ rpad $arg.Type 14 }}  {{ $arg.Description }}{{end}}
+- timeout       time.Duration   maximum time to wait for a response from a controller
 
-Returns a `{{ titleCase $func.Response.Name }}`.
+Returns {{ article $func.Response.Name }} `{{ titleCase $func.Response.Name }}`.
 ```
 {{ end }}
 
@@ -102,7 +102,7 @@ Returns a `{{ titleCase $func.Response.Name }}`.
 {{end -}}
 ```
 type {{ titleCase $response.Name }} struct { {{ range $field := $response.Fields}}
-  {{ titleCase $field.Name }}  {{ $field.Type }}  `json:"{{ $field.Tag}}"` // {{ $field.Description }}{{ end }}
+  {{ rpad (titleCase $field.Name) 12 }}  {{ rpad $field.Type 14 }}  {{ rpad (printf "`json:%q`" $field.Tag) 20 }} // {{ $field.Description }}{{ end }}
 }
 ```
 {{ end }}

@@ -26,6 +26,8 @@ var Functions = template.FuncMap{
 	"lookup":      lookup,
 	"includes":    includes,
 	"value":       value,
+	"rpad":        rpad,
+	"article":     article,
 }
 
 func TitleCase(s string) string {
@@ -358,5 +360,21 @@ func value(v any, vtype string) string {
 
 	default:
 		return fmt.Sprintf("%v", v)
+	}
+}
+
+func rpad(v any, width int) string {
+	format := fmt.Sprintf("%%-%vv", width)
+
+	return fmt.Sprintf(format, v)
+}
+
+func article(v any) string {
+	s := fmt.Sprintf("%v", v)
+
+	if regexp.MustCompile("^[aeiouAEIOY].*").MatchString(s) {
+		return "an"
+	} else {
+		return "a"
 	}
 }
