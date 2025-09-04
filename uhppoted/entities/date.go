@@ -62,7 +62,7 @@ func ParseDate(s string) (Date, error) {
 
 // Parses a date string in "yyymmdd" format, returning a zero value Date{} and an
 // error if the string is blank or not a valid date.
-func ParseDateYYYYMMDD(s string) (Date, error) {
+func ParseYYYYMMDD(s string) (Date, error) {
 	if s == "" {
 		return Date{}, fmt.Errorf("blank date string")
 	} else if date, err := time.ParseInLocation("20060102", s, time.Local); err != nil {

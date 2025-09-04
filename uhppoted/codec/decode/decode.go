@@ -117,31 +117,21 @@ func unpackOptionalDateTime(packet []byte, offset uint8) time.Time {
 	}
 }
 
-// func unpackDate(packet []byte, offset uint8) time.Time {
-// 	bcd := bcd2string(packet[offset : offset+4])
-//
-// 	if date, err := time.ParseInLocation("20060102", bcd, time.Local); err != nil {
-// 		return time.Time{}
-// 	} else {
-// 		return date
-// 	}
-// }
-
 func unpackDate(packet []byte, offset uint8) entities.Date {
 	bcd := bcd2string(packet[offset : offset+4])
 
-	if date, err := entities.ParseDateYYYYMMDD(bcd); err != nil {
+	if date, err := entities.ParseYYYYMMDD(bcd); err != nil {
 		return entities.Date{}
 	} else {
 		return date
 	}
 }
 
-func unpackShortDate(packet []byte, offset uint8) time.Time {
+func unpackShortDate(packet []byte, offset uint8) entities.Date {
 	bcd := bcd2string(packet[offset : offset+3])
 
-	if date, err := time.ParseInLocation("20060102", "20"+bcd, time.Local); err != nil {
-		return time.Time{}
+	if date, err := entities.ParseYYYYMMDD("20" + bcd); err != nil {
+		return entities.Date{}
 	} else {
 		return date
 	}

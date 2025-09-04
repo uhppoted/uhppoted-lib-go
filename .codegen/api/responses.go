@@ -118,11 +118,14 @@ func gotype(field types.Field) string {
 	// case "date":
 	// 	return "time.Time"
 
+	// case "shortdate":
+	// 	return "time.Time"
+
 	case "date":
 		return "entities.Date"
 
 	case "shortdate":
-		return "time.Time"
+		return "entities.Date"
 
 	case "optional date":
 		return "time.Time"

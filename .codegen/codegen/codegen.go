@@ -344,7 +344,7 @@ func value(v any, vtype string) string {
 		return fmt.Sprintf(`entities.MustParseDate("%v")`, v)
 
 	case "shortdate":
-		return fmt.Sprintf(`string2date("%v")`, v)
+		return fmt.Sprintf(`entities.MustParseDate("%v")`, v)
 
 	case "optional date":
 		return fmt.Sprintf(`string2date("%v")`, v)

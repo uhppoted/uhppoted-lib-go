@@ -369,12 +369,6 @@ func makeValue(field lib.Field, value lib.Value) ast.Expr {
 		}
 
 	case "date":
-		// return &ast.CallExpr{
-		// 	Fun: &ast.Ident{Name: "string2date"},
-		// 	Args: []ast.Expr{
-		// 		&ast.BasicLit{Kind: token.STRING, Value: fmt.Sprintf(`"%v"`, value.Value)},
-		// 	},
-		// }
 		return &ast.CallExpr{
 			Fun: &ast.SelectorExpr{
 				X:   &ast.Ident{Name: "entities"},
@@ -387,7 +381,10 @@ func makeValue(field lib.Field, value lib.Value) ast.Expr {
 
 	case "shortdate":
 		return &ast.CallExpr{
-			Fun: &ast.Ident{Name: "string2date"},
+			Fun: &ast.SelectorExpr{
+				X:   &ast.Ident{Name: "entities"},
+				Sel: &ast.Ident{Name: "MustParseDate"},
+			},
 			Args: []ast.Expr{
 				&ast.BasicLit{Kind: token.STRING, Value: fmt.Sprintf(`"%v"`, value.Value)},
 			},
