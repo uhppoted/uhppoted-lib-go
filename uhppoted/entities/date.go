@@ -60,30 +60,30 @@ func ParseDate(s string) (Date, error) {
 	}
 }
 
-// Parses a date string in "yyymmdd" format, returning a zero value Date{} and an
-// error if the string is blank or not a valid date.
-func ParseYYYYMMDD(s string) (Date, error) {
-	if s == "" {
-		return Date{}, fmt.Errorf("blank date string")
-	} else if date, err := time.ParseInLocation("20060102", s, time.Local); err != nil {
-		return Date{}, err
+func (d Date) Year() uint16 {
+	if d.year < 1 {
+		return 1
 	} else {
-		year, month, day := date.Date()
-
-		return NewDate(uint16(year), month, uint8(day)), nil
+		return d.year
 	}
 }
 
-func (d Date) Year() uint16 {
-	return d.year
-}
-
 func (d Date) Month() time.Month {
-	return d.month
+	if d.month < time.January {
+		return time.January
+	} else if d.month > time.December {
+		return time.December
+	} else {
+		return d.month
+	}
 }
 
 func (d Date) Day() uint8 {
-	return d.day
+	if d.day < 1 {
+		return 1
+	} else {
+		return d.day
+	}
 }
 
 func (d Date) IsZero() bool {
@@ -91,7 +91,7 @@ func (d Date) IsZero() bool {
 }
 
 func (d Date) String() string {
-	return fmt.Sprintf("%04v-%02v-%02v", d.year, uint8(d.month), d.day)
+	return fmt.Sprintf("%04v-%02v-%02v", d.Year(), uint8(d.Month()), d.Day())
 }
 
 func (d Date) MarshalJSON() ([]byte, error) {

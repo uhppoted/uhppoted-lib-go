@@ -221,7 +221,7 @@ func TestDecodeGetCardResponse(t *testing.T) {
 		0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
 	}
 
-	expected := responses.GetCardResponse{Controller: 405419896, Card: 10058400, StartDate: string2date("2024-01-01"), EndDate: string2date("2024-12-31"), Door1: 1, Door2: 0, Door3: 17, Door4: 1, PIN: 999999}
+	expected := responses.GetCardResponse{Controller: 405419896, Card: 10058400, StartDate: entities.MustParseDate("2024-01-01"), EndDate: entities.MustParseDate("2024-12-31"), Door1: 1, Door2: 0, Door3: 17, Door4: 1, PIN: 999999}
 
 	if response, err := Decode[responses.GetCardResponse](packet); err != nil {
 		t.Fatalf("%v", err)
@@ -238,7 +238,7 @@ func TestDecodeGetCardNotFoundResponse(t *testing.T) {
 		0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
 	}
 
-	expected := responses.GetCardResponse{Controller: 405419896, Card: 0, StartDate: string2date("0001-01-01"), EndDate: string2date("0001-01-01"), Door1: 0, Door2: 0, Door3: 0, Door4: 0, PIN: 0}
+	expected := responses.GetCardResponse{Controller: 405419896, Card: 0, StartDate: entities.MustParseDate("0001-01-01"), EndDate: entities.MustParseDate("0001-01-01"), Door1: 0, Door2: 0, Door3: 0, Door4: 0, PIN: 0}
 
 	if response, err := Decode[responses.GetCardResponse](packet); err != nil {
 		t.Fatalf("%v", err)
@@ -255,7 +255,7 @@ func TestDecodeGetCardAtIndexResponse(t *testing.T) {
 		0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
 	}
 
-	expected := responses.GetCardAtIndexResponse{Controller: 405419896, Card: 10058400, StartDate: string2date("2024-01-01"), EndDate: string2date("2024-12-31"), Door1: 1, Door2: 0, Door3: 17, Door4: 1, PIN: 999999}
+	expected := responses.GetCardAtIndexResponse{Controller: 405419896, Card: 10058400, StartDate: entities.MustParseDate("2024-01-01"), EndDate: entities.MustParseDate("2024-12-31"), Door1: 1, Door2: 0, Door3: 17, Door4: 1, PIN: 999999}
 
 	if response, err := Decode[responses.GetCardAtIndexResponse](packet); err != nil {
 		t.Fatalf("%v", err)
@@ -425,7 +425,7 @@ func TestDecodeGetTimeProfileResponse(t *testing.T) {
 		0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
 	}
 
-	expected := responses.GetTimeProfileResponse{Controller: 405419896, Profile: 37, StartDate: string2date("2025-11-26"), EndDate: string2date("2025-12-29"), Monday: true, Tuesday: true, Wednesday: false, Thursday: true, Friday: false, Saturday: true, Sunday: true, Segment1Start: string2HHmm("08:30"), Segment1End: string2HHmm("09:45"), Segment2Start: string2HHmm("11:35"), Segment2End: string2HHmm("13:15"), Segment3Start: string2HHmm("14:01"), Segment3End: string2HHmm("17:59"), LinkedProfile: 19}
+	expected := responses.GetTimeProfileResponse{Controller: 405419896, Profile: 37, StartDate: entities.MustParseDate("2025-11-26"), EndDate: entities.MustParseDate("2025-12-29"), Monday: true, Tuesday: true, Wednesday: false, Thursday: true, Friday: false, Saturday: true, Sunday: true, Segment1Start: string2HHmm("08:30"), Segment1End: string2HHmm("09:45"), Segment2Start: string2HHmm("11:35"), Segment2End: string2HHmm("13:15"), Segment3Start: string2HHmm("14:01"), Segment3End: string2HHmm("17:59"), LinkedProfile: 19}
 
 	if response, err := Decode[responses.GetTimeProfileResponse](packet); err != nil {
 		t.Fatalf("%v", err)

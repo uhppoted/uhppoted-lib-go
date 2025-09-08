@@ -284,14 +284,14 @@ func describe(field lib.Field) string {
 
 func lookup(path, key, defval string) any {
 	table := map[string]string{
-		"uint8":      "uint8",
-		"uint16":     "uint16",
-		"uint32":     "uint32",
-		"bool":       "bool",
-		"IPv4":       "netip.Addr",
-		"MAC":        "string",
-		"version":    "string",
-		"date":       "time.Time",
+		"uint8":   "uint8",
+		"uint16":  "uint16",
+		"uint32":  "uint32",
+		"bool":    "bool",
+		"IPv4":    "netip.Addr",
+		"MAC":     "string",
+		"version": "string",
+		// "date":       "Date",
 		"shortdate":  "Date",
 		"time":       "Time",
 		"datetime":   "DateTime",
@@ -347,7 +347,7 @@ func value(v any, vtype string) string {
 		return fmt.Sprintf(`entities.MustParseDate("%v")`, v)
 
 	case "optional date":
-		return fmt.Sprintf(`string2date("%v")`, v)
+		return fmt.Sprintf(`entities.MustParseDate("%v")`, v)
 
 	case "time":
 		return fmt.Sprintf(`string2time("%v")`, v)

@@ -82,6 +82,7 @@ func TestDateStringer(t *testing.T) {
 		date     Date
 		expected string
 	}{
+		{Date{}, "0001-01-01"},
 		{Date{2025, time.June, 23}, "2025-06-23"},
 	}
 

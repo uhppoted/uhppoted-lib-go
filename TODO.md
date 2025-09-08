@@ -54,7 +54,6 @@
 
 - [ ] code generation
    - [ ] use/extend uhppoted-codegen models
-      - [x] use Function::Args
       - [ ] remove Request/Response suffixes
       - [ ] move FindControllers to uhppoted-codegen
       - https://stackoverflow.com/questions/31628613/comments-out-of-order-after-adding-item-to-go-ast

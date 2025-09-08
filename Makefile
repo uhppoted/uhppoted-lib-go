@@ -29,7 +29,7 @@ build: format
 
 debug: build
 	cd examples/cli && make get-antipassback
-	# go test ./uhppoted/... -run TestDecodeGetControllerResponse
+	# go test ./uhppoted/... -run TestDecodeGetStatusResponse
 	# go test ./integration-tests/... -run TestGetListenerAddrPort
 
 test: build

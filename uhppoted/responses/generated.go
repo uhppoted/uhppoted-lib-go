@@ -139,29 +139,29 @@ type GetCardsResponse struct {
 // Container struct for the response returned from a controller when retrieving
 // a card record stored on the controller.
 type GetCardResponse struct {
-	Controller uint32    `json:"controller"`
-	Card       uint32    `json:"card"`
-	StartDate  time.Time `json:"start-date"`
-	EndDate    time.Time `json:"end-date"`
-	Door1      uint8     `json:"door-1"`
-	Door2      uint8     `json:"door-2"`
-	Door3      uint8     `json:"door-3"`
-	Door4      uint8     `json:"door-4"`
-	PIN        uint32    `json:"PIN"`
+	Controller uint32        `json:"controller"`
+	Card       uint32        `json:"card"`
+	StartDate  entities.Date `json:"start-date"`
+	EndDate    entities.Date `json:"end-date"`
+	Door1      uint8         `json:"door-1"`
+	Door2      uint8         `json:"door-2"`
+	Door3      uint8         `json:"door-3"`
+	Door4      uint8         `json:"door-4"`
+	PIN        uint32        `json:"PIN"`
 }
 
 // Container struct for the response returned from a controller when retrieving
 // the card record stored at an index on the controller.
 type GetCardAtIndexResponse struct {
-	Controller uint32    `json:"controller"`
-	Card       uint32    `json:"card"`
-	StartDate  time.Time `json:"start-date"`
-	EndDate    time.Time `json:"end-date"`
-	Door1      uint8     `json:"door-1"`
-	Door2      uint8     `json:"door-2"`
-	Door3      uint8     `json:"door-3"`
-	Door4      uint8     `json:"door-4"`
-	PIN        uint32    `json:"PIN"`
+	Controller uint32        `json:"controller"`
+	Card       uint32        `json:"card"`
+	StartDate  entities.Date `json:"start-date"`
+	EndDate    entities.Date `json:"end-date"`
+	Door1      uint8         `json:"door-1"`
+	Door2      uint8         `json:"door-2"`
+	Door3      uint8         `json:"door-3"`
+	Door4      uint8         `json:"door-4"`
+	PIN        uint32        `json:"PIN"`
 }
 
 // Container struct for the response returned by a controller after adding or updating a
@@ -266,24 +266,24 @@ type RecordSpecialEventsResponse struct {
 // Container struct for the response returned from an access controller when retrieving
 // an access time profile.
 type GetTimeProfileResponse struct {
-	Controller    uint32    `json:"controller"`
-	Profile       uint8     `json:"profile"`
-	StartDate     time.Time `json:"start-date"`
-	EndDate       time.Time `json:"end-date"`
-	Monday        bool      `json:"monday"`
-	Tuesday       bool      `json:"tuesday"`
-	Wednesday     bool      `json:"wednesday"`
-	Thursday      bool      `json:"thursday"`
-	Friday        bool      `json:"friday"`
-	Saturday      bool      `json:"saturday"`
-	Sunday        bool      `json:"sunday"`
-	Segment1Start time.Time `json:"segment1-start"`
-	Segment1End   time.Time `json:"segment1-end"`
-	Segment2Start time.Time `json:"segment2-start"`
-	Segment2End   time.Time `json:"segment2-end"`
-	Segment3Start time.Time `json:"segment3-start"`
-	Segment3End   time.Time `json:"segment3-end"`
-	LinkedProfile uint8     `json:"linked-profile"`
+	Controller    uint32        `json:"controller"`
+	Profile       uint8         `json:"profile"`
+	StartDate     entities.Date `json:"start-date"`
+	EndDate       entities.Date `json:"end-date"`
+	Monday        bool          `json:"monday"`
+	Tuesday       bool          `json:"tuesday"`
+	Wednesday     bool          `json:"wednesday"`
+	Thursday      bool          `json:"thursday"`
+	Friday        bool          `json:"friday"`
+	Saturday      bool          `json:"saturday"`
+	Sunday        bool          `json:"sunday"`
+	Segment1Start time.Time     `json:"segment1-start"`
+	Segment1End   time.Time     `json:"segment1-end"`
+	Segment2Start time.Time     `json:"segment2-start"`
+	Segment2End   time.Time     `json:"segment2-end"`
+	Segment3Start time.Time     `json:"segment3-start"`
+	Segment3End   time.Time     `json:"segment3-end"`
+	LinkedProfile uint8         `json:"linked-profile"`
 }
 
 // Container struct for the response returned from an access controller when adding/updating

@@ -428,7 +428,10 @@ func makeValue(field lib.Field, value lib.Value) ast.Expr {
 
 	case "optional date":
 		return &ast.CallExpr{
-			Fun: &ast.Ident{Name: "string2date"},
+			Fun: &ast.SelectorExpr{
+				X:   &ast.Ident{Name: "entities"},
+				Sel: &ast.Ident{Name: "MustParseDate"},
+			},
 			Args: []ast.Expr{
 				&ast.BasicLit{Kind: token.STRING, Value: fmt.Sprintf(`"%v"`, value.Value)},
 			},

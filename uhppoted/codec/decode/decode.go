@@ -21,10 +21,10 @@ const GetTime byte = 0x32
 const OpenDoor byte = 0x40
 const PutCard byte = 0x50
 const DeleteCard byte = 0x52
-const DELETE_ALL_CARDS byte = 0x54
+const DeleteAllCards byte = 0x54
 const GetCards byte = 0x58
 const GetCard byte = 0x5a
-const GET_CARD_AT_INDEX byte = 0x5C
+const GetCardAtIndex byte = 0x5c
 const SetDoor byte = 0x80
 const GetDoor byte = 0x82
 const SET_ANTIPASSBACK byte = 0x84
@@ -119,9 +119,10 @@ func unpackOptionalDateTime(packet []byte, offset uint8) time.Time {
 
 func unpackDate(packet []byte, offset uint8) entities.Date {
 	bcd := bcd2string(packet[offset : offset+4])
+	s := bcd[:4] + "-" + bcd[4:6] + "-" + bcd[6:]
 
-	if date, err := entities.ParseYYYYMMDD(bcd); err != nil {
-		return entities.Date{}
+	if date, err := entities.ParseDate(s); err != nil {
+		return entities.NewDate(1, time.January, 1)
 	} else {
 		return date
 	}
@@ -129,21 +130,23 @@ func unpackDate(packet []byte, offset uint8) entities.Date {
 
 func unpackShortDate(packet []byte, offset uint8) entities.Date {
 	bcd := bcd2string(packet[offset : offset+3])
+	s := "20" + bcd[:2] + "-" + bcd[2:4] + "-" + bcd[4:]
 
-	if date, err := entities.ParseYYYYMMDD("20" + bcd); err != nil {
-		return entities.Date{}
+	if date, err := entities.ParseDate(s); err != nil {
+		return entities.NewDate(1, time.January, 1)
 	} else {
 		return date
 	}
 }
 
-func unpackOptionalDate(packet []byte, offset uint8) time.Time {
+func unpackOptionalDate(packet []byte, offset uint8) entities.Date {
 	bcd := bcd2string(packet[offset : offset+4])
+	s := bcd[:4] + "-" + bcd[4:6] + "-" + bcd[6:]
 
-	if d, err := time.ParseInLocation("20060102", bcd, time.Local); err != nil {
-		return time.Date(1, time.January, 1, 0, 0, 0, 0, time.Local)
+	if date, err := entities.ParseDate(s); err != nil {
+		return entities.NewDate(1, time.January, 1)
 	} else {
-		return d
+		return date
 	}
 }
 

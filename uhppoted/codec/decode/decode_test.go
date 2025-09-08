@@ -366,8 +366,8 @@ func TestGetCard(t *testing.T) {
 	expected := responses.GetCardResponse{
 		Controller: 405419896,
 		Card:       10058400,
-		StartDate:  string2date("2024-01-01"),
-		EndDate:    string2date("2024-12-31"),
+		StartDate:  entities.MustParseDate("2024-01-01"),
+		EndDate:    entities.MustParseDate("2024-12-31"),
 		Door1:      1,
 		Door2:      0,
 		Door3:      17,
@@ -395,8 +395,8 @@ func TestGetCardNotFound(t *testing.T) {
 	expected := responses.GetCardResponse{
 		Controller: 405419896,
 		Card:       0,
-		StartDate:  string2date("0001-01-01"),
-		EndDate:    string2date("0001-01-01"),
+		StartDate:  entities.MustParseDate("0001-01-01"),
+		EndDate:    entities.MustParseDate("0001-01-01"),
 		Door1:      0,
 		Door2:      0,
 		Door3:      0,
@@ -424,8 +424,8 @@ func TestGetCardAtIndex(t *testing.T) {
 	expected := responses.GetCardAtIndexResponse{
 		Controller: 405419896,
 		Card:       10058400,
-		StartDate:  string2date("2024-01-01"),
-		EndDate:    string2date("2024-12-31"),
+		StartDate:  entities.MustParseDate("2024-01-01"),
+		EndDate:    entities.MustParseDate("2024-12-31"),
 		Door1:      1,
 		Door2:      0,
 		Door3:      17,
@@ -672,8 +672,8 @@ func TestGetTimeProfile(t *testing.T) {
 	expected := responses.GetTimeProfileResponse{
 		Controller:    405419896,
 		Profile:       37,
-		StartDate:     string2date("2025-11-26"),
-		EndDate:       string2date("2025-12-29"),
+		StartDate:     entities.MustParseDate("2025-11-26"),
+		EndDate:       entities.MustParseDate("2025-12-29"),
 		Monday:        true,
 		Tuesday:       true,
 		Wednesday:     false,
