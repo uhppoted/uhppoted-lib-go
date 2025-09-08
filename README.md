@@ -63,3 +63,4 @@ folder.
 - [`SetPCControl`](API.md#setpccontrol)
 - [`SetInterlock`](API.md#setinterlock)
 - [`ActivateKeypads`](API.md#activatekeypads)
+- [`GetAntiPassback`](API.md#getantipassback)

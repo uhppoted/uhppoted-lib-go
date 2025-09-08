@@ -160,3 +160,6 @@ set-interlock: build
 
 activate-keypads: build
 	$(CMD) activate-keypads --controller $(CONTROLLER) $(DEST) $(TCP) --keypads "12,4"
+
+get-antipassback: build
+	$(CMD) get-antipassback --controller $(CONTROLLER) $(DEST) $(TCP)

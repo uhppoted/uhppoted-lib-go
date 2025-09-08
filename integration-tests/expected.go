@@ -49,6 +49,7 @@ var Expected = struct {
 	SetPcControl           responses.SetPCControlResponse
 	SetInterlock           responses.SetInterlockResponse
 	ActivateKeypads        responses.ActivateKeypadsResponse
+	GetAntipassback        responses.GetAntipassbackResponse
 }{
 	FindControllers: []responses.GetControllerResponse{
 		responses.GetControllerResponse{
@@ -396,6 +397,11 @@ var Expected = struct {
 	ActivateKeypads: responses.ActivateKeypadsResponse{
 		Controller: 405419896,
 		Ok:         true,
+	},
+
+	GetAntipassback: responses.GetAntipassbackResponse{
+		Controller:   405419896,
+		Antipassback: 2,
 	},
 }
 

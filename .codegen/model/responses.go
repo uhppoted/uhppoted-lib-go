@@ -39,6 +39,7 @@ var Responses = []*types.Response{
 	&SetPCControlResponse,
 	&SetInterlockResponse,
 	&ActivateKeypadsResponse,
+	&GetAntiPassbackResponse,
 }
 
 var GetControllerResponse = lib.GetControllerResponse
@@ -73,3 +74,4 @@ var ClearTaskListResponse = lib.ClearTaskListResponse
 var SetPCControlResponse = lib.SetPCControlResponse
 var SetInterlockResponse = lib.SetInterlockResponse
 var ActivateKeypadsResponse = lib.ActivateKeypadsResponse
+var GetAntiPassbackResponse = lib.GetAntiPassbackResponse

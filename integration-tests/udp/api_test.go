@@ -717,3 +717,19 @@ func TestActivateKeypads(t *testing.T) {
 		t.Errorf("incorrect response\n   expected:%#v\n   got:     %#v", test.Expected.ActivateKeypads, response)
 	}
 }
+
+func TestGetAntipassback(t *testing.T) {
+	controller := lib.Controller{
+		ID:       uint32(405419896),
+		Address:  netip.MustParseAddrPort("127.0.0.1:50002"),
+		Protocol: "udp",
+	}
+
+	response, err := lib.GetAntiPassback(u, controller, timeout)
+
+	if err != nil {
+		t.Fatalf("%v", err)
+	} else if !reflect.DeepEqual(response, test.Expected.GetAntipassback) {
+		t.Errorf("incorrect response\n   expected:%#v\n   got:     %#v", test.Expected.GetAntipassback, response)
+	}
+}

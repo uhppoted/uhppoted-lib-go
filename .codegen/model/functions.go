@@ -39,6 +39,7 @@ var API = []*libx.Function{
 	&SetPCControl,
 	&SetInterlock,
 	&ActivateKeypads,
+	&GetAntiPassback,
 }
 
 var FindControllers = libx.Function{
@@ -130,3 +131,4 @@ var ClearTaskList = lib.ClearTaskList
 var SetPCControl = lib.SetPCControl
 var SetInterlock = lib.SetInterlock
 var ActivateKeypads = lib.ActivateKeypads
+var GetAntiPassback = lib.GetAntiPassback

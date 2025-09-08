@@ -28,7 +28,7 @@ build: format
 	go build -trimpath ./...
 
 debug: build
-	cd examples/cli && make activate-keypads
+	cd examples/cli && make get-antipassback
 	# go test ./uhppoted/... -run TestDecodeGetControllerResponse
 	# go test ./integration-tests/... -run TestGetListenerAddrPort
 
@@ -226,3 +226,8 @@ activate-keypads: build
 	cd examples/cli && make activate-keypads
 	cd examples/cli && make activate-keypads DEST="--dest 127.0.0.1" TCP=""
 	cd examples/cli && make activate-keypads DEST="--dest 127.0.0.1" TCP="- DEST="--dest 127.0.0.1" TCP="--tcp""
+
+get-antipassback: build
+	cd examples/cli && make get-antipassback
+	cd examples/cli && make get-antipassback DEST="--dest 127.0.0.1" TCP=""
+	cd examples/cli && make get-antipassback DEST="--dest 127.0.0.1" TCP="- DEST="--dest 127.0.0.1" TCP="--tcp""

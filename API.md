@@ -613,6 +613,25 @@ where:
 Returns a `ActivateKeypadsResponse`.
 ```
 
+### `GetAntiPassback`
+Retrieves the anti-passback mode for an access controller. The anti-passback mode
+will be one of the following:
+- 0: disabled
+- 1: readers 1:2; 3:4 (independently)
+- 2: readers (1,3):(2,4)
+- 3: readers 1:(2,3)
+- 4: readers 1:(2,3,4)
+```
+GetAntiPassback(u, controller, timeout)
+
+where:
+- u             Uhppoted        Uhppoted struct initialised with the bind address, broadcast address, etc
+- controller    controller      uint32|Controller controller serial number or {id, address, protocol} Controller struct
+- timeout       time.Duration   maximum time to wait for a response from a controller
+
+Returns a `GetAntipassbackResponse`.
+```
+
 
 ## Types
 
@@ -1052,7 +1071,21 @@ disabling door reader keypads.
 ```
 type ActivateKeypadsResponse struct { 
   Controller  uint32  `json:"controller"` // controller serial number
-  Ok          bool    `json:"ok"` // 
+  Ok            bool  `json:"ok"`         // succeeded/failed
+}
+```
+
+### `GetAntipassbackResponse`
+Container struct for the response returned from to a request for the current anti-passback mode:
+- 0: disabled
+- 1: readers 1:2; 3:4 (independently)
+- 2: readers (1,3):(2,4)
+- 3: readers 1:(2,3)
+- 4: readers 1:(2,3,4)
+```
+type GetAntipassbackResponse struct { 
+  Controller    uint32          `json:"controller"`   // controller serial number
+  Antipassback  uint8           `json:"antipassback"` // anti-passback mode
 }
 ```
 

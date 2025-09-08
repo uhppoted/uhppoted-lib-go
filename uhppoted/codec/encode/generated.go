@@ -743,3 +743,21 @@ func ActivateKeypadsRequest(controller uint32, reader1 bool, reader2 bool, reade
 
 	return packet, nil
 }
+
+// Encodes a get-antipassback-request.
+//
+//	Parameters:
+//	    controller  (uint32)  controller serial number
+//
+//	Returns:
+//	    64 byte packet.
+func GetAntipassbackRequest(controller uint32) ([]byte, error) {
+	packet := make([]byte, 64)
+
+	packet[0] = SOM
+	packet[1] = 134
+
+	packUint32(controller, packet, 4)
+
+	return packet, nil
+}

@@ -33,11 +33,11 @@
 - [x] set-pc-control,
 - [x] set-interlock,
 - [x] activate-keypads
+- [x] get-antipassback
    - [x] API
    - [x] CLI
    - [x] integration test
    - [x] README
-- [ ] get-antipassback
 - [ ] set-antipassback
 - [ ] restore-default-parameters
 - [ ] listen

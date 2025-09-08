@@ -102,7 +102,7 @@ Returns {{ article $func.Response.Name }} `{{ titleCase $func.Response.Name }}`.
 {{end -}}
 ```
 type {{ titleCase $response.Name }} struct { {{ range $field := $response.Fields}}
-  {{ rpad (titleCase $field.Name) 12 }}  {{ rpad $field.Type 14 }}  {{ rpad (printf "`json:%q`" $field.Tag) 20 }} // {{ $field.Description }}{{ end }}
+  {{ rpad (titleCase $field.Name) 18 }}  {{ rpad $field.Type 18 }}  {{ rpad (printf "`json:%q`" $field.Tag) 23 }} // {{ $field.Description }}{{ end }}
 }
 ```
 {{ end }}
