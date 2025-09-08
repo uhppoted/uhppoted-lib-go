@@ -37,34 +37,41 @@ func decoderTest() {
 	// ... format
 	lines := strings.Split(b.String(), "\n")
 
-	// ... format message packets
-	re := regexp.MustCompile(`^(\s*packet\s+:=\s+\[\]byte\s*{)(.*?)}\s*$`)
+	// ... reformat message packets and response structs
+	re := map[string]*regexp.Regexp{
+		"packet":   regexp.MustCompile(`^(\s*packet\s+:=\s+\[\]byte\s*{)(.*?)}\s*$`),
+		"expected": regexp.MustCompile(`^(\s*expected\s+:=\s+responses\.(?:.*?)Response\s*{)(.*?)(}$)`),
+	}
+
 	for _, line := range lines {
-		if match := re.FindStringSubmatch(line); len(match) > 1 {
+		// ... reformat message packet?
+		if match := re["packet"].FindStringSubmatch(line); len(match) > 1 {
 			hex := match[2]
 
-			if _, err = f.WriteString(match[1] + "\n"); err != nil {
-				log.Fatalf("Failed to create file %s: %v", output, err)
-			}
-
+			writeln(f, match[1])
 			for len(hex) > 96 {
-				if _, err = f.WriteString("		" + hex[:96] + "\n"); err != nil {
-					log.Fatalf("Failed to create file %s: %v", output, err)
-				}
-
+				writeln(f, "		"+hex[:96])
 				hex = hex[96:]
 			}
-			if _, err = f.WriteString("		" + hex + ",\n"); err != nil {
-				log.Fatalf("Failed to create file %s: %v", output, err)
-			}
-
-			if _, err = f.WriteString("	}\n"); err != nil {
-				log.Fatalf("Failed to create file %s: %v", output, err)
-			}
-
-		} else if _, err = f.WriteString(line + "\n"); err != nil {
-			log.Fatalf("Failed to create file %s: %v", output, err)
+			writeln(f, "		"+hex+",")
+			writeln(f, "	}")
+			continue
 		}
+
+		// ... reformat response struct ?
+		if match := re["expected"].FindStringSubmatch(line); match != nil {
+			fields := strings.Split(match[2], ",")
+
+			writeln(f, match[1])
+			for _, field := range fields {
+				writeln(f, "		"+strings.Trim(field, " ")+",")
+			}
+			writeln(f, "	"+strings.Trim(match[3], " "))
+			continue
+		}
+
+		// ... same old, same old
+		writeln(f, line)
 	}
 }
 
@@ -481,5 +488,11 @@ func makeValue(field lib.Field, value lib.Value) ast.Expr {
 	default:
 		panic(fmt.Sprintf("%v", field.Type))
 		// return &ast.BasicLit{Kind: token.STRING, Value: `"???"`}
+	}
+}
+
+func writeln(f *os.File, s string) {
+	if _, err := f.WriteString(s + "\n"); err != nil {
+		panic(fmt.Errorf("error writing to %v (%v)", f.Name(), err))
 	}
 }

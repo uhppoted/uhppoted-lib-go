@@ -65,7 +65,7 @@
    - [x] decode_test
    - [x] integration tests
    - [x] decoder
-   - [ ] decoder_test
+   - [x] decoder_test
    - [x] README
    - [ ] API.md
 
