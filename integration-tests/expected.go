@@ -421,14 +421,6 @@ func string2datetime(v string) time.Time {
 	}
 }
 
-func string2date(v string) time.Time {
-	if d, err := time.ParseInLocation("2006-01-02", v, time.Local); err != nil {
-		panic(fmt.Sprintf("invalid date (%v)", v))
-	} else {
-		return d
-	}
-}
-
 func string2time(v string) time.Time {
 	if d, err := time.ParseInLocation("15:04:05", v, time.Local); err != nil {
 		panic(fmt.Sprintf("invalid time (%v)", v))
