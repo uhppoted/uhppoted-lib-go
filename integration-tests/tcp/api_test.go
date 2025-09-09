@@ -733,3 +733,21 @@ func TestGetAntipassback(t *testing.T) {
 		t.Errorf("incorrect response\n   expected:%#v\n   got:     %#v", test.Expected.GetAntipassback, response)
 	}
 }
+
+func TestSetAntipassback(t *testing.T) {
+	controller := lib.Controller{
+		ID:       uint32(405419896),
+		Address:  netip.MustParseAddrPort("127.0.0.1:50003"),
+		Protocol: "tcp",
+	}
+
+	antipassback := uint8(2)
+
+	response, err := lib.SetAntiPassback(u, controller, antipassback, timeout)
+
+	if err != nil {
+		t.Fatalf("%v", err)
+	} else if !reflect.DeepEqual(response, test.Expected.SetAntipassback) {
+		t.Errorf("incorrect response\n   expected:%#v\n   got:     %#v", test.Expected.SetAntipassback, response)
+	}
+}

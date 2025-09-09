@@ -761,3 +761,23 @@ func GetAntipassbackRequest(controller uint32) ([]byte, error) {
 
 	return packet, nil
 }
+
+// Encodes a set-antipassback-request.
+//
+//	Parameters:
+//	    controller  (uint32)  controller serial number
+//	    antipassback  (uint8)
+//
+//	Returns:
+//	    64 byte packet.
+func SetAntipassbackRequest(controller uint32, antipassback uint8) ([]byte, error) {
+	packet := make([]byte, 64)
+
+	packet[0] = SOM
+	packet[1] = 132
+
+	packUint32(controller, packet, 4)
+	packUint8(antipassback, packet, 8)
+
+	return packet, nil
+}

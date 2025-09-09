@@ -91,17 +91,9 @@ where:
 - {{ rpad $arg.Name 12 }}  {{ rpad $arg.Type 14 }}  {{ $arg.Description }}{{end}}
 - timeout       time.Duration   maximum time to wait for a response from a controller
 
-Returns {{ article $func.Response.Name }} `{{ titleCase $func.Response.Name }}`.
-```
-{{ end }}
+Returns {{ article $func.Response.Name }} `{{ titleCase $func.Response.Name }}`:
 
-## Types
-{{ range $response := .Responses }}
-### `{{ titleCase $response.Name }}`
-{{ range $text := $response.Description}}{{ $text }}
-{{end -}}
-```
-type {{ titleCase $response.Name }} struct { {{ range $field := $response.Fields}}
+type {{ titleCase $func.Response.Name }} struct { {{ range $field := $func.Response.Fields}}
   {{ rpad (titleCase $field.Name) 18 }}  {{ rpad $field.Type 18 }}  {{ rpad (printf "`json:%q`" $field.Tag) 23 }} // {{ $field.Description }}{{ end }}
 }
 ```

@@ -41,6 +41,7 @@ var commands = map[string]func(u lib.Uhppoted, args []string) error{
 	"set-interlock":         setInterlock,
 	"activate-keypads":      activateKeypads,
 	"get-antipassback":      getAntiPassback,
+	"set-antipassback":      setAntiPassback,
 }
 
 func exec(args controller, flagset *flag.FlagSet, f func(c uint32) (any, error), g func(c lib.Controller) (any, error)) (any, error) {

@@ -16,7 +16,7 @@ import (
 var apiTemplate string
 
 func API() {
-	const file = "../_API.md"
+	const file = "../API.md"
 
 	f, err := os.Create(file)
 	if err != nil {

@@ -34,11 +34,11 @@
 - [x] set-interlock,
 - [x] activate-keypads
 - [x] get-antipassback
+- [x] set-antipassback
    - [x] API
    - [x] CLI
    - [x] integration test
    - [x] README
-- [ ] set-antipassback
 - [ ] restore-default-parameters
 - [ ] listen
 
@@ -56,7 +56,6 @@
    - [ ] use/extend uhppoted-codegen models
       - [ ] remove Request/Response suffixes
       - [ ] move FindControllers to uhppoted-codegen
-      - https://stackoverflow.com/questions/31628613/comments-out-of-order-after-adding-item-to-go-ast
 
    - [x] response structs
    - [x] encode
@@ -67,5 +66,5 @@
    - [x] decoder
    - [x] decoder_test
    - [x] README
-   - [ ] API.md
+   - [x] API.md
 

@@ -33,6 +33,8 @@
 - [`SetPCControl`](#setpccontrol)
 - [`SetInterlock`](#setinterlock)
 - [`ActivateKeypads`](#activatekeypads)
+- [`GetAntiPassback`](#getantipassback)
+- [`SetAntiPassback`](#setantipassback)
 
 ---
 Invoking an API function requires an instance of the `Uhppoted` struct initialised with the information required
@@ -112,422 +114,615 @@ where:
 ## Functions
 
 ### `FindControllers`
-Returns a list of all controllers that responded to a _get-controller_ request within the timeout.
-
+FindControllers retrieves a list of all UHPPOTE controllers accessible via UDP broadcast
+on the local LAN.
 ```
-FindControllers(u Uhppoted, timeout time.Duration) ([]GetControllerResponse, error)
+FindControllers(u, timeout)
 
 where:
-u        Uhppoted struct initialised with the bind address, broadcast address, etc
-timeout  maximum time to wait for a response from a controller
+- u             Uhppoted        Uhppoted struct initialised with the bind address, broadcast address, etc
+- timeout       time.Duration   maximum time to wait for a response from a controller
 
-Returns an array of `GetControllerResponse`.
+Returns a ``:
 
+type  struct { 
+}
 ```
 
 ### `GetController`
-Returns the sytem information for the requested access controller.
-
+Retrieves the system information for an access controller.
 ```
-GetController(u Uhppoted, controller TController, timeout time.Duration) (GetControllerResponse,error)
+GetController(u, controller, timeout)
 
-u           Uhppoted struct initialised with the bind address, broadcast address, etc
-controller  uint32|Controller controller serial number or {id, address, protocol} Controller struct
-timeout     maximum time to wait for a response from a controller
+where:
+- u             Uhppoted        Uhppoted struct initialised with the bind address, broadcast address, etc
+- controller    controller      uint32|Controller controller serial number or {id, address, protocol} Controller struct
+- timeout       time.Duration   maximum time to wait for a response from a controller
 
-Returns a `GetControllerResponse`.
+Returns a `GetControllerResponse`:
+
+type GetControllerResponse struct { 
+  Controller          uint32              `json:"controller"`     // controller serial number
+  IpAddress           IPv4                `json:"ip-address"`     // controller IPv4 address, e.g. 192.168.1.100
+  SubnetMask          IPv4                `json:"netmask"`        // controller IPv4 netmask, e.g. 255.255.255.0
+  Gateway             IPv4                `json:"gateway"`        // controller IPv4 gateway address, e.g. 192.168.1.1
+  MACAddress          MAC                 `json:"MAC"`            // controller MAC address, e.g. 52:fd:fc:07:21:82
+  Version             version             `json:"version"`        // controller firmware version, e.g. v6.62
+  Date                date                `json:"date"`           // controller firmware release date, e.g. 2020-12-31
+}
 ```
 
 ### `SetIPv4`
 Sets the controller IPv4 address, netmask and gateway address.
-
 ```
-SetIPv4(self, ID, address, netmask, gateway) (SetIPv4Response,error)
+SetIPv4(u, controller, address, netmask, gateway, timeout)
 
-controller  uint32|tuple  controller serial number or (id, address, protocol) tuple
-address     netip.Addr    controller IPv4 address
-subnet      netip.Addr    controller IPv4 subnet mask
-gateway     netip.Addr    controller gateway IPv4 address
+where:
+- u             Uhppoted        Uhppoted struct initialised with the bind address, broadcast address, etc
+- controller    controller      uint32|Controller controller serial number or {id, address, protocol} Controller struct
+- address       IPv4            controller IPv4 address
+- netmask       IPv4            controller IPv4 subnet mask
+- gateway       IPv4            controller gateway IPv4 address
+- timeout       time.Duration   maximum time to wait for a response from a controller
 
-Returns a `SetIPv4Response`.
+Returns a `SetIPv4Response`:
+
+type SetIPv4Response struct { 
+  Controller          uint32              `json:"controller"`     // controller serial number
+  Ok                  bool                `json:"ok"`             // succeeded/failed
+}
 ```
 
 ### `GetTime`
+Retrieves the access controller system date and time.
 ```
-GetTime(u Uhppoted, controller TController, timeout time.Duration) (GetTimeResponse,error)
+GetTime(u, controller, timeout)
 
-u           Uhppoted struct initialised with the bind address, broadcast address, etc
-controller  uint32|Controller controller serial number or {id, address, protocol} Controller struct
-timeout     maximum time to wait for a response from a controller
+where:
+- u             Uhppoted        Uhppoted struct initialised with the bind address, broadcast address, etc
+- controller    controller      uint32|Controller controller serial number or {id, address, protocol} Controller struct
+- timeout       time.Duration   maximum time to wait for a response from a controller
 
-Returns a `GetTimeResponse` with the controller system date/time.
+Returns a `GetTimeResponse`:
+
+type GetTimeResponse struct { 
+  Controller          uint32              `json:"controller"`     // controller serial number
+  DateTime            datetime            `json:"date-time"`      // controller system date/time
+}
 ```
 
 ### `SetTime`
+Sets the access controller system date and time.
 ```
-SetTime(u Uhppoted, controller TController, datetime time.Time, timeout time.Duration) (SetTimeResponse,error)
+SetTime(u, controller, date-time, timeout)
 
-u           Uhppoted struct initialised with the bind address, broadcast address, etc
-controller  uint32|Controller controller serial number or {id, address, protocol} Controller struct
-datetime    date/time to which to set controller system time
-timeout     maximum time to wait for a response from a controller
+where:
+- u             Uhppoted        Uhppoted struct initialised with the bind address, broadcast address, etc
+- controller    controller      uint32|Controller controller serial number or {id, address, protocol} Controller struct
+- date-time     datetime        date/time to which to set controller system time
+- timeout       time.Duration   maximum time to wait for a response from a controller
 
-Returns a `SetTimeResponse` with the controller system date/time.
+Returns a `SetTimeResponse`:
+
+type SetTimeResponse struct { 
+  Controller          uint32              `json:"controller"`     // controller serial number
+  DateTime            datetime            `json:"date-time"`      // controller system date/time
+}
 ```
 
 ### `GetListener`
+Retrieves the access controller event listener IPv4 address:port and auto-send interval.
 ```
-GetListener(u Uhppoted, controller TController, timeout time.Duration) (GetListenerResponse,error)
+GetListener(u, controller, timeout)
 
-u           Uhppoted struct initialised with the bind address, broadcast address, etc
-controller  uint32|Controller controller serial number or {id, address, protocol} Controller struct
-timeout     maximum time to wait for a response from a controller
+where:
+- u             Uhppoted        Uhppoted struct initialised with the bind address, broadcast address, etc
+- controller    controller      uint32|Controller controller serial number or {id, address, protocol} Controller struct
+- timeout       time.Duration   maximum time to wait for a response from a controller
 
-Returns a `GetListenerResponse` with the configured event listener IPv4 address and port and the auto-send 
-interval.
+Returns a `GetListenerResponse`:
+
+type GetListenerResponse struct { 
+  Controller          uint32              `json:"controller"`     // controller serial number
+  Address             IPv4                `json:"address"`        // event listener IPv4 address
+  Port                uint16              `json:"port"`           // event listener IPv4 port
+  Interval            uint8               `json:"interval"`       // status auto-send interval (seconds)
+}
 ```
 
 ### `SetListener`
+Sets the access controller event listener IPv4 address:port and auto-send interval.
 ```
-SetListener(u Uhppoted, controller TController, address netip.Addr, port uint16, interval uint8, timeout time.Duration) (SetListenerResponse,error)
+SetListener(u, controller, address, port, interval, timeout)
 
-u           Uhppoted struct initialised with the bind address, broadcast address, etc
-controller  uint32|Controller controller serial number or {id, address, protocol} Controller struct
-address     IPv4 address of host to receive controller events
-port        UDP port of host for controller events
-interval    status auto-send interval (seconds). A 0 interval disables auto-send.
-timeout     maximum time to wait for a response from a controller
+where:
+- u             Uhppoted        Uhppoted struct initialised with the bind address, broadcast address, etc
+- controller    controller      uint32|Controller controller serial number or {id, address, protocol} Controller struct
+- address       IPv4            IPv4 address of host to receive controller events
+- port          uint16          UDP port of host for controller events
+- interval      uint8           status auto-send interval (seconds). A '0' interval disables auto-send.
+- timeout       time.Duration   maximum time to wait for a response from a controller
 
-Returns a `SetListenerResponse`. 
-interval.
+Returns a `SetListenerResponse`:
+
+type SetListenerResponse struct { 
+  Controller          uint32              `json:"controller"`     // controller serial number
+  Ok                  bool                `json:"ok"`             // succeeded/failed
+}
 ```
 
 ### `GetListenerAddrPort`
+Retrieves the access controller event listener IPv4 address:port and auto-send interval.
 ```
-GetListenerAddrPort(u Uhppoted, controller TController, timeout time.Duration) (GetListenerAddrPortResponse,error)
+GetListenerAddrPort(u, controller, timeout)
 
-u           Uhppoted struct initialised with the bind address, broadcast address, etc
-controller  uint32|Controller controller serial number or {id, address, protocol} Controller struct
-timeout     maximum time to wait for a response from a controller
+where:
+- u             Uhppoted        Uhppoted struct initialised with the bind address, broadcast address, etc
+- controller    controller      uint32|Controller controller serial number or {id, address, protocol} Controller struct
+- timeout       time.Duration   maximum time to wait for a response from a controller
 
-Returns a `GetListenerAddrPortResponse` with the configured event listener IPv4 address:port and the auto-send 
-interval.
+Returns a `GetListenerAddrPortResponse`:
+
+type GetListenerAddrPortResponse struct { 
+  Controller          uint32              `json:"controller"`     // controller serial number
+  Listener            address:port        `json:"listener"`       // event listener IPv4 address:port
+  Interval            uint8               `json:"interval"`       // status auto-send interval (seconds)
+}
 ```
 
 ### `SetListenerAddrPort`
+Sets the access controller event listener IPv4 address:port and auto-send interval.
 ```
-SetListenerAddrPort(u Uhppoted, controller TController, listener netip.AddrPort, interval uint8, timeout time.Duration) (SetListenerAddrPortResponse,error)
+SetListenerAddrPort(u, controller, listener, interval, timeout)
 
-u           Uhppoted struct initialised with the bind address, broadcast address, etc
-controller  uint32|Controller controller serial number or {id, address, protocol} Controller struct
-listener    IPv4 address:port of host to receive controller events
-interval    status auto-send interval (seconds). A 0 interval disables auto-send.
-timeout     maximum time to wait for a response from a controller
+where:
+- u             Uhppoted        Uhppoted struct initialised with the bind address, broadcast address, etc
+- controller    controller      uint32|Controller controller serial number or {id, address, protocol} Controller struct
+- listener      address:port    IPv4 address:port of host to receive controller events
+- interval      uint8           status auto-send interval (seconds). A '0'interval disables auto-send.
+- timeout       time.Duration   maximum time to wait for a response from a controller
 
-Returns a `SetListenerAddrPortResponse`.
-interval.
+Returns a `SetListenerAddrPortResponse`:
+
+type SetListenerAddrPortResponse struct { 
+  Controller          uint32              `json:"controller"`     // controller serial number
+  Ok                  bool                `json:"ok"`             // succeeded/failed
+}
 ```
 
 ### `GetDoor`
+Retrieves the control mode and unlock delay time for an access controller door.
 ```
-GetDoor(u Uhppoted, controller TController, door uint8, timeout time.Duration) (GetDoorResponse,error)
+GetDoor(u, controller, door, timeout)
 
-u           Uhppoted struct initialised with the bind address, broadcast address, etc
-controller  uint32|Controller controller serial number or {id, address, protocol} Controller struct
-door        door ID ([1..4]
-timeout     maximum time to wait for a response from a controller
+where:
+- u             Uhppoted        Uhppoted struct initialised with the bind address, broadcast address, etc
+- controller    controller      uint32|Controller controller serial number or {id, address, protocol} Controller struct
+- door          uint8           door ID ([1..4])
+- timeout       time.Duration   maximum time to wait for a response from a controller
 
-Returns a `GetDoorResponse` with the door control mode and unlock delay.
+Returns a `GetDoorResponse`:
+
+type GetDoorResponse struct { 
+  Controller          uint32              `json:"controller"`     // controller serial number
+  Door                uint8               `json:"door"`           // door ID ([1..4]
+  Mode                uint8               `json:"mode"`           // control mode (1:normally open, 2:normally closed. 3:controlled)
+  Delay               uint8               `json:"delay"`          // unlock delay (seconds)
+}
 ```
 
 ### `SetDoor`
+Sets the control mode and unlock delay time for an access controller door.
 ```
-SetDoor(u Uhppoted, controller TController, door uint8, mode uint8, delay uint8, timeout time.Duration) (SetDoorResponse,error)
+SetDoor(u, controller, door, mode, delay, timeout)
 
-u           Uhppoted struct initialised with the bind address, broadcast address, etc
-controller  uint32|Controller controller serial number or {id, address, protocol} Controller struct
-door        door ID ([1..4]
-mode        control mode (1:normally open, 2:normally closed. 3:controlled)
-delay       unlock delay(seconds)
-timeout     maximum time to wait for a response from a controller
+where:
+- u             Uhppoted        Uhppoted struct initialised with the bind address, broadcast address, etc
+- controller    controller      uint32|Controller controller serial number or {id, address, protocol} Controller struct
+- door          uint8           door ID ([1..4])
+- mode          uint8           control mode (1:normally open, 2:normally closed. 3:controlled)
+- delay         uint8           unlock delay (seconds))
+- timeout       time.Duration   maximum time to wait for a response from a controller
 
-Returns a `SetDoorResponse` with the door control mode and unlock delay.
+Returns a `SetDoorResponse`:
+
+type SetDoorResponse struct { 
+  Controller          uint32              `json:"controller"`     // controller serial number
+  Door                uint8               `json:"door"`           // 
+  Mode                uint8               `json:"mode"`           // 
+  Delay               uint8               `json:"delay"`          // 
+}
 ```
 
 ### `SetDoorPasscodes`
+Sets up to 4 passcodes for a controller door.
 ```
-SetDoorPasscodes(u Uhppoted, controller TController, door uint8, passcode1, passcode2, passcode3, passcode4 uint32, timeout time.Duration) (SetDoorPasscodesResponse,error)
+SetDoorPasscodes(u, controller, door, passcode 1, passcode 2, passcode 3, passcode 4, timeout)
 
-u           Uhppoted struct initialised with the bind address, broadcast address, etc
-controller  uint32|Controller controller serial number or {id, address, protocol} Controller struct
-door        door ID ([1..4]
-passcode1   supervisor passcode ([0..99999]), 0 for 'none'
-passcode2   supervisor passcode ([0..99999]), 0 for 'none'
-passcode3   supervisor passcode ([0..99999]), 0 for 'none'
-passcode4   supervisor passcode ([0..99999]), 0 for 'none'
-timeout     maximum time to wait for a response from a controller
+where:
+- u             Uhppoted        Uhppoted struct initialised with the bind address, broadcast address, etc
+- controller    controller      uint32|Controller controller serial number or {id, address, protocol} Controller struct
+- door          uint8           door ID ([1..4])
+- passcode 1    pin             supervisor passcode ([0..99999]), 0 for 'none'
+- passcode 2    pin             supervisor passcode ([0..99999]), 0 for 'none'
+- passcode 3    pin             supervisor passcode ([0..99999]), 0 for 'none'
+- passcode 4    pin             supervisor passcode ([0..99999]), 0 for 'none'
+- timeout       time.Duration   maximum time to wait for a response from a controller
 
-Returns a `SetDoorPasscodesResponse`.
+Returns a `SetDoorPasscodesResponse`:
+
+type SetDoorPasscodesResponse struct { 
+  Controller          uint32              `json:"controller"`     // controller serial number
+  Ok                  bool                `json:"ok"`             // succeeded/failed
+}
 ```
 
 ### `OpenDoor`
+Unlocks a door controlled by an access controller.
 ```
-OpenDoor(u Uhppoted, controller TController, door uint8, timeout time.Duration) (OpenDoorResponse,error)
+OpenDoor(u, controller, door, timeout)
 
-u           Uhppoted struct initialised with the bind address, broadcast address, etc
-controller  uint32|Controller controller serial number or {id, address, protocol} Controller struct
-door        door ID ([1..4]
-timeout     maximum time to wait for a response from a controller
+where:
+- u             Uhppoted        Uhppoted struct initialised with the bind address, broadcast address, etc
+- controller    controller      uint32|Controller controller serial number or {id, address, protocol} Controller struct
+- door          uint8           door ID ([1..4])
+- timeout       time.Duration   maximum time to wait for a response from a controller
 
-Returns an `OpenDoorResponse`.
+Returns an `OpenDoorResponse`:
+
+type OpenDoorResponse struct { 
+  Controller          uint32              `json:"controller"`     // controller serial number
+  Ok                  bool                `json:"ok"`             // succeeded/failed
+}
 ```
 
 ### `GetStatus`
+Retrieves the system status from an access controller.
 ```
-GetStatus(u Uhppoted, controller TController, timeout time.Duration) (GetStatusResponse,error)
+GetStatus(u, controller, timeout)
 
-u           Uhppoted struct initialised with the bind address, broadcast address, etc
-controller  uint32|Controller controller serial number or {id, address, protocol} Controller struct
-timeout     maximum time to wait for a response from a controller
+where:
+- u             Uhppoted        Uhppoted struct initialised with the bind address, broadcast address, etc
+- controller    controller      uint32|Controller controller serial number or {id, address, protocol} Controller struct
+- timeout       time.Duration   maximum time to wait for a response from a controller
 
-Returns a `GetStatusResponse` with the controller status information. If the response does not contain a
-valid event, the event fields are set to `None`.
+Returns a `GetStatusResponse`:
+
+type GetStatusResponse struct { 
+  Controller          uint32              `json:"controller"`     // controller serial number
+  SystemDate          shortdate           `json:"system-date"`    // controller system date, e.g. 2025-07-21
+  SystemTime          time                `json:"system-time"`    // controller system time, e.g. 13:25:47
+  Door1Open           bool                `json:"door-1-open"`    // door 1 open sensor
+  Door2Open           bool                `json:"door-2-open"`    // door 2 open sensor
+  Door3Open           bool                `json:"door-3-open"`    // door 3 open sensor
+  Door4Open           bool                `json:"door-4-open"`    // door 4 open sensor
+  Door1Button         bool                `json:"door-1-button"`  // door 1 button pressed
+  Door2Button         bool                `json:"door-2-button"`  // door 2 button pressed
+  Door3Button         bool                `json:"door-3-button"`  // door 3 button pressed
+  Door4Button         bool                `json:"door-4-button"`  // door 4 button pressed
+  Relays              uint8               `json:"relays"`         // bitset of door unlock relay states
+  Inputs              uint8               `json:"alarm-inputs"`   // bitset of alarm inputs
+  SystemError         uint8               `json:"system-error"`   // system error code
+  SpecialInfo         uint8               `json:"special-info"`   // absolutely no idea
+  EventIndex          uint32              `json:"event-index"`    // last event index
+  EventType           uint8               `json:"event-type"`     // last event type
+  EventAccessGranted  bool                `json:"event-granted"`  // last event access granted
+  EventDoor           uint8               `json:"event-door"`     // last event door
+  EventDirection      uint8               `json:"event-direction"` // last event door direction (0: in, 1: out)
+  EventCard           uint32              `json:"event-card"`     // last event card number
+  EventTimestamp      optional datetime   `json:"event-timestamp"` // last event timestamp
+  EventReason         uint8               `json:"event-reason"`   // last event reason
+  SequenceNo          uint32              `json:"sequence-no"`    // packet sequence number
+}
 ```
 
 ### `GetCards`
+Retrieves the number of cards stored on an access controller.
 ```
-GetCards(u Uhppoted, controller TController, timeout time.Duration) (GetCardsResponse,error)
+GetCards(u, controller, timeout)
 
-u           Uhppoted struct initialised with the bind address, broadcast address, etc
-controller  uint32|Controller controller serial number or {id, address, protocol} Controller struct
-timeout     maximum time to wait for a response from a controller
+where:
+- u             Uhppoted        Uhppoted struct initialised with the bind address, broadcast address, etc
+- controller    controller      uint32|Controller controller serial number or {id, address, protocol} Controller struct
+- timeout       time.Duration   maximum time to wait for a response from a controller
 
-Returns a `GetCardsResponse` with the number of cards stored on the controller.
+Returns a `GetCardsResponse`:
+
+type GetCardsResponse struct { 
+  Controller          uint32              `json:"controller"`     // controller serial number
+  Cards               uint32              `json:"cards"`          // number of stored cards
+}
 ```
 
 ### `GetCard`
+Retrieves the card record for a given card number.
 ```
-GetCard(u Uhppoted, controller TController, card uint32, timeout time.Duration) (GetCardResponse,error)
+GetCard(u, controller, card number, timeout)
 
-u           Uhppoted struct initialised with the bind address, broadcast address, etc
-controller  uint32|Controller controller serial number or {id, address, protocol} Controller struct
-card        card number
-timeout     maximum time to wait for a response from a controller
+where:
+- u             Uhppoted        Uhppoted struct initialised with the bind address, broadcast address, etc
+- controller    controller      uint32|Controller controller serial number or {id, address, protocol} Controller struct
+- card number   uint32          card number
+- timeout       time.Duration   maximum time to wait for a response from a controller
 
-Returns a `GetCardResponse` with the card information for the requested card. The card number is 0 if the
-card is not stored on the controller.
+Returns a `GetCardResponse`:
+
+type GetCardResponse struct { 
+  Controller          uint32              `json:"controller"`     // controller serial number
+  Card                uint32              `json:"card"`           // card number
+  StartDate           optional date       `json:"start-date"`     // 'valid from' date
+  EndDate             optional date       `json:"end-date"`       // 'valid until' date
+  Door1               uint8               `json:"door-1"`         // access permissions for door 1
+  Door2               uint8               `json:"door-2"`         // access permissions for door 2
+  Door3               uint8               `json:"door-3"`         // access permissions for door 3
+  Door4               uint8               `json:"door-4"`         // access permissions for door 4
+  PIN                 pin                 `json:"PIN"`            // (optional) PIN code [0..999999], 0 for none
+}
 ```
 
 ### `GetCardAtIndex`
+Retrieves the card record stored at a given index.
 ```
-GetCardAtIndex(u Uhppoted, controller TController, index uint32, timeout time.Duration) (GetCardResponse,error)
+GetCardAtIndex(u, controller, index, timeout)
 
-u           Uhppoted struct initialised with the bind address, broadcast address, etc
-controller  uint32|Controller controller serial number or {id, address, protocol} Controller struct
-index       card record index
-timeout     maximum time to wait for a response from a controller
+where:
+- u             Uhppoted        Uhppoted struct initialised with the bind address, broadcast address, etc
+- controller    controller      uint32|Controller controller serial number or {id, address, protocol} Controller struct
+- index         uint32          card record index
+- timeout       time.Duration   maximum time to wait for a response from a controller
 
-Returns a `GetCardAtIndexResponse` with the card information for the requested card. The card number is 0 if the
-card is not stored on the controller and 0xffffffff if the record has been deleted.
+Returns a `GetCardAtIndexResponse`:
+
+type GetCardAtIndexResponse struct { 
+  Controller          uint32              `json:"controller"`     // controller serial number
+  Card                uint32              `json:"card"`           // card number
+  StartDate           optional date       `json:"start-date"`     // 'valid from' date
+  EndDate             optional date       `json:"end-date"`       // 'valid until' date
+  Door1               uint8               `json:"door-1"`         // access permissions for door 1
+  Door2               uint8               `json:"door-2"`         // access permissions for door 2
+  Door3               uint8               `json:"door-3"`         // access permissions for door 3
+  Door4               uint8               `json:"door-4"`         // access permissions for door 4
+  PIN                 pin                 `json:"PIN"`            // (optional) PIN code [0..999999], 0 for none
+}
 ```
 
 ### `PutCard`
+Creates or updates a card record stored on an access controller.
 ```
-PutCard(u Uhppoted, controller TController, card uint32, startDate, endDate time.Time, door1, door2, door3, door4 uint8, PIN uint32, timeout time.Duration) (GetCardResponse,error)
+PutCard(u, controller, card, start date, end date, door 1, door 2, door 3, door 4, PIN, timeout)
 
-u           Uhppoted struct initialised with the bind address, broadcast address, etc
-controller  uint32|Controller controller serial number or {id, address, protocol} Controller struct
-card        card number
-startDate   date from which card is valid
-endDate     date until  which card is valid (inclusive)
-door1       access permissions for door 1 (0: no access, 1: 24/7 access, [2..253] time profile)
-door2       access permissions for door 2 (0: no access, 1: 24/7 access, [2..253] time profile)
-door3       access permissions for door 3 (0: no access, 1: 24/7 access, [2..253] time profile)
-door4       access permissions for door 4 (0: no access, 1: 24/7 access, [2..253] time profile)
-PIN         optional PIN code [0..999999] (0 for none)
-timeout     maximum time to wait for a response from a controller
+where:
+- u             Uhppoted        Uhppoted struct initialised with the bind address, broadcast address, etc
+- controller    controller      uint32|Controller controller serial number or {id, address, protocol} Controller struct
+- card          uint32          card number
+- start date    date            date from which card is valid
+- end date      date            date after which card is invalid
+- door 1        uint8           access permissions for door 1 (0: no access, 1: 24/7 access, [2..253] time profile)
+- door 2        uint8           access permissions for door 2 (0: no access, 1: 24/7 access, [2..253] time profile)
+- door 3        uint8           access permissions for door 3 (0: no access, 1: 24/7 access, [2..253] time profile)
+- door 4        uint8           access permissions for door 4 (0: no access, 1: 24/7 access, [2..253] time profile)
+- PIN           pin             optional PIN code [0..999999] (0 for none)
+- timeout       time.Duration   maximum time to wait for a response from a controller
 
-Returns a `PutCardResponse` with the card add/update result.
+Returns a `PutCardResponse`:
+
+type PutCardResponse struct { 
+  Controller          uint32              `json:"controller"`     // controller serial number
+  Ok                  bool                `json:"ok"`             // succeeded/failed
+}
 ```
 
 ### `DeleteCard`
+Removes a card record stored on a controller.
 ```
-DeleteCard(u Uhppoted, controller TController, card uint32, timeout time.Duration) (DeleteCardResponse,error)
+DeleteCard(u, controller, card number, timeout)
 
-u           Uhppoted struct initialised with the bind address, broadcast address, etc
-controller  uint32|Controller controller serial number or {id, address, protocol} Controller struct
-card        card number
-timeout     maximum time to wait for a response from a controller
+where:
+- u             Uhppoted        Uhppoted struct initialised with the bind address, broadcast address, etc
+- controller    controller      uint32|Controller controller serial number or {id, address, protocol} Controller struct
+- card number   uint32          card number
+- timeout       time.Duration   maximum time to wait for a response from a controller
 
-Returns a `DeleteCardResponse` with `ok` set to `true` if the card record was deleted from the controller.
+Returns a `DeleteCardResponse`:
+
+type DeleteCardResponse struct { 
+  Controller          uint32              `json:"controller"`     // controller serial number
+  Ok                  bool                `json:"ok"`             // succeeded/failed
+}
 ```
 
 ### `DeleteAllCards`
+Deletes all card records stored on an access controller.
 ```
-DeleteAllCards(u Uhppoted, controller TController, timeout time.Duration) (DeleteCardResponse,error)
+DeleteAllCards(u, controller, timeout)
 
-u           Uhppoted struct initialised with the bind address, broadcast address, etc
-controller  uint32|Controller controller serial number or {id, address, protocol} Controller struct
-timeout     maximum time to wait for a response from a controller
+where:
+- u             Uhppoted        Uhppoted struct initialised with the bind address, broadcast address, etc
+- controller    controller      uint32|Controller controller serial number or {id, address, protocol} Controller struct
+- timeout       time.Duration   maximum time to wait for a response from a controller
 
-Returns a `DeleteAllCardsResponse` with `ok` set to `true` if all card records were deleted from the controller.
+Returns a `DeleteAllCardsResponse`:
+
+type DeleteAllCardsResponse struct { 
+  Controller          uint32              `json:"controller"`     // controller serial number
+  Ok                  bool                `json:"ok"`             // succeeded/failed
+}
 ```
 
 ### `GetEvent`
+Retrieves an event record stored on an access controller.
 ```
-GetEvent(u Uhppoted, controller TController, index uint32, timeout time.Duration) (GetEventResponse,error)
+GetEvent(u, controller, event index, timeout)
 
-u           Uhppoted struct initialised with the bind address, broadcast address, etc
-controller  uint32|Controller controller serial number or {id, address, protocol} Controller struct
-index       index of event to retrieve
-timeout     maximum time to wait for a response from a controller
+where:
+- u             Uhppoted        Uhppoted struct initialised with the bind address, broadcast address, etc
+- controller    controller      uint32|Controller controller serial number or {id, address, protocol} Controller struct
+- event index   uint32          index of event to retrieve
+- timeout       time.Duration   maximum time to wait for a response from a controller
 
-Returns a `GetEventResponse`.
+Returns a `GetEventResponse`:
+
+type GetEventResponse struct { 
+  Controller          uint32              `json:"controller"`     // controller serial number
+  Index               uint32              `json:"index"`          // event index
+  EventType           uint8               `json:"event-type"`     // event type 
+  AccessGranted       bool                `json:"granted"`        // true if the door was unlocked
+  Door                uint8               `json:"door"`           // door no. ([1..4]) for card and door events
+  Direction           uint8               `json:"direction"`      // direction (1:IN, 2:OUT) for card and door events
+  Card                uint32              `json:"card"`           // card number (for card events)
+  Timestamp           optional datetime   `json:"timestamp"`      // event timestamp
+  Reason              uint8               `json:"reason"`         // reason code
+}
 ```
 
 ### `GetEventIndex`
+Retrieves the downloaded event index from an access controller.
 ```
-GetEventIndex(u Uhppoted, controller TController, timeout time.Duration) (GetEventResponse,error)
+GetEventIndex(u, controller, timeout)
 
-u           Uhppoted struct initialised with the bind address, broadcast address, etc
-controller  uint32|Controller controller serial number or {id, address, protocol} Controller struct
-timeout     maximum time to wait for a response from a controller
+where:
+- u             Uhppoted        Uhppoted struct initialised with the bind address, broadcast address, etc
+- controller    controller      uint32|Controller controller serial number or {id, address, protocol} Controller struct
+- timeout       time.Duration   maximum time to wait for a response from a controller
 
-Returns a `GetEventIndexResponse`.
+Returns a `GetEventIndexResponse`:
+
+type GetEventIndexResponse struct { 
+  Controller          uint32              `json:"controller"`     // controller serial number
+  Index               uint32              `json:"index"`          // event index
+}
 ```
 
 ### `SetEventIndex`
+Sets the downloaded event index on an access controller.
 ```
-SetEventIndex(u Uhppoted, controller TController, index uint32, timeout time.Duration) (SetEventResponse,error)
+SetEventIndex(u, controller, event index, timeout)
 
-u           Uhppoted struct initialised with the bind address, broadcast address, etc
-controller  uint32|Controller controller serial number or {id, address, protocol} Controller struct
-index       Downloaded event index
-timeout     maximum time to wait for a response from a controller
+where:
+- u             Uhppoted        Uhppoted struct initialised with the bind address, broadcast address, etc
+- controller    controller      uint32|Controller controller serial number or {id, address, protocol} Controller struct
+- event index   uint32          downloaded event index
+- timeout       time.Duration   maximum time to wait for a response from a controller
 
-Returns a `SetEventIndexResponse`.
+Returns a `SetEventIndexResponse`:
+
+type SetEventIndexResponse struct { 
+  Controller          uint32              `json:"controller"`     // controller serial number
+  Ok                  bool                `json:"ok"`             // succeeded/failed
+}
 ```
 
 ### `RecordSpecialEvents`
+Enables/disables events for door opened, door closed and door button pressed.
 ```
-RecordSpecialEvents(u Uhppoted, controller TController, enabled bool, timeout time.Duration) (RecordSpecialEventsResponse,error)
+RecordSpecialEvents(u, controller, enabled, timeout)
 
-u           Uhppoted struct initialised with the bind address, broadcast address, etc
-controller  uint32|Controller controller serial number or {id, address, protocol} Controller struct
-enabled     Enables door opened, door closed and button pressed events if true.
-timeout     maximum time to wait for a response from a controller
+where:
+- u             Uhppoted        Uhppoted struct initialised with the bind address, broadcast address, etc
+- controller    controller      uint32|Controller controller serial number or {id, address, protocol} Controller struct
+- enabled       bool            enables door opened, door closed and button pressed events if true
+- timeout       time.Duration   maximum time to wait for a response from a controller
 
-Returns a `RecordSpecialEventsResponse`.
+Returns a `RecordSpecialEventsResponse`:
+
+type RecordSpecialEventsResponse struct { 
+  Controller          uint32              `json:"controller"`     // controller serial number
+  Ok                  bool                `json:"ok"`             // succeeded/failed
+}
 ```
 
 ### `GetTimeProfile`
+Retrieves the requested access time profile from a controller.
 ```
-GetTimeProfile(u Uhppoted, controller TController, profile uint8, timeout time.Duration) (GetTimeProfileResponse,error)
+GetTimeProfile(u, controller, profile, timeout)
 
-u           Uhppoted struct initialised with the bind address, broadcast address, etc
-controller  uint32|Controller controller serial number or {id, address, protocol} Controller struct
-profile     Profile Id ([2..254] to fetch.
-timeout     maximum time to wait for a response from a controller
+where:
+- u             Uhppoted        Uhppoted struct initialised with the bind address, broadcast address, etc
+- controller    controller      uint32|Controller controller serial number or {id, address, protocol} Controller struct
+- profile       uint8           profile ID ([2..254] to retrieve
+- timeout       time.Duration   maximum time to wait for a response from a controller
 
-Returns a `GetTimeProfileResponse`.
+Returns a `GetTimeProfileResponse`:
+
+type GetTimeProfileResponse struct { 
+  Controller          uint32              `json:"controller"`     // controller serial number
+  Profile             uint8               `json:"profile"`        // profile ID [2..254]
+  StartDate           optional date       `json:"start-date"`     // date from which profile is valid (inclusive)
+  EndDate             optional date       `json:"end-date"`       // date after which profile is invalid
+  Monday              bool                `json:"monday"`         // profile enabled on Monday if true
+  Tuesday             bool                `json:"tuesday"`        // profile enabled on Tuesday if true
+  Wednesday           bool                `json:"wednesday"`      // profile enabled on Wednesday if true
+  Thursday            bool                `json:"thursday"`       // profile enabled on Thursday if true
+  Friday              bool                `json:"friday"`         // profile enabled on Monday if true
+  Saturday            bool                `json:"saturday"`       // profile enabled on Friday if true
+  Sunday              bool                `json:"sunday"`         // profile enabled on Sunday if true
+  Segment1Start       HHmm                `json:"segment1-start"` // start time for first time segment
+  Segment1End         HHmm                `json:"segment1-end"`   // end time for first time segment
+  Segment2Start       HHmm                `json:"segment2-start"` // start time for second time segment
+  Segment2End         HHmm                `json:"segment2-end"`   // end time for second time segment
+  Segment3Start       HHmm                `json:"segment3-start"` // start time for third time segment
+  Segment3End         HHmm                `json:"segment3-end"`   // end time for third time segment
+  LinkedProfile       uint8               `json:"linked-profile"` // ID of linked profile (0 if not linked)
+}
 ```
 
 ### `SetTimeProfile`
+Adds or updates an access time profile stored on a controller.
 ```
-SetTimeProfile(u Uhppoted, controller     TController, 
-                           profile        uint8, 
-                           startDate      time.Time,
-                           endDate        time.Time,
-                           monday         bool,
-                           tuesday        bool,
-                           wednesday      bool,
-                           thursday       bool,
-                           friday         bool,
-                           saturday       bool,
-                           sunday         bool,
-                           segment1Start  time.Time,
-                           segment1End    time.Time,
-                           segment2Start  time.Time,
-                           segment2End    time.Time,
-                           segment3Start  time.Time,
-                           segment3End    time.Time,
-                           linkedProfile  uint8,
-                           timeout        time.Duration) (SetTimeProfileResponse,error)
+SetTimeProfile(u, controller, profile, start date, end date, monday, tuesday, wednesday, thursday, friday, saturday, sunday, segment 1 start, segment 1 end, segment 2 start, segment 2 end, segment 3 start, segment 3 end, linked profile id, timeout)
 
-u              Uhppoted struct initialised with the bind address, broadcast address, etc
-controller     uint32|Controller controller serial number or {id, address, protocol} Controller struct
-profile        uint8             profile Id ([2..254] to create/update
-startDate      time.Time         date from which profile is valid (inclusive)
-endDate        time.Time         date after which profile is invalid
-monday         bool              profile enabled on Monday if true
-tuesday        bool              profile enabled on Tuesday if true
-wednesday      bool              profile enabled on Wednesday if true
-thursday       bool              profile enabled on Thursday if true
-friday         bool              profile enabled on Monday if true
-saturday       bool              profile enabled on Friday if true
-sunday         bool              profile enabled on Sunday if true
-segment1Start  time.Time         start time for first time segment
-segment1End    time.Time         end time for first time segment
-segment2Start  time.Time         start time for second time segment
-segment2End    time.Time         end time for second time segment
-segment3Start  time.Time         start time for third time segment
-segment3End    time.Time         end time for third time segment
-linkedProfile  uint8             ID of linked profile (0 if not linked)
-timeout        maximum time to wait for a response from a controller
+where:
+- u             Uhppoted        Uhppoted struct initialised with the bind address, broadcast address, etc
+- controller    controller      uint32|Controller controller serial number or {id, address, protocol} Controller struct
+- profile       uint8           profile Id ([2..254] to create/update
+- start date    date            date from which profile is valid (inclusive)
+- end date      date            date after which profile is invalid
+- monday        bool            profile valid on Monday if true
+- tuesday       bool            profile valid on Tuesday if true
+- wednesday     bool            profile valid on Wednesday if true
+- thursday      bool            profile valid on Thursday if true
+- friday        bool            profile valid on Friday if true
+- saturday      bool            profile valid on Saturday if true
+- sunday        bool            profile valid on Sunday if true
+- segment 1 start  HHmm            start time for first time segment
+- segment 1 end  HHmm            end time for first time segment
+- segment 2 start  HHmm            start time for second time segment
+- segment 2 end  HHmm            end time for second time segment
+- segment 3 start  HHmm            start time for third time segment
+- segment 3 end  HHmm            end time for third time segment
+- linked profile id  uint8           ID of linked profile (0 if not linked)
+- timeout       time.Duration   maximum time to wait for a response from a controller
 
-Returns a `SetTimeProfileResponse`.
+Returns a `SetTimeProfileResponse`:
+
+type SetTimeProfileResponse struct { 
+  Controller          uint32              `json:"controller"`     // controller serial number
+  Ok                  bool                `json:"ok"`             // succeeded/failed
+}
 ```
 
 ### `ClearTimeProfiles`
+Clears all access time profiles stored on a controller.
 ```
-ClearTimeProfiles(u Uhppoted, controller TController, timeout time.Duration) (ClearTimeProfilesResponse,error)
+ClearTimeProfiles(u, controller, timeout)
 
-u           Uhppoted struct initialised with the bind address, broadcast address, etc
-controller  uint32|Controller controller serial number or {id, address, protocol} Controller struct
-timeout     maximum time to wait for a response from a controller
+where:
+- u             Uhppoted        Uhppoted struct initialised with the bind address, broadcast address, etc
+- controller    controller      uint32|Controller controller serial number or {id, address, protocol} Controller struct
+- timeout       time.Duration   maximum time to wait for a response from a controller
 
-Returns a `ClearTimeProfilesResponse`.
+Returns a `ClearTimeProfilesResponse`:
+
+type ClearTimeProfilesResponse struct { 
+  Controller          uint32              `json:"controller"`     // controller serial number
+  Ok                  bool                `json:"ok"`             // succeeded/failed
+}
 ```
 
 ### `AddTask`
-```
-AddTask(u Uhppoted, controller     TController, 
-                    task           uint8, 
-                    startDate      time.Time,
-                    endDate        time.Time,
-                    monday         bool,
-                    tuesday        bool,
-                    wednesday      bool,
-                    thursday       bool,
-                    friday         bool,
-                    saturday       bool,
-                    sunday         bool,
-                    startTime      time.Time,
-                    door           uint8,
-                    moreCards      uint8,
-                    timeout        time.Duration) (SetTimeProfileResponse,error)
+Creates a scheduled task.
 
-u              Uhppoted struct initialised with the bind address, broadcast address, etc
-controller     uint32|Controller controller serial number or {id, address, protocol} Controller struct
-task           uint8             task type
-startDate      time.Time         date from which task is valid (inclusive)
-endDate        time.Time         date after which task is invalid
-monday         bool              task enabled on Monday if true
-tuesday        bool              task enabled on Tuesday if true
-wednesday      bool              task enabled on Wednesday if true
-thursday       bool              task enabled on Thursday if true
-friday         bool              task enabled on Monday if true
-saturday       bool              task enabled on Friday if true
-sunday         bool              task enabled on Sunday if true
-startTime      time.Time         time at which task is scheduled
-door           uint8             door ([1..4] to which task is linked
-moreCards      uint8             number of 'more cards' for the MORE CARDS task type
-timeout        maximum time to wait for a response from a controller
-
-Returns an `AddTaskResponse`.
-```
-Task types:
-```
+Task types
 0:  control door
 1:  unlock door
 2:  lock door
@@ -542,58 +737,115 @@ Task types:
 11: disable pushbutton
 12: enable pushbutton
 ```
+AddTask(u, controller, task, start date, end date, monday, tuesday, wednesday, thursday, friday, saturday, sunday, start time, door, more cards, timeout)
+
+where:
+- u             Uhppoted        Uhppoted struct initialised with the bind address, broadcast address, etc
+- controller    controller      uint32|Controller controller serial number or {id, address, protocol} Controller struct
+- task          uint8           task type
+- start date    date            date from which task is scheduled (inclusive)
+- end date      date            date after which task no longer scheduled
+- monday        bool            task enabled on Monday if true
+- tuesday       bool            task enabled on Tuesday if true
+- wednesday     bool            task enabled on Wednesday if true
+- thursday      bool            task enabled on Thursday if true
+- friday        bool            task enabled on Monday if true
+- saturday      bool            task enabled on Friday if true
+- sunday        bool            task enabled on Sunday if true
+- start time    HHmm            time at which task is scheduled
+- door          uint8           door ([1..4] to which task is linked
+- more cards    uint8           number of 'more cards' for the MORE CARDS task type
+- timeout       time.Duration   maximum time to wait for a response from a controller
+
+Returns an `AddTaskResponse`:
+
+type AddTaskResponse struct { 
+  Controller          uint32              `json:"controller"`     // controller serial number
+  Ok                  bool                `json:"ok"`             // succeeded/failed
+}
+```
 
 ### `RefreshTaskList`
+Updates scheduler with newly created scheduled tasks.
 ```
-RefreshTaskList(u Uhppoted, controller TController, timeout time.Duration) (RefreshTaskListResponse,error)
+RefreshTaskList(u, controller, timeout)
 
-u           Uhppoted struct initialised with the bind address, broadcast address, etc
-controller  uint32|Controller controller serial number or {id, address, protocol} Controller struct
-timeout     maximum time to wait for a response from a controller
+where:
+- u             Uhppoted        Uhppoted struct initialised with the bind address, broadcast address, etc
+- controller    controller      uint32|Controller controller serial number or {id, address, protocol} Controller struct
+- timeout       time.Duration   maximum time to wait for a response from a controller
 
-Returns a `RefreshTaskListResponse`.
+Returns a `RefreshTaskListResponse`:
+
+type RefreshTaskListResponse struct { 
+  Controller          uint32              `json:"controller"`     // controller serial number
+  Ok                  bool                `json:"ok"`             // succeeded/failed
+}
 ```
 
 ### `ClearTaskList`
+Removes all scheduled tasks.
 ```
-ClearTaskList(u Uhppoted, controller TController, timeout time.Duration) (ClearTaskListResponse,error)
+ClearTaskList(u, controller, timeout)
 
-u           Uhppoted struct initialised with the bind address, broadcast address, etc
-controller  uint32|Controller controller serial number or {id, address, protocol} Controller struct
-timeout     maximum time to wait for a response from a controller
+where:
+- u             Uhppoted        Uhppoted struct initialised with the bind address, broadcast address, etc
+- controller    controller      uint32|Controller controller serial number or {id, address, protocol} Controller struct
+- timeout       time.Duration   maximum time to wait for a response from a controller
 
-Returns a `ClearTaskListResponse`.
+Returns a `ClearTasklistResponse`:
+
+type ClearTasklistResponse struct { 
+  Controller          uint32              `json:"controller"`     // controller serial number
+  Ok                  bool                `json:"ok"`             // succeeded/failed
+}
 ```
 
 ### `SetPCControl`
+Enables remote access control. Remote access control will remain in effect provided the controller
+receives a message from the host at least once every 30 seconds.
 ```
-SetPCControl(u Uhppoted, controller TController, enabled bool, timeout time.Duration) (SetPCControlResponse,error)
+SetPCControl(u, controller, enabled, timeout)
 
-u           Uhppoted struct initialised with the bind address, broadcast address, etc
-controller  uint32|Controller controller serial number or {id, address, protocol} Controller struct
-enabled     Enables/disables remote access control. The access controller reverts to on-board access 
-            control if it hasn't received a directive from the remote access control host in 30 seconds.
-timeout     maximum time to wait for a response from a controller
+where:
+- u             Uhppoted        Uhppoted struct initialised with the bind address, broadcast address, etc
+- controller    controller      uint32|Controller controller serial number or {id, address, protocol} Controller struct
+- enabled       bool            enables/disables remote access control
+- timeout       time.Duration   maximum time to wait for a response from a controller
 
-Returns a `SetPCControlResponse`.
+Returns a `SetPCControlResponse`:
+
+type SetPCControlResponse struct { 
+  Controller          uint32              `json:"controller"`     // controller serial number
+  Ok                  bool                `json:"ok"`             // succeeded/failed
+}
 ```
 
 ### `SetInterlock`
+Sets the door interlock mode on an access controller.
+
+The following interlock modes are supported:
+- 0: disabled
+- 1: doors 1&2
+- 2: doors 3&4
+- 3: doors 1&2, doors 3&4
+- 4: doors 1,2&3
+- 8: doors 1,2,3&4
 ```
-SetInterlock(u Uhppoted, controller TController, interlock uint8, timeout time.Duration) (SetInterlockResponse,error)
+SetInterlock(u, controller, interlock, timeout)
 
-u           Uhppoted struct initialised with the bind address, broadcast address, etc
-controller  uint32|Controller controller serial number or {id, address, protocol} Controller struct
-interlock   Door interlock mode:
-            - 0: disabled
-            - 1: doors 1&2
-            - 2: doors 3&4
-            - 3: doors 1&2, doors 3&4
-            - 4: doors 1,2&3
-            - 8: doors 1,2,3&4
-timeout     maximum time to wait for a response from a controller
+where:
+- u             Uhppoted        Uhppoted struct initialised with the bind address, broadcast address, etc
+- controller    controller      uint32|Controller controller serial number or {id, address, protocol} Controller struct
+- interlock     uint8           door interlock mode
+- timeout       time.Duration   maximum time to wait for a response from a controller
 
-Returns a `SetInterlockResponse`.
+Returns a `SetInterlockResponse`:
+
+type SetInterlockResponse struct { 
+  Controller          uint32              `json:"controller"`     // controller serial number
+  Ok                  bool                `json:"ok"`             // succeeded/failed
+}
 ```
 
 ### `ActivateKeypads`
@@ -602,15 +854,20 @@ Enables/disables door keypad readers.
 ActivateKeypads(u, controller, reader 1, reader 2, reader 3, reader 4, timeout)
 
 where:
-- u           Uhppoted       Uhppoted struct initialised with the bind address, broadcast address, etc
-- controller  controller     uint32|Controller controller serial number or {id, address, protocol} Controller struct
-- reader 1    bool           enables/disables the keypad for reader 1
-- reader 2    bool           enables/disables the keypad for reader 2
-- reader 3    bool           enables/disables the keypad for reader 3
-- reader 4    bool           enables/disables the keypad for reader 4
-- timeout     time.Duration  maximum time to wait for a response from a controller
+- u             Uhppoted        Uhppoted struct initialised with the bind address, broadcast address, etc
+- controller    controller      uint32|Controller controller serial number or {id, address, protocol} Controller struct
+- reader 1      bool            enables/disable the keypad for reader 1
+- reader 2      bool            enables/disables the keypad for reader 2
+- reader 3      bool            enables/disables the keypad for reader 3
+- reader 4      bool            enables/disables the keypad for reader 4
+- timeout       time.Duration   maximum time to wait for a response from a controller
 
-Returns a `ActivateKeypadsResponse`.
+Returns an `ActivateKeypadsResponse`:
+
+type ActivateKeypadsResponse struct { 
+  Controller          uint32              `json:"controller"`     // controller serial number
+  Ok                  bool                `json:"ok"`             // succeeded/failed
+}
 ```
 
 ### `GetAntiPassback`
@@ -629,463 +886,37 @@ where:
 - controller    controller      uint32|Controller controller serial number or {id, address, protocol} Controller struct
 - timeout       time.Duration   maximum time to wait for a response from a controller
 
-Returns a `GetAntipassbackResponse`.
-```
+Returns a `GetAntipassbackResponse`:
 
-
-## Types
-
-### `GetControllerResponse`
-
-Container class for the decoded response from a _GetController_ request.
-```
-type GetControllerResponse struct {
-    Controller uint32     `json:"controller"`    // controller serial number
-    IpAddress  netip.Addr `json:"ip-address"`    // IPv4 address
-    SubnetMask netip.Addr `json:"subnet-mask"`   // IPv4 netmask
-    Gateway    netip.Addr `json:"gateway"`       // gateway IP v4address
-    MACAddress string     `json:"MAC-address"`   // MAC address (XX:XX:XX:XX:XX:XX)
-    Version    string     `json:"version"`       // firmware version (vN.NN)
-    Date       time.Time  `json:"date"`          // release date (YYYY-MM-DD)
-}
-```
-
-### `SetIPv4Response`
-
-Container class for the decoded response from a _SetIPv4_ request.
-```
-type SetIPv4Response struct {
-    Controller uint32     `json:"controller"`    // controller serial number
-    Ok         bool       `json:"ok"`            // succeeded/failed
-}
-```
-
-### `GetTimeResponse`
-
-Container class for the decoded response from a _GetTime_ request.
-```
-type GetTimeResponse struct {
-  Controller  uint32    `json:"controller"`      // controller serial number
-  DateTime    time.Time `json:"event-timestamp"` // controller date/time
-}
-```
-
-### `SetTimeResponse`
-
-Container class for the decoded response from a _SetTime_ request.
-```
-type SetTimeResponse struct {
-  Controller  uint32    `json:"controller"`      // controller serial number
-  DateTime    time.Time `json:"event-timestamp"` // controller date/time
-}
-```
-
-### `GetListenerResponse`
-
-Container class for the decoded response from a _GetListener_ request.
-```
-type GetListenerResponse struct {
-  Controller  uint32      `json:"controller"` // controller serial number
-  Address     netip.Addr  `json:"address"`    // event listener IPv4 address
-  Port        uint16      `json:"port"`       // event listener UDP port
-  Interval    uint8       `json:"interval"`   // auto-send interval (seconds)
-}
-```
-
-### `SetListenerResponse`
-
-Container class for the decoded response from a _SetListener_ request.
-```
-type SetListenerResponse struct {
-  Controller  uint32  `json:"controller"` // controller serial number
-  Ok          bool    `json:"ok"`         // true if request succeeded
-}
-```
-
-### `GetListenerAddrPortResponse`
-
-Container class for the decoded response from a _GetListener_ request.
-```
-type GetListenerAddrPortResponse struct {
-  Controller  uint32          `json:"controller"` // controller serial number
-  Listener    netip.AddrPort  `json:"listener"`   // event listener IPv4 address:port
-  Interval    uint8           `json:"interval"`   // auto-send interval (seconds)
-}
-```
-
-### `SetListenerAddrPortResponse`
-
-Container class for the decoded response from a _SetListenerAddrPort_ request.
-```
-type SetListenerAddrPortResponse struct {
-  Controller  uint32  `json:"controller"` // controller serial number
-  Ok          bool    `json:"ok"`         // true if request succeeded
-}
-```
-
-### `GetDoorResponse`
-
-Container class for the decoded response from a _GetDoor_ request.
-```
-type GetDoorResponse struct {
-  Controller  uint32  `json:"controller"` // controller serial number
-  Door        uint8   `json:"door"`       // door ID ([1..4])
-  Mode        uint8   `json:"mode"`       // control mode (1:normally open, 2:normally closed. 3:controlled)
-  Delay       uint8   `json:"delay"`      // unlock delay(seconds)
-}
-```
-
-### `SetDoorResponse`
-
-Container class for the decoded response from a _SetDoor_ request.
-```
-type SetDoorResponse struct {
-  Controller  uint32  `json:"controller"` // controller serial number
-  Door        uint8   `json:"door"`       // door ID ([1..4])
-  Mode        uint8   `json:"mode"`       // control mode (1:normally open, 2:normally closed. 3:controlled)
-  Delay       uint8   `json:"delay"`      // unlock delay(seconds)
-}
-```
-
-### `SetDoorPasscodesResponse`
-
-Container class for the decoded response from a _SetDoorPasscodes_ request.
-```
-type SetDoorPasscodesResponse struct {
-  Controller  uint32  `json:"controller"` // controller serial number
-  Ok          bool    `json:"ok"`         // true if request succeeded
-}
-```
-
-### `OpenDoorResponse`
-
-Container class for the decoded response from an _OpenDoor_ request.
-```
-type OpenDoorResponse struct {
-  Controller  uint32  `json:"controller"` // controller serial number
-  Ok          bool    `json:"ok"`         // true if request succeeded
-}
-```
-
-### `GetStatusResponse`
-
-Container class for the decoded response from a _GetStatus_ request.
-```
-type GetStatusResponse struct {
-  Controller          uint32     `json:"controller"`      // controller serial number
-  SystemDate          time.Time  `json:"system-date"`     // controller system date
-  SystemTime          time.Time  `json:"system-time"`     // controller system time
-  Door1Open           bool       `json:"door-1-open"`     // door 1 locked/unlocked
-  Door2Open           bool       `json:"door-2-open"`     // door 2 locked/unlocked
-  Door3Open           bool       `json:"door-3-open"`     // door 3 locked/unlocked
-  Door4Open           bool       `json:"door-4-open"`     // door 4 locked/unlocked
-  Door1Button         bool       `json:"door-1-button"`   // pushbutton 1 pressed/released
-  Door2Button         bool       `json:"door-2-button"`   // pushbutton 2 pressed/released
-  Door3Button         bool       `json:"door-3-button"`   // pushbutton 3 pressed/released
-  Door4Button         bool       `json:"door-4-button"`   // pushbutton 4 pressed/released
-  Relays              uint8      `json:"relays"`          // bit array of relay states
-  Inputs              uint8      `json:"alarm-inputs"`    // bit array of door sensor states
-  SystemError         uint8      `json:"system-error"`    // system error code
-  SpecialInfo         uint8      `json:"special-info"`    // (absolutely no idea)
-  EventIndex          uint32     `json:"event-index"`     // index of last recorded event
-  EventType           uint8      `json:"event-type"`      // type of last recorded event
-  EventAccessGranted  bool       `json:"event-granted"`   // last event access granted/denied
-  EventDoor           uint8      `json:"event-door"`      // last event door no. [1..4]
-  EventDirection      uint8      `json:"event-direction"` // last event direction (0: in, 1: out)
-  EventCard           uint32     `json:"event-card"`      // last event card number
-  EventTimestamp      time.Time  `json:"event-timestamp"` // last event timestamp
-  EventReason         uint8      `json:"event-reason"`    // last event access granted/denied reason code
-  SequenceNo          uint32     `json:"sequence-no"`     // packet sequence number
-}
-```
-
-### `GetCardsResponse`
-
-Container class for the decoded response from a _GetCards_ request.
-```
-type GetStatusResponse struct {
-  Controller  uint32     `json:"controller"` // controller serial number
-  Cards       uint32     `json:"cards"`      // number of stored cards
-}
-```
-
-### `GetCardResponse`
-
-Container class for the decoded response from a _GetCard_ request.
-```
-type GetCardResponse struct {
-  Controller  uint32     `json:"controller"`  // controller serial number
-  Card        uint32     `json:"card"`        // card number
-  StartDate   time.Time  `json:"start-date"`  // 'valid from' date
-  EndDate     time.Time  `json:"end-date"`    // 'valid until' date
-  Door1       uint8      `json:"door-1"`      // access permissions for door 1
-  Door2       uint8      `json:"door-2"`      // access permissions for door 2
-  Door3       uint8      `json:"door-3"`      // access permissions for door 3
-  Door4       uint8      `json:"door-4"`      // access permissions for door 4
-  PIN         uint32     `json:"PIN"`         // (optional) PIN code [0..999999], 0 for none
-}
-```
-
-### `GetCardAtIndexResponse`
-
-Container class for the decoded response from a _GetCardAtIndex_ request.
-```
-type GetCardAtIndexResponse struct {
-  Controller  uint32     `json:"controller"`  // controller serial number
-  Card        uint32     `json:"card"`        // card number
-  StartDate   time.Time  `json:"start-date"`  // 'valid from' date
-  EndDate     time.Time  `json:"end-date"`    // 'valid until' date
-  Door1       uint8      `json:"door-1"`      // access permissions for door 1
-  Door2       uint8      `json:"door-2"`      // access permissions for door 2
-  Door3       uint8      `json:"door-3"`      // access permissions for door 3
-  Door4       uint8      `json:"door-4"`      // access permissions for door 4
-  PIN         uint32     `json:"PIN"`         // (optional) PIN code [0..999999], 0 for none
-}
-
-Card is 0 if there is no record at the index, 0xffffffff if the record has been deleted.
-```
-
-### `PutCardResponse`
-
-Container class for the decoded response from a _PutCard_ request.
-```
-type PutCardResponse struct {
-  Controller  uint32  `json:"controller"` // controller serial number
-  Ok          bool    `json:"ok"`         // true if request succeeded
-}
-```
-
-### `DeleteCardResponse`
-
-Container class for the decoded response from a _DeleteCard_ request.
-```
-type DeleteCardResponse struct {
-  Controller  uint32  `json:"controller"` // controller serial number
-  Ok          bool    `json:"ok"`         // true if request succeeded
-}
-```
-
-### `DeleteAllCardsResponse`
-
-Container class for the decoded response from a _DeleteAllCards_ request.
-```
-type DeleteAllCardsResponse struct {
-  Controller  uint32  `json:"controller"` // controller serial number
-  Ok          bool    `json:"ok"`         // true if request succeeded
-}
-```
-
-### `GetEventResponse`
-
-Container class for the decoded response from a _GetEvent_ request.
-```
-type GetEventResponse struct {
-  Controller     uint32     `json:"controller"`     // controller serial number
-  Index          uint32     `json:"index"`          // event index
-  Timestamp      time.Time  `json:"timestamp"`      // event timestamp
-  EventType      uint8      `json:"event-type"`     // event type 
-  AccessGranted  bool       `json:"acces-granted"`  // true if the door was unlocked
-  Door           uint8      `json:"door"`           // door no. for card and door events
-  Direction      uint8      `json:"direction"`      // direction for card and door events
-  Card           uint32     `json:"card"`           // card number (for card events)
-  Reason         uint8      `json:"reason"`         // reason code
-}
-
-Event types:
-- 0:   unknown
-- 1:   card
-- 2:   door
-- 3:   alarm
-- 4:   system
-- 255: overwritten
-
-Direction:
-- 1: in
-- 2: out
-
-Reasons:
-0:      unknown
-1:      card ok
-5:      card denied (PC control)
-6:      card denied (no access)
-7:      card denied (invalid password)
-8:      card denied (anti-passback)
-9:      card denied (more cards)
-10:     card denied (first card open)
-11:     card denied (door normally closed)
-12:     card denied (door interlock)
-13:     card denied (limited times)
-15:     card denied (invalid timezone)
-18:     card denied
-20:     door pushbutton
-23:     door open
-24:     door closed
-25:     door supervisor password open
-28:     controller power on
-29:     controller reset
-30:     pushbutton denied (disabled by task)
-31:     pushbutton denied (forced lock)
-32:     pushbutton denied (not online)
-33:     pushbutton denied (door interlock
-34:     alarm (threat)
-37:     alarm (open too long)
-38:     alarm (forced open)
-39:     alarm (fire)
-40:     alarm (forced close)
-41:     alarm (tamper detect)
-42:     alarm (24x7 zone)
-43:     alarm (emergency call)
-44:     remote open door
-45:     remote open door (USB reader)
-```
-
-### `GetEventIndexResponse`
-
-Container class for the decoded response from a _GetEventIndex_ request.
-```
-type GetEventResponse struct {
-  Controller  uint32  `json:"controller"` // controller serial number
-  Index       uint32  `json:"index"`      // event index
-}
-```
-
-### `GetEventIndexResponse`
-
-Container class for the decoded response from a _SetEventIndex_ request.
-```
-type SetEventResponse struct {
-  Controller  uint32  `json:"controller"` // controller serial number
-  Ok          bool    `json:"ok"`         // succeeded/failed
-}
-```
-
-### `RecordSpecialEventsResponse`
-
-Container class for the decoded response from a _RecordSpecialEvents_ request.
-```
-type RecordSpecialEventsResponse struct {
-  Controller  uint32  `json:"controller"` // controller serial number
-  Ok          bool    `json:"ok"`         // succeeded/failed
-}
-```
-
-### `GetTimeProfileResponse`
-
-Container class for the decoded response from a _GetTimeProfile_ request.
-```
-type GetTimeProfileResponse struct {
-  Controller     uint32     `json:"controller"`      // controller serial number
-  Profile        uint8      `json:"profile"`         // profile ID [2..254]
-  StartDate      time.Time  `json:"start-date"`      // date from which profile is valid (inclusive)
-  EndDate        time.Time  `json:"end-date"`        // date after which profile is invalid
-  Monday         bool       `json:"monday"`          // profile enabled on Monday if true
-  Tuesday        bool       `json:"tuesday"`         // profile enabled on Tuesday if true
-  Wednesday      bool       `json:"wednesday"`       // profile enabled on Wednesday if true
-  Thursday       bool       `json:"thursday"`        // profile enabled on Thursday if true
-  Friday         bool       `json:"friday"`          // profile enabled on Monday if true
-  Saturday       bool       `json:"saturday"`        // profile enabled on Friday if true
-  Sunday         bool       `json:"sunday"`          // profile enabled on Sunday if true
-  Segment1Start  time.Time  `json:"segment1-start"`  // start time for first time segment
-  Segment1End    time.Time  `json:"segment1-end"`    // end time for first time segment
-  Segment2Start  time.Time  `json:"segment2-start"`  // start time for second time segment
-  Segment2End    time.Time  `json:"segment2-end"`    // end time for second time segment
-  Segment3Start  time.Time  `json:"segment3-start"`  // start time for third time segment
-  Segment3End    time.Time  `json:"segment3-end"`    // end time for third time segment
-  LinkedProfile  uint8      `json:"linked-profile"`  // ID of linked profile (0 if not linked)
-}
-```
-
-### `SetTimeProfileResponse`
-
-Container class for the decoded response from a _SetTimeProfile_ request.
-```
-type SetTimeProfileResponse struct {
-  Controller  uint32  `json:"controller"` // controller serial number
-  Ok          bool    `json:"ok"`         // succeeded/failed
-}
-```
-
-### `ClearTimeProfilesResponse`
-
-Container class for the decoded response from a _ClearTimeProfiles_ request.
-```
-type ClearTimeProfilesResponse struct {
-  Controller  uint32  `json:"controller"` // controller serial number
-  Ok          bool    `json:"ok"`         // succeeded/failed
-}
-```
-
-### `AddTaskResponse`
-
-Container class for the decoded response from an _AddTask_ request.
-```
-type AddTaskResponse struct {
-  Controller  uint32  `json:"controller"` // controller serial number
-  Ok          bool    `json:"ok"`         // succeeded/failed
-}
-```
-
-### `RefreshTasklistResponse`
-
-Container class for the decoded response from a _RefreshTasklist_ request.
-```
-type RefreshTasklistResponse struct {
-  Controller  uint32  `json:"controller"` // controller serial number
-  Ok          bool    `json:"ok"`         // succeeded/failed
-}
-```
-
-### `ClearTasklistResponse`
-
-Container class for the decoded response from a _ClearTasklist_ request.
-```
-type ClearTasklistResponse struct {
-  Controller  uint32  `json:"controller"` // controller serial number
-  Ok          bool    `json:"ok"`         // succeeded/failed
-}
-```
-
-### `SetPCControlResponse`
-
-Container class for the decoded response from a _SetPCControl_ request.
-```
-type SetPCControlResponse struct {
-  Controller  uint32  `json:"controller"` // controller serial number
-  Ok          bool    `json:"ok"`         // succeeded/failed
-}
-```
-
-### `SetInterlockResponse`
-
-Container class for the decoded response from a _SetInterlock_ request.
-```
-type SetInterlockResponse struct {
-  Controller  uint32  `json:"controller"` // controller serial number
-  Ok          bool    `json:"ok"`         // succeeded/failed
-}
-```
-
-### `ActivateKeypadsResponse`
-Container struct for the response returned from an access controller when enabling or
-disabling door reader keypads.
-```
-type ActivateKeypadsResponse struct { 
-  Controller  uint32  `json:"controller"` // controller serial number
-  Ok            bool  `json:"ok"`         // succeeded/failed
-}
-```
-
-### `GetAntipassbackResponse`
-Container struct for the response returned from to a request for the current anti-passback mode:
-- 0: disabled
-- 1: readers 1:2; 3:4 (independently)
-- 2: readers (1,3):(2,4)
-- 3: readers 1:(2,3)
-- 4: readers 1:(2,3,4)
-```
 type GetAntipassbackResponse struct { 
-  Controller    uint32          `json:"controller"`   // controller serial number
-  Antipassback  uint8           `json:"antipassback"` // anti-passback mode
+  Controller          uint32              `json:"controller"`     // controller serial number
+  Antipassback        uint8               `json:"antipassback"`   // anti-passback mode
+}
+```
+
+### `SetAntiPassback`
+Sets the access controller anti-passback mode.
+
+The following modes are supported:
+- 0: disabled
+- 1: doors 1&2, doors 3&4
+- 2: doors 1&3, doors 2&4
+- 3: door 1 & doors 2,3
+- 4: door 1 & doors 1,2,3
+```
+SetAntiPassback(u, controller, antipassback, timeout)
+
+where:
+- u             Uhppoted        Uhppoted struct initialised with the bind address, broadcast address, etc
+- controller    controller      uint32|Controller controller serial number or {id, address, protocol} Controller struct
+- antipassback  uint8           anti-passback mode
+- timeout       time.Duration   maximum time to wait for a response from a controller
+
+Returns a `SetAntipassbackResponse`:
+
+type SetAntipassbackResponse struct { 
+  Controller          uint32              `json:"controller"`     // controller serial number
+  Ok                  bool                `json:"ok"`             // succeeded/failed
 }
 ```
 

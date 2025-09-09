@@ -163,3 +163,6 @@ activate-keypads: build
 
 get-antipassback: build
 	$(CMD) get-antipassback --controller $(CONTROLLER) $(DEST) $(TCP)
+
+set-antipassback: build
+	$(CMD) set-antipassback --controller $(CONTROLLER) $(DEST) $(TCP) --anti-passback "(1:2);(3:4)"

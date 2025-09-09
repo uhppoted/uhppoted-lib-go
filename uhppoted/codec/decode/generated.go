@@ -1004,3 +1004,31 @@ func GetAntipassbackResponse(packet []byte) (responses.GetAntipassbackResponse, 
 		Antipassback: unpackUint8(packet, 8),
 	}, nil
 }
+
+// Decodes a set-antipassback-response response.
+//
+//	Parameters:
+//	    packet  (bytearray)  64 byte UDP packet.
+//
+//	Returns:
+//	    - SetAntipassbackResponse initialised from the UDP packet.
+//	    - error if the packet is not 64 bytes, has an invalid start-of-message byte or has
+//	               the incorrect message type.
+func SetAntipassbackResponse(packet []byte) (responses.SetAntipassbackResponse, error) {
+	if len(packet) != 64 {
+		return responses.SetAntipassbackResponse{}, fmt.Errorf("invalid reply packet length (%v)", len(packet))
+	}
+
+	if packet[0] != SOM {
+		return responses.SetAntipassbackResponse{}, fmt.Errorf("invalid reply start of message byte (%02x)", packet[0])
+	}
+
+	if packet[1] != 132 {
+		return responses.SetAntipassbackResponse{}, fmt.Errorf("invalid reply function code (%02x)", packet[1])
+	}
+
+	return responses.SetAntipassbackResponse{
+		Controller: unpackUint32(packet, 4),
+		Ok:         unpackBool(packet, 8),
+	}, nil
+}

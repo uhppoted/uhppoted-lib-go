@@ -50,6 +50,7 @@ var Expected = struct {
 	SetInterlock           responses.SetInterlockResponse
 	ActivateKeypads        responses.ActivateKeypadsResponse
 	GetAntipassback        responses.GetAntipassbackResponse
+	SetAntipassback        responses.SetAntipassbackResponse
 }{
 	FindControllers: []responses.GetControllerResponse{
 		responses.GetControllerResponse{
@@ -402,6 +403,11 @@ var Expected = struct {
 	GetAntipassback: responses.GetAntipassbackResponse{
 		Controller:   405419896,
 		Antipassback: 2,
+	},
+
+	SetAntipassback: responses.SetAntipassbackResponse{
+		Controller: 405419896,
+		Ok:         true,
 	},
 }
 

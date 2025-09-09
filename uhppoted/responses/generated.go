@@ -353,3 +353,10 @@ type GetAntipassbackResponse struct {
 	Controller   uint32 `json:"controller"`
 	Antipassback uint8  `json:"antipassback"`
 }
+
+// Container struct for the response returned by a controller when setting
+// the anti-passback mode.
+type SetAntipassbackResponse struct {
+	Controller uint32 `json:"controller"`
+	Ok         bool   `json:"ok"`
+}

@@ -121,6 +121,9 @@ func decode(packet []byte) (any, error) {
 	case 0x86:
 		return decoder.GetAntipassbackResponse(packet)
 
+	case 0x84:
+		return decoder.SetAntipassbackResponse(packet)
+
 	default:
 		return nil, fmt.Errorf("unknown message type (%02x)", packet[1])
 	}

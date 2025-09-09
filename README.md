@@ -64,3 +64,4 @@ folder.
 - [`SetInterlock`](API.md#setinterlock)
 - [`ActivateKeypads`](API.md#activatekeypads)
 - [`GetAntiPassback`](API.md#getantipassback)
+- [`SetAntiPassback`](API.md#setantipassback)

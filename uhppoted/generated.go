@@ -315,3 +315,19 @@ func GetAntiPassback[T TController](u Uhppoted, controller T, timeout time.Durat
 
 	return exec[T, responses.GetAntipassbackResponse](u, controller, f, timeout)
 }
+
+// Sets the access controller anti-passback mode.
+//
+// The following modes are supported:
+// - 0: disabled
+// - 1: doors 1&2, doors 3&4
+// - 2: doors 1&3, doors 2&4
+// - 3: door 1 & doors 2,3
+// - 4: door 1 & doors 1,2,3
+func SetAntiPassback[T TController](u Uhppoted, controller T, antipassback uint8, timeout time.Duration) (responses.SetAntipassbackResponse, error) {
+	f := func(id uint32) ([]byte, error) {
+		return encode.SetAntipassbackRequest(id, antipassback)
+	}
+
+	return exec[T, responses.SetAntipassbackResponse](u, controller, f, timeout)
+}
