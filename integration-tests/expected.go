@@ -157,7 +157,7 @@ var Expected = struct {
 	GetStatus: responses.GetStatusResponse{
 		Controller:         405419896,
 		SystemDate:         entities.MustParseDate("2022-08-23"),
-		SystemTime:         string2time("09:49:39"),
+		SystemTime:         entities.MustParseTime("09:49:39"),
 		Door1Open:          false,
 		Door2Open:          true,
 		Door3Open:          false,
@@ -184,7 +184,7 @@ var Expected = struct {
 	GetStatusNoEvent: responses.GetStatusResponse{
 		Controller:         405419897,
 		SystemDate:         entities.MustParseDate("2025-11-23"),
-		SystemTime:         string2time("14:37:53"),
+		SystemTime:         entities.MustParseTime("14:37:53"),
 		Door1Open:          true,
 		Door2Open:          false,
 		Door3Open:          true,
@@ -422,14 +422,6 @@ func addrport(v string) netip.AddrPort {
 func string2datetime(v string) time.Time {
 	if d, err := time.ParseInLocation("2006-01-02 15:04:05", v, time.Local); err != nil {
 		panic(fmt.Sprintf("invalid datetime (%v)", v))
-	} else {
-		return d
-	}
-}
-
-func string2time(v string) time.Time {
-	if d, err := time.ParseInLocation("15:04:05", v, time.Local); err != nil {
-		panic(fmt.Sprintf("invalid time (%v)", v))
 	} else {
 		return d
 	}

@@ -250,7 +250,7 @@ func unpack(field lib.Field) string {
 		return fmt.Sprintf("unpackOptionalDate(packet, %v)", field.Offset)
 
 	case "time":
-		return fmt.Sprintf("unpackHHMMSS(packet, %v)", field.Offset)
+		return fmt.Sprintf("unpackTime(packet, %v)", field.Offset)
 
 	case "HHmm":
 		return fmt.Sprintf("unpackHHMM(packet, %v)", field.Offset)
@@ -292,14 +292,14 @@ func lookup(path, key, defval string) any {
 		"MAC":     "string",
 		"version": "string",
 		// "date":       "Date",
-		"shortdate":  "Date",
+		// "shortdate":  "Date",
 		"time":       "Time",
 		"datetime":   "DateTime",
 		"HHmm":       "time.Time",
 		"pin":        "PIN",
 		"controller": "Controller",
 
-		"optional date":     "Date",
+		// "optional date":     "Date",
 		"optional datetime": "DateTime",
 	}
 
@@ -350,7 +350,7 @@ func value(v any, vtype string) string {
 		return fmt.Sprintf(`entities.MustParseDate("%v")`, v)
 
 	case "time":
-		return fmt.Sprintf(`string2time("%v")`, v)
+		return fmt.Sprintf(`entities.MustParseTime("%v")`, v)
 
 	case "HHmm":
 		return fmt.Sprintf(`string2HHmm("%v")`, v)

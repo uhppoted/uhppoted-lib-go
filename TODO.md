@@ -43,6 +43,7 @@
 - [ ] listen
 
 - [ ] custom date/time/task/interlock types
+- [ ] date/time args
 - [ ] card/event/profile/task records
 - [ ] check for controller = 0
 - [ ] check response.controller == request.controller
@@ -58,13 +59,14 @@
       - [ ] move FindControllers to uhppoted-codegen
 
    - [x] response structs
+   - [x] decoder
+   - [x] decoder_test
+   - [x] README
+   - [x] API.md
+
    - [x] encode
    - [x] encode_test
    - [x] decode
    - [x] decode_test
    - [x] integration tests
-   - [x] decoder
-   - [x] decoder_test
-   - [x] README
-   - [x] API.md
 

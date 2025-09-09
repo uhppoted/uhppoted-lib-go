@@ -69,14 +69,6 @@ func string2datetime(v string) time.Time {
     }
 }
 
-func string2time(v string) time.Time {
-    if d, err := time.ParseInLocation("15:04:05", v, time.Local); err != nil {
-        panic(fmt.Sprintf("invalid time (%v)", v))
-    } else {
-        return d
-    }
-}
-
 func string2HHmm(v string) time.Time {
     if d, err := time.ParseInLocation("15:04", v, time.Local); err != nil {
         panic(fmt.Sprintf("invalid time (%v)", v))

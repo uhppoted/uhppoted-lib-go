@@ -96,7 +96,7 @@ func GetStatusResponse(packet []byte) (responses.GetStatusResponse, error) {
 	return responses.GetStatusResponse{
 		Controller:         unpackUint32(packet, 4),
 		SystemDate:         unpackShortDate(packet, 51),
-		SystemTime:         unpackHHMMSS(packet, 37),
+		SystemTime:         unpackTime(packet, 37),
 		Door1Open:          unpackBool(packet, 28),
 		Door2Open:          unpackBool(packet, 29),
 		Door3Open:          unpackBool(packet, 30),

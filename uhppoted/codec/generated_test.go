@@ -65,7 +65,7 @@ func TestDecodeGetStatusResponse(t *testing.T) {
 	expected := responses.GetStatusResponse{
 		Controller:         405419896,
 		SystemDate:         entities.MustParseDate("2022-08-23"),
-		SystemTime:         string2time("09:49:39"),
+		SystemTime:         entities.MustParseTime("09:49:39"),
 		Door1Open:          false,
 		Door2Open:          true,
 		Door3Open:          false,

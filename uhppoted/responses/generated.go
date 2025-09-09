@@ -30,7 +30,7 @@ type SetIPv4Response struct {
 type GetStatusResponse struct {
 	Controller         uint32        `json:"controller"`
 	SystemDate         entities.Date `json:"system-date"`
-	SystemTime         time.Time     `json:"system-time"`
+	SystemTime         entities.Time `json:"system-time"`
 	Door1Open          bool          `json:"door-1-open"`
 	Door2Open          bool          `json:"door-2-open"`
 	Door3Open          bool          `json:"door-3-open"`

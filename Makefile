@@ -28,7 +28,7 @@ build: format
 	go build -trimpath ./...
 
 debug: build
-	cd examples/cli && make set-antipassback
+	cd examples/cli && make get-status
 	# go test ./uhppoted/... -run TestDecodeGetStatusResponse
 	# go test ./integration-tests/... -run TestGetListenerAddrPort
 

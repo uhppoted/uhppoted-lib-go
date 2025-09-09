@@ -113,10 +113,10 @@ func (d *Date) UnmarshalJSON(bytes []byte) error {
 			month: time.January,
 			day:   1,
 		}
-	} else if date, err := ParseDate(s); err != nil {
+	} else if v, err := ParseDate(s); err != nil {
 		return err
 	} else {
-		*d = Date(date)
+		*d = v
 	}
 
 	return nil

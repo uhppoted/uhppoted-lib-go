@@ -150,11 +150,12 @@ func unpackOptionalDate(packet []byte, offset uint8) entities.Date {
 	}
 }
 
-func unpackHHMMSS(packet []byte, offset uint8) time.Time {
+func unpackTime(packet []byte, offset uint8) entities.Time {
 	bcd := bcd2string(packet[offset : offset+3])
+	s := bcd[:2] + ":" + bcd[2:4] + ":" + bcd[4:]
 
-	if t, err := time.ParseInLocation("150405", bcd, time.Local); err != nil {
-		return time.Time{}
+	if t, err := entities.ParseTime(s); err != nil {
+		return entities.Time{}
 	} else {
 		return t
 	}

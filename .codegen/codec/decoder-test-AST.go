@@ -446,7 +446,10 @@ func makeValue(field lib.Field, value lib.Value) ast.Expr {
 
 	case "time":
 		return &ast.CallExpr{
-			Fun: &ast.Ident{Name: "string2time"},
+			Fun: &ast.SelectorExpr{
+				X:   &ast.Ident{Name: "entities"},
+				Sel: &ast.Ident{Name: "MustParseTime"},
+			},
 			Args: []ast.Expr{
 				&ast.BasicLit{Kind: token.STRING, Value: fmt.Sprintf(`"%v"`, value.Value)},
 			},
