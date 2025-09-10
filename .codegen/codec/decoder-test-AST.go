@@ -2,7 +2,6 @@ package codec
 
 import (
 	"bytes"
-	_ "embed"
 	"fmt"
 	"log"
 	"os"

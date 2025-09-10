@@ -1,7 +1,6 @@
 package codec
 
 import (
-	_ "embed"
 	"fmt"
 	"log"
 	"os"

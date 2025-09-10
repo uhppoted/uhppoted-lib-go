@@ -30,6 +30,7 @@ func Codec() {
 
 	decode()
 	decodeTest()
+	decodeAST()
 
 	decoder()
 	decoderTest()

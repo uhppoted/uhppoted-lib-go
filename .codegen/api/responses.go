@@ -17,10 +17,14 @@ import (
 func Responses() {
 	file := filepath.Join("responses", "generated.go")
 
-	imports := []string{
-		"net/netip",
-		"time",
-		"github.com/uhppoted/uhppoted-lib-go/uhppoted/entities",
+	imports := [][]string{
+		[]string{
+			"net/netip",
+			"time",
+		},
+		[]string{
+			"github.com/uhppoted/uhppoted-lib-go/uhppoted/entities",
+		},
 	}
 
 	types := []*ast.GenDecl{}

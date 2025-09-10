@@ -19,12 +19,15 @@ import (
 func API() {
 	const file = "generated.go"
 
-	imports := []string{
-		"net/netip",
-		"time",
-
-		"github.com/uhppoted/uhppoted-lib-go/uhppoted/codec/encode",
-		"github.com/uhppoted/uhppoted-lib-go/uhppoted/responses",
+	imports := [][]string{
+		[]string{
+			"net/netip",
+			"time",
+		},
+		[]string{
+			"github.com/uhppoted/uhppoted-lib-go/uhppoted/codec/encode",
+			"github.com/uhppoted/uhppoted-lib-go/uhppoted/responses",
+		},
 	}
 
 	types := []*ast.GenDecl{}

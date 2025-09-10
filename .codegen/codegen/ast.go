@@ -15,18 +15,20 @@ type AST struct {
 	file *ast.File
 }
 
-func NewAST(pkg string, imports []string, types []*ast.GenDecl, functions []*ast.FuncDecl) AST {
+func NewAST(pkg string, imports [][]string, types []*ast.GenDecl, functions []*ast.FuncDecl) AST {
 	// ... imports
 	imported := []*ast.ImportSpec{}
 
-	for _, v := range imports {
-		if v == "" {
+	for i, u := range imports {
+		if i > 0 {
 			imported = append(imported, &ast.ImportSpec{
 				Path: &ast.BasicLit{
 					Kind: token.STRING,
 				},
 			})
-		} else {
+		}
+
+		for _, v := range u {
 			imported = append(imported, &ast.ImportSpec{
 				Path: &ast.BasicLit{
 					Kind:  token.STRING,
