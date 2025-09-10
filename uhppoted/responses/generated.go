@@ -277,12 +277,12 @@ type GetTimeProfileResponse struct {
 	Friday        bool          `json:"friday"`
 	Saturday      bool          `json:"saturday"`
 	Sunday        bool          `json:"sunday"`
-	Segment1Start time.Time     `json:"segment1-start"`
-	Segment1End   time.Time     `json:"segment1-end"`
-	Segment2Start time.Time     `json:"segment2-start"`
-	Segment2End   time.Time     `json:"segment2-end"`
-	Segment3Start time.Time     `json:"segment3-start"`
-	Segment3End   time.Time     `json:"segment3-end"`
+	Segment1Start entities.HHmm `json:"segment1-start"`
+	Segment1End   entities.HHmm `json:"segment1-end"`
+	Segment2Start entities.HHmm `json:"segment2-start"`
+	Segment2End   entities.HHmm `json:"segment2-end"`
+	Segment3Start entities.HHmm `json:"segment3-start"`
+	Segment3End   entities.HHmm `json:"segment3-end"`
 	LinkedProfile uint8         `json:"linked-profile"`
 }
 

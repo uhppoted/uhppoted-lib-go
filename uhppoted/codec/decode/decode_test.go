@@ -681,12 +681,12 @@ func TestGetTimeProfile(t *testing.T) {
 		Friday:        false,
 		Saturday:      true,
 		Sunday:        true,
-		Segment1Start: string2HHmm("08:30"),
-		Segment1End:   string2HHmm("09:45"),
-		Segment2Start: string2HHmm("11:35"),
-		Segment2End:   string2HHmm("13:15"),
-		Segment3Start: string2HHmm("14:01"),
-		Segment3End:   string2HHmm("17:59"),
+		Segment1Start: entities.MustParseHHmm("08:30"),
+		Segment1End:   entities.MustParseHHmm("09:45"),
+		Segment2Start: entities.MustParseHHmm("11:35"),
+		Segment2End:   entities.MustParseHHmm("13:15"),
+		Segment3Start: entities.MustParseHHmm("14:01"),
+		Segment3End:   entities.MustParseHHmm("17:59"),
 		LinkedProfile: 19,
 	}
 

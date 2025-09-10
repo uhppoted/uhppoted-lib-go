@@ -126,6 +126,9 @@ func gotype(field types.Field) string {
 	//
 	// case "time":
 	// 	return "time.Time"
+	//
+	// case "HHmm":
+	// 	return "time.Time"
 
 	case "date":
 		return "entities.Date"
@@ -140,7 +143,7 @@ func gotype(field types.Field) string {
 		return "entities.Time"
 
 	case "HHmm":
-		return "time.Time"
+		return "entities.HHmm"
 
 	case "IPv4":
 		return "netip.Addr"

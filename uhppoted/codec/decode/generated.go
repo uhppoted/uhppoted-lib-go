@@ -743,12 +743,12 @@ func GetTimeProfileResponse(packet []byte) (responses.GetTimeProfileResponse, er
 		Friday:        unpackBool(packet, 21),
 		Saturday:      unpackBool(packet, 22),
 		Sunday:        unpackBool(packet, 23),
-		Segment1Start: unpackHHMM(packet, 24),
-		Segment1End:   unpackHHMM(packet, 26),
-		Segment2Start: unpackHHMM(packet, 28),
-		Segment2End:   unpackHHMM(packet, 30),
-		Segment3Start: unpackHHMM(packet, 32),
-		Segment3End:   unpackHHMM(packet, 34),
+		Segment1Start: unpackHHmm(packet, 24),
+		Segment1End:   unpackHHmm(packet, 26),
+		Segment2Start: unpackHHmm(packet, 28),
+		Segment2End:   unpackHHmm(packet, 30),
+		Segment3Start: unpackHHmm(packet, 32),
+		Segment3End:   unpackHHmm(packet, 34),
 		LinkedProfile: unpackUint8(packet, 36),
 	}, nil
 }

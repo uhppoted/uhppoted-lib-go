@@ -161,11 +161,12 @@ func unpackTime(packet []byte, offset uint8) entities.Time {
 	}
 }
 
-func unpackHHMM(packet []byte, offset uint8) time.Time {
+func unpackHHmm(packet []byte, offset uint8) entities.HHmm {
 	bcd := bcd2string(packet[offset : offset+2])
+	s := bcd[:2] + ":" + bcd[2:4]
 
-	if t, err := time.ParseInLocation("1504", bcd, time.Local); err != nil {
-		return time.Time{}
+	if t, err := entities.ParseHHmm(s); err != nil {
+		return entities.HHmm{}
 	} else {
 		return t
 	}

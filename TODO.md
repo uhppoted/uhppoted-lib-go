@@ -43,7 +43,9 @@
 - [ ] listen
 
 - [x] custom date
-- [ ] custom time/task/interlock types
+- [x] custom time
+- [x] custom HHmm
+- [ ] custom datetime/task/interlock types
 - [ ] date/time args
 - [ ] card/event/profile/task records
 - [ ] check for controller = 0

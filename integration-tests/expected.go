@@ -352,12 +352,12 @@ var Expected = struct {
 		Friday:        false,
 		Saturday:      true,
 		Sunday:        true,
-		Segment1Start: string2HHmm("08:30"),
-		Segment1End:   string2HHmm("09:45"),
-		Segment2Start: string2HHmm("11:35"),
-		Segment2End:   string2HHmm("13:15"),
-		Segment3Start: string2HHmm("14:01"),
-		Segment3End:   string2HHmm("17:59"),
+		Segment1Start: entities.MustParseHHmm("08:30"),
+		Segment1End:   entities.MustParseHHmm("09:45"),
+		Segment2Start: entities.MustParseHHmm("11:35"),
+		Segment2End:   entities.MustParseHHmm("13:15"),
+		Segment3Start: entities.MustParseHHmm("14:01"),
+		Segment3End:   entities.MustParseHHmm("17:59"),
 		LinkedProfile: 19,
 	},
 
@@ -428,14 +428,6 @@ func addrport(v string) netip.AddrPort {
 func string2datetime(v string) time.Time {
 	if d, err := time.ParseInLocation("2006-01-02 15:04:05", v, time.Local); err != nil {
 		panic(fmt.Sprintf("invalid datetime (%v)", v))
-	} else {
-		return d
-	}
-}
-
-func string2HHmm(v string) time.Time {
-	if d, err := time.ParseInLocation("15:04", v, time.Local); err != nil {
-		panic(fmt.Sprintf("invalid time (%v)", v))
 	} else {
 		return d
 	}
