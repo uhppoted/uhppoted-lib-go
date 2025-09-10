@@ -956,11 +956,3 @@ func string2datetime(v string) time.Time {
 		return d
 	}
 }
-
-func string2HHmm(v string) time.Time {
-	if d, err := time.ParseInLocation("15:04", v, time.Local); err != nil {
-		panic(fmt.Sprintf("invalid time (%v)", v))
-	} else {
-		return d
-	}
-}
