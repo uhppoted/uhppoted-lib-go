@@ -9,7 +9,7 @@ import (
     lib "github.com/uhppoted/uhppoted-lib-go/uhppoted"
 )
 
-{{ range $func := . }}{{ if includes $func.Protocols "udp"}}{{ range $test := $func.Tests }}
+{{ range $func := . }}{{ range $test := $func.Tests }}
 func Test{{ titleCase $test.Name }}(t *testing.T) {
 {{- range $arg := $test.Args }}{{ if eq $arg.Name "controller"}}
       controller := lib.Controller{
@@ -28,4 +28,4 @@ func Test{{ titleCase $test.Name }}(t *testing.T) {
         t.Errorf("incorrect response\n   expected:%#v\n   got:     %#v", test.Expected.{{ titleCase $test.Name }}, response)
     }
 }
-{{ end }}{{ end }}{{ end }}
+{{ end }}{{ end }}

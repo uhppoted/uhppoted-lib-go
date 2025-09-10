@@ -65,3 +65,4 @@ folder.
 - [`ActivateKeypads`](API.md#activatekeypads)
 - [`GetAntiPassback`](API.md#getantipassback)
 - [`SetAntiPassback`](API.md#setantipassback)
+- [`RestoreDefaultParameters`](API.md#restoredefaultparameters)

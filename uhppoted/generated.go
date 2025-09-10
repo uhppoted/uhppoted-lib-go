@@ -331,3 +331,12 @@ func SetAntiPassback[T TController](u Uhppoted, controller T, antipassback uint8
 
 	return exec[T, responses.SetAntipassbackResponse](u, controller, f, timeout)
 }
+
+// Restores the controller configuration to the manufacturer defaults.
+func RestoreDefaultParameters[T TController](u Uhppoted, controller T, timeout time.Duration) (responses.RestoreDefaultParametersResponse, error) {
+	f := func(id uint32) ([]byte, error) {
+		return encode.RestoreDefaultParametersRequest(id)
+	}
+
+	return exec[T, responses.RestoreDefaultParametersResponse](u, controller, f, timeout)
+}

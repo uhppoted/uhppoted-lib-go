@@ -781,3 +781,23 @@ func SetAntipassbackRequest(controller uint32, antipassback uint8) ([]byte, erro
 
 	return packet, nil
 }
+
+// Encodes a restore-default-parameters-request.
+//
+//	Parameters:
+//	    controller  (uint32)  controller serial number
+//	      (magic)
+//
+//	Returns:
+//	    64 byte packet.
+func RestoreDefaultParametersRequest(controller uint32) ([]byte, error) {
+	packet := make([]byte, 64)
+
+	packet[0] = SOM
+	packet[1] = 200
+
+	packUint32(controller, packet, 4)
+	packUint32(0x55aaaa55, packet, 8)
+
+	return packet, nil
+}

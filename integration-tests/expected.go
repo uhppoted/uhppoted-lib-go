@@ -10,47 +10,48 @@ import (
 )
 
 var Expected = struct {
-	FindControllers        []responses.GetControllerResponse
-	GetController          responses.GetControllerResponse
-	SetIPv4                responses.SetIPv4Response
-	GetTime                responses.GetTimeResponse
-	SetTime                responses.SetTimeResponse
-	GetListener            responses.GetListenerResponse
-	SetListener            responses.SetListenerResponse
-	GetListenerAddrPort    responses.GetListenerAddrPortResponse
-	SetListenerAddrPort    responses.SetListenerAddrPortResponse
-	GetDoor                responses.GetDoorResponse
-	SetDoor                responses.SetDoorResponse
-	SetDoorPasscodes       responses.SetDoorPasscodesResponse
-	OpenDoor               responses.OpenDoorResponse
-	GetStatus              responses.GetStatusResponse
-	GetStatusNoEvent       responses.GetStatusResponse
-	GetCards               responses.GetCardsResponse
-	GetCard                responses.GetCardResponse
-	GetCardNotFound        responses.GetCardResponse
-	GetCardAtIndex         responses.GetCardAtIndexResponse
-	GetCardAtIndexNotFound responses.GetCardAtIndexResponse
-	GetCardAtIndexDeleted  responses.GetCardAtIndexResponse
-	PutCard                responses.PutCardResponse
-	DeleteCard             responses.DeleteCardResponse
-	DeleteAllCards         responses.DeleteAllCardsResponse
-	GetEvent               responses.GetEventResponse
-	GetEventNotFound       responses.GetEventResponse
-	GetEventOverwritten    responses.GetEventResponse
-	GetEventIndex          responses.GetEventIndexResponse
-	SetEventIndex          responses.SetEventIndexResponse
-	RecordSpecialEvents    responses.RecordSpecialEventsResponse
-	GetTimeProfile         responses.GetTimeProfileResponse
-	SetTimeProfile         responses.SetTimeProfileResponse
-	ClearTimeProfiles      responses.ClearTimeProfilesResponse
-	AddTask                responses.AddTaskResponse
-	RefreshTaskList        responses.RefreshTaskListResponse
-	ClearTaskList          responses.ClearTasklistResponse
-	SetPcControl           responses.SetPCControlResponse
-	SetInterlock           responses.SetInterlockResponse
-	ActivateKeypads        responses.ActivateKeypadsResponse
-	GetAntipassback        responses.GetAntipassbackResponse
-	SetAntipassback        responses.SetAntipassbackResponse
+	FindControllers          []responses.GetControllerResponse
+	GetController            responses.GetControllerResponse
+	SetIPv4                  responses.SetIPv4Response
+	GetTime                  responses.GetTimeResponse
+	SetTime                  responses.SetTimeResponse
+	GetListener              responses.GetListenerResponse
+	SetListener              responses.SetListenerResponse
+	GetListenerAddrPort      responses.GetListenerAddrPortResponse
+	SetListenerAddrPort      responses.SetListenerAddrPortResponse
+	GetDoor                  responses.GetDoorResponse
+	SetDoor                  responses.SetDoorResponse
+	SetDoorPasscodes         responses.SetDoorPasscodesResponse
+	OpenDoor                 responses.OpenDoorResponse
+	GetStatus                responses.GetStatusResponse
+	GetStatusNoEvent         responses.GetStatusResponse
+	GetCards                 responses.GetCardsResponse
+	GetCard                  responses.GetCardResponse
+	GetCardNotFound          responses.GetCardResponse
+	GetCardAtIndex           responses.GetCardAtIndexResponse
+	GetCardAtIndexNotFound   responses.GetCardAtIndexResponse
+	GetCardAtIndexDeleted    responses.GetCardAtIndexResponse
+	PutCard                  responses.PutCardResponse
+	DeleteCard               responses.DeleteCardResponse
+	DeleteAllCards           responses.DeleteAllCardsResponse
+	GetEvent                 responses.GetEventResponse
+	GetEventNotFound         responses.GetEventResponse
+	GetEventOverwritten      responses.GetEventResponse
+	GetEventIndex            responses.GetEventIndexResponse
+	SetEventIndex            responses.SetEventIndexResponse
+	RecordSpecialEvents      responses.RecordSpecialEventsResponse
+	GetTimeProfile           responses.GetTimeProfileResponse
+	SetTimeProfile           responses.SetTimeProfileResponse
+	ClearTimeProfiles        responses.ClearTimeProfilesResponse
+	AddTask                  responses.AddTaskResponse
+	RefreshTaskList          responses.RefreshTaskListResponse
+	ClearTaskList            responses.ClearTasklistResponse
+	SetPcControl             responses.SetPCControlResponse
+	SetInterlock             responses.SetInterlockResponse
+	ActivateKeypads          responses.ActivateKeypadsResponse
+	GetAntipassback          responses.GetAntipassbackResponse
+	SetAntipassback          responses.SetAntipassbackResponse
+	RestoreDefaultParameters responses.RestoreDefaultParametersResponse
 }{
 	FindControllers: []responses.GetControllerResponse{
 		responses.GetControllerResponse{
@@ -406,6 +407,11 @@ var Expected = struct {
 	},
 
 	SetAntipassback: responses.SetAntipassbackResponse{
+		Controller: 405419896,
+		Ok:         true,
+	},
+
+	RestoreDefaultParameters: responses.RestoreDefaultParametersResponse{
 		Controller: 405419896,
 		Ok:         true,
 	},

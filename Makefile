@@ -28,7 +28,7 @@ build: format
 	go build -trimpath ./...
 
 debug: build
-	cd examples/cli && make get-status
+	cd examples/cli && make restore-default-parameters
 	# go test ./uhppoted/... -run TestDecodeGetStatusResponse
 	# go test ./integration-tests/... -run TestGetListenerAddrPort
 
@@ -236,3 +236,8 @@ set-antipassback: build
 	cd examples/cli && make set-antipassback
 	cd examples/cli && make set-antipassback DEST="--dest 127.0.0.1"
 	cd examples/cli && make set-antipassback DEST="--dest 127.0.0.1" DEST="--dest 127.0.0.1" TCP="--tcp"
+
+restore-default-parameters: build
+	cd examples/cli && make restore-default-parameters
+	cd examples/cli && make restore-default-parameters DEST="--dest 127.0.0.1"
+	cd examples/cli && make restore-default-parameters DEST="--dest 127.0.0.1" DEST="--dest 127.0.0.1" TCP="--tcp"

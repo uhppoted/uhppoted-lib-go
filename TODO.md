@@ -35,14 +35,15 @@
 - [x] activate-keypads
 - [x] get-antipassback
 - [x] set-antipassback
+- [x] restore-default-parameters
    - [x] API
    - [x] CLI
    - [x] integration test
    - [x] README
-- [ ] restore-default-parameters
 - [ ] listen
 
-- [ ] custom date/time/task/interlock types
+- [x] custom date
+- [ ] custom time/task/interlock types
 - [ ] date/time args
 - [ ] card/event/profile/task records
 - [ ] check for controller = 0
@@ -55,8 +56,8 @@
 
 - [ ] code generation
    - [ ] use/extend uhppoted-codegen models
-      - [ ] remove Request/Response suffixes
-      - [ ] move FindControllers to uhppoted-codegen
+      - (?) remove Request/Response suffixes
+      - (?) move FindControllers to uhppoted-codegen
 
    - [x] response structs
    - [x] decoder

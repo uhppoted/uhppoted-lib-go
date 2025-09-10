@@ -41,6 +41,7 @@ var Responses = []*types.Response{
 	&ActivateKeypadsResponse,
 	&GetAntiPassbackResponse,
 	&SetAntiPassbackResponse,
+	&RestoreDefaultParametersResponse,
 }
 
 var GetControllerResponse = lib.GetControllerResponse
@@ -77,3 +78,4 @@ var SetInterlockResponse = lib.SetInterlockResponse
 var ActivateKeypadsResponse = lib.ActivateKeypadsResponse
 var GetAntiPassbackResponse = lib.GetAntiPassbackResponse
 var SetAntiPassbackResponse = lib.SetAntiPassbackResponse
+var RestoreDefaultParametersResponse = lib.RestoreDefaultParametersResponse

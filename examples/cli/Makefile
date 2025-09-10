@@ -166,3 +166,6 @@ get-antipassback: build
 
 set-antipassback: build
 	$(CMD) set-antipassback --controller $(CONTROLLER) $(DEST) $(TCP) --anti-passback "(1:2);(3:4)"
+
+restore-default-parameters: build
+	$(CMD) restore-default-parameters --controller $(CONTROLLER) $(DEST) $(TCP)

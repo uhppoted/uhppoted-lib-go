@@ -99,7 +99,7 @@ func udp() {
 	defer f.Close()
 
 	tmpl := template.Must(template.New("encode").Funcs(functions).Parse(udpTemplate))
-	if err := tmpl.Execute(f, model.API); err != nil {
+	if err := tmpl.Execute(f, model.UDP); err != nil {
 		log.Fatalf("Failed to execute template: %v", err)
 	}
 
@@ -116,7 +116,7 @@ func tcp() {
 	defer f.Close()
 
 	tmpl := template.Must(template.New("encode").Funcs(functions).Parse(tcpTemplate))
-	if err := tmpl.Execute(f, model.API); err != nil {
+	if err := tmpl.Execute(f, model.TCP); err != nil {
 		log.Fatalf("Failed to execute template: %v", err)
 	}
 

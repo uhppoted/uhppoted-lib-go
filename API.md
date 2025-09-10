@@ -35,6 +35,7 @@
 - [`ActivateKeypads`](#activatekeypads)
 - [`GetAntiPassback`](#getantipassback)
 - [`SetAntiPassback`](#setantipassback)
+- [`RestoreDefaultParameters`](#restoredefaultparameters)
 
 ---
 Invoking an API function requires an instance of the `Uhppoted` struct initialised with the information required
@@ -122,9 +123,9 @@ FindControllers(u, timeout)
 where:
 - u             Uhppoted        Uhppoted struct initialised with the bind address, broadcast address, etc
 - timeout       time.Duration   maximum time to wait for a response from a controller
-
+```
 Returns a ``:
-
+```
 type  struct { 
 }
 ```
@@ -138,9 +139,9 @@ where:
 - u             Uhppoted        Uhppoted struct initialised with the bind address, broadcast address, etc
 - controller    controller      uint32|Controller controller serial number or {id, address, protocol} Controller struct
 - timeout       time.Duration   maximum time to wait for a response from a controller
-
+```
 Returns a `GetControllerResponse`:
-
+```
 type GetControllerResponse struct { 
   Controller          uint32              `json:"controller"`     // controller serial number
   IpAddress           IPv4                `json:"ip-address"`     // controller IPv4 address, e.g. 192.168.1.100
@@ -164,9 +165,9 @@ where:
 - netmask       IPv4            controller IPv4 subnet mask
 - gateway       IPv4            controller gateway IPv4 address
 - timeout       time.Duration   maximum time to wait for a response from a controller
-
+```
 Returns a `SetIPv4Response`:
-
+```
 type SetIPv4Response struct { 
   Controller          uint32              `json:"controller"`     // controller serial number
   Ok                  bool                `json:"ok"`             // succeeded/failed
@@ -182,9 +183,9 @@ where:
 - u             Uhppoted        Uhppoted struct initialised with the bind address, broadcast address, etc
 - controller    controller      uint32|Controller controller serial number or {id, address, protocol} Controller struct
 - timeout       time.Duration   maximum time to wait for a response from a controller
-
+```
 Returns a `GetTimeResponse`:
-
+```
 type GetTimeResponse struct { 
   Controller          uint32              `json:"controller"`     // controller serial number
   DateTime            datetime            `json:"date-time"`      // controller system date/time
@@ -201,9 +202,9 @@ where:
 - controller    controller      uint32|Controller controller serial number or {id, address, protocol} Controller struct
 - date-time     datetime        date/time to which to set controller system time
 - timeout       time.Duration   maximum time to wait for a response from a controller
-
+```
 Returns a `SetTimeResponse`:
-
+```
 type SetTimeResponse struct { 
   Controller          uint32              `json:"controller"`     // controller serial number
   DateTime            datetime            `json:"date-time"`      // controller system date/time
@@ -219,9 +220,9 @@ where:
 - u             Uhppoted        Uhppoted struct initialised with the bind address, broadcast address, etc
 - controller    controller      uint32|Controller controller serial number or {id, address, protocol} Controller struct
 - timeout       time.Duration   maximum time to wait for a response from a controller
-
+```
 Returns a `GetListenerResponse`:
-
+```
 type GetListenerResponse struct { 
   Controller          uint32              `json:"controller"`     // controller serial number
   Address             IPv4                `json:"address"`        // event listener IPv4 address
@@ -242,9 +243,9 @@ where:
 - port          uint16          UDP port of host for controller events
 - interval      uint8           status auto-send interval (seconds). A '0' interval disables auto-send.
 - timeout       time.Duration   maximum time to wait for a response from a controller
-
+```
 Returns a `SetListenerResponse`:
-
+```
 type SetListenerResponse struct { 
   Controller          uint32              `json:"controller"`     // controller serial number
   Ok                  bool                `json:"ok"`             // succeeded/failed
@@ -260,9 +261,9 @@ where:
 - u             Uhppoted        Uhppoted struct initialised with the bind address, broadcast address, etc
 - controller    controller      uint32|Controller controller serial number or {id, address, protocol} Controller struct
 - timeout       time.Duration   maximum time to wait for a response from a controller
-
+```
 Returns a `GetListenerAddrPortResponse`:
-
+```
 type GetListenerAddrPortResponse struct { 
   Controller          uint32              `json:"controller"`     // controller serial number
   Listener            address:port        `json:"listener"`       // event listener IPv4 address:port
@@ -281,9 +282,9 @@ where:
 - listener      address:port    IPv4 address:port of host to receive controller events
 - interval      uint8           status auto-send interval (seconds). A '0'interval disables auto-send.
 - timeout       time.Duration   maximum time to wait for a response from a controller
-
+```
 Returns a `SetListenerAddrPortResponse`:
-
+```
 type SetListenerAddrPortResponse struct { 
   Controller          uint32              `json:"controller"`     // controller serial number
   Ok                  bool                `json:"ok"`             // succeeded/failed
@@ -300,9 +301,9 @@ where:
 - controller    controller      uint32|Controller controller serial number or {id, address, protocol} Controller struct
 - door          uint8           door ID ([1..4])
 - timeout       time.Duration   maximum time to wait for a response from a controller
-
+```
 Returns a `GetDoorResponse`:
-
+```
 type GetDoorResponse struct { 
   Controller          uint32              `json:"controller"`     // controller serial number
   Door                uint8               `json:"door"`           // door ID ([1..4]
@@ -323,9 +324,9 @@ where:
 - mode          uint8           control mode (1:normally open, 2:normally closed. 3:controlled)
 - delay         uint8           unlock delay (seconds))
 - timeout       time.Duration   maximum time to wait for a response from a controller
-
+```
 Returns a `SetDoorResponse`:
-
+```
 type SetDoorResponse struct { 
   Controller          uint32              `json:"controller"`     // controller serial number
   Door                uint8               `json:"door"`           // 
@@ -348,9 +349,9 @@ where:
 - passcode 3    pin             supervisor passcode ([0..99999]), 0 for 'none'
 - passcode 4    pin             supervisor passcode ([0..99999]), 0 for 'none'
 - timeout       time.Duration   maximum time to wait for a response from a controller
-
+```
 Returns a `SetDoorPasscodesResponse`:
-
+```
 type SetDoorPasscodesResponse struct { 
   Controller          uint32              `json:"controller"`     // controller serial number
   Ok                  bool                `json:"ok"`             // succeeded/failed
@@ -367,9 +368,9 @@ where:
 - controller    controller      uint32|Controller controller serial number or {id, address, protocol} Controller struct
 - door          uint8           door ID ([1..4])
 - timeout       time.Duration   maximum time to wait for a response from a controller
-
+```
 Returns an `OpenDoorResponse`:
-
+```
 type OpenDoorResponse struct { 
   Controller          uint32              `json:"controller"`     // controller serial number
   Ok                  bool                `json:"ok"`             // succeeded/failed
@@ -385,9 +386,9 @@ where:
 - u             Uhppoted        Uhppoted struct initialised with the bind address, broadcast address, etc
 - controller    controller      uint32|Controller controller serial number or {id, address, protocol} Controller struct
 - timeout       time.Duration   maximum time to wait for a response from a controller
-
+```
 Returns a `GetStatusResponse`:
-
+```
 type GetStatusResponse struct { 
   Controller          uint32              `json:"controller"`     // controller serial number
   SystemDate          shortdate           `json:"system-date"`    // controller system date, e.g. 2025-07-21
@@ -425,9 +426,9 @@ where:
 - u             Uhppoted        Uhppoted struct initialised with the bind address, broadcast address, etc
 - controller    controller      uint32|Controller controller serial number or {id, address, protocol} Controller struct
 - timeout       time.Duration   maximum time to wait for a response from a controller
-
+```
 Returns a `GetCardsResponse`:
-
+```
 type GetCardsResponse struct { 
   Controller          uint32              `json:"controller"`     // controller serial number
   Cards               uint32              `json:"cards"`          // number of stored cards
@@ -444,9 +445,9 @@ where:
 - controller    controller      uint32|Controller controller serial number or {id, address, protocol} Controller struct
 - card number   uint32          card number
 - timeout       time.Duration   maximum time to wait for a response from a controller
-
+```
 Returns a `GetCardResponse`:
-
+```
 type GetCardResponse struct { 
   Controller          uint32              `json:"controller"`     // controller serial number
   Card                uint32              `json:"card"`           // card number
@@ -470,9 +471,9 @@ where:
 - controller    controller      uint32|Controller controller serial number or {id, address, protocol} Controller struct
 - index         uint32          card record index
 - timeout       time.Duration   maximum time to wait for a response from a controller
-
+```
 Returns a `GetCardAtIndexResponse`:
-
+```
 type GetCardAtIndexResponse struct { 
   Controller          uint32              `json:"controller"`     // controller serial number
   Card                uint32              `json:"card"`           // card number
@@ -503,9 +504,9 @@ where:
 - door 4        uint8           access permissions for door 4 (0: no access, 1: 24/7 access, [2..253] time profile)
 - PIN           pin             optional PIN code [0..999999] (0 for none)
 - timeout       time.Duration   maximum time to wait for a response from a controller
-
+```
 Returns a `PutCardResponse`:
-
+```
 type PutCardResponse struct { 
   Controller          uint32              `json:"controller"`     // controller serial number
   Ok                  bool                `json:"ok"`             // succeeded/failed
@@ -522,9 +523,9 @@ where:
 - controller    controller      uint32|Controller controller serial number or {id, address, protocol} Controller struct
 - card number   uint32          card number
 - timeout       time.Duration   maximum time to wait for a response from a controller
-
+```
 Returns a `DeleteCardResponse`:
-
+```
 type DeleteCardResponse struct { 
   Controller          uint32              `json:"controller"`     // controller serial number
   Ok                  bool                `json:"ok"`             // succeeded/failed
@@ -540,9 +541,9 @@ where:
 - u             Uhppoted        Uhppoted struct initialised with the bind address, broadcast address, etc
 - controller    controller      uint32|Controller controller serial number or {id, address, protocol} Controller struct
 - timeout       time.Duration   maximum time to wait for a response from a controller
-
+```
 Returns a `DeleteAllCardsResponse`:
-
+```
 type DeleteAllCardsResponse struct { 
   Controller          uint32              `json:"controller"`     // controller serial number
   Ok                  bool                `json:"ok"`             // succeeded/failed
@@ -559,9 +560,9 @@ where:
 - controller    controller      uint32|Controller controller serial number or {id, address, protocol} Controller struct
 - event index   uint32          index of event to retrieve
 - timeout       time.Duration   maximum time to wait for a response from a controller
-
+```
 Returns a `GetEventResponse`:
-
+```
 type GetEventResponse struct { 
   Controller          uint32              `json:"controller"`     // controller serial number
   Index               uint32              `json:"index"`          // event index
@@ -584,9 +585,9 @@ where:
 - u             Uhppoted        Uhppoted struct initialised with the bind address, broadcast address, etc
 - controller    controller      uint32|Controller controller serial number or {id, address, protocol} Controller struct
 - timeout       time.Duration   maximum time to wait for a response from a controller
-
+```
 Returns a `GetEventIndexResponse`:
-
+```
 type GetEventIndexResponse struct { 
   Controller          uint32              `json:"controller"`     // controller serial number
   Index               uint32              `json:"index"`          // event index
@@ -603,9 +604,9 @@ where:
 - controller    controller      uint32|Controller controller serial number or {id, address, protocol} Controller struct
 - event index   uint32          downloaded event index
 - timeout       time.Duration   maximum time to wait for a response from a controller
-
+```
 Returns a `SetEventIndexResponse`:
-
+```
 type SetEventIndexResponse struct { 
   Controller          uint32              `json:"controller"`     // controller serial number
   Ok                  bool                `json:"ok"`             // succeeded/failed
@@ -622,9 +623,9 @@ where:
 - controller    controller      uint32|Controller controller serial number or {id, address, protocol} Controller struct
 - enabled       bool            enables door opened, door closed and button pressed events if true
 - timeout       time.Duration   maximum time to wait for a response from a controller
-
+```
 Returns a `RecordSpecialEventsResponse`:
-
+```
 type RecordSpecialEventsResponse struct { 
   Controller          uint32              `json:"controller"`     // controller serial number
   Ok                  bool                `json:"ok"`             // succeeded/failed
@@ -641,9 +642,9 @@ where:
 - controller    controller      uint32|Controller controller serial number or {id, address, protocol} Controller struct
 - profile       uint8           profile ID ([2..254] to retrieve
 - timeout       time.Duration   maximum time to wait for a response from a controller
-
+```
 Returns a `GetTimeProfileResponse`:
-
+```
 type GetTimeProfileResponse struct { 
   Controller          uint32              `json:"controller"`     // controller serial number
   Profile             uint8               `json:"profile"`        // profile ID [2..254]
@@ -692,9 +693,9 @@ where:
 - segment 3 end  HHmm            end time for third time segment
 - linked profile id  uint8           ID of linked profile (0 if not linked)
 - timeout       time.Duration   maximum time to wait for a response from a controller
-
+```
 Returns a `SetTimeProfileResponse`:
-
+```
 type SetTimeProfileResponse struct { 
   Controller          uint32              `json:"controller"`     // controller serial number
   Ok                  bool                `json:"ok"`             // succeeded/failed
@@ -710,9 +711,9 @@ where:
 - u             Uhppoted        Uhppoted struct initialised with the bind address, broadcast address, etc
 - controller    controller      uint32|Controller controller serial number or {id, address, protocol} Controller struct
 - timeout       time.Duration   maximum time to wait for a response from a controller
-
+```
 Returns a `ClearTimeProfilesResponse`:
-
+```
 type ClearTimeProfilesResponse struct { 
   Controller          uint32              `json:"controller"`     // controller serial number
   Ok                  bool                `json:"ok"`             // succeeded/failed
@@ -756,9 +757,9 @@ where:
 - door          uint8           door ([1..4] to which task is linked
 - more cards    uint8           number of 'more cards' for the MORE CARDS task type
 - timeout       time.Duration   maximum time to wait for a response from a controller
-
+```
 Returns an `AddTaskResponse`:
-
+```
 type AddTaskResponse struct { 
   Controller          uint32              `json:"controller"`     // controller serial number
   Ok                  bool                `json:"ok"`             // succeeded/failed
@@ -774,9 +775,9 @@ where:
 - u             Uhppoted        Uhppoted struct initialised with the bind address, broadcast address, etc
 - controller    controller      uint32|Controller controller serial number or {id, address, protocol} Controller struct
 - timeout       time.Duration   maximum time to wait for a response from a controller
-
+```
 Returns a `RefreshTaskListResponse`:
-
+```
 type RefreshTaskListResponse struct { 
   Controller          uint32              `json:"controller"`     // controller serial number
   Ok                  bool                `json:"ok"`             // succeeded/failed
@@ -792,9 +793,9 @@ where:
 - u             Uhppoted        Uhppoted struct initialised with the bind address, broadcast address, etc
 - controller    controller      uint32|Controller controller serial number or {id, address, protocol} Controller struct
 - timeout       time.Duration   maximum time to wait for a response from a controller
-
+```
 Returns a `ClearTasklistResponse`:
-
+```
 type ClearTasklistResponse struct { 
   Controller          uint32              `json:"controller"`     // controller serial number
   Ok                  bool                `json:"ok"`             // succeeded/failed
@@ -812,9 +813,9 @@ where:
 - controller    controller      uint32|Controller controller serial number or {id, address, protocol} Controller struct
 - enabled       bool            enables/disables remote access control
 - timeout       time.Duration   maximum time to wait for a response from a controller
-
+```
 Returns a `SetPCControlResponse`:
-
+```
 type SetPCControlResponse struct { 
   Controller          uint32              `json:"controller"`     // controller serial number
   Ok                  bool                `json:"ok"`             // succeeded/failed
@@ -839,9 +840,9 @@ where:
 - controller    controller      uint32|Controller controller serial number or {id, address, protocol} Controller struct
 - interlock     uint8           door interlock mode
 - timeout       time.Duration   maximum time to wait for a response from a controller
-
+```
 Returns a `SetInterlockResponse`:
-
+```
 type SetInterlockResponse struct { 
   Controller          uint32              `json:"controller"`     // controller serial number
   Ok                  bool                `json:"ok"`             // succeeded/failed
@@ -861,9 +862,9 @@ where:
 - reader 3      bool            enables/disables the keypad for reader 3
 - reader 4      bool            enables/disables the keypad for reader 4
 - timeout       time.Duration   maximum time to wait for a response from a controller
-
+```
 Returns an `ActivateKeypadsResponse`:
-
+```
 type ActivateKeypadsResponse struct { 
   Controller          uint32              `json:"controller"`     // controller serial number
   Ok                  bool                `json:"ok"`             // succeeded/failed
@@ -885,9 +886,9 @@ where:
 - u             Uhppoted        Uhppoted struct initialised with the bind address, broadcast address, etc
 - controller    controller      uint32|Controller controller serial number or {id, address, protocol} Controller struct
 - timeout       time.Duration   maximum time to wait for a response from a controller
-
+```
 Returns a `GetAntipassbackResponse`:
-
+```
 type GetAntipassbackResponse struct { 
   Controller          uint32              `json:"controller"`     // controller serial number
   Antipassback        uint8               `json:"antipassback"`   // anti-passback mode
@@ -911,10 +912,28 @@ where:
 - controller    controller      uint32|Controller controller serial number or {id, address, protocol} Controller struct
 - antipassback  uint8           anti-passback mode
 - timeout       time.Duration   maximum time to wait for a response from a controller
-
+```
 Returns a `SetAntipassbackResponse`:
-
+```
 type SetAntipassbackResponse struct { 
+  Controller          uint32              `json:"controller"`     // controller serial number
+  Ok                  bool                `json:"ok"`             // succeeded/failed
+}
+```
+
+### `RestoreDefaultParameters`
+Restores the controller configuration to the manufacturer defaults.
+```
+RestoreDefaultParameters(u, controller, timeout)
+
+where:
+- u             Uhppoted        Uhppoted struct initialised with the bind address, broadcast address, etc
+- controller    controller      uint32|Controller controller serial number or {id, address, protocol} Controller struct
+- timeout       time.Duration   maximum time to wait for a response from a controller
+```
+Returns a `RestoreDefaultParametersResponse`:
+```
+type RestoreDefaultParametersResponse struct { 
   Controller          uint32              `json:"controller"`     // controller serial number
   Ok                  bool                `json:"ok"`             // succeeded/failed
 }
