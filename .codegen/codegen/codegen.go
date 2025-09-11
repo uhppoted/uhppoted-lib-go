@@ -126,6 +126,9 @@ func testarg(arg lib.TestArg) string {
 	case "datetime":
 		return fmt.Sprintf(`string2datetime("%v")`, arg.Value)
 
+	case "optional datetime":
+		return fmt.Sprintf(`string2datetime("%v")`, arg.Value)
+
 	case "date":
 		return fmt.Sprintf(`string2date("%v")`, arg.Value)
 
@@ -294,8 +297,8 @@ func lookup(path, key, defval string) any {
 		// "date":       "Date",
 		// "shortdate":  "Date",
 		// "time":       "Time",
-		"datetime":   "DateTime",
-		"HHmm":       "time.Time",
+		// "datetime":   "DateTime",
+		// "HHmm":       "time.Time",
 		"pin":        "PIN",
 		"controller": "Controller",
 
@@ -338,6 +341,9 @@ func value(v any, vtype string) string {
 		return fmt.Sprintf(`"%v"`, v)
 
 	case "datetime":
+		return fmt.Sprintf(`entities.MustParseDateTime("%v")`, v)
+
+	case "optional datetime":
 		return fmt.Sprintf(`string2datetime("%v")`, v)
 
 	case "date":

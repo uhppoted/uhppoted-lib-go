@@ -64,7 +64,7 @@ func ParseTime(s string) (Time, error) {
 
 // Returns the 'hour' field value.
 //
-// The returned value is constrained to the interval [0..24]
+// The returned value is constrained to the interval [0..24].
 func (t Time) Hour() uint8 {
 	if t.hour > 24 {
 		return 24
@@ -75,7 +75,7 @@ func (t Time) Hour() uint8 {
 
 // Returns the 'minute' field value.
 //
-// The returned value is constrained to the interval [0..59]
+// The returned value is constrained to the interval [0..59].
 func (t Time) Minute() uint8 {
 	if t.minute > 59 {
 		return 59
@@ -86,7 +86,7 @@ func (t Time) Minute() uint8 {
 
 // Returns the 'second' field value.
 //
-// The returned value is constrained to the interval [0..59]
+// The returned value is constrained to the interval [0..59].
 func (t Time) Second() uint8 {
 	if t.second > 59 {
 		return 59

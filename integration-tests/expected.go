@@ -100,12 +100,12 @@ var Expected = struct {
 
 	GetTime: responses.GetTimeResponse{
 		Controller: 405419896,
-		DateTime:   string2datetime("2025-11-01 12:34:56"),
+		DateTime:   entities.MustParseDateTime("2025-11-01 12:34:56"),
 	},
 
 	SetTime: responses.SetTimeResponse{
 		Controller: 405419896,
-		DateTime:   string2datetime("2025-11-01 12:34:56"),
+		DateTime:   entities.MustParseDateTime("2025-11-01 12:34:56"),
 	},
 
 	GetListener: responses.GetListenerResponse{

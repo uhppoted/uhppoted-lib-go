@@ -97,13 +97,15 @@ func unpackVersion(packet []byte, offset uint8) string {
 	return fmt.Sprintf("v%x.%02x", major, minor)
 }
 
-func unpackDateTime(packet []byte, offset uint8) time.Time {
+func unpackDateTime(packet []byte, offset uint8) entities.DateTime {
 	bcd := bcd2string(packet[offset : offset+7])
 
-	if datetime, err := time.ParseInLocation("20060102150405", bcd, time.Local); err != nil {
-		return time.Time{}
+	s := bcd[:4] + "-" + bcd[4:6] + "-" + bcd[6:8] + " " + bcd[8:10] + ":" + bcd[10:12] + ":" + bcd[12:]
+
+	if date, err := entities.ParseDateTime(s); err != nil {
+		return entities.NewDateTime(1, time.January, 1, 0, 0, 0)
 	} else {
-		return datetime
+		return date
 	}
 }
 

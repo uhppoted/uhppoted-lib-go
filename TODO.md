@@ -45,7 +45,7 @@
 - [x] custom date
 - [x] custom time
 - [x] custom HHmm
-- [ ] custom datetime
+- [x] custom datetime
 - [ ] custom task/interlock types
 - [ ] date/time args
 - [ ] card/event/profile/task records

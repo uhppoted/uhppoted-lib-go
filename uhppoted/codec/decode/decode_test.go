@@ -116,7 +116,7 @@ func TestGetTime(t *testing.T) {
 
 	expected := responses.GetTimeResponse{
 		Controller: 405419896,
-		DateTime:   string2datetime("2025-11-01 12:34:56"),
+		DateTime:   entities.MustParseDateTime("2025-11-01 12:34:56"),
 	}
 
 	response, err := GetTimeResponse(packet)
@@ -138,7 +138,7 @@ func TestSetTime(t *testing.T) {
 
 	expected := responses.SetTimeResponse{
 		Controller: 405419896,
-		DateTime:   string2datetime("2025-11-01 12:34:56"),
+		DateTime:   entities.MustParseDateTime("2025-11-01 12:34:56"),
 	}
 
 	response, err := SetTimeResponse(packet)

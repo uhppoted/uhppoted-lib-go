@@ -467,7 +467,10 @@ func makeValue(field lib.Field, value lib.Value) ast.Expr {
 
 	case "datetime":
 		return &ast.CallExpr{
-			Fun: &ast.Ident{Name: "string2datetime"},
+			Fun: &ast.SelectorExpr{
+				X:   &ast.Ident{Name: "entities"},
+				Sel: &ast.Ident{Name: "MustParseDateTime"},
+			},
 			Args: []ast.Expr{
 				&ast.BasicLit{Kind: token.STRING, Value: fmt.Sprintf(`"%v"`, value.Value)},
 			},

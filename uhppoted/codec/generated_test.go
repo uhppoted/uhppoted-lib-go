@@ -106,7 +106,7 @@ func TestDecodeGetTimeResponse(t *testing.T) {
 
 	expected := responses.GetTimeResponse{
 		Controller: 405419896,
-		DateTime:   string2datetime("2025-11-01 12:34:56"),
+		DateTime:   entities.MustParseDateTime("2025-11-01 12:34:56"),
 	}
 
 	if response, err := Decode[responses.GetTimeResponse](packet); err != nil {
@@ -126,7 +126,7 @@ func TestDecodeSetTimeResponse(t *testing.T) {
 
 	expected := responses.SetTimeResponse{
 		Controller: 405419896,
-		DateTime:   string2datetime("2025-11-01 12:34:56"),
+		DateTime:   entities.MustParseDateTime("2025-11-01 12:34:56"),
 	}
 
 	if response, err := Decode[responses.SetTimeResponse](packet); err != nil {

@@ -115,8 +115,8 @@ func gotype(field types.Field) string {
 	case "uint32":
 		return "uint32"
 
-	case "datetime":
-		return "time.Time"
+	// case "datetime":
+	// 	return "time.Time"
 
 	case "optional datetime":
 		return "time.Time"
@@ -135,6 +135,9 @@ func gotype(field types.Field) string {
 	//
 	// case "HHmm":
 	// 	return "time.Time"
+
+	case "datetime":
+		return "entities.DateTime"
 
 	case "date":
 		return "entities.Date"
