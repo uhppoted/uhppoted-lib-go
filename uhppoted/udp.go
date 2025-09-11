@@ -221,6 +221,4 @@ func (u udp) listen(ch chan []byte) error {
 			return err
 		}
 	}
-
-	return nil
 }
