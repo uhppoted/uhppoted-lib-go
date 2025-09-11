@@ -29,7 +29,6 @@ import (
 	"time"
 
 	"github.com/uhppoted/uhppoted-lib-go/uhppoted/codec"
-	"github.com/uhppoted/uhppoted-lib-go/uhppoted/log"
 	"github.com/uhppoted/uhppoted-lib-go/uhppoted/responses"
 )
 
@@ -81,6 +80,14 @@ type SetTimeProfileResponse = responses.SetTimeProfileResponse
 type ClearTimeProfilesResponse = responses.ClearTimeProfilesResponse
 type AddTaskResponse = responses.AddTaskResponse
 type RefreshTaskListResponse = responses.RefreshTaskListResponse
+type ClearTaskListResponse = responses.ClearTaskListResponse
+type SetPCControlResponse = responses.SetPCControlResponse
+type SetInterlockResponse = responses.SetInterlockResponse
+type ActivateKeypadsResponse = responses.ActivateKeypadsResponse
+type GetAntiPassbackResponse = responses.GetAntiPassbackResponse
+type SetAntiPassbackResponse = responses.SetAntiPassbackResponse
+type RestoreDefaultParametersResponse = responses.RestoreDefaultParametersResponse
+type ListenerEvent = responses.ListenerEvent
 
 // NewUhppoted creates a new instance of the uhppoted service, configured with the supplied
 // local bind address, broadcast address, and listen address. The debug flag enables or
@@ -150,19 +157,3 @@ func resolve[T TController](controller T) (Controller, error) {
 
 	return Controller{}, fmt.Errorf("unsupported type (%T)", controller)
 }
-
-func debugf(tag string, format string, args ...any) {
-	log.Debugf(tag, format, args...)
-}
-
-// func infof(tag string, format string, args ...any) {
-// 	log.Infof(tag, format, args...)
-// }
-
-// func warnf(tag string, format string, args ...any) {
-// 	log.Warnf(tag, format, args...)
-// }
-
-// func errorf(tag string, format string, args ...any) {
-// 	log.Errorf(tag, format, args...)
-// }

@@ -36,6 +36,7 @@
 - [`GetAntiPassback`](#getantipassback)
 - [`SetAntiPassback`](#setantipassback)
 - [`RestoreDefaultParameters`](#restoredefaultparameters)
+- [`Listen`](#listen)
 
 ---
 Invoking an API function requires an instance of the `Uhppoted` struct initialised with the information required
@@ -794,9 +795,9 @@ where:
 - controller    controller      uint32|Controller controller serial number or {id, address, protocol} Controller struct
 - timeout       time.Duration   maximum time to wait for a response from a controller
 ```
-Returns a `ClearTasklistResponse`:
+Returns a `ClearTaskListResponse`:
 ```
-type ClearTasklistResponse struct { 
+type ClearTaskListResponse struct { 
   Controller          uint32              `json:"controller"`     // controller serial number
   Ok                  bool                `json:"ok"`             // succeeded/failed
 }
@@ -887,9 +888,9 @@ where:
 - controller    controller      uint32|Controller controller serial number or {id, address, protocol} Controller struct
 - timeout       time.Duration   maximum time to wait for a response from a controller
 ```
-Returns a `GetAntipassbackResponse`:
+Returns a `GetAntiPassbackResponse`:
 ```
-type GetAntipassbackResponse struct { 
+type GetAntiPassbackResponse struct { 
   Controller          uint32              `json:"controller"`     // controller serial number
   Antipassback        uint8               `json:"antipassback"`   // anti-passback mode
 }
@@ -913,9 +914,9 @@ where:
 - antipassback  uint8           anti-passback mode
 - timeout       time.Duration   maximum time to wait for a response from a controller
 ```
-Returns a `SetAntipassbackResponse`:
+Returns a `SetAntiPassbackResponse`:
 ```
-type SetAntipassbackResponse struct { 
+type SetAntiPassbackResponse struct { 
   Controller          uint32              `json:"controller"`     // controller serial number
   Ok                  bool                `json:"ok"`             // succeeded/failed
 }
@@ -936,6 +937,51 @@ Returns a `RestoreDefaultParametersResponse`:
 type RestoreDefaultParametersResponse struct { 
   Controller          uint32              `json:"controller"`     // controller serial number
   Ok                  bool                `json:"ok"`             // succeeded/failed
+}
+```
+
+### `Listen`
+Listens for controller events sent via UDP to the designated listener host.
+```
+Listen(u, events chan ListenerEvent, errors chan error, interrupt chan os.Signal) error {
+
+where:
+- u          Uhppoted            Uhppoted struct initialised with the bind address, broadcast address, etc
+- events     chan ListenerEvent  events channel
+- errors     chan error          errors channel
+- interrupt  chan os.Signal      interrupts channel
+```
+
+- received events are posted to the _events_ channel
+- non-fatal errors are posted to the _errors_ channel
+- signals posted on the interrupts channel cause the event listener to close and return
+
+```
+type ListenerEvent struct { 
+  Controller          uint32             `json:"controller"`      // controller serial number
+  SystemDate          shortdate          `json:"system-date"`     // controller system date, e.g. 2025-07-21
+  SystemTime          time               `json:"system-time"`     // controller system time, e.g. 13:25:47
+  Door1Open           bool               `json:"door-1-open"`     // door 1 open sensor
+  Door2Open           bool               `json:"door-2-open"`     // door 2 open sensor
+  Door3Open           bool               `json:"door-3-open"`     // door 3 open sensor
+  Door4Open           bool               `json:"door-4-open"`     // door 4 open sensor
+  Door1Button         bool               `json:"door-1-button"`   // door 1 button pressed
+  Door2Button         bool               `json:"door-2-button"`   // door 2 button pressed
+  Door3Button         bool               `json:"door-3-button"`   // door 3 button pressed
+  Door4Button         bool               `json:"door-4-button"`   // door 4 button pressed
+  Relays              uint8              `json:"relays"`          // bitset of door unlock relay states
+  Inputs              uint8              `json:"alarm-inputs"`    // bitset of alarm inputs
+  SystemError         uint8              `json:"system-error"`    // system error code
+  SpecialInfo         uint8              `json:"special-info"`    // absolutely no idea
+  EventIndex          uint32             `json:"event-index"`     // last event index
+  EventType           uint8              `json:"event-type"`      // last event type
+  EventAccessGranted  bool               `json:"event-granted"`   // last event access granted
+  EventDoor           uint8              `json:"event-door"`      // last event door
+  EventDirection      uint8              `json:"event-direction"` // last event door direction (0: in, 1: out)
+  EventCard           uint32             `json:"event-card"`      // last event card number
+  EventTimestamp      optional datetime  `json:"event-timestamp"` // last event timestamp
+  EventReason         uint8              `json:"event-reason"`    // last event reason
+  SequenceNo          uint32             `json:"sequence-no"`     // packet sequence number
 }
 ```
 

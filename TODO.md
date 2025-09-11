@@ -36,16 +36,17 @@
 - [x] get-antipassback
 - [x] set-antipassback
 - [x] restore-default-parameters
+- [ ] listen
    - [x] API
    - [x] CLI
-   - [x] integration test
+   - [ ] integration test
    - [x] README
-- [ ] listen
 
 - [x] custom date
 - [x] custom time
 - [x] custom HHmm
-- [ ] custom datetime/task/interlock types
+- [ ] custom datetime
+- [ ] custom task/interlock types
 - [ ] date/time args
 - [ ] card/event/profile/task records
 - [ ] check for controller = 0
@@ -66,11 +67,11 @@
    - [x] decoder_test
    - [x] README
    - [x] API.md
+   - [ ] decode_AST
 
    - [x] encode
    - [x] encode_test
    - [x] decode
-   - [ ] decode_AST
    - [x] decode_test
    - [x] integration tests
 

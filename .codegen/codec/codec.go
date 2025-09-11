@@ -6,6 +6,8 @@ import (
 	"os"
 	"text/template"
 
+	lib "github.com/uhppoted/uhppoted-codegen/model/types"
+
 	"codegen/codegen"
 	"codegen/model"
 )
@@ -79,8 +81,11 @@ func decode() {
 	}
 	defer f.Close()
 
+	responses := append([]*lib.Response(nil), model.Responses...)
+	responses = append(responses, &model.ListenerEvent)
+
 	tmpl := template.Must(template.New("decode").Funcs(functions).Parse(decodeTemplate))
-	if err := tmpl.Execute(f, model.Responses); err != nil {
+	if err := tmpl.Execute(f, responses); err != nil {
 		log.Fatalf("Failed to execute template: %v", err)
 	}
 

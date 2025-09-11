@@ -34,6 +34,8 @@ func Responses() {
 		types = append(types, typedef(*f))
 	}
 
+	types = append(types, typedef(model.ListenerEvent))
+
 	AST := codegen.NewAST("responses", imports, types, functions)
 
 	if err := AST.Generate(file); err != nil {

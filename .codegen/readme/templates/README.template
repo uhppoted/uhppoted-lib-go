@@ -31,3 +31,4 @@ folder.
 **API**
 {{ range $func := . }}
 - [`{{ titleCase $func.Name }}`](API.md#{{ clean $func.Name }}){{ end }}
+- [`Listen`](API.md#listen)

@@ -2,6 +2,7 @@ package uhppoted
 
 import (
 	"net/netip"
+	"os"
 	"time"
 
 	"github.com/uhppoted/uhppoted-lib-go/uhppoted/codec/decode"
@@ -60,6 +61,29 @@ func SetListenerAddrPort[T TController](u Uhppoted, controller T, address netip.
 	} else {
 		return decode.SetListenerAddrPortResponse(reply)
 	}
+}
+
+func Listen(u Uhppoted, events chan ListenerEvent, errors chan error, interrupt chan os.Signal) error {
+	ch := make(chan []uint8)
+
+	go u.udp.listen(ch)
+
+loop:
+	for {
+		select {
+		case msg := <-ch:
+			if evt, err := decode.ListenerEvent(msg); err != nil {
+				errors <- err
+			} else {
+				events <- evt
+			}
+
+		case <-interrupt:
+			break loop
+		}
+	}
+
+	return nil
 }
 
 //go:generate ../.codegen/bin/codegen API

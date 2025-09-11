@@ -3,6 +3,8 @@ package uhppoted
 import (
 	"fmt"
 	"strings"
+
+	"github.com/uhppoted/uhppoted-lib-go/uhppoted/log"
 )
 
 func dump(tag string, description string, packet []byte) {
@@ -22,5 +24,5 @@ func dump(tag string, description string, packet []byte) {
 
 	lines = append(lines, fmt.Sprintln())
 
-	debugf(tag, "%v", strings.Join(lines, "\n"))
+	log.Debugf(tag, "%v", strings.Join(lines, "\n"))
 }

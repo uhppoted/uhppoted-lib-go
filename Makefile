@@ -28,7 +28,7 @@ build: format
 	go build -trimpath ./...
 
 debug: build
-	cd examples/cli && make restore-default-parameters
+	cd examples/cli && make listen
 	# go test ./uhppoted/... -run TestDecodeGetStatusResponse
 	# go test ./integration-tests/... -run TestGetListenerAddrPort
 
@@ -241,3 +241,6 @@ restore-default-parameters: build
 	cd examples/cli && make restore-default-parameters
 	cd examples/cli && make restore-default-parameters DEST="--dest 127.0.0.1"
 	cd examples/cli && make restore-default-parameters DEST="--dest 127.0.0.1" DEST="--dest 127.0.0.1" TCP="--tcp"
+
+listen: build
+	cd examples/cli && make listen

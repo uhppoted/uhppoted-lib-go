@@ -185,3 +185,42 @@ func (u udp) sendTo(request []byte, dest netip.AddrPort, timeout time.Duration) 
 		}
 	}
 }
+
+func (u udp) listen(ch chan []byte) error {
+	socket, err := net.ListenUDP("udp", u.listenAddr)
+	if err != nil {
+		return err
+	}
+
+	defer socket.Close()
+
+	events := make(chan []byte)
+	e := make(chan error)
+
+	go func() {
+		buffer := make([]byte, 1024)
+
+		for {
+			if N, addr, err := socket.ReadFromUDP(buffer); err != nil {
+				e <- err
+			} else if N == 64 {
+				dump("udp", fmt.Sprintf("received %v bytes from %v", N, addr), buffer[0:64])
+				m := make([]byte, 64)
+				copy(m, buffer[0:N])
+				events <- m
+			}
+		}
+	}()
+
+	for {
+		select {
+		case m := <-events:
+			ch <- m
+
+		case err := <-e:
+			return err
+		}
+	}
+
+	return nil
+}

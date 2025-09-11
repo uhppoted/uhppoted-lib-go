@@ -169,3 +169,6 @@ set-antipassback: build
 
 restore-default-parameters: build
 	$(CMD) restore-default-parameters --controller $(CONTROLLER) $(DEST) $(TCP)
+
+listen: build
+	$(CMD) listen
