@@ -286,6 +286,7 @@ func describe(field lib.Field) string {
 }
 
 func lookup(path, key, defval string) any {
+	println(">>>>>>>>>>>>>>>>>>>>>>>> AWOOOGAH")
 	table := map[string]string{
 		"uint8":   "uint8",
 		"uint16":  "uint16",
@@ -295,15 +296,14 @@ func lookup(path, key, defval string) any {
 		"MAC":     "string",
 		"version": "string",
 		// "date":       "Date",
+		// "optional date":     "Date",
 		// "shortdate":  "Date",
 		// "time":       "Time",
 		// "datetime":   "DateTime",
+		// "optional datetime": "DateTime",
 		// "HHmm":       "time.Time",
 		"pin":        "PIN",
 		"controller": "Controller",
-
-		// "optional date":     "Date",
-		"optional datetime": "DateTime",
 	}
 
 	if v, ok := table[key]; ok {
@@ -326,13 +326,13 @@ func includes(list []string, item string) bool {
 func value(v any, vtype string) string {
 	switch vtype {
 	case "IPv4":
-		return fmt.Sprintf(`IPv4("%v")`, v)
+		return fmt.Sprintf(`netip.MustParseAddr("%v")`, v)
 
 	case "addrport":
-		return fmt.Sprintf(`addrport("%v")`, v)
+		return fmt.Sprintf(`netip.MustParseAddrPort("%v")`, v)
 
 	case "address:port":
-		return fmt.Sprintf(`addrport("%v")`, v)
+		return fmt.Sprintf(`netip.MustParseAddrPort("%v")`, v)
 
 	case "MAC":
 		return fmt.Sprintf(`"%v"`, v)
@@ -344,7 +344,7 @@ func value(v any, vtype string) string {
 		return fmt.Sprintf(`entities.MustParseDateTime("%v")`, v)
 
 	case "optional datetime":
-		return fmt.Sprintf(`string2datetime("%v")`, v)
+		return fmt.Sprintf(`entities.MustParseDateTime("%v")`, v)
 
 	case "date":
 		return fmt.Sprintf(`entities.MustParseDate("%v")`, v)

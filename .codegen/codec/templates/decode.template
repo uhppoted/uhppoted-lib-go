@@ -26,7 +26,7 @@ func {{ titleCase $response.Message.Name }}(packet []byte) (responses.{{ titleCa
     }
 
     // Ref. v6.62 firmware event
-    if packet[0] != SOM && (packet[0] != 0x19 || packet[1] != 0x20) {
+    if packet[0] != SOM && (packet[0] != SOM_v6_62 || packet[1] != 0x20) {
         return responses.{{ titleCase $response.Message.Name }}{}, fmt.Errorf("invalid reply start of message byte (%02x)", packet[0])
     }
 

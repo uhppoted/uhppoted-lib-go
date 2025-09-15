@@ -3,10 +3,8 @@
 package decode
 
 import (
-    "fmt"
     "net/netip"
     "testing"
-    "time"
     "reflect"
 
    "github.com/uhppoted/uhppoted-lib-go/uhppoted/entities"
@@ -34,20 +32,3 @@ func Test{{ titleCase $test.Name }}(t *testing.T) {
 }
 {{ end -}}
 {{ end }}
-
-func IPv4(v string) netip.Addr {
-    return netip.MustParseAddr(v)
-}
-
-func addrport(v string) netip.AddrPort {
-    return netip.MustParseAddrPort(v)
-}
-
-func string2datetime(v string) time.Time {
-    if d,err := time.ParseInLocation("2006-01-02 15:04:05", v, time.Local); err != nil {
-        panic(fmt.Sprintf("invalid datetime (%v)", v))
-    } else {
-        return d
-    }
-}
-

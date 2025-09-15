@@ -99,7 +99,6 @@ func unpackVersion(packet []byte, offset uint8) string {
 
 func unpackDateTime(packet []byte, offset uint8) entities.DateTime {
 	bcd := bcd2string(packet[offset : offset+7])
-
 	s := bcd[:4] + "-" + bcd[4:6] + "-" + bcd[6:8] + " " + bcd[8:10] + ":" + bcd[10:12] + ":" + bcd[12:]
 
 	if date, err := entities.ParseDateTime(s); err != nil {
@@ -109,13 +108,14 @@ func unpackDateTime(packet []byte, offset uint8) entities.DateTime {
 	}
 }
 
-func unpackOptionalDateTime(packet []byte, offset uint8) time.Time {
+func unpackOptionalDateTime(packet []byte, offset uint8) entities.DateTime {
 	bcd := bcd2string(packet[offset : offset+7])
+	s := bcd[:4] + "-" + bcd[4:6] + "-" + bcd[6:8] + " " + bcd[8:10] + ":" + bcd[10:12] + ":" + bcd[12:]
 
-	if d, err := time.ParseInLocation("20060102150405", bcd, time.Local); err != nil {
-		return time.Date(1, time.January, 1, 0, 0, 0, 0, time.Local)
+	if date, err := entities.ParseDateTime(s); err != nil {
+		return entities.NewDateTime(1, time.January, 1, 0, 0, 0)
 	} else {
-		return d
+		return date
 	}
 }
 

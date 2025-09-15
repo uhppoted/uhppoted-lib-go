@@ -1,9 +1,7 @@
 package uhppoted
 
 import (
-	"fmt"
 	"net/netip"
-	"time"
 
 	"github.com/uhppoted/uhppoted-lib-go/uhppoted/entities"
 	"github.com/uhppoted/uhppoted-lib-go/uhppoted/responses"
@@ -85,9 +83,9 @@ var Expected = struct {
 
 	GetController: responses.GetControllerResponse{
 		Controller: 405419896,
-		IpAddress:  IPv4("192.168.1.100"),
-		SubnetMask: IPv4("255.255.255.0"),
-		Gateway:    IPv4("192.168.1.1"),
+		IpAddress:  netip.MustParseAddr("192.168.1.100"),
+		SubnetMask: netip.MustParseAddr("255.255.255.0"),
+		Gateway:    netip.MustParseAddr("192.168.1.1"),
 		MACAddress: "00:12:23:34:45:56",
 		Version:    "v8.92",
 		Date:       entities.MustParseDate("2018-11-05"),
@@ -110,7 +108,7 @@ var Expected = struct {
 
 	GetListener: responses.GetListenerResponse{
 		Controller: 405419896,
-		Address:    IPv4("192.168.1.100"),
+		Address:    netip.MustParseAddr("192.168.1.100"),
 		Port:       60001,
 		Interval:   13,
 	},
@@ -122,7 +120,7 @@ var Expected = struct {
 
 	GetListenerAddrPort: responses.GetListenerAddrPortResponse{
 		Controller: 405419897,
-		Listener:   addrport("192.168.1.100:60001"),
+		Listener:   netip.MustParseAddrPort("192.168.1.100:60001"),
 		Interval:   13,
 	},
 
@@ -177,7 +175,7 @@ var Expected = struct {
 		EventDoor:          3,
 		EventDirection:     1,
 		EventCard:          8165537,
-		EventTimestamp:     string2datetime("2022-08-23 09:47:06"),
+		EventTimestamp:     entities.MustParseDateTime("2022-08-23 09:47:06"),
 		EventReason:        44,
 		SequenceNo:         0,
 	},
@@ -204,7 +202,7 @@ var Expected = struct {
 		EventDoor:          0,
 		EventDirection:     0,
 		EventCard:          0,
-		EventTimestamp:     string2datetime("0001-01-01 00:00:00"),
+		EventTimestamp:     entities.MustParseDateTime("0001-01-01 00:00:00"),
 		EventReason:        0,
 		SequenceNo:         21987,
 	},
@@ -292,7 +290,7 @@ var Expected = struct {
 	GetEvent: responses.GetEventResponse{
 		Controller:    405419896,
 		Index:         13579,
-		Timestamp:     string2datetime("2025-11-17 12:34:56"),
+		Timestamp:     entities.MustParseDateTime("2025-11-17 12:34:56"),
 		EventType:     2,
 		AccessGranted: true,
 		Door:          4,
@@ -304,7 +302,7 @@ var Expected = struct {
 	GetEventNotFound: responses.GetEventResponse{
 		Controller:    405419896,
 		Index:         24680,
-		Timestamp:     string2datetime("0001-01-01 00:00:00"),
+		Timestamp:     entities.MustParseDateTime("0001-01-01 00:00:00"),
 		EventType:     0,
 		AccessGranted: false,
 		Door:          0,
@@ -316,7 +314,7 @@ var Expected = struct {
 	GetEventOverwritten: responses.GetEventResponse{
 		Controller:    405419896,
 		Index:         98765,
-		Timestamp:     string2datetime("0001-01-01 00:00:00"),
+		Timestamp:     entities.MustParseDateTime("0001-01-01 00:00:00"),
 		EventType:     255,
 		AccessGranted: false,
 		Door:          0,
@@ -415,20 +413,4 @@ var Expected = struct {
 		Controller: 405419896,
 		Ok:         true,
 	},
-}
-
-func IPv4(v string) netip.Addr {
-	return netip.MustParseAddr(v)
-}
-
-func addrport(v string) netip.AddrPort {
-	return netip.MustParseAddrPort(v)
-}
-
-func string2datetime(v string) time.Time {
-	if d, err := time.ParseInLocation("2006-01-02 15:04:05", v, time.Local); err != nil {
-		panic(fmt.Sprintf("invalid datetime (%v)", v))
-	} else {
-		return d
-	}
 }

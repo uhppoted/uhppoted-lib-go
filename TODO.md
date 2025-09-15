@@ -43,10 +43,13 @@
    - [x] README
 
 - [x] v6.62 event
+   - [ ] decode unit test
+
 - [x] custom date
 - [x] custom time
 - [x] custom HHmm
 - [x] custom datetime
+- [x] custom optional datetime
 - [ ] custom task/interlock types
 - [ ] date/time args
 - [ ] card/event/profile/task records
@@ -61,6 +64,8 @@
    - [ ] use/extend uhppoted-codegen models
       - (?) remove Request/Response suffixes
       - (?) move FindControllers to uhppoted-codegen
+      - decoder.go // generated code - ** DO NOT EDIT **
+      - decoder_test.go // generated code - ** DO NOT EDIT **
 
    - [x] response structs
    - [x] decoder

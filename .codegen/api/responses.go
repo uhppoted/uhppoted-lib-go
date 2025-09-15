@@ -20,7 +20,6 @@ func Responses() {
 	imports := [][]string{
 		[]string{
 			"net/netip",
-			"time",
 		},
 		[]string{
 			"github.com/uhppoted/uhppoted-lib-go/uhppoted/entities",
@@ -115,28 +114,10 @@ func gotype(field types.Field) string {
 	case "uint32":
 		return "uint32"
 
-	// case "datetime":
-	// 	return "time.Time"
+	case "datetime":
+		return "entities.DateTime"
 
 	case "optional datetime":
-		return "time.Time"
-
-	// case "date":
-	// 	return "time.Time"
-	//
-	// case "shortdate":
-	// 	return "time.Time"
-	//
-	// case "optional date":
-	// 	return "time.Time"
-	//
-	// case "time":
-	// 	return "time.Time"
-	//
-	// case "HHmm":
-	// 	return "time.Time"
-
-	case "datetime":
 		return "entities.DateTime"
 
 	case "date":

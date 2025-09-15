@@ -20,7 +20,7 @@ import (
 )
 
 func decoderTest() {
-	const output = "generated_test.go"
+	const output = "decoder_test.go"
 
 	f, err := os.Create(output)
 	if err != nil {
@@ -478,7 +478,10 @@ func makeValue(field lib.Field, value lib.Value) ast.Expr {
 
 	case "optional datetime":
 		return &ast.CallExpr{
-			Fun: &ast.Ident{Name: "string2datetime"},
+			Fun: &ast.SelectorExpr{
+				X:   &ast.Ident{Name: "entities"},
+				Sel: &ast.Ident{Name: "MustParseDateTime"},
+			},
 			Args: []ast.Expr{
 				&ast.BasicLit{Kind: token.STRING, Value: fmt.Sprintf(`"%v"`, value.Value)},
 			},

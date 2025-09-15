@@ -958,30 +958,30 @@ where:
 
 ```
 type ListenerEvent struct { 
-  Controller          uint32             `json:"controller"`      // controller serial number
-  SystemDate          shortdate          `json:"system-date"`     // controller system date, e.g. 2025-07-21
-  SystemTime          time               `json:"system-time"`     // controller system time, e.g. 13:25:47
-  Door1Open           bool               `json:"door-1-open"`     // door 1 open sensor
-  Door2Open           bool               `json:"door-2-open"`     // door 2 open sensor
-  Door3Open           bool               `json:"door-3-open"`     // door 3 open sensor
-  Door4Open           bool               `json:"door-4-open"`     // door 4 open sensor
-  Door1Button         bool               `json:"door-1-button"`   // door 1 button pressed
-  Door2Button         bool               `json:"door-2-button"`   // door 2 button pressed
-  Door3Button         bool               `json:"door-3-button"`   // door 3 button pressed
-  Door4Button         bool               `json:"door-4-button"`   // door 4 button pressed
-  Relays              uint8              `json:"relays"`          // bitset of door unlock relay states
-  Inputs              uint8              `json:"alarm-inputs"`    // bitset of alarm inputs
-  SystemError         uint8              `json:"system-error"`    // system error code
-  SpecialInfo         uint8              `json:"special-info"`    // absolutely no idea
-  EventIndex          uint32             `json:"event-index"`     // last event index
-  EventType           uint8              `json:"event-type"`      // last event type
-  EventAccessGranted  bool               `json:"event-granted"`   // last event access granted
-  EventDoor           uint8              `json:"event-door"`      // last event door
-  EventDirection      uint8              `json:"event-direction"` // last event door direction (0: in, 1: out)
-  EventCard           uint32             `json:"event-card"`      // last event card number
-  EventTimestamp      optional datetime  `json:"event-timestamp"` // last event timestamp
-  EventReason         uint8              `json:"event-reason"`    // last event reason
-  SequenceNo          uint32             `json:"sequence-no"`     // packet sequence number
+  Controller          uint32        `json:"controller"`      // controller serial number
+  SystemDate          Date          `json:"system-date"`     // controller system date, e.g. 2025-07-21
+  SystemTime          Time          `json:"system-time"`     // controller system time, e.g. 13:25:47
+  Door1Open           bool          `json:"door-1-open"`     // door 1 open sensor
+  Door2Open           bool          `json:"door-2-open"`     // door 2 open sensor
+  Door3Open           bool          `json:"door-3-open"`     // door 3 open sensor
+  Door4Open           bool          `json:"door-4-open"`     // door 4 open sensor
+  Door1Button         bool          `json:"door-1-button"`   // door 1 button pressed
+  Door2Button         bool          `json:"door-2-button"`   // door 2 button pressed
+  Door3Button         bool          `json:"door-3-button"`   // door 3 button pressed
+  Door4Button         bool          `json:"door-4-button"`   // door 4 button pressed
+  Relays              uint8         `json:"relays"`          // bitset of door unlock relay states
+  Inputs              uint8         `json:"alarm-inputs"`    // bitset of alarm inputs
+  SystemError         uint8         `json:"system-error"`    // system error code
+  SpecialInfo         uint8         `json:"special-info"`    // absolutely no idea
+  EventIndex          uint32        `json:"event-index"`     // last event index
+  EventType           uint8         `json:"event-type"`      // last event type
+  EventAccessGranted  bool          `json:"event-granted"`   // last event access granted
+  EventDoor           uint8         `json:"event-door"`      // last event door
+  EventDirection      uint8         `json:"event-direction"` // last event door direction (0: in, 1: out)
+  EventCard           uint32        `json:"event-card"`      // last event card number
+  EventTimestamp      DateTime      `json:"event-timestamp"` // last event timestamp
+  EventReason         uint8         `json:"event-reason"`    // last event reason
+  SequenceNo          uint32        `json:"sequence-no"`     // packet sequence number
 }
 ```
 
