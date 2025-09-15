@@ -24,7 +24,8 @@ func GetControllerResponse(packet []byte) (responses.GetControllerResponse, erro
 		return responses.GetControllerResponse{}, fmt.Errorf("invalid reply packet length (%v)", len(packet))
 	}
 
-	if packet[0] != SOM {
+	// Ref. v6.62 firmware event
+	if packet[0] != SOM && (packet[0] != 0x19 || packet[1] != 0x20) {
 		return responses.GetControllerResponse{}, fmt.Errorf("invalid reply start of message byte (%02x)", packet[0])
 	}
 
@@ -57,7 +58,8 @@ func SetIPv4Response(packet []byte) (responses.SetIPv4Response, error) {
 		return responses.SetIPv4Response{}, fmt.Errorf("invalid reply packet length (%v)", len(packet))
 	}
 
-	if packet[0] != SOM {
+	// Ref. v6.62 firmware event
+	if packet[0] != SOM && (packet[0] != 0x19 || packet[1] != 0x20) {
 		return responses.SetIPv4Response{}, fmt.Errorf("invalid reply start of message byte (%02x)", packet[0])
 	}
 
@@ -85,7 +87,8 @@ func GetStatusResponse(packet []byte) (responses.GetStatusResponse, error) {
 		return responses.GetStatusResponse{}, fmt.Errorf("invalid reply packet length (%v)", len(packet))
 	}
 
-	if packet[0] != SOM {
+	// Ref. v6.62 firmware event
+	if packet[0] != SOM && (packet[0] != 0x19 || packet[1] != 0x20) {
 		return responses.GetStatusResponse{}, fmt.Errorf("invalid reply start of message byte (%02x)", packet[0])
 	}
 
@@ -135,7 +138,8 @@ func GetTimeResponse(packet []byte) (responses.GetTimeResponse, error) {
 		return responses.GetTimeResponse{}, fmt.Errorf("invalid reply packet length (%v)", len(packet))
 	}
 
-	if packet[0] != SOM {
+	// Ref. v6.62 firmware event
+	if packet[0] != SOM && (packet[0] != 0x19 || packet[1] != 0x20) {
 		return responses.GetTimeResponse{}, fmt.Errorf("invalid reply start of message byte (%02x)", packet[0])
 	}
 
@@ -163,7 +167,8 @@ func SetTimeResponse(packet []byte) (responses.SetTimeResponse, error) {
 		return responses.SetTimeResponse{}, fmt.Errorf("invalid reply packet length (%v)", len(packet))
 	}
 
-	if packet[0] != SOM {
+	// Ref. v6.62 firmware event
+	if packet[0] != SOM && (packet[0] != 0x19 || packet[1] != 0x20) {
 		return responses.SetTimeResponse{}, fmt.Errorf("invalid reply start of message byte (%02x)", packet[0])
 	}
 
@@ -191,7 +196,8 @@ func GetListenerResponse(packet []byte) (responses.GetListenerResponse, error) {
 		return responses.GetListenerResponse{}, fmt.Errorf("invalid reply packet length (%v)", len(packet))
 	}
 
-	if packet[0] != SOM {
+	// Ref. v6.62 firmware event
+	if packet[0] != SOM && (packet[0] != 0x19 || packet[1] != 0x20) {
 		return responses.GetListenerResponse{}, fmt.Errorf("invalid reply start of message byte (%02x)", packet[0])
 	}
 
@@ -221,7 +227,8 @@ func SetListenerResponse(packet []byte) (responses.SetListenerResponse, error) {
 		return responses.SetListenerResponse{}, fmt.Errorf("invalid reply packet length (%v)", len(packet))
 	}
 
-	if packet[0] != SOM {
+	// Ref. v6.62 firmware event
+	if packet[0] != SOM && (packet[0] != 0x19 || packet[1] != 0x20) {
 		return responses.SetListenerResponse{}, fmt.Errorf("invalid reply start of message byte (%02x)", packet[0])
 	}
 
@@ -249,7 +256,8 @@ func GetListenerAddrPortResponse(packet []byte) (responses.GetListenerAddrPortRe
 		return responses.GetListenerAddrPortResponse{}, fmt.Errorf("invalid reply packet length (%v)", len(packet))
 	}
 
-	if packet[0] != SOM {
+	// Ref. v6.62 firmware event
+	if packet[0] != SOM && (packet[0] != 0x19 || packet[1] != 0x20) {
 		return responses.GetListenerAddrPortResponse{}, fmt.Errorf("invalid reply start of message byte (%02x)", packet[0])
 	}
 
@@ -278,7 +286,8 @@ func SetListenerAddrPortResponse(packet []byte) (responses.SetListenerAddrPortRe
 		return responses.SetListenerAddrPortResponse{}, fmt.Errorf("invalid reply packet length (%v)", len(packet))
 	}
 
-	if packet[0] != SOM {
+	// Ref. v6.62 firmware event
+	if packet[0] != SOM && (packet[0] != 0x19 || packet[1] != 0x20) {
 		return responses.SetListenerAddrPortResponse{}, fmt.Errorf("invalid reply start of message byte (%02x)", packet[0])
 	}
 
@@ -306,7 +315,8 @@ func GetDoorResponse(packet []byte) (responses.GetDoorResponse, error) {
 		return responses.GetDoorResponse{}, fmt.Errorf("invalid reply packet length (%v)", len(packet))
 	}
 
-	if packet[0] != SOM {
+	// Ref. v6.62 firmware event
+	if packet[0] != SOM && (packet[0] != 0x19 || packet[1] != 0x20) {
 		return responses.GetDoorResponse{}, fmt.Errorf("invalid reply start of message byte (%02x)", packet[0])
 	}
 
@@ -336,7 +346,8 @@ func SetDoorResponse(packet []byte) (responses.SetDoorResponse, error) {
 		return responses.SetDoorResponse{}, fmt.Errorf("invalid reply packet length (%v)", len(packet))
 	}
 
-	if packet[0] != SOM {
+	// Ref. v6.62 firmware event
+	if packet[0] != SOM && (packet[0] != 0x19 || packet[1] != 0x20) {
 		return responses.SetDoorResponse{}, fmt.Errorf("invalid reply start of message byte (%02x)", packet[0])
 	}
 
@@ -366,7 +377,8 @@ func SetDoorPasscodesResponse(packet []byte) (responses.SetDoorPasscodesResponse
 		return responses.SetDoorPasscodesResponse{}, fmt.Errorf("invalid reply packet length (%v)", len(packet))
 	}
 
-	if packet[0] != SOM {
+	// Ref. v6.62 firmware event
+	if packet[0] != SOM && (packet[0] != 0x19 || packet[1] != 0x20) {
 		return responses.SetDoorPasscodesResponse{}, fmt.Errorf("invalid reply start of message byte (%02x)", packet[0])
 	}
 
@@ -394,7 +406,8 @@ func OpenDoorResponse(packet []byte) (responses.OpenDoorResponse, error) {
 		return responses.OpenDoorResponse{}, fmt.Errorf("invalid reply packet length (%v)", len(packet))
 	}
 
-	if packet[0] != SOM {
+	// Ref. v6.62 firmware event
+	if packet[0] != SOM && (packet[0] != 0x19 || packet[1] != 0x20) {
 		return responses.OpenDoorResponse{}, fmt.Errorf("invalid reply start of message byte (%02x)", packet[0])
 	}
 
@@ -422,7 +435,8 @@ func GetCardsResponse(packet []byte) (responses.GetCardsResponse, error) {
 		return responses.GetCardsResponse{}, fmt.Errorf("invalid reply packet length (%v)", len(packet))
 	}
 
-	if packet[0] != SOM {
+	// Ref. v6.62 firmware event
+	if packet[0] != SOM && (packet[0] != 0x19 || packet[1] != 0x20) {
 		return responses.GetCardsResponse{}, fmt.Errorf("invalid reply start of message byte (%02x)", packet[0])
 	}
 
@@ -450,7 +464,8 @@ func GetCardResponse(packet []byte) (responses.GetCardResponse, error) {
 		return responses.GetCardResponse{}, fmt.Errorf("invalid reply packet length (%v)", len(packet))
 	}
 
-	if packet[0] != SOM {
+	// Ref. v6.62 firmware event
+	if packet[0] != SOM && (packet[0] != 0x19 || packet[1] != 0x20) {
 		return responses.GetCardResponse{}, fmt.Errorf("invalid reply start of message byte (%02x)", packet[0])
 	}
 
@@ -485,7 +500,8 @@ func GetCardAtIndexResponse(packet []byte) (responses.GetCardAtIndexResponse, er
 		return responses.GetCardAtIndexResponse{}, fmt.Errorf("invalid reply packet length (%v)", len(packet))
 	}
 
-	if packet[0] != SOM {
+	// Ref. v6.62 firmware event
+	if packet[0] != SOM && (packet[0] != 0x19 || packet[1] != 0x20) {
 		return responses.GetCardAtIndexResponse{}, fmt.Errorf("invalid reply start of message byte (%02x)", packet[0])
 	}
 
@@ -520,7 +536,8 @@ func PutCardResponse(packet []byte) (responses.PutCardResponse, error) {
 		return responses.PutCardResponse{}, fmt.Errorf("invalid reply packet length (%v)", len(packet))
 	}
 
-	if packet[0] != SOM {
+	// Ref. v6.62 firmware event
+	if packet[0] != SOM && (packet[0] != 0x19 || packet[1] != 0x20) {
 		return responses.PutCardResponse{}, fmt.Errorf("invalid reply start of message byte (%02x)", packet[0])
 	}
 
@@ -548,7 +565,8 @@ func DeleteCardResponse(packet []byte) (responses.DeleteCardResponse, error) {
 		return responses.DeleteCardResponse{}, fmt.Errorf("invalid reply packet length (%v)", len(packet))
 	}
 
-	if packet[0] != SOM {
+	// Ref. v6.62 firmware event
+	if packet[0] != SOM && (packet[0] != 0x19 || packet[1] != 0x20) {
 		return responses.DeleteCardResponse{}, fmt.Errorf("invalid reply start of message byte (%02x)", packet[0])
 	}
 
@@ -576,7 +594,8 @@ func DeleteAllCardsResponse(packet []byte) (responses.DeleteAllCardsResponse, er
 		return responses.DeleteAllCardsResponse{}, fmt.Errorf("invalid reply packet length (%v)", len(packet))
 	}
 
-	if packet[0] != SOM {
+	// Ref. v6.62 firmware event
+	if packet[0] != SOM && (packet[0] != 0x19 || packet[1] != 0x20) {
 		return responses.DeleteAllCardsResponse{}, fmt.Errorf("invalid reply start of message byte (%02x)", packet[0])
 	}
 
@@ -604,7 +623,8 @@ func GetEventResponse(packet []byte) (responses.GetEventResponse, error) {
 		return responses.GetEventResponse{}, fmt.Errorf("invalid reply packet length (%v)", len(packet))
 	}
 
-	if packet[0] != SOM {
+	// Ref. v6.62 firmware event
+	if packet[0] != SOM && (packet[0] != 0x19 || packet[1] != 0x20) {
 		return responses.GetEventResponse{}, fmt.Errorf("invalid reply start of message byte (%02x)", packet[0])
 	}
 
@@ -639,7 +659,8 @@ func GetEventIndexResponse(packet []byte) (responses.GetEventIndexResponse, erro
 		return responses.GetEventIndexResponse{}, fmt.Errorf("invalid reply packet length (%v)", len(packet))
 	}
 
-	if packet[0] != SOM {
+	// Ref. v6.62 firmware event
+	if packet[0] != SOM && (packet[0] != 0x19 || packet[1] != 0x20) {
 		return responses.GetEventIndexResponse{}, fmt.Errorf("invalid reply start of message byte (%02x)", packet[0])
 	}
 
@@ -667,7 +688,8 @@ func SetEventIndexResponse(packet []byte) (responses.SetEventIndexResponse, erro
 		return responses.SetEventIndexResponse{}, fmt.Errorf("invalid reply packet length (%v)", len(packet))
 	}
 
-	if packet[0] != SOM {
+	// Ref. v6.62 firmware event
+	if packet[0] != SOM && (packet[0] != 0x19 || packet[1] != 0x20) {
 		return responses.SetEventIndexResponse{}, fmt.Errorf("invalid reply start of message byte (%02x)", packet[0])
 	}
 
@@ -695,7 +717,8 @@ func RecordSpecialEventsResponse(packet []byte) (responses.RecordSpecialEventsRe
 		return responses.RecordSpecialEventsResponse{}, fmt.Errorf("invalid reply packet length (%v)", len(packet))
 	}
 
-	if packet[0] != SOM {
+	// Ref. v6.62 firmware event
+	if packet[0] != SOM && (packet[0] != 0x19 || packet[1] != 0x20) {
 		return responses.RecordSpecialEventsResponse{}, fmt.Errorf("invalid reply start of message byte (%02x)", packet[0])
 	}
 
@@ -723,7 +746,8 @@ func GetTimeProfileResponse(packet []byte) (responses.GetTimeProfileResponse, er
 		return responses.GetTimeProfileResponse{}, fmt.Errorf("invalid reply packet length (%v)", len(packet))
 	}
 
-	if packet[0] != SOM {
+	// Ref. v6.62 firmware event
+	if packet[0] != SOM && (packet[0] != 0x19 || packet[1] != 0x20) {
 		return responses.GetTimeProfileResponse{}, fmt.Errorf("invalid reply start of message byte (%02x)", packet[0])
 	}
 
@@ -767,7 +791,8 @@ func SetTimeProfileResponse(packet []byte) (responses.SetTimeProfileResponse, er
 		return responses.SetTimeProfileResponse{}, fmt.Errorf("invalid reply packet length (%v)", len(packet))
 	}
 
-	if packet[0] != SOM {
+	// Ref. v6.62 firmware event
+	if packet[0] != SOM && (packet[0] != 0x19 || packet[1] != 0x20) {
 		return responses.SetTimeProfileResponse{}, fmt.Errorf("invalid reply start of message byte (%02x)", packet[0])
 	}
 
@@ -795,7 +820,8 @@ func ClearTimeProfilesResponse(packet []byte) (responses.ClearTimeProfilesRespon
 		return responses.ClearTimeProfilesResponse{}, fmt.Errorf("invalid reply packet length (%v)", len(packet))
 	}
 
-	if packet[0] != SOM {
+	// Ref. v6.62 firmware event
+	if packet[0] != SOM && (packet[0] != 0x19 || packet[1] != 0x20) {
 		return responses.ClearTimeProfilesResponse{}, fmt.Errorf("invalid reply start of message byte (%02x)", packet[0])
 	}
 
@@ -823,7 +849,8 @@ func AddTaskResponse(packet []byte) (responses.AddTaskResponse, error) {
 		return responses.AddTaskResponse{}, fmt.Errorf("invalid reply packet length (%v)", len(packet))
 	}
 
-	if packet[0] != SOM {
+	// Ref. v6.62 firmware event
+	if packet[0] != SOM && (packet[0] != 0x19 || packet[1] != 0x20) {
 		return responses.AddTaskResponse{}, fmt.Errorf("invalid reply start of message byte (%02x)", packet[0])
 	}
 
@@ -851,7 +878,8 @@ func RefreshTaskListResponse(packet []byte) (responses.RefreshTaskListResponse, 
 		return responses.RefreshTaskListResponse{}, fmt.Errorf("invalid reply packet length (%v)", len(packet))
 	}
 
-	if packet[0] != SOM {
+	// Ref. v6.62 firmware event
+	if packet[0] != SOM && (packet[0] != 0x19 || packet[1] != 0x20) {
 		return responses.RefreshTaskListResponse{}, fmt.Errorf("invalid reply start of message byte (%02x)", packet[0])
 	}
 
@@ -879,7 +907,8 @@ func ClearTaskListResponse(packet []byte) (responses.ClearTaskListResponse, erro
 		return responses.ClearTaskListResponse{}, fmt.Errorf("invalid reply packet length (%v)", len(packet))
 	}
 
-	if packet[0] != SOM {
+	// Ref. v6.62 firmware event
+	if packet[0] != SOM && (packet[0] != 0x19 || packet[1] != 0x20) {
 		return responses.ClearTaskListResponse{}, fmt.Errorf("invalid reply start of message byte (%02x)", packet[0])
 	}
 
@@ -907,7 +936,8 @@ func SetPCControlResponse(packet []byte) (responses.SetPCControlResponse, error)
 		return responses.SetPCControlResponse{}, fmt.Errorf("invalid reply packet length (%v)", len(packet))
 	}
 
-	if packet[0] != SOM {
+	// Ref. v6.62 firmware event
+	if packet[0] != SOM && (packet[0] != 0x19 || packet[1] != 0x20) {
 		return responses.SetPCControlResponse{}, fmt.Errorf("invalid reply start of message byte (%02x)", packet[0])
 	}
 
@@ -935,7 +965,8 @@ func SetInterlockResponse(packet []byte) (responses.SetInterlockResponse, error)
 		return responses.SetInterlockResponse{}, fmt.Errorf("invalid reply packet length (%v)", len(packet))
 	}
 
-	if packet[0] != SOM {
+	// Ref. v6.62 firmware event
+	if packet[0] != SOM && (packet[0] != 0x19 || packet[1] != 0x20) {
 		return responses.SetInterlockResponse{}, fmt.Errorf("invalid reply start of message byte (%02x)", packet[0])
 	}
 
@@ -963,7 +994,8 @@ func ActivateKeypadsResponse(packet []byte) (responses.ActivateKeypadsResponse, 
 		return responses.ActivateKeypadsResponse{}, fmt.Errorf("invalid reply packet length (%v)", len(packet))
 	}
 
-	if packet[0] != SOM {
+	// Ref. v6.62 firmware event
+	if packet[0] != SOM && (packet[0] != 0x19 || packet[1] != 0x20) {
 		return responses.ActivateKeypadsResponse{}, fmt.Errorf("invalid reply start of message byte (%02x)", packet[0])
 	}
 
@@ -991,7 +1023,8 @@ func GetAntiPassbackResponse(packet []byte) (responses.GetAntiPassbackResponse, 
 		return responses.GetAntiPassbackResponse{}, fmt.Errorf("invalid reply packet length (%v)", len(packet))
 	}
 
-	if packet[0] != SOM {
+	// Ref. v6.62 firmware event
+	if packet[0] != SOM && (packet[0] != 0x19 || packet[1] != 0x20) {
 		return responses.GetAntiPassbackResponse{}, fmt.Errorf("invalid reply start of message byte (%02x)", packet[0])
 	}
 
@@ -1019,7 +1052,8 @@ func SetAntiPassbackResponse(packet []byte) (responses.SetAntiPassbackResponse, 
 		return responses.SetAntiPassbackResponse{}, fmt.Errorf("invalid reply packet length (%v)", len(packet))
 	}
 
-	if packet[0] != SOM {
+	// Ref. v6.62 firmware event
+	if packet[0] != SOM && (packet[0] != 0x19 || packet[1] != 0x20) {
 		return responses.SetAntiPassbackResponse{}, fmt.Errorf("invalid reply start of message byte (%02x)", packet[0])
 	}
 
@@ -1047,7 +1081,8 @@ func RestoreDefaultParametersResponse(packet []byte) (responses.RestoreDefaultPa
 		return responses.RestoreDefaultParametersResponse{}, fmt.Errorf("invalid reply packet length (%v)", len(packet))
 	}
 
-	if packet[0] != SOM {
+	// Ref. v6.62 firmware event
+	if packet[0] != SOM && (packet[0] != 0x19 || packet[1] != 0x20) {
 		return responses.RestoreDefaultParametersResponse{}, fmt.Errorf("invalid reply start of message byte (%02x)", packet[0])
 	}
 
@@ -1075,7 +1110,8 @@ func ListenerEvent(packet []byte) (responses.ListenerEvent, error) {
 		return responses.ListenerEvent{}, fmt.Errorf("invalid reply packet length (%v)", len(packet))
 	}
 
-	if packet[0] != SOM {
+	// Ref. v6.62 firmware event
+	if packet[0] != SOM && (packet[0] != 0x19 || packet[1] != 0x20) {
 		return responses.ListenerEvent{}, fmt.Errorf("invalid reply start of message byte (%02x)", packet[0])
 	}
 

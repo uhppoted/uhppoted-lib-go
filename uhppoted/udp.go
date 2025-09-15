@@ -204,10 +204,13 @@ func (u udp) listen(ch chan []byte) error {
 			if N, addr, err := socket.ReadFromUDP(buffer); err != nil {
 				e <- err
 			} else if N == 64 {
-				dump("udp", fmt.Sprintf("received %v bytes from %v", N, addr), buffer[0:64])
 				m := make([]byte, 64)
 				copy(m, buffer[0:N])
 				events <- m
+
+				if u.debug {
+					dump("udp", fmt.Sprintf("received %v bytes from %v", N, addr), buffer[0:64])
+				}
 			}
 		}
 	}()

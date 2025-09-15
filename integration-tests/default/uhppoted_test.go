@@ -5,7 +5,9 @@ import (
 	"net"
 	"net/netip"
 	"os"
+	"reflect"
 	"slices"
+	"syscall"
 	"testing"
 	"time"
 
@@ -15,8 +17,8 @@ import (
 
 var bind = netip.MustParseAddrPort("0.0.0.0:0")
 var broadcast = netip.MustParseAddrPort("255.255.255.255:50001")
-var listen = netip.MustParseAddrPort("0.0.0.0:60001")
-var u = lib.NewUhppoted(bind, broadcast, listen, true)
+var listen = netip.MustParseAddrPort("0.0.0.0:60005")
+var u = lib.NewUhppoted(bind, broadcast, listen, false)
 
 const timeout = 1000 * time.Millisecond
 
@@ -55,6 +57,84 @@ func setup() (*net.UDPConn, error) {
 		}()
 
 		return socket, nil
+	}
+}
+
+func TestListen(t *testing.T) {
+	expected := struct {
+		events []lib.ListenerEvent
+		errors []error
+	}{}
+
+	for _, v := range test.Events {
+		if v.Event != nil {
+			expected.events = append(expected.events, *v.Event)
+		}
+
+		if v.Error != nil {
+			expected.errors = append(expected.errors, v.Error)
+		}
+	}
+
+	events := make(chan lib.ListenerEvent)
+	errors := make(chan error)
+	interrupt := make(chan os.Signal, 1)
+
+	defer close(events)
+	defer close(errors)
+	defer close(interrupt)
+
+	received := struct {
+		events []lib.ListenerEvent
+		errors []error
+	}{}
+
+	go func() {
+		for evt := range events {
+			received.events = append(received.events, evt)
+		}
+	}()
+
+	go func() {
+		for err := range errors {
+			received.errors = append(received.errors, err)
+		}
+	}()
+
+	go func() {
+		for _, v := range test.Events {
+
+			time.Sleep(100 * time.Millisecond)
+
+			if socket, err := net.DialUDP("udp", net.UDPAddrFromAddrPort(bind), net.UDPAddrFromAddrPort(listen)); err != nil {
+				t.Errorf("%v", err)
+			} else {
+				defer socket.Close()
+
+				if _, err := socket.Write(v.Packet); err != nil {
+					t.Errorf("%v", err)
+				}
+			}
+		}
+
+		time.Sleep(1 * time.Second)
+		interrupt <- syscall.SIGINT
+	}()
+
+	if err := lib.Listen(u, events, errors, interrupt); err != nil {
+		t.Fatalf("%v", err)
+	}
+
+	if !slices.EqualFunc(received.events, expected.events, func(p lib.ListenerEvent, q lib.ListenerEvent) bool {
+		return reflect.DeepEqual(p, q)
+	}) {
+		t.Errorf("event listen error\n   expected: %v\n   got:      %v", expected.events, received.events)
+	}
+
+	if !slices.EqualFunc(received.errors, expected.errors, func(p error, q error) bool {
+		return reflect.DeepEqual(p, q)
+	}) {
+		t.Errorf("event listen error\n   expected: %v\n   got:      %v", expected.errors, received.errors)
 	}
 }
 

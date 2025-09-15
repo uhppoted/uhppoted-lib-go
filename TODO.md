@@ -36,12 +36,13 @@
 - [x] get-antipassback
 - [x] set-antipassback
 - [x] restore-default-parameters
-- [ ] listen
+- [x] listen
    - [x] API
    - [x] CLI
-   - [ ] integration test
+   - [x] integration test
    - [x] README
 
+- [x] v6.62 event
 - [x] custom date
 - [x] custom time
 - [x] custom HHmm
@@ -52,7 +53,6 @@
 - [ ] check for controller = 0
 - [ ] check response.controller == request.controller
 - [ ] check response.card == request.card
-- [ ] v6.62 version handling
 - [ ] godoc examples
 - [x] logging
     - [ ] set default handler
