@@ -63,6 +63,8 @@ func SetListenerAddrPort[T TController](u Uhppoted, controller T, address netip.
 	}
 }
 
+// Listens for access controller events sent to the listen address:port and routes received events
+// to the events channel. Terminates on any signal sent to the interrupt channel.
 func Listen(u Uhppoted, events chan ListenerEvent, errors chan error, interrupt chan os.Signal) error {
 	ch := make(chan []uint8)
 
@@ -85,6 +87,17 @@ loop:
 
 	return nil
 }
+
+// // Sets the access controller system date and time.
+// func SetTimeX[T TController, D TDateTime](u Uhppoted, controller T, datetime D, timeout time.Duration) (responses.SetTimeResponse, error) {
+// 	fmt.Printf(">>>>>>>>>>>>>>>>>>>>> %T %v\n", datetime, datetime)
+// 	return responses.SetTimeResponse{}, nil
+// 	// f := func(id uint32) ([]byte, error) {
+// 	// 	return encode.SetTimeRequest(id, datetime)
+// 	// }
+// 	//
+// 	// return exec[T, responses.SetTimeResponse](u, controller, f, timeout)
+// }
 
 //go:generate ../.codegen/bin/codegen API
 //go:generate ../.codegen/bin/codegen responses
