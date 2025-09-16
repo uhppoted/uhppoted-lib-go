@@ -147,12 +147,22 @@ func send(u Uhppoted, controller Controller, request []byte, timeout time.Durati
 func resolve[T TController](controller T) (Controller, error) {
 	switch v := any(controller).(type) {
 	case uint32:
+		var err error
+		if v == 0 {
+			err = fmt.Errorf("invalid controller ID (%v)", v)
+		}
+
 		return Controller{
 			ID: v,
-		}, nil
+		}, err
 
 	case Controller:
-		return v, nil
+		var err error
+		if v.ID == 0 {
+			err = fmt.Errorf("invalid controller ID (%v)", v)
+		}
+
+		return v, err
 	}
 
 	return Controller{}, fmt.Errorf("unsupported type (%T)", controller)

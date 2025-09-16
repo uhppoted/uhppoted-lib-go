@@ -37,20 +37,20 @@
 - [x] set-antipassback
 - [x] restore-default-parameters
 - [x] listen
-
 - [x] v6.62 event
    - [x] decode unit test
 
-- [ ] check for controller = 0
+- [x] check for controller = 0
+- [ ] check response.controller == request.controller
+
 - [x] custom date
 - [x] custom time
 - [x] custom HHmm
 - [x] custom datetime
 - [x] custom optional datetime
-- [ ] custom task/interlock types
 - [ ] date/time args
 - [ ] card/event/profile/task records
-- [ ] check response.controller == request.controller
+- [ ] custom task/interlock types
 - [ ] check response.card == request.card
 - [ ] godoc/examples
 - [x] logging
