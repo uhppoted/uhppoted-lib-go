@@ -37,14 +37,11 @@
 - [x] set-antipassback
 - [x] restore-default-parameters
 - [x] listen
-   - [x] API
-   - [x] CLI
-   - [x] integration test
-   - [x] README
 
 - [x] v6.62 event
-   - [ ] decode unit test
+   - [x] decode unit test
 
+- [ ] check for controller = 0
 - [x] custom date
 - [x] custom time
 - [x] custom HHmm
@@ -53,10 +50,9 @@
 - [ ] custom task/interlock types
 - [ ] date/time args
 - [ ] card/event/profile/task records
-- [ ] check for controller = 0
 - [ ] check response.controller == request.controller
 - [ ] check response.card == request.card
-- [ ] godoc examples
+- [ ] godoc/examples
 - [x] logging
     - [ ] set default handler
 

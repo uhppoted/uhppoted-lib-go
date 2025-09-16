@@ -101,8 +101,11 @@ func decodeTest() {
 	}
 	defer f.Close()
 
+	responses := append([]*lib.Response(nil), model.Responses...)
+	responses = append(responses, &model.ListenerEvent)
+
 	tmpl := template.Must(template.New("decode_test").Funcs(functions).Parse(decodeTestTemplate))
-	if err := tmpl.Execute(f, model.Responses); err != nil {
+	if err := tmpl.Execute(f, responses); err != nil {
 		log.Fatalf("Failed to execute template: %v", err)
 	}
 

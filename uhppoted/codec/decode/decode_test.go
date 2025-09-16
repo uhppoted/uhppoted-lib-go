@@ -938,3 +938,91 @@ func TestRestoreDefaultParameters(t *testing.T) {
 		t.Errorf("incorrectly decoded response:\n   expected: %#v\n   got:      %#v", expected, response)
 	}
 }
+
+func TestListenerEvent(t *testing.T) {
+	packet := []byte{
+		0x17, 0x20, 0x00, 0x00, 0x78, 0x37, 0x2a, 0x18, 0x4e, 0x00, 0x00, 0x00, 0x02, 0x01, 0x03, 0x01,
+		0xa1, 0x98, 0x7c, 0x00, 0x20, 0x22, 0x08, 0x23, 0x09, 0x47, 0x06, 0x2c, 0x00, 0x01, 0x00, 0x00,
+		0x00, 0x00, 0x00, 0x01, 0x03, 0x09, 0x49, 0x39, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+		0x27, 0x07, 0x09, 0x22, 0x08, 0x23, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+	}
+
+	expected := responses.ListenerEvent{
+		Controller:         405419896,
+		SystemDate:         entities.MustParseDate("2022-08-23"),
+		SystemTime:         entities.MustParseTime("09:49:39"),
+		Door1Open:          false,
+		Door2Open:          true,
+		Door3Open:          false,
+		Door4Open:          false,
+		Door1Button:        false,
+		Door2Button:        false,
+		Door3Button:        false,
+		Door4Button:        true,
+		Relays:             7,
+		Inputs:             9,
+		SystemError:        3,
+		SpecialInfo:        39,
+		EventIndex:         78,
+		EventType:          2,
+		EventAccessGranted: true,
+		EventDoor:          3,
+		EventDirection:     1,
+		EventCard:          8165537,
+		EventTimestamp:     entities.MustParseDateTime("2022-08-23 09:47:06"),
+		EventReason:        44,
+		SequenceNo:         0,
+	}
+
+	response, err := ListenerEvent(packet)
+
+	if err != nil {
+		t.Fatalf("%v", err)
+	} else if !reflect.DeepEqual(response, expected) {
+		t.Errorf("incorrectly decoded response:\n   expected: %#v\n   got:      %#v", expected, response)
+	}
+}
+
+func TestListenerEventV6_62(t *testing.T) {
+	packet := []byte{
+		0x19, 0x20, 0x00, 0x00, 0x78, 0x37, 0x2a, 0x18, 0x4e, 0x00, 0x00, 0x00, 0x02, 0x01, 0x03, 0x01,
+		0xa1, 0x98, 0x7c, 0x00, 0x20, 0x22, 0x08, 0x23, 0x09, 0x47, 0x06, 0x2c, 0x00, 0x01, 0x00, 0x00,
+		0x00, 0x00, 0x00, 0x01, 0x03, 0x09, 0x49, 0x39, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+		0x27, 0x07, 0x09, 0x22, 0x08, 0x23, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+	}
+
+	expected := responses.ListenerEvent{
+		Controller:         405419896,
+		SystemDate:         entities.MustParseDate("2022-08-23"),
+		SystemTime:         entities.MustParseTime("09:49:39"),
+		Door1Open:          false,
+		Door2Open:          true,
+		Door3Open:          false,
+		Door4Open:          false,
+		Door1Button:        false,
+		Door2Button:        false,
+		Door3Button:        false,
+		Door4Button:        true,
+		Relays:             7,
+		Inputs:             9,
+		SystemError:        3,
+		SpecialInfo:        39,
+		EventIndex:         78,
+		EventType:          2,
+		EventAccessGranted: true,
+		EventDoor:          3,
+		EventDirection:     1,
+		EventCard:          8165537,
+		EventTimestamp:     entities.MustParseDateTime("2022-08-23 09:47:06"),
+		EventReason:        44,
+		SequenceNo:         0,
+	}
+
+	response, err := ListenerEvent(packet)
+
+	if err != nil {
+		t.Fatalf("%v", err)
+	} else if !reflect.DeepEqual(response, expected) {
+		t.Errorf("incorrectly decoded response:\n   expected: %#v\n   got:      %#v", expected, response)
+	}
+}
