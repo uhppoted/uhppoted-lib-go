@@ -56,11 +56,10 @@
     - [ ] set default handler
 
 - [ ] code generation
-   - [ ] use/extend uhppoted-codegen models
-      - (?) remove Request/Response suffixes
-      - (?) move FindControllers to uhppoted-codegen
-      - decoder.go // generated code - ** DO NOT EDIT **
-      - decoder_test.go // generated code - ** DO NOT EDIT **
+      - [x] // generated code - ** DO NOT EDIT **
+      - [ ] use/extend uhppoted-codegen models
+         - (?) remove Request/Response suffixes
+         - (?) move FindControllers to uhppoted-codegen
 
    - [x] response structs
    - [x] decoder

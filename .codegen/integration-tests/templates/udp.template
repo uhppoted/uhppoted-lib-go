@@ -1,3 +1,5 @@
+// generated code - ** DO NOT EDIT **
+
 package uhppoted
 
 import (

@@ -92,6 +92,10 @@ func (a AST) Generate(file string) error {
 
 		cleaned := strings.Join(lines, "\n")
 
+		if _, err = f.WriteString("// generated code - ** DO NOT EDIT **\n\n"); err != nil {
+			return err
+		}
+
 		if _, err = f.WriteString(cleaned); err != nil {
 			return err
 		}

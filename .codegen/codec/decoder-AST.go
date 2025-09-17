@@ -27,6 +27,10 @@ func decoder() {
 
 	decl := buildDecoder()
 
+	// ... 'generated code' warning
+	writeln(f, "// generated code - ** DO NOT EDIT **")
+	writeln(f, "")
+
 	printer.Fprint(f, token.NewFileSet(), decl)
 
 	f.Close()

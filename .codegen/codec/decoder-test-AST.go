@@ -42,6 +42,10 @@ func decoderTest() {
 		"expected": regexp.MustCompile(`^(\s*expected\s+:=\s+responses\.(?:.*?)Response\s*{)(.*?)(}$)`),
 	}
 
+	// ... 'generated code' warning
+	writeln(f, "// generated code - ** DO NOT EDIT **")
+	writeln(f, "")
+
 	for _, line := range lines {
 		// ... reformat message packet?
 		if match := re["packet"].FindStringSubmatch(line); len(match) > 1 {
