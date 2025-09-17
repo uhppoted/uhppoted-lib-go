@@ -28,9 +28,9 @@ build: format
 	go build -trimpath ./...
 
 debug: build
-	cd examples/cli && make listen
+	# cd examples/cli && make get-controller
 	# go test ./uhppoted/... -run TestDecodeGetStatusResponse
-	# go test ./integration-tests/... -run TestGetListenerAddrPort
+	go test ./integration-tests/... -run TestInvalidResponse
 
 test: build
 	go test ./uhppoted/...
@@ -80,12 +80,12 @@ find-controllers: build
 get-controller: build
 	cd examples/cli && make get-controller
 	cd examples/cli && make get-controller DEST="--dest 127.0.0.1"
-	cd examples/cli && make get-controller DEST="--dest 127.0.0.1" TCP="--tcp"DEST="--dest 127.0.0.1" TCP="--tcp""
+	cd examples/cli && make get-controller DEST="--dest 127.0.0.1" TCP="--tcp"
 
 set-IPv4: build
 	cd examples/cli && make set-IPv4
 	cd examples/cli && make set-IPv4 DEST="--dest 127.0.0.1"
-	cd examples/cli && make set-IPv4 DEST="--dest 127.0.0.1" TCP="--tcp"DEST="--dest 127.0.0.1" TCP="--tcp""
+	cd examples/cli && make set-IPv4 DEST="--dest 127.0.0.1" TCP="--tcp"
 
 get-time: build
 	cd examples/cli && make get-time

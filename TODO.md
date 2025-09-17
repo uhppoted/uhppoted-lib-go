@@ -37,11 +37,10 @@
 - [x] set-antipassback
 - [x] restore-default-parameters
 - [x] listen
-- [x] v6.62 event
-   - [x] decode unit test
 
+- [x] v6.62 event
 - [x] check for controller = 0
-- [ ] check response.controller == request.controller
+- [x] check response.controller == request.controller
 
 - [x] custom date
 - [x] custom time

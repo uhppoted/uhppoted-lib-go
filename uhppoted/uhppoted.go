@@ -1,9 +1,11 @@
 package uhppoted
 
 import (
+	"errors"
 	"fmt"
 	"net"
 	"net/netip"
+	"reflect"
 	"time"
 
 	"github.com/uhppoted/uhppoted-lib-go/uhppoted/codec"
@@ -80,6 +82,9 @@ type SetAntiPassbackResponse = responses.SetAntiPassbackResponse
 type RestoreDefaultParametersResponse = responses.RestoreDefaultParametersResponse
 type ListenerEvent = responses.ListenerEvent
 
+// Error constants
+var ErrInvalidResponse = errors.New("invalid response")
+
 // NewUhppoted creates a new instance of the uhppoted service, configured with the supplied
 // local bind address, broadcast address, and listen address. The debug flag enables or
 // disables logging of the network packets to the console.
@@ -116,8 +121,12 @@ func exec[T TController, R any](u Uhppoted, controller T, encode func(id uint32)
 		return zero, err
 	} else if reply, err := send(u, c, request, timeout); err != nil {
 		return zero, err
+	} else if response, err := codec.Decode[R](reply); err != nil {
+		return response, err
+	} else if !valid(response, c.ID) {
+		return response, ErrInvalidResponse
 	} else {
-		return codec.Decode[R](reply)
+		return response, nil
 	}
 }
 
@@ -157,4 +166,20 @@ func resolve[T TController](controller T) (Controller, error) {
 	}
 
 	return Controller{}, fmt.Errorf("unsupported type (%T)", controller)
+}
+
+func valid[R any](response R, controller uint32) bool {
+	r := reflect.ValueOf(response)
+	if r.Kind() == reflect.Ptr && !r.IsNil() {
+		r = r.Elem()
+	}
+
+	if r.Kind() == reflect.Struct {
+		f := r.FieldByName("Controller")
+		if f.IsValid() && f.Kind() == reflect.Uint32 {
+			return uint32(f.Uint()) == controller
+		}
+	}
+
+	return true
 }

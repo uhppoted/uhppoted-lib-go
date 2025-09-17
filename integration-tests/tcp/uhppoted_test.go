@@ -1,6 +1,7 @@
 package uhppoted
 
 import (
+	"errors"
 	"fmt"
 	"net"
 	"net/netip"
@@ -61,6 +62,16 @@ func setup() (*net.TCPListener, error) {
 		}()
 
 		return socket, nil
+	}
+}
+
+func TestInvalidResponse(t *testing.T) {
+	controller := uint32(201020304)
+
+	_, err := lib.GetController(u, controller, timeout)
+
+	if err == nil || !errors.Is(err, lib.ErrInvalidResponse) {
+		t.Errorf("expected %v error, got:%v", lib.ErrInvalidResponse, err)
 	}
 }
 
