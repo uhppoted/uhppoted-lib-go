@@ -37,15 +37,6 @@ func GetTime[T TController](u Uhppoted, controller T, timeout time.Duration) (re
 	return exec[T, responses.GetTimeResponse](u, controller, f, timeout)
 }
 
-// Sets the access controller system date and time.
-func SetTime[T TController](u Uhppoted, controller T, datetime time.Time, timeout time.Duration) (responses.SetTimeResponse, error) {
-	f := func(id uint32) ([]byte, error) {
-		return encode.SetTimeRequest(id, datetime)
-	}
-
-	return exec[T, responses.SetTimeResponse](u, controller, f, timeout)
-}
-
 // Retrieves the access controller event listener IPv4 address:port and auto-send interval.
 func GetListener[T TController](u Uhppoted, controller T, timeout time.Duration) (responses.GetListenerResponse, error) {
 	f := func(id uint32) ([]byte, error) {

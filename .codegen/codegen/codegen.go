@@ -124,7 +124,7 @@ func testarg(arg lib.TestArg) string {
 		return fmt.Sprintf(`netip.MustParseAddrPort("%v")`, arg.Value)
 
 	case "datetime":
-		return fmt.Sprintf(`string2datetime("%v")`, arg.Value)
+		return fmt.Sprintf(`entities.MustParseDateTime("%v")`, arg.Value)
 
 	case "optional datetime":
 		return fmt.Sprintf(`string2datetime("%v")`, arg.Value)
@@ -156,7 +156,7 @@ func fields2args(fields []lib.Field) string {
 			args = append(args, fmt.Sprintf("%v netip.AddrPort", name))
 
 		case "datetime":
-			args = append(args, fmt.Sprintf("%v time.Time", name))
+			args = append(args, fmt.Sprintf("%v entities.DateTime", name))
 
 		case "date":
 			args = append(args, fmt.Sprintf("%v time.Time", name))

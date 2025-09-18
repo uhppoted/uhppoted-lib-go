@@ -28,9 +28,9 @@ build: format
 	go build -trimpath ./...
 
 debug: build
-	# cd examples/cli && make get-controller
-	# go test ./uhppoted/... -run TestDecodeGetStatusResponse
-	go test ./integration-tests/... -run TestInvalidResponse
+	cd examples/cli && make set-time
+	# go test ./uhppoted/... -run TestSetTime
+	# go test ./integration-tests/... -run TestInvalidResponse
 
 test: build
 	go test ./uhppoted/...

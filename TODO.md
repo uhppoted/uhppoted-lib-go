@@ -46,11 +46,11 @@
 - [x] custom time
 - [x] custom HHmm
 - [x] custom datetime
+      - [ ] change month field to uint8
 - [x] custom optional datetime
 - [ ] date/time args
 - [ ] card/event/profile/task records
 - [ ] custom task/interlock types
-- [ ] check response.card == request.card
 - [ ] godoc/examples
 - [x] logging
     - [ ] set default handler
@@ -59,7 +59,6 @@
       - [x] // generated code - ** DO NOT EDIT **
       - [ ] use/extend uhppoted-codegen models
          - (?) remove Request/Response suffixes
-         - (?) move FindControllers to uhppoted-codegen
 
    - [x] response structs
    - [x] decoder

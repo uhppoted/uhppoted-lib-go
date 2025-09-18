@@ -6,8 +6,19 @@ import (
 	"github.com/uhppoted/uhppoted-lib-go/uhppoted/entities"
 )
 
+// Constructs a DateTime entity.
 func NewDateTime(year uint16, month time.Month, day uint8, hour, minute, second uint8) entities.DateTime {
 	return entities.NewDateTime(year, month, day, hour, minute, second)
+}
+
+// Converts a Go time.Time to a DateTime entity.
+func DateTimeFromTime(t time.Time) entities.DateTime {
+	return entities.DateTimeFromTime(t)
+}
+
+// Converts a string in the format "yyyy-mm-dd HH:mm:ss" to a DateTime entity.
+func DateTimeFromString(s string) (entities.DateTime, error) {
+	return entities.ParseDateTime(s)
 }
 
 func NewDate(year uint16, month time.Month, day uint8) entities.Date {

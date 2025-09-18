@@ -16,32 +16,27 @@ type DateTime struct {
 }
 
 func NewDateTime(year uint16, month time.Month, day uint8, hour, minute, second uint8) DateTime {
-	yyyy := year
-	if yyyy < 1 {
-		yyyy = 1
+	minmax := func(v, min, max int) int {
+		if v < min {
+			return min
+		} else if v > max {
+			return max
+		} else {
+			return v
+		}
 	}
 
+	yyyy := minmax(int(year), 1, 2999)
 	MM := month
 	if MM < time.January || MM > time.December {
 		MM = time.January
 	}
 
-	dd := day
-	if dd < 1 {
-		dd = 1
-	}
+	dd := minmax(int(day), 1, 31)
+	ss := minmax(int(second), 0, 59)
+	mm := minmax(int(minute), 0, 59)
+	hh := minmax(int(hour), 0, 24)
 
-	ss := second
-	if ss > 59 {
-		ss = 59
-	}
-
-	mm := minute
-	if mm > 59 {
-		mm = 59
-	}
-
-	hh := hour
 	if hh >= 24 {
 		hh = 24
 		mm = 0
@@ -49,12 +44,12 @@ func NewDateTime(year uint16, month time.Month, day uint8, hour, minute, second 
 	}
 
 	return DateTime{
-		year:   yyyy,
+		year:   uint16(yyyy),
 		month:  MM,
-		day:    dd,
-		hour:   hh,
-		minute: mm,
-		second: ss,
+		day:    uint8(dd),
+		hour:   uint8(hh),
+		minute: uint8(mm),
+		second: uint8(ss),
 	}
 }
 
@@ -84,6 +79,32 @@ func ParseDateTime(s string) (DateTime, error) {
 	}
 }
 
+// Creates a DateTime from the time.Time year, month, day, hour, minute and second fields.
+func DateTimeFromTime(t time.Time) DateTime {
+	minmax := func(v, min, max int) int {
+		if v < min {
+			return min
+		} else if v > max {
+			return max
+		} else {
+			return v
+		}
+	}
+
+	year := minmax(t.Year(), 1, 2999)
+	month := t.Month()
+	day := minmax(t.Day(), 1, 255)
+
+	hour := minmax(t.Hour(), 0, 255)
+	minute := minmax(t.Minute(), 0, 255)
+	second := minmax(t.Second(), 0, 255)
+
+	return NewDateTime(uint16(year), month, uint8(day), uint8(hour), uint8(minute), uint8(second))
+}
+
+// Returns the 'year' field value.
+//
+// The returned value is constrained to the interval [1..].
 func (dt DateTime) Year() uint16 {
 	if dt.year < 1 {
 		return 1

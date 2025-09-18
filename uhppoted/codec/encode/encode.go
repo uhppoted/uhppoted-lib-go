@@ -2,8 +2,11 @@ package encode
 
 import (
 	"encoding/binary"
+	"fmt"
 	"net/netip"
 	"time"
+
+	"github.com/uhppoted/uhppoted-lib-go/uhppoted/entities"
 )
 
 // Message constants for the UHPPOTE request/response protocol.
@@ -89,8 +92,8 @@ func packAddrPort(v netip.AddrPort, packet []byte, offset int) {
 //	   v      (time.Time)  date/time.
 //	   packet (bytearray)  64 byte array.
 //	   offset (int)        Value location in array.
-func packDateTime(v time.Time, packet []byte, offset int) {
-	s := v.Format("20060102150405")
+func packDateTime(v entities.DateTime, packet []byte, offset int) {
+	s := fmt.Sprintf("%04v%02v%02v%02v%02v%02v", v.Year(), uint8(v.Month()), v.Day(), v.Hour(), v.Minute(), v.Second())
 
 	bytes := string2bcd(s)
 	copy(packet[offset:], bytes)

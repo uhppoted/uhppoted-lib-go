@@ -35,6 +35,7 @@ func API() {
 	excluded := []*lib.Function{
 		&model.GetListenerAddrPort,
 		&model.SetListenerAddrPort,
+		&model.SetTime,
 	}
 
 	for _, f := range model.API[1:] {
@@ -58,6 +59,25 @@ func API() {
 func function(f lib.Function) *ast.FuncDecl {
 	name := codegen.TitleCase(f.Name)
 	response := fmt.Sprintf("responses.%v", codegen.TitleCase(f.Response.Name))
+
+	// ... function type
+	ftype := []*ast.Field{}
+
+	for _, arg := range f.Args {
+		switch arg.Type {
+		case "controller":
+			ftype = append(ftype, &ast.Field{
+				Names: []*ast.Ident{ast.NewIdent("T")},
+				Type:  ast.NewIdent("TController"),
+			})
+
+		case "datetime":
+			ftype = append(ftype, &ast.Field{
+				Names: []*ast.Ident{ast.NewIdent("DT")},
+				Type:  ast.NewIdent("TDateTime"),
+			})
+		}
+	}
 
 	// ... args
 	args := []*ast.Field{}
@@ -86,7 +106,7 @@ func function(f lib.Function) *ast.FuncDecl {
 			t = "time.Time"
 
 		case "datetime":
-			t = "time.Time"
+			t = "DT"
 
 		case "HHmm":
 			t = "time.Time"
@@ -111,7 +131,6 @@ func function(f lib.Function) *ast.FuncDecl {
 	})
 
 	// ... godoc
-	// godoc := ast.CommentGroup{
 	godoc := []*ast.Comment{
 		{Text: fmt.Sprintf("// -- line intentionally left blank --")},
 	}
@@ -130,12 +149,7 @@ func function(f lib.Function) *ast.FuncDecl {
 		Name: ast.NewIdent(name),
 		Type: &ast.FuncType{
 			TypeParams: &ast.FieldList{
-				List: []*ast.Field{
-					{
-						Names: []*ast.Ident{ast.NewIdent("T")},
-						Type:  ast.NewIdent("TController"),
-					},
-				},
+				List: ftype,
 			},
 			Params: &ast.FieldList{
 				List: args,
@@ -166,10 +180,18 @@ func impl(f lib.Function) *ast.BlockStmt {
 		&ast.Ident{Name: "id"},
 	}
 
+loop:
 	for _, arg := range f.Request.Fields[1:] {
 		name := regexp.MustCompile(`\s+`).ReplaceAllString(arg.Name, "")
 
-		if arg.Type != "magic" {
+		switch arg.Type {
+		// case "datetime":
+		// 	continue loop
+
+		case "magic":
+			continue loop
+
+		default:
 			args = append(args, &ast.Ident{Name: name})
 		}
 	}

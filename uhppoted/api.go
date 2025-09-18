@@ -1,12 +1,14 @@
 package uhppoted
 
 import (
+	"fmt"
 	"net/netip"
 	"os"
 	"time"
 
 	"github.com/uhppoted/uhppoted-lib-go/uhppoted/codec/decode"
 	"github.com/uhppoted/uhppoted-lib-go/uhppoted/codec/encode"
+	"github.com/uhppoted/uhppoted-lib-go/uhppoted/entities"
 	"github.com/uhppoted/uhppoted-lib-go/uhppoted/responses"
 )
 
@@ -61,6 +63,22 @@ func SetListenerAddrPort[T TController](u Uhppoted, controller T, address netip.
 	} else {
 		return decode.SetListenerAddrPortResponse(reply)
 	}
+}
+
+// Sets the access controller system date and time.
+func SetTime[T TController, DT TDateTime](u Uhppoted, controller T, datetime DT, timeout time.Duration) (responses.SetTimeResponse, error) {
+	f := func(id uint32) ([]byte, error) {
+		switch dt := any(datetime).(type) {
+		case entities.DateTime:
+			return encode.SetTimeRequest(id, dt)
+		case time.Time:
+			return encode.SetTimeRequest(id, entities.DateTimeFromTime(dt))
+		default:
+			return nil, fmt.Errorf("unsupported datetime type %T", datetime)
+		}
+	}
+
+	return exec[T, responses.SetTimeResponse](u, controller, f, timeout)
 }
 
 // Listens for access controller events sent to the listen address:port and routes received events

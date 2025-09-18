@@ -9,6 +9,7 @@ import (
 
     test "github.com/uhppoted/uhppoted-lib-go/integration-tests"
     lib "github.com/uhppoted/uhppoted-lib-go/uhppoted"
+    "github.com/uhppoted/uhppoted-lib-go/uhppoted/entities"
 )
 
 {{ range $func := . }}{{ range $test := $func.Tests }}

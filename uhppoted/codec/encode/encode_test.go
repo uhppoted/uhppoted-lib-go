@@ -8,6 +8,8 @@ import (
 	"slices"
 	"testing"
 	"time"
+
+	"github.com/uhppoted/uhppoted-lib-go/uhppoted/entities"
 )
 
 func TestFindControllers(t *testing.T) {
@@ -103,7 +105,7 @@ func TestSetTime(t *testing.T) {
 		0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
 	}
 
-	packet, err := SetTimeRequest(uint32(405419896), string2datetime("2025-11-04 12:34:56"))
+	packet, err := SetTimeRequest(uint32(405419896), entities.MustParseDateTime("2025-11-04 12:34:56"))
 
 	if err != nil {
 		t.Fatalf("%v", err)
@@ -638,14 +640,6 @@ func TestRestoreDefaultParameters(t *testing.T) {
 		t.Errorf("restore default parameters request: incorrectly encoded request\n   expected:%v\n   got:     %v", expected, packet)
 	}
 }
-func string2datetime(v string) time.Time {
-	if d, err := time.ParseInLocation("2006-01-02 15:04:05", v, time.Local); err != nil {
-		panic(fmt.Sprintf("invalid datetime (%v)", v))
-	} else {
-		return d
-	}
-}
-
 func string2date(v string) time.Time {
 	if d, err := time.ParseInLocation("2006-01-02", v, time.Local); err != nil {
 		panic(fmt.Sprintf("invalid date (%v)", v))

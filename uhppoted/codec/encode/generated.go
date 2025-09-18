@@ -5,6 +5,8 @@ package encode
 import (
 	"net/netip"
 	"time"
+
+	"github.com/uhppoted/uhppoted-lib-go/uhppoted/entities"
 )
 
 // Encodes a get-controller-request.
@@ -95,7 +97,7 @@ func GetTimeRequest(controller uint32) ([]byte, error) {
 //
 //	Returns:
 //	    64 byte packet.
-func SetTimeRequest(controller uint32, datetime time.Time) ([]byte, error) {
+func SetTimeRequest(controller uint32, datetime entities.DateTime) ([]byte, error) {
 	packet := make([]byte, 64)
 
 	packet[0] = SOM

@@ -9,6 +9,7 @@ import (
 
 	test "github.com/uhppoted/uhppoted-lib-go/integration-tests"
 	lib "github.com/uhppoted/uhppoted-lib-go/uhppoted"
+	"github.com/uhppoted/uhppoted-lib-go/uhppoted/entities"
 )
 
 func TestFindControllers(t *testing.T) {
@@ -64,7 +65,7 @@ func TestGetTime(t *testing.T) {
 func TestSetTime(t *testing.T) {
 	controller := uint32(405419896)
 
-	dateTime := string2datetime("2025-11-04 12:34:56")
+	dateTime := entities.MustParseDateTime("2025-11-04 12:34:56")
 
 	response, err := lib.SetTime(u, controller, dateTime, timeout)
 
