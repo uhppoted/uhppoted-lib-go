@@ -4,6 +4,7 @@ import (
 	"bytes"
 	"fmt"
 	"os"
+	"regexp"
 	"strings"
 
 	"go/ast"
@@ -79,18 +80,46 @@ func (a AST) Generate(file string) error {
 
 		b := bytes.Buffer{}
 		fileset := token.NewFileSet()
+		cfg := &printer.Config{
+			Mode:     printer.UseSpaces,
+			Tabwidth: 4,
+		}
 
-		printer.Fprint(&b, fileset, a.file)
+		// printer.Fprint(&b, fileset, a.file)
+		cfg.Fprint(&b, fileset, a.file)
 
 		// ... remove 'lines intentionally left blank'
 		lines := strings.Split(b.String(), "\n")
-		for i, line := range lines {
+		out := []string{}
+		for _, line := range lines {
 			if strings.HasPrefix(line, "// -- line intentionally left blank --") {
-				lines[i] = ""
+				out = append(out, "")
+				continue
 			}
+
+			// ... reformat response struct ?
+			re := regexp.MustCompile(`^(\s*return\s+responses\.(?:.*?)Response\s*\{)(.*)(\}.*)`)
+			if match := re.FindStringSubmatch(line); len(match) == 4 {
+				out = append(out, match[1])
+
+				fields := regexp.MustCompile(`[)],`).Split("), "+match[2], -1)
+				for _, f := range fields {
+					if strings.HasSuffix(f, ")") {
+						out = append(out, "        "+strings.TrimSpace(f)+",")
+					} else {
+						out = append(out, "        "+strings.TrimSpace(f)+"),")
+					}
+				}
+
+				out = append(out, "    "+match[3])
+				continue
+			}
+
+			// ... nothing to do
+			out = append(out, line)
 		}
 
-		cleaned := strings.Join(lines, "\n")
+		cleaned := strings.Join(out, "\n")
 
 		if _, err = f.WriteString("// generated code - ** DO NOT EDIT **\n\n"); err != nil {
 			return err

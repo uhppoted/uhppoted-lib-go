@@ -39,7 +39,7 @@ func decodeAST() {
 		}
 	}
 
-	AST := codegen.NewAST("responses", imports, types, functions)
+	AST := codegen.NewAST("decode", imports, types, functions)
 
 	if err := AST.Generate(file); err != nil {
 		log.Fatalf("error generating %v (%v)", file, err)
@@ -49,8 +49,8 @@ func decodeAST() {
 
 }
 
-func buildDecode(response lib.Response) *ast.FuncDecl {
-	name := fmt.Sprintf("%v", codegen.TitleCase(response.Name))
+func buildDecode(r lib.Response) *ast.FuncDecl {
+	name := fmt.Sprintf("%v", codegen.TitleCase(r.Name))
 
 	params := ast.FieldList{
 		List: []*ast.Field{
@@ -72,6 +72,11 @@ func buildDecode(response lib.Response) *ast.FuncDecl {
 				Type: ast.NewIdent("error"),
 			},
 		},
+	}
+
+	response := []ast.Expr{}
+	for _, f := range r.Fields {
+		response = append(response, unpack(f))
 	}
 
 	body := ast.BlockStmt{
@@ -201,7 +206,7 @@ func buildDecode(response lib.Response) *ast.FuncDecl {
 						X:     &ast.Ident{Name: "packet"},
 						Index: &ast.BasicLit{Kind: token.INT, Value: "1"},
 					},
-					Y: &ast.BasicLit{Kind: token.INT, Value: fmt.Sprintf("0x%02x", response.MsgType)},
+					Y: &ast.BasicLit{Kind: token.INT, Value: fmt.Sprintf("0x%02x", r.MsgType)},
 				},
 				Body: &ast.BlockStmt{
 					List: []ast.Stmt{
@@ -247,15 +252,7 @@ func buildDecode(response lib.Response) *ast.FuncDecl {
 							X:   &ast.Ident{Name: "responses"},
 							Sel: &ast.Ident{Name: name},
 						},
-						Elts: []ast.Expr{
-							&ast.KeyValueExpr{
-								Key: &ast.Ident{Name: "Controller"},
-								Value: &ast.CallExpr{
-									Fun:  &ast.Ident{Name: "unpackUint32"},
-									Args: []ast.Expr{&ast.Ident{Name: "packet"}, &ast.BasicLit{Kind: token.INT, Value: "4"}},
-								},
-							},
-						},
+						Elts: response,
 					},
 					&ast.Ident{Name: "nil"},
 				},
@@ -273,5 +270,46 @@ func buildDecode(response lib.Response) *ast.FuncDecl {
 		},
 		Body: &body,
 		Doc:  &doc,
+	}
+}
+
+func unpack(field lib.Field) ast.Expr {
+	types := map[string]string{
+		// case "bool":
+		// case "uint8":
+		// case "uint16":
+		"uint32": "unpackUint32",
+		// case "datetime":
+		// case "optional datetime":
+		"date": "unpackDate",
+		// case "shortdate":
+		// case "optional date":
+		// case "time":
+		// case "HHmm":
+		// 	return "entities.HHmm"
+		"IPv4": "unpackIPv4",
+		// case "address:port":
+		"MAC": "unpackMAC",
+		// case "pin":
+		"version": "unpackVersion",
+	}
+
+	if f, ok := types[field.Type]; !ok {
+		panic(fmt.Sprintf("unknown response field type (%v)", field.Type))
+	} else {
+		return &ast.KeyValueExpr{
+			Key: &ast.Ident{
+				Name: codegen.TitleCase(field.Name),
+			},
+			Value: &ast.CallExpr{
+				Fun: &ast.Ident{Name: f},
+				Args: []ast.Expr{
+					&ast.Ident{Name: "packet"},
+					&ast.BasicLit{
+						Kind:  token.INT,
+						Value: fmt.Sprintf("%v", field.Offset),
+					}},
+			},
+		}
 	}
 }
