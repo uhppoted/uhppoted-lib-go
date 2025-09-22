@@ -326,7 +326,7 @@ func TestPutCard(t *testing.T) {
 		0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
 	}
 
-	packet, err := PutCardRequest(uint32(405419896), uint32(10058400), string2date("2025-01-01"), string2date("2025-12-31"), uint8(1), uint8(0), uint8(17), uint8(1), uint32(999999))
+	packet, err := PutCardRequest(uint32(405419896), uint32(10058400), entities.MustParseDate("2025-01-01"), entities.MustParseDate("2025-12-31"), uint8(1), uint8(0), uint8(17), uint8(1), uint32(999999))
 
 	if err != nil {
 		t.Fatalf("%v", err)
@@ -462,7 +462,7 @@ func TestSetTimeProfile(t *testing.T) {
 		0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
 	}
 
-	packet, err := SetTimeProfileRequest(uint32(405419896), uint8(37), string2date("2025-11-26"), string2date("2025-12-29"), true, true, false, true, false, true, true, string2HHmm("8:30"), string2HHmm("9:45"), string2HHmm("11:35"), string2HHmm("13:15"), string2HHmm("14:01"), string2HHmm("17:59"), uint8(19))
+	packet, err := SetTimeProfileRequest(uint32(405419896), uint8(37), entities.MustParseDate("2025-11-26"), entities.MustParseDate("2025-12-29"), true, true, false, true, false, true, true, string2HHmm("8:30"), string2HHmm("9:45"), string2HHmm("11:35"), string2HHmm("13:15"), string2HHmm("14:01"), string2HHmm("17:59"), uint8(19))
 
 	if err != nil {
 		t.Fatalf("%v", err)
@@ -496,7 +496,7 @@ func TestAddTask(t *testing.T) {
 		0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
 	}
 
-	packet, err := AddTaskRequest(uint32(405419896), uint8(2), string2date("2025-01-01"), string2date("2025-12-31"), true, true, false, true, false, true, true, string2HHmm("08:45"), uint8(3), uint8(7))
+	packet, err := AddTaskRequest(uint32(405419896), uint8(2), entities.MustParseDate("2025-01-01"), entities.MustParseDate("2025-12-31"), true, true, false, true, false, true, true, string2HHmm("08:45"), uint8(3), uint8(7))
 
 	if err != nil {
 		t.Fatalf("%v", err)
@@ -640,14 +640,6 @@ func TestRestoreDefaultParameters(t *testing.T) {
 		t.Errorf("restore default parameters request: incorrectly encoded request\n   expected:%v\n   got:     %v", expected, packet)
 	}
 }
-func string2date(v string) time.Time {
-	if d, err := time.ParseInLocation("2006-01-02", v, time.Local); err != nil {
-		panic(fmt.Sprintf("invalid date (%v)", v))
-	} else {
-		return d
-	}
-}
-
 func string2HHmm(v string) time.Time {
 	if t, err := time.ParseInLocation("15:04", v, time.Local); err != nil {
 		panic(fmt.Sprintf("invalid time (%v)", v))

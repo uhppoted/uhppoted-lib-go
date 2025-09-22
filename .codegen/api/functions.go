@@ -36,6 +36,9 @@ func API() {
 		&model.GetListenerAddrPort,
 		&model.SetListenerAddrPort,
 		&model.SetTime,
+		&model.PutCard,
+		&model.SetTimeProfile,
+		&model.AddTask,
 	}
 
 	for _, f := range model.API[1:] {
@@ -62,20 +65,37 @@ func function(f lib.Function) *ast.FuncDecl {
 
 	// ... function type
 	ftype := []*ast.Field{}
+	set := map[string]bool{}
 
 	for _, arg := range f.Args {
 		switch arg.Type {
 		case "controller":
-			ftype = append(ftype, &ast.Field{
-				Names: []*ast.Ident{ast.NewIdent("T")},
-				Type:  ast.NewIdent("TController"),
-			})
+			if defined := set[arg.Type]; !defined {
+				ftype = append(ftype, &ast.Field{
+					Names: []*ast.Ident{ast.NewIdent("T")},
+					Type:  ast.NewIdent("TController"),
+				})
+
+				set[arg.Type] = true
+			}
 
 		case "datetime":
-			ftype = append(ftype, &ast.Field{
-				Names: []*ast.Ident{ast.NewIdent("DT")},
-				Type:  ast.NewIdent("TDateTime"),
-			})
+			if defined := set[arg.Type]; !defined {
+				ftype = append(ftype, &ast.Field{
+					Names: []*ast.Ident{ast.NewIdent("DT")},
+					Type:  ast.NewIdent("TDateTime"),
+				})
+				set[arg.Type] = true
+			}
+
+		case "date":
+			if defined := set[arg.Type]; !defined {
+				ftype = append(ftype, &ast.Field{
+					Names: []*ast.Ident{ast.NewIdent("D")},
+					Type:  ast.NewIdent("TDate"),
+				})
+				set[arg.Type] = true
+			}
 		}
 	}
 
@@ -103,7 +123,7 @@ func function(f lib.Function) *ast.FuncDecl {
 			t = "netip.AddrPort"
 
 		case "date":
-			t = "time.Time"
+			t = "D"
 
 		case "datetime":
 			t = "DT"

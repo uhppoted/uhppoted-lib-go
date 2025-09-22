@@ -155,14 +155,6 @@ func teardown(socket *net.UDPConn) {
 	}
 }
 
-func string2date(v string) time.Time {
-	if d, err := time.ParseInLocation("2006-01-02", v, time.Local); err != nil {
-		panic(fmt.Sprintf("invalid date (%v)", v))
-	} else {
-		return d
-	}
-}
-
 func string2HHmm(v string) time.Time {
 	if t, err := time.ParseInLocation("15:04", v, time.Local); err != nil {
 		panic(fmt.Sprintf("invalid time (%v)", t))

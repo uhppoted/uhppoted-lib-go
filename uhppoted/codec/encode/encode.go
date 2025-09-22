@@ -105,8 +105,8 @@ func packDateTime(v entities.DateTime, packet []byte, offset int) {
 //	   v      (time.Time)  date/time.
 //	   packet (bytearray)  64 byte array.
 //	   offset (int)        Value location in array.
-func packDate(v time.Time, packet []byte, offset int) {
-	s := v.Format("20060102")
+func packDate(v entities.Date, packet []byte, offset int) {
+	s := fmt.Sprintf("%04v%02v%02v", v.Year(), uint8(v.Month()), v.Day())
 
 	bytes := string2bcd(s)
 	copy(packet[offset:], bytes)

@@ -16,7 +16,7 @@ import (
 func Test{{ titleCase $test.Name }}(t *testing.T) {
 {{- range $arg := $test.Args }}{{ if eq $arg.Name "controller"}}
       controller := lib.Controller{
-                        ID: {{ testarg $arg }},
+                        ID: {{ $arg.Value }},
                         Address:  netip.MustParseAddrPort("127.0.0.1:50002"),
                         Protocol: "udp",
                      }{{ end }}

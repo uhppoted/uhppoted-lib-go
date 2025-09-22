@@ -37,6 +37,9 @@ func setTimeProfile(u lib.Uhppoted, args []string) error {
 	} else if profile < 2 || profile > 254 {
 		return fmt.Errorf("invalid profile (%v)", profile)
 	} else {
+		d := lib.NewDate(2025, time.March, 2)
+		e := lib.NewDate(2025, time.November, 29)
+
 		f := func(c uint32) (any, error) {
 			return lib.SetTimeProfile(u,
 				c,
@@ -55,8 +58,8 @@ func setTimeProfile(u lib.Uhppoted, args []string) error {
 			return lib.SetTimeProfile(u,
 				c,
 				uint8(profile),
-				startDate,
-				endDate,
+				d,
+				e,
 				monday, tuesday, wednesday, thursday, friday, saturday, sunday,
 				segment1start, segment1end,
 				segment2start, segment2end,

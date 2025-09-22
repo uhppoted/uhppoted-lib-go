@@ -127,10 +127,10 @@ func testarg(arg lib.TestArg) string {
 		return fmt.Sprintf(`entities.MustParseDateTime("%v")`, arg.Value)
 
 	case "optional datetime":
-		return fmt.Sprintf(`string2datetime("%v")`, arg.Value)
+		return fmt.Sprintf(`entities.MustParseDateTime("%v")`, arg.Value)
 
 	case "date":
-		return fmt.Sprintf(`string2date("%v")`, arg.Value)
+		return fmt.Sprintf(`entities.MustParseDate("%v")`, arg.Value)
 
 	case "HHmm":
 		return fmt.Sprintf(`string2HHmm("%v")`, arg.Value)
@@ -159,7 +159,7 @@ func fields2args(fields []lib.Field) string {
 			args = append(args, fmt.Sprintf("%v entities.DateTime", name))
 
 		case "date":
-			args = append(args, fmt.Sprintf("%v time.Time", name))
+			args = append(args, fmt.Sprintf("%v entities.Date", name))
 
 		case "HHmm":
 			args = append(args, fmt.Sprintf("%v time.Time", name))

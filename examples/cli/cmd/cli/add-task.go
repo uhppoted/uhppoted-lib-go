@@ -29,6 +29,9 @@ func addTask(u lib.Uhppoted, args []string) error {
 	if controller, err := parse(flagset, args); err != nil {
 		return err
 	} else {
+		d := lib.NewDate(2025, time.March, 2)
+		e := lib.NewDate(2025, time.November, 29)
+
 		f := func(c uint32) (any, error) {
 			return lib.AddTask(u,
 				c,
@@ -45,7 +48,7 @@ func addTask(u lib.Uhppoted, args []string) error {
 			return lib.AddTask(u,
 				c,
 				task,
-				startDate, endDate,
+				d, e,
 				monday, tuesday, wednesday, thursday, friday, saturday, sunday,
 				startTime,
 				door,

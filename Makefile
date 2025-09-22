@@ -28,9 +28,9 @@ build: format
 	go build -trimpath ./...
 
 debug: build
-	cd examples/cli && make set-time
-	# go test ./uhppoted/... -run TestSetTime
-	# go test ./integration-tests/... -run TestInvalidResponse
+	# cd examples/cli && make put-card
+	# go test -v -count=1 ./uhppoted/... -run TestSetTime
+	go test -v -count=1 ./integration-tests/... -run TestInvalidResponse
 
 test: build
 	go test ./uhppoted/...

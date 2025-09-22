@@ -43,11 +43,13 @@ func setup() (*net.UDPConn, error) {
 				buffer := make([]byte, 1024)
 				if N, addr, err := socket.ReadFromUDPAddrPort(buffer); err != nil {
 					return
-				} else if N == 64 {
-					for _, m := range test.Messages {
-						if slices.Compare(m.Request, buffer[0:64]) == 0 {
-							for _, packet := range m.Response {
-								socket.WriteMsgUDPAddrPort(packet, nil, addr)
+				} else {
+					if N == 64 {
+						for _, m := range test.Messages {
+							if slices.Compare(m.Request, buffer[0:64]) == 0 {
+								for _, packet := range m.Response {
+									socket.WriteMsgUDPAddrPort(packet, nil, addr)
+								}
 							}
 						}
 					}
@@ -60,7 +62,11 @@ func setup() (*net.UDPConn, error) {
 }
 
 func TestInvalidResponse(t *testing.T) {
-	controller := uint32(201020304)
+	controller := lib.Controller{
+		ID:       201020304,
+		Address:  netip.MustParseAddrPort("127.0.0.1:50002"),
+		Protocol: "udp",
+	}
 
 	_, err := lib.GetController(u, controller, timeout)
 
@@ -72,14 +78,6 @@ func TestInvalidResponse(t *testing.T) {
 func teardown(socket *net.UDPConn) {
 	if socket != nil {
 		socket.Close()
-	}
-}
-
-func string2date(v string) time.Time {
-	if d, err := time.ParseInLocation("2006-01-02", v, time.Local); err != nil {
-		panic(fmt.Sprintf("invalid date (%v)", v))
-	} else {
-		return d
 	}
 }
 

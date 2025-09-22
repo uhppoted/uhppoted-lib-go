@@ -303,8 +303,8 @@ func TestPutCard(t *testing.T) {
 	controller := uint32(405419896)
 
 	card := uint32(10058400)
-	startDate := string2date("2025-01-01")
-	endDate := string2date("2025-12-31")
+	startDate := entities.MustParseDate("2025-01-01")
+	endDate := entities.MustParseDate("2025-12-31")
 	door1 := uint8(1)
 	door2 := uint8(0)
 	door3 := uint8(17)
@@ -446,8 +446,8 @@ func TestSetTimeProfile(t *testing.T) {
 	controller := uint32(405419896)
 
 	profile := uint8(37)
-	startDate := string2date("2025-11-26")
-	endDate := string2date("2025-12-29")
+	startDate := entities.MustParseDate("2025-11-26")
+	endDate := entities.MustParseDate("2025-12-29")
 	monday := true
 	tuesday := true
 	wednesday := false
@@ -488,8 +488,8 @@ func TestAddTask(t *testing.T) {
 	controller := uint32(405419896)
 
 	task := uint8(2)
-	startDate := string2date("2025-01-01")
-	endDate := string2date("2025-12-31")
+	startDate := entities.MustParseDate("2025-01-01")
+	endDate := entities.MustParseDate("2025-12-31")
 	monday := true
 	tuesday := true
 	wednesday := false

@@ -25,6 +25,11 @@ func NewDate(year uint16, month time.Month, day uint8) entities.Date {
 	return entities.NewDate(year, month, day)
 }
 
+// Converts a Go time.Time to a Date entity.
+func DateFromTime(t time.Time) entities.Date {
+	return entities.DateFromTime(t)
+}
+
 func NewTime(hour, minute, second uint8) entities.Time {
 	return entities.NewTime(hour, minute, second)
 }

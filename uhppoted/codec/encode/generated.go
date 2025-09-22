@@ -356,7 +356,7 @@ func GetCardAtIndexRequest(controller uint32, index uint32) ([]byte, error) {
 //
 //	Returns:
 //	    64 byte packet.
-func PutCardRequest(controller uint32, card uint32, startdate time.Time, enddate time.Time, door1 uint8, door2 uint8, door3 uint8, door4 uint8, PIN uint32) ([]byte, error) {
+func PutCardRequest(controller uint32, card uint32, startdate entities.Date, enddate entities.Date, door1 uint8, door2 uint8, door3 uint8, door4 uint8, PIN uint32) ([]byte, error) {
 	packet := make([]byte, 64)
 
 	packet[0] = SOM
@@ -539,7 +539,7 @@ func GetTimeProfileRequest(controller uint32, profile uint8) ([]byte, error) {
 //
 //	Returns:
 //	    64 byte packet.
-func SetTimeProfileRequest(controller uint32, profile uint8, startdate time.Time, enddate time.Time, monday bool, tuesday bool, wednesday bool, thursday bool, friday bool, saturday bool, sunday bool, segment1start time.Time, segment1end time.Time, segment2start time.Time, segment2end time.Time, segment3start time.Time, segment3end time.Time, linkedprofileid uint8) ([]byte, error) {
+func SetTimeProfileRequest(controller uint32, profile uint8, startdate entities.Date, enddate entities.Date, monday bool, tuesday bool, wednesday bool, thursday bool, friday bool, saturday bool, sunday bool, segment1start time.Time, segment1end time.Time, segment2start time.Time, segment2end time.Time, segment3start time.Time, segment3end time.Time, linkedprofileid uint8) ([]byte, error) {
 	packet := make([]byte, 64)
 
 	packet[0] = SOM
@@ -607,7 +607,7 @@ func ClearTimeProfilesRequest(controller uint32) ([]byte, error) {
 //
 //	Returns:
 //	    64 byte packet.
-func AddTaskRequest(controller uint32, task uint8, startdate time.Time, enddate time.Time, monday bool, tuesday bool, wednesday bool, thursday bool, friday bool, saturday bool, sunday bool, starttime time.Time, door uint8, morecards uint8) ([]byte, error) {
+func AddTaskRequest(controller uint32, task uint8, startdate entities.Date, enddate entities.Date, monday bool, tuesday bool, wednesday bool, thursday bool, friday bool, saturday bool, sunday bool, starttime time.Time, door uint8, morecards uint8) ([]byte, error) {
 	packet := make([]byte, 64)
 
 	packet[0] = SOM

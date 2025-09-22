@@ -66,7 +66,11 @@ func setup() (*net.TCPListener, error) {
 }
 
 func TestInvalidResponse(t *testing.T) {
-	controller := uint32(201020304)
+	controller := lib.Controller{
+		ID:       201020304,
+		Address:  netip.MustParseAddrPort("127.0.0.1:50003"),
+		Protocol: "tcp",
+	}
 
 	_, err := lib.GetController(u, controller, timeout)
 
@@ -78,14 +82,6 @@ func TestInvalidResponse(t *testing.T) {
 func teardown(socket *net.TCPListener) {
 	if socket != nil {
 		socket.Close()
-	}
-}
-
-func string2date(v string) time.Time {
-	if d, err := time.ParseInLocation("2006-01-02", v, time.Local); err != nil {
-		panic(fmt.Sprintf("invalid date (%v)", v))
-	} else {
-		return d
 	}
 }
 

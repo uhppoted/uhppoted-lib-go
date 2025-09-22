@@ -113,6 +113,26 @@ where:
    GetController(u, 405419896, 750*time.Millisecond)
 ```
 
+4. `datetime` args (e.g. `SetTime`) take a `TDateTime` type which may be either a time-zone free `entities.DateTime` or a 
+Go stdlib `time.Time`:
+```
+    ...
+    return lib.SetTime(u, c, time.Now(), options.timeout)
+```
+```
+    ...
+    return lib.SetTime(u, c, entities.DateTime(2025, 3, 25, 12, 34, 56), options.timeout)
+```
+
+A `DateTimeFromTime` helper function is provided which converts a stdlib `time.Time` to an `entities.DateTime`.
+
+
+5. `date` args (e.g. `PutCard`) take a `TDate` type which may be either a time-zone free `entities.Date` or a 
+Go stdlib `time.Time`:
+
+A `DateFromTime` helper function is provided which converts a stdlib `time.Time` to an `entities.DateTime`.
+
+
 ## Functions
 
 ### `FindControllers`

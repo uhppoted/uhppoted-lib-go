@@ -127,15 +127,6 @@ func GetCardAtIndex[T TController](u Uhppoted, controller T, index uint32, timeo
 	return exec[T, responses.GetCardAtIndexResponse](u, controller, f, timeout)
 }
 
-// Creates or updates a card record stored on an access controller.
-func PutCard[T TController](u Uhppoted, controller T, card uint32, startdate time.Time, enddate time.Time, door1 uint8, door2 uint8, door3 uint8, door4 uint8, PIN uint32, timeout time.Duration) (responses.PutCardResponse, error) {
-	f := func(id uint32) ([]byte, error) {
-		return encode.PutCardRequest(id, card, startdate, enddate, door1, door2, door3, door4, PIN)
-	}
-
-	return exec[T, responses.PutCardResponse](u, controller, f, timeout)
-}
-
 // Removes a card record stored on a controller.
 func DeleteCard[T TController](u Uhppoted, controller T, cardnumber uint32, timeout time.Duration) (responses.DeleteCardResponse, error) {
 	f := func(id uint32) ([]byte, error) {
@@ -199,15 +190,6 @@ func GetTimeProfile[T TController](u Uhppoted, controller T, profile uint8, time
 	return exec[T, responses.GetTimeProfileResponse](u, controller, f, timeout)
 }
 
-// Adds or updates an access time profile stored on a controller.
-func SetTimeProfile[T TController](u Uhppoted, controller T, profile uint8, startdate time.Time, enddate time.Time, monday bool, tuesday bool, wednesday bool, thursday bool, friday bool, saturday bool, sunday bool, segment1start time.Time, segment1end time.Time, segment2start time.Time, segment2end time.Time, segment3start time.Time, segment3end time.Time, linkedprofileid uint8, timeout time.Duration) (responses.SetTimeProfileResponse, error) {
-	f := func(id uint32) ([]byte, error) {
-		return encode.SetTimeProfileRequest(id, profile, startdate, enddate, monday, tuesday, wednesday, thursday, friday, saturday, sunday, segment1start, segment1end, segment2start, segment2end, segment3start, segment3end, linkedprofileid)
-	}
-
-	return exec[T, responses.SetTimeProfileResponse](u, controller, f, timeout)
-}
-
 // Clears all access time profiles stored on a controller.
 func ClearTimeProfiles[T TController](u Uhppoted, controller T, timeout time.Duration) (responses.ClearTimeProfilesResponse, error) {
 	f := func(id uint32) ([]byte, error) {
@@ -215,30 +197,6 @@ func ClearTimeProfiles[T TController](u Uhppoted, controller T, timeout time.Dur
 	}
 
 	return exec[T, responses.ClearTimeProfilesResponse](u, controller, f, timeout)
-}
-
-// Creates a scheduled task.
-//
-// Task types
-// 0:  control door
-// 1:  unlock door
-// 2:  lock door
-// 3:  disable time profiles
-// 4:  enable time profiles
-// 5:  enable card, no password
-// 6:  enable card+IN password
-// 7:  enable card+password
-// 8:  enable more cards
-// 9:  disable more cards
-// 10: trigger once
-// 11: disable pushbutton
-// 12: enable pushbutton
-func AddTask[T TController](u Uhppoted, controller T, task uint8, startdate time.Time, enddate time.Time, monday bool, tuesday bool, wednesday bool, thursday bool, friday bool, saturday bool, sunday bool, starttime time.Time, door uint8, morecards uint8, timeout time.Duration) (responses.AddTaskResponse, error) {
-	f := func(id uint32) ([]byte, error) {
-		return encode.AddTaskRequest(id, task, startdate, enddate, monday, tuesday, wednesday, thursday, friday, saturday, sunday, starttime, door, morecards)
-	}
-
-	return exec[T, responses.AddTaskResponse](u, controller, f, timeout)
 }
 
 // Updates scheduler with newly created scheduled tasks.
