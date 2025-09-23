@@ -6,7 +6,6 @@ import (
 	"fmt"
 	"net/netip"
 	"regexp"
-	"time"
 
 	"github.com/uhppoted/uhppoted-lib-go/uhppoted/entities"
 )
@@ -102,7 +101,7 @@ func unpackDateTime(packet []byte, offset uint8) entities.DateTime {
 	s := bcd[:4] + "-" + bcd[4:6] + "-" + bcd[6:8] + " " + bcd[8:10] + ":" + bcd[10:12] + ":" + bcd[12:]
 
 	if date, err := entities.ParseDateTime(s); err != nil {
-		return entities.NewDateTime(1, time.January, 1, 0, 0, 0)
+		return entities.NewDateTime(1, 1, 1, 0, 0, 0)
 	} else {
 		return date
 	}
@@ -113,7 +112,7 @@ func unpackOptionalDateTime(packet []byte, offset uint8) entities.DateTime {
 	s := bcd[:4] + "-" + bcd[4:6] + "-" + bcd[6:8] + " " + bcd[8:10] + ":" + bcd[10:12] + ":" + bcd[12:]
 
 	if date, err := entities.ParseDateTime(s); err != nil {
-		return entities.NewDateTime(1, time.January, 1, 0, 0, 0)
+		return entities.NewDateTime(1, 1, 1, 0, 0, 0)
 	} else {
 		return date
 	}
@@ -124,7 +123,7 @@ func unpackDate(packet []byte, offset uint8) entities.Date {
 	s := bcd[:4] + "-" + bcd[4:6] + "-" + bcd[6:]
 
 	if date, err := entities.ParseDate(s); err != nil {
-		return entities.NewDate(1, time.January, 1)
+		return entities.NewDate(1, 1, 1)
 	} else {
 		return date
 	}
@@ -135,7 +134,7 @@ func unpackShortDate(packet []byte, offset uint8) entities.Date {
 	s := "20" + bcd[:2] + "-" + bcd[2:4] + "-" + bcd[4:]
 
 	if date, err := entities.ParseDate(s); err != nil {
-		return entities.NewDate(1, time.January, 1)
+		return entities.NewDate(1, 1, 1)
 	} else {
 		return date
 	}
@@ -146,7 +145,7 @@ func unpackOptionalDate(packet []byte, offset uint8) entities.Date {
 	s := bcd[:4] + "-" + bcd[4:6] + "-" + bcd[6:]
 
 	if date, err := entities.ParseDate(s); err != nil {
-		return entities.NewDate(1, time.January, 1)
+		return entities.NewDate(1, 1, 1)
 	} else {
 		return date
 	}

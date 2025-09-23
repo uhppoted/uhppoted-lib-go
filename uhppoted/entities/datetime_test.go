@@ -16,11 +16,11 @@ func TestNewDateTime(t *testing.T) {
 		second   uint8
 		expected DateTime
 	}{
-		{2025, time.June, 23, 12, 34, 56, DateTime{2025, time.June, 23, 12, 34, 56}},
+		{2025, time.June, 23, 12, 34, 56, DateTime{2025, 6, 23, 12, 34, 56}},
 	}
 
 	for _, test := range tests {
-		d := NewDateTime(test.year, test.month, test.day, test.hour, test.minute, test.second)
+		d := NewDateTime(test.year, uint8(test.month), test.day, test.hour, test.minute, test.second)
 
 		if d != test.expected {
 			t.Errorf("incorrectly constructed date (%v,%v,%v,%v,%v,%v) - expected:%v, got:%v",
@@ -37,7 +37,7 @@ func TestDateTimeYear(t *testing.T) {
 		datetime DateTime
 		expected uint16
 	}{
-		{DateTime{2025, time.June, 23, 12, 34, 56}, 2025},
+		{DateTime{2025, 6, 23, 12, 34, 56}, 2025},
 	}
 
 	for _, test := range tests {
@@ -54,13 +54,13 @@ func TestDateTimeMonth(t *testing.T) {
 		datetime DateTime
 		expected time.Month
 	}{
-		{DateTime{2025, time.June, 23, 12, 34, 56}, time.June},
+		{DateTime{2025, 6, 23, 12, 34, 56}, time.June},
 	}
 
 	for _, test := range tests {
 		month := test.datetime.Month()
 
-		if month != test.expected {
+		if month != uint8(test.expected) {
 			t.Errorf("%v: incorrect datetime 'month' - expected:%v, got:%v", test.datetime, test.expected, month)
 		}
 	}
@@ -71,7 +71,7 @@ func TestDateTimeDay(t *testing.T) {
 		datetime DateTime
 		expected uint8
 	}{
-		{DateTime{2025, time.June, 23, 12, 34, 56}, 23},
+		{DateTime{2025, 6, 23, 12, 34, 56}, 23},
 	}
 
 	for _, test := range tests {
@@ -89,7 +89,7 @@ func TestDateTimeStringer(t *testing.T) {
 		expected string
 	}{
 		{DateTime{}, "0001-01-01 00:00:00"},
-		{DateTime{2025, time.June, 23, 12, 34, 56}, "2025-06-23 12:34:56"},
+		{DateTime{2025, 6, 23, 12, 34, 56}, "2025-06-23 12:34:56"},
 	}
 
 	for _, test := range tests {

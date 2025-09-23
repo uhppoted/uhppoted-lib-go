@@ -8,19 +8,22 @@ import (
 
 type Date struct {
 	year  uint16
-	month time.Month
+	month uint8
 	day   uint8
 }
 
-func NewDate(year uint16, month time.Month, day uint8) Date {
+// Constructs a new Date struct with minimal validation.
+func NewDate(year uint16, month uint8, day uint8) Date {
 	yyyy := year
 	if yyyy < 1 {
 		yyyy = 1
 	}
 
 	mm := month
-	if mm < time.January || mm > time.December {
-		mm = time.January
+	if mm < 1 {
+		mm = 1
+	} else if mm > 12 {
+		mm = 12
 	}
 
 	dd := day
@@ -56,7 +59,7 @@ func ParseDate(s string) (Date, error) {
 	} else {
 		year, month, day := date.Date()
 
-		return NewDate(uint16(year), month, uint8(day)), nil
+		return NewDate(uint16(year), uint8(month), uint8(day)), nil
 	}
 }
 
@@ -73,10 +76,10 @@ func DateFromTime(t time.Time) Date {
 	}
 
 	year := minmax(t.Year(), 1, 2999)
-	month := t.Month()
+	month := minmax(int(t.Month()), 1, 12)
 	day := minmax(t.Day(), 1, 255)
 
-	return NewDate(uint16(year), month, uint8(day))
+	return NewDate(uint16(year), uint8(month), uint8(day))
 }
 
 func (d Date) Year() uint16 {
@@ -87,11 +90,11 @@ func (d Date) Year() uint16 {
 	}
 }
 
-func (d Date) Month() time.Month {
-	if d.month < time.January {
-		return time.January
-	} else if d.month > time.December {
-		return time.December
+func (d Date) Month() uint8 {
+	if d.month < 1 {
+		return 1
+	} else if d.month > 12 {
+		return 12
 	} else {
 		return d.month
 	}
@@ -129,7 +132,7 @@ func (d *Date) UnmarshalJSON(bytes []byte) error {
 	} else if s == "" {
 		*d = Date{
 			year:  1,
-			month: time.January,
+			month: 1,
 			day:   1,
 		}
 	} else if v, err := ParseDate(s); err != nil {

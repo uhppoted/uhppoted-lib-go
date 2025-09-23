@@ -41,8 +41,8 @@ func putCard(u lib.Uhppoted, args []string) error {
 		return fmt.Errorf("invalid PIN (%v)", PIN)
 	} else {
 		// (for demo purposes only - there is a lib.DateFromTime helper function)
-		d := lib.NewDate(2025, time.March, 2)
-		e := lib.NewDate(2025, time.November, 29)
+		d := lib.NewDate(2025, 3, 2)
+		e := lib.NewDate(2025, 11, 29)
 
 		f := func(c uint32) (any, error) {
 			return lib.PutCard(u, c, uint32(card), startdate, enddate, doors[0], doors[1], doors[2], doors[3], uint32(PIN), options.timeout)

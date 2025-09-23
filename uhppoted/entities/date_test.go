@@ -13,11 +13,11 @@ func TestNewDate(t *testing.T) {
 		day      uint8
 		expected Date
 	}{
-		{2025, time.June, 23, Date{2025, time.June, 23}},
+		{2025, time.June, 23, Date{2025, 6, 23}},
 	}
 
 	for _, test := range tests {
-		d := NewDate(test.year, test.month, test.day)
+		d := NewDate(test.year, uint8(test.month), test.day)
 
 		if d != test.expected {
 			t.Errorf("incorrectly constructed date (%v,%v,%v) - expected:%v, got:%v", test.year, test.month, test.day, test.expected, d)
@@ -31,7 +31,7 @@ func TestDateYear(t *testing.T) {
 		date     Date
 		expected uint16
 	}{
-		{Date{2025, time.June, 23}, 2025},
+		{Date{2025, 6, 23}, 2025},
 	}
 
 	for _, test := range tests {
@@ -48,13 +48,13 @@ func TestDateMonth(t *testing.T) {
 		date     Date
 		expected time.Month
 	}{
-		{Date{2025, time.June, 23}, time.June},
+		{Date{2025, 6, 23}, time.June},
 	}
 
 	for _, test := range tests {
 		month := test.date.Month()
 
-		if month != test.expected {
+		if month != uint8(test.expected) {
 			t.Errorf("%v: incorrect date 'month' - expected:%v, got:%v", test.date, test.expected, month)
 		}
 	}
@@ -65,7 +65,7 @@ func TestDateDay(t *testing.T) {
 		date     Date
 		expected uint8
 	}{
-		{Date{2025, time.June, 23}, 23},
+		{Date{2025, 6, 23}, 23},
 	}
 
 	for _, test := range tests {
@@ -83,7 +83,7 @@ func TestDateStringer(t *testing.T) {
 		expected string
 	}{
 		{Date{}, "0001-01-01"},
-		{Date{2025, time.June, 23}, "2025-06-23"},
+		{Date{2025, 6, 23}, "2025-06-23"},
 	}
 
 	for _, test := range tests {

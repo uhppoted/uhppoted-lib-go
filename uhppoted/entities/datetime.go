@@ -8,14 +8,14 @@ import (
 
 type DateTime struct {
 	year   uint16
-	month  time.Month
+	month  uint8
 	day    uint8
 	hour   uint8
 	minute uint8
 	second uint8
 }
 
-func NewDateTime(year uint16, month time.Month, day uint8, hour, minute, second uint8) DateTime {
+func NewDateTime(year uint16, month uint8, day uint8, hour, minute, second uint8) DateTime {
 	minmax := func(v, min, max int) int {
 		if v < min {
 			return min
@@ -26,13 +26,10 @@ func NewDateTime(year uint16, month time.Month, day uint8, hour, minute, second 
 		}
 	}
 
-	yyyy := minmax(int(year), 1, 2999)
-	MM := month
-	if MM < time.January || MM > time.December {
-		MM = time.January
-	}
+	y := minmax(int(year), 1, 2999)
+	m := minmax(int(month), 1, 12)
+	d := minmax(int(day), 1, 31)
 
-	dd := minmax(int(day), 1, 31)
 	ss := minmax(int(second), 0, 59)
 	mm := minmax(int(minute), 0, 59)
 	hh := minmax(int(hour), 0, 24)
@@ -44,9 +41,9 @@ func NewDateTime(year uint16, month time.Month, day uint8, hour, minute, second 
 	}
 
 	return DateTime{
-		year:   uint16(yyyy),
-		month:  MM,
-		day:    uint8(dd),
+		year:   uint16(y),
+		month:  uint8(m),
+		day:    uint8(d),
 		hour:   uint8(hh),
 		minute: uint8(mm),
 		second: uint8(ss),
@@ -75,7 +72,7 @@ func ParseDateTime(s string) (DateTime, error) {
 		year, month, day := datetime.Date()
 		hour, minute, second := datetime.Hour(), datetime.Minute(), datetime.Second()
 
-		return NewDateTime(uint16(year), month, uint8(day), uint8(hour), uint8(minute), uint8(second)), nil
+		return NewDateTime(uint16(year), uint8(month), uint8(day), uint8(hour), uint8(minute), uint8(second)), nil
 	}
 }
 
@@ -92,14 +89,14 @@ func DateTimeFromTime(t time.Time) DateTime {
 	}
 
 	year := minmax(t.Year(), 1, 2999)
-	month := t.Month()
+	month := minmax(int(t.Month()), 1, 2)
 	day := minmax(t.Day(), 1, 255)
 
 	hour := minmax(t.Hour(), 0, 255)
 	minute := minmax(t.Minute(), 0, 255)
 	second := minmax(t.Second(), 0, 255)
 
-	return NewDateTime(uint16(year), month, uint8(day), uint8(hour), uint8(minute), uint8(second))
+	return NewDateTime(uint16(year), uint8(month), uint8(day), uint8(hour), uint8(minute), uint8(second))
 }
 
 // Returns the 'year' field value.
@@ -115,12 +112,12 @@ func (dt DateTime) Year() uint16 {
 
 // Returns the 'month' field value.
 //
-// The returned value is constrained to the interval [January..December].
-func (dt DateTime) Month() time.Month {
-	if dt.month < time.January {
-		return time.January
-	} else if dt.month > time.December {
-		return time.December
+// The returned value is constrained to the interval [1..12].
+func (dt DateTime) Month() uint8 {
+	if dt.month < 1 {
+		return 1
+	} else if dt.month > 12 {
+		return 12
 	} else {
 		return dt.month
 	}
@@ -196,7 +193,7 @@ func (dt *DateTime) UnmarshalJSON(bytes []byte) error {
 	} else if s == "" {
 		*dt = DateTime{
 			year:   1,
-			month:  time.January,
+			month:  1,
 			day:    1,
 			hour:   0,
 			minute: 0,

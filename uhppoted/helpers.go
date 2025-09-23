@@ -7,7 +7,7 @@ import (
 )
 
 // Constructs a DateTime entity.
-func NewDateTime(year uint16, month time.Month, day uint8, hour, minute, second uint8) entities.DateTime {
+func NewDateTime(year uint16, month uint8, day uint8, hour, minute, second uint8) entities.DateTime {
 	return entities.NewDateTime(year, month, day, hour, minute, second)
 }
 
@@ -21,7 +21,7 @@ func DateTimeFromString(s string) (entities.DateTime, error) {
 	return entities.ParseDateTime(s)
 }
 
-func NewDate(year uint16, month time.Month, day uint8) entities.Date {
+func NewDate(year uint16, month uint8, day uint8) entities.Date {
 	return entities.NewDate(year, month, day)
 }
 

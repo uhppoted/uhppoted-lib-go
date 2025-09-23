@@ -29,8 +29,8 @@ func addTask(u lib.Uhppoted, args []string) error {
 	if controller, err := parse(flagset, args); err != nil {
 		return err
 	} else {
-		d := lib.NewDate(2025, time.March, 2)
-		e := lib.NewDate(2025, time.November, 29)
+		d := lib.NewDate(2025, 3, 2)
+		e := lib.NewDate(2025, 11, 29)
 
 		f := func(c uint32) (any, error) {
 			return lib.AddTask(u,
