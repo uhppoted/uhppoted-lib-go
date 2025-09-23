@@ -455,12 +455,12 @@ func TestSetTimeProfile(t *testing.T) {
 	friday := false
 	saturday := true
 	sunday := true
-	segment1Start := string2HHmm("8:30")
-	segment1End := string2HHmm("9:45")
-	segment2Start := string2HHmm("11:35")
-	segment2End := string2HHmm("13:15")
-	segment3Start := string2HHmm("14:01")
-	segment3End := string2HHmm("17:59")
+	segment1Start := entities.MustParseHHmm("8:30")
+	segment1End := entities.MustParseHHmm("9:45")
+	segment2Start := entities.MustParseHHmm("11:35")
+	segment2End := entities.MustParseHHmm("13:15")
+	segment3Start := entities.MustParseHHmm("14:01")
+	segment3End := entities.MustParseHHmm("17:59")
 	linkedProfileId := uint8(19)
 
 	response, err := lib.SetTimeProfile(u, controller, profile, startDate, endDate, monday, tuesday, wednesday, thursday, friday, saturday, sunday, segment1Start, segment1End, segment2Start, segment2End, segment3Start, segment3End, linkedProfileId, timeout)
@@ -497,7 +497,7 @@ func TestAddTask(t *testing.T) {
 	friday := false
 	saturday := true
 	sunday := true
-	startTime := string2HHmm("08:45")
+	startTime := entities.MustParseHHmm("08:45")
 	door := uint8(3)
 	moreCards := uint8(7)
 

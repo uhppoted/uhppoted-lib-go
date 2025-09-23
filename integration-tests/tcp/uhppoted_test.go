@@ -84,11 +84,3 @@ func teardown(socket *net.TCPListener) {
 		socket.Close()
 	}
 }
-
-func string2HHmm(v string) time.Time {
-	if t, err := time.ParseInLocation("15:04", v, time.Local); err != nil {
-		panic(fmt.Sprintf("invalid time (%v)", t))
-	} else {
-		return t
-	}
-}

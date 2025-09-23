@@ -7,6 +7,7 @@ import (
 	"time"
 
 	"github.com/uhppoted/uhppoted-lib-go/uhppoted/codec/encode"
+	"github.com/uhppoted/uhppoted-lib-go/uhppoted/entities"
 	"github.com/uhppoted/uhppoted-lib-go/uhppoted/responses"
 )
 
@@ -35,6 +36,15 @@ func GetTime[T TController](u Uhppoted, controller T, timeout time.Duration) (re
 	}
 
 	return exec[T, responses.GetTimeResponse](u, controller, f, timeout)
+}
+
+// Sets the access controller system date and time.
+func SetTime[T TController, DT TDateTime](u Uhppoted, controller T, datetime DT, timeout time.Duration) (responses.SetTimeResponse, error) {
+	f := func(id uint32) ([]byte, error) {
+		return encode.SetTimeRequest(id, convert[entities.DateTime](datetime))
+	}
+
+	return exec[T, responses.SetTimeResponse](u, controller, f, timeout)
 }
 
 // Retrieves the access controller event listener IPv4 address:port and auto-send interval.
@@ -127,6 +137,15 @@ func GetCardAtIndex[T TController](u Uhppoted, controller T, index uint32, timeo
 	return exec[T, responses.GetCardAtIndexResponse](u, controller, f, timeout)
 }
 
+// Creates or updates a card record stored on an access controller.
+func PutCard[T TController, D TDate](u Uhppoted, controller T, card uint32, startdate D, enddate D, door1 uint8, door2 uint8, door3 uint8, door4 uint8, PIN uint32, timeout time.Duration) (responses.PutCardResponse, error) {
+	f := func(id uint32) ([]byte, error) {
+		return encode.PutCardRequest(id, card, convert[entities.Date](startdate), convert[entities.Date](enddate), door1, door2, door3, door4, PIN)
+	}
+
+	return exec[T, responses.PutCardResponse](u, controller, f, timeout)
+}
+
 // Removes a card record stored on a controller.
 func DeleteCard[T TController](u Uhppoted, controller T, cardnumber uint32, timeout time.Duration) (responses.DeleteCardResponse, error) {
 	f := func(id uint32) ([]byte, error) {
@@ -190,6 +209,15 @@ func GetTimeProfile[T TController](u Uhppoted, controller T, profile uint8, time
 	return exec[T, responses.GetTimeProfileResponse](u, controller, f, timeout)
 }
 
+// Adds or updates an access time profile stored on a controller.
+func SetTimeProfile[T TController, D TDate, H THHmm](u Uhppoted, controller T, profile uint8, startdate D, enddate D, monday bool, tuesday bool, wednesday bool, thursday bool, friday bool, saturday bool, sunday bool, segment1start H, segment1end H, segment2start H, segment2end H, segment3start H, segment3end H, linkedprofileid uint8, timeout time.Duration) (responses.SetTimeProfileResponse, error) {
+	f := func(id uint32) ([]byte, error) {
+		return encode.SetTimeProfileRequest(id, profile, convert[entities.Date](startdate), convert[entities.Date](enddate), monday, tuesday, wednesday, thursday, friday, saturday, sunday, convert[entities.HHmm](segment1start), convert[entities.HHmm](segment1end), convert[entities.HHmm](segment2start), convert[entities.HHmm](segment2end), convert[entities.HHmm](segment3start), convert[entities.HHmm](segment3end), linkedprofileid)
+	}
+
+	return exec[T, responses.SetTimeProfileResponse](u, controller, f, timeout)
+}
+
 // Clears all access time profiles stored on a controller.
 func ClearTimeProfiles[T TController](u Uhppoted, controller T, timeout time.Duration) (responses.ClearTimeProfilesResponse, error) {
 	f := func(id uint32) ([]byte, error) {
@@ -197,6 +225,30 @@ func ClearTimeProfiles[T TController](u Uhppoted, controller T, timeout time.Dur
 	}
 
 	return exec[T, responses.ClearTimeProfilesResponse](u, controller, f, timeout)
+}
+
+// Creates a scheduled task.
+//
+// Task types
+// 0:  control door
+// 1:  unlock door
+// 2:  lock door
+// 3:  disable time profiles
+// 4:  enable time profiles
+// 5:  enable card, no password
+// 6:  enable card+IN password
+// 7:  enable card+password
+// 8:  enable more cards
+// 9:  disable more cards
+// 10: trigger once
+// 11: disable pushbutton
+// 12: enable pushbutton
+func AddTask[T TController, D TDate, H THHmm](u Uhppoted, controller T, task uint8, startdate D, enddate D, monday bool, tuesday bool, wednesday bool, thursday bool, friday bool, saturday bool, sunday bool, starttime H, door uint8, morecards uint8, timeout time.Duration) (responses.AddTaskResponse, error) {
+	f := func(id uint32) ([]byte, error) {
+		return encode.AddTaskRequest(id, task, convert[entities.Date](startdate), convert[entities.Date](enddate), monday, tuesday, wednesday, thursday, friday, saturday, sunday, convert[entities.HHmm](starttime), door, morecards)
+	}
+
+	return exec[T, responses.AddTaskResponse](u, controller, f, timeout)
 }
 
 // Updates scheduler with newly created scheduled tasks.

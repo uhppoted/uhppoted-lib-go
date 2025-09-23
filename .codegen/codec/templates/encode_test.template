@@ -3,11 +3,9 @@
 package encode
 
 import (
-   "fmt"
    "net/netip"
    "slices"
    "testing"
-   "time"
 
    "github.com/uhppoted/uhppoted-lib-go/uhppoted/entities"
 )
@@ -29,11 +27,3 @@ func Test{{ titleCase $test.Name }}(t *testing.T) {
 }
 {{ end -}}
 {{ end -}}
-
-func string2HHmm(v string) time.Time {
-    if t,err := time.ParseInLocation("15:04", v, time.Local); err != nil {
-        panic(fmt.Sprintf("invalid time (%v)", v))
-    } else {
-        return t
-    }
-}

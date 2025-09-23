@@ -54,6 +54,14 @@ func ParseHHmm(s string) (HHmm, error) {
 	}
 }
 
+// Creates an HHmm from the time.Time hour and minute fields.
+func HHmmFromTime(t time.Time) HHmm {
+	hour := minmax(t.Hour(), 0, 255)
+	minute := minmax(t.Minute(), 0, 255)
+
+	return NewHHmm(uint8(hour), uint8(minute))
+}
+
 // Returns the 'hour' field value.
 //
 // The returned value is constrained to the interval [0..24]

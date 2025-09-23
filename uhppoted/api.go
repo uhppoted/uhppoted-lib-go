@@ -12,6 +12,10 @@ import (
 	"github.com/uhppoted/uhppoted-lib-go/uhppoted/responses"
 )
 
+type convertable interface {
+	entities.DateTime | entities.Date | entities.HHmm
+}
+
 // FindControllers retrieves a list of all UHPPOTE controllers accessible on the local LAN.
 //
 // It broadcasts a UDP `get controller` request to the local network and returns a list of
@@ -65,81 +69,84 @@ func SetListenerAddrPort[T TController](u Uhppoted, controller T, address netip.
 	}
 }
 
-// Sets the access controller system date and time.
-func SetTime[T TController, DT TDateTime](u Uhppoted, controller T, datetime DT, timeout time.Duration) (responses.SetTimeResponse, error) {
-	f := func(id uint32) ([]byte, error) {
-		switch dt := any(datetime).(type) {
-		case entities.DateTime:
-			return encode.SetTimeRequest(id, dt)
-		case time.Time:
-			return encode.SetTimeRequest(id, entities.DateTimeFromTime(dt))
-		default:
-			return nil, fmt.Errorf("unsupported datetime type %T", datetime)
-		}
-	}
-
-	return exec[T, responses.SetTimeResponse](u, controller, f, timeout)
-}
-
-// Creates or updates a card record stored on an access controller.
-func PutCard[T TController, D TDate](u Uhppoted, controller T, card uint32, startdate D, enddate D, door1 uint8, door2 uint8, door3 uint8, door4 uint8, PIN uint32, timeout time.Duration) (responses.PutCardResponse, error) {
-	f := func(id uint32) ([]byte, error) {
-		if start, err := convert(startdate); err != nil {
-			return nil, err
-		} else if end, err := convert(enddate); err != nil {
-			return nil, err
-		} else {
-			return encode.PutCardRequest(id, card, start, end, door1, door2, door3, door4, PIN)
-		}
-	}
-
-	return exec[T, responses.PutCardResponse](u, controller, f, timeout)
-}
-
-// Adds or updates an access time profile stored on a controller.
-func SetTimeProfile[T TController, D TDate](u Uhppoted, controller T, profile uint8, startdate D, enddate D, monday bool, tuesday bool, wednesday bool, thursday bool, friday bool, saturday bool, sunday bool, segment1start time.Time, segment1end time.Time, segment2start time.Time, segment2end time.Time, segment3start time.Time, segment3end time.Time, linkedprofileid uint8, timeout time.Duration) (responses.SetTimeProfileResponse, error) {
-	f := func(id uint32) ([]byte, error) {
-		if start, err := convert(startdate); err != nil {
-			return nil, err
-		} else if end, err := convert(enddate); err != nil {
-			return nil, err
-		} else {
-			return encode.SetTimeProfileRequest(id, profile, start, end, monday, tuesday, wednesday, thursday, friday, saturday, sunday, segment1start, segment1end, segment2start, segment2end, segment3start, segment3end, linkedprofileid)
-		}
-	}
-
-	return exec[T, responses.SetTimeProfileResponse](u, controller, f, timeout)
-}
-
-// Creates a scheduled task.
+// // Sets the access controller system date and time.
+// func SetTime[T TController, DT TDateTime](u Uhppoted, controller T, datetime DT, timeout time.Duration) (responses.SetTimeResponse, error) {
+// 	f := func(id uint32) ([]byte, error) {
+// 		return encode.SetTimeRequest(id, convert[entities.DateTime](datetime))
+// 	}
 //
-// Task types
-// 0:  control door
-// 1:  unlock door
-// 2:  lock door
-// 3:  disable time profiles
-// 4:  enable time profiles
-// 5:  enable card, no password
-// 6:  enable card+IN password
-// 7:  enable card+password
-// 8:  enable more cards
-// 9:  disable more cards
-// 10: trigger once
-// 11: disable pushbutton
-// 12: enable pushbutton
-func AddTask[T TController, D TDate](u Uhppoted, controller T, task uint8, startdate D, enddate D, monday bool, tuesday bool, wednesday bool, thursday bool, friday bool, saturday bool, sunday bool, starttime time.Time, door uint8, morecards uint8, timeout time.Duration) (responses.AddTaskResponse, error) {
-	f := func(id uint32) ([]byte, error) {
-		if start, err := convert(startdate); err != nil {
-			return nil, err
-		} else if end, err := convert(enddate); err != nil {
-			return nil, err
-		} else {
-			return encode.AddTaskRequest(id, task, start, end, monday, tuesday, wednesday, thursday, friday, saturday, sunday, starttime, door, morecards)
-		}
-	}
+// 	return exec[T, responses.SetTimeResponse](u, controller, f, timeout)
+// }
 
-	return exec[T, responses.AddTaskResponse](u, controller, f, timeout)
-}
+// // Creates or updates a card record stored on an access controller.
+// func PutCard[T TController, D TDate](u Uhppoted, controller T, card uint32, startdate D, enddate D, door1 uint8, door2 uint8, door3 uint8, door4 uint8, PIN uint32, timeout time.Duration) (responses.PutCardResponse, error) {
+// 	f := func(id uint32) ([]byte, error) {
+// 		return encode.PutCardRequest(
+// 			id, card,
+// 			convert[entities.Date](startdate),
+// 			convert[entities.Date](enddate),
+// 			door1, door2, door3, door4,
+// 			PIN)
+// 	}
+//
+// 	return exec[T, responses.PutCardResponse](u, controller, f, timeout)
+// }
+
+// // Adds or updates an access time profile stored on a controller.
+// func SetTimeProfile[T TController, D TDate, H THHmm](u Uhppoted, controller T, profile uint8,
+// 	startdate D, enddate D,
+// 	monday, tuesday, wednesday, thursday, friday, saturday, sunday bool,
+// 	segment1start, segment1end H,
+// 	segment2start, segment2end H,
+// 	segment3start, segment3end H,
+// 	linkedprofileid uint8,
+// 	timeout time.Duration) (responses.SetTimeProfileResponse, error) {
+// 	f := func(id uint32) ([]byte, error) {
+// 		return encode.SetTimeProfileRequest(id, profile,
+// 			convert[entities.Date](startdate), convert[entities.Date](enddate),
+// 			monday, tuesday, wednesday, thursday, friday, saturday, sunday,
+// 			convert[entities.HHmm](segment1start), convert[entities.HHmm](segment1end),
+// 			convert[entities.HHmm](segment2start), convert[entities.HHmm](segment2end),
+// 			convert[entities.HHmm](segment3start), convert[entities.HHmm](segment3end),
+// 			linkedprofileid)
+// 	}
+//
+// 	return exec[T, responses.SetTimeProfileResponse](u, controller, f, timeout)
+// }
+
+// // Creates a scheduled task.
+// //
+// // Task types
+// // 0:  control door
+// // 1:  unlock door
+// // 2:  lock door
+// // 3:  disable time profiles
+// // 4:  enable time profiles
+// // 5:  enable card, no password
+// // 6:  enable card+IN password
+// // 7:  enable card+password
+// // 8:  enable more cards
+// // 9:  disable more cards
+// // 10: trigger once
+// // 11: disable pushbutton
+// // 12: enable pushbutton
+// func AddTask[T TController, D TDate, H THHmm](u Uhppoted, controller T, task uint8,
+// 	startdate D, enddate D,
+// 	monday, tuesday, wednesday, thursday, friday, saturday, sunday bool,
+// 	startTime H, door uint8, morecards uint8,
+// 	timeout time.Duration) (responses.AddTaskResponse, error) {
+// 	f := func(id uint32) ([]byte, error) {
+// 		return encode.AddTaskRequest(
+// 			id, task,
+// 			convert[entities.Date](startdate),
+// 			convert[entities.Date](enddate),
+// 			monday, tuesday, wednesday, thursday, friday, saturday, sunday,
+// 			convert[entities.HHmm](startTime),
+// 			door, morecards)
+// 	}
+//
+// 	return exec[T, responses.AddTaskResponse](u, controller, f, timeout)
+// }
 
 // Listens for access controller events sent to the listen address:port and routes received events
 // to the events channel. Terminates on any signal sent to the interrupt channel.
@@ -166,15 +173,27 @@ loop:
 	return nil
 }
 
-func convert[D any](date D) (entities.Date, error) {
-	switch d := any(date).(type) {
-	case entities.Date:
-		return d, nil
+func convert[R convertable](t any) R {
+	var zero R
+
+	switch v := any(t).(type) {
+	case R:
+		return v
+
 	case time.Time:
-		return entities.DateFromTime(d), nil
+		switch any(zero).(type) {
+		case entities.DateTime:
+			return any(entities.DateTimeFromTime(v)).(R)
+
+		case entities.Date:
+			return any(entities.DateFromTime(v)).(R)
+
+		case entities.HHmm:
+			return any(entities.HHmmFromTime(v)).(R)
+		}
 	}
 
-	return entities.Date{}, fmt.Errorf("unsupported date type %T", date)
+	panic(fmt.Sprintf("unsupported conversion from %T to %T", t, zero))
 }
 
 //go:generate ../.codegen/bin/codegen API

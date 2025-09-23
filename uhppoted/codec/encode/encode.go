@@ -4,7 +4,6 @@ import (
 	"encoding/binary"
 	"fmt"
 	"net/netip"
-	"time"
 
 	"github.com/uhppoted/uhppoted-lib-go/uhppoted/entities"
 )
@@ -118,8 +117,8 @@ func packDate(v entities.Date, packet []byte, offset int) {
 //	   v      (time.Time)  date/time.
 //	   packet (bytearray)  64 byte array.
 //	   offset (int)        Value location in array.
-func packHHmm(v time.Time, packet []byte, offset uint8) {
-	s := v.Format("1504")
+func packHHmm(v entities.HHmm, packet []byte, offset uint8) {
+	s := fmt.Sprintf("%02v%02v", v.Hour(), v.Minute())
 	bytes := string2bcd(s)
 
 	copy(packet[offset:], bytes)

@@ -4,7 +4,6 @@ package encode
 
 import (
     "net/netip"
-    "time"
 
     "github.com/uhppoted/uhppoted-lib-go/uhppoted/entities"
 )

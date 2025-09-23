@@ -4,11 +4,10 @@
 - [x] custom time
 - [x] custom HHmm
 - [x] custom datetime
-      - [ ] change month field to uint8
 - [x] custom optional datetime
 - [x] datetime args
 - [x] date args
-- [ ] time args
+- [x] HHmm args
 - [ ] card/event/profile/task records
 - [ ] custom task/interlock types
 - [ ] godoc/examples

@@ -26,6 +26,7 @@ func API() {
 		},
 		[]string{
 			"github.com/uhppoted/uhppoted-lib-go/uhppoted/codec/encode",
+			"github.com/uhppoted/uhppoted-lib-go/uhppoted/entities",
 			"github.com/uhppoted/uhppoted-lib-go/uhppoted/responses",
 		},
 	}
@@ -35,10 +36,6 @@ func API() {
 	excluded := []*lib.Function{
 		&model.GetListenerAddrPort,
 		&model.SetListenerAddrPort,
-		&model.SetTime,
-		&model.PutCard,
-		&model.SetTimeProfile,
-		&model.AddTask,
 	}
 
 	for _, f := range model.API[1:] {
@@ -96,6 +93,15 @@ func function(f lib.Function) *ast.FuncDecl {
 				})
 				set[arg.Type] = true
 			}
+
+		case "HHmm":
+			if defined := set[arg.Type]; !defined {
+				ftype = append(ftype, &ast.Field{
+					Names: []*ast.Ident{ast.NewIdent("H")},
+					Type:  ast.NewIdent("THHmm"),
+				})
+				set[arg.Type] = true
+			}
 		}
 	}
 
@@ -129,7 +135,7 @@ func function(f lib.Function) *ast.FuncDecl {
 			t = "DT"
 
 		case "HHmm":
-			t = "time.Time"
+			t = "H"
 
 		case "pin":
 			t = "uint32"
@@ -205,12 +211,41 @@ loop:
 		name := regexp.MustCompile(`\s+`).ReplaceAllString(arg.Name, "")
 
 		switch arg.Type {
-		// case "datetime":
-		// 	continue loop
-
 		case "magic":
 			continue loop
 
+		case "datetime":
+			args = append(args, &ast.CallExpr{
+				Fun: &ast.IndexExpr{
+					X:     &ast.Ident{Name: "convert"},
+					Index: &ast.Ident{Name: "entities.DateTime"},
+				},
+				Args: []ast.Expr{
+					&ast.Ident{Name: name},
+				},
+			})
+
+		case "date":
+			args = append(args, &ast.CallExpr{
+				Fun: &ast.IndexExpr{
+					X:     &ast.Ident{Name: "convert"},
+					Index: &ast.Ident{Name: "entities.Date"},
+				},
+				Args: []ast.Expr{
+					&ast.Ident{Name: name},
+				},
+			})
+
+		case "HHmm":
+			args = append(args, &ast.CallExpr{
+				Fun: &ast.IndexExpr{
+					X:     &ast.Ident{Name: "convert"},
+					Index: &ast.Ident{Name: "entities.HHmm"},
+				},
+				Args: []ast.Expr{
+					&ast.Ident{Name: name},
+				},
+			})
 		default:
 			args = append(args, &ast.Ident{Name: name})
 		}

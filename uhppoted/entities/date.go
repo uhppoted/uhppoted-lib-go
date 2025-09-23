@@ -65,16 +65,6 @@ func ParseDate(s string) (Date, error) {
 
 // Creates a Date from the time.Time year, month and day fields.
 func DateFromTime(t time.Time) Date {
-	minmax := func(v, min, max int) int {
-		if v < min {
-			return min
-		} else if v > max {
-			return max
-		} else {
-			return v
-		}
-	}
-
 	year := minmax(t.Year(), 1, 2999)
 	month := minmax(int(t.Month()), 1, 12)
 	day := minmax(t.Day(), 1, 255)

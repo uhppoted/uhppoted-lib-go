@@ -3,11 +3,9 @@
 package encode
 
 import (
-	"fmt"
 	"net/netip"
 	"slices"
 	"testing"
-	"time"
 
 	"github.com/uhppoted/uhppoted-lib-go/uhppoted/entities"
 )
@@ -462,7 +460,7 @@ func TestSetTimeProfile(t *testing.T) {
 		0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
 	}
 
-	packet, err := SetTimeProfileRequest(uint32(405419896), uint8(37), entities.MustParseDate("2025-11-26"), entities.MustParseDate("2025-12-29"), true, true, false, true, false, true, true, string2HHmm("8:30"), string2HHmm("9:45"), string2HHmm("11:35"), string2HHmm("13:15"), string2HHmm("14:01"), string2HHmm("17:59"), uint8(19))
+	packet, err := SetTimeProfileRequest(uint32(405419896), uint8(37), entities.MustParseDate("2025-11-26"), entities.MustParseDate("2025-12-29"), true, true, false, true, false, true, true, entities.MustParseHHmm("8:30"), entities.MustParseHHmm("9:45"), entities.MustParseHHmm("11:35"), entities.MustParseHHmm("13:15"), entities.MustParseHHmm("14:01"), entities.MustParseHHmm("17:59"), uint8(19))
 
 	if err != nil {
 		t.Fatalf("%v", err)
@@ -496,7 +494,7 @@ func TestAddTask(t *testing.T) {
 		0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
 	}
 
-	packet, err := AddTaskRequest(uint32(405419896), uint8(2), entities.MustParseDate("2025-01-01"), entities.MustParseDate("2025-12-31"), true, true, false, true, false, true, true, string2HHmm("08:45"), uint8(3), uint8(7))
+	packet, err := AddTaskRequest(uint32(405419896), uint8(2), entities.MustParseDate("2025-01-01"), entities.MustParseDate("2025-12-31"), true, true, false, true, false, true, true, entities.MustParseHHmm("08:45"), uint8(3), uint8(7))
 
 	if err != nil {
 		t.Fatalf("%v", err)
@@ -638,12 +636,5 @@ func TestRestoreDefaultParameters(t *testing.T) {
 		t.Fatalf("%v", err)
 	} else if !slices.Equal(packet, expected) {
 		t.Errorf("restore default parameters request: incorrectly encoded request\n   expected:%v\n   got:     %v", expected, packet)
-	}
-}
-func string2HHmm(v string) time.Time {
-	if t, err := time.ParseInLocation("15:04", v, time.Local); err != nil {
-		panic(fmt.Sprintf("invalid time (%v)", v))
-	} else {
-		return t
 	}
 }

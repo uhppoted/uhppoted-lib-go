@@ -39,6 +39,10 @@ type TTime interface {
 	time.Time | entities.Time
 }
 
+type THHmm interface {
+	time.Time | entities.HHmm
+}
+
 type Controller struct {
 	ID       uint32
 	Address  netip.AddrPort
