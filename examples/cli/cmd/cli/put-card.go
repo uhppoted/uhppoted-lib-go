@@ -41,8 +41,8 @@ func putCard(u lib.Uhppoted, args []string) error {
 		return fmt.Errorf("invalid PIN (%v)", PIN)
 	} else {
 		// (for demo purposes only - there is a lib.DateFromTime helper function)
-		d := lib.NewDate(2025, 3, 2)
-		e := lib.NewDate(2025, 11, 29)
+		d := lib.NewDate(uint16(startdate.Year()), uint8(startdate.Month()), uint8(startdate.Day()))
+		e := lib.NewDate(uint16(enddate.Year()), uint8(enddate.Month()), uint8(enddate.Day()))
 
 		f := func(c uint32) (any, error) {
 			return lib.PutCard(u, c, uint32(card), startdate, enddate, doors[0], doors[1], doors[2], doors[3], uint32(PIN), options.timeout)
@@ -50,6 +50,69 @@ func putCard(u lib.Uhppoted, args []string) error {
 
 		g := func(c lib.Controller) (any, error) {
 			return lib.PutCard(u, c, uint32(card), d, e, doors[0], doors[1], doors[2], doors[3], uint32(PIN), options.timeout)
+		}
+
+		if v, err := exec(controller, flagset, f, g); err != nil {
+			return err
+		} else if bytes, err := json.MarshalIndent(v, "   ", "   "); err != nil {
+			return err
+		} else {
+			fmt.Printf("put-card\n")
+			fmt.Printf("   %v\n", string(bytes))
+			fmt.Println()
+
+			return nil
+		}
+	}
+}
+
+func putCardRecord(u lib.Uhppoted, args []string) error {
+	var card uint
+	var start string
+	var end string
+	var permissions string
+	var PIN uint
+
+	flagset := flag.NewFlagSet("put-card", flag.ExitOnError)
+
+	flagset.UintVar(&card, "card", 0, "card number")
+	flagset.StringVar(&start, "start-date", "", "card 'valid from' date e.g. 2025-01-01")
+	flagset.StringVar(&end, "end-date", "", "card 'valid until' date e.g. 2025-12-31")
+	flagset.StringVar(&permissions, "doors", "", "card access permissions e.g. 1,3:17,4 allows access to doors 1 and 4, door 3 access is managed by time profile 17")
+	flagset.UintVar(&PIN, "PIN", 0, "(optional) PIN code [0..99999]")
+
+	if controller, err := parse(flagset, args); err != nil {
+		return err
+	} else if card == 0 || card > 25565535 {
+		return fmt.Errorf("invalid card (%v)", card)
+	} else if startDate, err := lib.ParseDate(start); err != nil {
+		return fmt.Errorf("invalid start date (%v)", start)
+	} else if endDate, err := lib.ParseDate(end); err != nil {
+		return fmt.Errorf("invalid end date (%v)", start)
+	} else if doors, err := parseCardPermissions(permissions); err != nil {
+		return fmt.Errorf("invalid access permissions (%v)", permissions)
+	} else if PIN > 999999 {
+		return fmt.Errorf("invalid PIN (%v)", PIN)
+	} else {
+		record := lib.Card{
+			Card:      uint32(card),
+			StartDate: startDate,
+			EndDate:   endDate,
+			Permissions: map[uint8]uint8{
+				1: doors[0],
+				2: doors[1],
+				3: doors[2],
+				4: doors[3],
+			},
+			PIN: uint32(PIN),
+		}
+
+		f := func(c uint32) (any, error) {
+			return lib.PutCardRecord(u, c, record, options.timeout)
+		}
+
+		g := func(c lib.Controller) (any, error) {
+			return lib.PutCardRecord(u, c, record, options.timeout)
 		}
 
 		if v, err := exec(controller, flagset, f, g); err != nil {

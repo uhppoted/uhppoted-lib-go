@@ -8,17 +8,21 @@
 - [x] datetime args
 - [x] date args
 - [x] HHmm args
-- [ ] card/event/profile/task records
-- [ ] custom task/interlock types
+- [ ] task/interlock arg types
+- [x] card record
+- [ ] event/profile/task records
 - [ ] godoc/examples
 - [x] logging
     - [ ] set default handler
 
+- [ ] integration tests: use 'test' domain
+         - https://github.com/golang/go/issues/37641
+
 - [ ] code generation
-      - [x] // generated code - ** DO NOT EDIT **
-      - [x] use/extend uhppoted-codegen models
-      - (?) remove Request/Response suffixes
       - [ ] Replace TestArg with Arg
+      - [ ] Use 'local' domain
+         - https://github.com/golang/go/issues/37641
+      - (?) remove Request/Response suffixes
 
    - [x] response structs
    - [x] decoder
@@ -26,10 +30,11 @@
    - [x] README
    - [x] API.md
    - [ ] decode_AST
+   - [x] decode
+       - [ ] decode Get/SetAddrPort
 
    - [x] encode
    - [x] encode_test
-   - [x] decode
    - [x] decode_test
    - [x] integration tests
 

@@ -119,7 +119,7 @@ func GetCards[T TController](u Uhppoted, controller T, timeout time.Duration) (r
 	return exec[T, responses.GetCardsResponse](u, controller, f, timeout)
 }
 
-// Retrieves the card record for a given card number.
+// Retrieves the card information for a given card number.
 func GetCard[T TController](u Uhppoted, controller T, cardnumber uint32, timeout time.Duration) (responses.GetCardResponse, error) {
 	f := func(id uint32) ([]byte, error) {
 		return encode.GetCardRequest(id, cardnumber)
@@ -128,7 +128,7 @@ func GetCard[T TController](u Uhppoted, controller T, cardnumber uint32, timeout
 	return exec[T, responses.GetCardResponse](u, controller, f, timeout)
 }
 
-// Retrieves the card record stored at a given index.
+// Retrieves the card information stored at a given index.
 func GetCardAtIndex[T TController](u Uhppoted, controller T, index uint32, timeout time.Duration) (responses.GetCardAtIndexResponse, error) {
 	f := func(id uint32) ([]byte, error) {
 		return encode.GetCardAtIndexRequest(id, index)
@@ -137,7 +137,7 @@ func GetCardAtIndex[T TController](u Uhppoted, controller T, index uint32, timeo
 	return exec[T, responses.GetCardAtIndexResponse](u, controller, f, timeout)
 }
 
-// Creates or updates a card record stored on an access controller.
+// Creates or updates the card information stored on an access controller.
 func PutCard[T TController, D TDate](u Uhppoted, controller T, card uint32, startdate D, enddate D, door1 uint8, door2 uint8, door3 uint8, door4 uint8, PIN uint32, timeout time.Duration) (responses.PutCardResponse, error) {
 	f := func(id uint32) ([]byte, error) {
 		return encode.PutCardRequest(id, card, convert[entities.Date](startdate), convert[entities.Date](enddate), door1, door2, door3, door4, PIN)

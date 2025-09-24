@@ -49,8 +49,12 @@ func GetListenerAddrPort[T TController](u Uhppoted, controller T, timeout time.D
 		return zero, err
 	} else if reply, err := send(u, c, request, timeout); err != nil {
 		return zero, err
+	} else if response, err := decode.GetListenerAddrPortResponse(reply); err != nil {
+		return zero, err
+	} else if !valid(response, c.ID) {
+		return zero, ErrInvalidResponse
 	} else {
-		return decode.GetListenerAddrPortResponse(reply)
+		return response, nil
 	}
 }
 
@@ -64,89 +68,101 @@ func SetListenerAddrPort[T TController](u Uhppoted, controller T, address netip.
 		return zero, err
 	} else if reply, err := send(u, c, request, timeout); err != nil {
 		return zero, err
+	} else if response, err := decode.SetListenerAddrPortResponse(reply); err != nil {
+		return zero, err
+	} else if !valid(response, c.ID) {
+		return zero, ErrInvalidResponse
 	} else {
-		return decode.SetListenerAddrPortResponse(reply)
+		return response, nil
 	}
 }
 
-// // Sets the access controller system date and time.
-// func SetTime[T TController, DT TDateTime](u Uhppoted, controller T, datetime DT, timeout time.Duration) (responses.SetTimeResponse, error) {
-// 	f := func(id uint32) ([]byte, error) {
-// 		return encode.SetTimeRequest(id, convert[entities.DateTime](datetime))
-// 	}
-//
-// 	return exec[T, responses.SetTimeResponse](u, controller, f, timeout)
-// }
+// Retrieves the card record for a given card number.
+func GetCardRecord[T TController](u Uhppoted, controller T, cardnumber uint32, timeout time.Duration) (entities.Card, error) {
+	var zero entities.Card
 
-// // Creates or updates a card record stored on an access controller.
-// func PutCard[T TController, D TDate](u Uhppoted, controller T, card uint32, startdate D, enddate D, door1 uint8, door2 uint8, door3 uint8, door4 uint8, PIN uint32, timeout time.Duration) (responses.PutCardResponse, error) {
-// 	f := func(id uint32) ([]byte, error) {
-// 		return encode.PutCardRequest(
-// 			id, card,
-// 			convert[entities.Date](startdate),
-// 			convert[entities.Date](enddate),
-// 			door1, door2, door3, door4,
-// 			PIN)
-// 	}
-//
-// 	return exec[T, responses.PutCardResponse](u, controller, f, timeout)
-// }
+	if c, err := resolve(controller); err != nil {
+		return zero, err
+	} else if request, err := encode.GetCardRequest(c.ID, cardnumber); err != nil {
+		return zero, err
+	} else if reply, err := send(u, c, request, timeout); err != nil {
+		return zero, err
+	} else if response, err := decode.GetCardResponse(reply); err != nil {
+		return zero, err
+	} else if !valid(response, c.ID) {
+		return zero, ErrInvalidResponse
+	} else {
+		return entities.Card{
+			Card:      response.Card,
+			StartDate: response.StartDate,
+			EndDate:   response.EndDate,
+			Permissions: map[uint8]uint8{
+				1: response.Door1,
+				2: response.Door2,
+				3: response.Door3,
+				4: response.Door4,
+			},
+			PIN: response.PIN,
+		}, nil
+	}
+}
 
-// // Adds or updates an access time profile stored on a controller.
-// func SetTimeProfile[T TController, D TDate, H THHmm](u Uhppoted, controller T, profile uint8,
-// 	startdate D, enddate D,
-// 	monday, tuesday, wednesday, thursday, friday, saturday, sunday bool,
-// 	segment1start, segment1end H,
-// 	segment2start, segment2end H,
-// 	segment3start, segment3end H,
-// 	linkedprofileid uint8,
-// 	timeout time.Duration) (responses.SetTimeProfileResponse, error) {
-// 	f := func(id uint32) ([]byte, error) {
-// 		return encode.SetTimeProfileRequest(id, profile,
-// 			convert[entities.Date](startdate), convert[entities.Date](enddate),
-// 			monday, tuesday, wednesday, thursday, friday, saturday, sunday,
-// 			convert[entities.HHmm](segment1start), convert[entities.HHmm](segment1end),
-// 			convert[entities.HHmm](segment2start), convert[entities.HHmm](segment2end),
-// 			convert[entities.HHmm](segment3start), convert[entities.HHmm](segment3end),
-// 			linkedprofileid)
-// 	}
-//
-// 	return exec[T, responses.SetTimeProfileResponse](u, controller, f, timeout)
-// }
+// Retrieves the card record stored at a given index.
+func GetCardRecordAtIndex[T TController](u Uhppoted, controller T, index uint32, timeout time.Duration) (entities.Card, error) {
+	var zero entities.Card
 
-// // Creates a scheduled task.
-// //
-// // Task types
-// // 0:  control door
-// // 1:  unlock door
-// // 2:  lock door
-// // 3:  disable time profiles
-// // 4:  enable time profiles
-// // 5:  enable card, no password
-// // 6:  enable card+IN password
-// // 7:  enable card+password
-// // 8:  enable more cards
-// // 9:  disable more cards
-// // 10: trigger once
-// // 11: disable pushbutton
-// // 12: enable pushbutton
-// func AddTask[T TController, D TDate, H THHmm](u Uhppoted, controller T, task uint8,
-// 	startdate D, enddate D,
-// 	monday, tuesday, wednesday, thursday, friday, saturday, sunday bool,
-// 	startTime H, door uint8, morecards uint8,
-// 	timeout time.Duration) (responses.AddTaskResponse, error) {
-// 	f := func(id uint32) ([]byte, error) {
-// 		return encode.AddTaskRequest(
-// 			id, task,
-// 			convert[entities.Date](startdate),
-// 			convert[entities.Date](enddate),
-// 			monday, tuesday, wednesday, thursday, friday, saturday, sunday,
-// 			convert[entities.HHmm](startTime),
-// 			door, morecards)
-// 	}
-//
-// 	return exec[T, responses.AddTaskResponse](u, controller, f, timeout)
-// }
+	if c, err := resolve(controller); err != nil {
+		return zero, err
+	} else if request, err := encode.GetCardAtIndexRequest(c.ID, index); err != nil {
+		return zero, err
+	} else if reply, err := send(u, c, request, timeout); err != nil {
+		return zero, err
+	} else if response, err := decode.GetCardAtIndexResponse(reply); err != nil {
+		return zero, err
+	} else if !valid(response, c.ID) {
+		return zero, ErrInvalidResponse
+	} else {
+		return entities.Card{
+			Card:      response.Card,
+			StartDate: response.StartDate,
+			EndDate:   response.EndDate,
+			Permissions: map[uint8]uint8{
+				1: response.Door1,
+				2: response.Door2,
+				3: response.Door3,
+				4: response.Door4,
+			},
+			PIN: response.PIN,
+		}, nil
+	}
+}
+
+// Creates or updates a card record stored on an access controller.
+func PutCardRecord[T TController](u Uhppoted, controller T, card entities.Card, timeout time.Duration) (bool, error) {
+	permissions := map[uint8]uint8{}
+	if card.Permissions != nil {
+		permissions = card.Permissions
+	}
+
+	door1 := permissions[1]
+	door2 := permissions[2]
+	door3 := permissions[3]
+	door4 := permissions[4]
+
+	if c, err := resolve(controller); err != nil {
+		return false, err
+	} else if request, err := encode.PutCardRequest(c.ID, card.Card, card.StartDate, card.EndDate, door1, door2, door3, door4, card.PIN); err != nil {
+		return false, err
+	} else if reply, err := send(u, c, request, timeout); err != nil {
+		return false, err
+	} else if response, err := decode.PutCardResponse(reply); err != nil {
+		return false, err
+	} else if !valid(response, c.ID) {
+		return false, ErrInvalidResponse
+	} else {
+		return response.Ok, nil
+	}
+}
 
 // Listens for access controller events sent to the listen address:port and routes received events
 // to the events channel. Terminates on any signal sent to the interrupt channel.

@@ -17,7 +17,7 @@ func DateTimeFromTime(t time.Time) entities.DateTime {
 }
 
 // Converts a string in the format "yyyy-mm-dd HH:mm:ss" to a DateTime entity.
-func DateTimeFromString(s string) (entities.DateTime, error) {
+func ParseDateTime(s string) (entities.DateTime, error) {
 	return entities.ParseDateTime(s)
 }
 
@@ -28,6 +28,11 @@ func NewDate(year uint16, month uint8, day uint8) entities.Date {
 // Converts a Go time.Time to a Date entity.
 func DateFromTime(t time.Time) entities.Date {
 	return entities.DateFromTime(t)
+}
+
+// Converts a "yyyy-mm-dd" formatted string to a Date entity.
+func ParseDate(s string) (entities.Date, error) {
+	return entities.ParseDate(s)
 }
 
 func NewTime(hour, minute, second uint8) entities.Time {

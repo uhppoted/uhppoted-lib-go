@@ -1,4 +1,5 @@
 # API
+- [`Listen`](#listen)
 
 - [`FindControllers`](#findcontrollers)
 - [`GetController`](#getcontroller)
@@ -36,6 +37,9 @@
 - [`GetAntiPassback`](#getantipassback)
 - [`SetAntiPassback`](#setantipassback)
 - [`RestoreDefaultParameters`](#restoredefaultparameters)
+- [`GetCardRecord`](#getcardrecord)
+- [`GetCardRecordAtIndex`](#getcardrecordatindex)
+- [`PutCardRecord`](#putcardrecord)
 - [`Listen`](#listen)
 
 ---
@@ -457,7 +461,7 @@ type GetCardsResponse struct {
 ```
 
 ### `GetCard`
-Retrieves the card record for a given card number.
+Retrieves the card information for a given card number.
 ```
 GetCard(u, controller, card number, timeout)
 
@@ -483,7 +487,7 @@ type GetCardResponse struct {
 ```
 
 ### `GetCardAtIndex`
-Retrieves the card record stored at a given index.
+Retrieves the card information stored at a given index.
 ```
 GetCardAtIndex(u, controller, index, timeout)
 
@@ -509,7 +513,7 @@ type GetCardAtIndexResponse struct {
 ```
 
 ### `PutCard`
-Creates or updates a card record stored on an access controller.
+Creates or updates the card information stored on an access controller.
 ```
 PutCard(u, controller, card, start date, end date, door 1, door 2, door 3, door 4, PIN, timeout)
 
@@ -959,6 +963,73 @@ type RestoreDefaultParametersResponse struct {
   Ok                  bool                `json:"ok"`             // succeeded/failed
 }
 ```
+
+### `GetCardRecord`
+Retrieves the card record for a given card number.
+```
+GetCardRecord(u, controller, card, timeout)
+
+where:
+- u             Uhppoted        Uhppoted struct initialised with the bind address, broadcast address, etc
+- controller    controller      uint32|Controller controller serial number or {id, address, protocol} Controller struct
+- card          uint32          card number
+- timeout       time.Duration   maximum time to wait for a response from a controller
+```
+Returns a `Card` record:
+```
+type Card struct { 
+  Card          uint32            `json:"card"`           // card number
+  StartDate     Date              `json:"start-date"`     // 'valid from' date
+  EndDate       Date              `json:"end-date"`       // 'valid until' date
+  Permissions   map[uint8]uint8   `json:"permissions"`    // access permissions for doors 1-4
+  PIN           uint32            `json:"PIN"`            // PIN code [0..999999] (0 for no PIN)
+}
+```
+
+### `GetCardRecordAtIndex`
+Retrieves the card record stored at a given index.
+```
+GetCardRecordAtIndex(u, controller, index, timeout)
+
+where:
+- u             Uhppoted        Uhppoted struct initialised with the bind address, broadcast address, etc
+- controller    controller      uint32|Controller controller serial number or {id, address, protocol} Controller struct
+- index         uint32          card record index
+- timeout       time.Duration   maximum time to wait for a response from a controller
+```
+Returns a `Card` record:
+```
+type Card struct { 
+  Card          uint32            `json:"card"`           // card number
+  StartDate     Date              `json:"start-date"`     // 'valid from' date
+  EndDate       Date              `json:"end-date"`       // 'valid until' date
+  Permissions   map[uint8]uint8   `json:"permissions"`    // access permissions for doors 1-4
+  PIN           uint32            `json:"PIN"`            // PIN code [0..999999] (0 for no PIN)
+}
+```
+
+### `PutCardRecord`
+Creates or updates a card record stored on an access controller.
+```
+PutCardRecord(u, controller, card, timeout)
+
+where:
+- u             Uhppoted        Uhppoted struct initialised with the bind address, broadcast address, etc
+- controller    controller      uint32|Controller controller serial number or {id, address, protocol} Controller struct
+- card          Card            card record to add/update
+- timeout       time.Duration   maximum time to wait for a response from a controller
+
+where a Card record is:
+
+type Card struct { 
+  Card          uint32            // card number
+  StartDate     Date              // 'valid from' date
+  EndDate       Date              // 'valid until' date
+  Permissions   map[uint8]uint8   // access permissions for doors 1-4
+  PIN           uint32            // PIN code [0..999999] (0 for no PIN)
+}
+```
+Returns a `bool`, `true` if the card was added or updated, `false` otherwise.
 
 ### `Listen`
 Listens for controller events sent via UDP to the designated listener host.

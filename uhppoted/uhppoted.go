@@ -49,42 +49,50 @@ type Controller struct {
 	Protocol string
 }
 
-type GetControllerResponse = responses.GetControllerResponse
-type SetIPv4Response = responses.SetIPv4Response
-type GetTimeResponse = responses.GetTimeResponse
-type SetTimeResponse = responses.SetTimeResponse
-type GetListenerResponse = responses.GetListenerResponse
-type SetListenerResponse = responses.SetListenerResponse
-type GetListenerAddrPortResponse = responses.GetListenerAddrPortResponse
-type SetListenerAddrPortResponse = responses.SetListenerAddrPortResponse
-type GetDoorResponse = responses.GetDoorResponse
-type SetDoorResponse = responses.SetDoorResponse
-type SetDoorPasscodesResponse = responses.SetDoorPasscodesResponse
-type OpenDoorResponse = responses.OpenDoorResponse
-type GetStatusResponse = responses.GetStatusResponse
-type GetCardsResponse = responses.GetCardsResponse
-type GetCardResponse = responses.GetCardResponse
-type GetCardAtIndexResponse = responses.GetCardAtIndexResponse
-type PutCardResponse = responses.PutCardResponse
-type DeleteCardResponse = responses.DeleteCardResponse
-type DeleteAllCardsResponse = responses.DeleteAllCardsResponse
-type GetEventResponse = responses.GetEventResponse
-type GetEventIndexResponse = responses.GetEventIndexResponse
-type SetEventIndexResponse = responses.SetEventIndexResponse
-type RecordSpecialEventsResponse = responses.RecordSpecialEventsResponse
-type GetTimeProfileResponse = responses.GetTimeProfileResponse
-type SetTimeProfileResponse = responses.SetTimeProfileResponse
-type ClearTimeProfilesResponse = responses.ClearTimeProfilesResponse
-type AddTaskResponse = responses.AddTaskResponse
-type RefreshTaskListResponse = responses.RefreshTaskListResponse
-type ClearTaskListResponse = responses.ClearTaskListResponse
-type SetPCControlResponse = responses.SetPCControlResponse
-type SetInterlockResponse = responses.SetInterlockResponse
-type ActivateKeypadsResponse = responses.ActivateKeypadsResponse
-type GetAntiPassbackResponse = responses.GetAntiPassbackResponse
-type SetAntiPassbackResponse = responses.SetAntiPassbackResponse
-type RestoreDefaultParametersResponse = responses.RestoreDefaultParametersResponse
-type ListenerEvent = responses.ListenerEvent
+// re-exported response types
+type (
+	GetControllerResponse            = responses.GetControllerResponse
+	SetIPv4Response                  = responses.SetIPv4Response
+	GetTimeResponse                  = responses.GetTimeResponse
+	SetTimeResponse                  = responses.SetTimeResponse
+	GetListenerResponse              = responses.GetListenerResponse
+	SetListenerResponse              = responses.SetListenerResponse
+	GetListenerAddrPortResponse      = responses.GetListenerAddrPortResponse
+	SetListenerAddrPortResponse      = responses.SetListenerAddrPortResponse
+	GetDoorResponse                  = responses.GetDoorResponse
+	SetDoorResponse                  = responses.SetDoorResponse
+	SetDoorPasscodesResponse         = responses.SetDoorPasscodesResponse
+	OpenDoorResponse                 = responses.OpenDoorResponse
+	GetStatusResponse                = responses.GetStatusResponse
+	GetCardsResponse                 = responses.GetCardsResponse
+	GetCardResponse                  = responses.GetCardResponse
+	GetCardAtIndexResponse           = responses.GetCardAtIndexResponse
+	PutCardResponse                  = responses.PutCardResponse
+	DeleteCardResponse               = responses.DeleteCardResponse
+	DeleteAllCardsResponse           = responses.DeleteAllCardsResponse
+	GetEventResponse                 = responses.GetEventResponse
+	GetEventIndexResponse            = responses.GetEventIndexResponse
+	SetEventIndexResponse            = responses.SetEventIndexResponse
+	RecordSpecialEventsResponse      = responses.RecordSpecialEventsResponse
+	GetTimeProfileResponse           = responses.GetTimeProfileResponse
+	SetTimeProfileResponse           = responses.SetTimeProfileResponse
+	ClearTimeProfilesResponse        = responses.ClearTimeProfilesResponse
+	AddTaskResponse                  = responses.AddTaskResponse
+	RefreshTaskListResponse          = responses.RefreshTaskListResponse
+	ClearTaskListResponse            = responses.ClearTaskListResponse
+	SetPCControlResponse             = responses.SetPCControlResponse
+	SetInterlockResponse             = responses.SetInterlockResponse
+	ActivateKeypadsResponse          = responses.ActivateKeypadsResponse
+	GetAntiPassbackResponse          = responses.GetAntiPassbackResponse
+	SetAntiPassbackResponse          = responses.SetAntiPassbackResponse
+	RestoreDefaultParametersResponse = responses.RestoreDefaultParametersResponse
+	ListenerEvent                    = responses.ListenerEvent
+)
+
+// re-exported entities
+type (
+	Card = entities.Card
+)
 
 // Error constants
 var ErrInvalidResponse = errors.New("invalid response")
@@ -128,7 +136,7 @@ func exec[T TController, R any](u Uhppoted, controller T, encode func(id uint32)
 	} else if response, err := codec.Decode[R](reply); err != nil {
 		return response, err
 	} else if !valid(response, c.ID) {
-		return response, ErrInvalidResponse
+		return zero, ErrInvalidResponse
 	} else {
 		return response, nil
 	}

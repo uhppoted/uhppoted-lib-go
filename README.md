@@ -66,4 +66,7 @@ folder.
 - [`GetAntiPassback`](API.md#getantipassback)
 - [`SetAntiPassback`](API.md#setantipassback)
 - [`RestoreDefaultParameters`](API.md#restoredefaultparameters)
+- [`GetCardRecord`](API.md#getcardrecord)
+- [`GetCardRecordAtIndex`](API.md#getcardrecordatindex)
+- [`PutCardRecord`](API.md#putcardrecord)
 - [`Listen`](API.md#listen)
