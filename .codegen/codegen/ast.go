@@ -97,18 +97,14 @@ func (a AST) Generate(file string) error {
 				continue
 			}
 
-			// ... reformat response struct ?
-			re := regexp.MustCompile(`^(\s*return\s+responses\.(?:.*?)Response\s*\{)(.*)(\}.*)`)
+			// ... reformat response struct (ewwwwww :-()
+			re := regexp.MustCompile(`^(\s*return\s+responses\.(?:.*?)Response\s*\{)([^}]*)(\}.*)`)
 			if match := re.FindStringSubmatch(line); len(match) == 4 {
 				out = append(out, match[1])
 
-				fields := regexp.MustCompile(`[)],`).Split("), "+match[2], -1)
+				fields := regexp.MustCompile(`(.*?):\s*(.*?)(\(.*?\))(?:,\s*)?`).FindAllStringSubmatch(match[2], -1)
 				for _, f := range fields {
-					if strings.HasSuffix(f, ")") {
-						out = append(out, "        "+strings.TrimSpace(f)+",")
-					} else {
-						out = append(out, "        "+strings.TrimSpace(f)+"),")
-					}
+					out = append(out, fmt.Sprintf("        %v: %v%v,", f[1], f[2], f[3]))
 				}
 
 				out = append(out, "    "+match[3])

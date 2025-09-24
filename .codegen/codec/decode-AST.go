@@ -15,7 +15,7 @@ import (
 )
 
 func decodeAST() {
-	file := filepath.Join("decode", "_decode.go")
+	file := filepath.Join("decode", "_decodeAST.go")
 
 	imports := [][]string{
 		[]string{
@@ -26,15 +26,11 @@ func decodeAST() {
 		},
 	}
 
-	responses := []lib.Response{
-		model.GetControllerResponse,
-	}
-
 	types := []*ast.GenDecl{}
 	functions := []*ast.FuncDecl{}
 
-	for _, response := range responses {
-		if f := buildDecode(response); f != nil {
+	for _, response := range model.Responses {
+		if f := buildDecode(*response); f != nil {
 			functions = append(functions, f)
 		}
 	}
@@ -82,7 +78,7 @@ func buildDecode(r lib.Response) *ast.FuncDecl {
 	body := ast.BlockStmt{
 		List: []ast.Stmt{
 			// if len(packet) != 64 {
-			//     return responses.GetControllerResponse{}, fmt.Errorf("invalid reply packet length (%v)", len(packet))
+			//     return responses.<R>{}, fmt.Errorf("invalid reply packet length (%v)", len(packet))
 			// }
 			&ast.IfStmt{
 				Cond: &ast.BinaryExpr{
@@ -97,12 +93,12 @@ func buildDecode(r lib.Response) *ast.FuncDecl {
 					List: []ast.Stmt{
 						&ast.ReturnStmt{
 							Results: []ast.Expr{
-								&ast.CallExpr{
-									Fun: &ast.SelectorExpr{
+								&ast.CompositeLit{
+									Type: &ast.SelectorExpr{
 										X:   &ast.Ident{Name: "responses"},
-										Sel: &ast.Ident{Name: "GetControllerResponse"},
+										Sel: &ast.Ident{Name: name},
 									},
-									Args: nil,
+									Elts: nil,
 								},
 								&ast.CallExpr{
 									Fun: &ast.Ident{Name: "fmt.Errorf"},
@@ -129,7 +125,7 @@ func buildDecode(r lib.Response) *ast.FuncDecl {
 
 			// Ref. v6.62 firmware
 			// if packet[0] != SOM && (packet[0] != SOM_v6_62 || packet[1] != 0x20) {
-			//    return responses.GetControllerResponse{}, fmt.Errorf("invalid reply start of message byte (%02x)", packet[0])
+			//    return responses.<R>{}, fmt.Errorf("invalid reply start of message byte (%02x)", packet[0])
 			// }
 			&ast.IfStmt{
 				Cond: &ast.BinaryExpr{
@@ -166,12 +162,12 @@ func buildDecode(r lib.Response) *ast.FuncDecl {
 					List: []ast.Stmt{
 						&ast.ReturnStmt{
 							Results: []ast.Expr{
-								&ast.CallExpr{
-									Fun: &ast.SelectorExpr{
+								&ast.CompositeLit{
+									Type: &ast.SelectorExpr{
 										X:   &ast.Ident{Name: "responses"},
-										Sel: &ast.Ident{Name: "GetControllerResponse"},
+										Sel: &ast.Ident{Name: name},
 									},
-									Args: nil,
+									Elts: nil,
 								},
 								&ast.CallExpr{
 									Fun: &ast.Ident{Name: "fmt.Errorf"},
@@ -196,8 +192,8 @@ func buildDecode(r lib.Response) *ast.FuncDecl {
 				},
 			},
 
-			// if packet[1] != 148 {
-			//     return responses.GetControllerResponse{}, fmt.Errorf("invalid reply function code (%02x)", packet[1])
+			// if packet[1] != <code> {
+			//     return responses.<R>{}, fmt.Errorf("invalid reply function code (%02x)", packet[1])
 			// }
 			&ast.IfStmt{
 				Cond: &ast.BinaryExpr{
@@ -212,12 +208,12 @@ func buildDecode(r lib.Response) *ast.FuncDecl {
 					List: []ast.Stmt{
 						&ast.ReturnStmt{
 							Results: []ast.Expr{
-								&ast.CallExpr{
-									Fun: &ast.SelectorExpr{
+								&ast.CompositeLit{
+									Type: &ast.SelectorExpr{
 										X:   &ast.Ident{Name: "responses"},
-										Sel: &ast.Ident{Name: "GetControllerResponse"},
+										Sel: &ast.Ident{Name: name},
 									},
-									Args: nil,
+									Elts: nil,
 								},
 								&ast.CallExpr{
 									Fun: &ast.Ident{Name: "fmt.Errorf"},
@@ -263,7 +259,7 @@ func buildDecode(r lib.Response) *ast.FuncDecl {
 	doc := ast.CommentGroup{}
 
 	return &ast.FuncDecl{
-		Name: ast.NewIdent(name),
+		Name: ast.NewIdent(name + "X"),
 		Type: &ast.FuncType{
 			Params:  &params,
 			Results: &results,
@@ -275,23 +271,22 @@ func buildDecode(r lib.Response) *ast.FuncDecl {
 
 func unpack(field lib.Field) ast.Expr {
 	types := map[string]string{
-		// case "bool":
-		// case "uint8":
-		// case "uint16":
-		"uint32": "unpackUint32",
-		// case "datetime":
-		// case "optional datetime":
-		"date": "unpackDate",
-		// case "shortdate":
-		// case "optional date":
-		// case "time":
-		// case "HHmm":
-		// 	return "entities.HHmm"
-		"IPv4": "unpackIPv4",
-		// case "address:port":
-		"MAC": "unpackMAC",
-		// case "pin":
-		"version": "unpackVersion",
+		"bool":              "unpackBool",
+		"uint8":             "unpackUint8",
+		"uint16":            "unpackUint16",
+		"uint32":            "unpackUint32",
+		"datetime":          "unpackDateTime",
+		"optional datetime": "unpackDate",
+		"date":              "unpackDate",
+		"shortdate":         "unpackDate",
+		"optional date":     "unpackDate",
+		"time":              "unpackTime",
+		"HHmm":              "unpackHHmm",
+		"IPv4":              "unpackIPv4",
+		"address:port":      "unpackAddrPort",
+		"MAC":               "unpackMAC",
+		"pin":               "unpackPIN",
+		"version":           "unpackVersion",
 	}
 
 	if f, ok := types[field.Type]; !ok {
