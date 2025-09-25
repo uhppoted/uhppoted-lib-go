@@ -139,6 +139,9 @@ func function(f lib.Function) *ast.FuncDecl {
 
 		case "pin":
 			t = "uint32"
+
+		case "task":
+			t = "TaskType"
 		}
 
 		args = append(args, &ast.Field{

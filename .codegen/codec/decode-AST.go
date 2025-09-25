@@ -15,7 +15,7 @@ import (
 )
 
 func decodeAST() {
-	file := filepath.Join("decode", "_decodeAST.go")
+	file := filepath.Join("decode", "generated.go")
 
 	imports := [][]string{
 		[]string{
@@ -26,10 +26,14 @@ func decodeAST() {
 		},
 	}
 
+	responses := []*lib.Response{}
+	responses = append(responses, model.Responses...)
+	responses = append(responses, &model.ListenerEvent)
+
 	types := []*ast.GenDecl{}
 	functions := []*ast.FuncDecl{}
 
-	for _, response := range model.Responses {
+	for _, response := range responses {
 		if f := buildDecode(*response); f != nil {
 			functions = append(functions, f)
 		}
@@ -259,7 +263,7 @@ func buildDecode(r lib.Response) *ast.FuncDecl {
 	doc := ast.CommentGroup{}
 
 	return &ast.FuncDecl{
-		Name: ast.NewIdent(name + "X"),
+		Name: ast.NewIdent(name),
 		Type: &ast.FuncType{
 			Params:  &params,
 			Results: &results,
@@ -276,9 +280,9 @@ func unpack(field lib.Field) ast.Expr {
 		"uint16":            "unpackUint16",
 		"uint32":            "unpackUint32",
 		"datetime":          "unpackDateTime",
-		"optional datetime": "unpackDate",
+		"optional datetime": "unpackDateTime",
 		"date":              "unpackDate",
-		"shortdate":         "unpackDate",
+		"shortdate":         "unpackShortDate",
 		"optional date":     "unpackDate",
 		"time":              "unpackTime",
 		"HHmm":              "unpackHHmm",

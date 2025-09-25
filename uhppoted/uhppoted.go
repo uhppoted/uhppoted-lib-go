@@ -91,7 +91,25 @@ type (
 
 // re-exported entities
 type (
-	Card = entities.Card
+	Card     = entities.Card
+	TaskType = entities.TaskType
+)
+
+// re-exported task types
+var (
+	ControlDoor          = entities.ControlDoor
+	UnlockDoor           = entities.UnlockDoor
+	LockDoor             = entities.LockDoor
+	DisableTimeProfiles  = entities.DisableTimeProfiles
+	EnableTimeProfiles   = entities.EnableTimeProfiles
+	EnableCardNoPassword = entities.EnableCardNoPassword
+	EnableCardInPassword = entities.EnableCardInPassword
+	EnableCardPassword   = entities.EnableCardPassword
+	EnableMoreCards      = entities.EnableMoreCards
+	DisableMoreCards     = entities.DisableMoreCards
+	TriggerOnce          = entities.TriggerOnce
+	DisablePushbutton    = entities.DisablePushbutton
+	EnablePushbutton     = entities.EnablePushbutton
 )
 
 // Error constants

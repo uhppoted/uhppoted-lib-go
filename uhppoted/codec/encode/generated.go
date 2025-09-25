@@ -590,7 +590,7 @@ func ClearTimeProfilesRequest(controller uint32) ([]byte, error) {
 //
 //	Parameters:
 //	    controller  (uint32)  controller serial number
-//	    task  (uint8)
+//	    task  (task)
 //	    start date  (date)
 //	    end date  (date)
 //	    monday  (bool)
@@ -606,14 +606,14 @@ func ClearTimeProfilesRequest(controller uint32) ([]byte, error) {
 //
 //	Returns:
 //	    64 byte packet.
-func AddTaskRequest(controller uint32, task uint8, startdate entities.Date, enddate entities.Date, monday bool, tuesday bool, wednesday bool, thursday bool, friday bool, saturday bool, sunday bool, starttime entities.HHmm, door uint8, morecards uint8) ([]byte, error) {
+func AddTaskRequest(controller uint32, task entities.TaskType, startdate entities.Date, enddate entities.Date, monday bool, tuesday bool, wednesday bool, thursday bool, friday bool, saturday bool, sunday bool, starttime entities.HHmm, door uint8, morecards uint8) ([]byte, error) {
 	packet := make([]byte, 64)
 
 	packet[0] = SOM
 	packet[1] = 168
 
 	packUint32(controller, packet, 4)
-	packUint8(task, packet, 26)
+	packTask(task, packet, 26)
 	packDate(startdate, packet, 8)
 	packDate(enddate, packet, 12)
 	packBool(monday, packet, 16)

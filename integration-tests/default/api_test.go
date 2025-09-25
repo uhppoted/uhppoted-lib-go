@@ -487,7 +487,7 @@ func TestClearTimeProfiles(t *testing.T) {
 func TestAddTask(t *testing.T) {
 	controller := uint32(405419896)
 
-	task := uint8(2)
+	task := entities.TaskType(2)
 	startDate := entities.MustParseDate("2025-01-01")
 	endDate := entities.MustParseDate("2025-12-31")
 	monday := true

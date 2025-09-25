@@ -768,7 +768,7 @@ AddTask(u, controller, task, start date, end date, monday, tuesday, wednesday, t
 where:
 - u             Uhppoted        Uhppoted struct initialised with the bind address, broadcast address, etc
 - controller    controller      uint32|Controller controller serial number or {id, address, protocol} Controller struct
-- task          uint8           task type
+- task          task            task type
 - start date    date            date from which task is scheduled (inclusive)
 - end date      date            date after which task no longer scheduled
 - monday        bool            task enabled on Monday if true

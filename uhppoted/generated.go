@@ -243,7 +243,7 @@ func ClearTimeProfiles[T TController](u Uhppoted, controller T, timeout time.Dur
 // 10: trigger once
 // 11: disable pushbutton
 // 12: enable pushbutton
-func AddTask[T TController, D TDate, H THHmm](u Uhppoted, controller T, task uint8, startdate D, enddate D, monday bool, tuesday bool, wednesday bool, thursday bool, friday bool, saturday bool, sunday bool, starttime H, door uint8, morecards uint8, timeout time.Duration) (responses.AddTaskResponse, error) {
+func AddTask[T TController, D TDate, H THHmm](u Uhppoted, controller T, task TaskType, startdate D, enddate D, monday bool, tuesday bool, wednesday bool, thursday bool, friday bool, saturday bool, sunday bool, starttime H, door uint8, morecards uint8, timeout time.Duration) (responses.AddTaskResponse, error) {
 	f := func(id uint32) ([]byte, error) {
 		return encode.AddTaskRequest(id, task, convert[entities.Date](startdate), convert[entities.Date](enddate), monday, tuesday, wednesday, thursday, friday, saturday, sunday, convert[entities.HHmm](starttime), door, morecards)
 	}

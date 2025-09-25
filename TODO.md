@@ -8,7 +8,11 @@
 - [x] datetime args
 - [x] date args
 - [x] HHmm args
-- [ ] task/interlock arg types
+- [x] task arg type
+- [ ] task field type
+- [ ] interlock arg type
+- [ ] door mode arg type
+- [ ] door mode field type
 - [x] card record
 - [ ] event/profile/task records
 - [ ] godoc/examples

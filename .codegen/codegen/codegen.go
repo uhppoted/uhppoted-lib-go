@@ -23,7 +23,6 @@ var Functions = template.FuncMap{
 	"pack":        pack,
 	"unpack":      unpack,
 	"describe":    describe,
-	"lookup":      lookup,
 	"includes":    includes,
 	"value":       value,
 	"rpad":        rpad,
@@ -138,6 +137,9 @@ func testarg(arg lib.TestArg) string {
 	case "pin":
 		return fmt.Sprintf(`uint32(%v)`, arg.Value)
 
+	case "task":
+		return fmt.Sprintf(`entities.TaskType(%v)`, arg.Value)
+
 	default:
 		return fmt.Sprintf("%v", arg.Value)
 	}
@@ -166,6 +168,9 @@ func fields2args(fields []lib.Field) string {
 
 		case "pin":
 			args = append(args, fmt.Sprintf("%v uint32", name))
+
+		case "task":
+			args = append(args, fmt.Sprintf("%v entities.TaskType", name))
 
 		case "magic":
 			// skip
@@ -211,6 +216,9 @@ func pack(field lib.Field) string {
 
 	case "pin":
 		return fmt.Sprintf("packPIN(%v, packet, %v)", name, field.Offset)
+
+	case "task":
+		return fmt.Sprintf("packTask(%v, packet, %v)", name, field.Offset)
 
 	case "passcode":
 		return fmt.Sprintf("packPasscode(%v, packet, %v)", name, field.Offset)
@@ -283,34 +291,6 @@ func unpack(field lib.Field) string {
 
 func describe(field lib.Field) string {
 	return fmt.Sprintf("%v  (%v)  %v", field.Name, field.Type, field.Description)
-}
-
-func lookup(path, key, defval string) any {
-	println(">>>>>>>>>>>>>>>>>>>>>>>> AWOOOGAH")
-	table := map[string]string{
-		"uint8":   "uint8",
-		"uint16":  "uint16",
-		"uint32":  "uint32",
-		"bool":    "bool",
-		"IPv4":    "netip.Addr",
-		"MAC":     "string",
-		"version": "string",
-		// "date":       "Date",
-		// "optional date":     "Date",
-		// "shortdate":  "Date",
-		// "time":       "Time",
-		// "datetime":   "DateTime",
-		// "optional datetime": "DateTime",
-		// "HHmm":       "time.Time",
-		"pin":        "PIN",
-		"controller": "Controller",
-	}
-
-	if v, ok := table[key]; ok {
-		return v
-	}
-
-	return defval
 }
 
 func includes(list []string, item string) bool {

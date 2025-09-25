@@ -10,7 +10,7 @@ import (
 )
 
 func addTask(u lib.Uhppoted, args []string) error {
-	var task = uint8(2)
+	var task = lib.LockDoor
 	var startDate, _ = time.Parse("2006-01-02", "2025-01-01")
 	var endDate, _ = time.Parse("2006-01-02", "2025-12-31")
 	var monday = true

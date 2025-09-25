@@ -144,6 +144,16 @@ func packPIN(v uint32, packet []byte, offset uint8) error {
 	return nil
 }
 
+// Packs a TaskType value 'in-place' as a 1-byte value into the packet at the offset.
+//
+//	Parameters:
+//	   v      (uint8)     uint8 value to encode.
+//	   packet (bytearray)  64 byte array.
+//	   offset (int)        Value location in array.
+func packTask(v entities.TaskType, packet []byte, offset int) {
+	packet[offset] = uint8(v)
+}
+
 // Converts a string of digits to packed BCD. Invalid characters (non-digits) are silently
 // discarded.
 func string2bcd(s string) []byte {

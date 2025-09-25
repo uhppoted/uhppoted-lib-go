@@ -8,26 +8,16 @@ import (
 	"github.com/uhppoted/uhppoted-lib-go/uhppoted/responses"
 )
 
-// Decodes a get-controller-response response.
-//
-//	Parameters:
-//	    packet  (bytearray)  64 byte UDP packet.
-//
-//	Returns:
-//	    - GetControllerResponse initialised from the UDP packet.
-//	    - error if the packet is not 64 bytes, has an invalid start-of-message byte or has
-//	               the incorrect message type.
 func GetControllerResponse(packet []byte) (responses.GetControllerResponse, error) {
 	if len(packet) != 64 {
 		return responses.GetControllerResponse{}, fmt.Errorf("invalid reply packet length (%v)", len(packet))
 	}
 
-	// Ref. v6.62 firmware event
 	if packet[0] != SOM && (packet[0] != SOM_v6_62 || packet[1] != 0x20) {
 		return responses.GetControllerResponse{}, fmt.Errorf("invalid reply start of message byte (%02x)", packet[0])
 	}
 
-	if packet[1] != 148 {
+	if packet[1] != 0x94 {
 		return responses.GetControllerResponse{}, fmt.Errorf("invalid reply function code (%02x)", packet[1])
 	}
 
@@ -42,26 +32,16 @@ func GetControllerResponse(packet []byte) (responses.GetControllerResponse, erro
 	}, nil
 }
 
-// Decodes a set-ipv4-response response.
-//
-//	Parameters:
-//	    packet  (bytearray)  64 byte UDP packet.
-//
-//	Returns:
-//	    - SetIPv4Response initialised from the UDP packet.
-//	    - error if the packet is not 64 bytes, has an invalid start-of-message byte or has
-//	               the incorrect message type.
 func SetIPv4Response(packet []byte) (responses.SetIPv4Response, error) {
 	if len(packet) != 64 {
 		return responses.SetIPv4Response{}, fmt.Errorf("invalid reply packet length (%v)", len(packet))
 	}
 
-	// Ref. v6.62 firmware event
 	if packet[0] != SOM && (packet[0] != SOM_v6_62 || packet[1] != 0x20) {
 		return responses.SetIPv4Response{}, fmt.Errorf("invalid reply start of message byte (%02x)", packet[0])
 	}
 
-	if packet[1] != 150 {
+	if packet[1] != 0x96 {
 		return responses.SetIPv4Response{}, fmt.Errorf("invalid reply function code (%02x)", packet[1])
 	}
 
@@ -71,26 +51,16 @@ func SetIPv4Response(packet []byte) (responses.SetIPv4Response, error) {
 	}, nil
 }
 
-// Decodes a get-status-response response.
-//
-//	Parameters:
-//	    packet  (bytearray)  64 byte UDP packet.
-//
-//	Returns:
-//	    - GetStatusResponse initialised from the UDP packet.
-//	    - error if the packet is not 64 bytes, has an invalid start-of-message byte or has
-//	               the incorrect message type.
 func GetStatusResponse(packet []byte) (responses.GetStatusResponse, error) {
 	if len(packet) != 64 {
 		return responses.GetStatusResponse{}, fmt.Errorf("invalid reply packet length (%v)", len(packet))
 	}
 
-	// Ref. v6.62 firmware event
 	if packet[0] != SOM && (packet[0] != SOM_v6_62 || packet[1] != 0x20) {
 		return responses.GetStatusResponse{}, fmt.Errorf("invalid reply start of message byte (%02x)", packet[0])
 	}
 
-	if packet[1] != 32 {
+	if packet[1] != 0x20 {
 		return responses.GetStatusResponse{}, fmt.Errorf("invalid reply function code (%02x)", packet[1])
 	}
 
@@ -116,32 +86,22 @@ func GetStatusResponse(packet []byte) (responses.GetStatusResponse, error) {
 		EventDoor:          unpackUint8(packet, 14),
 		EventDirection:     unpackUint8(packet, 15),
 		EventCard:          unpackUint32(packet, 16),
-		EventTimestamp:     unpackOptionalDateTime(packet, 20),
+		EventTimestamp:     unpackDateTime(packet, 20),
 		EventReason:        unpackUint8(packet, 27),
 		SequenceNo:         unpackUint32(packet, 40),
 	}, nil
 }
 
-// Decodes a get-time-response response.
-//
-//	Parameters:
-//	    packet  (bytearray)  64 byte UDP packet.
-//
-//	Returns:
-//	    - GetTimeResponse initialised from the UDP packet.
-//	    - error if the packet is not 64 bytes, has an invalid start-of-message byte or has
-//	               the incorrect message type.
 func GetTimeResponse(packet []byte) (responses.GetTimeResponse, error) {
 	if len(packet) != 64 {
 		return responses.GetTimeResponse{}, fmt.Errorf("invalid reply packet length (%v)", len(packet))
 	}
 
-	// Ref. v6.62 firmware event
 	if packet[0] != SOM && (packet[0] != SOM_v6_62 || packet[1] != 0x20) {
 		return responses.GetTimeResponse{}, fmt.Errorf("invalid reply start of message byte (%02x)", packet[0])
 	}
 
-	if packet[1] != 50 {
+	if packet[1] != 0x32 {
 		return responses.GetTimeResponse{}, fmt.Errorf("invalid reply function code (%02x)", packet[1])
 	}
 
@@ -151,26 +111,16 @@ func GetTimeResponse(packet []byte) (responses.GetTimeResponse, error) {
 	}, nil
 }
 
-// Decodes a set-time-response response.
-//
-//	Parameters:
-//	    packet  (bytearray)  64 byte UDP packet.
-//
-//	Returns:
-//	    - SetTimeResponse initialised from the UDP packet.
-//	    - error if the packet is not 64 bytes, has an invalid start-of-message byte or has
-//	               the incorrect message type.
 func SetTimeResponse(packet []byte) (responses.SetTimeResponse, error) {
 	if len(packet) != 64 {
 		return responses.SetTimeResponse{}, fmt.Errorf("invalid reply packet length (%v)", len(packet))
 	}
 
-	// Ref. v6.62 firmware event
 	if packet[0] != SOM && (packet[0] != SOM_v6_62 || packet[1] != 0x20) {
 		return responses.SetTimeResponse{}, fmt.Errorf("invalid reply start of message byte (%02x)", packet[0])
 	}
 
-	if packet[1] != 48 {
+	if packet[1] != 0x30 {
 		return responses.SetTimeResponse{}, fmt.Errorf("invalid reply function code (%02x)", packet[1])
 	}
 
@@ -180,26 +130,16 @@ func SetTimeResponse(packet []byte) (responses.SetTimeResponse, error) {
 	}, nil
 }
 
-// Decodes a get-listener-response response.
-//
-//	Parameters:
-//	    packet  (bytearray)  64 byte UDP packet.
-//
-//	Returns:
-//	    - GetListenerResponse initialised from the UDP packet.
-//	    - error if the packet is not 64 bytes, has an invalid start-of-message byte or has
-//	               the incorrect message type.
 func GetListenerResponse(packet []byte) (responses.GetListenerResponse, error) {
 	if len(packet) != 64 {
 		return responses.GetListenerResponse{}, fmt.Errorf("invalid reply packet length (%v)", len(packet))
 	}
 
-	// Ref. v6.62 firmware event
 	if packet[0] != SOM && (packet[0] != SOM_v6_62 || packet[1] != 0x20) {
 		return responses.GetListenerResponse{}, fmt.Errorf("invalid reply start of message byte (%02x)", packet[0])
 	}
 
-	if packet[1] != 146 {
+	if packet[1] != 0x92 {
 		return responses.GetListenerResponse{}, fmt.Errorf("invalid reply function code (%02x)", packet[1])
 	}
 
@@ -211,26 +151,16 @@ func GetListenerResponse(packet []byte) (responses.GetListenerResponse, error) {
 	}, nil
 }
 
-// Decodes a set-listener-response response.
-//
-//	Parameters:
-//	    packet  (bytearray)  64 byte UDP packet.
-//
-//	Returns:
-//	    - SetListenerResponse initialised from the UDP packet.
-//	    - error if the packet is not 64 bytes, has an invalid start-of-message byte or has
-//	               the incorrect message type.
 func SetListenerResponse(packet []byte) (responses.SetListenerResponse, error) {
 	if len(packet) != 64 {
 		return responses.SetListenerResponse{}, fmt.Errorf("invalid reply packet length (%v)", len(packet))
 	}
 
-	// Ref. v6.62 firmware event
 	if packet[0] != SOM && (packet[0] != SOM_v6_62 || packet[1] != 0x20) {
 		return responses.SetListenerResponse{}, fmt.Errorf("invalid reply start of message byte (%02x)", packet[0])
 	}
 
-	if packet[1] != 144 {
+	if packet[1] != 0x90 {
 		return responses.SetListenerResponse{}, fmt.Errorf("invalid reply function code (%02x)", packet[1])
 	}
 
@@ -240,26 +170,16 @@ func SetListenerResponse(packet []byte) (responses.SetListenerResponse, error) {
 	}, nil
 }
 
-// Decodes a get-listener-addr:port-response response.
-//
-//	Parameters:
-//	    packet  (bytearray)  64 byte UDP packet.
-//
-//	Returns:
-//	    - GetListenerAddrPortResponse initialised from the UDP packet.
-//	    - error if the packet is not 64 bytes, has an invalid start-of-message byte or has
-//	               the incorrect message type.
 func GetListenerAddrPortResponse(packet []byte) (responses.GetListenerAddrPortResponse, error) {
 	if len(packet) != 64 {
 		return responses.GetListenerAddrPortResponse{}, fmt.Errorf("invalid reply packet length (%v)", len(packet))
 	}
 
-	// Ref. v6.62 firmware event
 	if packet[0] != SOM && (packet[0] != SOM_v6_62 || packet[1] != 0x20) {
 		return responses.GetListenerAddrPortResponse{}, fmt.Errorf("invalid reply start of message byte (%02x)", packet[0])
 	}
 
-	if packet[1] != 146 {
+	if packet[1] != 0x92 {
 		return responses.GetListenerAddrPortResponse{}, fmt.Errorf("invalid reply function code (%02x)", packet[1])
 	}
 
@@ -270,26 +190,16 @@ func GetListenerAddrPortResponse(packet []byte) (responses.GetListenerAddrPortRe
 	}, nil
 }
 
-// Decodes a set-listener-addr:port-response response.
-//
-//	Parameters:
-//	    packet  (bytearray)  64 byte UDP packet.
-//
-//	Returns:
-//	    - SetListenerAddrPortResponse initialised from the UDP packet.
-//	    - error if the packet is not 64 bytes, has an invalid start-of-message byte or has
-//	               the incorrect message type.
 func SetListenerAddrPortResponse(packet []byte) (responses.SetListenerAddrPortResponse, error) {
 	if len(packet) != 64 {
 		return responses.SetListenerAddrPortResponse{}, fmt.Errorf("invalid reply packet length (%v)", len(packet))
 	}
 
-	// Ref. v6.62 firmware event
 	if packet[0] != SOM && (packet[0] != SOM_v6_62 || packet[1] != 0x20) {
 		return responses.SetListenerAddrPortResponse{}, fmt.Errorf("invalid reply start of message byte (%02x)", packet[0])
 	}
 
-	if packet[1] != 144 {
+	if packet[1] != 0x90 {
 		return responses.SetListenerAddrPortResponse{}, fmt.Errorf("invalid reply function code (%02x)", packet[1])
 	}
 
@@ -299,26 +209,16 @@ func SetListenerAddrPortResponse(packet []byte) (responses.SetListenerAddrPortRe
 	}, nil
 }
 
-// Decodes a get-door-response response.
-//
-//	Parameters:
-//	    packet  (bytearray)  64 byte UDP packet.
-//
-//	Returns:
-//	    - GetDoorResponse initialised from the UDP packet.
-//	    - error if the packet is not 64 bytes, has an invalid start-of-message byte or has
-//	               the incorrect message type.
 func GetDoorResponse(packet []byte) (responses.GetDoorResponse, error) {
 	if len(packet) != 64 {
 		return responses.GetDoorResponse{}, fmt.Errorf("invalid reply packet length (%v)", len(packet))
 	}
 
-	// Ref. v6.62 firmware event
 	if packet[0] != SOM && (packet[0] != SOM_v6_62 || packet[1] != 0x20) {
 		return responses.GetDoorResponse{}, fmt.Errorf("invalid reply start of message byte (%02x)", packet[0])
 	}
 
-	if packet[1] != 130 {
+	if packet[1] != 0x82 {
 		return responses.GetDoorResponse{}, fmt.Errorf("invalid reply function code (%02x)", packet[1])
 	}
 
@@ -330,26 +230,16 @@ func GetDoorResponse(packet []byte) (responses.GetDoorResponse, error) {
 	}, nil
 }
 
-// Decodes a set-door-response response.
-//
-//	Parameters:
-//	    packet  (bytearray)  64 byte UDP packet.
-//
-//	Returns:
-//	    - SetDoorResponse initialised from the UDP packet.
-//	    - error if the packet is not 64 bytes, has an invalid start-of-message byte or has
-//	               the incorrect message type.
 func SetDoorResponse(packet []byte) (responses.SetDoorResponse, error) {
 	if len(packet) != 64 {
 		return responses.SetDoorResponse{}, fmt.Errorf("invalid reply packet length (%v)", len(packet))
 	}
 
-	// Ref. v6.62 firmware event
 	if packet[0] != SOM && (packet[0] != SOM_v6_62 || packet[1] != 0x20) {
 		return responses.SetDoorResponse{}, fmt.Errorf("invalid reply start of message byte (%02x)", packet[0])
 	}
 
-	if packet[1] != 128 {
+	if packet[1] != 0x80 {
 		return responses.SetDoorResponse{}, fmt.Errorf("invalid reply function code (%02x)", packet[1])
 	}
 
@@ -361,26 +251,16 @@ func SetDoorResponse(packet []byte) (responses.SetDoorResponse, error) {
 	}, nil
 }
 
-// Decodes a set-door-passcodes-response response.
-//
-//	Parameters:
-//	    packet  (bytearray)  64 byte UDP packet.
-//
-//	Returns:
-//	    - SetDoorPasscodesResponse initialised from the UDP packet.
-//	    - error if the packet is not 64 bytes, has an invalid start-of-message byte or has
-//	               the incorrect message type.
 func SetDoorPasscodesResponse(packet []byte) (responses.SetDoorPasscodesResponse, error) {
 	if len(packet) != 64 {
 		return responses.SetDoorPasscodesResponse{}, fmt.Errorf("invalid reply packet length (%v)", len(packet))
 	}
 
-	// Ref. v6.62 firmware event
 	if packet[0] != SOM && (packet[0] != SOM_v6_62 || packet[1] != 0x20) {
 		return responses.SetDoorPasscodesResponse{}, fmt.Errorf("invalid reply start of message byte (%02x)", packet[0])
 	}
 
-	if packet[1] != 140 {
+	if packet[1] != 0x8c {
 		return responses.SetDoorPasscodesResponse{}, fmt.Errorf("invalid reply function code (%02x)", packet[1])
 	}
 
@@ -390,26 +270,16 @@ func SetDoorPasscodesResponse(packet []byte) (responses.SetDoorPasscodesResponse
 	}, nil
 }
 
-// Decodes a open-door-response response.
-//
-//	Parameters:
-//	    packet  (bytearray)  64 byte UDP packet.
-//
-//	Returns:
-//	    - OpenDoorResponse initialised from the UDP packet.
-//	    - error if the packet is not 64 bytes, has an invalid start-of-message byte or has
-//	               the incorrect message type.
 func OpenDoorResponse(packet []byte) (responses.OpenDoorResponse, error) {
 	if len(packet) != 64 {
 		return responses.OpenDoorResponse{}, fmt.Errorf("invalid reply packet length (%v)", len(packet))
 	}
 
-	// Ref. v6.62 firmware event
 	if packet[0] != SOM && (packet[0] != SOM_v6_62 || packet[1] != 0x20) {
 		return responses.OpenDoorResponse{}, fmt.Errorf("invalid reply start of message byte (%02x)", packet[0])
 	}
 
-	if packet[1] != 64 {
+	if packet[1] != 0x40 {
 		return responses.OpenDoorResponse{}, fmt.Errorf("invalid reply function code (%02x)", packet[1])
 	}
 
@@ -419,26 +289,16 @@ func OpenDoorResponse(packet []byte) (responses.OpenDoorResponse, error) {
 	}, nil
 }
 
-// Decodes a get-cards-response response.
-//
-//	Parameters:
-//	    packet  (bytearray)  64 byte UDP packet.
-//
-//	Returns:
-//	    - GetCardsResponse initialised from the UDP packet.
-//	    - error if the packet is not 64 bytes, has an invalid start-of-message byte or has
-//	               the incorrect message type.
 func GetCardsResponse(packet []byte) (responses.GetCardsResponse, error) {
 	if len(packet) != 64 {
 		return responses.GetCardsResponse{}, fmt.Errorf("invalid reply packet length (%v)", len(packet))
 	}
 
-	// Ref. v6.62 firmware event
 	if packet[0] != SOM && (packet[0] != SOM_v6_62 || packet[1] != 0x20) {
 		return responses.GetCardsResponse{}, fmt.Errorf("invalid reply start of message byte (%02x)", packet[0])
 	}
 
-	if packet[1] != 88 {
+	if packet[1] != 0x58 {
 		return responses.GetCardsResponse{}, fmt.Errorf("invalid reply function code (%02x)", packet[1])
 	}
 
@@ -448,34 +308,24 @@ func GetCardsResponse(packet []byte) (responses.GetCardsResponse, error) {
 	}, nil
 }
 
-// Decodes a get-card-response response.
-//
-//	Parameters:
-//	    packet  (bytearray)  64 byte UDP packet.
-//
-//	Returns:
-//	    - GetCardResponse initialised from the UDP packet.
-//	    - error if the packet is not 64 bytes, has an invalid start-of-message byte or has
-//	               the incorrect message type.
 func GetCardResponse(packet []byte) (responses.GetCardResponse, error) {
 	if len(packet) != 64 {
 		return responses.GetCardResponse{}, fmt.Errorf("invalid reply packet length (%v)", len(packet))
 	}
 
-	// Ref. v6.62 firmware event
 	if packet[0] != SOM && (packet[0] != SOM_v6_62 || packet[1] != 0x20) {
 		return responses.GetCardResponse{}, fmt.Errorf("invalid reply start of message byte (%02x)", packet[0])
 	}
 
-	if packet[1] != 90 {
+	if packet[1] != 0x5a {
 		return responses.GetCardResponse{}, fmt.Errorf("invalid reply function code (%02x)", packet[1])
 	}
 
 	return responses.GetCardResponse{
 		Controller: unpackUint32(packet, 4),
 		Card:       unpackUint32(packet, 8),
-		StartDate:  unpackOptionalDate(packet, 12),
-		EndDate:    unpackOptionalDate(packet, 16),
+		StartDate:  unpackDate(packet, 12),
+		EndDate:    unpackDate(packet, 16),
 		Door1:      unpackUint8(packet, 20),
 		Door2:      unpackUint8(packet, 21),
 		Door3:      unpackUint8(packet, 22),
@@ -484,34 +334,24 @@ func GetCardResponse(packet []byte) (responses.GetCardResponse, error) {
 	}, nil
 }
 
-// Decodes a get-card-at-index-response response.
-//
-//	Parameters:
-//	    packet  (bytearray)  64 byte UDP packet.
-//
-//	Returns:
-//	    - GetCardAtIndexResponse initialised from the UDP packet.
-//	    - error if the packet is not 64 bytes, has an invalid start-of-message byte or has
-//	               the incorrect message type.
 func GetCardAtIndexResponse(packet []byte) (responses.GetCardAtIndexResponse, error) {
 	if len(packet) != 64 {
 		return responses.GetCardAtIndexResponse{}, fmt.Errorf("invalid reply packet length (%v)", len(packet))
 	}
 
-	// Ref. v6.62 firmware event
 	if packet[0] != SOM && (packet[0] != SOM_v6_62 || packet[1] != 0x20) {
 		return responses.GetCardAtIndexResponse{}, fmt.Errorf("invalid reply start of message byte (%02x)", packet[0])
 	}
 
-	if packet[1] != 92 {
+	if packet[1] != 0x5c {
 		return responses.GetCardAtIndexResponse{}, fmt.Errorf("invalid reply function code (%02x)", packet[1])
 	}
 
 	return responses.GetCardAtIndexResponse{
 		Controller: unpackUint32(packet, 4),
 		Card:       unpackUint32(packet, 8),
-		StartDate:  unpackOptionalDate(packet, 12),
-		EndDate:    unpackOptionalDate(packet, 16),
+		StartDate:  unpackDate(packet, 12),
+		EndDate:    unpackDate(packet, 16),
 		Door1:      unpackUint8(packet, 20),
 		Door2:      unpackUint8(packet, 21),
 		Door3:      unpackUint8(packet, 22),
@@ -520,26 +360,16 @@ func GetCardAtIndexResponse(packet []byte) (responses.GetCardAtIndexResponse, er
 	}, nil
 }
 
-// Decodes a put-card-response response.
-//
-//	Parameters:
-//	    packet  (bytearray)  64 byte UDP packet.
-//
-//	Returns:
-//	    - PutCardResponse initialised from the UDP packet.
-//	    - error if the packet is not 64 bytes, has an invalid start-of-message byte or has
-//	               the incorrect message type.
 func PutCardResponse(packet []byte) (responses.PutCardResponse, error) {
 	if len(packet) != 64 {
 		return responses.PutCardResponse{}, fmt.Errorf("invalid reply packet length (%v)", len(packet))
 	}
 
-	// Ref. v6.62 firmware event
 	if packet[0] != SOM && (packet[0] != SOM_v6_62 || packet[1] != 0x20) {
 		return responses.PutCardResponse{}, fmt.Errorf("invalid reply start of message byte (%02x)", packet[0])
 	}
 
-	if packet[1] != 80 {
+	if packet[1] != 0x50 {
 		return responses.PutCardResponse{}, fmt.Errorf("invalid reply function code (%02x)", packet[1])
 	}
 
@@ -549,26 +379,16 @@ func PutCardResponse(packet []byte) (responses.PutCardResponse, error) {
 	}, nil
 }
 
-// Decodes a delete-card-response response.
-//
-//	Parameters:
-//	    packet  (bytearray)  64 byte UDP packet.
-//
-//	Returns:
-//	    - DeleteCardResponse initialised from the UDP packet.
-//	    - error if the packet is not 64 bytes, has an invalid start-of-message byte or has
-//	               the incorrect message type.
 func DeleteCardResponse(packet []byte) (responses.DeleteCardResponse, error) {
 	if len(packet) != 64 {
 		return responses.DeleteCardResponse{}, fmt.Errorf("invalid reply packet length (%v)", len(packet))
 	}
 
-	// Ref. v6.62 firmware event
 	if packet[0] != SOM && (packet[0] != SOM_v6_62 || packet[1] != 0x20) {
 		return responses.DeleteCardResponse{}, fmt.Errorf("invalid reply start of message byte (%02x)", packet[0])
 	}
 
-	if packet[1] != 82 {
+	if packet[1] != 0x52 {
 		return responses.DeleteCardResponse{}, fmt.Errorf("invalid reply function code (%02x)", packet[1])
 	}
 
@@ -578,26 +398,16 @@ func DeleteCardResponse(packet []byte) (responses.DeleteCardResponse, error) {
 	}, nil
 }
 
-// Decodes a delete-all-cards-response response.
-//
-//	Parameters:
-//	    packet  (bytearray)  64 byte UDP packet.
-//
-//	Returns:
-//	    - DeleteAllCardsResponse initialised from the UDP packet.
-//	    - error if the packet is not 64 bytes, has an invalid start-of-message byte or has
-//	               the incorrect message type.
 func DeleteAllCardsResponse(packet []byte) (responses.DeleteAllCardsResponse, error) {
 	if len(packet) != 64 {
 		return responses.DeleteAllCardsResponse{}, fmt.Errorf("invalid reply packet length (%v)", len(packet))
 	}
 
-	// Ref. v6.62 firmware event
 	if packet[0] != SOM && (packet[0] != SOM_v6_62 || packet[1] != 0x20) {
 		return responses.DeleteAllCardsResponse{}, fmt.Errorf("invalid reply start of message byte (%02x)", packet[0])
 	}
 
-	if packet[1] != 84 {
+	if packet[1] != 0x54 {
 		return responses.DeleteAllCardsResponse{}, fmt.Errorf("invalid reply function code (%02x)", packet[1])
 	}
 
@@ -607,26 +417,16 @@ func DeleteAllCardsResponse(packet []byte) (responses.DeleteAllCardsResponse, er
 	}, nil
 }
 
-// Decodes a get-event-response response.
-//
-//	Parameters:
-//	    packet  (bytearray)  64 byte UDP packet.
-//
-//	Returns:
-//	    - GetEventResponse initialised from the UDP packet.
-//	    - error if the packet is not 64 bytes, has an invalid start-of-message byte or has
-//	               the incorrect message type.
 func GetEventResponse(packet []byte) (responses.GetEventResponse, error) {
 	if len(packet) != 64 {
 		return responses.GetEventResponse{}, fmt.Errorf("invalid reply packet length (%v)", len(packet))
 	}
 
-	// Ref. v6.62 firmware event
 	if packet[0] != SOM && (packet[0] != SOM_v6_62 || packet[1] != 0x20) {
 		return responses.GetEventResponse{}, fmt.Errorf("invalid reply start of message byte (%02x)", packet[0])
 	}
 
-	if packet[1] != 176 {
+	if packet[1] != 0xb0 {
 		return responses.GetEventResponse{}, fmt.Errorf("invalid reply function code (%02x)", packet[1])
 	}
 
@@ -638,31 +438,21 @@ func GetEventResponse(packet []byte) (responses.GetEventResponse, error) {
 		Door:          unpackUint8(packet, 14),
 		Direction:     unpackUint8(packet, 15),
 		Card:          unpackUint32(packet, 16),
-		Timestamp:     unpackOptionalDateTime(packet, 20),
+		Timestamp:     unpackDateTime(packet, 20),
 		Reason:        unpackUint8(packet, 27),
 	}, nil
 }
 
-// Decodes a get-event-index-response response.
-//
-//	Parameters:
-//	    packet  (bytearray)  64 byte UDP packet.
-//
-//	Returns:
-//	    - GetEventIndexResponse initialised from the UDP packet.
-//	    - error if the packet is not 64 bytes, has an invalid start-of-message byte or has
-//	               the incorrect message type.
 func GetEventIndexResponse(packet []byte) (responses.GetEventIndexResponse, error) {
 	if len(packet) != 64 {
 		return responses.GetEventIndexResponse{}, fmt.Errorf("invalid reply packet length (%v)", len(packet))
 	}
 
-	// Ref. v6.62 firmware event
 	if packet[0] != SOM && (packet[0] != SOM_v6_62 || packet[1] != 0x20) {
 		return responses.GetEventIndexResponse{}, fmt.Errorf("invalid reply start of message byte (%02x)", packet[0])
 	}
 
-	if packet[1] != 180 {
+	if packet[1] != 0xb4 {
 		return responses.GetEventIndexResponse{}, fmt.Errorf("invalid reply function code (%02x)", packet[1])
 	}
 
@@ -672,26 +462,16 @@ func GetEventIndexResponse(packet []byte) (responses.GetEventIndexResponse, erro
 	}, nil
 }
 
-// Decodes a set-event-index-response response.
-//
-//	Parameters:
-//	    packet  (bytearray)  64 byte UDP packet.
-//
-//	Returns:
-//	    - SetEventIndexResponse initialised from the UDP packet.
-//	    - error if the packet is not 64 bytes, has an invalid start-of-message byte or has
-//	               the incorrect message type.
 func SetEventIndexResponse(packet []byte) (responses.SetEventIndexResponse, error) {
 	if len(packet) != 64 {
 		return responses.SetEventIndexResponse{}, fmt.Errorf("invalid reply packet length (%v)", len(packet))
 	}
 
-	// Ref. v6.62 firmware event
 	if packet[0] != SOM && (packet[0] != SOM_v6_62 || packet[1] != 0x20) {
 		return responses.SetEventIndexResponse{}, fmt.Errorf("invalid reply start of message byte (%02x)", packet[0])
 	}
 
-	if packet[1] != 178 {
+	if packet[1] != 0xb2 {
 		return responses.SetEventIndexResponse{}, fmt.Errorf("invalid reply function code (%02x)", packet[1])
 	}
 
@@ -701,26 +481,16 @@ func SetEventIndexResponse(packet []byte) (responses.SetEventIndexResponse, erro
 	}, nil
 }
 
-// Decodes a record-special-events-response response.
-//
-//	Parameters:
-//	    packet  (bytearray)  64 byte UDP packet.
-//
-//	Returns:
-//	    - RecordSpecialEventsResponse initialised from the UDP packet.
-//	    - error if the packet is not 64 bytes, has an invalid start-of-message byte or has
-//	               the incorrect message type.
 func RecordSpecialEventsResponse(packet []byte) (responses.RecordSpecialEventsResponse, error) {
 	if len(packet) != 64 {
 		return responses.RecordSpecialEventsResponse{}, fmt.Errorf("invalid reply packet length (%v)", len(packet))
 	}
 
-	// Ref. v6.62 firmware event
 	if packet[0] != SOM && (packet[0] != SOM_v6_62 || packet[1] != 0x20) {
 		return responses.RecordSpecialEventsResponse{}, fmt.Errorf("invalid reply start of message byte (%02x)", packet[0])
 	}
 
-	if packet[1] != 142 {
+	if packet[1] != 0x8e {
 		return responses.RecordSpecialEventsResponse{}, fmt.Errorf("invalid reply function code (%02x)", packet[1])
 	}
 
@@ -730,34 +500,24 @@ func RecordSpecialEventsResponse(packet []byte) (responses.RecordSpecialEventsRe
 	}, nil
 }
 
-// Decodes a get-time-profile-response response.
-//
-//	Parameters:
-//	    packet  (bytearray)  64 byte UDP packet.
-//
-//	Returns:
-//	    - GetTimeProfileResponse initialised from the UDP packet.
-//	    - error if the packet is not 64 bytes, has an invalid start-of-message byte or has
-//	               the incorrect message type.
 func GetTimeProfileResponse(packet []byte) (responses.GetTimeProfileResponse, error) {
 	if len(packet) != 64 {
 		return responses.GetTimeProfileResponse{}, fmt.Errorf("invalid reply packet length (%v)", len(packet))
 	}
 
-	// Ref. v6.62 firmware event
 	if packet[0] != SOM && (packet[0] != SOM_v6_62 || packet[1] != 0x20) {
 		return responses.GetTimeProfileResponse{}, fmt.Errorf("invalid reply start of message byte (%02x)", packet[0])
 	}
 
-	if packet[1] != 152 {
+	if packet[1] != 0x98 {
 		return responses.GetTimeProfileResponse{}, fmt.Errorf("invalid reply function code (%02x)", packet[1])
 	}
 
 	return responses.GetTimeProfileResponse{
 		Controller:    unpackUint32(packet, 4),
 		Profile:       unpackUint8(packet, 8),
-		StartDate:     unpackOptionalDate(packet, 9),
-		EndDate:       unpackOptionalDate(packet, 13),
+		StartDate:     unpackDate(packet, 9),
+		EndDate:       unpackDate(packet, 13),
 		Monday:        unpackBool(packet, 17),
 		Tuesday:       unpackBool(packet, 18),
 		Wednesday:     unpackBool(packet, 19),
@@ -775,26 +535,16 @@ func GetTimeProfileResponse(packet []byte) (responses.GetTimeProfileResponse, er
 	}, nil
 }
 
-// Decodes a set-time-profile-response response.
-//
-//	Parameters:
-//	    packet  (bytearray)  64 byte UDP packet.
-//
-//	Returns:
-//	    - SetTimeProfileResponse initialised from the UDP packet.
-//	    - error if the packet is not 64 bytes, has an invalid start-of-message byte or has
-//	               the incorrect message type.
 func SetTimeProfileResponse(packet []byte) (responses.SetTimeProfileResponse, error) {
 	if len(packet) != 64 {
 		return responses.SetTimeProfileResponse{}, fmt.Errorf("invalid reply packet length (%v)", len(packet))
 	}
 
-	// Ref. v6.62 firmware event
 	if packet[0] != SOM && (packet[0] != SOM_v6_62 || packet[1] != 0x20) {
 		return responses.SetTimeProfileResponse{}, fmt.Errorf("invalid reply start of message byte (%02x)", packet[0])
 	}
 
-	if packet[1] != 136 {
+	if packet[1] != 0x88 {
 		return responses.SetTimeProfileResponse{}, fmt.Errorf("invalid reply function code (%02x)", packet[1])
 	}
 
@@ -804,26 +554,16 @@ func SetTimeProfileResponse(packet []byte) (responses.SetTimeProfileResponse, er
 	}, nil
 }
 
-// Decodes a clear-time-profiles-response response.
-//
-//	Parameters:
-//	    packet  (bytearray)  64 byte UDP packet.
-//
-//	Returns:
-//	    - ClearTimeProfilesResponse initialised from the UDP packet.
-//	    - error if the packet is not 64 bytes, has an invalid start-of-message byte or has
-//	               the incorrect message type.
 func ClearTimeProfilesResponse(packet []byte) (responses.ClearTimeProfilesResponse, error) {
 	if len(packet) != 64 {
 		return responses.ClearTimeProfilesResponse{}, fmt.Errorf("invalid reply packet length (%v)", len(packet))
 	}
 
-	// Ref. v6.62 firmware event
 	if packet[0] != SOM && (packet[0] != SOM_v6_62 || packet[1] != 0x20) {
 		return responses.ClearTimeProfilesResponse{}, fmt.Errorf("invalid reply start of message byte (%02x)", packet[0])
 	}
 
-	if packet[1] != 138 {
+	if packet[1] != 0x8a {
 		return responses.ClearTimeProfilesResponse{}, fmt.Errorf("invalid reply function code (%02x)", packet[1])
 	}
 
@@ -833,26 +573,16 @@ func ClearTimeProfilesResponse(packet []byte) (responses.ClearTimeProfilesRespon
 	}, nil
 }
 
-// Decodes a add-task-response response.
-//
-//	Parameters:
-//	    packet  (bytearray)  64 byte UDP packet.
-//
-//	Returns:
-//	    - AddTaskResponse initialised from the UDP packet.
-//	    - error if the packet is not 64 bytes, has an invalid start-of-message byte or has
-//	               the incorrect message type.
 func AddTaskResponse(packet []byte) (responses.AddTaskResponse, error) {
 	if len(packet) != 64 {
 		return responses.AddTaskResponse{}, fmt.Errorf("invalid reply packet length (%v)", len(packet))
 	}
 
-	// Ref. v6.62 firmware event
 	if packet[0] != SOM && (packet[0] != SOM_v6_62 || packet[1] != 0x20) {
 		return responses.AddTaskResponse{}, fmt.Errorf("invalid reply start of message byte (%02x)", packet[0])
 	}
 
-	if packet[1] != 168 {
+	if packet[1] != 0xa8 {
 		return responses.AddTaskResponse{}, fmt.Errorf("invalid reply function code (%02x)", packet[1])
 	}
 
@@ -862,26 +592,16 @@ func AddTaskResponse(packet []byte) (responses.AddTaskResponse, error) {
 	}, nil
 }
 
-// Decodes a refresh-task-list-response response.
-//
-//	Parameters:
-//	    packet  (bytearray)  64 byte UDP packet.
-//
-//	Returns:
-//	    - RefreshTaskListResponse initialised from the UDP packet.
-//	    - error if the packet is not 64 bytes, has an invalid start-of-message byte or has
-//	               the incorrect message type.
 func RefreshTaskListResponse(packet []byte) (responses.RefreshTaskListResponse, error) {
 	if len(packet) != 64 {
 		return responses.RefreshTaskListResponse{}, fmt.Errorf("invalid reply packet length (%v)", len(packet))
 	}
 
-	// Ref. v6.62 firmware event
 	if packet[0] != SOM && (packet[0] != SOM_v6_62 || packet[1] != 0x20) {
 		return responses.RefreshTaskListResponse{}, fmt.Errorf("invalid reply start of message byte (%02x)", packet[0])
 	}
 
-	if packet[1] != 172 {
+	if packet[1] != 0xac {
 		return responses.RefreshTaskListResponse{}, fmt.Errorf("invalid reply function code (%02x)", packet[1])
 	}
 
@@ -891,26 +611,16 @@ func RefreshTaskListResponse(packet []byte) (responses.RefreshTaskListResponse, 
 	}, nil
 }
 
-// Decodes a clear-task-list-response response.
-//
-//	Parameters:
-//	    packet  (bytearray)  64 byte UDP packet.
-//
-//	Returns:
-//	    - ClearTaskListResponse initialised from the UDP packet.
-//	    - error if the packet is not 64 bytes, has an invalid start-of-message byte or has
-//	               the incorrect message type.
 func ClearTaskListResponse(packet []byte) (responses.ClearTaskListResponse, error) {
 	if len(packet) != 64 {
 		return responses.ClearTaskListResponse{}, fmt.Errorf("invalid reply packet length (%v)", len(packet))
 	}
 
-	// Ref. v6.62 firmware event
 	if packet[0] != SOM && (packet[0] != SOM_v6_62 || packet[1] != 0x20) {
 		return responses.ClearTaskListResponse{}, fmt.Errorf("invalid reply start of message byte (%02x)", packet[0])
 	}
 
-	if packet[1] != 166 {
+	if packet[1] != 0xa6 {
 		return responses.ClearTaskListResponse{}, fmt.Errorf("invalid reply function code (%02x)", packet[1])
 	}
 
@@ -920,26 +630,16 @@ func ClearTaskListResponse(packet []byte) (responses.ClearTaskListResponse, erro
 	}, nil
 }
 
-// Decodes a set-pc-control-response response.
-//
-//	Parameters:
-//	    packet  (bytearray)  64 byte UDP packet.
-//
-//	Returns:
-//	    - SetPCControlResponse initialised from the UDP packet.
-//	    - error if the packet is not 64 bytes, has an invalid start-of-message byte or has
-//	               the incorrect message type.
 func SetPCControlResponse(packet []byte) (responses.SetPCControlResponse, error) {
 	if len(packet) != 64 {
 		return responses.SetPCControlResponse{}, fmt.Errorf("invalid reply packet length (%v)", len(packet))
 	}
 
-	// Ref. v6.62 firmware event
 	if packet[0] != SOM && (packet[0] != SOM_v6_62 || packet[1] != 0x20) {
 		return responses.SetPCControlResponse{}, fmt.Errorf("invalid reply start of message byte (%02x)", packet[0])
 	}
 
-	if packet[1] != 160 {
+	if packet[1] != 0xa0 {
 		return responses.SetPCControlResponse{}, fmt.Errorf("invalid reply function code (%02x)", packet[1])
 	}
 
@@ -949,26 +649,16 @@ func SetPCControlResponse(packet []byte) (responses.SetPCControlResponse, error)
 	}, nil
 }
 
-// Decodes a set-interlock-response response.
-//
-//	Parameters:
-//	    packet  (bytearray)  64 byte UDP packet.
-//
-//	Returns:
-//	    - SetInterlockResponse initialised from the UDP packet.
-//	    - error if the packet is not 64 bytes, has an invalid start-of-message byte or has
-//	               the incorrect message type.
 func SetInterlockResponse(packet []byte) (responses.SetInterlockResponse, error) {
 	if len(packet) != 64 {
 		return responses.SetInterlockResponse{}, fmt.Errorf("invalid reply packet length (%v)", len(packet))
 	}
 
-	// Ref. v6.62 firmware event
 	if packet[0] != SOM && (packet[0] != SOM_v6_62 || packet[1] != 0x20) {
 		return responses.SetInterlockResponse{}, fmt.Errorf("invalid reply start of message byte (%02x)", packet[0])
 	}
 
-	if packet[1] != 162 {
+	if packet[1] != 0xa2 {
 		return responses.SetInterlockResponse{}, fmt.Errorf("invalid reply function code (%02x)", packet[1])
 	}
 
@@ -978,26 +668,16 @@ func SetInterlockResponse(packet []byte) (responses.SetInterlockResponse, error)
 	}, nil
 }
 
-// Decodes a activate-keypads-response response.
-//
-//	Parameters:
-//	    packet  (bytearray)  64 byte UDP packet.
-//
-//	Returns:
-//	    - ActivateKeypadsResponse initialised from the UDP packet.
-//	    - error if the packet is not 64 bytes, has an invalid start-of-message byte or has
-//	               the incorrect message type.
 func ActivateKeypadsResponse(packet []byte) (responses.ActivateKeypadsResponse, error) {
 	if len(packet) != 64 {
 		return responses.ActivateKeypadsResponse{}, fmt.Errorf("invalid reply packet length (%v)", len(packet))
 	}
 
-	// Ref. v6.62 firmware event
 	if packet[0] != SOM && (packet[0] != SOM_v6_62 || packet[1] != 0x20) {
 		return responses.ActivateKeypadsResponse{}, fmt.Errorf("invalid reply start of message byte (%02x)", packet[0])
 	}
 
-	if packet[1] != 164 {
+	if packet[1] != 0xa4 {
 		return responses.ActivateKeypadsResponse{}, fmt.Errorf("invalid reply function code (%02x)", packet[1])
 	}
 
@@ -1007,26 +687,16 @@ func ActivateKeypadsResponse(packet []byte) (responses.ActivateKeypadsResponse, 
 	}, nil
 }
 
-// Decodes a get-anti-passback-response response.
-//
-//	Parameters:
-//	    packet  (bytearray)  64 byte UDP packet.
-//
-//	Returns:
-//	    - GetAntiPassbackResponse initialised from the UDP packet.
-//	    - error if the packet is not 64 bytes, has an invalid start-of-message byte or has
-//	               the incorrect message type.
 func GetAntiPassbackResponse(packet []byte) (responses.GetAntiPassbackResponse, error) {
 	if len(packet) != 64 {
 		return responses.GetAntiPassbackResponse{}, fmt.Errorf("invalid reply packet length (%v)", len(packet))
 	}
 
-	// Ref. v6.62 firmware event
 	if packet[0] != SOM && (packet[0] != SOM_v6_62 || packet[1] != 0x20) {
 		return responses.GetAntiPassbackResponse{}, fmt.Errorf("invalid reply start of message byte (%02x)", packet[0])
 	}
 
-	if packet[1] != 134 {
+	if packet[1] != 0x86 {
 		return responses.GetAntiPassbackResponse{}, fmt.Errorf("invalid reply function code (%02x)", packet[1])
 	}
 
@@ -1036,26 +706,16 @@ func GetAntiPassbackResponse(packet []byte) (responses.GetAntiPassbackResponse, 
 	}, nil
 }
 
-// Decodes a set-anti-passback-response response.
-//
-//	Parameters:
-//	    packet  (bytearray)  64 byte UDP packet.
-//
-//	Returns:
-//	    - SetAntiPassbackResponse initialised from the UDP packet.
-//	    - error if the packet is not 64 bytes, has an invalid start-of-message byte or has
-//	               the incorrect message type.
 func SetAntiPassbackResponse(packet []byte) (responses.SetAntiPassbackResponse, error) {
 	if len(packet) != 64 {
 		return responses.SetAntiPassbackResponse{}, fmt.Errorf("invalid reply packet length (%v)", len(packet))
 	}
 
-	// Ref. v6.62 firmware event
 	if packet[0] != SOM && (packet[0] != SOM_v6_62 || packet[1] != 0x20) {
 		return responses.SetAntiPassbackResponse{}, fmt.Errorf("invalid reply start of message byte (%02x)", packet[0])
 	}
 
-	if packet[1] != 132 {
+	if packet[1] != 0x84 {
 		return responses.SetAntiPassbackResponse{}, fmt.Errorf("invalid reply function code (%02x)", packet[1])
 	}
 
@@ -1065,26 +725,16 @@ func SetAntiPassbackResponse(packet []byte) (responses.SetAntiPassbackResponse, 
 	}, nil
 }
 
-// Decodes a restore-default-parameters-response response.
-//
-//	Parameters:
-//	    packet  (bytearray)  64 byte UDP packet.
-//
-//	Returns:
-//	    - RestoreDefaultParametersResponse initialised from the UDP packet.
-//	    - error if the packet is not 64 bytes, has an invalid start-of-message byte or has
-//	               the incorrect message type.
 func RestoreDefaultParametersResponse(packet []byte) (responses.RestoreDefaultParametersResponse, error) {
 	if len(packet) != 64 {
 		return responses.RestoreDefaultParametersResponse{}, fmt.Errorf("invalid reply packet length (%v)", len(packet))
 	}
 
-	// Ref. v6.62 firmware event
 	if packet[0] != SOM && (packet[0] != SOM_v6_62 || packet[1] != 0x20) {
 		return responses.RestoreDefaultParametersResponse{}, fmt.Errorf("invalid reply start of message byte (%02x)", packet[0])
 	}
 
-	if packet[1] != 200 {
+	if packet[1] != 0xc8 {
 		return responses.RestoreDefaultParametersResponse{}, fmt.Errorf("invalid reply function code (%02x)", packet[1])
 	}
 
@@ -1094,53 +744,18 @@ func RestoreDefaultParametersResponse(packet []byte) (responses.RestoreDefaultPa
 	}, nil
 }
 
-// Decodes a listener-event response.
-//
-//	Parameters:
-//	    packet  (bytearray)  64 byte UDP packet.
-//
-//	Returns:
-//	    - ListenerEvent initialised from the UDP packet.
-//	    - error if the packet is not 64 bytes, has an invalid start-of-message byte or has
-//	               the incorrect message type.
 func ListenerEvent(packet []byte) (responses.ListenerEvent, error) {
 	if len(packet) != 64 {
 		return responses.ListenerEvent{}, fmt.Errorf("invalid reply packet length (%v)", len(packet))
 	}
 
-	// Ref. v6.62 firmware event
 	if packet[0] != SOM && (packet[0] != SOM_v6_62 || packet[1] != 0x20) {
 		return responses.ListenerEvent{}, fmt.Errorf("invalid reply start of message byte (%02x)", packet[0])
 	}
 
-	if packet[1] != 32 {
+	if packet[1] != 0x20 {
 		return responses.ListenerEvent{}, fmt.Errorf("invalid reply function code (%02x)", packet[1])
 	}
 
-	return responses.ListenerEvent{
-		Controller:         unpackUint32(packet, 4),
-		SystemDate:         unpackShortDate(packet, 51),
-		SystemTime:         unpackTime(packet, 37),
-		Door1Open:          unpackBool(packet, 28),
-		Door2Open:          unpackBool(packet, 29),
-		Door3Open:          unpackBool(packet, 30),
-		Door4Open:          unpackBool(packet, 31),
-		Door1Button:        unpackBool(packet, 32),
-		Door2Button:        unpackBool(packet, 33),
-		Door3Button:        unpackBool(packet, 34),
-		Door4Button:        unpackBool(packet, 35),
-		Relays:             unpackUint8(packet, 49),
-		Inputs:             unpackUint8(packet, 50),
-		SystemError:        unpackUint8(packet, 36),
-		SpecialInfo:        unpackUint8(packet, 48),
-		EventIndex:         unpackUint32(packet, 8),
-		EventType:          unpackUint8(packet, 12),
-		EventAccessGranted: unpackBool(packet, 13),
-		EventDoor:          unpackUint8(packet, 14),
-		EventDirection:     unpackUint8(packet, 15),
-		EventCard:          unpackUint32(packet, 16),
-		EventTimestamp:     unpackOptionalDateTime(packet, 20),
-		EventReason:        unpackUint8(packet, 27),
-		SequenceNo:         unpackUint32(packet, 40),
-	}, nil
+	return responses.ListenerEvent{Controller: unpackUint32(packet, 4), SystemDate: unpackShortDate(packet, 51), SystemTime: unpackTime(packet, 37), Door1Open: unpackBool(packet, 28), Door2Open: unpackBool(packet, 29), Door3Open: unpackBool(packet, 30), Door4Open: unpackBool(packet, 31), Door1Button: unpackBool(packet, 32), Door2Button: unpackBool(packet, 33), Door3Button: unpackBool(packet, 34), Door4Button: unpackBool(packet, 35), Relays: unpackUint8(packet, 49), Inputs: unpackUint8(packet, 50), SystemError: unpackUint8(packet, 36), SpecialInfo: unpackUint8(packet, 48), EventIndex: unpackUint32(packet, 8), EventType: unpackUint8(packet, 12), EventAccessGranted: unpackBool(packet, 13), EventDoor: unpackUint8(packet, 14), EventDirection: unpackUint8(packet, 15), EventCard: unpackUint32(packet, 16), EventTimestamp: unpackDateTime(packet, 20), EventReason: unpackUint8(packet, 27), SequenceNo: unpackUint32(packet, 40)}, nil
 }
