@@ -689,7 +689,7 @@ func TestSetInterlock(t *testing.T) {
 		Protocol: "tcp",
 	}
 
-	interlock := uint8(8)
+	interlock := entities.Interlock(8)
 
 	response, err := lib.SetInterlock(u, controller, interlock, timeout)
 

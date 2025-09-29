@@ -288,7 +288,7 @@ func SetPCControl[T TController](u Uhppoted, controller T, enabled bool, timeout
 // - 3: doors 1&2, doors 3&4
 // - 4: doors 1,2&3
 // - 8: doors 1,2,3&4
-func SetInterlock[T TController](u Uhppoted, controller T, interlock uint8, timeout time.Duration) (responses.SetInterlockResponse, error) {
+func SetInterlock[T TController](u Uhppoted, controller T, interlock Interlock, timeout time.Duration) (responses.SetInterlockResponse, error) {
 	f := func(id uint32) ([]byte, error) {
 		return encode.SetInterlockRequest(id, interlock)
 	}

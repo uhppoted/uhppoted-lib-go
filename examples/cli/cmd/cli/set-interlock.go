@@ -8,13 +8,13 @@ import (
 	lib "github.com/uhppoted/uhppoted-lib-go/uhppoted"
 )
 
-var interlocks = map[string]uint8{
-	"disabled": 0,
-	"1&2":      1,
-	"3&4":      2,
-	"1&2,3&4":  3,
-	"1&2&3":    4,
-	"1&2&3&4":  8,
+var interlocks = map[string]lib.Interlock{
+	"disabled": lib.NoInterlock,
+	"1&2":      lib.Interlock12,
+	"3&4":      lib.Interlock34,
+	"1&2,3&4":  lib.Interlock12_34,
+	"1&2&3":    lib.Interlock123,
+	"1&2&3&4":  lib.Interlock1234,
 }
 
 func setInterlock(u lib.Uhppoted, args []string) error {

@@ -28,9 +28,9 @@ build: format
 	go build -trimpath ./...
 
 debug: build
-	# cd examples/cli && make put-card
+	cd examples/cli && make set-interlock
 	# go test -v -count=1 ./uhppoted/... -run TestSetTime
-	go test -v -count=1 ./integration-tests/... -run TestInvalidResponse
+	# go test -v -count=1 ./integration-tests/... -run TestInvalidResponse
 
 test: build
 	go test ./uhppoted/...

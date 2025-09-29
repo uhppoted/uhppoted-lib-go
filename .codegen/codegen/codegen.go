@@ -140,6 +140,9 @@ func testarg(arg lib.TestArg) string {
 	case "task":
 		return fmt.Sprintf(`entities.TaskType(%v)`, arg.Value)
 
+	case "interlock":
+		return fmt.Sprintf(`entities.Interlock(%v)`, arg.Value)
+
 	default:
 		return fmt.Sprintf("%v", arg.Value)
 	}
@@ -171,6 +174,9 @@ func fields2args(fields []lib.Field) string {
 
 		case "task":
 			args = append(args, fmt.Sprintf("%v entities.TaskType", name))
+
+		case "interlock":
+			args = append(args, fmt.Sprintf("%v entities.Interlock", name))
 
 		case "magic":
 			// skip
@@ -219,6 +225,9 @@ func pack(field lib.Field) string {
 
 	case "task":
 		return fmt.Sprintf("packTask(%v, packet, %v)", name, field.Offset)
+
+	case "interlock":
+		return fmt.Sprintf("packInterlock(%v, packet, %v)", name, field.Offset)
 
 	case "passcode":
 		return fmt.Sprintf("packPasscode(%v, packet, %v)", name, field.Offset)

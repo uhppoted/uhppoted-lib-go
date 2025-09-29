@@ -863,7 +863,7 @@ SetInterlock(u, controller, interlock, timeout)
 where:
 - u             Uhppoted        Uhppoted struct initialised with the bind address, broadcast address, etc
 - controller    controller      uint32|Controller controller serial number or {id, address, protocol} Controller struct
-- interlock     uint8           door interlock mode
+- interlock     interlock       door interlock mode
 - timeout       time.Duration   maximum time to wait for a response from a controller
 ```
 Returns a `SetInterlockResponse`:

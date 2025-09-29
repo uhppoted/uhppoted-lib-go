@@ -142,6 +142,9 @@ func function(f lib.Function) *ast.FuncDecl {
 
 		case "task":
 			t = "TaskType"
+
+		case "interlock":
+			t = "Interlock"
 		}
 
 		args = append(args, &ast.Field{

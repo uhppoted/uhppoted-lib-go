@@ -562,7 +562,7 @@ func TestSetInterlockRequest(t *testing.T) {
 		0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
 	}
 
-	packet, err := SetInterlockRequest(uint32(405419896), uint8(8))
+	packet, err := SetInterlockRequest(uint32(405419896), entities.Interlock(8))
 
 	if err != nil {
 		t.Fatalf("%v", err)

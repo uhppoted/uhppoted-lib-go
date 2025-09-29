@@ -1,5 +1,11 @@
 # TODO
 
+- [ ] FIXME: default broadcast port
+```
+./bin/cli --debug set-door -controller 405419896 --door 1 --mode 3 --delay 5
+2025-09-25 11:06:43 DEBUG  udp      sent 64 bytes to 255.255.255.255:60001
+```
+
 - [x] custom date
 - [x] custom time
 - [x] custom HHmm
@@ -9,12 +15,13 @@
 - [x] date args
 - [x] HHmm args
 - [x] task arg type
-- [ ] task field type
-- [ ] interlock arg type
+- [x] interlock arg type
 - [ ] door mode arg type
 - [ ] door mode field type
 - [x] card record
-- [ ] event/profile/task records
+- [ ] event record
+- [ ] profile record
+- [ ] task record
 - [ ] godoc/examples
 - [x] logging
     - [ ] set default handler
@@ -23,6 +30,7 @@
          - https://github.com/golang/go/issues/37641
 
 - [ ] code generation
+      - [ ] use 'local' domain
       - [ ] Replace TestArg with Arg
       - [ ] Use 'local' domain
          - https://github.com/golang/go/issues/37641
@@ -33,7 +41,7 @@
    - [x] decoder_test
    - [x] README
    - [x] API.md
-   - [ ] decode_AST
+   - [x] decode_AST
    - [x] decode
        - [ ] decode Get/SetAddrPort
 

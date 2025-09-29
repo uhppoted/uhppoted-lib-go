@@ -551,7 +551,7 @@ func TestSetPcControl(t *testing.T) {
 func TestSetInterlock(t *testing.T) {
 	controller := uint32(405419896)
 
-	interlock := uint8(8)
+	interlock := entities.Interlock(8)
 
 	response, err := lib.SetInterlock(u, controller, interlock, timeout)
 

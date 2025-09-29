@@ -91,11 +91,12 @@ type (
 
 // re-exported entities
 type (
-	Card     = entities.Card
-	TaskType = entities.TaskType
+	Card      = entities.Card
+	TaskType  = entities.TaskType
+	Interlock = entities.Interlock
 )
 
-// re-exported task types
+// re-exported tasks
 var (
 	ControlDoor          = entities.ControlDoor
 	UnlockDoor           = entities.UnlockDoor
@@ -110,6 +111,16 @@ var (
 	TriggerOnce          = entities.TriggerOnce
 	DisablePushbutton    = entities.DisablePushbutton
 	EnablePushbutton     = entities.EnablePushbutton
+)
+
+// re-exported interlocks
+var (
+	NoInterlock    = entities.NoInterlock
+	Interlock12    = entities.Interlock12
+	Interlock34    = entities.Interlock34
+	Interlock12_34 = entities.Interlock12_34
+	Interlock123   = entities.Interlock123
+	Interlock1234  = entities.Interlock1234
 )
 
 // Error constants
