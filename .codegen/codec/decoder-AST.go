@@ -37,6 +37,36 @@ func decoder() {
 }
 
 func buildDecoder() *ast.File {
+	impl := []ast.Decl{
+		&ast.GenDecl{
+			Tok: token.IMPORT,
+			Specs: []ast.Spec{
+				&ast.ImportSpec{
+					Path: &ast.BasicLit{
+						Kind:  token.STRING,
+						Value: `"fmt"`,
+					},
+				},
+				&ast.ImportSpec{
+					Path: &ast.BasicLit{
+						Kind: token.STRING,
+					},
+				},
+				&ast.ImportSpec{
+					Name: ast.NewIdent("decoder"),
+					Path: &ast.BasicLit{
+						Kind:  token.STRING,
+						Value: `"github.com/uhppoted/uhppoted-lib-go/uhppoted/codec/decode"`,
+					},
+				},
+			},
+		},
+	}
+
+	impl = append(impl, buildDecoderMap()...)
+	impl = append(impl, buildDecoderFunc())
+	impl = append(impl, buildDecoderFactoryFunc())
+
 	return &ast.File{
 		Name: ast.NewIdent("codec"),
 
@@ -56,34 +86,72 @@ func buildDecoder() *ast.File {
 			},
 		},
 
-		Decls: []ast.Decl{
-			&ast.GenDecl{
-				Tok: token.IMPORT,
-				Specs: []ast.Spec{
-					&ast.ImportSpec{
-						Path: &ast.BasicLit{
-							Kind:  token.STRING,
-							Value: `"fmt"`,
+		Decls: impl,
+	}
+}
+
+func buildDecoderMap() []ast.Decl {
+	key := ast.GenDecl{
+		Tok: token.TYPE,
+		Specs: []ast.Spec{
+			&ast.TypeSpec{
+				Name: ast.NewIdent("key"),
+				TypeParams: &ast.FieldList{
+					List: []*ast.Field{
+						{
+							Names: []*ast.Ident{ast.NewIdent("R")},
+							Type:  ast.NewIdent("any"),
 						},
 					},
-					&ast.ImportSpec{
-						Path: &ast.BasicLit{
-							Kind: token.STRING,
-						},
-					},
-					&ast.ImportSpec{
-						Name: ast.NewIdent("decoder"),
-						Path: &ast.BasicLit{
-							Kind:  token.STRING,
-							Value: `"github.com/uhppoted/uhppoted-lib-go/uhppoted/codec/decode"`,
+				},
+				Type: &ast.StructType{
+					Fields: &ast.FieldList{
+						List: []*ast.Field{
+							{
+								Names: []*ast.Ident{ast.NewIdent("opcode")},
+								Type:  ast.NewIdent("byte"),
+							},
 						},
 					},
 				},
 			},
-			buildDecoderFunc(),
-			buildDecoderFactoryFunc(),
 		},
 	}
+
+	decoders := ast.GenDecl{
+		Tok: token.VAR,
+		Specs: []ast.Spec{
+			&ast.ValueSpec{
+				Names: []*ast.Ident{ast.NewIdent("decoders")},
+				Values: []ast.Expr{
+					&ast.CompositeLit{
+						Type: &ast.MapType{
+							Key: ast.NewIdent("any"),
+							Value: &ast.FuncType{
+								Params: &ast.FieldList{
+									List: []*ast.Field{
+										{
+											Type: &ast.ArrayType{
+												Elt: ast.NewIdent("byte"),
+											},
+										},
+									},
+								},
+								Results: &ast.FieldList{
+									List: []*ast.Field{
+										{Type: ast.NewIdent("any")},
+										{Type: ast.NewIdent("error")},
+									},
+								},
+							},
+						},
+					},
+				},
+			},
+		},
+	}
+
+	return []ast.Decl{&key, &decoders}
 }
 
 func buildDecoderFunc() *ast.FuncDecl {
@@ -147,7 +215,79 @@ func buildDecoderImpl() *ast.BlockStmt {
 				},
 			},
 
-			// if v, err := decode(packet); err != nil {
+			// k := key[R]{packet[1]}
+			&ast.AssignStmt{
+				Tok: token.DEFINE, // :=
+
+				Lhs: []ast.Expr{
+					ast.NewIdent("k"),
+				},
+
+				Rhs: []ast.Expr{
+					&ast.CompositeLit{
+						Type: &ast.IndexExpr{
+							X:     ast.NewIdent("key"),
+							Index: ast.NewIdent("R"),
+						},
+						Elts: []ast.Expr{
+							&ast.IndexExpr{
+								// packet[1]
+								X:     ast.NewIdent("packet"),
+								Index: &ast.BasicLit{Kind: token.INT, Value: "1"},
+							},
+						},
+					},
+				},
+			},
+
+			// fn := decode
+			&ast.AssignStmt{
+				Tok: token.DEFINE,
+				Lhs: []ast.Expr{
+					ast.NewIdent("fn"),
+				},
+				Rhs: []ast.Expr{
+					ast.NewIdent("decode"),
+				},
+			},
+
+			// if f, ok := decoders[k]; ok {
+			//     fn = f
+			// }
+			&ast.IfStmt{
+				Init: &ast.AssignStmt{
+					Tok: token.DEFINE,
+					Lhs: []ast.Expr{
+						ast.NewIdent("f"),
+						ast.NewIdent("ok"),
+					},
+					Rhs: []ast.Expr{
+						&ast.IndexExpr{
+							X:     ast.NewIdent("decoders"),
+							Index: ast.NewIdent("k"),
+						},
+					},
+				},
+				Cond: ast.NewIdent("ok"),
+				Body: &ast.BlockStmt{
+					List: []ast.Stmt{
+						&ast.AssignStmt{
+							Tok: token.ASSIGN,
+							Lhs: []ast.Expr{ast.NewIdent("fn")},
+							Rhs: []ast.Expr{ast.NewIdent("f")},
+						},
+					},
+				},
+			},
+
+			// blank line
+			&ast.ExprStmt{
+				X: &ast.BasicLit{
+					Kind: token.STRING,
+				},
+			},
+
+			// if v, err := fn(packet); err != nil {
 			//     return zero, fmt.Errorf("invalid packet")
 			// } else if response, ok := v.(R); !ok {
 			//     return zero, fmt.Errorf("invalid packet")
@@ -163,7 +303,7 @@ func buildDecoderImpl() *ast.BlockStmt {
 					Tok: token.DEFINE,
 					Rhs: []ast.Expr{
 						&ast.CallExpr{
-							Fun:  ast.NewIdent("decode"),
+							Fun:  ast.NewIdent("fn"),
 							Args: []ast.Expr{ast.NewIdent("packet")},
 						},
 					},

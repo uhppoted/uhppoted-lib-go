@@ -8,10 +8,22 @@ import (
 	decoder "github.com/uhppoted/uhppoted-lib-go/uhppoted/codec/decode"
 )
 
+type key[R any] struct {
+	opcode byte
+}
+
+var decoders = map[any]func([]byte) (any, error){}
+
 func Decode[R any](packet []byte) (R, error) {
 	var zero R
 
-	if v, err := decode(packet); err != nil {
+	k := key[R]{packet[1]}
+	fn := decode
+	if f, ok := decoders[k]; ok {
+		fn = f
+	}
+
+	if v, err := fn(packet); err != nil {
 		return zero, fmt.Errorf("invalid packet")
 	} else if response, ok := v.(R); !ok {
 		return zero, fmt.Errorf("invalid packet")
