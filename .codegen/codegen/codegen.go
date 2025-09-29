@@ -138,7 +138,7 @@ func testarg(arg lib.TestArg) string {
 		return fmt.Sprintf(`uint32(%v)`, arg.Value)
 
 	case "task":
-		return fmt.Sprintf(`entities.TaskType(%v)`, arg.Value)
+		return fmt.Sprintf(`entities.Task(%v)`, arg.Value)
 
 	case "interlock":
 		return fmt.Sprintf(`entities.Interlock(%v)`, arg.Value)
@@ -173,7 +173,7 @@ func fields2args(fields []lib.Field) string {
 			args = append(args, fmt.Sprintf("%v uint32", name))
 
 		case "task":
-			args = append(args, fmt.Sprintf("%v entities.TaskType", name))
+			args = append(args, fmt.Sprintf("%v entities.Task", name))
 
 		case "interlock":
 			args = append(args, fmt.Sprintf("%v entities.Interlock", name))

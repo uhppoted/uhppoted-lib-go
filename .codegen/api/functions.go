@@ -141,7 +141,7 @@ func function(f lib.Function) *ast.FuncDecl {
 			t = "uint32"
 
 		case "task":
-			t = "TaskType"
+			t = "Task"
 
 		case "interlock":
 			t = "Interlock"

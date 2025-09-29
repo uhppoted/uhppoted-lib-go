@@ -92,7 +92,7 @@ type (
 // re-exported entities
 type (
 	Card      = entities.Card
-	TaskType  = entities.TaskType
+	Task      = entities.Task
 	Interlock = entities.Interlock
 )
 
