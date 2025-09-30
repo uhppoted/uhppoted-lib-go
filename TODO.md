@@ -16,15 +16,17 @@
 - [x] HHmm args
 - [x] task arg type
 - [x] interlock arg type
-- [ ] door mode arg type
+- [x] door mode arg type
 - [ ] door mode field type
 - [x] card record
 - [ ] event record
 - [ ] profile record
 - [ ] task record
+- [ ] listener interface
 - [ ] godoc/examples
 - [x] logging
     - [ ] set default handler
+    - https://www.dash0.com/guides/logging-in-go-with-slog
 
 - [ ] integration tests: use 'test' domain
          - https://github.com/golang/go/issues/37641
@@ -36,14 +38,9 @@
          - https://github.com/golang/go/issues/37641
       - (?) remove Request/Response suffixes
 
-   - [x] response structs
-   - [x] decoder
-   - [x] decoder_test
-   - [x] README
-   - [x] API.md
    - [x] decode_AST
    - [x] decode
-       - [ ] decode Get/SetAddrPort
+       - [x] decode Get/SetAddrPort
 
    - [x] encode
    - [x] encode_test

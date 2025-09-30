@@ -92,8 +92,16 @@ type (
 // re-exported entities
 type (
 	Card      = entities.Card
+	DoorMode  = entities.DoorMode
 	Task      = entities.Task
 	Interlock = entities.Interlock
+)
+
+// re-exported door modes
+var (
+	NormallyOpen   = entities.NormallyOpen
+	NormallyClosed = entities.NormallyClosed
+	Controlled     = entities.Controlled
 )
 
 // re-exported tasks

@@ -29,6 +29,8 @@ func decoderTest() {
 	defer f.Close()
 
 	decl := buildDecoderTest()
+
+	// ... pretty print
 	b := bytes.Buffer{}
 
 	printer.Fprint(&b, token.NewFileSet(), decl)
@@ -123,12 +125,7 @@ func buildDecoderTest() *ast.File {
 	}
 
 	tests := []ast.Decl{}
-
-	excluded := []*lib.Response{
-		&model.GetListenerAddrPortResponse,
-		&model.SetListenerAddrPortResponse,
-	}
-
+	excluded := []*lib.Response{}
 	responses := model.Responses
 	for _, response := range responses {
 		if slices.Contains(excluded, response) {

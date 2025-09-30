@@ -144,6 +144,16 @@ func packPIN(v uint32, packet []byte, offset uint8) error {
 	return nil
 }
 
+// Packs a DoorMode value 'in-place' as a 1-byte value into the packet at the offset.
+//
+//	Parameters:
+//	   v      (DoorMode)   'door mode' value to encode.
+//	   packet (bytearray)  64 byte array.
+//	   offset (int)        Value location in array.
+func packMode(v entities.DoorMode, packet []byte, offset int) {
+	packet[offset] = uint8(v)
+}
+
 // Packs a Task value 'in-place' as a 1-byte value into the packet at the offset.
 //
 //	Parameters:

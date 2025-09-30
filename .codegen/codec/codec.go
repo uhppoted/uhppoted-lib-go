@@ -68,26 +68,6 @@ func encodeTest() {
 	log.Printf("... generated %s", output)
 }
 
-// func decode() {
-// 	const output = "decode/generated.go"
-//
-// 	f, err := os.Create(output)
-// 	if err != nil {
-// 		log.Fatalf("Failed to create file %s: %v", output, err)
-// 	}
-// 	defer f.Close()
-//
-// 	responses := append([]*lib.Response(nil), model.Responses...)
-// 	responses = append(responses, &model.ListenerEvent)
-//
-// 	tmpl := template.Must(template.New("decode").Funcs(functions).Parse(decodeTemplate))
-// 	if err := tmpl.Execute(f, responses); err != nil {
-// 		log.Fatalf("Failed to execute template: %v", err)
-// 	}
-//
-// 	log.Printf("... generated %s", output)
-// }
-
 func decodeTest() {
 	const output = "decode/decode_test.go"
 
@@ -97,7 +77,8 @@ func decodeTest() {
 	}
 	defer f.Close()
 
-	responses := append([]*lib.Response(nil), model.Responses...)
+	responses := []*lib.Response{}
+	responses = append(responses, model.Responses...)
 	responses = append(responses, &model.ListenerEvent)
 
 	tmpl := template.Must(template.New("decode_test").Funcs(functions).Parse(decodeTestTemplate))

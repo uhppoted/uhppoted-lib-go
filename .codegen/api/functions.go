@@ -33,10 +33,7 @@ func API() {
 
 	types := []*ast.GenDecl{}
 	functions := []*ast.FuncDecl{}
-	excluded := []*lib.Function{
-		&model.GetListenerAddrPort,
-		&model.SetListenerAddrPort,
-	}
+	excluded := []*lib.Function{}
 
 	for _, f := range model.API[1:] {
 		if slices.Contains(excluded, f) {
@@ -139,6 +136,9 @@ func function(f lib.Function) *ast.FuncDecl {
 
 		case "pin":
 			t = "uint32"
+
+		case "mode":
+			t = "DoorMode"
 
 		case "task":
 			t = "Task"

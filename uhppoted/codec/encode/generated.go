@@ -215,12 +215,12 @@ func GetDoorRequest(controller uint32, door uint8) ([]byte, error) {
 //	Parameters:
 //	    controller  (uint32)  controller serial number
 //	    door  (uint8)
-//	    mode  (uint8)
+//	    mode  (mode)
 //	    delay  (uint8)
 //
 //	Returns:
 //	    64 byte packet.
-func SetDoorRequest(controller uint32, door uint8, mode uint8, delay uint8) ([]byte, error) {
+func SetDoorRequest(controller uint32, door uint8, mode entities.DoorMode, delay uint8) ([]byte, error) {
 	packet := make([]byte, 64)
 
 	packet[0] = SOM
@@ -228,7 +228,7 @@ func SetDoorRequest(controller uint32, door uint8, mode uint8, delay uint8) ([]b
 
 	packUint32(controller, packet, 4)
 	packUint8(door, packet, 8)
-	packUint8(mode, packet, 9)
+	packMode(mode, packet, 9)
 	packUint8(delay, packet, 10)
 
 	return packet, nil

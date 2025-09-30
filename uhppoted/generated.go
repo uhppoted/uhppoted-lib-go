@@ -65,6 +65,24 @@ func SetListener[T TController](u Uhppoted, controller T, address netip.Addr, po
 	return exec[T, responses.SetListenerResponse](u, controller, f, timeout)
 }
 
+// Retrieves the access controller event listener IPv4 address:port and auto-send interval.
+func GetListenerAddrPort[T TController](u Uhppoted, controller T, timeout time.Duration) (responses.GetListenerAddrPortResponse, error) {
+	f := func(id uint32) ([]byte, error) {
+		return encode.GetListenerAddrPortRequest(id)
+	}
+
+	return exec[T, responses.GetListenerAddrPortResponse](u, controller, f, timeout)
+}
+
+// Sets the access controller event listener IPv4 address:port and auto-send interval.
+func SetListenerAddrPort[T TController](u Uhppoted, controller T, listener netip.AddrPort, interval uint8, timeout time.Duration) (responses.SetListenerAddrPortResponse, error) {
+	f := func(id uint32) ([]byte, error) {
+		return encode.SetListenerAddrPortRequest(id, listener, interval)
+	}
+
+	return exec[T, responses.SetListenerAddrPortResponse](u, controller, f, timeout)
+}
+
 // Retrieves the control mode and unlock delay time for an access controller door.
 func GetDoor[T TController](u Uhppoted, controller T, door uint8, timeout time.Duration) (responses.GetDoorResponse, error) {
 	f := func(id uint32) ([]byte, error) {
@@ -75,7 +93,7 @@ func GetDoor[T TController](u Uhppoted, controller T, door uint8, timeout time.D
 }
 
 // Sets the control mode and unlock delay time for an access controller door.
-func SetDoor[T TController](u Uhppoted, controller T, door uint8, mode uint8, delay uint8, timeout time.Duration) (responses.SetDoorResponse, error) {
+func SetDoor[T TController](u Uhppoted, controller T, door uint8, mode DoorMode, delay uint8, timeout time.Duration) (responses.SetDoorResponse, error) {
 	f := func(id uint32) ([]byte, error) {
 		return encode.SetDoorRequest(id, door, mode, delay)
 	}

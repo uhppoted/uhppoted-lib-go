@@ -2,7 +2,6 @@ package uhppoted
 
 import (
 	"fmt"
-	"net/netip"
 	"os"
 	"time"
 
@@ -36,44 +35,6 @@ func FindControllers(u Uhppoted, timeout time.Duration) ([]responses.GetControll
 		}
 
 		return responses, nil
-	}
-}
-
-// Retrieves the access controller event listener IPv4 address:port and auto-send interval.
-func GetListenerAddrPort[T TController](u Uhppoted, controller T, timeout time.Duration) (responses.GetListenerAddrPortResponse, error) {
-	var zero responses.GetListenerAddrPortResponse
-
-	if c, err := resolve(controller); err != nil {
-		return zero, err
-	} else if request, err := encode.GetListenerAddrPortRequest(c.ID); err != nil {
-		return zero, err
-	} else if reply, err := send(u, c, request, timeout); err != nil {
-		return zero, err
-	} else if response, err := decode.GetListenerAddrPortResponse(reply); err != nil {
-		return zero, err
-	} else if !valid(response, c.ID) {
-		return zero, ErrInvalidResponse
-	} else {
-		return response, nil
-	}
-}
-
-// Sets the access controller event listener IPv4 address:port and auto-send interval.
-func SetListenerAddrPort[T TController](u Uhppoted, controller T, address netip.AddrPort, interval uint8, timeout time.Duration) (responses.SetListenerAddrPortResponse, error) {
-	var zero responses.SetListenerAddrPortResponse
-
-	if c, err := resolve(controller); err != nil {
-		return zero, err
-	} else if request, err := encode.SetListenerAddrPortRequest(c.ID, address, interval); err != nil {
-		return zero, err
-	} else if reply, err := send(u, c, request, timeout); err != nil {
-		return zero, err
-	} else if response, err := decode.SetListenerAddrPortResponse(reply); err != nil {
-		return zero, err
-	} else if !valid(response, c.ID) {
-		return zero, ErrInvalidResponse
-	} else {
-		return response, nil
 	}
 }
 

@@ -205,7 +205,7 @@ func TestSetDoor(t *testing.T) {
 		0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
 	}
 
-	packet, err := SetDoorRequest(uint32(405419896), uint8(3), uint8(2), uint8(17))
+	packet, err := SetDoorRequest(uint32(405419896), uint8(3), entities.DoorMode(2), uint8(17))
 
 	if err != nil {
 		t.Fatalf("%v", err)

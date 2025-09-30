@@ -346,7 +346,7 @@ where:
 - u             Uhppoted        Uhppoted struct initialised with the bind address, broadcast address, etc
 - controller    controller      uint32|Controller controller serial number or {id, address, protocol} Controller struct
 - door          uint8           door ID ([1..4])
-- mode          uint8           control mode (1:normally open, 2:normally closed. 3:controlled)
+- mode          mode            control mode (1:normally open, 2:normally closed. 3:controlled)
 - delay         uint8           unlock delay (seconds))
 - timeout       time.Duration   maximum time to wait for a response from a controller
 ```

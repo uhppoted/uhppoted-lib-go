@@ -179,7 +179,7 @@ func TestSetDoor(t *testing.T) {
 	}
 
 	door := uint8(4)
-	mode := uint8(2)
+	mode := entities.DoorMode(2)
 	delay := uint8(17)
 
 	response, err := lib.SetDoor(u, controller, door, mode, delay, timeout)

@@ -137,6 +137,9 @@ func testarg(arg lib.TestArg) string {
 	case "pin":
 		return fmt.Sprintf(`uint32(%v)`, arg.Value)
 
+	case "mode":
+		return fmt.Sprintf(`entities.DoorMode(%v)`, arg.Value)
+
 	case "task":
 		return fmt.Sprintf(`entities.Task(%v)`, arg.Value)
 
@@ -171,6 +174,9 @@ func fields2args(fields []lib.Field) string {
 
 		case "pin":
 			args = append(args, fmt.Sprintf("%v uint32", name))
+
+		case "mode":
+			args = append(args, fmt.Sprintf("%v entities.DoorMode", name))
 
 		case "task":
 			args = append(args, fmt.Sprintf("%v entities.Task", name))
@@ -222,6 +228,9 @@ func pack(field lib.Field) string {
 
 	case "pin":
 		return fmt.Sprintf("packPIN(%v, packet, %v)", name, field.Offset)
+
+	case "mode":
+		return fmt.Sprintf("packMode(%v, packet, %v)", name, field.Offset)
 
 	case "task":
 		return fmt.Sprintf("packTask(%v, packet, %v)", name, field.Offset)

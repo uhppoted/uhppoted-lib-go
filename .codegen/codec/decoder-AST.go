@@ -4,11 +4,14 @@ import (
 	"fmt"
 	"log"
 	"os"
+	"regexp"
 	"slices"
 
+	"bytes"
 	"go/ast"
 	"go/printer"
 	"go/token"
+	"strings"
 
 	lib "github.com/uhppoted/uhppoted-codegen/model/types"
 
@@ -27,11 +30,21 @@ func decoder() {
 
 	decl := buildDecoder()
 
+	// ... pretty print
+	b := bytes.Buffer{}
+
+	printer.Fprint(&b, token.NewFileSet(), decl)
+
 	// ... 'generated code' warning
 	writeln(f, "// generated code - ** DO NOT EDIT **")
 	writeln(f, "")
 
-	printer.Fprint(f, token.NewFileSet(), decl)
+	lines := strings.Split(b.String(), "\n")
+	for _, line := range lines {
+		// ... replace 'insert newline here'
+		re := regexp.MustCompile(`"// -- insert newline here --"[,]?`)
+		writeln(f, re.ReplaceAllString(line, "\n"))
+	}
 
 	f.Close()
 }
@@ -59,6 +72,12 @@ func buildDecoder() *ast.File {
 						Value: `"github.com/uhppoted/uhppoted-lib-go/uhppoted/codec/decode"`,
 					},
 				},
+				&ast.ImportSpec{
+					Path: &ast.BasicLit{
+						Kind:  token.STRING,
+						Value: `"github.com/uhppoted/uhppoted-lib-go/uhppoted/responses"`,
+					},
+				},
 			},
 		},
 	}
@@ -82,6 +101,13 @@ func buildDecoder() *ast.File {
 				Path: &ast.BasicLit{
 					Kind:  token.STRING,
 					Value: `"github.com/uhppoted/uhppoted-lib-go/uhppoted/codec/decode"`,
+				},
+			},
+			{
+				Name: ast.NewIdent("decoder"),
+				Path: &ast.BasicLit{
+					Kind:  token.STRING,
+					Value: `"github.com/uhppoted/uhppoted-lib-go/uhppoted/responses"`,
 				},
 			},
 		},
@@ -144,6 +170,126 @@ func buildDecoderMap() []ast.Decl {
 									},
 								},
 							},
+						},
+
+						Elts: []ast.Expr{
+							&ast.BasicLit{Kind: token.STRING, Value: `"// -- insert newline here --"`},
+
+							// key[responses.GetListenerAddrPortResponse]{0x92} ...
+							&ast.KeyValueExpr{
+								Key: &ast.CompositeLit{
+									Type: &ast.IndexExpr{
+										X: ast.NewIdent("key"),
+										Index: &ast.SelectorExpr{
+											X:   ast.NewIdent("responses"),
+											Sel: ast.NewIdent("GetListenerAddrPortResponse"),
+										},
+									},
+									Elts: []ast.Expr{
+										&ast.BasicLit{
+											Kind:  token.INT,
+											Value: "0x92",
+										},
+									},
+								},
+								Value: &ast.FuncLit{
+									Type: &ast.FuncType{
+										Params: &ast.FieldList{
+											List: []*ast.Field{
+												{
+													Names: []*ast.Ident{ast.NewIdent("b")},
+													Type: &ast.ArrayType{
+														Elt: ast.NewIdent("byte"),
+													},
+												},
+											},
+										},
+										Results: &ast.FieldList{
+											List: []*ast.Field{
+												{Type: ast.NewIdent("any")},
+												{Type: ast.NewIdent("error")},
+											},
+										},
+									},
+									Body: &ast.BlockStmt{
+										List: []ast.Stmt{
+											&ast.ReturnStmt{
+												Results: []ast.Expr{
+													&ast.CallExpr{
+														Fun: &ast.SelectorExpr{
+															X:   ast.NewIdent("decoder"),
+															Sel: ast.NewIdent("GetListenerAddrPortResponse"),
+														},
+														Args: []ast.Expr{
+															ast.NewIdent("b"),
+														},
+													},
+												},
+											},
+										},
+									},
+								},
+							},
+
+							&ast.BasicLit{Kind: token.STRING, Value: `"// -- insert newline here --"`},
+
+							// key[responses.SetListenerAddrPortResponse]{0x90} ...
+							&ast.KeyValueExpr{
+								Key: &ast.CompositeLit{
+									Type: &ast.IndexExpr{
+										X: ast.NewIdent("key"),
+										Index: &ast.SelectorExpr{
+											X:   ast.NewIdent("responses"),
+											Sel: ast.NewIdent("SetListenerAddrPortResponse"),
+										},
+									},
+									Elts: []ast.Expr{
+										&ast.BasicLit{
+											Kind:  token.INT,
+											Value: "0x90",
+										},
+									},
+								},
+								Value: &ast.FuncLit{
+									Type: &ast.FuncType{
+										Params: &ast.FieldList{
+											List: []*ast.Field{
+												{
+													Names: []*ast.Ident{ast.NewIdent("b")},
+													Type: &ast.ArrayType{
+														Elt: ast.NewIdent("byte"),
+													},
+												},
+											},
+										},
+										Results: &ast.FieldList{
+											List: []*ast.Field{
+												{Type: ast.NewIdent("any")},
+												{Type: ast.NewIdent("error")},
+											},
+										},
+									},
+									Body: &ast.BlockStmt{
+										List: []ast.Stmt{
+											&ast.ReturnStmt{
+												Results: []ast.Expr{
+													&ast.CallExpr{
+														Fun: &ast.SelectorExpr{
+															X:   ast.NewIdent("decoder"),
+															Sel: ast.NewIdent("SetListenerAddrPortResponse"),
+														},
+														Args: []ast.Expr{
+															ast.NewIdent("b"),
+														},
+													},
+												},
+											},
+										},
+									},
+								},
+							},
+
+							&ast.BasicLit{Kind: token.STRING, Value: `"// -- insert newline here --"`},
 						},
 					},
 				},
