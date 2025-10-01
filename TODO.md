@@ -6,6 +6,17 @@
 2025-09-25 11:06:43 DEBUG  udp      sent 64 bytes to 255.255.255.255:60001
 ```
 
+- [x] FIXME: panic
+```
+goroutine 1 [running]:
+github.com/uhppoted/uhppoted-lib-go/uhppoted/codec.Decode[...]({0x0?, 0xc0000c80d8?, 0x0?})
+  github.com/uhppoted/uhppoted-lib-go/uhppoted/codec/decoder.go:28 +0x128
+  ...
+  github.com/uhppoted/uhppoted-lib-go/examples/cli/cmd/cli/open-door.go:31 +0x1d4
+main.main()
+  github.com/uhppoted/uhppoted-lib-go/examples/cli/cmd/cli/main.go:58 +0x4e8
+```
+
 - [x] custom date
 - [x] custom time
 - [x] custom HHmm
@@ -41,6 +52,7 @@
    - [x] decode_AST
    - [x] decode
        - [x] decode Get/SetAddrPort
+       - [ ] decode ListenEvent
 
    - [x] encode
    - [x] encode_test

@@ -360,6 +360,96 @@ func buildDecoderImpl() *ast.BlockStmt {
 					Kind: token.STRING,
 				},
 			},
+			// if len(packet) != 64 {
+			&ast.IfStmt{
+				Cond: &ast.BinaryExpr{
+					X: &ast.CallExpr{
+						Fun:  ast.NewIdent("len"),
+						Args: []ast.Expr{ast.NewIdent("packet")},
+					},
+					Op: token.NEQ,
+					Y: &ast.BasicLit{
+						Kind:  token.INT,
+						Value: "64",
+					},
+				},
+				Body: &ast.BlockStmt{
+					List: []ast.Stmt{
+						&ast.ReturnStmt{
+							Results: []ast.Expr{
+								ast.NewIdent("zero"),
+								&ast.CallExpr{
+									Fun: &ast.SelectorExpr{
+										X:   ast.NewIdent("fmt"),
+										Sel: ast.NewIdent("Errorf"),
+									},
+									Args: []ast.Expr{
+										&ast.BasicLit{
+											Kind:  token.STRING,
+											Value: `"invalid reply packet length (%v)"`,
+										},
+										&ast.CallExpr{
+											Fun:  ast.NewIdent("len"),
+											Args: []ast.Expr{ast.NewIdent("packet")},
+										},
+									},
+								},
+							},
+						},
+					},
+				},
+			},
+
+			// blank line
+			&ast.ExprStmt{
+				X: &ast.BasicLit{
+					Kind: token.STRING,
+				},
+			},
+
+			// if packet[0] != SOM {
+			&ast.IfStmt{
+				Cond: &ast.BinaryExpr{
+					X: &ast.IndexExpr{
+						X:     ast.NewIdent("packet"),
+						Index: &ast.BasicLit{Kind: token.INT, Value: "0"},
+					},
+					Op: token.NEQ,
+					Y:  ast.NewIdent("SOM"),
+				},
+				Body: &ast.BlockStmt{
+					List: []ast.Stmt{
+						&ast.ReturnStmt{
+							Results: []ast.Expr{
+								ast.NewIdent("zero"),
+								&ast.CallExpr{
+									Fun: &ast.SelectorExpr{
+										X:   ast.NewIdent("fmt"),
+										Sel: ast.NewIdent("Errorf"),
+									},
+									Args: []ast.Expr{
+										&ast.BasicLit{
+											Kind:  token.STRING,
+											Value: `"invalid reply start of message byte (%02x)"`,
+										},
+										&ast.IndexExpr{
+											X:     ast.NewIdent("packet"),
+											Index: &ast.BasicLit{Kind: token.INT, Value: "0"},
+										},
+									},
+								},
+							},
+						},
+					},
+				},
+			},
+
+			// blank line
+			&ast.ExprStmt{
+				X: &ast.BasicLit{
+					Kind: token.STRING,
+				},
+			},
 
 			// k := key[R]{packet[1]}
 			&ast.AssignStmt{
@@ -647,97 +737,6 @@ func buildDecoderFactoryBody() *ast.BlockStmt {
 
 	return &ast.BlockStmt{
 		List: []ast.Stmt{
-			// if len(packet) != 64 {
-			&ast.IfStmt{
-				Cond: &ast.BinaryExpr{
-					X: &ast.CallExpr{
-						Fun:  ast.NewIdent("len"),
-						Args: []ast.Expr{ast.NewIdent("packet")},
-					},
-					Op: token.NEQ,
-					Y: &ast.BasicLit{
-						Kind:  token.INT,
-						Value: "64",
-					},
-				},
-				Body: &ast.BlockStmt{
-					List: []ast.Stmt{
-						&ast.ReturnStmt{
-							Results: []ast.Expr{
-								ast.NewIdent("nil"),
-								&ast.CallExpr{
-									Fun: &ast.SelectorExpr{
-										X:   ast.NewIdent("fmt"),
-										Sel: ast.NewIdent("Errorf"),
-									},
-									Args: []ast.Expr{
-										&ast.BasicLit{
-											Kind:  token.STRING,
-											Value: `"invalid reply packet length (%v)"`,
-										},
-										&ast.CallExpr{
-											Fun:  ast.NewIdent("len"),
-											Args: []ast.Expr{ast.NewIdent("packet")},
-										},
-									},
-								},
-							},
-						},
-					},
-				},
-			},
-
-			// blank line
-			&ast.ExprStmt{
-				X: &ast.BasicLit{
-					Kind: token.STRING,
-				},
-			},
-
-			// if packet[0] != SOM {
-			&ast.IfStmt{
-				Cond: &ast.BinaryExpr{
-					X: &ast.IndexExpr{
-						X:     ast.NewIdent("packet"),
-						Index: &ast.BasicLit{Kind: token.INT, Value: "0"},
-					},
-					Op: token.NEQ,
-					Y:  ast.NewIdent("SOM"),
-				},
-				Body: &ast.BlockStmt{
-					List: []ast.Stmt{
-						&ast.ReturnStmt{
-							Results: []ast.Expr{
-								ast.NewIdent("nil"),
-								&ast.CallExpr{
-									Fun: &ast.SelectorExpr{
-										X:   ast.NewIdent("fmt"),
-										Sel: ast.NewIdent("Errorf"),
-									},
-									Args: []ast.Expr{
-										&ast.BasicLit{
-											Kind:  token.STRING,
-											Value: `"invalid reply start of message byte (%02x)"`,
-										},
-										&ast.IndexExpr{
-											X:     ast.NewIdent("packet"),
-											Index: &ast.BasicLit{Kind: token.INT, Value: "0"},
-										},
-									},
-								},
-							},
-						},
-					},
-				},
-			},
-
-			// blank line
-			&ast.ExprStmt{
-				X: &ast.BasicLit{
-					Kind: token.STRING,
-				},
-			},
-
 			// switch packet[1] { ... }
 			&ast.SwitchStmt{
 				Tag: &ast.IndexExpr{

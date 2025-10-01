@@ -25,6 +25,14 @@ var decoders = map[any]func([]byte) (any, error){
 func Decode[R any](packet []byte) (R, error) {
 	var zero R
 
+	if len(packet) != 64 {
+		return zero, fmt.Errorf("invalid reply packet length (%v)", len(packet))
+	}
+
+	if packet[0] != SOM {
+		return zero, fmt.Errorf("invalid reply start of message byte (%02x)", packet[0])
+	}
+
 	k := key[R]{packet[1]}
 	fn := decode
 	if f, ok := decoders[k]; ok {
@@ -41,14 +49,6 @@ func Decode[R any](packet []byte) (R, error) {
 }
 
 func decode(packet []byte) (any, error) {
-	if len(packet) != 64 {
-		return nil, fmt.Errorf("invalid reply packet length (%v)", len(packet))
-	}
-
-	if packet[0] != SOM {
-		return nil, fmt.Errorf("invalid reply start of message byte (%02x)", packet[0])
-	}
-
 	switch packet[1] {
 	case 0x94:
 		return decoder.GetControllerResponse(packet)
