@@ -69,4 +69,5 @@ folder.
 - [`GetCardRecord`](API.md#getcardrecord)
 - [`GetCardRecordAtIndex`](API.md#getcardrecordatindex)
 - [`PutCardRecord`](API.md#putcardrecord)
+- [`GetEventRecord`](API.md#geteventrecord)
 - [`Listen`](API.md#listen)

@@ -1031,6 +1031,31 @@ type Card struct {
 ```
 Returns a `bool`, `true` if the card was added or updated, `false` otherwise.
 
+### `GetEventRecord`
+Retrieves the event record for the event at a given index.
+```
+GetEventRecord(u, controller, index, timeout)
+
+where:
+- u             Uhppoted        Uhppoted struct initialised with the bind address, broadcast address, etc
+- controller    controller      uint32|Controller controller serial number or {id, address, protocol} Controller struct
+- index          uint32         event index
+- timeout       time.Duration   maximum time to wait for a response from a controller
+```
+Returns an `Event` record:
+```
+type Event struct { 
+  Index          uint32             `json:"index"`       // event index
+  EventType      uint8              `json:"event-type"`  // event type 
+  AccessGranted  bool               `json:"granted"`     // true if the door was unlocked
+  Door           uint8              `json:"door"`        // door no. ([1..4]) for card and door events
+  Direction      uint8              `json:"direction"`   // direction (1:IN, 2:OUT) for card and door events
+  Card           uint32             `json:"card"`        // card number (for card events)
+  Timestamp      optional datetime  `json:"timestamp"`   // event timestamp
+  Reason         uint8              `json:"reason"`      // reason code
+}
+```
+
 ### `Listen`
 Listens for controller events sent via UDP to the designated listener host.
 ```

@@ -6,12 +6,14 @@ import (
 	"net"
 	"net/netip"
 	"os"
+	"reflect"
 	"slices"
 	"testing"
 	"time"
 
 	test "github.com/uhppoted/uhppoted-lib-go/integration-tests"
 	lib "github.com/uhppoted/uhppoted-lib-go/uhppoted"
+	"github.com/uhppoted/uhppoted-lib-go/uhppoted/entities"
 )
 
 var bind = netip.MustParseAddrPort("0.0.0.0:0")
@@ -72,6 +74,66 @@ func TestInvalidResponse(t *testing.T) {
 
 	if err == nil || !errors.Is(err, lib.ErrInvalidResponse) {
 		t.Errorf("expected %v error, got:%v", lib.ErrInvalidResponse, err)
+	}
+}
+
+func TestGetCardRecord(t *testing.T) {
+	controller := lib.Controller{
+		ID:       405419896,
+		Address:  netip.MustParseAddrPort("127.0.0.1:50002"),
+		Protocol: "udp",
+	}
+
+	card := uint32(10058400)
+
+	expected := lib.Card{
+		Card:      10058400,
+		StartDate: entities.MustParseDate("2025-01-01"),
+		EndDate:   entities.MustParseDate("2025-12-31"),
+		Permissions: map[uint8]uint8{
+			1: 1,
+			2: 0,
+			3: 17,
+			4: 1,
+		},
+		PIN: 7531,
+	}
+
+	record, err := lib.GetCardRecord(u, controller, card, timeout)
+
+	if err != nil {
+		t.Fatalf("%v", err)
+	} else if !reflect.DeepEqual(record, expected) {
+		t.Errorf("incorrect response\n   expected:%#v\n   got:     %#v", expected, record)
+	}
+}
+
+func TestGetEventRecord(t *testing.T) {
+	controller := lib.Controller{
+		ID:       405419896,
+		Address:  netip.MustParseAddrPort("127.0.0.1:50002"),
+		Protocol: "udp",
+	}
+
+	index := uint32(13579)
+
+	expected := lib.Event{
+		Index:         13579,
+		Timestamp:     entities.MustParseDateTime("2025-11-17 12:34:56"),
+		Event:         2,
+		AccessGranted: true,
+		Door:          4,
+		Direction:     2,
+		Card:          10058400,
+		Reason:        21,
+	}
+
+	record, err := lib.GetEventRecord(u, controller, index, timeout)
+
+	if err != nil {
+		t.Fatalf("%v", err)
+	} else if !reflect.DeepEqual(record, expected) {
+		t.Errorf("incorrect response\n   expected:%#v\n   got:     %#v", expected, record)
 	}
 }
 

@@ -125,6 +125,34 @@ func PutCardRecord[T TController](u Uhppoted, controller T, card entities.Card, 
 	}
 }
 
+// Retrieves the event record for the even at an index.
+func GetEventRecord[T TController](u Uhppoted, controller T, index uint32, timeout time.Duration) (entities.Event, error) {
+	var zero entities.Event
+
+	if c, err := resolve(controller); err != nil {
+		return zero, err
+	} else if request, err := encode.GetEventRequest(c.ID, index); err != nil {
+		return zero, err
+	} else if reply, err := send(u, c, request, timeout); err != nil {
+		return zero, err
+	} else if response, err := decode.GetEventResponse(reply); err != nil {
+		return zero, err
+	} else if !valid(response, c.ID) {
+		return zero, ErrInvalidResponse
+	} else {
+		return entities.Event{
+			Index:         response.Index,
+			Event:         response.EventType,
+			AccessGranted: response.AccessGranted,
+			Door:          response.Door,
+			Direction:     response.Direction,
+			Card:          response.Card,
+			Timestamp:     response.Timestamp,
+			Reason:        response.Reason,
+		}, nil
+	}
+}
+
 // Listens for access controller events sent to the listen address:port and routes received events
 // to the events channel. Terminates on any signal sent to the interrupt channel.
 func Listen(u Uhppoted, events chan ListenerEvent, errors chan error, interrupt chan os.Signal) error {

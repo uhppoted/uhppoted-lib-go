@@ -92,6 +92,7 @@ type (
 // re-exported entities
 type (
 	Card      = entities.Card
+	Event     = entities.Event
 	DoorMode  = entities.DoorMode
 	Task      = entities.Task
 	Interlock = entities.Interlock

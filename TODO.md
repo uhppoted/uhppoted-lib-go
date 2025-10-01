@@ -29,8 +29,11 @@ main.main()
 - [x] interlock arg type
 - [x] door mode arg type
 - [ ] door mode field type
+- [ ] event type field type
+- [ ] event direction field type
+- [ ] event reason field type
 - [x] card record
-- [ ] event record
+- [x] event record
 - [ ] profile record
 - [ ] task record
 - [ ] listener interface
@@ -50,9 +53,10 @@ main.main()
       - (?) remove Request/Response suffixes
 
    - [x] decode_AST
-   - [x] decode
+   - [x] decoder
        - [x] decode Get/SetAddrPort
        - [ ] decode ListenEvent
+       - [ ] test invalid packets
 
    - [x] encode
    - [x] encode_test
