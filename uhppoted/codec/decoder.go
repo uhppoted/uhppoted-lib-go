@@ -30,7 +30,7 @@ func Decode[R any](packet []byte) (R, error) {
 	}
 
 	if packet[0] != SOM {
-		return zero, fmt.Errorf("invalid reply start of message byte (%02x)", packet[0])
+		return zero, fmt.Errorf("invalid reply SOM byte (0x%02x)", packet[0])
 	}
 
 	k := key[R]{packet[1]}
@@ -40,9 +40,9 @@ func Decode[R any](packet []byte) (R, error) {
 	}
 
 	if v, err := fn(packet); err != nil {
-		return zero, fmt.Errorf("invalid packet")
+		return zero, err
 	} else if response, ok := v.(R); !ok {
-		return zero, fmt.Errorf("invalid packet")
+		return zero, err
 	} else {
 		return response, nil
 	}
@@ -150,6 +150,6 @@ func decode(packet []byte) (any, error) {
 		return decoder.RestoreDefaultParametersResponse(packet)
 
 	default:
-		return nil, fmt.Errorf("unknown message type (%02x)", packet[1])
+		return nil, fmt.Errorf("unknown message type (0x%02x)", packet[1])
 	}
 }

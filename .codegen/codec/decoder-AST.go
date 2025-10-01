@@ -430,7 +430,7 @@ func buildDecoderImpl() *ast.BlockStmt {
 									Args: []ast.Expr{
 										&ast.BasicLit{
 											Kind:  token.STRING,
-											Value: `"invalid reply start of message byte (%02x)"`,
+											Value: `"invalid reply SOM byte (0x%02x)"`,
 										},
 										&ast.IndexExpr{
 											X:     ast.NewIdent("packet"),
@@ -524,9 +524,9 @@ func buildDecoderImpl() *ast.BlockStmt {
 			},
 
 			// if v, err := fn(packet); err != nil {
-			//     return zero, fmt.Errorf("invalid packet")
+			//     return zero, err
 			// } else if response, ok := v.(R); !ok {
-			//     return zero, fmt.Errorf("invalid packet")
+			//     return zero, err
 			// } else {
 			//     return response, nil
 			// }
@@ -554,18 +554,7 @@ func buildDecoderImpl() *ast.BlockStmt {
 						&ast.ReturnStmt{
 							Results: []ast.Expr{
 								ast.NewIdent("zero"),
-								&ast.CallExpr{
-									Fun: &ast.SelectorExpr{
-										X:   ast.NewIdent("fmt"),
-										Sel: ast.NewIdent("Errorf"),
-									},
-									Args: []ast.Expr{
-										&ast.BasicLit{
-											Kind:  token.STRING,
-											Value: `"invalid packet"`,
-										},
-									},
-								},
+								ast.NewIdent("err"),
 							},
 						},
 					},
@@ -593,18 +582,7 @@ func buildDecoderImpl() *ast.BlockStmt {
 							&ast.ReturnStmt{
 								Results: []ast.Expr{
 									ast.NewIdent("zero"),
-									&ast.CallExpr{
-										Fun: &ast.SelectorExpr{
-											X:   ast.NewIdent("fmt"),
-											Sel: ast.NewIdent("Errorf"),
-										},
-										Args: []ast.Expr{
-											&ast.BasicLit{
-												Kind:  token.STRING,
-												Value: `"invalid packet"`,
-											},
-										},
-									},
+									ast.NewIdent("err"),
 								},
 							},
 						},
@@ -722,7 +700,7 @@ func buildDecoderFactoryBody() *ast.BlockStmt {
 						Args: []ast.Expr{
 							&ast.BasicLit{
 								Kind:  token.STRING,
-								Value: `"unknown message type (%02x)"`,
+								Value: `"unknown message type (0x%02x)"`,
 							},
 							&ast.IndexExpr{
 								X:     ast.NewIdent("packet"),

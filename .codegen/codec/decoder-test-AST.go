@@ -20,7 +20,7 @@ import (
 )
 
 func decoderTest() {
-	const output = "decoder_test.go"
+	const output = "generated_test.go"
 
 	f, err := os.Create(output)
 	if err != nil {
