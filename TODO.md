@@ -46,7 +46,6 @@ main.main()
          - https://github.com/golang/go/issues/37641
 
 - [ ] code generation
-      - [ ] use 'local' domain
       - [ ] Replace TestArg with Arg
       - [ ] Use 'local' domain
          - https://github.com/golang/go/issues/37641
