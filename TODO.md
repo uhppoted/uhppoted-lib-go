@@ -55,8 +55,8 @@ main.main()
    - [x] decoder
        - [x] test invalid packets
        - [x] decode Get/SetAddrPort
+       - [x] split Decoder() and decode() into separate files
        - [ ] decode ListenEvent
-       - [ ] split Decoder() and decode() into separate files
 
    - [x] encode
    - [x] encode_test
