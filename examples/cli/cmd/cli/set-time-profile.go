@@ -124,9 +124,18 @@ func setTimeProfileRecord(u lib.Uhppoted, args []string) error {
 				Sunday:    sunday,
 			},
 			Segments: []lib.TimeSegment{
-				{segment1start, segment1end},
-				{segment2start, segment2end},
-				{segment3start, segment3end},
+				{
+					Start: segment1start,
+					End:   segment1end,
+				},
+				{
+					Start: segment2start,
+					End:   segment2end,
+				},
+				{
+					Start: segment3start,
+					End:   segment3end,
+				},
 			},
 			LinkedProfile: linked,
 		}

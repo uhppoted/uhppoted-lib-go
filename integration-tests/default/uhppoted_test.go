@@ -137,9 +137,18 @@ func TestSetTimeProfileRecord(t *testing.T) {
 			Sunday:    true,
 		},
 		Segments: []lib.TimeSegment{
-			{entities.MustParseHHmm("8:30"), entities.MustParseHHmm("9:45")},
-			{entities.MustParseHHmm("11:35"), entities.MustParseHHmm("13:15")},
-			{entities.MustParseHHmm("14:01"), entities.MustParseHHmm("17:59")},
+			{
+				Start: entities.MustParseHHmm("8:30"),
+				End:   entities.MustParseHHmm("9:45"),
+			},
+			{
+				Start: entities.MustParseHHmm("11:35"),
+				End:   entities.MustParseHHmm("13:15"),
+			},
+			{
+				Start: entities.MustParseHHmm("14:01"),
+				End:   entities.MustParseHHmm("17:59"),
+			},
 		},
 		LinkedProfile: 19,
 	}
