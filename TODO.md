@@ -46,7 +46,8 @@ main.main()
          - https://github.com/golang/go/issues/37641
 
 - [ ] code generation
-      - [ ] Replace TestArg with Arg
+      - [x] Replace TestArg with Arg
+      - [ ] Replace TestReply with Reply
       - [ ] Use 'local' domain
          - https://github.com/golang/go/issues/37641
       - (?) remove Request/Response suffixes

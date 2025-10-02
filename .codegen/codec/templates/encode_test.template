@@ -17,7 +17,7 @@ func Test{{ titleCase $test.Name }}(t *testing.T) {
 {{ hex $test.Expected }}
     }
 
-    packet,err := {{ titleCase $rq.Name }}({{- testargsx $test.Args -}})
+    packet,err := {{ titleCase $rq.Name }}({{- testargs $test.Args -}})
 
     if err != nil {
         t.Fatalf("%v",err)

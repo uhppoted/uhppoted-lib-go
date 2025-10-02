@@ -19,7 +19,6 @@ var Functions = template.FuncMap{
 	"hex":         hex,
 	"testargs":    testargs,
 	"testarg":     testarg,
-	"testargsx":   testargsx,
 	"fields2args": fields2args,
 	"pack":        pack,
 	"unpack":      unpack,
@@ -94,7 +93,7 @@ func hex(bytes []byte) string {
 	return strings.Join(lines, "\n")
 }
 
-func testargs(args []lib.TestArg) string {
+func testargs(args []lib.Arg) string {
 	var parts []string
 	for _, a := range args {
 		parts = append(parts, testarg(a))
@@ -103,65 +102,7 @@ func testargs(args []lib.TestArg) string {
 	return strings.Join(parts, ", ")
 }
 
-func testarg(arg lib.TestArg) string {
-	switch arg.Type {
-	case "uint8":
-		return fmt.Sprintf(`uint8(%v)`, arg.Value)
-
-	case "uint16":
-		return fmt.Sprintf(`uint16(%v)`, arg.Value)
-
-	case "uint32":
-		return fmt.Sprintf(`uint32(%v)`, arg.Value)
-
-	case "IPv4":
-		return fmt.Sprintf(`netip.MustParseAddr("%v")`, arg.Value)
-
-	case "addrport":
-		return fmt.Sprintf(`netip.MustParseAddrPort("%v")`, arg.Value)
-
-	case "address:port":
-		return fmt.Sprintf(`netip.MustParseAddrPort("%v")`, arg.Value)
-
-	case "datetime":
-		return fmt.Sprintf(`entities.MustParseDateTime("%v")`, arg.Value)
-
-	case "optional datetime":
-		return fmt.Sprintf(`entities.MustParseDateTime("%v")`, arg.Value)
-
-	case "date":
-		return fmt.Sprintf(`entities.MustParseDate("%v")`, arg.Value)
-
-	case "HHmm":
-		return fmt.Sprintf(`entities.MustParseHHmm("%v")`, arg.Value)
-
-	case "pin":
-		return fmt.Sprintf(`uint32(%v)`, arg.Value)
-
-	case "mode":
-		return fmt.Sprintf(`entities.DoorMode(%v)`, arg.Value)
-
-	case "task":
-		return fmt.Sprintf(`entities.Task(%v)`, arg.Value)
-
-	case "interlock":
-		return fmt.Sprintf(`entities.Interlock(%v)`, arg.Value)
-
-	default:
-		return fmt.Sprintf("%v", arg.Value)
-	}
-}
-
-func testargsx(args []lib.Arg) string {
-	var parts []string
-	for _, a := range args {
-		parts = append(parts, testargx(a))
-	}
-
-	return strings.Join(parts, ", ")
-}
-
-func testargx(arg lib.Arg) string {
+func testarg(arg lib.Arg) string {
 	switch arg.Type {
 	case "uint8":
 		return fmt.Sprintf(`uint8(%v)`, arg.Value)
