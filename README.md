@@ -70,4 +70,5 @@ folder.
 - [`GetCardRecordAtIndex`](API.md#getcardrecordatindex)
 - [`PutCardRecord`](API.md#putcardrecord)
 - [`GetEventRecord`](API.md#geteventrecord)
+- [`SetTimeProfileRecord`](API.md#settimeprofilerecord)
 - [`Listen`](API.md#listen)

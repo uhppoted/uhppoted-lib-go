@@ -28,7 +28,7 @@ build: format
 	go build -trimpath ./...
 
 debug: build
-	cd examples/cli && make get-event
+	cd examples/cli && make set-time-profile-record
 	# go test -v -count=1 ./uhppoted/... -run TestSetTime
 	# go test -v -count=1 ./integration-tests/... -run TestInvalidResponse
 

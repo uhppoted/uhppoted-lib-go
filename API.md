@@ -1056,6 +1056,48 @@ type Event struct {
 }
 ```
 
+### `SetTimeProfileRecord`
+
+Adds or updates an access time profile stored on a controller.
+```
+SetTimeProfile(u, controller, profile, timeout)
+
+where:
+- u             Uhppoted        Uhppoted struct initialised with the bind address, broadcast address, etc
+- controller    controller      uint32|Controller controller serial number or {id, address, protocol} Controller struct
+- profile       TimeProfile     TimeProfile struct intialised with the desired time profile.
+- timeout       time.Duration   maximum time to wait for a response from a controller
+```
+
+Returns `true` or `false`.
+
+```
+type TimeProfile struct {
+  Profile       uint8         `json:"profile"`         // profile Id ([2..254] to create/update
+  StartDate     Date          `json:"start-date"`      // date from which profile is valid (inclusive)
+  EndDate       Date          `json:"end-date"`        // date after which profile is invalid
+  Weekdays      Weekdays      `json:"weekdays"`        // days of week on which profile is enabled
+  Segments      []TimeSegment `json:"segments"`        // time segments during day during which profile is enabled
+  LinkedProfile uint8         `json:"linked-profile"`  // linked time profile
+}
+
+type Weekdays struct {
+  Monday    bool `json:"monday"`     // profile valid on Monday if true
+  Tuesday   bool `json:"tuesday"`    // profile valid on Tuesday if true
+  Wednesday bool `json:"wednesday"`  // profile valid on Wednesday if true
+  Thursday  bool `json:"thursday"`   // profile valid on Thursday if true
+  Friday    bool `json:"friday"`     // profile valid on Friday if true
+  Saturday  bool `json:"saturday"`   // profile valid on Saturday if true
+  Sunday    bool `json:"sunday"`     // profile valid on Sunday if true
+}
+
+type TimeSegment struct {
+  Start HHmm `json:"start"`  // segment start time
+  End   HHmm `json:"end"`    // segment end time
+}
+```
+
+
 ### `Listen`
 Listens for controller events sent via UDP to the designated listener host.
 ```

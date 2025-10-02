@@ -38,3 +38,8 @@ func ParseDate(s string) (entities.Date, error) {
 func NewTime(hour, minute, second uint8) entities.Time {
 	return entities.NewTime(hour, minute, second)
 }
+
+// Converts an "HH:mm" formatted string to an HHmm entity.
+func ParseHHmm(s string) (entities.HHmm, error) {
+	return entities.ParseHHmm(s)
+}

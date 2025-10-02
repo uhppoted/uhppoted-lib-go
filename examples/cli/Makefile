@@ -140,6 +140,9 @@ get-time-profile: build
 set-time-profile: build
 	$(CMD) set-time-profile --controller $(CONTROLLER) $(DEST) $(TCP) --profile 29
 
+set-time-profile-record: build
+	$(CMD) set-time-profile-record --controller $(CONTROLLER) $(DEST) $(TCP) --profile 29
+
 clear-time-profiles: build
 	$(CMD) clear-time-profiles --controller $(CONTROLLER) $(DEST) $(TCP) 
 

@@ -91,11 +91,14 @@ type (
 
 // re-exported entities
 type (
-	Card      = entities.Card
-	Event     = entities.Event
-	DoorMode  = entities.DoorMode
-	Task      = entities.Task
-	Interlock = entities.Interlock
+	Card        = entities.Card
+	TimeProfile = entities.TimeProfile
+	Event       = entities.Event
+	DoorMode    = entities.DoorMode
+	Task        = entities.Task
+	Interlock   = entities.Interlock
+	Weekdays    = entities.Weekdays
+	TimeSegment = entities.TimeSegment
 )
 
 // re-exported door modes

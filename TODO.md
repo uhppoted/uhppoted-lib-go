@@ -34,7 +34,8 @@ main.main()
 - [ ] event reason field type
 - [x] card record
 - [x] event record
-- [ ] profile record
+- [ ] get-time-profile-record
+- [x] set-time-profile-record
 - [ ] task record
 - [ ] listener interface
 - [ ] godoc/examples

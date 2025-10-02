@@ -74,7 +74,6 @@ func TestInvalidResponse(t *testing.T) {
 
 func TestGetCardRecord(t *testing.T) {
 	controller := uint32(405419896)
-	card := uint32(10058400)
 
 	expected := lib.Card{
 		Card:      10058400,
@@ -89,7 +88,7 @@ func TestGetCardRecord(t *testing.T) {
 		PIN: 7531,
 	}
 
-	record, err := lib.GetCardRecord(u, controller, card, timeout)
+	record, err := lib.GetCardRecord(u, controller, 10058400, timeout)
 
 	if err != nil {
 		t.Fatalf("%v", err)
@@ -100,7 +99,6 @@ func TestGetCardRecord(t *testing.T) {
 
 func TestGetEventRecord(t *testing.T) {
 	controller := uint32(405419896)
-	index := uint32(13579)
 
 	expected := lib.Event{
 		Index:         13579,
@@ -113,12 +111,45 @@ func TestGetEventRecord(t *testing.T) {
 		Reason:        21,
 	}
 
-	record, err := lib.GetEventRecord(u, controller, index, timeout)
+	record, err := lib.GetEventRecord(u, controller, 13579, timeout)
 
 	if err != nil {
 		t.Fatalf("%v", err)
 	} else if !reflect.DeepEqual(record, expected) {
 		t.Errorf("incorrect response\n   expected:%#v\n   got:     %#v", expected, record)
+	}
+}
+
+func TestSetTimeProfileRecord(t *testing.T) {
+	controller := uint32(405419896)
+
+	record := lib.TimeProfile{
+		Profile:   37,
+		StartDate: entities.MustParseDate("2025-11-26"),
+		EndDate:   entities.MustParseDate("2025-12-29"),
+		Weekdays: lib.Weekdays{
+			Monday:    true,
+			Tuesday:   true,
+			Wednesday: false,
+			Thursday:  true,
+			Friday:    false,
+			Saturday:  true,
+			Sunday:    true,
+		},
+		Segments: []lib.TimeSegment{
+			{entities.MustParseHHmm("8:30"), entities.MustParseHHmm("9:45")},
+			{entities.MustParseHHmm("11:35"), entities.MustParseHHmm("13:15")},
+			{entities.MustParseHHmm("14:01"), entities.MustParseHHmm("17:59")},
+		},
+		LinkedProfile: 19,
+	}
+
+	ok, err := lib.SetTimeProfileRecord(u, controller, record, timeout)
+
+	if err != nil {
+		t.Fatalf("%v", err)
+	} else if !ok {
+		t.Errorf("incorrect response\n   expected:%v\n   got:     %v", true, ok)
 	}
 }
 

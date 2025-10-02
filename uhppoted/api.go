@@ -125,6 +125,63 @@ func PutCardRecord[T TController](u Uhppoted, controller T, card entities.Card, 
 	}
 }
 
+// Adds or updates an access time profile record stored on a controller.
+func SetTimeProfileRecord[T TController](u Uhppoted, controller T, record entities.TimeProfile, timeout time.Duration) (bool, error) {
+	f := func(id uint32) ([]byte, error) {
+		segment1start := entities.HHmm{}
+		segment1end := entities.HHmm{}
+		segment2start := entities.HHmm{}
+		segment2end := entities.HHmm{}
+		segment3start := entities.HHmm{}
+		segment3end := entities.HHmm{}
+
+		if len(record.Segments) > 0 {
+			segment1start = record.Segments[0].Start
+			segment1end = record.Segments[0].End
+		}
+
+		if len(record.Segments) > 1 {
+			segment2start = record.Segments[1].Start
+			segment2end = record.Segments[1].End
+		}
+
+		if len(record.Segments) > 2 {
+			segment3start = record.Segments[2].Start
+			segment3end = record.Segments[2].End
+		}
+
+		return encode.SetTimeProfileRequest(id,
+			record.Profile,
+			record.StartDate,
+			record.EndDate,
+			record.Weekdays.Monday,
+			record.Weekdays.Tuesday,
+			record.Weekdays.Wednesday,
+			record.Weekdays.Thursday,
+			record.Weekdays.Friday,
+			record.Weekdays.Saturday,
+			record.Weekdays.Sunday,
+			segment1start, segment1end,
+			segment2start, segment2end,
+			segment3start, segment3end,
+			record.LinkedProfile)
+	}
+
+	if c, err := resolve(controller); err != nil {
+		return false, err
+	} else if request, err := f(c.ID); err != nil {
+		return false, err
+	} else if reply, err := send(u, c, request, timeout); err != nil {
+		return false, err
+	} else if response, err := decode.SetTimeProfileResponse(reply); err != nil {
+		return false, err
+	} else if !valid(response, c.ID) {
+		return false, ErrInvalidResponse
+	} else {
+		return response.Ok, nil
+	}
+}
+
 // Retrieves the event record for the even at an index.
 func GetEventRecord[T TController](u Uhppoted, controller T, index uint32, timeout time.Duration) (entities.Event, error) {
 	var zero entities.Event
