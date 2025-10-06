@@ -37,7 +37,7 @@
 
 - [ ] code generation
       - [x] Replace TestArg with Arg
-      - [ ] Replace TestReply with Reply
+      - [x] Replace TestReply with Reply
       - [ ] Use 'local' domain
          - https://github.com/golang/go/issues/37641
       - (?) remove Request/Response suffixes
