@@ -167,6 +167,11 @@ get-event: build
 	cd examples/cli && make get-event DEST="--dest 127.0.0.1"
 	cd examples/cli && make get-event DEST="--dest 127.0.0.1" TCP="--tcp"
 
+get-event-record: build
+	cd examples/cli && make get-event-record
+	cd examples/cli && make get-event-record DEST="--dest 127.0.0.1"
+	cd examples/cli && make get-event-record DEST="--dest 127.0.0.1" TCP="--tcp"
+
 get-event-index: build
 	cd examples/cli && make get-event-index
 	cd examples/cli && make get-event-index DEST="--dest 127.0.0.1"

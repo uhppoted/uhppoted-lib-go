@@ -31,6 +31,7 @@ var commands = map[string]func(u lib.Uhppoted, args []string) error{
 	"delete-card":                deleteCard,
 	"delete-all-cards":           deleteAllCards,
 	"get-event":                  getEvent,
+	"get-event-record":           getEventRecord,
 	"get-event-index":            getEventIndex,
 	"set-event-index":            setEventIndex,
 	"record-special-events":      recordSpecialEvents,

@@ -135,6 +135,15 @@ var (
 	Interlock1234  = entities.Interlock1234
 )
 
+// re-exported event types
+var (
+	EventUnknown     = entities.EventUnknown
+	EventSwipe       = entities.EventSwipe
+	EventDoor        = entities.EventDoor
+	EventAlarm       = entities.EventAlarm
+	EventOverwritten = entities.EventOverwritten
+)
+
 // Error constants
 var ErrInvalidResponse = errors.New("invalid response")
 

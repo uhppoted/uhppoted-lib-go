@@ -18,7 +18,7 @@
 - [x] interlock arg type
 - [x] door mode arg type
 - [ ] door mode field type
-- [ ] event type field type
+- [x] event type field type
 - [ ] event direction field type
 - [ ] event reason field type
 - [x] card record
@@ -26,6 +26,7 @@
 - [x] get-time-profile-record
 - [x] set-time-profile-record
 - [ ] task record
+- [ ] status record
 - [ ] listener interface
 - [ ] godoc/examples
 - [x] logging

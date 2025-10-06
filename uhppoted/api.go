@@ -246,7 +246,7 @@ func GetEventRecord[T TController](u Uhppoted, controller T, index uint32, timeo
 	} else {
 		return entities.Event{
 			Index:         response.Index,
-			Event:         response.EventType,
+			Event:         entities.EventType(response.EventType),
 			AccessGranted: response.AccessGranted,
 			Door:          response.Door,
 			Direction:     response.Direction,

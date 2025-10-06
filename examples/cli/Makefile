@@ -125,6 +125,9 @@ delete-all-cards: build
 get-event: build
 	$(CMD) get-event --controller $(CONTROLLER) $(DEST) $(TCP) --index 17
 
+get-event-record: build
+	$(CMD) get-event-record --controller $(CONTROLLER) $(DEST) $(TCP) --index 17
+
 get-event-index: build
 	$(CMD) get-event-index --controller $(CONTROLLER) $(DEST) $(TCP)
 
