@@ -125,6 +125,53 @@ func PutCardRecord[T TController](u Uhppoted, controller T, card entities.Card, 
 	}
 }
 
+// Retrieves the requested access time profile record from a controller.
+func GetTimeProfileRecord[T TController](u Uhppoted, controller T, profile uint8, timeout time.Duration) (entities.TimeProfile, error) {
+	var zero entities.TimeProfile
+
+	if c, err := resolve(controller); err != nil {
+		return zero, err
+	} else if request, err := encode.GetTimeProfileRequest(c.ID, profile); err != nil {
+		return zero, err
+	} else if reply, err := send(u, c, request, timeout); err != nil {
+		return zero, err
+	} else if response, err := decode.GetTimeProfileResponse(reply); err != nil {
+		return zero, err
+	} else if !valid(response, c.ID) {
+		return zero, ErrInvalidResponse
+	} else {
+		return entities.TimeProfile{
+			Profile:   response.Profile,
+			StartDate: response.StartDate,
+			EndDate:   response.EndDate,
+			Weekdays: entities.Weekdays{
+				Monday:    response.Monday,
+				Tuesday:   response.Tuesday,
+				Wednesday: response.Wednesday,
+				Thursday:  response.Thursday,
+				Friday:    response.Friday,
+				Saturday:  response.Saturday,
+				Sunday:    response.Sunday,
+			},
+			Segments: []entities.TimeSegment{
+				{
+					Start: response.Segment1Start,
+					End:   response.Segment1End,
+				},
+				{
+					Start: response.Segment2Start,
+					End:   response.Segment2End,
+				},
+				{
+					Start: response.Segment3Start,
+					End:   response.Segment3End,
+				},
+			},
+			LinkedProfile: response.LinkedProfile,
+		}, nil
+	}
+}
+
 // Adds or updates an access time profile record stored on a controller.
 func SetTimeProfileRecord[T TController](u Uhppoted, controller T, record entities.TimeProfile, timeout time.Duration) (bool, error) {
 	f := func(id uint32) ([]byte, error) {

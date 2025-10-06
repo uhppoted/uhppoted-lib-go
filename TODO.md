@@ -23,7 +23,7 @@
 - [ ] event reason field type
 - [x] card record
 - [x] event record
-- [ ] get-time-profile-record
+- [x] get-time-profile-record
 - [x] set-time-profile-record
 - [ ] task record
 - [ ] listener interface

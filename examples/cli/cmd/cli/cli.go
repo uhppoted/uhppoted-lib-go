@@ -35,6 +35,7 @@ var commands = map[string]func(u lib.Uhppoted, args []string) error{
 	"set-event-index":            setEventIndex,
 	"record-special-events":      recordSpecialEvents,
 	"get-time-profile":           getTimeProfile,
+	"get-time-profile-record":    getTimeProfileRecord,
 	"set-time-profile":           setTimeProfile,
 	"set-time-profile-record":    setTimeProfileRecord,
 	"clear-time-profiles":        clearTimeProfiles,

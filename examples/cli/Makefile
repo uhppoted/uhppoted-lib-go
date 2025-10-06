@@ -137,6 +137,9 @@ record-special-events: build
 get-time-profile: build
 	$(CMD) get-time-profile --controller $(CONTROLLER) $(DEST) $(TCP) --profile 29
 
+get-time-profile-record: build
+	$(CMD) get-time-profile-record --controller $(CONTROLLER) $(DEST) $(TCP) --profile 29
+
 set-time-profile: build
 	$(CMD) set-time-profile --controller $(CONTROLLER) $(DEST) $(TCP) --profile 29
 
