@@ -1,11 +1,6 @@
 # TODO
 
-- [ ] FIXME: default broadcast port
-```
-./bin/cli --debug set-door -controller 405419896 --door 1 --mode 3 --delay 5
-2025-09-25 11:06:43 DEBUG  udp      sent 64 bytes to 255.255.255.255:60001
-```
-
+- [x] FIXME: default broadcast port
 - [x] custom date
 - [x] custom time
 - [x] custom HHmm

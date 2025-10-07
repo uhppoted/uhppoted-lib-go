@@ -20,7 +20,7 @@ var options = struct {
 	debug     bool
 }{
 	bind:      "0.0.0.0:0",
-	broadcast: "255.255.255.255:60001",
+	broadcast: "255.255.255.255:60000",
 	listen:    "0.0.0.0:60001",
 	timeout:   2500 * time.Millisecond,
 	debug:     false,
