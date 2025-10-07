@@ -12,7 +12,7 @@ import (
 	"testing"
 	"time"
 
-	test "github.com/uhppoted/uhppoted-lib-go/integration-tests"
+	test "integration-tests"
 	lib "github.com/uhppoted/uhppoted-lib-go/uhppoted"
 )
 

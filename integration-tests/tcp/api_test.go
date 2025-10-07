@@ -7,7 +7,7 @@ import (
 	"reflect"
 	"testing"
 
-	test "github.com/uhppoted/uhppoted-lib-go/integration-tests"
+	test "integration-tests"
 	lib "github.com/uhppoted/uhppoted-lib-go/uhppoted"
 	"github.com/uhppoted/uhppoted-lib-go/uhppoted/entities"
 )
