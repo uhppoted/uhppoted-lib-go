@@ -14,7 +14,7 @@ import (
 var readmeTemplate string
 
 func README() {
-	const file = "../README.md"
+	const file = "../../README.md"
 
 	f, err := os.Create(file)
 	if err != nil {

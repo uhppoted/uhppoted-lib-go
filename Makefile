@@ -1,20 +1,8 @@
 .DEFAULT_GOAL := build
 
-all: test      \
-	 benchmark \
-     coverage
-
-clean:
-	go clean
-	rm -rf bin
-	rm -rf dist
-
 regenerate:
 	cd .codegen && make build
-	go generate ./...
-
-format: 
-	go fmt ./...
+	cd src && go generate ./...
 
 update:
 	cd .codegen && make update
@@ -24,52 +12,42 @@ update-release:
 	cd .codegen && make update-release
 	go mod tidy
 
-build: format
-	go build -trimpath ./...
+build: 
+	cd src && make build
 
-debug: build
-	cd examples/cli && make add-task-record
-	# go test -v -count=1 ./uhppoted/... -run TestSetTime
-	# go test -v -count=1 ./integration-tests/... -run TestInvalidResponse
+debug: 
+	cd src && make debug
 
-test: build
-	go test ./uhppoted/...
+test: 
+	cd src && make test
 
-integration-tests: build
-	go test ./integration-tests/...
-
-benchmark: build
-	go test -bench=.  ./... 
-
-coverage: build
-	go test -cover ./...
+integration-tests:
+	cd integration-tests && make test
 
 vet:
-	go vet ./...
+	cd src && make vet
 
 lint:
-	env GOOS=darwin  GOARCH=amd64 staticcheck ./...
-	env GOOS=linux   GOARCH=amd64 staticcheck ./...
-	env GOOS=windows GOARCH=amd64 staticcheck ./...
+	cd src && make lint
 
 vuln:
-	govulncheck ./...
+	cd src && make vuln
 
 build-all: regenerate test integration-tests vet lint
-	env GOOS=linux   GOARCH=amd64       GOWORK=off go build -trimpath ./...
-	env GOOS=linux   GOARCH=arm GOARM=7 GOWORK=off go build -trimpath ./...
-	env GOOS=linux   GOARCH=arm GOARM=6 GOWORK=off go build -trimpath ./...
-	env GOOS=darwin  GOARCH=amd64       GOWORK=off go build -trimpath ./...
-	env GOOS=windows GOARCH=amd64       GOWORK=off go build -trimpath ./...
+	cd src && env GOOS=linux   GOARCH=amd64       GOWORK=off go build -trimpath ./...
+	cd src && env GOOS=linux   GOARCH=arm GOARM=7 GOWORK=off go build -trimpath ./...
+	cd src && env GOOS=linux   GOARCH=arm GOARM=6 GOWORK=off go build -trimpath ./...
+	cd src && env GOOS=darwin  GOARCH=amd64       GOWORK=off go build -trimpath ./...
+	cd src && env GOOS=windows GOARCH=amd64       GOWORK=off go build -trimpath ./...
 
-release: clean build-all
+# release: clean build-all
 
-publish: release
-	echo "Releasing version $(VERSION)"
-	gh release create "$(VERSION)" --draft --prerelease --title "$(VERSION)-beta" --notes-file release-notes.md
+# publish: release
+# 	echo "Releasing version $(VERSION)"
+# 	gh release create "$(VERSION)" --draft --prerelease --title "$(VERSION)-beta" --notes-file release-notes.md
 
-godoc:
-	godoc -http=:80	-index_interval=60s
+# godoc:
+# 	godoc -http=:80	-index_interval=60s
 
 help:
 	cd examples/cli && make help

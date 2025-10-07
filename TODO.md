@@ -41,12 +41,7 @@
     - [ ] set default handler
     - https://www.dash0.com/guides/logging-in-go-with-slog
 
-- [ ] integration tests: use 'test' domain
-         - https://github.com/golang/go/issues/37641
-
 - [ ] code generation
-      - [ ] Use 'local' domain
-         - https://github.com/golang/go/issues/37641
       - (?) remove Request/Response suffixes
 
    - [x] decode_AST
