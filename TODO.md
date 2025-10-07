@@ -17,7 +17,7 @@
 - [x] task arg type
 - [x] interlock arg type
 - [x] door mode arg type
-- [ ] door mode field type
+- [x] door mode field type
 - [x] event type field type
 - [ ] event direction field type
 - [ ] event reason field type
@@ -37,18 +37,14 @@
          - https://github.com/golang/go/issues/37641
 
 - [ ] code generation
-      - [x] Replace TestArg with Arg
-      - [x] Replace TestReply with Reply
       - [ ] Use 'local' domain
          - https://github.com/golang/go/issues/37641
       - (?) remove Request/Response suffixes
 
    - [x] decode_AST
    - [x] decoder
-       - [x] test invalid packets
-       - [x] decode Get/SetAddrPort
-       - [x] split Decoder() and decode() into separate files
        - [ ] decode ListenEvent
+       - [ ] decode entities
 
    - [x] encode
    - [x] encode_test

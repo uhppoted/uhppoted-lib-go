@@ -225,7 +225,7 @@ func GetDoorResponse(packet []byte) (responses.GetDoorResponse, error) {
 	return responses.GetDoorResponse{
 		Controller: unpackUint32(packet, 4),
 		Door:       unpackUint8(packet, 8),
-		Mode:       unpackUint8(packet, 9),
+		Mode:       unpackMode(packet, 9),
 		Delay:      unpackUint8(packet, 10),
 	}, nil
 }

@@ -332,7 +332,7 @@ Returns a `GetDoorResponse`:
 type GetDoorResponse struct { 
   Controller          uint32              `json:"controller"`     // controller serial number
   Door                uint8               `json:"door"`           // door ID ([1..4]
-  Mode                uint8               `json:"mode"`           // control mode (1:normally open, 2:normally closed. 3:controlled)
+  Mode                mode                `json:"mode"`           // control mode (1:normally open, 2:normally closed. 3:controlled)
   Delay               uint8               `json:"delay"`          // unlock delay (seconds)
 }
 ```

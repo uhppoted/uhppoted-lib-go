@@ -147,6 +147,9 @@ func gotype(field types.Field) string {
 	case "pin":
 		return "uint32"
 
+	case "mode":
+		return "entities.DoorMode"
+
 	case "version":
 		return "string"
 

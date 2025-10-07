@@ -162,12 +162,6 @@ func buildDecoderTest() *ast.File {
 					Value: `"testing"`,
 				},
 			},
-			// {
-			// 	Path: &ast.BasicLit{
-			// 		Kind:  token.STRING,
-			// 		Value: `"github.com/uhppoted/uhppoted-lib-go/uhppoted/entities"`,
-			// 	},
-			// },
 			{
 				Path: &ast.BasicLit{
 					Kind:  token.STRING,
@@ -497,9 +491,11 @@ func makeValue(field lib.Field, value lib.Value) ast.Expr {
 	case "pin":
 		return &ast.BasicLit{Kind: token.INT, Value: fmt.Sprintf("%v", value.Value)}
 
+	case "mode":
+		return &ast.BasicLit{Kind: token.INT, Value: fmt.Sprintf("%v", value.Value)}
+
 	default:
 		panic(fmt.Sprintf("%v", field.Type))
-		// return &ast.BasicLit{Kind: token.STRING, Value: `"???"`}
 	}
 }
 

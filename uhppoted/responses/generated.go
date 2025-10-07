@@ -102,10 +102,10 @@ type SetListenerAddrPortResponse struct {
 // Container struct for the response returned by a controller to a request
 // for door configuration information.
 type GetDoorResponse struct {
-	Controller uint32 `json:"controller"`
-	Door       uint8  `json:"door"`
-	Mode       uint8  `json:"mode"`
-	Delay      uint8  `json:"delay"`
+	Controller uint32            `json:"controller"`
+	Door       uint8             `json:"door"`
+	Mode       entities.DoorMode `json:"mode"`
+	Delay      uint8             `json:"delay"`
 }
 
 // Container struct for the response returned by a controller after updating

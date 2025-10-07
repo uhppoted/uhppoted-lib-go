@@ -290,6 +290,7 @@ func unpack(field lib.Field) ast.Expr {
 		"address:port":      "unpackAddrPort",
 		"MAC":               "unpackMAC",
 		"pin":               "unpackPIN",
+		"mode":              "unpackMode",
 		"version":           "unpackVersion",
 	}
 

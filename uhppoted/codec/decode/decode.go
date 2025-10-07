@@ -144,6 +144,10 @@ func unpackPIN(packet []byte, offset uint8) uint32 {
 	return v
 }
 
+func unpackMode(packet []byte, offset uint8) entities.DoorMode {
+	return entities.DoorMode(packet[offset])
+}
+
 func bcd2string(bytes []byte) string {
 	BCD := hex.EncodeToString(bytes)
 
