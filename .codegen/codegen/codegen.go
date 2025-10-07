@@ -141,7 +141,7 @@ func testarg(arg lib.Arg) string {
 		return fmt.Sprintf(`entities.DoorMode(%v)`, arg.Value)
 
 	case "task":
-		return fmt.Sprintf(`entities.Task(%v)`, arg.Value)
+		return fmt.Sprintf(`entities.TaskType(%v)`, arg.Value)
 
 	case "interlock":
 		return fmt.Sprintf(`entities.Interlock(%v)`, arg.Value)
@@ -179,7 +179,7 @@ func fields2args(fields []lib.Field) string {
 			args = append(args, fmt.Sprintf("%v entities.DoorMode", name))
 
 		case "task":
-			args = append(args, fmt.Sprintf("%v entities.Task", name))
+			args = append(args, fmt.Sprintf("%v entities.TaskType", name))
 
 		case "interlock":
 			args = append(args, fmt.Sprintf("%v entities.Interlock", name))
@@ -233,7 +233,7 @@ func pack(field lib.Field) string {
 		return fmt.Sprintf("packMode(%v, packet, %v)", name, field.Offset)
 
 	case "task":
-		return fmt.Sprintf("packTask(%v, packet, %v)", name, field.Offset)
+		return fmt.Sprintf("packTaskType(%v, packet, %v)", name, field.Offset)
 
 	case "interlock":
 		return fmt.Sprintf("packInterlock(%v, packet, %v)", name, field.Offset)

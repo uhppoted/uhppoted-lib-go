@@ -13,17 +13,30 @@
 - [x] interlock arg type
 - [x] door mode arg type
 - [x] door mode field type
-- [x] event type field type
+- [ ] event type field type
+    - [ ] get-event
+    - [x] get-event-record
+    - [ ] listen-event
+    - [ ] get-status
 - [ ] event direction field type
+    - [ ] get-event
+    - [ ] get-event-record
+    - [ ] listen-event
+    - [ ] get-status
 - [ ] event reason field type
+    - [ ] get-event
+    - [ ] get-event-record
+    - [ ] listen-event
+    - [ ] get-status
 - [x] card record
 - [x] event record
 - [x] get-time-profile-record
 - [x] set-time-profile-record
-- [ ] task record
+- [x] task record
 - [ ] status record
 - [ ] listener interface
 - [ ] godoc/examples
+
 - [x] logging
     - [ ] set default handler
     - https://www.dash0.com/guides/logging-in-go-with-slog

@@ -609,7 +609,7 @@ func TestAddTask(t *testing.T) {
 		Protocol: "tcp",
 	}
 
-	task := entities.Task(2)
+	task := entities.TaskType(2)
 	startDate := entities.MustParseDate("2025-01-01")
 	endDate := entities.MustParseDate("2025-12-31")
 	monday := true

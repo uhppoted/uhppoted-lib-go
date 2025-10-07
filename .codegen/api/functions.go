@@ -141,7 +141,7 @@ func function(f lib.Function) *ast.FuncDecl {
 			t = "DoorMode"
 
 		case "task":
-			t = "Task"
+			t = "TaskType"
 
 		case "interlock":
 			t = "Interlock"

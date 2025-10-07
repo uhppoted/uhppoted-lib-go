@@ -494,7 +494,7 @@ func TestAddTask(t *testing.T) {
 		0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
 	}
 
-	packet, err := AddTaskRequest(uint32(405419896), entities.Task(2), entities.MustParseDate("2025-01-01"), entities.MustParseDate("2025-12-31"), true, true, false, true, false, true, true, entities.MustParseHHmm("08:45"), uint8(3), uint8(7))
+	packet, err := AddTaskRequest(uint32(405419896), entities.TaskType(2), entities.MustParseDate("2025-01-01"), entities.MustParseDate("2025-12-31"), true, true, false, true, false, true, true, entities.MustParseHHmm("08:45"), uint8(3), uint8(7))
 
 	if err != nil {
 		t.Fatalf("%v", err)

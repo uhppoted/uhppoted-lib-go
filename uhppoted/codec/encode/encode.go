@@ -160,7 +160,7 @@ func packMode(v entities.DoorMode, packet []byte, offset int) {
 //	   v      (Task)      'task' value to encode.
 //	   packet (bytearray)  64 byte array.
 //	   offset (int)        Value location in array.
-func packTask(v entities.Task, packet []byte, offset int) {
+func packTaskType(v entities.TaskType, packet []byte, offset int) {
 	packet[offset] = uint8(v)
 }
 

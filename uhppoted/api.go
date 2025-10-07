@@ -125,6 +125,34 @@ func PutCardRecord[T TController](u Uhppoted, controller T, card entities.Card, 
 	}
 }
 
+// Retrieves the event record for the even at an index.
+func GetEventRecord[T TController](u Uhppoted, controller T, index uint32, timeout time.Duration) (entities.Event, error) {
+	var zero entities.Event
+
+	if c, err := resolve(controller); err != nil {
+		return zero, err
+	} else if request, err := encode.GetEventRequest(c.ID, index); err != nil {
+		return zero, err
+	} else if reply, err := send(u, c, request, timeout); err != nil {
+		return zero, err
+	} else if response, err := decode.GetEventResponse(reply); err != nil {
+		return zero, err
+	} else if !valid(response, c.ID) {
+		return zero, ErrInvalidResponse
+	} else {
+		return entities.Event{
+			Index:         response.Index,
+			Event:         entities.EventType(response.EventType),
+			AccessGranted: response.AccessGranted,
+			Door:          response.Door,
+			Direction:     response.Direction,
+			Card:          response.Card,
+			Timestamp:     response.Timestamp,
+			Reason:        response.Reason,
+		}, nil
+	}
+}
+
 // Retrieves the requested access time profile record from a controller.
 func GetTimeProfileRecord[T TController](u Uhppoted, controller T, profile uint8, timeout time.Duration) (entities.TimeProfile, error) {
 	var zero entities.TimeProfile
@@ -229,31 +257,52 @@ func SetTimeProfileRecord[T TController](u Uhppoted, controller T, record entiti
 	}
 }
 
-// Retrieves the event record for the even at an index.
-func GetEventRecord[T TController](u Uhppoted, controller T, index uint32, timeout time.Duration) (entities.Event, error) {
-	var zero entities.Event
+// Creates a scheduled task.
+//
+// Task types
+// 0:  control door
+// 1:  unlock door
+// 2:  lock door
+// 3:  disable time profiles
+// 4:  enable time profiles
+// 5:  enable card, no password
+// 6:  enable card+IN password
+// 7:  enable card+password
+// 8:  enable more cards
+// 9:  disable more cards
+// 10: trigger once
+// 11: disable pushbutton
+// 12: enable pushbutton
+func AddTaskRecord[T TController](u Uhppoted, controller T, record Task, timeout time.Duration) (bool, error) {
+	f := func(id uint32) ([]byte, error) {
+		return encode.AddTaskRequest(id,
+			record.Task,
+			record.StartDate,
+			record.EndDate,
+			record.Weekdays.Monday,
+			record.Weekdays.Tuesday,
+			record.Weekdays.Wednesday,
+			record.Weekdays.Thursday,
+			record.Weekdays.Friday,
+			record.Weekdays.Saturday,
+			record.Weekdays.Sunday,
+			record.StartTime,
+			record.Door,
+			record.MoreCards)
+	}
 
 	if c, err := resolve(controller); err != nil {
-		return zero, err
-	} else if request, err := encode.GetEventRequest(c.ID, index); err != nil {
-		return zero, err
+		return false, err
+	} else if request, err := f(c.ID); err != nil {
+		return false, err
 	} else if reply, err := send(u, c, request, timeout); err != nil {
-		return zero, err
-	} else if response, err := decode.GetEventResponse(reply); err != nil {
-		return zero, err
+		return false, err
+	} else if response, err := decode.AddTaskResponse(reply); err != nil {
+		return false, err
 	} else if !valid(response, c.ID) {
-		return zero, ErrInvalidResponse
+		return false, ErrInvalidResponse
 	} else {
-		return entities.Event{
-			Index:         response.Index,
-			Event:         entities.EventType(response.EventType),
-			AccessGranted: response.AccessGranted,
-			Door:          response.Door,
-			Direction:     response.Direction,
-			Card:          response.Card,
-			Timestamp:     response.Timestamp,
-			Reason:        response.Reason,
-		}, nil
+		return response.Ok, nil
 	}
 }
 

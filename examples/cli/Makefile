@@ -155,6 +155,9 @@ clear-time-profiles: build
 add-task: build
 	$(CMD) add-task --controller $(CONTROLLER) $(DEST) $(TCP) 
 
+add-task-record: build
+	$(CMD) add-task-record --controller $(CONTROLLER) $(DEST) $(TCP) 
+
 refresh-tasklist: build
 	$(CMD) refresh-tasklist --controller $(CONTROLLER) $(DEST) $(TCP) 
 

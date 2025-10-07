@@ -28,7 +28,7 @@ build: format
 	go build -trimpath ./...
 
 debug: build
-	cd examples/cli && make get-door
+	cd examples/cli && make add-task-record
 	# go test -v -count=1 ./uhppoted/... -run TestSetTime
 	# go test -v -count=1 ./integration-tests/... -run TestInvalidResponse
 
@@ -206,6 +206,11 @@ add-task: build
 	cd examples/cli && make add-task
 	cd examples/cli && make add-task DEST="--dest 127.0.0.1"
 	cd examples/cli && make add-task DEST="--dest 127.0.0.1" TCP="--tcp"
+
+add-task-record: build
+	cd examples/cli && make add-task-record
+	cd examples/cli && make add-task-record DEST="--dest 127.0.0.1"
+	cd examples/cli && make add-task-record DEST="--dest 127.0.0.1" TCP="--tcp"
 
 refresh-tasklist: build
 	cd examples/cli && make refresh-tasklist

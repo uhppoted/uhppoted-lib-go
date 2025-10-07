@@ -1,24 +1,24 @@
 package entities
 
-type Task uint8
+type TaskType uint8
 
 const (
-	ControlDoor          Task = 0
-	UnlockDoor           Task = 1
-	LockDoor             Task = 2
-	DisableTimeProfiles  Task = 3
-	EnableTimeProfiles   Task = 4
-	EnableCardNoPassword Task = 5
-	EnableCardInPassword Task = 6
-	EnableCardPassword   Task = 7
-	EnableMoreCards      Task = 8
-	DisableMoreCards     Task = 9
-	TriggerOnce          Task = 10
-	DisablePushbutton    Task = 11
-	EnablePushbutton     Task = 12
+	ControlDoor          TaskType = 0
+	UnlockDoor           TaskType = 1
+	LockDoor             TaskType = 2
+	DisableTimeProfiles  TaskType = 3
+	EnableTimeProfiles   TaskType = 4
+	EnableCardNoPassword TaskType = 5
+	EnableCardInPassword TaskType = 6
+	EnableCardPassword   TaskType = 7
+	EnableMoreCards      TaskType = 8
+	DisableMoreCards     TaskType = 9
+	TriggerOnce          TaskType = 10
+	DisablePushbutton    TaskType = 11
+	EnablePushbutton     TaskType = 12
 )
 
-func (t Task) String() string {
+func (t TaskType) String() string {
 	switch t {
 	case ControlDoor:
 		return "control door"
@@ -62,4 +62,14 @@ func (t Task) String() string {
 	default:
 		return "unknown"
 	}
+}
+
+type Task struct {
+	Task      TaskType `json:"task"`
+	Door      uint8    `json:"door"`
+	StartDate Date     `json:"start-date"`
+	EndDate   Date     `json:"end-date"`
+	StartTime HHmm     `json:"start-time"`
+	Weekdays  Weekdays `json:"weekdays"`
+	MoreCards uint8    `json:"more-cards"`
 }

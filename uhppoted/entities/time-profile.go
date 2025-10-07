@@ -9,16 +9,6 @@ type TimeProfile struct {
 	LinkedProfile uint8         `json:"linked-profile"`
 }
 
-type Weekdays struct {
-	Monday    bool `json:"monday"`
-	Tuesday   bool `json:"tuesday"`
-	Wednesday bool `json:"wednesday"`
-	Thursday  bool `json:"thursday"`
-	Friday    bool `json:"friday"`
-	Saturday  bool `json:"saturday"`
-	Sunday    bool `json:"sunday"`
-}
-
 type TimeSegment struct {
 	Start HHmm `json:"start"`
 	End   HHmm `json:"end"`

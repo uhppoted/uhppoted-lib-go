@@ -14,7 +14,6 @@ import (
 
 	test "github.com/uhppoted/uhppoted-lib-go/integration-tests"
 	lib "github.com/uhppoted/uhppoted-lib-go/uhppoted"
-	"github.com/uhppoted/uhppoted-lib-go/uhppoted/entities"
 )
 
 var bind = netip.MustParseAddrPort("0.0.0.0:0")
@@ -78,8 +77,8 @@ func TestGetCardRecord(t *testing.T) {
 
 	expected := lib.Card{
 		Card:      10058400,
-		StartDate: entities.MustParseDate("2025-01-01"),
-		EndDate:   entities.MustParseDate("2025-12-31"),
+		StartDate: lib.MustParseDate("2025-01-01"),
+		EndDate:   lib.MustParseDate("2025-12-31"),
 		Permissions: map[uint8]uint8{
 			1: 1,
 			2: 0,
@@ -104,7 +103,7 @@ func TestGetEventRecord(t *testing.T) {
 
 	expected := lib.Event{
 		Index:         13579,
-		Timestamp:     entities.MustParseDateTime("2025-11-17 12:34:56"),
+		Timestamp:     lib.MustParseDateTime("2025-11-17 12:34:56"),
 		Event:         2,
 		AccessGranted: true,
 		Door:          4,
@@ -128,9 +127,9 @@ func TestGetTimeProfileRecord(t *testing.T) {
 
 	expected := lib.TimeProfile{
 		Profile:   37,
-		StartDate: entities.MustParseDate("2025-11-26"),
-		EndDate:   entities.MustParseDate("2025-12-29"),
-		Weekdays: entities.Weekdays{
+		StartDate: lib.MustParseDate("2025-11-26"),
+		EndDate:   lib.MustParseDate("2025-12-29"),
+		Weekdays: lib.Weekdays{
 			Monday:    true,
 			Tuesday:   true,
 			Wednesday: false,
@@ -139,18 +138,18 @@ func TestGetTimeProfileRecord(t *testing.T) {
 			Saturday:  true,
 			Sunday:    true,
 		},
-		Segments: []entities.TimeSegment{
+		Segments: []lib.TimeSegment{
 			{
-				Start: entities.MustParseHHmm("08:30"),
-				End:   entities.MustParseHHmm("09:45"),
+				Start: lib.MustParseHHmm("08:30"),
+				End:   lib.MustParseHHmm("09:45"),
 			},
 			{
-				Start: entities.MustParseHHmm("11:35"),
-				End:   entities.MustParseHHmm("13:15"),
+				Start: lib.MustParseHHmm("11:35"),
+				End:   lib.MustParseHHmm("13:15"),
 			},
 			{
-				Start: entities.MustParseHHmm("14:01"),
-				End:   entities.MustParseHHmm("17:59"),
+				Start: lib.MustParseHHmm("14:01"),
+				End:   lib.MustParseHHmm("17:59"),
 			},
 		},
 		LinkedProfile: 19,
@@ -170,8 +169,8 @@ func TestSetTimeProfileRecord(t *testing.T) {
 
 	record := lib.TimeProfile{
 		Profile:   37,
-		StartDate: entities.MustParseDate("2025-11-26"),
-		EndDate:   entities.MustParseDate("2025-12-29"),
+		StartDate: lib.MustParseDate("2025-11-26"),
+		EndDate:   lib.MustParseDate("2025-12-29"),
 		Weekdays: lib.Weekdays{
 			Monday:    true,
 			Tuesday:   true,
@@ -183,22 +182,52 @@ func TestSetTimeProfileRecord(t *testing.T) {
 		},
 		Segments: []lib.TimeSegment{
 			{
-				Start: entities.MustParseHHmm("8:30"),
-				End:   entities.MustParseHHmm("9:45"),
+				Start: lib.MustParseHHmm("8:30"),
+				End:   lib.MustParseHHmm("9:45"),
 			},
 			{
-				Start: entities.MustParseHHmm("11:35"),
-				End:   entities.MustParseHHmm("13:15"),
+				Start: lib.MustParseHHmm("11:35"),
+				End:   lib.MustParseHHmm("13:15"),
 			},
 			{
-				Start: entities.MustParseHHmm("14:01"),
-				End:   entities.MustParseHHmm("17:59"),
+				Start: lib.MustParseHHmm("14:01"),
+				End:   lib.MustParseHHmm("17:59"),
 			},
 		},
 		LinkedProfile: 19,
 	}
 
 	ok, err := lib.SetTimeProfileRecord(u, controller, record, timeout)
+
+	if err != nil {
+		t.Fatalf("%v", err)
+	} else if !ok {
+		t.Errorf("incorrect response\n   expected:%v\n   got:     %v", true, ok)
+	}
+}
+
+func TestAddTaskRecord(t *testing.T) {
+	controller := uint32(405419896)
+
+	task := lib.Task{
+		Task:      lib.LockDoor,
+		StartDate: lib.MustParseDate("2025-01-01"),
+		EndDate:   lib.MustParseDate("2025-12-31"),
+		StartTime: lib.MustParseHHmm("08:45"),
+		Weekdays: lib.Weekdays{
+			Monday:    true,
+			Tuesday:   true,
+			Wednesday: false,
+			Thursday:  true,
+			Friday:    false,
+			Saturday:  true,
+			Sunday:    true,
+		},
+		Door:      3,
+		MoreCards: 7,
+	}
+
+	ok, err := lib.AddTaskRecord(u, controller, task, timeout)
 
 	if err != nil {
 		t.Fatalf("%v", err)

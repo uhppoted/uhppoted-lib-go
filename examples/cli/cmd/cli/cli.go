@@ -41,6 +41,7 @@ var commands = map[string]func(u lib.Uhppoted, args []string) error{
 	"set-time-profile-record":    setTimeProfileRecord,
 	"clear-time-profiles":        clearTimeProfiles,
 	"add-task":                   addTask,
+	"add-task-record":            addTaskRecord,
 	"refresh-tasklist":           refreshTaskList,
 	"clear-tasklist":             clearTaskList,
 	"set-pc-control":             setPCControl,
