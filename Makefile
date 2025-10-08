@@ -39,7 +39,9 @@ vuln:
 	cd src && make vuln
 
 build-all:
-	cd src && make build-all
+	cd .codegen     && make build	
+	cd src          && make build-all
+	cd examples/cli && make build
 
 # release: clean build-all
 
