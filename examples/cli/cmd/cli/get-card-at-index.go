@@ -5,7 +5,7 @@ import (
 	"flag"
 	"fmt"
 
-	lib "github.com/uhppoted/uhppoted-lib-go/uhppoted"
+	lib "github.com/uhppoted/uhppoted-lib-go/src/uhppoted"
 )
 
 func getCardAtIndex(u lib.Uhppoted, args []string) error {

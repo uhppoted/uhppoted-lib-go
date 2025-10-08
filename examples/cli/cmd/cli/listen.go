@@ -7,7 +7,7 @@ import (
 	"os/signal"
 	"syscall"
 
-	lib "github.com/uhppoted/uhppoted-lib-go/uhppoted"
+	lib "github.com/uhppoted/uhppoted-lib-go/src/uhppoted"
 )
 
 func listen(u lib.Uhppoted, args []string) error {

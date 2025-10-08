@@ -4,7 +4,7 @@ import (
 	"encoding/json"
 	"fmt"
 
-	lib "github.com/uhppoted/uhppoted-lib-go/uhppoted"
+	lib "github.com/uhppoted/uhppoted-lib-go/src/uhppoted"
 )
 
 func findControllers(u lib.Uhppoted, args []string) error {

@@ -6,7 +6,7 @@ import (
 	"fmt"
 	"net/netip"
 
-	lib "github.com/uhppoted/uhppoted-lib-go/uhppoted"
+	lib "github.com/uhppoted/uhppoted-lib-go/src/uhppoted"
 )
 
 func setIPv4(u lib.Uhppoted, args []string) error {
