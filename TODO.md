@@ -14,7 +14,7 @@
 - [x] door mode arg type
 - [x] door mode field type
 - [ ] event type field type
-    - [ ] get-event
+    - [x] get-event
     - [x] get-event-record
     - [ ] listen-event
     - [ ] get-status
@@ -44,7 +44,7 @@
 - [ ] code generation
       - (?) remove Request/Response suffixes
 
-   - [x] decode_AST
+   - [x] decode
    - [x] decoder
        - [ ] decode ListenEvent
        - [ ] decode entities

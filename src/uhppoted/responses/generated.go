@@ -235,15 +235,15 @@ type DeleteAllCardsResponse struct {
 // 44:     remote open door
 // 45:     remote open door (USB reader)
 type GetEventResponse struct {
-	Controller    uint32            `json:"controller"`
-	Index         uint32            `json:"index"`
-	EventType     uint8             `json:"event-type"`
-	AccessGranted bool              `json:"granted"`
-	Door          uint8             `json:"door"`
-	Direction     uint8             `json:"direction"`
-	Card          uint32            `json:"card"`
-	Timestamp     entities.DateTime `json:"timestamp"`
-	Reason        uint8             `json:"reason"`
+	Controller    uint32             `json:"controller"`
+	Index         uint32             `json:"index"`
+	EventType     entities.EventType `json:"event-type"`
+	AccessGranted bool               `json:"granted"`
+	Door          uint8              `json:"door"`
+	Direction     uint8              `json:"direction"`
+	Card          uint32             `json:"card"`
+	Timestamp     entities.DateTime  `json:"timestamp"`
+	Reason        uint8              `json:"reason"`
 }
 
 type GetEventIndexResponse struct {

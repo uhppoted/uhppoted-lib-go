@@ -21,7 +21,6 @@ var Functions = template.FuncMap{
 	"testarg":     testarg,
 	"fields2args": fields2args,
 	"pack":        pack,
-	"unpack":      unpack,
 	"describe":    describe,
 	"includes":    includes,
 	"value":       value,
@@ -249,64 +248,6 @@ func pack(field lib.Field) string {
 	}
 }
 
-func unpack(field lib.Field) string {
-	switch field.Type {
-	case "bool":
-		return fmt.Sprintf("unpackBool(packet, %v)", field.Offset)
-
-	case "uint8":
-		return fmt.Sprintf("unpackUint8(packet, %v)", field.Offset)
-
-	case "uint16":
-		return fmt.Sprintf("unpackUint16(packet, %v)", field.Offset)
-
-	case "uint32":
-		return fmt.Sprintf("unpackUint32(packet, %v)", field.Offset)
-
-	case "datetime":
-		return fmt.Sprintf("unpackDateTime(packet, %v)", field.Offset)
-
-	case "optional datetime":
-		return fmt.Sprintf("unpackOptionalDateTime(packet, %v)", field.Offset)
-
-	case "date":
-		return fmt.Sprintf("unpackDate(packet, %v)", field.Offset)
-
-	case "shortdate":
-		return fmt.Sprintf("unpackShortDate(packet, %v)", field.Offset)
-
-	case "optional date":
-		return fmt.Sprintf("unpackOptionalDate(packet, %v)", field.Offset)
-
-	case "time":
-		return fmt.Sprintf("unpackTime(packet, %v)", field.Offset)
-
-	case "HHmm":
-		return fmt.Sprintf("unpackHHmm(packet, %v)", field.Offset)
-
-	case "IPv4":
-		return fmt.Sprintf("unpackIPv4(packet, %v)", field.Offset)
-
-	case "address:port":
-		return fmt.Sprintf("unpackAddrPort(packet, %v)", field.Offset)
-
-	case "addrport":
-		return fmt.Sprintf("unpackAddrPort(packet, %v)", field.Offset)
-
-	case "MAC":
-		return fmt.Sprintf("unpackMAC(packet, %v)", field.Offset)
-
-	case "version":
-		return fmt.Sprintf("unpackVersion(packet, %v)", field.Offset)
-
-	case "pin":
-		return fmt.Sprintf("unpackPIN(packet, %v)", field.Offset)
-
-	default:
-		panic(fmt.Sprintf("*** ERROR unsupported field type (%v)", field.Type))
-	}
-}
-
 func describe(field lib.Field) string {
 	return fmt.Sprintf("%v  (%v)  %v", field.Name, field.Type, field.Description)
 }
@@ -361,6 +302,9 @@ func value(v any, vtype string) string {
 
 	case "string":
 		return fmt.Sprintf(`"%v"`, v)
+
+	case "event-type":
+		return fmt.Sprintf(`entities.EventType(%v)`, v)
 
 	default:
 		return fmt.Sprintf("%v", v)

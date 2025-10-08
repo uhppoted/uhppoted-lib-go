@@ -477,7 +477,7 @@ func TestDecodeGetEventResponse(t *testing.T) {
 	expected := responses.GetEventResponse{
 		Controller:    405419896,
 		Index:         13579,
-		EventType:     2,
+		EventType:     entities.EventType(2),
 		AccessGranted: true,
 		Door:          4,
 		Direction:     2,
@@ -504,7 +504,7 @@ func TestDecodeGetEventNotFoundResponse(t *testing.T) {
 	expected := responses.GetEventResponse{
 		Controller:    405419896,
 		Index:         24680,
-		EventType:     0,
+		EventType:     entities.EventType(0),
 		AccessGranted: false,
 		Door:          0,
 		Direction:     0,
@@ -531,7 +531,7 @@ func TestDecodeGetEventOverwrittenResponse(t *testing.T) {
 	expected := responses.GetEventResponse{
 		Controller:    405419896,
 		Index:         98765,
-		EventType:     255,
+		EventType:     entities.EventType(255),
 		AccessGranted: false,
 		Door:          0,
 		Direction:     0,

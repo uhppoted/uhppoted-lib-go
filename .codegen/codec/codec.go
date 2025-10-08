@@ -27,7 +27,7 @@ func Codec() {
 	encode()
 	encodeTest()
 
-	decodeAST()
+	decode()
 	decodeTest()
 
 	decoder()

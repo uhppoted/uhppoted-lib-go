@@ -150,11 +150,14 @@ func gotype(field types.Field) string {
 	case "mode":
 		return "entities.DoorMode"
 
+	case "event-type":
+		return "entities.EventType"
+
 	case "version":
 		return "string"
 
 	default:
-		return "unknown"
+		panic(fmt.Sprintf("unknown response field type (%v)", field.Type))
 	}
 }
 

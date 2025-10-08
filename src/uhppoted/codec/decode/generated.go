@@ -433,7 +433,7 @@ func GetEventResponse(packet []byte) (responses.GetEventResponse, error) {
 	return responses.GetEventResponse{
 		Controller:    unpackUint32(packet, 4),
 		Index:         unpackUint32(packet, 8),
-		EventType:     unpackUint8(packet, 12),
+		EventType:     unpackEventType(packet, 12),
 		AccessGranted: unpackBool(packet, 13),
 		Door:          unpackUint8(packet, 14),
 		Direction:     unpackUint8(packet, 15),

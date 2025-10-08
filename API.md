@@ -591,7 +591,7 @@ Returns a `GetEventResponse`:
 type GetEventResponse struct { 
   Controller          uint32              `json:"controller"`     // controller serial number
   Index               uint32              `json:"index"`          // event index
-  EventType           uint8               `json:"event-type"`     // event type 
+  EventType           event-type          `json:"event-type"`     // event type 
   AccessGranted       bool                `json:"granted"`        // true if the door was unlocked
   Door                uint8               `json:"door"`           // door no. ([1..4]) for card and door events
   Direction           uint8               `json:"direction"`      // direction (1:IN, 2:OUT) for card and door events

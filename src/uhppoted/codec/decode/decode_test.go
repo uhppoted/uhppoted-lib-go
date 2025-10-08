@@ -518,7 +518,7 @@ func TestGetEvent(t *testing.T) {
 		Controller:    405419896,
 		Index:         13579,
 		Timestamp:     entities.MustParseDateTime("2025-11-17 12:34:56"),
-		EventType:     2,
+		EventType:     entities.EventType(2),
 		AccessGranted: true,
 		Door:          4,
 		Direction:     2,

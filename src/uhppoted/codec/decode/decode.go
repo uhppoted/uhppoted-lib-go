@@ -148,6 +148,10 @@ func unpackMode(packet []byte, offset uint8) entities.DoorMode {
 	return entities.DoorMode(packet[offset])
 }
 
+func unpackEventType(packet []byte, offset uint8) entities.EventType {
+	return entities.EventType(packet[offset])
+}
+
 func bcd2string(bytes []byte) string {
 	BCD := hex.EncodeToString(bytes)
 
