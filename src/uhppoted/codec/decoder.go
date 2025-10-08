@@ -3,8 +3,8 @@ package codec
 import (
 	"fmt"
 
-	decoder "github.com/uhppoted/uhppoted-lib-go/uhppoted/codec/decode"
-	"github.com/uhppoted/uhppoted-lib-go/uhppoted/responses"
+	decoder "github.com/uhppoted/uhppoted-lib-go/src/uhppoted/codec/decode"
+	"github.com/uhppoted/uhppoted-lib-go/src/uhppoted/responses"
 )
 
 type key[R any] struct {

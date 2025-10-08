@@ -69,7 +69,7 @@ func buildDecoder() *ast.File {
 					Name: ast.NewIdent("decoder"),
 					Path: &ast.BasicLit{
 						Kind:  token.STRING,
-						Value: `"github.com/uhppoted/uhppoted-lib-go/uhppoted/codec/decode"`,
+						Value: `"github.com/uhppoted/uhppoted-lib-go/src/uhppoted/codec/decode"`,
 					},
 				},
 			},
@@ -92,7 +92,7 @@ func buildDecoder() *ast.File {
 				Name: ast.NewIdent("decoder"),
 				Path: &ast.BasicLit{
 					Kind:  token.STRING,
-					Value: `"github.com/uhppoted/uhppoted-lib-go/uhppoted/codec/decode"`,
+					Value: `"github.com/uhppoted/uhppoted-lib-go/src/uhppoted/codec/decode"`,
 				},
 			},
 		},

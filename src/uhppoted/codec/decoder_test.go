@@ -4,7 +4,7 @@ import (
 	"errors"
 	"testing"
 
-	"github.com/uhppoted/uhppoted-lib-go/uhppoted/responses"
+	"github.com/uhppoted/uhppoted-lib-go/src/uhppoted/responses"
 )
 
 func TestInvalidPacket(t *testing.T) {

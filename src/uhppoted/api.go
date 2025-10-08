@@ -5,10 +5,10 @@ import (
 	"os"
 	"time"
 
-	"github.com/uhppoted/uhppoted-lib-go/uhppoted/codec/decode"
-	"github.com/uhppoted/uhppoted-lib-go/uhppoted/codec/encode"
-	"github.com/uhppoted/uhppoted-lib-go/uhppoted/entities"
-	"github.com/uhppoted/uhppoted-lib-go/uhppoted/responses"
+	"github.com/uhppoted/uhppoted-lib-go/src/uhppoted/codec/decode"
+	"github.com/uhppoted/uhppoted-lib-go/src/uhppoted/codec/encode"
+	"github.com/uhppoted/uhppoted-lib-go/src/uhppoted/entities"
+	"github.com/uhppoted/uhppoted-lib-go/src/uhppoted/responses"
 )
 
 type convertable interface {

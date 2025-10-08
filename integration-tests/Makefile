@@ -9,6 +9,13 @@ clean:
 	rm -rf bin
 	rm -rf dist
 
+update:
+	go get -u github.com/uhppoted/uhppoted-lib-go/src/uhppoted
+	go mod tidy
+
+regenerate:
+	../.codegen/bin/codegen integration-tests
+
 format: 
 	go fmt ./...
 

@@ -1,5 +1,7 @@
 CMD   = ./bin/cli --debug --bind 0.0.0.0 --broadcast 255.255.255.255:60000 --listen 0.0.0.0:60001
 
+.PHONY: integration-tests
+
 .DEFAULT_GOAL := build
 
 clean:
@@ -35,3 +37,6 @@ vet:
 	go vet ./...
 
 debug: build
+
+integration-tests:
+	./bin/codegen integration-tests

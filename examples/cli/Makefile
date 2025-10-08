@@ -13,7 +13,7 @@ clean:
 	rm -rf dist
 
 update:
-	go get -u github.com/uhppoted/uhppote-lib-go
+	go get -u github.com/uhppoted/uhppoted-lib-go/src/uhppoted
 	go mod tidy
 
 format: 

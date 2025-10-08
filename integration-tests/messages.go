@@ -5,8 +5,8 @@ package uhppoted
 import (
 	"errors"
 
-	lib "github.com/uhppoted/uhppoted-lib-go/uhppoted"
-	"github.com/uhppoted/uhppoted-lib-go/uhppoted/entities"
+	lib "github.com/uhppoted/uhppoted-lib-go/src/uhppoted"
+	"github.com/uhppoted/uhppoted-lib-go/src/uhppoted/entities"
 )
 
 type message = struct {

@@ -5,7 +5,7 @@ package encode
 import (
 	"net/netip"
 
-	"github.com/uhppoted/uhppoted-lib-go/uhppoted/entities"
+	"github.com/uhppoted/uhppoted-lib-go/src/uhppoted/entities"
 )
 
 // Encodes a get-controller-request.

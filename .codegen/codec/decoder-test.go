@@ -112,13 +112,13 @@ func buildDecoderTest() *ast.File {
 			&ast.ImportSpec{
 				Path: &ast.BasicLit{
 					Kind:  token.STRING,
-					Value: `"github.com/uhppoted/uhppoted-lib-go/uhppoted/entities"`,
+					Value: `"github.com/uhppoted/uhppoted-lib-go/src/uhppoted/entities"`,
 				},
 			},
 			&ast.ImportSpec{
 				Path: &ast.BasicLit{
 					Kind:  token.STRING,
-					Value: `"github.com/uhppoted/uhppoted-lib-go/uhppoted/responses"`,
+					Value: `"github.com/uhppoted/uhppoted-lib-go/src/uhppoted/responses"`,
 				},
 			},
 		},
@@ -165,7 +165,7 @@ func buildDecoderTest() *ast.File {
 			{
 				Path: &ast.BasicLit{
 					Kind:  token.STRING,
-					Value: `"github.com/uhppoted/uhppoted-lib-go/uhppoted/responses"`,
+					Value: `"github.com/uhppoted/uhppoted-lib-go/src/uhppoted/responses"`,
 				},
 			},
 		},

@@ -7,8 +7,8 @@ import (
 	"reflect"
 	"testing"
 
-	"github.com/uhppoted/uhppoted-lib-go/uhppoted/entities"
-	"github.com/uhppoted/uhppoted-lib-go/uhppoted/responses"
+	"github.com/uhppoted/uhppoted-lib-go/src/uhppoted/entities"
+	"github.com/uhppoted/uhppoted-lib-go/src/uhppoted/responses"
 )
 
 func TestDecodeGetControllerResponse(t *testing.T) {

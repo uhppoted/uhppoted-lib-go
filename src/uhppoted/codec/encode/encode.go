@@ -5,7 +5,7 @@ import (
 	"fmt"
 	"net/netip"
 
-	"github.com/uhppoted/uhppoted-lib-go/uhppoted/entities"
+	"github.com/uhppoted/uhppoted-lib-go/src/uhppoted/entities"
 )
 
 // Message constants for the UHPPOTE request/response protocol.

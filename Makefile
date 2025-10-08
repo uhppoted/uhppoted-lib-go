@@ -3,12 +3,14 @@
 .DEFAULT_GOAL := build
 
 regenerate:
-	cd .codegen && make build
-	cd src && go generate ./...
+	cd .codegen          && make build
+	cd src               && make regenerate
+	cd integration-tests && make regenerate
 
 update:
-	cd .codegen && make update
-	go mod tidy
+	cd .codegen          && make update
+	cd integration-tests && make update
+	cd examples/cli      && make update
 
 update-release:
 	cd .codegen && make update-release

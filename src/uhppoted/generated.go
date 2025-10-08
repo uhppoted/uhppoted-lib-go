@@ -6,9 +6,9 @@ import (
 	"net/netip"
 	"time"
 
-	"github.com/uhppoted/uhppoted-lib-go/uhppoted/codec/encode"
-	"github.com/uhppoted/uhppoted-lib-go/uhppoted/entities"
-	"github.com/uhppoted/uhppoted-lib-go/uhppoted/responses"
+	"github.com/uhppoted/uhppoted-lib-go/src/uhppoted/codec/encode"
+	"github.com/uhppoted/uhppoted-lib-go/src/uhppoted/entities"
+	"github.com/uhppoted/uhppoted-lib-go/src/uhppoted/responses"
 )
 
 // Retrieves the system information for an access controller.

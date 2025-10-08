@@ -5,7 +5,7 @@ package decode
 import (
 	"fmt"
 
-	"github.com/uhppoted/uhppoted-lib-go/uhppoted/responses"
+	"github.com/uhppoted/uhppoted-lib-go/src/uhppoted/responses"
 )
 
 func GetControllerResponse(packet []byte) (responses.GetControllerResponse, error) {

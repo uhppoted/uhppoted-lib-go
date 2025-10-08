@@ -5,7 +5,7 @@ package codec
 import (
 	"fmt"
 
-	decoder "github.com/uhppoted/uhppoted-lib-go/uhppoted/codec/decode"
+	decoder "github.com/uhppoted/uhppoted-lib-go/src/uhppoted/codec/decode"
 )
 
 func decode(packet []byte) (any, error) {
