@@ -7,9 +7,9 @@ import (
 	"reflect"
 	"testing"
 
-	test "integration-tests"
 	lib "github.com/uhppoted/uhppoted-lib-go/uhppoted"
 	"github.com/uhppoted/uhppoted-lib-go/uhppoted/entities"
+	test "integration-tests"
 )
 
 func TestFindControllers(t *testing.T) {

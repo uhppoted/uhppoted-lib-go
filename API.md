@@ -40,6 +40,11 @@
 - [`GetCardRecord`](#getcardrecord)
 - [`GetCardRecordAtIndex`](#getcardrecordatindex)
 - [`PutCardRecord`](#putcardrecord)
+- [`GetEventRecord`](API.md#geteventrecord)
+- [`GetStatusRecord`](API.md#getstatusrecord)
+- [`GetTimeProfileRecord`](API.md#gettimeprofilerecord)
+- [`SetTimeProfileRecord`](API.md#settimeprofilerecord)
+- [`AddTaskRecord`](API.md#addtaskrecord)
 - [`Listen`](#listen)
 
 ---
@@ -1008,6 +1013,7 @@ type Card struct {
 }
 ```
 
+
 ### `PutCardRecord`
 Creates or updates a card record stored on an access controller.
 ```
@@ -1030,6 +1036,43 @@ type Card struct {
 }
 ```
 Returns a `bool`, `true` if the card was added or updated, `false` otherwise.
+
+
+### `GetStatusRecord`
+Retrieves the status record for a controller.
+```
+GetStatusRecord(u, controller, timeout)
+
+where:
+- u             Uhppoted        Uhppoted struct initialised with the bind address, broadcast address, etc
+- controller    controller      uint32|Controller controller serial number or {id, address, protocol} Controller struct
+- timeout       time.Duration   maximum time to wait for a response from a controller
+```
+Returns a `Status` record:
+```
+type Status struct {
+  System struct {
+    Time  DateTime `json:"datetime"`       // controller system date and time, e.g. 2025-07-21 13:25:47
+    Error uint8    `json:"error"`          // system error code
+    Info  uint8    `json:"info"`           // absolutely no idea
+  } `json:"system"`
+
+  Doors map[uint8]struct {
+    Open     bool `json:"open"`            // door open sensor
+    Button   bool `json:"button"`          // door button pressed
+    Unlocked bool `json:"unlocked"`        // door unlocked
+  } `json:"doors"`
+
+  Alarms struct {
+    Flags      uint8 `json:"flags"`        // bitset of alarm inputs
+    Fire       bool  `json:"fire"`         // fire alarm (bit 0)
+    LockForced bool  `json:"lock-forced"`  // lock forced (bit 1)
+  } `json:"alarms"`
+
+  Event Event `json:"event"`               // most recent event
+}
+```
+
 
 ### `GetEventRecord`
 Retrieves the event record for the event at a given index.

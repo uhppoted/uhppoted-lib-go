@@ -1,3 +1,5 @@
+.PHONY: integration-tests
+
 .DEFAULT_GOAL := build
 
 regenerate:

@@ -104,6 +104,9 @@ open-door: build
 get-status: build
 	$(CMD) get-status --controller $(CONTROLLER) $(DEST) $(TCP)
 
+get-status-record: build
+	$(CMD) get-status-record --controller $(CONTROLLER) $(DEST) $(TCP)
+
 get-cards: build
 	$(CMD) get-cards --controller $(CONTROLLER) $(DEST) $(TCP)
 

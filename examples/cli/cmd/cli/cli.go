@@ -21,6 +21,7 @@ var commands = map[string]func(u lib.Uhppoted, args []string) error{
 	"set-door-passcodes":         setDoorPasscodes,
 	"open-door":                  openDoor,
 	"get-status":                 getStatus,
+	"get-status-record":          getStatusRecord,
 	"get-cards":                  getCards,
 	"get-card":                   getCard,
 	"get-card-record":            getCardRecord,

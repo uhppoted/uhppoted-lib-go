@@ -35,5 +35,8 @@ folder.
 - [`GetCardRecordAtIndex`](API.md#getcardrecordatindex)
 - [`PutCardRecord`](API.md#putcardrecord)
 - [`GetEventRecord`](API.md#geteventrecord)
+- [`GetStatusRecord`](API.md#getstatusrecord)
+- [`GetTimeProfileRecord`](API.md#gettimeprofilerecord)
 - [`SetTimeProfileRecord`](API.md#settimeprofilerecord)
+- [`AddTaskRecord`](API.md#addtaskrecord)
 - [`Listen`](API.md#listen)

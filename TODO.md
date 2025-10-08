@@ -34,6 +34,9 @@
 - [x] set-time-profile-record
 - [x] task record
 - [ ] status record
+    - `Inputs.LockForced` (`Input`): input 1 contact state (`Set` or `Clear`).
+    - `Inputs.FireAlarm` (`Input`): input 2 contact state (`Set` or `Clear`).
+
 - [ ] listener interface
 - [ ] godoc/examples
 

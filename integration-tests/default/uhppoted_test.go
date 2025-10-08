@@ -12,8 +12,8 @@ import (
 	"testing"
 	"time"
 
-	test "integration-tests"
 	lib "github.com/uhppoted/uhppoted-lib-go/uhppoted"
+	test "integration-tests"
 )
 
 var bind = netip.MustParseAddrPort("0.0.0.0:0")
@@ -89,6 +89,94 @@ func TestGetCardRecord(t *testing.T) {
 	}
 
 	record, err := lib.GetCardRecord(u, controller, card, timeout)
+
+	if err != nil {
+		t.Fatalf("%v", err)
+	} else if !reflect.DeepEqual(record, expected) {
+		t.Errorf("incorrect response\n   expected:%#v\n   got:     %#v", expected, record)
+	}
+}
+
+func TestGetStatusRecord(t *testing.T) {
+	controller := uint32(405419896)
+
+	expected := lib.Status{
+		System: struct {
+			Time  lib.DateTime `json:"datetime"`
+			Error uint8        `json:"error"`
+			Info  uint8        `json:"info"`
+		}{
+			Time:  lib.MustParseDateTime("2022-08-23 09:49:39"),
+			Error: 3,
+			Info:  39,
+		},
+
+		Doors: map[uint8]struct {
+			Open     bool `json:"open"`
+			Button   bool `json:"button"`
+			Unlocked bool `json:"unlocked"`
+		}{
+			1: struct {
+				Open     bool `json:"open"`
+				Button   bool `json:"button"`
+				Unlocked bool `json:"unlocked"`
+			}{
+				Open:     false,
+				Button:   false,
+				Unlocked: true,
+			},
+			2: struct {
+				Open     bool `json:"open"`
+				Button   bool `json:"button"`
+				Unlocked bool `json:"unlocked"`
+			}{
+				Open:     true,
+				Button:   false,
+				Unlocked: true,
+			},
+			3: struct {
+				Open     bool `json:"open"`
+				Button   bool `json:"button"`
+				Unlocked bool `json:"unlocked"`
+			}{
+				Open:     false,
+				Button:   false,
+				Unlocked: true,
+			},
+			4: struct {
+				Open     bool `json:"open"`
+				Button   bool `json:"button"`
+				Unlocked bool `json:"unlocked"`
+			}{
+				Open:     false,
+				Button:   true,
+				Unlocked: false,
+			},
+		},
+
+		Alarms: struct {
+			Flags      uint8 `json:"flags"`
+			Fire       bool  `json:"fire"`
+			LockForced bool  `json:"lock-forced"`
+		}{
+			Flags:      0x09,
+			Fire:       true,
+			LockForced: false,
+		},
+
+		Event: lib.Event{
+			Index:         78,
+			Event:         lib.EventDoor,
+			AccessGranted: true,
+			Door:          3,
+			Direction:     1,
+			Card:          8165537,
+			Timestamp:     lib.MustParseDateTime("2022-08-23 09:47:06"),
+			Reason:        44,
+		},
+	}
+
+	record, err := lib.GetStatusRecord(u, controller, timeout)
 
 	if err != nil {
 		t.Fatalf("%v", err)

@@ -51,6 +51,11 @@ type (
 	TimeProfile = entities.TimeProfile
 	Task        = entities.Task
 	Event       = entities.Event
+	Status      = entities.Status
+	DateTime    = entities.DateTime
+	Date        = entities.Date
+	Time        = entities.Time
+	HHmm        = entities.HHmm
 	DoorMode    = entities.DoorMode
 	TaskType    = entities.TaskType
 	Interlock   = entities.Interlock
