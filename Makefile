@@ -1,3 +1,4 @@
+.PHONY: regenerate
 .PHONY: integration-tests
 
 .DEFAULT_GOAL := build
@@ -37,12 +38,8 @@ lint:
 vuln:
 	cd src && make vuln
 
-build-all: regenerate test integration-tests vet lint
-	cd src && env GOOS=linux   GOARCH=amd64       GOWORK=off go build -trimpath ./...
-	cd src && env GOOS=linux   GOARCH=arm GOARM=7 GOWORK=off go build -trimpath ./...
-	cd src && env GOOS=linux   GOARCH=arm GOARM=6 GOWORK=off go build -trimpath ./...
-	cd src && env GOOS=darwin  GOARCH=amd64       GOWORK=off go build -trimpath ./...
-	cd src && env GOOS=windows GOARCH=amd64       GOWORK=off go build -trimpath ./...
+build-all:
+	cd src && make build-all
 
 # release: clean build-all
 
