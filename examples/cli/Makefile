@@ -81,7 +81,8 @@ get-time: build
 	$(CMD) get-time --controller $(CONTROLLER) $(DEST) $(TCP)
 
 set-time: build
-	$(CMD) set-time --controller $(CONTROLLER) $(DEST) $(TCP) --datetime "2025-10-02 12:34:56"
+	$(CMD) set-time --controller $(CONTROLLER) $(DEST) $(TCP)
+	# $(CMD) set-time --controller $(CONTROLLER) $(DEST) $(TCP) --datetime "2025-10-02 12:34:56"
 
 get-listener: build
 	$(CMD) get-listener --controller $(CONTROLLER) $(DEST) $(TCP)

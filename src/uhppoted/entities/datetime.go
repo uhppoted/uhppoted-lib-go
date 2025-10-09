@@ -69,7 +69,7 @@ func ParseDateTime(s string) (DateTime, error) {
 // Creates a DateTime from the time.Time year, month, day, hour, minute and second fields.
 func DateTimeFromTime(t time.Time) DateTime {
 	year := minmax(t.Year(), 1, 2999)
-	month := minmax(int(t.Month()), 1, 2)
+	month := minmax(int(t.Month()), 1, 12)
 	day := minmax(t.Day(), 1, 255)
 
 	hour := minmax(t.Hour(), 0, 255)

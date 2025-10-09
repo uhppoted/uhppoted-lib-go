@@ -19,7 +19,7 @@ build: format
 	cd uhppoted && go build -trimpath ./...
 
 debug: build
-	cd ../examples/cli && make get-card-record
+	cd ../examples/cli && make set-time
 	# go test -v -count=1 ./uhppoted/... -run TestSetTime
 	# go test -v -count=1 ./integration-tests/... -run TestInvalidResponse
 

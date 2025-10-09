@@ -11,7 +11,7 @@ import (
 func setTime(u lib.Uhppoted, args []string) error {
 	var datetime string
 
-	flagset := flag.NewFlagSet("get-time", flag.ExitOnError)
+	flagset := flag.NewFlagSet("set-time", flag.ExitOnError)
 
 	flagset.StringVar(&datetime, "datetime", "", "(optional) date/time - defaults to current time")
 
