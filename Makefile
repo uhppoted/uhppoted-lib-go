@@ -20,9 +20,6 @@ update-release:
 build: 
 	cd src && make build
 
-debug: 
-	cd src && make debug
-
 test: 
 	cd src && make test
 
@@ -51,6 +48,9 @@ build-all:
 
 # godoc:
 # 	godoc -http=:80	-index_interval=60s
+
+debug: regenerate test integration-tests
+	cd src && make debug
 
 help:
 	cd examples/cli && make help

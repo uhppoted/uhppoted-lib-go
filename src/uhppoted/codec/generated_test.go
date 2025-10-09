@@ -81,7 +81,7 @@ func TestDecodeGetStatusResponse(t *testing.T) {
 		SystemError:        3,
 		SpecialInfo:        39,
 		EventIndex:         78,
-		EventType:          2,
+		EventType:          entities.EventType(2),
 		EventAccessGranted: true,
 		EventDoor:          3,
 		EventDirection:     1,

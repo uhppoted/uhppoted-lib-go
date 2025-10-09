@@ -30,30 +30,30 @@ type SetIPv4Response struct {
 // Container struct for the response returned from a controller when
 // retrieving the current runtime status.
 type GetStatusResponse struct {
-	Controller         uint32            `json:"controller"`
-	SystemDate         entities.Date     `json:"system-date"`
-	SystemTime         entities.Time     `json:"system-time"`
-	Door1Open          bool              `json:"door-1-open"`
-	Door2Open          bool              `json:"door-2-open"`
-	Door3Open          bool              `json:"door-3-open"`
-	Door4Open          bool              `json:"door-4-open"`
-	Door1Button        bool              `json:"door-1-button"`
-	Door2Button        bool              `json:"door-2-button"`
-	Door3Button        bool              `json:"door-3-button"`
-	Door4Button        bool              `json:"door-4-button"`
-	Relays             uint8             `json:"relays"`
-	Inputs             uint8             `json:"alarm-inputs"`
-	SystemError        uint8             `json:"system-error"`
-	SpecialInfo        uint8             `json:"special-info"`
-	EventIndex         uint32            `json:"event-index"`
-	EventType          uint8             `json:"event-type"`
-	EventAccessGranted bool              `json:"event-granted"`
-	EventDoor          uint8             `json:"event-door"`
-	EventDirection     uint8             `json:"event-direction"`
-	EventCard          uint32            `json:"event-card"`
-	EventTimestamp     entities.DateTime `json:"event-timestamp"`
-	EventReason        uint8             `json:"event-reason"`
-	SequenceNo         uint32            `json:"sequence-no"`
+	Controller         uint32             `json:"controller"`
+	SystemDate         entities.Date      `json:"system-date"`
+	SystemTime         entities.Time      `json:"system-time"`
+	Door1Open          bool               `json:"door-1-open"`
+	Door2Open          bool               `json:"door-2-open"`
+	Door3Open          bool               `json:"door-3-open"`
+	Door4Open          bool               `json:"door-4-open"`
+	Door1Button        bool               `json:"door-1-button"`
+	Door2Button        bool               `json:"door-2-button"`
+	Door3Button        bool               `json:"door-3-button"`
+	Door4Button        bool               `json:"door-4-button"`
+	Relays             uint8              `json:"relays"`
+	Inputs             uint8              `json:"alarm-inputs"`
+	SystemError        uint8              `json:"system-error"`
+	SpecialInfo        uint8              `json:"special-info"`
+	EventIndex         uint32             `json:"event-index"`
+	EventType          entities.EventType `json:"event-type"`
+	EventAccessGranted bool               `json:"event-granted"`
+	EventDoor          uint8              `json:"event-door"`
+	EventDirection     uint8              `json:"event-direction"`
+	EventCard          uint32             `json:"event-card"`
+	EventTimestamp     entities.DateTime  `json:"event-timestamp"`
+	EventReason        uint8              `json:"event-reason"`
+	SequenceNo         uint32             `json:"sequence-no"`
 }
 
 // Container struct for the response returned by a controller when retrieving the system date/time.
@@ -372,28 +372,28 @@ type RestoreDefaultParametersResponse struct {
 
 // Container struct for an event message sent by a controller.
 type ListenerEvent struct {
-	Controller         uint32            `json:"controller"`
-	SystemDate         entities.Date     `json:"system-date"`
-	SystemTime         entities.Time     `json:"system-time"`
-	Door1Open          bool              `json:"door-1-open"`
-	Door2Open          bool              `json:"door-2-open"`
-	Door3Open          bool              `json:"door-3-open"`
-	Door4Open          bool              `json:"door-4-open"`
-	Door1Button        bool              `json:"door-1-button"`
-	Door2Button        bool              `json:"door-2-button"`
-	Door3Button        bool              `json:"door-3-button"`
-	Door4Button        bool              `json:"door-4-button"`
-	Relays             uint8             `json:"relays"`
-	Inputs             uint8             `json:"alarm-inputs"`
-	SystemError        uint8             `json:"system-error"`
-	SpecialInfo        uint8             `json:"special-info"`
-	EventIndex         uint32            `json:"event-index"`
-	EventType          uint8             `json:"event-type"`
-	EventAccessGranted bool              `json:"event-granted"`
-	EventDoor          uint8             `json:"event-door"`
-	EventDirection     uint8             `json:"event-direction"`
-	EventCard          uint32            `json:"event-card"`
-	EventTimestamp     entities.DateTime `json:"event-timestamp"`
-	EventReason        uint8             `json:"event-reason"`
-	SequenceNo         uint32            `json:"sequence-no"`
+	Controller         uint32             `json:"controller"`
+	SystemDate         entities.Date      `json:"system-date"`
+	SystemTime         entities.Time      `json:"system-time"`
+	Door1Open          bool               `json:"door-1-open"`
+	Door2Open          bool               `json:"door-2-open"`
+	Door3Open          bool               `json:"door-3-open"`
+	Door4Open          bool               `json:"door-4-open"`
+	Door1Button        bool               `json:"door-1-button"`
+	Door2Button        bool               `json:"door-2-button"`
+	Door3Button        bool               `json:"door-3-button"`
+	Door4Button        bool               `json:"door-4-button"`
+	Relays             uint8              `json:"relays"`
+	Inputs             uint8              `json:"alarm-inputs"`
+	SystemError        uint8              `json:"system-error"`
+	SpecialInfo        uint8              `json:"special-info"`
+	EventIndex         uint32             `json:"event-index"`
+	EventType          entities.EventType `json:"event-type"`
+	EventAccessGranted bool               `json:"event-granted"`
+	EventDoor          uint8              `json:"event-door"`
+	EventDirection     uint8              `json:"event-direction"`
+	EventCard          uint32             `json:"event-card"`
+	EventTimestamp     entities.DateTime  `json:"event-timestamp"`
+	EventReason        uint8              `json:"event-reason"`
+	SequenceNo         uint32             `json:"sequence-no"`
 }

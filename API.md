@@ -436,7 +436,7 @@ type GetStatusResponse struct {
   SystemError         uint8               `json:"system-error"`   // system error code
   SpecialInfo         uint8               `json:"special-info"`   // absolutely no idea
   EventIndex          uint32              `json:"event-index"`    // last event index
-  EventType           uint8               `json:"event-type"`     // last event type
+  EventType           event-type          `json:"event-type"`     // last event type
   EventAccessGranted  bool                `json:"event-granted"`  // last event access granted
   EventDoor           uint8               `json:"event-door"`     // last event door
   EventDirection      uint8               `json:"event-direction"` // last event door direction (0: in, 1: out)

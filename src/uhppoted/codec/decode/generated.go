@@ -81,7 +81,7 @@ func GetStatusResponse(packet []byte) (responses.GetStatusResponse, error) {
 		SystemError:        unpackUint8(packet, 36),
 		SpecialInfo:        unpackUint8(packet, 48),
 		EventIndex:         unpackUint32(packet, 8),
-		EventType:          unpackUint8(packet, 12),
+		EventType:          unpackEventType(packet, 12),
 		EventAccessGranted: unpackBool(packet, 13),
 		EventDoor:          unpackUint8(packet, 14),
 		EventDirection:     unpackUint8(packet, 15),
@@ -757,5 +757,5 @@ func ListenerEvent(packet []byte) (responses.ListenerEvent, error) {
 		return responses.ListenerEvent{}, fmt.Errorf("invalid reply function code (%02x)", packet[1])
 	}
 
-	return responses.ListenerEvent{Controller: unpackUint32(packet, 4), SystemDate: unpackShortDate(packet, 51), SystemTime: unpackTime(packet, 37), Door1Open: unpackBool(packet, 28), Door2Open: unpackBool(packet, 29), Door3Open: unpackBool(packet, 30), Door4Open: unpackBool(packet, 31), Door1Button: unpackBool(packet, 32), Door2Button: unpackBool(packet, 33), Door3Button: unpackBool(packet, 34), Door4Button: unpackBool(packet, 35), Relays: unpackUint8(packet, 49), Inputs: unpackUint8(packet, 50), SystemError: unpackUint8(packet, 36), SpecialInfo: unpackUint8(packet, 48), EventIndex: unpackUint32(packet, 8), EventType: unpackUint8(packet, 12), EventAccessGranted: unpackBool(packet, 13), EventDoor: unpackUint8(packet, 14), EventDirection: unpackUint8(packet, 15), EventCard: unpackUint32(packet, 16), EventTimestamp: unpackOptionalDateTime(packet, 20), EventReason: unpackUint8(packet, 27), SequenceNo: unpackUint32(packet, 40)}, nil
+	return responses.ListenerEvent{Controller: unpackUint32(packet, 4), SystemDate: unpackShortDate(packet, 51), SystemTime: unpackTime(packet, 37), Door1Open: unpackBool(packet, 28), Door2Open: unpackBool(packet, 29), Door3Open: unpackBool(packet, 30), Door4Open: unpackBool(packet, 31), Door1Button: unpackBool(packet, 32), Door2Button: unpackBool(packet, 33), Door3Button: unpackBool(packet, 34), Door4Button: unpackBool(packet, 35), Relays: unpackUint8(packet, 49), Inputs: unpackUint8(packet, 50), SystemError: unpackUint8(packet, 36), SpecialInfo: unpackUint8(packet, 48), EventIndex: unpackUint32(packet, 8), EventType: unpackEventType(packet, 12), EventAccessGranted: unpackBool(packet, 13), EventDoor: unpackUint8(packet, 14), EventDirection: unpackUint8(packet, 15), EventCard: unpackUint32(packet, 16), EventTimestamp: unpackOptionalDateTime(packet, 20), EventReason: unpackUint8(packet, 27), SequenceNo: unpackUint32(packet, 40)}, nil
 }
