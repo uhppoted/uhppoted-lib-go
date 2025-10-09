@@ -38,6 +38,7 @@
 - [ ] listener interface
 - [ ] godoc/examples
 - [ ] README
+- (?) encode factory
 
 - [x] logging
     - [ ] set default handler
@@ -48,8 +49,8 @@
 
    - [x] decode
    - [x] decoder
+       - [x] decode entities
        - [ ] decode ListenEvent
-       - [ ] decode entities
 
    - [x] encode
    - [x] encode_test

@@ -1,6 +1,7 @@
 package uhppoted
 
 import (
+	"encoding/binary"
 	"errors"
 	"fmt"
 	"net"
@@ -145,6 +146,13 @@ func valid[R any](response R, controller uint32) bool {
 		if f.IsValid() && f.Kind() == reflect.Uint32 {
 			return uint32(f.Uint()) == controller
 		}
+	}
+
+	if r.Kind() == reflect.Slice && r.Type().Elem().Kind() == reflect.Uint8 && r.Len() == 64 {
+		packet := r.Bytes()
+		id := binary.LittleEndian.Uint32(packet[4:8])
+
+		return id == controller
 	}
 
 	return true

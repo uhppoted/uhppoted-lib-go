@@ -5,6 +5,7 @@ import (
 	"os"
 	"time"
 
+	"github.com/uhppoted/uhppoted-lib-go/src/uhppoted/codec"
 	"github.com/uhppoted/uhppoted-lib-go/src/uhppoted/codec/decode"
 	"github.com/uhppoted/uhppoted-lib-go/src/uhppoted/codec/encode"
 	"github.com/uhppoted/uhppoted-lib-go/src/uhppoted/entities"
@@ -48,23 +49,12 @@ func GetCardRecord[T TController](u Uhppoted, controller T, cardnumber uint32, t
 		return zero, err
 	} else if reply, err := send(u, c, request, timeout); err != nil {
 		return zero, err
-	} else if response, err := decode.GetCardResponse(reply); err != nil {
-		return zero, err
-	} else if !valid(response, c.ID) {
+	} else if !valid(reply, c.ID) {
 		return zero, ErrInvalidResponse
+	} else if record, err := codec.Decode[entities.Card](reply); err != nil {
+		return zero, err
 	} else {
-		return entities.Card{
-			Card:      response.Card,
-			StartDate: response.StartDate,
-			EndDate:   response.EndDate,
-			Permissions: map[uint8]uint8{
-				1: response.Door1,
-				2: response.Door2,
-				3: response.Door3,
-				4: response.Door4,
-			},
-			PIN: response.PIN,
-		}, nil
+		return record, nil
 	}
 }
 
@@ -78,23 +68,12 @@ func GetCardRecordAtIndex[T TController](u Uhppoted, controller T, index uint32,
 		return zero, err
 	} else if reply, err := send(u, c, request, timeout); err != nil {
 		return zero, err
-	} else if response, err := decode.GetCardAtIndexResponse(reply); err != nil {
-		return zero, err
-	} else if !valid(response, c.ID) {
+	} else if !valid(reply, c.ID) {
 		return zero, ErrInvalidResponse
+	} else if record, err := codec.Decode[entities.Card](reply); err != nil {
+		return zero, err
 	} else {
-		return entities.Card{
-			Card:      response.Card,
-			StartDate: response.StartDate,
-			EndDate:   response.EndDate,
-			Permissions: map[uint8]uint8{
-				1: response.Door1,
-				2: response.Door2,
-				3: response.Door3,
-				4: response.Door4,
-			},
-			PIN: response.PIN,
-		}, nil
+		return record, nil
 	}
 }
 
@@ -135,94 +114,12 @@ func GetStatusRecord[T TController](u Uhppoted, controller T, timeout time.Durat
 		return zero, err
 	} else if reply, err := send(u, c, request, timeout); err != nil {
 		return zero, err
-	} else if response, err := decode.GetStatusResponse(reply); err != nil {
-		return zero, err
-	} else if !valid(response, c.ID) {
+	} else if !valid(reply, c.ID) {
 		return zero, ErrInvalidResponse
+	} else if record, err := codec.Decode[entities.Status](reply); err != nil {
+		return zero, err
 	} else {
-		datetime := NewDateTime(
-			response.SystemDate.Year(),
-			response.SystemDate.Month(),
-			response.SystemDate.Day(),
-			response.SystemTime.Hour(),
-			response.SystemTime.Minute(),
-			response.SystemTime.Second())
-
-		return entities.Status{
-			System: struct {
-				Time  entities.DateTime `json:"datetime"`
-				Error uint8             `json:"error"`
-				Info  uint8             `json:"info"`
-			}{
-				Time:  datetime,
-				Error: response.SystemError,
-				Info:  response.SpecialInfo,
-			},
-
-			Doors: map[uint8]struct {
-				Open     bool `json:"open"`
-				Button   bool `json:"button"`
-				Unlocked bool `json:"unlocked"`
-			}{
-				1: struct {
-					Open     bool `json:"open"`
-					Button   bool `json:"button"`
-					Unlocked bool `json:"unlocked"`
-				}{
-					Open:     response.Door1Open,
-					Button:   response.Door1Button,
-					Unlocked: response.Relays&0x01 == 0x01,
-				},
-				2: struct {
-					Open     bool `json:"open"`
-					Button   bool `json:"button"`
-					Unlocked bool `json:"unlocked"`
-				}{
-					Open:     response.Door2Open,
-					Button:   response.Door2Button,
-					Unlocked: response.Relays&0x02 == 0x02,
-				},
-				3: struct {
-					Open     bool `json:"open"`
-					Button   bool `json:"button"`
-					Unlocked bool `json:"unlocked"`
-				}{
-					Open:     response.Door3Open,
-					Button:   response.Door3Button,
-					Unlocked: response.Relays&0x04 == 0x04,
-				},
-				4: struct {
-					Open     bool `json:"open"`
-					Button   bool `json:"button"`
-					Unlocked bool `json:"unlocked"`
-				}{
-					Open:     response.Door4Open,
-					Button:   response.Door4Button,
-					Unlocked: response.Relays&0x08 == 0x08,
-				},
-			},
-
-			Alarms: struct {
-				Flags      uint8 `json:"flags"`
-				Fire       bool  `json:"fire"`
-				LockForced bool  `json:"lock-forced"`
-			}{
-				Flags:      response.Inputs,
-				Fire:       response.Inputs&0x01 == 0x01,
-				LockForced: response.Inputs&0x02 == 0x02,
-			},
-
-			Event: entities.Event{
-				Index:         response.EventIndex,
-				Event:         entities.EventType(response.EventType),
-				AccessGranted: response.EventAccessGranted,
-				Door:          response.EventDoor,
-				Direction:     response.EventDirection,
-				Card:          response.EventCard,
-				Timestamp:     response.EventTimestamp,
-				Reason:        response.EventReason,
-			},
-		}, nil
+		return record, nil
 	}
 }
 
@@ -236,21 +133,12 @@ func GetEventRecord[T TController](u Uhppoted, controller T, index uint32, timeo
 		return zero, err
 	} else if reply, err := send(u, c, request, timeout); err != nil {
 		return zero, err
-	} else if response, err := decode.GetEventResponse(reply); err != nil {
-		return zero, err
-	} else if !valid(response, c.ID) {
+	} else if !valid(reply, c.ID) {
 		return zero, ErrInvalidResponse
+	} else if record, err := codec.Decode[entities.Event](reply); err != nil {
+		return zero, err
 	} else {
-		return entities.Event{
-			Index:         response.Index,
-			Event:         entities.EventType(response.EventType),
-			AccessGranted: response.AccessGranted,
-			Door:          response.Door,
-			Direction:     response.Direction,
-			Card:          response.Card,
-			Timestamp:     response.Timestamp,
-			Reason:        response.Reason,
-		}, nil
+		return record, nil
 	}
 }
 
@@ -264,40 +152,12 @@ func GetTimeProfileRecord[T TController](u Uhppoted, controller T, profile uint8
 		return zero, err
 	} else if reply, err := send(u, c, request, timeout); err != nil {
 		return zero, err
-	} else if response, err := decode.GetTimeProfileResponse(reply); err != nil {
-		return zero, err
-	} else if !valid(response, c.ID) {
+	} else if !valid(reply, c.ID) {
 		return zero, ErrInvalidResponse
+	} else if record, err := codec.Decode[entities.TimeProfile](reply); err != nil {
+		return zero, err
 	} else {
-		return entities.TimeProfile{
-			Profile:   response.Profile,
-			StartDate: response.StartDate,
-			EndDate:   response.EndDate,
-			Weekdays: entities.Weekdays{
-				Monday:    response.Monday,
-				Tuesday:   response.Tuesday,
-				Wednesday: response.Wednesday,
-				Thursday:  response.Thursday,
-				Friday:    response.Friday,
-				Saturday:  response.Saturday,
-				Sunday:    response.Sunday,
-			},
-			Segments: []entities.TimeSegment{
-				{
-					Start: response.Segment1Start,
-					End:   response.Segment1End,
-				},
-				{
-					Start: response.Segment2Start,
-					End:   response.Segment2End,
-				},
-				{
-					Start: response.Segment3Start,
-					End:   response.Segment3End,
-				},
-			},
-			LinkedProfile: response.LinkedProfile,
-		}, nil
+		return record, nil
 	}
 }
 

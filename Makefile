@@ -113,6 +113,11 @@ get-status: build
 	cd examples/cli && make get-status DEST="--dest 127.0.0.1"
 	cd examples/cli && make get-status DEST="--dest 127.0.0.1" TCP="--tcp"
 
+get-status-record: build
+	cd examples/cli && make get-status-record
+	cd examples/cli && make get-status-record DEST="--dest 127.0.0.1"
+	cd examples/cli && make get-status-record DEST="--dest 127.0.0.1" TCP="--tcp"
+
 get-cards: build
 	cd examples/cli && make get-cards
 	cd examples/cli && make get-cards DEST="--dest 127.0.0.1"
@@ -123,10 +128,20 @@ get-card: build
 	cd examples/cli && make get-card DEST="--dest 127.0.0.1"
 	cd examples/cli && make get-card DEST="--dest 127.0.0.1" TCP="--tcp"
 
+get-card-record: build
+	cd examples/cli && make get-card-record
+	cd examples/cli && make get-card-record DEST="--dest 127.0.0.1"
+	cd examples/cli && make get-card-record DEST="--dest 127.0.0.1" TCP="--tcp"
+
 get-card-at-index: build
 	cd examples/cli && make get-card-at-index
 	cd examples/cli && make get-card-at-index DEST="--dest 127.0.0.1"
 	cd examples/cli && make get-card-at-index DEST="--dest 127.0.0.1" TCP="--tcp"
+
+get-card-record-at-index: build
+	cd examples/cli && make get-card-record-at-index
+	cd examples/cli && make get-card-record-at-index DEST="--dest 127.0.0.1"
+	cd examples/cli && make get-card-record-at-index DEST="--dest 127.0.0.1" TCP="--tcp"
 
 put-card: build
 	cd examples/cli && make put-card
@@ -172,6 +187,11 @@ get-time-profile: build
 	cd examples/cli && make get-time-profile
 	cd examples/cli && make get-time-profile DEST="--dest 127.0.0.1"
 	cd examples/cli && make get-time-profile DEST="--dest 127.0.0.1" TCP="--tcp"
+
+get-time-profile-record: build
+	cd examples/cli && make get-time-profile-record
+	cd examples/cli && make get-time-profile-record DEST="--dest 127.0.0.1"
+	cd examples/cli && make get-time-profile-record DEST="--dest 127.0.0.1" TCP="--tcp"
 
 set-time-profile: build
 	cd examples/cli && make set-time-profile

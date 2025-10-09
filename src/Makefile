@@ -19,7 +19,7 @@ build: format
 	cd uhppoted && go build -trimpath ./...
 
 debug: build
-	cd ../examples/cli && make get-status
+	cd ../examples/cli && make get-card-record
 	# go test -v -count=1 ./uhppoted/... -run TestSetTime
 	# go test -v -count=1 ./integration-tests/... -run TestInvalidResponse
 
@@ -132,6 +132,11 @@ get-card: build
 	cd ../examples/cli && make get-card
 	cd ../examples/cli && make get-card DEST="--dest 127.0.0.1"
 	cd ../examples/cli && make get-card DEST="--dest 127.0.0.1" TCP="--tcp"
+
+get-card-record: build
+	cd ../examples/cli && make get-card-record
+	cd ../examples/cli && make get-card-record DEST="--dest 127.0.0.1"
+	cd ../examples/cli && make get-card-record DEST="--dest 127.0.0.1" TCP="--tcp"
 
 get-card-at-index: build
 	cd ../examples/cli && make get-card-at-index

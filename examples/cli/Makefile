@@ -111,9 +111,15 @@ get-cards: build
 	$(CMD) get-cards --controller $(CONTROLLER) $(DEST) $(TCP)
 
 get-card: build
+	$(CMD) get-card --controller $(CONTROLLER) $(DEST) $(TCP) --card $(CARD)
+
+get-card-record: build
 	$(CMD) get-card-record --controller $(CONTROLLER) $(DEST) $(TCP) --card $(CARD)
 
 get-card-at-index: build
+	$(CMD) get-card-at-index --controller $(CONTROLLER) $(DEST) $(TCP) --index 3
+
+get-card-record-at-index: build
 	$(CMD) get-card-record-at-index --controller $(CONTROLLER) $(DEST) $(TCP) --index 3
 
 put-card: build
