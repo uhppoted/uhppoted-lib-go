@@ -35,7 +35,7 @@ lint:
 vuln:
 	cd src && make vuln
 
-build-all:
+build-all: update
 	cd .codegen     && make build	
 	cd src          && make build-all
 	cd examples/cli && make build
