@@ -6,6 +6,7 @@ import (
 	"path/filepath"
 	"regexp"
 	"slices"
+	"strings"
 
 	"go/ast"
 	"go/token"
@@ -55,7 +56,7 @@ func API() {
 
 func function(f lib.Function) *ast.FuncDecl {
 	name := codegen.TitleCase(f.Name)
-	response := fmt.Sprintf("responses.%v", codegen.TitleCase(f.Response.Name))
+	response := fmt.Sprintf("responses.%v", strings.TrimSuffix(codegen.TitleCase(f.Response.Name), "Response"))
 
 	// ... function type
 	ftype := []*ast.Field{}
@@ -206,7 +207,7 @@ func function(f lib.Function) *ast.FuncDecl {
 
 func impl(f lib.Function) *ast.BlockStmt {
 	request := codegen.TitleCase(f.Request.Name)
-	response := fmt.Sprintf("responses.%v", codegen.TitleCase(f.Response.Name))
+	response := fmt.Sprintf("responses.%v", strings.TrimSuffix(codegen.TitleCase(f.Response.Name), "Response"))
 
 	args := []ast.Expr{
 		&ast.Ident{Name: "id"},

@@ -19,17 +19,9 @@ func TestDecodeGetControllerResponse(t *testing.T) {
 		0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
 	}
 
-	expected := responses.GetControllerResponse{
-		Controller: 405419896,
-		IpAddress:  netip.MustParseAddr("192.168.1.100"),
-		SubnetMask: netip.MustParseAddr("255.255.255.0"),
-		Gateway:    netip.MustParseAddr("192.168.1.1"),
-		MACAddress: "00:12:23:34:45:56",
-		Version:    "v8.92",
-		Date:       entities.MustParseDate("2018-11-05"),
-	}
+	expected := responses.GetController{Controller: 405419896, IpAddress: netip.MustParseAddr("192.168.1.100"), SubnetMask: netip.MustParseAddr("255.255.255.0"), Gateway: netip.MustParseAddr("192.168.1.1"), MACAddress: "00:12:23:34:45:56", Version: "v8.92", Date: entities.MustParseDate("2018-11-05")}
 
-	if response, err := Decode[responses.GetControllerResponse](packet); err != nil {
+	if response, err := Decode[responses.GetController](packet); err != nil {
 		t.Fatalf("%v", err)
 	} else if !reflect.DeepEqual(response, expected) {
 		t.Errorf("incorrectly decoded response:\n   expected: %#v\n   got:      %#v", expected, response)
@@ -44,12 +36,9 @@ func TestDecodeSetIPv4Response(t *testing.T) {
 		0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
 	}
 
-	expected := responses.SetIPv4Response{
-		Controller: 405419896,
-		Ok:         true,
-	}
+	expected := responses.SetIPv4{Controller: 405419896, Ok: true}
 
-	if response, err := Decode[responses.SetIPv4Response](packet); err != nil {
+	if response, err := Decode[responses.SetIPv4](packet); err != nil {
 		t.Fatalf("%v", err)
 	} else if !reflect.DeepEqual(response, expected) {
 		t.Errorf("incorrectly decoded response:\n   expected: %#v\n   got:      %#v", expected, response)
@@ -64,34 +53,9 @@ func TestDecodeGetStatusResponse(t *testing.T) {
 		0x27, 0x07, 0x09, 0x22, 0x08, 0x23, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
 	}
 
-	expected := responses.GetStatusResponse{
-		Controller:         405419896,
-		SystemDate:         entities.MustParseDate("2022-08-23"),
-		SystemTime:         entities.MustParseTime("09:49:39"),
-		Door1Open:          false,
-		Door2Open:          true,
-		Door3Open:          false,
-		Door4Open:          false,
-		Door1Button:        false,
-		Door2Button:        false,
-		Door3Button:        false,
-		Door4Button:        true,
-		Relays:             7,
-		Inputs:             9,
-		SystemError:        3,
-		SpecialInfo:        39,
-		EventIndex:         78,
-		EventType:          entities.EventType(2),
-		EventAccessGranted: true,
-		EventDoor:          3,
-		EventDirection:     entities.Direction(1),
-		EventCard:          8165537,
-		EventTimestamp:     entities.MustParseDateTime("2022-08-23 09:47:06"),
-		EventReason:        44,
-		SequenceNo:         0,
-	}
+	expected := responses.GetStatus{Controller: 405419896, SystemDate: entities.MustParseDate("2022-08-23"), SystemTime: entities.MustParseTime("09:49:39"), Door1Open: false, Door2Open: true, Door3Open: false, Door4Open: false, Door1Button: false, Door2Button: false, Door3Button: false, Door4Button: true, Relays: 7, Inputs: 9, SystemError: 3, SpecialInfo: 39, EventIndex: 78, EventType: entities.EventType(2), EventAccessGranted: true, EventDoor: 3, EventDirection: entities.Direction(1), EventCard: 8165537, EventTimestamp: entities.MustParseDateTime("2022-08-23 09:47:06"), EventReason: 44, SequenceNo: 0}
 
-	if response, err := Decode[responses.GetStatusResponse](packet); err != nil {
+	if response, err := Decode[responses.GetStatus](packet); err != nil {
 		t.Fatalf("%v", err)
 	} else if !reflect.DeepEqual(response, expected) {
 		t.Errorf("incorrectly decoded response:\n   expected: %#v\n   got:      %#v", expected, response)
@@ -106,12 +70,9 @@ func TestDecodeGetTimeResponse(t *testing.T) {
 		0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
 	}
 
-	expected := responses.GetTimeResponse{
-		Controller: 405419896,
-		DateTime:   entities.MustParseDateTime("2025-11-01 12:34:56"),
-	}
+	expected := responses.GetTime{Controller: 405419896, DateTime: entities.MustParseDateTime("2025-11-01 12:34:56")}
 
-	if response, err := Decode[responses.GetTimeResponse](packet); err != nil {
+	if response, err := Decode[responses.GetTime](packet); err != nil {
 		t.Fatalf("%v", err)
 	} else if !reflect.DeepEqual(response, expected) {
 		t.Errorf("incorrectly decoded response:\n   expected: %#v\n   got:      %#v", expected, response)
@@ -126,12 +87,9 @@ func TestDecodeSetTimeResponse(t *testing.T) {
 		0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
 	}
 
-	expected := responses.SetTimeResponse{
-		Controller: 405419896,
-		DateTime:   entities.MustParseDateTime("2025-11-01 12:34:56"),
-	}
+	expected := responses.SetTime{Controller: 405419896, DateTime: entities.MustParseDateTime("2025-11-01 12:34:56")}
 
-	if response, err := Decode[responses.SetTimeResponse](packet); err != nil {
+	if response, err := Decode[responses.SetTime](packet); err != nil {
 		t.Fatalf("%v", err)
 	} else if !reflect.DeepEqual(response, expected) {
 		t.Errorf("incorrectly decoded response:\n   expected: %#v\n   got:      %#v", expected, response)
@@ -146,14 +104,9 @@ func TestDecodeGetListenerResponse(t *testing.T) {
 		0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
 	}
 
-	expected := responses.GetListenerResponse{
-		Controller: 405419896,
-		Address:    netip.MustParseAddr("192.168.1.100"),
-		Port:       60001,
-		Interval:   17,
-	}
+	expected := responses.GetListener{Controller: 405419896, Address: netip.MustParseAddr("192.168.1.100"), Port: 60001, Interval: 17}
 
-	if response, err := Decode[responses.GetListenerResponse](packet); err != nil {
+	if response, err := Decode[responses.GetListener](packet); err != nil {
 		t.Fatalf("%v", err)
 	} else if !reflect.DeepEqual(response, expected) {
 		t.Errorf("incorrectly decoded response:\n   expected: %#v\n   got:      %#v", expected, response)
@@ -168,12 +121,9 @@ func TestDecodeSetListenerResponse(t *testing.T) {
 		0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
 	}
 
-	expected := responses.SetListenerResponse{
-		Controller: 405419896,
-		Ok:         true,
-	}
+	expected := responses.SetListener{Controller: 405419896, Ok: true}
 
-	if response, err := Decode[responses.SetListenerResponse](packet); err != nil {
+	if response, err := Decode[responses.SetListener](packet); err != nil {
 		t.Fatalf("%v", err)
 	} else if !reflect.DeepEqual(response, expected) {
 		t.Errorf("incorrectly decoded response:\n   expected: %#v\n   got:      %#v", expected, response)
@@ -188,13 +138,9 @@ func TestDecodeGetListenerAddressPortResponse(t *testing.T) {
 		0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
 	}
 
-	expected := responses.GetListenerAddrPortResponse{
-		Controller: 405419896,
-		Listener:   netip.MustParseAddrPort("192.168.1.100:60001"),
-		Interval:   17,
-	}
+	expected := responses.GetListenerAddrPort{Controller: 405419896, Listener: netip.MustParseAddrPort("192.168.1.100:60001"), Interval: 17}
 
-	if response, err := Decode[responses.GetListenerAddrPortResponse](packet); err != nil {
+	if response, err := Decode[responses.GetListenerAddrPort](packet); err != nil {
 		t.Fatalf("%v", err)
 	} else if !reflect.DeepEqual(response, expected) {
 		t.Errorf("incorrectly decoded response:\n   expected: %#v\n   got:      %#v", expected, response)
@@ -209,12 +155,9 @@ func TestDecodeSetListenerAddressPortResponse(t *testing.T) {
 		0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
 	}
 
-	expected := responses.SetListenerAddrPortResponse{
-		Controller: 405419896,
-		Ok:         true,
-	}
+	expected := responses.SetListenerAddrPort{Controller: 405419896, Ok: true}
 
-	if response, err := Decode[responses.SetListenerAddrPortResponse](packet); err != nil {
+	if response, err := Decode[responses.SetListenerAddrPort](packet); err != nil {
 		t.Fatalf("%v", err)
 	} else if !reflect.DeepEqual(response, expected) {
 		t.Errorf("incorrectly decoded response:\n   expected: %#v\n   got:      %#v", expected, response)
@@ -229,14 +172,9 @@ func TestDecodeGetDoorResponse(t *testing.T) {
 		0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
 	}
 
-	expected := responses.GetDoorResponse{
-		Controller: 405419896,
-		Door:       3,
-		Mode:       2,
-		Delay:      7,
-	}
+	expected := responses.GetDoor{Controller: 405419896, Door: 3, Mode: 2, Delay: 7}
 
-	if response, err := Decode[responses.GetDoorResponse](packet); err != nil {
+	if response, err := Decode[responses.GetDoor](packet); err != nil {
 		t.Fatalf("%v", err)
 	} else if !reflect.DeepEqual(response, expected) {
 		t.Errorf("incorrectly decoded response:\n   expected: %#v\n   got:      %#v", expected, response)
@@ -251,14 +189,9 @@ func TestDecodeSetDoorResponse(t *testing.T) {
 		0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
 	}
 
-	expected := responses.SetDoorResponse{
-		Controller: 405419896,
-		Door:       3,
-		Mode:       2,
-		Delay:      7,
-	}
+	expected := responses.SetDoor{Controller: 405419896, Door: 3, Mode: 2, Delay: 7}
 
-	if response, err := Decode[responses.SetDoorResponse](packet); err != nil {
+	if response, err := Decode[responses.SetDoor](packet); err != nil {
 		t.Fatalf("%v", err)
 	} else if !reflect.DeepEqual(response, expected) {
 		t.Errorf("incorrectly decoded response:\n   expected: %#v\n   got:      %#v", expected, response)
@@ -273,12 +206,9 @@ func TestDecodeSetDoorPasscodesResponse(t *testing.T) {
 		0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
 	}
 
-	expected := responses.SetDoorPasscodesResponse{
-		Controller: 405419896,
-		Ok:         true,
-	}
+	expected := responses.SetDoorPasscodes{Controller: 405419896, Ok: true}
 
-	if response, err := Decode[responses.SetDoorPasscodesResponse](packet); err != nil {
+	if response, err := Decode[responses.SetDoorPasscodes](packet); err != nil {
 		t.Fatalf("%v", err)
 	} else if !reflect.DeepEqual(response, expected) {
 		t.Errorf("incorrectly decoded response:\n   expected: %#v\n   got:      %#v", expected, response)
@@ -293,12 +223,9 @@ func TestDecodeOpenDoorResponse(t *testing.T) {
 		0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
 	}
 
-	expected := responses.OpenDoorResponse{
-		Controller: 405419896,
-		Ok:         true,
-	}
+	expected := responses.OpenDoor{Controller: 405419896, Ok: true}
 
-	if response, err := Decode[responses.OpenDoorResponse](packet); err != nil {
+	if response, err := Decode[responses.OpenDoor](packet); err != nil {
 		t.Fatalf("%v", err)
 	} else if !reflect.DeepEqual(response, expected) {
 		t.Errorf("incorrectly decoded response:\n   expected: %#v\n   got:      %#v", expected, response)
@@ -313,12 +240,9 @@ func TestDecodeGetCardsResponse(t *testing.T) {
 		0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
 	}
 
-	expected := responses.GetCardsResponse{
-		Controller: 405419896,
-		Cards:      13579,
-	}
+	expected := responses.GetCards{Controller: 405419896, Cards: 13579}
 
-	if response, err := Decode[responses.GetCardsResponse](packet); err != nil {
+	if response, err := Decode[responses.GetCards](packet); err != nil {
 		t.Fatalf("%v", err)
 	} else if !reflect.DeepEqual(response, expected) {
 		t.Errorf("incorrectly decoded response:\n   expected: %#v\n   got:      %#v", expected, response)
@@ -333,19 +257,9 @@ func TestDecodeGetCardResponse(t *testing.T) {
 		0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
 	}
 
-	expected := responses.GetCardResponse{
-		Controller: 405419896,
-		Card:       10058400,
-		StartDate:  entities.MustParseDate("2024-01-01"),
-		EndDate:    entities.MustParseDate("2024-12-31"),
-		Door1:      1,
-		Door2:      0,
-		Door3:      17,
-		Door4:      1,
-		PIN:        999999,
-	}
+	expected := responses.GetCard{Controller: 405419896, Card: 10058400, StartDate: entities.MustParseDate("2024-01-01"), EndDate: entities.MustParseDate("2024-12-31"), Door1: 1, Door2: 0, Door3: 17, Door4: 1, PIN: 999999}
 
-	if response, err := Decode[responses.GetCardResponse](packet); err != nil {
+	if response, err := Decode[responses.GetCard](packet); err != nil {
 		t.Fatalf("%v", err)
 	} else if !reflect.DeepEqual(response, expected) {
 		t.Errorf("incorrectly decoded response:\n   expected: %#v\n   got:      %#v", expected, response)
@@ -360,19 +274,9 @@ func TestDecodeGetCardNotFoundResponse(t *testing.T) {
 		0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
 	}
 
-	expected := responses.GetCardResponse{
-		Controller: 405419896,
-		Card:       0,
-		StartDate:  entities.MustParseDate("0001-01-01"),
-		EndDate:    entities.MustParseDate("0001-01-01"),
-		Door1:      0,
-		Door2:      0,
-		Door3:      0,
-		Door4:      0,
-		PIN:        0,
-	}
+	expected := responses.GetCard{Controller: 405419896, Card: 0, StartDate: entities.MustParseDate("0001-01-01"), EndDate: entities.MustParseDate("0001-01-01"), Door1: 0, Door2: 0, Door3: 0, Door4: 0, PIN: 0}
 
-	if response, err := Decode[responses.GetCardResponse](packet); err != nil {
+	if response, err := Decode[responses.GetCard](packet); err != nil {
 		t.Fatalf("%v", err)
 	} else if !reflect.DeepEqual(response, expected) {
 		t.Errorf("incorrectly decoded response:\n   expected: %#v\n   got:      %#v", expected, response)
@@ -387,19 +291,9 @@ func TestDecodeGetCardAtIndexResponse(t *testing.T) {
 		0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
 	}
 
-	expected := responses.GetCardAtIndexResponse{
-		Controller: 405419896,
-		Card:       10058400,
-		StartDate:  entities.MustParseDate("2024-01-01"),
-		EndDate:    entities.MustParseDate("2024-12-31"),
-		Door1:      1,
-		Door2:      0,
-		Door3:      17,
-		Door4:      1,
-		PIN:        999999,
-	}
+	expected := responses.GetCardAtIndex{Controller: 405419896, Card: 10058400, StartDate: entities.MustParseDate("2024-01-01"), EndDate: entities.MustParseDate("2024-12-31"), Door1: 1, Door2: 0, Door3: 17, Door4: 1, PIN: 999999}
 
-	if response, err := Decode[responses.GetCardAtIndexResponse](packet); err != nil {
+	if response, err := Decode[responses.GetCardAtIndex](packet); err != nil {
 		t.Fatalf("%v", err)
 	} else if !reflect.DeepEqual(response, expected) {
 		t.Errorf("incorrectly decoded response:\n   expected: %#v\n   got:      %#v", expected, response)
@@ -414,12 +308,9 @@ func TestDecodePutCardResponse(t *testing.T) {
 		0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
 	}
 
-	expected := responses.PutCardResponse{
-		Controller: 405419896,
-		Ok:         true,
-	}
+	expected := responses.PutCard{Controller: 405419896, Ok: true}
 
-	if response, err := Decode[responses.PutCardResponse](packet); err != nil {
+	if response, err := Decode[responses.PutCard](packet); err != nil {
 		t.Fatalf("%v", err)
 	} else if !reflect.DeepEqual(response, expected) {
 		t.Errorf("incorrectly decoded response:\n   expected: %#v\n   got:      %#v", expected, response)
@@ -434,12 +325,9 @@ func TestDecodeDeleteCardResponse(t *testing.T) {
 		0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
 	}
 
-	expected := responses.DeleteCardResponse{
-		Controller: 405419896,
-		Ok:         true,
-	}
+	expected := responses.DeleteCard{Controller: 405419896, Ok: true}
 
-	if response, err := Decode[responses.DeleteCardResponse](packet); err != nil {
+	if response, err := Decode[responses.DeleteCard](packet); err != nil {
 		t.Fatalf("%v", err)
 	} else if !reflect.DeepEqual(response, expected) {
 		t.Errorf("incorrectly decoded response:\n   expected: %#v\n   got:      %#v", expected, response)
@@ -454,12 +342,9 @@ func TestDecodeDeleteAllCardsResponse(t *testing.T) {
 		0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
 	}
 
-	expected := responses.DeleteAllCardsResponse{
-		Controller: 405419896,
-		Ok:         true,
-	}
+	expected := responses.DeleteAllCards{Controller: 405419896, Ok: true}
 
-	if response, err := Decode[responses.DeleteAllCardsResponse](packet); err != nil {
+	if response, err := Decode[responses.DeleteAllCards](packet); err != nil {
 		t.Fatalf("%v", err)
 	} else if !reflect.DeepEqual(response, expected) {
 		t.Errorf("incorrectly decoded response:\n   expected: %#v\n   got:      %#v", expected, response)
@@ -474,19 +359,9 @@ func TestDecodeGetEventResponse(t *testing.T) {
 		0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
 	}
 
-	expected := responses.GetEventResponse{
-		Controller:    405419896,
-		Index:         13579,
-		EventType:     entities.EventType(2),
-		AccessGranted: true,
-		Door:          4,
-		Direction:     entities.Direction(2),
-		Card:          10058400,
-		Timestamp:     entities.MustParseDateTime("2025-11-17 12:34:56"),
-		Reason:        21,
-	}
+	expected := responses.GetEvent{Controller: 405419896, Index: 13579, EventType: entities.EventType(2), AccessGranted: true, Door: 4, Direction: entities.Direction(2), Card: 10058400, Timestamp: entities.MustParseDateTime("2025-11-17 12:34:56"), Reason: 21}
 
-	if response, err := Decode[responses.GetEventResponse](packet); err != nil {
+	if response, err := Decode[responses.GetEvent](packet); err != nil {
 		t.Fatalf("%v", err)
 	} else if !reflect.DeepEqual(response, expected) {
 		t.Errorf("incorrectly decoded response:\n   expected: %#v\n   got:      %#v", expected, response)
@@ -501,19 +376,9 @@ func TestDecodeGetEventNotFoundResponse(t *testing.T) {
 		0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
 	}
 
-	expected := responses.GetEventResponse{
-		Controller:    405419896,
-		Index:         24680,
-		EventType:     entities.EventType(0),
-		AccessGranted: false,
-		Door:          0,
-		Direction:     entities.Direction(0),
-		Card:          0,
-		Timestamp:     entities.MustParseDateTime("0001-01-01 00:00:00"),
-		Reason:        0,
-	}
+	expected := responses.GetEvent{Controller: 405419896, Index: 24680, EventType: entities.EventType(0), AccessGranted: false, Door: 0, Direction: entities.Direction(0), Card: 0, Timestamp: entities.MustParseDateTime("0001-01-01 00:00:00"), Reason: 0}
 
-	if response, err := Decode[responses.GetEventResponse](packet); err != nil {
+	if response, err := Decode[responses.GetEvent](packet); err != nil {
 		t.Fatalf("%v", err)
 	} else if !reflect.DeepEqual(response, expected) {
 		t.Errorf("incorrectly decoded response:\n   expected: %#v\n   got:      %#v", expected, response)
@@ -528,19 +393,9 @@ func TestDecodeGetEventOverwrittenResponse(t *testing.T) {
 		0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
 	}
 
-	expected := responses.GetEventResponse{
-		Controller:    405419896,
-		Index:         98765,
-		EventType:     entities.EventType(255),
-		AccessGranted: false,
-		Door:          0,
-		Direction:     entities.Direction(0),
-		Card:          0,
-		Timestamp:     entities.MustParseDateTime("0001-01-01 00:00:00"),
-		Reason:        0,
-	}
+	expected := responses.GetEvent{Controller: 405419896, Index: 98765, EventType: entities.EventType(255), AccessGranted: false, Door: 0, Direction: entities.Direction(0), Card: 0, Timestamp: entities.MustParseDateTime("0001-01-01 00:00:00"), Reason: 0}
 
-	if response, err := Decode[responses.GetEventResponse](packet); err != nil {
+	if response, err := Decode[responses.GetEvent](packet); err != nil {
 		t.Fatalf("%v", err)
 	} else if !reflect.DeepEqual(response, expected) {
 		t.Errorf("incorrectly decoded response:\n   expected: %#v\n   got:      %#v", expected, response)
@@ -555,12 +410,9 @@ func TestDecodeGetEventIndexResponse(t *testing.T) {
 		0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
 	}
 
-	expected := responses.GetEventIndexResponse{
-		Controller: 405419896,
-		Index:      13579,
-	}
+	expected := responses.GetEventIndex{Controller: 405419896, Index: 13579}
 
-	if response, err := Decode[responses.GetEventIndexResponse](packet); err != nil {
+	if response, err := Decode[responses.GetEventIndex](packet); err != nil {
 		t.Fatalf("%v", err)
 	} else if !reflect.DeepEqual(response, expected) {
 		t.Errorf("incorrectly decoded response:\n   expected: %#v\n   got:      %#v", expected, response)
@@ -575,12 +427,9 @@ func TestDecodeSetEventIndexResponse(t *testing.T) {
 		0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
 	}
 
-	expected := responses.SetEventIndexResponse{
-		Controller: 405419896,
-		Ok:         true,
-	}
+	expected := responses.SetEventIndex{Controller: 405419896, Ok: true}
 
-	if response, err := Decode[responses.SetEventIndexResponse](packet); err != nil {
+	if response, err := Decode[responses.SetEventIndex](packet); err != nil {
 		t.Fatalf("%v", err)
 	} else if !reflect.DeepEqual(response, expected) {
 		t.Errorf("incorrectly decoded response:\n   expected: %#v\n   got:      %#v", expected, response)
@@ -595,12 +444,9 @@ func TestDecodeRecordSpecialEventsResponse(t *testing.T) {
 		0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
 	}
 
-	expected := responses.RecordSpecialEventsResponse{
-		Controller: 405419896,
-		Ok:         true,
-	}
+	expected := responses.RecordSpecialEvents{Controller: 405419896, Ok: true}
 
-	if response, err := Decode[responses.RecordSpecialEventsResponse](packet); err != nil {
+	if response, err := Decode[responses.RecordSpecialEvents](packet); err != nil {
 		t.Fatalf("%v", err)
 	} else if !reflect.DeepEqual(response, expected) {
 		t.Errorf("incorrectly decoded response:\n   expected: %#v\n   got:      %#v", expected, response)
@@ -615,28 +461,9 @@ func TestDecodeGetTimeProfileResponse(t *testing.T) {
 		0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
 	}
 
-	expected := responses.GetTimeProfileResponse{
-		Controller:    405419896,
-		Profile:       37,
-		StartDate:     entities.MustParseDate("2025-11-26"),
-		EndDate:       entities.MustParseDate("2025-12-29"),
-		Monday:        true,
-		Tuesday:       true,
-		Wednesday:     false,
-		Thursday:      true,
-		Friday:        false,
-		Saturday:      true,
-		Sunday:        true,
-		Segment1Start: entities.MustParseHHmm("08:30"),
-		Segment1End:   entities.MustParseHHmm("09:45"),
-		Segment2Start: entities.MustParseHHmm("11:35"),
-		Segment2End:   entities.MustParseHHmm("13:15"),
-		Segment3Start: entities.MustParseHHmm("14:01"),
-		Segment3End:   entities.MustParseHHmm("17:59"),
-		LinkedProfile: 19,
-	}
+	expected := responses.GetTimeProfile{Controller: 405419896, Profile: 37, StartDate: entities.MustParseDate("2025-11-26"), EndDate: entities.MustParseDate("2025-12-29"), Monday: true, Tuesday: true, Wednesday: false, Thursday: true, Friday: false, Saturday: true, Sunday: true, Segment1Start: entities.MustParseHHmm("08:30"), Segment1End: entities.MustParseHHmm("09:45"), Segment2Start: entities.MustParseHHmm("11:35"), Segment2End: entities.MustParseHHmm("13:15"), Segment3Start: entities.MustParseHHmm("14:01"), Segment3End: entities.MustParseHHmm("17:59"), LinkedProfile: 19}
 
-	if response, err := Decode[responses.GetTimeProfileResponse](packet); err != nil {
+	if response, err := Decode[responses.GetTimeProfile](packet); err != nil {
 		t.Fatalf("%v", err)
 	} else if !reflect.DeepEqual(response, expected) {
 		t.Errorf("incorrectly decoded response:\n   expected: %#v\n   got:      %#v", expected, response)
@@ -651,12 +478,9 @@ func TestDecodeSetTimeProfileResponse(t *testing.T) {
 		0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
 	}
 
-	expected := responses.SetTimeProfileResponse{
-		Controller: 405419896,
-		Ok:         true,
-	}
+	expected := responses.SetTimeProfile{Controller: 405419896, Ok: true}
 
-	if response, err := Decode[responses.SetTimeProfileResponse](packet); err != nil {
+	if response, err := Decode[responses.SetTimeProfile](packet); err != nil {
 		t.Fatalf("%v", err)
 	} else if !reflect.DeepEqual(response, expected) {
 		t.Errorf("incorrectly decoded response:\n   expected: %#v\n   got:      %#v", expected, response)
@@ -671,12 +495,9 @@ func TestDecodeClearTimeProfilesResponse(t *testing.T) {
 		0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
 	}
 
-	expected := responses.ClearTimeProfilesResponse{
-		Controller: 405419896,
-		Ok:         true,
-	}
+	expected := responses.ClearTimeProfiles{Controller: 405419896, Ok: true}
 
-	if response, err := Decode[responses.ClearTimeProfilesResponse](packet); err != nil {
+	if response, err := Decode[responses.ClearTimeProfiles](packet); err != nil {
 		t.Fatalf("%v", err)
 	} else if !reflect.DeepEqual(response, expected) {
 		t.Errorf("incorrectly decoded response:\n   expected: %#v\n   got:      %#v", expected, response)
@@ -691,12 +512,9 @@ func TestDecodeAddTaskResponse(t *testing.T) {
 		0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
 	}
 
-	expected := responses.AddTaskResponse{
-		Controller: 405419896,
-		Ok:         true,
-	}
+	expected := responses.AddTask{Controller: 405419896, Ok: true}
 
-	if response, err := Decode[responses.AddTaskResponse](packet); err != nil {
+	if response, err := Decode[responses.AddTask](packet); err != nil {
 		t.Fatalf("%v", err)
 	} else if !reflect.DeepEqual(response, expected) {
 		t.Errorf("incorrectly decoded response:\n   expected: %#v\n   got:      %#v", expected, response)
@@ -711,12 +529,9 @@ func TestDecodeRefreshTasklistResponse(t *testing.T) {
 		0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
 	}
 
-	expected := responses.RefreshTaskListResponse{
-		Controller: 405419896,
-		Ok:         true,
-	}
+	expected := responses.RefreshTaskList{Controller: 405419896, Ok: true}
 
-	if response, err := Decode[responses.RefreshTaskListResponse](packet); err != nil {
+	if response, err := Decode[responses.RefreshTaskList](packet); err != nil {
 		t.Fatalf("%v", err)
 	} else if !reflect.DeepEqual(response, expected) {
 		t.Errorf("incorrectly decoded response:\n   expected: %#v\n   got:      %#v", expected, response)
@@ -731,12 +546,9 @@ func TestDecodeClearTasklistResponse(t *testing.T) {
 		0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
 	}
 
-	expected := responses.ClearTaskListResponse{
-		Controller: 405419896,
-		Ok:         true,
-	}
+	expected := responses.ClearTaskList{Controller: 405419896, Ok: true}
 
-	if response, err := Decode[responses.ClearTaskListResponse](packet); err != nil {
+	if response, err := Decode[responses.ClearTaskList](packet); err != nil {
 		t.Fatalf("%v", err)
 	} else if !reflect.DeepEqual(response, expected) {
 		t.Errorf("incorrectly decoded response:\n   expected: %#v\n   got:      %#v", expected, response)
@@ -751,12 +563,9 @@ func TestDecodeSetPcControlResponse(t *testing.T) {
 		0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
 	}
 
-	expected := responses.SetPCControlResponse{
-		Controller: 405419896,
-		Ok:         true,
-	}
+	expected := responses.SetPCControl{Controller: 405419896, Ok: true}
 
-	if response, err := Decode[responses.SetPCControlResponse](packet); err != nil {
+	if response, err := Decode[responses.SetPCControl](packet); err != nil {
 		t.Fatalf("%v", err)
 	} else if !reflect.DeepEqual(response, expected) {
 		t.Errorf("incorrectly decoded response:\n   expected: %#v\n   got:      %#v", expected, response)
@@ -771,12 +580,9 @@ func TestDecodeSetInterlockResponse(t *testing.T) {
 		0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
 	}
 
-	expected := responses.SetInterlockResponse{
-		Controller: 405419896,
-		Ok:         true,
-	}
+	expected := responses.SetInterlock{Controller: 405419896, Ok: true}
 
-	if response, err := Decode[responses.SetInterlockResponse](packet); err != nil {
+	if response, err := Decode[responses.SetInterlock](packet); err != nil {
 		t.Fatalf("%v", err)
 	} else if !reflect.DeepEqual(response, expected) {
 		t.Errorf("incorrectly decoded response:\n   expected: %#v\n   got:      %#v", expected, response)
@@ -791,12 +597,9 @@ func TestDecodeActivateKeypadsResponse(t *testing.T) {
 		0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
 	}
 
-	expected := responses.ActivateKeypadsResponse{
-		Controller: 405419896,
-		Ok:         true,
-	}
+	expected := responses.ActivateKeypads{Controller: 405419896, Ok: true}
 
-	if response, err := Decode[responses.ActivateKeypadsResponse](packet); err != nil {
+	if response, err := Decode[responses.ActivateKeypads](packet); err != nil {
 		t.Fatalf("%v", err)
 	} else if !reflect.DeepEqual(response, expected) {
 		t.Errorf("incorrectly decoded response:\n   expected: %#v\n   got:      %#v", expected, response)
@@ -811,12 +614,9 @@ func TestDecodeGetAntiPassbackResponse(t *testing.T) {
 		0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
 	}
 
-	expected := responses.GetAntiPassbackResponse{
-		Controller:   405419896,
-		Antipassback: 2,
-	}
+	expected := responses.GetAntiPassback{Controller: 405419896, Antipassback: 2}
 
-	if response, err := Decode[responses.GetAntiPassbackResponse](packet); err != nil {
+	if response, err := Decode[responses.GetAntiPassback](packet); err != nil {
 		t.Fatalf("%v", err)
 	} else if !reflect.DeepEqual(response, expected) {
 		t.Errorf("incorrectly decoded response:\n   expected: %#v\n   got:      %#v", expected, response)
@@ -831,12 +631,9 @@ func TestDecodeSetAntipassbackResponse(t *testing.T) {
 		0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
 	}
 
-	expected := responses.SetAntiPassbackResponse{
-		Controller: 405419896,
-		Ok:         true,
-	}
+	expected := responses.SetAntiPassback{Controller: 405419896, Ok: true}
 
-	if response, err := Decode[responses.SetAntiPassbackResponse](packet); err != nil {
+	if response, err := Decode[responses.SetAntiPassback](packet); err != nil {
 		t.Fatalf("%v", err)
 	} else if !reflect.DeepEqual(response, expected) {
 		t.Errorf("incorrectly decoded response:\n   expected: %#v\n   got:      %#v", expected, response)
@@ -851,12 +648,9 @@ func TestDecodeRestoreDefaultParametersResponse(t *testing.T) {
 		0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
 	}
 
-	expected := responses.RestoreDefaultParametersResponse{
-		Controller: 405419896,
-		Ok:         true,
-	}
+	expected := responses.RestoreDefaultParameters{Controller: 405419896, Ok: true}
 
-	if response, err := Decode[responses.RestoreDefaultParametersResponse](packet); err != nil {
+	if response, err := Decode[responses.RestoreDefaultParameters](packet); err != nil {
 		t.Fatalf("%v", err)
 	} else if !reflect.DeepEqual(response, expected) {
 		t.Errorf("incorrectly decoded response:\n   expected: %#v\n   got:      %#v", expected, response)

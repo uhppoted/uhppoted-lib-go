@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"log"
 	"path/filepath"
+	"strings"
 
 	"go/ast"
 	"go/token"
@@ -45,7 +46,7 @@ func Responses() {
 }
 
 func typedef(r types.Response) *ast.GenDecl {
-	name := codegen.TitleCase(r.Name)
+	name := strings.TrimSuffix(codegen.TitleCase(r.Name), "Response")
 	description := godoc(r)
 	fields := []*ast.Field{}
 

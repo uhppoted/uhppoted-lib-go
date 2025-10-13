@@ -13,11 +13,11 @@ type key[R any] struct {
 }
 
 var decoders = map[any]func([]byte) (any, error){
-	key[responses.GetListenerAddrPortResponse]{0x92}: func(b []byte) (any, error) {
+	key[responses.GetListenerAddrPort]{0x92}: func(b []byte) (any, error) {
 		return decoder.GetListenerAddrPortResponse(b)
 	},
 
-	key[responses.SetListenerAddrPortResponse]{0x90}: func(b []byte) (any, error) {
+	key[responses.SetListenerAddrPort]{0x90}: func(b []byte) (any, error) {
 		return decoder.SetListenerAddrPortResponse(b)
 	},
 

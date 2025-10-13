@@ -21,13 +21,13 @@ type convertable interface {
 // It broadcasts a UDP `get controller` request to the local network and returns a list of
 // decoded responses from controllers that reply within the timeout. Responses that cannot
 // be decoded are silently ignored.
-func FindControllers(u Uhppoted, timeout time.Duration) ([]responses.GetControllerResponse, error) {
+func FindControllers(u Uhppoted, timeout time.Duration) ([]responses.GetController, error) {
 	if request, err := encode.GetControllerRequest(0); err != nil {
 		return nil, err
 	} else if replies, err := u.udp.broadcast(request, timeout); err != nil {
 		return nil, err
 	} else {
-		responses := []responses.GetControllerResponse{}
+		responses := []responses.GetController{}
 
 		for _, reply := range replies {
 			if response, err := decode.GetControllerResponse(reply); err == nil {

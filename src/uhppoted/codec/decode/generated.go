@@ -8,740 +8,564 @@ import (
 	"github.com/uhppoted/uhppoted-lib-go/src/uhppoted/responses"
 )
 
-func GetControllerResponse(packet []byte) (responses.GetControllerResponse, error) {
+func GetControllerResponse(packet []byte) (responses.GetController, error) {
 	if len(packet) != 64 {
-		return responses.GetControllerResponse{}, fmt.Errorf("invalid reply packet length (%v)", len(packet))
+		return responses.GetController{}, fmt.Errorf("invalid reply packet length (%v)", len(packet))
 	}
 
 	if packet[0] != SOM && (packet[0] != SOM_v6_62 || packet[1] != 0x20) {
-		return responses.GetControllerResponse{}, fmt.Errorf("invalid reply start of message byte (%02x)", packet[0])
+		return responses.GetController{}, fmt.Errorf("invalid reply start of message byte (%02x)", packet[0])
 	}
 
 	if packet[1] != 0x94 {
-		return responses.GetControllerResponse{}, fmt.Errorf("invalid reply function code (%02x)", packet[1])
+		return responses.GetController{}, fmt.Errorf("invalid reply function code (%02x)", packet[1])
 	}
 
-	return responses.GetControllerResponse{
-		Controller: unpackUint32(packet, 4),
-		IpAddress:  unpackIPv4(packet, 8),
-		SubnetMask: unpackIPv4(packet, 12),
-		Gateway:    unpackIPv4(packet, 16),
-		MACAddress: unpackMAC(packet, 20),
-		Version:    unpackVersion(packet, 26),
-		Date:       unpackDate(packet, 28),
-	}, nil
+	return responses.GetController{Controller: unpackUint32(packet, 4), IpAddress: unpackIPv4(packet, 8), SubnetMask: unpackIPv4(packet, 12), Gateway: unpackIPv4(packet, 16), MACAddress: unpackMAC(packet, 20), Version: unpackVersion(packet, 26), Date: unpackDate(packet, 28)}, nil
 }
 
-func SetIPv4Response(packet []byte) (responses.SetIPv4Response, error) {
+func SetIPv4Response(packet []byte) (responses.SetIPv4, error) {
 	if len(packet) != 64 {
-		return responses.SetIPv4Response{}, fmt.Errorf("invalid reply packet length (%v)", len(packet))
+		return responses.SetIPv4{}, fmt.Errorf("invalid reply packet length (%v)", len(packet))
 	}
 
 	if packet[0] != SOM && (packet[0] != SOM_v6_62 || packet[1] != 0x20) {
-		return responses.SetIPv4Response{}, fmt.Errorf("invalid reply start of message byte (%02x)", packet[0])
+		return responses.SetIPv4{}, fmt.Errorf("invalid reply start of message byte (%02x)", packet[0])
 	}
 
 	if packet[1] != 0x96 {
-		return responses.SetIPv4Response{}, fmt.Errorf("invalid reply function code (%02x)", packet[1])
+		return responses.SetIPv4{}, fmt.Errorf("invalid reply function code (%02x)", packet[1])
 	}
 
-	return responses.SetIPv4Response{
-		Controller: unpackUint32(packet, 4),
-		Ok:         unpackBool(packet, 8),
-	}, nil
+	return responses.SetIPv4{Controller: unpackUint32(packet, 4), Ok: unpackBool(packet, 8)}, nil
 }
 
-func GetStatusResponse(packet []byte) (responses.GetStatusResponse, error) {
+func GetStatusResponse(packet []byte) (responses.GetStatus, error) {
 	if len(packet) != 64 {
-		return responses.GetStatusResponse{}, fmt.Errorf("invalid reply packet length (%v)", len(packet))
+		return responses.GetStatus{}, fmt.Errorf("invalid reply packet length (%v)", len(packet))
 	}
 
 	if packet[0] != SOM && (packet[0] != SOM_v6_62 || packet[1] != 0x20) {
-		return responses.GetStatusResponse{}, fmt.Errorf("invalid reply start of message byte (%02x)", packet[0])
+		return responses.GetStatus{}, fmt.Errorf("invalid reply start of message byte (%02x)", packet[0])
 	}
 
 	if packet[1] != 0x20 {
-		return responses.GetStatusResponse{}, fmt.Errorf("invalid reply function code (%02x)", packet[1])
+		return responses.GetStatus{}, fmt.Errorf("invalid reply function code (%02x)", packet[1])
 	}
 
-	return responses.GetStatusResponse{
-		Controller:         unpackUint32(packet, 4),
-		SystemDate:         unpackShortDate(packet, 51),
-		SystemTime:         unpackTime(packet, 37),
-		Door1Open:          unpackBool(packet, 28),
-		Door2Open:          unpackBool(packet, 29),
-		Door3Open:          unpackBool(packet, 30),
-		Door4Open:          unpackBool(packet, 31),
-		Door1Button:        unpackBool(packet, 32),
-		Door2Button:        unpackBool(packet, 33),
-		Door3Button:        unpackBool(packet, 34),
-		Door4Button:        unpackBool(packet, 35),
-		Relays:             unpackUint8(packet, 49),
-		Inputs:             unpackUint8(packet, 50),
-		SystemError:        unpackUint8(packet, 36),
-		SpecialInfo:        unpackUint8(packet, 48),
-		EventIndex:         unpackUint32(packet, 8),
-		EventType:          unpackEventType(packet, 12),
-		EventAccessGranted: unpackBool(packet, 13),
-		EventDoor:          unpackUint8(packet, 14),
-		EventDirection:     unpackDirection(packet, 15),
-		EventCard:          unpackUint32(packet, 16),
-		EventTimestamp:     unpackOptionalDateTime(packet, 20),
-		EventReason:        unpackUint8(packet, 27),
-		SequenceNo:         unpackUint32(packet, 40),
-	}, nil
+	return responses.GetStatus{Controller: unpackUint32(packet, 4), SystemDate: unpackShortDate(packet, 51), SystemTime: unpackTime(packet, 37), Door1Open: unpackBool(packet, 28), Door2Open: unpackBool(packet, 29), Door3Open: unpackBool(packet, 30), Door4Open: unpackBool(packet, 31), Door1Button: unpackBool(packet, 32), Door2Button: unpackBool(packet, 33), Door3Button: unpackBool(packet, 34), Door4Button: unpackBool(packet, 35), Relays: unpackUint8(packet, 49), Inputs: unpackUint8(packet, 50), SystemError: unpackUint8(packet, 36), SpecialInfo: unpackUint8(packet, 48), EventIndex: unpackUint32(packet, 8), EventType: unpackEventType(packet, 12), EventAccessGranted: unpackBool(packet, 13), EventDoor: unpackUint8(packet, 14), EventDirection: unpackDirection(packet, 15), EventCard: unpackUint32(packet, 16), EventTimestamp: unpackOptionalDateTime(packet, 20), EventReason: unpackUint8(packet, 27), SequenceNo: unpackUint32(packet, 40)}, nil
 }
 
-func GetTimeResponse(packet []byte) (responses.GetTimeResponse, error) {
+func GetTimeResponse(packet []byte) (responses.GetTime, error) {
 	if len(packet) != 64 {
-		return responses.GetTimeResponse{}, fmt.Errorf("invalid reply packet length (%v)", len(packet))
+		return responses.GetTime{}, fmt.Errorf("invalid reply packet length (%v)", len(packet))
 	}
 
 	if packet[0] != SOM && (packet[0] != SOM_v6_62 || packet[1] != 0x20) {
-		return responses.GetTimeResponse{}, fmt.Errorf("invalid reply start of message byte (%02x)", packet[0])
+		return responses.GetTime{}, fmt.Errorf("invalid reply start of message byte (%02x)", packet[0])
 	}
 
 	if packet[1] != 0x32 {
-		return responses.GetTimeResponse{}, fmt.Errorf("invalid reply function code (%02x)", packet[1])
+		return responses.GetTime{}, fmt.Errorf("invalid reply function code (%02x)", packet[1])
 	}
 
-	return responses.GetTimeResponse{
-		Controller: unpackUint32(packet, 4),
-		DateTime:   unpackDateTime(packet, 8),
-	}, nil
+	return responses.GetTime{Controller: unpackUint32(packet, 4), DateTime: unpackDateTime(packet, 8)}, nil
 }
 
-func SetTimeResponse(packet []byte) (responses.SetTimeResponse, error) {
+func SetTimeResponse(packet []byte) (responses.SetTime, error) {
 	if len(packet) != 64 {
-		return responses.SetTimeResponse{}, fmt.Errorf("invalid reply packet length (%v)", len(packet))
+		return responses.SetTime{}, fmt.Errorf("invalid reply packet length (%v)", len(packet))
 	}
 
 	if packet[0] != SOM && (packet[0] != SOM_v6_62 || packet[1] != 0x20) {
-		return responses.SetTimeResponse{}, fmt.Errorf("invalid reply start of message byte (%02x)", packet[0])
+		return responses.SetTime{}, fmt.Errorf("invalid reply start of message byte (%02x)", packet[0])
 	}
 
 	if packet[1] != 0x30 {
-		return responses.SetTimeResponse{}, fmt.Errorf("invalid reply function code (%02x)", packet[1])
+		return responses.SetTime{}, fmt.Errorf("invalid reply function code (%02x)", packet[1])
 	}
 
-	return responses.SetTimeResponse{
-		Controller: unpackUint32(packet, 4),
-		DateTime:   unpackDateTime(packet, 8),
-	}, nil
+	return responses.SetTime{Controller: unpackUint32(packet, 4), DateTime: unpackDateTime(packet, 8)}, nil
 }
 
-func GetListenerResponse(packet []byte) (responses.GetListenerResponse, error) {
+func GetListenerResponse(packet []byte) (responses.GetListener, error) {
 	if len(packet) != 64 {
-		return responses.GetListenerResponse{}, fmt.Errorf("invalid reply packet length (%v)", len(packet))
+		return responses.GetListener{}, fmt.Errorf("invalid reply packet length (%v)", len(packet))
 	}
 
 	if packet[0] != SOM && (packet[0] != SOM_v6_62 || packet[1] != 0x20) {
-		return responses.GetListenerResponse{}, fmt.Errorf("invalid reply start of message byte (%02x)", packet[0])
+		return responses.GetListener{}, fmt.Errorf("invalid reply start of message byte (%02x)", packet[0])
 	}
 
 	if packet[1] != 0x92 {
-		return responses.GetListenerResponse{}, fmt.Errorf("invalid reply function code (%02x)", packet[1])
+		return responses.GetListener{}, fmt.Errorf("invalid reply function code (%02x)", packet[1])
 	}
 
-	return responses.GetListenerResponse{
-		Controller: unpackUint32(packet, 4),
-		Address:    unpackIPv4(packet, 8),
-		Port:       unpackUint16(packet, 12),
-		Interval:   unpackUint8(packet, 14),
-	}, nil
+	return responses.GetListener{Controller: unpackUint32(packet, 4), Address: unpackIPv4(packet, 8), Port: unpackUint16(packet, 12), Interval: unpackUint8(packet, 14)}, nil
 }
 
-func SetListenerResponse(packet []byte) (responses.SetListenerResponse, error) {
+func SetListenerResponse(packet []byte) (responses.SetListener, error) {
 	if len(packet) != 64 {
-		return responses.SetListenerResponse{}, fmt.Errorf("invalid reply packet length (%v)", len(packet))
+		return responses.SetListener{}, fmt.Errorf("invalid reply packet length (%v)", len(packet))
 	}
 
 	if packet[0] != SOM && (packet[0] != SOM_v6_62 || packet[1] != 0x20) {
-		return responses.SetListenerResponse{}, fmt.Errorf("invalid reply start of message byte (%02x)", packet[0])
+		return responses.SetListener{}, fmt.Errorf("invalid reply start of message byte (%02x)", packet[0])
 	}
 
 	if packet[1] != 0x90 {
-		return responses.SetListenerResponse{}, fmt.Errorf("invalid reply function code (%02x)", packet[1])
+		return responses.SetListener{}, fmt.Errorf("invalid reply function code (%02x)", packet[1])
 	}
 
-	return responses.SetListenerResponse{
-		Controller: unpackUint32(packet, 4),
-		Ok:         unpackBool(packet, 8),
-	}, nil
+	return responses.SetListener{Controller: unpackUint32(packet, 4), Ok: unpackBool(packet, 8)}, nil
 }
 
-func GetListenerAddrPortResponse(packet []byte) (responses.GetListenerAddrPortResponse, error) {
+func GetListenerAddrPortResponse(packet []byte) (responses.GetListenerAddrPort, error) {
 	if len(packet) != 64 {
-		return responses.GetListenerAddrPortResponse{}, fmt.Errorf("invalid reply packet length (%v)", len(packet))
+		return responses.GetListenerAddrPort{}, fmt.Errorf("invalid reply packet length (%v)", len(packet))
 	}
 
 	if packet[0] != SOM && (packet[0] != SOM_v6_62 || packet[1] != 0x20) {
-		return responses.GetListenerAddrPortResponse{}, fmt.Errorf("invalid reply start of message byte (%02x)", packet[0])
+		return responses.GetListenerAddrPort{}, fmt.Errorf("invalid reply start of message byte (%02x)", packet[0])
 	}
 
 	if packet[1] != 0x92 {
-		return responses.GetListenerAddrPortResponse{}, fmt.Errorf("invalid reply function code (%02x)", packet[1])
+		return responses.GetListenerAddrPort{}, fmt.Errorf("invalid reply function code (%02x)", packet[1])
 	}
 
-	return responses.GetListenerAddrPortResponse{
-		Controller: unpackUint32(packet, 4),
-		Listener:   unpackAddrPort(packet, 8),
-		Interval:   unpackUint8(packet, 14),
-	}, nil
+	return responses.GetListenerAddrPort{Controller: unpackUint32(packet, 4), Listener: unpackAddrPort(packet, 8), Interval: unpackUint8(packet, 14)}, nil
 }
 
-func SetListenerAddrPortResponse(packet []byte) (responses.SetListenerAddrPortResponse, error) {
+func SetListenerAddrPortResponse(packet []byte) (responses.SetListenerAddrPort, error) {
 	if len(packet) != 64 {
-		return responses.SetListenerAddrPortResponse{}, fmt.Errorf("invalid reply packet length (%v)", len(packet))
+		return responses.SetListenerAddrPort{}, fmt.Errorf("invalid reply packet length (%v)", len(packet))
 	}
 
 	if packet[0] != SOM && (packet[0] != SOM_v6_62 || packet[1] != 0x20) {
-		return responses.SetListenerAddrPortResponse{}, fmt.Errorf("invalid reply start of message byte (%02x)", packet[0])
+		return responses.SetListenerAddrPort{}, fmt.Errorf("invalid reply start of message byte (%02x)", packet[0])
 	}
 
 	if packet[1] != 0x90 {
-		return responses.SetListenerAddrPortResponse{}, fmt.Errorf("invalid reply function code (%02x)", packet[1])
+		return responses.SetListenerAddrPort{}, fmt.Errorf("invalid reply function code (%02x)", packet[1])
 	}
 
-	return responses.SetListenerAddrPortResponse{
-		Controller: unpackUint32(packet, 4),
-		Ok:         unpackBool(packet, 8),
-	}, nil
+	return responses.SetListenerAddrPort{Controller: unpackUint32(packet, 4), Ok: unpackBool(packet, 8)}, nil
 }
 
-func GetDoorResponse(packet []byte) (responses.GetDoorResponse, error) {
+func GetDoorResponse(packet []byte) (responses.GetDoor, error) {
 	if len(packet) != 64 {
-		return responses.GetDoorResponse{}, fmt.Errorf("invalid reply packet length (%v)", len(packet))
+		return responses.GetDoor{}, fmt.Errorf("invalid reply packet length (%v)", len(packet))
 	}
 
 	if packet[0] != SOM && (packet[0] != SOM_v6_62 || packet[1] != 0x20) {
-		return responses.GetDoorResponse{}, fmt.Errorf("invalid reply start of message byte (%02x)", packet[0])
+		return responses.GetDoor{}, fmt.Errorf("invalid reply start of message byte (%02x)", packet[0])
 	}
 
 	if packet[1] != 0x82 {
-		return responses.GetDoorResponse{}, fmt.Errorf("invalid reply function code (%02x)", packet[1])
+		return responses.GetDoor{}, fmt.Errorf("invalid reply function code (%02x)", packet[1])
 	}
 
-	return responses.GetDoorResponse{
-		Controller: unpackUint32(packet, 4),
-		Door:       unpackUint8(packet, 8),
-		Mode:       unpackMode(packet, 9),
-		Delay:      unpackUint8(packet, 10),
-	}, nil
+	return responses.GetDoor{Controller: unpackUint32(packet, 4), Door: unpackUint8(packet, 8), Mode: unpackMode(packet, 9), Delay: unpackUint8(packet, 10)}, nil
 }
 
-func SetDoorResponse(packet []byte) (responses.SetDoorResponse, error) {
+func SetDoorResponse(packet []byte) (responses.SetDoor, error) {
 	if len(packet) != 64 {
-		return responses.SetDoorResponse{}, fmt.Errorf("invalid reply packet length (%v)", len(packet))
+		return responses.SetDoor{}, fmt.Errorf("invalid reply packet length (%v)", len(packet))
 	}
 
 	if packet[0] != SOM && (packet[0] != SOM_v6_62 || packet[1] != 0x20) {
-		return responses.SetDoorResponse{}, fmt.Errorf("invalid reply start of message byte (%02x)", packet[0])
+		return responses.SetDoor{}, fmt.Errorf("invalid reply start of message byte (%02x)", packet[0])
 	}
 
 	if packet[1] != 0x80 {
-		return responses.SetDoorResponse{}, fmt.Errorf("invalid reply function code (%02x)", packet[1])
+		return responses.SetDoor{}, fmt.Errorf("invalid reply function code (%02x)", packet[1])
 	}
 
-	return responses.SetDoorResponse{
-		Controller: unpackUint32(packet, 4),
-		Door:       unpackUint8(packet, 8),
-		Mode:       unpackUint8(packet, 9),
-		Delay:      unpackUint8(packet, 10),
-	}, nil
+	return responses.SetDoor{Controller: unpackUint32(packet, 4), Door: unpackUint8(packet, 8), Mode: unpackUint8(packet, 9), Delay: unpackUint8(packet, 10)}, nil
 }
 
-func SetDoorPasscodesResponse(packet []byte) (responses.SetDoorPasscodesResponse, error) {
+func SetDoorPasscodesResponse(packet []byte) (responses.SetDoorPasscodes, error) {
 	if len(packet) != 64 {
-		return responses.SetDoorPasscodesResponse{}, fmt.Errorf("invalid reply packet length (%v)", len(packet))
+		return responses.SetDoorPasscodes{}, fmt.Errorf("invalid reply packet length (%v)", len(packet))
 	}
 
 	if packet[0] != SOM && (packet[0] != SOM_v6_62 || packet[1] != 0x20) {
-		return responses.SetDoorPasscodesResponse{}, fmt.Errorf("invalid reply start of message byte (%02x)", packet[0])
+		return responses.SetDoorPasscodes{}, fmt.Errorf("invalid reply start of message byte (%02x)", packet[0])
 	}
 
 	if packet[1] != 0x8c {
-		return responses.SetDoorPasscodesResponse{}, fmt.Errorf("invalid reply function code (%02x)", packet[1])
+		return responses.SetDoorPasscodes{}, fmt.Errorf("invalid reply function code (%02x)", packet[1])
 	}
 
-	return responses.SetDoorPasscodesResponse{
-		Controller: unpackUint32(packet, 4),
-		Ok:         unpackBool(packet, 8),
-	}, nil
+	return responses.SetDoorPasscodes{Controller: unpackUint32(packet, 4), Ok: unpackBool(packet, 8)}, nil
 }
 
-func OpenDoorResponse(packet []byte) (responses.OpenDoorResponse, error) {
+func OpenDoorResponse(packet []byte) (responses.OpenDoor, error) {
 	if len(packet) != 64 {
-		return responses.OpenDoorResponse{}, fmt.Errorf("invalid reply packet length (%v)", len(packet))
+		return responses.OpenDoor{}, fmt.Errorf("invalid reply packet length (%v)", len(packet))
 	}
 
 	if packet[0] != SOM && (packet[0] != SOM_v6_62 || packet[1] != 0x20) {
-		return responses.OpenDoorResponse{}, fmt.Errorf("invalid reply start of message byte (%02x)", packet[0])
+		return responses.OpenDoor{}, fmt.Errorf("invalid reply start of message byte (%02x)", packet[0])
 	}
 
 	if packet[1] != 0x40 {
-		return responses.OpenDoorResponse{}, fmt.Errorf("invalid reply function code (%02x)", packet[1])
+		return responses.OpenDoor{}, fmt.Errorf("invalid reply function code (%02x)", packet[1])
 	}
 
-	return responses.OpenDoorResponse{
-		Controller: unpackUint32(packet, 4),
-		Ok:         unpackBool(packet, 8),
-	}, nil
+	return responses.OpenDoor{Controller: unpackUint32(packet, 4), Ok: unpackBool(packet, 8)}, nil
 }
 
-func GetCardsResponse(packet []byte) (responses.GetCardsResponse, error) {
+func GetCardsResponse(packet []byte) (responses.GetCards, error) {
 	if len(packet) != 64 {
-		return responses.GetCardsResponse{}, fmt.Errorf("invalid reply packet length (%v)", len(packet))
+		return responses.GetCards{}, fmt.Errorf("invalid reply packet length (%v)", len(packet))
 	}
 
 	if packet[0] != SOM && (packet[0] != SOM_v6_62 || packet[1] != 0x20) {
-		return responses.GetCardsResponse{}, fmt.Errorf("invalid reply start of message byte (%02x)", packet[0])
+		return responses.GetCards{}, fmt.Errorf("invalid reply start of message byte (%02x)", packet[0])
 	}
 
 	if packet[1] != 0x58 {
-		return responses.GetCardsResponse{}, fmt.Errorf("invalid reply function code (%02x)", packet[1])
+		return responses.GetCards{}, fmt.Errorf("invalid reply function code (%02x)", packet[1])
 	}
 
-	return responses.GetCardsResponse{
-		Controller: unpackUint32(packet, 4),
-		Cards:      unpackUint32(packet, 8),
-	}, nil
+	return responses.GetCards{Controller: unpackUint32(packet, 4), Cards: unpackUint32(packet, 8)}, nil
 }
 
-func GetCardResponse(packet []byte) (responses.GetCardResponse, error) {
+func GetCardResponse(packet []byte) (responses.GetCard, error) {
 	if len(packet) != 64 {
-		return responses.GetCardResponse{}, fmt.Errorf("invalid reply packet length (%v)", len(packet))
+		return responses.GetCard{}, fmt.Errorf("invalid reply packet length (%v)", len(packet))
 	}
 
 	if packet[0] != SOM && (packet[0] != SOM_v6_62 || packet[1] != 0x20) {
-		return responses.GetCardResponse{}, fmt.Errorf("invalid reply start of message byte (%02x)", packet[0])
+		return responses.GetCard{}, fmt.Errorf("invalid reply start of message byte (%02x)", packet[0])
 	}
 
 	if packet[1] != 0x5a {
-		return responses.GetCardResponse{}, fmt.Errorf("invalid reply function code (%02x)", packet[1])
+		return responses.GetCard{}, fmt.Errorf("invalid reply function code (%02x)", packet[1])
 	}
 
-	return responses.GetCardResponse{
-		Controller: unpackUint32(packet, 4),
-		Card:       unpackUint32(packet, 8),
-		StartDate:  unpackOptionalDate(packet, 12),
-		EndDate:    unpackOptionalDate(packet, 16),
-		Door1:      unpackUint8(packet, 20),
-		Door2:      unpackUint8(packet, 21),
-		Door3:      unpackUint8(packet, 22),
-		Door4:      unpackUint8(packet, 23),
-		PIN:        unpackPIN(packet, 24),
-	}, nil
+	return responses.GetCard{Controller: unpackUint32(packet, 4), Card: unpackUint32(packet, 8), StartDate: unpackOptionalDate(packet, 12), EndDate: unpackOptionalDate(packet, 16), Door1: unpackUint8(packet, 20), Door2: unpackUint8(packet, 21), Door3: unpackUint8(packet, 22), Door4: unpackUint8(packet, 23), PIN: unpackPIN(packet, 24)}, nil
 }
 
-func GetCardAtIndexResponse(packet []byte) (responses.GetCardAtIndexResponse, error) {
+func GetCardAtIndexResponse(packet []byte) (responses.GetCardAtIndex, error) {
 	if len(packet) != 64 {
-		return responses.GetCardAtIndexResponse{}, fmt.Errorf("invalid reply packet length (%v)", len(packet))
+		return responses.GetCardAtIndex{}, fmt.Errorf("invalid reply packet length (%v)", len(packet))
 	}
 
 	if packet[0] != SOM && (packet[0] != SOM_v6_62 || packet[1] != 0x20) {
-		return responses.GetCardAtIndexResponse{}, fmt.Errorf("invalid reply start of message byte (%02x)", packet[0])
+		return responses.GetCardAtIndex{}, fmt.Errorf("invalid reply start of message byte (%02x)", packet[0])
 	}
 
 	if packet[1] != 0x5c {
-		return responses.GetCardAtIndexResponse{}, fmt.Errorf("invalid reply function code (%02x)", packet[1])
+		return responses.GetCardAtIndex{}, fmt.Errorf("invalid reply function code (%02x)", packet[1])
 	}
 
-	return responses.GetCardAtIndexResponse{
-		Controller: unpackUint32(packet, 4),
-		Card:       unpackUint32(packet, 8),
-		StartDate:  unpackOptionalDate(packet, 12),
-		EndDate:    unpackOptionalDate(packet, 16),
-		Door1:      unpackUint8(packet, 20),
-		Door2:      unpackUint8(packet, 21),
-		Door3:      unpackUint8(packet, 22),
-		Door4:      unpackUint8(packet, 23),
-		PIN:        unpackPIN(packet, 24),
-	}, nil
+	return responses.GetCardAtIndex{Controller: unpackUint32(packet, 4), Card: unpackUint32(packet, 8), StartDate: unpackOptionalDate(packet, 12), EndDate: unpackOptionalDate(packet, 16), Door1: unpackUint8(packet, 20), Door2: unpackUint8(packet, 21), Door3: unpackUint8(packet, 22), Door4: unpackUint8(packet, 23), PIN: unpackPIN(packet, 24)}, nil
 }
 
-func PutCardResponse(packet []byte) (responses.PutCardResponse, error) {
+func PutCardResponse(packet []byte) (responses.PutCard, error) {
 	if len(packet) != 64 {
-		return responses.PutCardResponse{}, fmt.Errorf("invalid reply packet length (%v)", len(packet))
+		return responses.PutCard{}, fmt.Errorf("invalid reply packet length (%v)", len(packet))
 	}
 
 	if packet[0] != SOM && (packet[0] != SOM_v6_62 || packet[1] != 0x20) {
-		return responses.PutCardResponse{}, fmt.Errorf("invalid reply start of message byte (%02x)", packet[0])
+		return responses.PutCard{}, fmt.Errorf("invalid reply start of message byte (%02x)", packet[0])
 	}
 
 	if packet[1] != 0x50 {
-		return responses.PutCardResponse{}, fmt.Errorf("invalid reply function code (%02x)", packet[1])
+		return responses.PutCard{}, fmt.Errorf("invalid reply function code (%02x)", packet[1])
 	}
 
-	return responses.PutCardResponse{
-		Controller: unpackUint32(packet, 4),
-		Ok:         unpackBool(packet, 8),
-	}, nil
+	return responses.PutCard{Controller: unpackUint32(packet, 4), Ok: unpackBool(packet, 8)}, nil
 }
 
-func DeleteCardResponse(packet []byte) (responses.DeleteCardResponse, error) {
+func DeleteCardResponse(packet []byte) (responses.DeleteCard, error) {
 	if len(packet) != 64 {
-		return responses.DeleteCardResponse{}, fmt.Errorf("invalid reply packet length (%v)", len(packet))
+		return responses.DeleteCard{}, fmt.Errorf("invalid reply packet length (%v)", len(packet))
 	}
 
 	if packet[0] != SOM && (packet[0] != SOM_v6_62 || packet[1] != 0x20) {
-		return responses.DeleteCardResponse{}, fmt.Errorf("invalid reply start of message byte (%02x)", packet[0])
+		return responses.DeleteCard{}, fmt.Errorf("invalid reply start of message byte (%02x)", packet[0])
 	}
 
 	if packet[1] != 0x52 {
-		return responses.DeleteCardResponse{}, fmt.Errorf("invalid reply function code (%02x)", packet[1])
+		return responses.DeleteCard{}, fmt.Errorf("invalid reply function code (%02x)", packet[1])
 	}
 
-	return responses.DeleteCardResponse{
-		Controller: unpackUint32(packet, 4),
-		Ok:         unpackBool(packet, 8),
-	}, nil
+	return responses.DeleteCard{Controller: unpackUint32(packet, 4), Ok: unpackBool(packet, 8)}, nil
 }
 
-func DeleteAllCardsResponse(packet []byte) (responses.DeleteAllCardsResponse, error) {
+func DeleteAllCardsResponse(packet []byte) (responses.DeleteAllCards, error) {
 	if len(packet) != 64 {
-		return responses.DeleteAllCardsResponse{}, fmt.Errorf("invalid reply packet length (%v)", len(packet))
+		return responses.DeleteAllCards{}, fmt.Errorf("invalid reply packet length (%v)", len(packet))
 	}
 
 	if packet[0] != SOM && (packet[0] != SOM_v6_62 || packet[1] != 0x20) {
-		return responses.DeleteAllCardsResponse{}, fmt.Errorf("invalid reply start of message byte (%02x)", packet[0])
+		return responses.DeleteAllCards{}, fmt.Errorf("invalid reply start of message byte (%02x)", packet[0])
 	}
 
 	if packet[1] != 0x54 {
-		return responses.DeleteAllCardsResponse{}, fmt.Errorf("invalid reply function code (%02x)", packet[1])
+		return responses.DeleteAllCards{}, fmt.Errorf("invalid reply function code (%02x)", packet[1])
 	}
 
-	return responses.DeleteAllCardsResponse{
-		Controller: unpackUint32(packet, 4),
-		Ok:         unpackBool(packet, 8),
-	}, nil
+	return responses.DeleteAllCards{Controller: unpackUint32(packet, 4), Ok: unpackBool(packet, 8)}, nil
 }
 
-func GetEventResponse(packet []byte) (responses.GetEventResponse, error) {
+func GetEventResponse(packet []byte) (responses.GetEvent, error) {
 	if len(packet) != 64 {
-		return responses.GetEventResponse{}, fmt.Errorf("invalid reply packet length (%v)", len(packet))
+		return responses.GetEvent{}, fmt.Errorf("invalid reply packet length (%v)", len(packet))
 	}
 
 	if packet[0] != SOM && (packet[0] != SOM_v6_62 || packet[1] != 0x20) {
-		return responses.GetEventResponse{}, fmt.Errorf("invalid reply start of message byte (%02x)", packet[0])
+		return responses.GetEvent{}, fmt.Errorf("invalid reply start of message byte (%02x)", packet[0])
 	}
 
 	if packet[1] != 0xb0 {
-		return responses.GetEventResponse{}, fmt.Errorf("invalid reply function code (%02x)", packet[1])
+		return responses.GetEvent{}, fmt.Errorf("invalid reply function code (%02x)", packet[1])
 	}
 
-	return responses.GetEventResponse{
-		Controller:    unpackUint32(packet, 4),
-		Index:         unpackUint32(packet, 8),
-		EventType:     unpackEventType(packet, 12),
-		AccessGranted: unpackBool(packet, 13),
-		Door:          unpackUint8(packet, 14),
-		Direction:     unpackDirection(packet, 15),
-		Card:          unpackUint32(packet, 16),
-		Timestamp:     unpackOptionalDateTime(packet, 20),
-		Reason:        unpackUint8(packet, 27),
-	}, nil
+	return responses.GetEvent{Controller: unpackUint32(packet, 4), Index: unpackUint32(packet, 8), EventType: unpackEventType(packet, 12), AccessGranted: unpackBool(packet, 13), Door: unpackUint8(packet, 14), Direction: unpackDirection(packet, 15), Card: unpackUint32(packet, 16), Timestamp: unpackOptionalDateTime(packet, 20), Reason: unpackUint8(packet, 27)}, nil
 }
 
-func GetEventIndexResponse(packet []byte) (responses.GetEventIndexResponse, error) {
+func GetEventIndexResponse(packet []byte) (responses.GetEventIndex, error) {
 	if len(packet) != 64 {
-		return responses.GetEventIndexResponse{}, fmt.Errorf("invalid reply packet length (%v)", len(packet))
+		return responses.GetEventIndex{}, fmt.Errorf("invalid reply packet length (%v)", len(packet))
 	}
 
 	if packet[0] != SOM && (packet[0] != SOM_v6_62 || packet[1] != 0x20) {
-		return responses.GetEventIndexResponse{}, fmt.Errorf("invalid reply start of message byte (%02x)", packet[0])
+		return responses.GetEventIndex{}, fmt.Errorf("invalid reply start of message byte (%02x)", packet[0])
 	}
 
 	if packet[1] != 0xb4 {
-		return responses.GetEventIndexResponse{}, fmt.Errorf("invalid reply function code (%02x)", packet[1])
+		return responses.GetEventIndex{}, fmt.Errorf("invalid reply function code (%02x)", packet[1])
 	}
 
-	return responses.GetEventIndexResponse{
-		Controller: unpackUint32(packet, 4),
-		Index:      unpackUint32(packet, 8),
-	}, nil
+	return responses.GetEventIndex{Controller: unpackUint32(packet, 4), Index: unpackUint32(packet, 8)}, nil
 }
 
-func SetEventIndexResponse(packet []byte) (responses.SetEventIndexResponse, error) {
+func SetEventIndexResponse(packet []byte) (responses.SetEventIndex, error) {
 	if len(packet) != 64 {
-		return responses.SetEventIndexResponse{}, fmt.Errorf("invalid reply packet length (%v)", len(packet))
+		return responses.SetEventIndex{}, fmt.Errorf("invalid reply packet length (%v)", len(packet))
 	}
 
 	if packet[0] != SOM && (packet[0] != SOM_v6_62 || packet[1] != 0x20) {
-		return responses.SetEventIndexResponse{}, fmt.Errorf("invalid reply start of message byte (%02x)", packet[0])
+		return responses.SetEventIndex{}, fmt.Errorf("invalid reply start of message byte (%02x)", packet[0])
 	}
 
 	if packet[1] != 0xb2 {
-		return responses.SetEventIndexResponse{}, fmt.Errorf("invalid reply function code (%02x)", packet[1])
+		return responses.SetEventIndex{}, fmt.Errorf("invalid reply function code (%02x)", packet[1])
 	}
 
-	return responses.SetEventIndexResponse{
-		Controller: unpackUint32(packet, 4),
-		Ok:         unpackBool(packet, 8),
-	}, nil
+	return responses.SetEventIndex{Controller: unpackUint32(packet, 4), Ok: unpackBool(packet, 8)}, nil
 }
 
-func RecordSpecialEventsResponse(packet []byte) (responses.RecordSpecialEventsResponse, error) {
+func RecordSpecialEventsResponse(packet []byte) (responses.RecordSpecialEvents, error) {
 	if len(packet) != 64 {
-		return responses.RecordSpecialEventsResponse{}, fmt.Errorf("invalid reply packet length (%v)", len(packet))
+		return responses.RecordSpecialEvents{}, fmt.Errorf("invalid reply packet length (%v)", len(packet))
 	}
 
 	if packet[0] != SOM && (packet[0] != SOM_v6_62 || packet[1] != 0x20) {
-		return responses.RecordSpecialEventsResponse{}, fmt.Errorf("invalid reply start of message byte (%02x)", packet[0])
+		return responses.RecordSpecialEvents{}, fmt.Errorf("invalid reply start of message byte (%02x)", packet[0])
 	}
 
 	if packet[1] != 0x8e {
-		return responses.RecordSpecialEventsResponse{}, fmt.Errorf("invalid reply function code (%02x)", packet[1])
+		return responses.RecordSpecialEvents{}, fmt.Errorf("invalid reply function code (%02x)", packet[1])
 	}
 
-	return responses.RecordSpecialEventsResponse{
-		Controller: unpackUint32(packet, 4),
-		Ok:         unpackBool(packet, 8),
-	}, nil
+	return responses.RecordSpecialEvents{Controller: unpackUint32(packet, 4), Ok: unpackBool(packet, 8)}, nil
 }
 
-func GetTimeProfileResponse(packet []byte) (responses.GetTimeProfileResponse, error) {
+func GetTimeProfileResponse(packet []byte) (responses.GetTimeProfile, error) {
 	if len(packet) != 64 {
-		return responses.GetTimeProfileResponse{}, fmt.Errorf("invalid reply packet length (%v)", len(packet))
+		return responses.GetTimeProfile{}, fmt.Errorf("invalid reply packet length (%v)", len(packet))
 	}
 
 	if packet[0] != SOM && (packet[0] != SOM_v6_62 || packet[1] != 0x20) {
-		return responses.GetTimeProfileResponse{}, fmt.Errorf("invalid reply start of message byte (%02x)", packet[0])
+		return responses.GetTimeProfile{}, fmt.Errorf("invalid reply start of message byte (%02x)", packet[0])
 	}
 
 	if packet[1] != 0x98 {
-		return responses.GetTimeProfileResponse{}, fmt.Errorf("invalid reply function code (%02x)", packet[1])
+		return responses.GetTimeProfile{}, fmt.Errorf("invalid reply function code (%02x)", packet[1])
 	}
 
-	return responses.GetTimeProfileResponse{
-		Controller:    unpackUint32(packet, 4),
-		Profile:       unpackUint8(packet, 8),
-		StartDate:     unpackOptionalDate(packet, 9),
-		EndDate:       unpackOptionalDate(packet, 13),
-		Monday:        unpackBool(packet, 17),
-		Tuesday:       unpackBool(packet, 18),
-		Wednesday:     unpackBool(packet, 19),
-		Thursday:      unpackBool(packet, 20),
-		Friday:        unpackBool(packet, 21),
-		Saturday:      unpackBool(packet, 22),
-		Sunday:        unpackBool(packet, 23),
-		Segment1Start: unpackHHmm(packet, 24),
-		Segment1End:   unpackHHmm(packet, 26),
-		Segment2Start: unpackHHmm(packet, 28),
-		Segment2End:   unpackHHmm(packet, 30),
-		Segment3Start: unpackHHmm(packet, 32),
-		Segment3End:   unpackHHmm(packet, 34),
-		LinkedProfile: unpackUint8(packet, 36),
-	}, nil
+	return responses.GetTimeProfile{Controller: unpackUint32(packet, 4), Profile: unpackUint8(packet, 8), StartDate: unpackOptionalDate(packet, 9), EndDate: unpackOptionalDate(packet, 13), Monday: unpackBool(packet, 17), Tuesday: unpackBool(packet, 18), Wednesday: unpackBool(packet, 19), Thursday: unpackBool(packet, 20), Friday: unpackBool(packet, 21), Saturday: unpackBool(packet, 22), Sunday: unpackBool(packet, 23), Segment1Start: unpackHHmm(packet, 24), Segment1End: unpackHHmm(packet, 26), Segment2Start: unpackHHmm(packet, 28), Segment2End: unpackHHmm(packet, 30), Segment3Start: unpackHHmm(packet, 32), Segment3End: unpackHHmm(packet, 34), LinkedProfile: unpackUint8(packet, 36)}, nil
 }
 
-func SetTimeProfileResponse(packet []byte) (responses.SetTimeProfileResponse, error) {
+func SetTimeProfileResponse(packet []byte) (responses.SetTimeProfile, error) {
 	if len(packet) != 64 {
-		return responses.SetTimeProfileResponse{}, fmt.Errorf("invalid reply packet length (%v)", len(packet))
+		return responses.SetTimeProfile{}, fmt.Errorf("invalid reply packet length (%v)", len(packet))
 	}
 
 	if packet[0] != SOM && (packet[0] != SOM_v6_62 || packet[1] != 0x20) {
-		return responses.SetTimeProfileResponse{}, fmt.Errorf("invalid reply start of message byte (%02x)", packet[0])
+		return responses.SetTimeProfile{}, fmt.Errorf("invalid reply start of message byte (%02x)", packet[0])
 	}
 
 	if packet[1] != 0x88 {
-		return responses.SetTimeProfileResponse{}, fmt.Errorf("invalid reply function code (%02x)", packet[1])
+		return responses.SetTimeProfile{}, fmt.Errorf("invalid reply function code (%02x)", packet[1])
 	}
 
-	return responses.SetTimeProfileResponse{
-		Controller: unpackUint32(packet, 4),
-		Ok:         unpackBool(packet, 8),
-	}, nil
+	return responses.SetTimeProfile{Controller: unpackUint32(packet, 4), Ok: unpackBool(packet, 8)}, nil
 }
 
-func ClearTimeProfilesResponse(packet []byte) (responses.ClearTimeProfilesResponse, error) {
+func ClearTimeProfilesResponse(packet []byte) (responses.ClearTimeProfiles, error) {
 	if len(packet) != 64 {
-		return responses.ClearTimeProfilesResponse{}, fmt.Errorf("invalid reply packet length (%v)", len(packet))
+		return responses.ClearTimeProfiles{}, fmt.Errorf("invalid reply packet length (%v)", len(packet))
 	}
 
 	if packet[0] != SOM && (packet[0] != SOM_v6_62 || packet[1] != 0x20) {
-		return responses.ClearTimeProfilesResponse{}, fmt.Errorf("invalid reply start of message byte (%02x)", packet[0])
+		return responses.ClearTimeProfiles{}, fmt.Errorf("invalid reply start of message byte (%02x)", packet[0])
 	}
 
 	if packet[1] != 0x8a {
-		return responses.ClearTimeProfilesResponse{}, fmt.Errorf("invalid reply function code (%02x)", packet[1])
+		return responses.ClearTimeProfiles{}, fmt.Errorf("invalid reply function code (%02x)", packet[1])
 	}
 
-	return responses.ClearTimeProfilesResponse{
-		Controller: unpackUint32(packet, 4),
-		Ok:         unpackBool(packet, 8),
-	}, nil
+	return responses.ClearTimeProfiles{Controller: unpackUint32(packet, 4), Ok: unpackBool(packet, 8)}, nil
 }
 
-func AddTaskResponse(packet []byte) (responses.AddTaskResponse, error) {
+func AddTaskResponse(packet []byte) (responses.AddTask, error) {
 	if len(packet) != 64 {
-		return responses.AddTaskResponse{}, fmt.Errorf("invalid reply packet length (%v)", len(packet))
+		return responses.AddTask{}, fmt.Errorf("invalid reply packet length (%v)", len(packet))
 	}
 
 	if packet[0] != SOM && (packet[0] != SOM_v6_62 || packet[1] != 0x20) {
-		return responses.AddTaskResponse{}, fmt.Errorf("invalid reply start of message byte (%02x)", packet[0])
+		return responses.AddTask{}, fmt.Errorf("invalid reply start of message byte (%02x)", packet[0])
 	}
 
 	if packet[1] != 0xa8 {
-		return responses.AddTaskResponse{}, fmt.Errorf("invalid reply function code (%02x)", packet[1])
+		return responses.AddTask{}, fmt.Errorf("invalid reply function code (%02x)", packet[1])
 	}
 
-	return responses.AddTaskResponse{
-		Controller: unpackUint32(packet, 4),
-		Ok:         unpackBool(packet, 8),
-	}, nil
+	return responses.AddTask{Controller: unpackUint32(packet, 4), Ok: unpackBool(packet, 8)}, nil
 }
 
-func RefreshTaskListResponse(packet []byte) (responses.RefreshTaskListResponse, error) {
+func RefreshTaskListResponse(packet []byte) (responses.RefreshTaskList, error) {
 	if len(packet) != 64 {
-		return responses.RefreshTaskListResponse{}, fmt.Errorf("invalid reply packet length (%v)", len(packet))
+		return responses.RefreshTaskList{}, fmt.Errorf("invalid reply packet length (%v)", len(packet))
 	}
 
 	if packet[0] != SOM && (packet[0] != SOM_v6_62 || packet[1] != 0x20) {
-		return responses.RefreshTaskListResponse{}, fmt.Errorf("invalid reply start of message byte (%02x)", packet[0])
+		return responses.RefreshTaskList{}, fmt.Errorf("invalid reply start of message byte (%02x)", packet[0])
 	}
 
 	if packet[1] != 0xac {
-		return responses.RefreshTaskListResponse{}, fmt.Errorf("invalid reply function code (%02x)", packet[1])
+		return responses.RefreshTaskList{}, fmt.Errorf("invalid reply function code (%02x)", packet[1])
 	}
 
-	return responses.RefreshTaskListResponse{
-		Controller: unpackUint32(packet, 4),
-		Ok:         unpackBool(packet, 8),
-	}, nil
+	return responses.RefreshTaskList{Controller: unpackUint32(packet, 4), Ok: unpackBool(packet, 8)}, nil
 }
 
-func ClearTaskListResponse(packet []byte) (responses.ClearTaskListResponse, error) {
+func ClearTaskListResponse(packet []byte) (responses.ClearTaskList, error) {
 	if len(packet) != 64 {
-		return responses.ClearTaskListResponse{}, fmt.Errorf("invalid reply packet length (%v)", len(packet))
+		return responses.ClearTaskList{}, fmt.Errorf("invalid reply packet length (%v)", len(packet))
 	}
 
 	if packet[0] != SOM && (packet[0] != SOM_v6_62 || packet[1] != 0x20) {
-		return responses.ClearTaskListResponse{}, fmt.Errorf("invalid reply start of message byte (%02x)", packet[0])
+		return responses.ClearTaskList{}, fmt.Errorf("invalid reply start of message byte (%02x)", packet[0])
 	}
 
 	if packet[1] != 0xa6 {
-		return responses.ClearTaskListResponse{}, fmt.Errorf("invalid reply function code (%02x)", packet[1])
+		return responses.ClearTaskList{}, fmt.Errorf("invalid reply function code (%02x)", packet[1])
 	}
 
-	return responses.ClearTaskListResponse{
-		Controller: unpackUint32(packet, 4),
-		Ok:         unpackBool(packet, 8),
-	}, nil
+	return responses.ClearTaskList{Controller: unpackUint32(packet, 4), Ok: unpackBool(packet, 8)}, nil
 }
 
-func SetPCControlResponse(packet []byte) (responses.SetPCControlResponse, error) {
+func SetPCControlResponse(packet []byte) (responses.SetPCControl, error) {
 	if len(packet) != 64 {
-		return responses.SetPCControlResponse{}, fmt.Errorf("invalid reply packet length (%v)", len(packet))
+		return responses.SetPCControl{}, fmt.Errorf("invalid reply packet length (%v)", len(packet))
 	}
 
 	if packet[0] != SOM && (packet[0] != SOM_v6_62 || packet[1] != 0x20) {
-		return responses.SetPCControlResponse{}, fmt.Errorf("invalid reply start of message byte (%02x)", packet[0])
+		return responses.SetPCControl{}, fmt.Errorf("invalid reply start of message byte (%02x)", packet[0])
 	}
 
 	if packet[1] != 0xa0 {
-		return responses.SetPCControlResponse{}, fmt.Errorf("invalid reply function code (%02x)", packet[1])
+		return responses.SetPCControl{}, fmt.Errorf("invalid reply function code (%02x)", packet[1])
 	}
 
-	return responses.SetPCControlResponse{
-		Controller: unpackUint32(packet, 4),
-		Ok:         unpackBool(packet, 8),
-	}, nil
+	return responses.SetPCControl{Controller: unpackUint32(packet, 4), Ok: unpackBool(packet, 8)}, nil
 }
 
-func SetInterlockResponse(packet []byte) (responses.SetInterlockResponse, error) {
+func SetInterlockResponse(packet []byte) (responses.SetInterlock, error) {
 	if len(packet) != 64 {
-		return responses.SetInterlockResponse{}, fmt.Errorf("invalid reply packet length (%v)", len(packet))
+		return responses.SetInterlock{}, fmt.Errorf("invalid reply packet length (%v)", len(packet))
 	}
 
 	if packet[0] != SOM && (packet[0] != SOM_v6_62 || packet[1] != 0x20) {
-		return responses.SetInterlockResponse{}, fmt.Errorf("invalid reply start of message byte (%02x)", packet[0])
+		return responses.SetInterlock{}, fmt.Errorf("invalid reply start of message byte (%02x)", packet[0])
 	}
 
 	if packet[1] != 0xa2 {
-		return responses.SetInterlockResponse{}, fmt.Errorf("invalid reply function code (%02x)", packet[1])
+		return responses.SetInterlock{}, fmt.Errorf("invalid reply function code (%02x)", packet[1])
 	}
 
-	return responses.SetInterlockResponse{
-		Controller: unpackUint32(packet, 4),
-		Ok:         unpackBool(packet, 8),
-	}, nil
+	return responses.SetInterlock{Controller: unpackUint32(packet, 4), Ok: unpackBool(packet, 8)}, nil
 }
 
-func ActivateKeypadsResponse(packet []byte) (responses.ActivateKeypadsResponse, error) {
+func ActivateKeypadsResponse(packet []byte) (responses.ActivateKeypads, error) {
 	if len(packet) != 64 {
-		return responses.ActivateKeypadsResponse{}, fmt.Errorf("invalid reply packet length (%v)", len(packet))
+		return responses.ActivateKeypads{}, fmt.Errorf("invalid reply packet length (%v)", len(packet))
 	}
 
 	if packet[0] != SOM && (packet[0] != SOM_v6_62 || packet[1] != 0x20) {
-		return responses.ActivateKeypadsResponse{}, fmt.Errorf("invalid reply start of message byte (%02x)", packet[0])
+		return responses.ActivateKeypads{}, fmt.Errorf("invalid reply start of message byte (%02x)", packet[0])
 	}
 
 	if packet[1] != 0xa4 {
-		return responses.ActivateKeypadsResponse{}, fmt.Errorf("invalid reply function code (%02x)", packet[1])
+		return responses.ActivateKeypads{}, fmt.Errorf("invalid reply function code (%02x)", packet[1])
 	}
 
-	return responses.ActivateKeypadsResponse{
-		Controller: unpackUint32(packet, 4),
-		Ok:         unpackBool(packet, 8),
-	}, nil
+	return responses.ActivateKeypads{Controller: unpackUint32(packet, 4), Ok: unpackBool(packet, 8)}, nil
 }
 
-func GetAntiPassbackResponse(packet []byte) (responses.GetAntiPassbackResponse, error) {
+func GetAntiPassbackResponse(packet []byte) (responses.GetAntiPassback, error) {
 	if len(packet) != 64 {
-		return responses.GetAntiPassbackResponse{}, fmt.Errorf("invalid reply packet length (%v)", len(packet))
+		return responses.GetAntiPassback{}, fmt.Errorf("invalid reply packet length (%v)", len(packet))
 	}
 
 	if packet[0] != SOM && (packet[0] != SOM_v6_62 || packet[1] != 0x20) {
-		return responses.GetAntiPassbackResponse{}, fmt.Errorf("invalid reply start of message byte (%02x)", packet[0])
+		return responses.GetAntiPassback{}, fmt.Errorf("invalid reply start of message byte (%02x)", packet[0])
 	}
 
 	if packet[1] != 0x86 {
-		return responses.GetAntiPassbackResponse{}, fmt.Errorf("invalid reply function code (%02x)", packet[1])
+		return responses.GetAntiPassback{}, fmt.Errorf("invalid reply function code (%02x)", packet[1])
 	}
 
-	return responses.GetAntiPassbackResponse{
-		Controller:   unpackUint32(packet, 4),
-		Antipassback: unpackUint8(packet, 8),
-	}, nil
+	return responses.GetAntiPassback{Controller: unpackUint32(packet, 4), Antipassback: unpackUint8(packet, 8)}, nil
 }
 
-func SetAntiPassbackResponse(packet []byte) (responses.SetAntiPassbackResponse, error) {
+func SetAntiPassbackResponse(packet []byte) (responses.SetAntiPassback, error) {
 	if len(packet) != 64 {
-		return responses.SetAntiPassbackResponse{}, fmt.Errorf("invalid reply packet length (%v)", len(packet))
+		return responses.SetAntiPassback{}, fmt.Errorf("invalid reply packet length (%v)", len(packet))
 	}
 
 	if packet[0] != SOM && (packet[0] != SOM_v6_62 || packet[1] != 0x20) {
-		return responses.SetAntiPassbackResponse{}, fmt.Errorf("invalid reply start of message byte (%02x)", packet[0])
+		return responses.SetAntiPassback{}, fmt.Errorf("invalid reply start of message byte (%02x)", packet[0])
 	}
 
 	if packet[1] != 0x84 {
-		return responses.SetAntiPassbackResponse{}, fmt.Errorf("invalid reply function code (%02x)", packet[1])
+		return responses.SetAntiPassback{}, fmt.Errorf("invalid reply function code (%02x)", packet[1])
 	}
 
-	return responses.SetAntiPassbackResponse{
-		Controller: unpackUint32(packet, 4),
-		Ok:         unpackBool(packet, 8),
-	}, nil
+	return responses.SetAntiPassback{Controller: unpackUint32(packet, 4), Ok: unpackBool(packet, 8)}, nil
 }
 
-func RestoreDefaultParametersResponse(packet []byte) (responses.RestoreDefaultParametersResponse, error) {
+func RestoreDefaultParametersResponse(packet []byte) (responses.RestoreDefaultParameters, error) {
 	if len(packet) != 64 {
-		return responses.RestoreDefaultParametersResponse{}, fmt.Errorf("invalid reply packet length (%v)", len(packet))
+		return responses.RestoreDefaultParameters{}, fmt.Errorf("invalid reply packet length (%v)", len(packet))
 	}
 
 	if packet[0] != SOM && (packet[0] != SOM_v6_62 || packet[1] != 0x20) {
-		return responses.RestoreDefaultParametersResponse{}, fmt.Errorf("invalid reply start of message byte (%02x)", packet[0])
+		return responses.RestoreDefaultParameters{}, fmt.Errorf("invalid reply start of message byte (%02x)", packet[0])
 	}
 
 	if packet[1] != 0xc8 {
-		return responses.RestoreDefaultParametersResponse{}, fmt.Errorf("invalid reply function code (%02x)", packet[1])
+		return responses.RestoreDefaultParameters{}, fmt.Errorf("invalid reply function code (%02x)", packet[1])
 	}
 
-	return responses.RestoreDefaultParametersResponse{
-		Controller: unpackUint32(packet, 4),
-		Ok:         unpackBool(packet, 8),
-	}, nil
+	return responses.RestoreDefaultParameters{Controller: unpackUint32(packet, 4), Ok: unpackBool(packet, 8)}, nil
 }
 
 func ListenerEvent(packet []byte) (responses.ListenerEvent, error) {

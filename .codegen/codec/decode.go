@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"log"
 	"path/filepath"
+	"strings"
 
 	"go/ast"
 	"go/token"
@@ -51,6 +52,14 @@ func decode() {
 
 func buildDecode(r lib.Response) *ast.FuncDecl {
 	name := fmt.Sprintf("%v", codegen.TitleCase(r.Name))
+	returnType := strings.TrimSuffix(name, "Response")
+	zero := ast.CompositeLit{
+		Type: &ast.SelectorExpr{
+			X:   &ast.Ident{Name: "responses"},
+			Sel: &ast.Ident{Name: returnType},
+		},
+		Elts: nil,
+	}
 
 	params := ast.FieldList{
 		List: []*ast.Field{
@@ -66,7 +75,7 @@ func buildDecode(r lib.Response) *ast.FuncDecl {
 	results := ast.FieldList{
 		List: []*ast.Field{
 			{
-				Type: ast.NewIdent(fmt.Sprintf("responses.%v", name)),
+				Type: ast.NewIdent(fmt.Sprintf("responses.%v", returnType)),
 			},
 			{
 				Type: ast.NewIdent("error"),
@@ -97,13 +106,7 @@ func buildDecode(r lib.Response) *ast.FuncDecl {
 					List: []ast.Stmt{
 						&ast.ReturnStmt{
 							Results: []ast.Expr{
-								&ast.CompositeLit{
-									Type: &ast.SelectorExpr{
-										X:   &ast.Ident{Name: "responses"},
-										Sel: &ast.Ident{Name: name},
-									},
-									Elts: nil,
-								},
+								&zero,
 								&ast.CallExpr{
 									Fun: &ast.Ident{Name: "fmt.Errorf"},
 									Args: []ast.Expr{
@@ -166,13 +169,7 @@ func buildDecode(r lib.Response) *ast.FuncDecl {
 					List: []ast.Stmt{
 						&ast.ReturnStmt{
 							Results: []ast.Expr{
-								&ast.CompositeLit{
-									Type: &ast.SelectorExpr{
-										X:   &ast.Ident{Name: "responses"},
-										Sel: &ast.Ident{Name: name},
-									},
-									Elts: nil,
-								},
+								&zero,
 								&ast.CallExpr{
 									Fun: &ast.Ident{Name: "fmt.Errorf"},
 									Args: []ast.Expr{
@@ -212,13 +209,7 @@ func buildDecode(r lib.Response) *ast.FuncDecl {
 					List: []ast.Stmt{
 						&ast.ReturnStmt{
 							Results: []ast.Expr{
-								&ast.CompositeLit{
-									Type: &ast.SelectorExpr{
-										X:   &ast.Ident{Name: "responses"},
-										Sel: &ast.Ident{Name: name},
-									},
-									Elts: nil,
-								},
+								&zero,
 								&ast.CallExpr{
 									Fun: &ast.Ident{Name: "fmt.Errorf"},
 									Args: []ast.Expr{
@@ -250,7 +241,7 @@ func buildDecode(r lib.Response) *ast.FuncDecl {
 					&ast.CompositeLit{
 						Type: &ast.SelectorExpr{
 							X:   &ast.Ident{Name: "responses"},
-							Sel: &ast.Ident{Name: name},
+							Sel: &ast.Ident{Name: strings.TrimSuffix(name, "Response")},
 						},
 						Elts: response,
 					},

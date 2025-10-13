@@ -15,6 +15,7 @@ var Functions = template.FuncMap{
 	"titleCase":   TitleCase,
 	"camelCase":   camelCase,
 	"hyphenate":   hyphenate,
+	"trim":        trim,
 	"clean":       clean,
 	"hex":         hex,
 	"testargs":    testargs,
@@ -66,6 +67,10 @@ func hyphenate(s string) string {
 	}
 
 	return strings.Join(parts, "-")
+}
+
+func trim(s string) string {
+	return strings.TrimSuffix(s, "Response")
 }
 
 func clean(s string) string {

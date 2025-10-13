@@ -10,7 +10,7 @@ import (
 
 // Container struct for the response returned from an access controller when retrieving the
 // network configuration, firmware version and firmware release date.
-type GetControllerResponse struct {
+type GetController struct {
 	Controller uint32        `json:"controller"`
 	IpAddress  netip.Addr    `json:"ip-address"`
 	SubnetMask netip.Addr    `json:"netmask"`
@@ -22,14 +22,14 @@ type GetControllerResponse struct {
 
 // SetIPv4Response is a synthesized response provided to simplify code generation. The controller
 // does not return a response to a 'set-IPv4' request.
-type SetIPv4Response struct {
+type SetIPv4 struct {
 	Controller uint32 `json:"controller"`
 	Ok         bool   `json:"ok"`
 }
 
 // Container struct for the response returned from a controller when
 // retrieving the current runtime status.
-type GetStatusResponse struct {
+type GetStatus struct {
 	Controller         uint32             `json:"controller"`
 	SystemDate         entities.Date      `json:"system-date"`
 	SystemTime         entities.Time      `json:"system-time"`
@@ -57,20 +57,20 @@ type GetStatusResponse struct {
 }
 
 // Container struct for the response returned by a controller when retrieving the system date/time.
-type GetTimeResponse struct {
+type GetTime struct {
 	Controller uint32            `json:"controller"`
 	DateTime   entities.DateTime `json:"date-time"`
 }
 
 // Container struct for the response returned by a controller after setting the system date/time.
-type SetTimeResponse struct {
+type SetTime struct {
 	Controller uint32            `json:"controller"`
 	DateTime   entities.DateTime `json:"date-time"`
 }
 
 // Container struct for the response returned by a controller when retrieving
 // the configured event listener IPv4 address and port.
-type GetListenerResponse struct {
+type GetListener struct {
 	Controller uint32     `json:"controller"`
 	Address    netip.Addr `json:"address"`
 	Port       uint16     `json:"port"`
@@ -79,14 +79,14 @@ type GetListenerResponse struct {
 
 // Container struct for the response returned by a controller when setting
 // the event listener IPv4 address and port.
-type SetListenerResponse struct {
+type SetListener struct {
 	Controller uint32 `json:"controller"`
 	Ok         bool   `json:"ok"`
 }
 
 // Container struct for the response returned by a controller when retrieving
 // the configured event listener IPv4 address and port.
-type GetListenerAddrPortResponse struct {
+type GetListenerAddrPort struct {
 	Controller uint32         `json:"controller"`
 	Listener   netip.AddrPort `json:"listener"`
 	Interval   uint8          `json:"interval"`
@@ -94,14 +94,14 @@ type GetListenerAddrPortResponse struct {
 
 // Container struct for the response returned by a controller when setting
 // the event listener IPv4 address and port.
-type SetListenerAddrPortResponse struct {
+type SetListenerAddrPort struct {
 	Controller uint32 `json:"controller"`
 	Ok         bool   `json:"ok"`
 }
 
 // Container struct for the response returned by a controller to a request
 // for door configuration information.
-type GetDoorResponse struct {
+type GetDoor struct {
 	Controller uint32            `json:"controller"`
 	Door       uint8             `json:"door"`
 	Mode       entities.DoorMode `json:"mode"`
@@ -110,7 +110,7 @@ type GetDoorResponse struct {
 
 // Container struct for the response returned by a controller after updating
 // a door configuration.
-type SetDoorResponse struct {
+type SetDoor struct {
 	Controller uint32 `json:"controller"`
 	Door       uint8  `json:"door"`
 	Mode       uint8  `json:"mode"`
@@ -119,28 +119,28 @@ type SetDoorResponse struct {
 
 // Container struct for the response returned by a controller after setting the
 // supervisor passcodes for a door.
-type SetDoorPasscodesResponse struct {
+type SetDoorPasscodes struct {
 	Controller uint32 `json:"controller"`
 	Ok         bool   `json:"ok"`
 }
 
 // Container struct for the response returned by a controller to a request
 // to unlock a door.
-type OpenDoorResponse struct {
+type OpenDoor struct {
 	Controller uint32 `json:"controller"`
 	Ok         bool   `json:"ok"`
 }
 
 // Container struct for the response returned from a controller when retrieving the number of
 // cards stored on the controller.
-type GetCardsResponse struct {
+type GetCards struct {
 	Controller uint32 `json:"controller"`
 	Cards      uint32 `json:"cards"`
 }
 
 // Container struct for the response returned from a controller when retrieving
 // a card record stored on the controller.
-type GetCardResponse struct {
+type GetCard struct {
 	Controller uint32        `json:"controller"`
 	Card       uint32        `json:"card"`
 	StartDate  entities.Date `json:"start-date"`
@@ -154,7 +154,7 @@ type GetCardResponse struct {
 
 // Container struct for the response returned from a controller when retrieving
 // the card record stored at an index on the controller.
-type GetCardAtIndexResponse struct {
+type GetCardAtIndex struct {
 	Controller uint32        `json:"controller"`
 	Card       uint32        `json:"card"`
 	StartDate  entities.Date `json:"start-date"`
@@ -168,20 +168,20 @@ type GetCardAtIndexResponse struct {
 
 // Container struct for the response returned by a controller after adding or updating a
 // controller card record.
-type PutCardResponse struct {
+type PutCard struct {
 	Controller uint32 `json:"controller"`
 	Ok         bool   `json:"ok"`
 }
 
 // Container struct for the response returned by a controller after deleting a single
 // stored card record.
-type DeleteCardResponse struct {
+type DeleteCard struct {
 	Controller uint32 `json:"controller"`
 	Ok         bool   `json:"ok"`
 }
 
 // Container struct for the response returned by a controller after deleting all stored card records.
-type DeleteAllCardsResponse struct {
+type DeleteAllCards struct {
 	Controller uint32 `json:"controller"`
 	Ok         bool   `json:"ok"`
 }
@@ -234,7 +234,7 @@ type DeleteAllCardsResponse struct {
 // 43:     alarm (emergency call)
 // 44:     remote open door
 // 45:     remote open door (USB reader)
-type GetEventResponse struct {
+type GetEvent struct {
 	Controller    uint32             `json:"controller"`
 	Index         uint32             `json:"index"`
 	EventType     entities.EventType `json:"event-type"`
@@ -246,28 +246,28 @@ type GetEventResponse struct {
 	Reason        uint8              `json:"reason"`
 }
 
-type GetEventIndexResponse struct {
+type GetEventIndex struct {
 	Controller uint32 `json:"controller"`
 	Index      uint32 `json:"index"`
 }
 
 // Container struct for the response returned from an access controller when setting the
 // downloaded event index.
-type SetEventIndexResponse struct {
+type SetEventIndex struct {
 	Controller uint32 `json:"controller"`
 	Ok         bool   `json:"ok"`
 }
 
 // Container struct for the response returned from an access controller when enabling or
 // disabling events for door opened, door closed and button pressed.
-type RecordSpecialEventsResponse struct {
+type RecordSpecialEvents struct {
 	Controller uint32 `json:"controller"`
 	Ok         bool   `json:"ok"`
 }
 
 // Container struct for the response returned from an access controller when retrieving
 // an access time profile.
-type GetTimeProfileResponse struct {
+type GetTimeProfile struct {
 	Controller    uint32        `json:"controller"`
 	Profile       uint8         `json:"profile"`
 	StartDate     entities.Date `json:"start-date"`
@@ -290,56 +290,56 @@ type GetTimeProfileResponse struct {
 
 // Container struct for the response returned from an access controller when adding/updating
 // an access time profile.
-type SetTimeProfileResponse struct {
+type SetTimeProfile struct {
 	Controller uint32 `json:"controller"`
 	Ok         bool   `json:"ok"`
 }
 
 // Container struct for the response returned from an access controller when clearing all
 // stored time profiles.
-type ClearTimeProfilesResponse struct {
+type ClearTimeProfiles struct {
 	Controller uint32 `json:"controller"`
 	Ok         bool   `json:"ok"`
 }
 
 // Container struct for the response returned from an access controller when creating
 // a scheduled task.
-type AddTaskResponse struct {
+type AddTask struct {
 	Controller uint32 `json:"controller"`
 	Ok         bool   `json:"ok"`
 }
 
 // Container struct for the response returned from an access controller when updating
 // the task list scheduler.
-type RefreshTaskListResponse struct {
+type RefreshTaskList struct {
 	Controller uint32 `json:"controller"`
 	Ok         bool   `json:"ok"`
 }
 
 // Container struct for the response returned from an access controller when removing
 // all scheduled tasks.
-type ClearTaskListResponse struct {
+type ClearTaskList struct {
 	Controller uint32 `json:"controller"`
 	Ok         bool   `json:"ok"`
 }
 
 // Container struct for the response returned from an access controller when enabling or
 // disabling remote access control.
-type SetPCControlResponse struct {
+type SetPCControl struct {
 	Controller uint32 `json:"controller"`
 	Ok         bool   `json:"ok"`
 }
 
 // Container struct for the response returned from an access controller after setting
 // the door interlock mode.
-type SetInterlockResponse struct {
+type SetInterlock struct {
 	Controller uint32 `json:"controller"`
 	Ok         bool   `json:"ok"`
 }
 
 // Container struct for the response returned from an access controller when enabling or
 // disabling door reader keypads.
-type ActivateKeypadsResponse struct {
+type ActivateKeypads struct {
 	Controller uint32 `json:"controller"`
 	Ok         bool   `json:"ok"`
 }
@@ -351,21 +351,21 @@ type ActivateKeypadsResponse struct {
 // - 2: readers (1,3):(2,4)
 // - 3: readers 1:(2,3)
 // - 4: readers 1:(2,3,4)
-type GetAntiPassbackResponse struct {
+type GetAntiPassback struct {
 	Controller   uint32 `json:"controller"`
 	Antipassback uint8  `json:"antipassback"`
 }
 
 // Container struct for the response returned by a controller when setting
 // the anti-passback mode.
-type SetAntiPassbackResponse struct {
+type SetAntiPassback struct {
 	Controller uint32 `json:"controller"`
 	Ok         bool   `json:"ok"`
 }
 
 // Container struct for the response returned by a controller after restoring the manufacturer
 // default settings.
-type RestoreDefaultParametersResponse struct {
+type RestoreDefaultParameters struct {
 	Controller uint32 `json:"controller"`
 	Ok         bool   `json:"ok"`
 }

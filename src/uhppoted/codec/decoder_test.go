@@ -13,7 +13,7 @@ func TestInvalidPacket(t *testing.T) {
 	packet := []byte{}
 	expected := errors.New("invalid reply packet length (0)")
 
-	if _, err := Decode[responses.GetControllerResponse](packet); err == nil {
+	if _, err := Decode[responses.GetController](packet); err == nil {
 		t.Errorf("expected error '...', got:      %#v", err)
 	} else if err.Error() != expected.Error() {
 		t.Errorf("incorrect error - expected:%#v, got:%#v", expected, err)
@@ -30,7 +30,7 @@ func TestInvalidSOM(t *testing.T) {
 
 	expected := errors.New("invalid reply SOM byte (0x16)")
 
-	if _, err := Decode[responses.GetControllerResponse](packet); err == nil {
+	if _, err := Decode[responses.GetController](packet); err == nil {
 		t.Errorf("expected error '...', got:      %#v", err)
 	} else if err.Error() != expected.Error() {
 		t.Errorf("incorrect error - expected:%#v, got:%#v", expected, err)
@@ -47,7 +47,7 @@ func TestInvalidMsgType(t *testing.T) {
 
 	expected := errors.New("unknown message type (0x00)")
 
-	if _, err := Decode[responses.GetControllerResponse](packet); err == nil {
+	if _, err := Decode[responses.GetController](packet); err == nil {
 		t.Errorf("expected error '...', got:      %#v", err)
 	} else if err.Error() != expected.Error() {
 		t.Errorf("incorrect error - expected:%#v, got:%#v", expected, err)

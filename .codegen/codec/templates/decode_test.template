@@ -17,7 +17,7 @@ func Test{{ titleCase $test.Name }}(t *testing.T) {
 {{ hex $test.Response }}
     }
 
-    expected := responses.{{ titleCase $response.Message.Name }} {
+    expected := responses.{{ trim (titleCase $response.Message.Name) }} {
 {{ range $value := $test.Expected}}{{ titleCase $value.Name }}: {{ value $value.Value $value.Type }},
 {{ end -}}
     }

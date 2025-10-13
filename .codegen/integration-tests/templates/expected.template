@@ -10,12 +10,12 @@ import (
 )
 
 var Expected = struct { 
-    FindControllers []responses.GetControllerResponse
+    FindControllers []responses.GetController
 {{- range $i,$func := . }}{{ if $i }}{{ range $test := $func.Tests}}
-    {{ titleCase $test.Name }} responses.{{ titleCase $func.Response.Name }}{{ end }}{{ end }}{{end}}
+    {{ titleCase $test.Name }} responses.{{ trim (titleCase $func.Response.Name) }}{{ end }}{{ end }}{{end}}
 }{ 
-    FindControllers: []responses.GetControllerResponse{
-        responses.GetControllerResponse{
+    FindControllers: []responses.GetController{
+        responses.GetController{
             Controller: 201020304,
             IpAddress:  netip.MustParseAddr("192.168.1.101"),
             SubnetMask: netip.MustParseAddr("255.255.255.0"),
@@ -24,7 +24,7 @@ var Expected = struct {
             Version:    "v6.62",
             Date:       entities.MustParseDate("2020-01-01"),
         },
-        responses.GetControllerResponse{
+        responses.GetController{
             Controller: 303986753,
             IpAddress:  netip.MustParseAddr("192.168.1.100"),
             SubnetMask: netip.MustParseAddr("255.255.255.0"),
@@ -33,7 +33,7 @@ var Expected = struct {
             Version:    "v8.92",
             Date:       entities.MustParseDate("2019-08-15"),
         },
-        responses.GetControllerResponse{
+        responses.GetController{
             Controller: 405419896,
             IpAddress:  netip.MustParseAddr("192.168.1.100"),
             SubnetMask: netip.MustParseAddr("255.255.255.0"),
@@ -44,7 +44,7 @@ var Expected = struct {
         },
     },
 {{ range $i,$func := . }}{{ if $i }}{{ range $test := $func.Tests}}
-    {{ titleCase $test.Name }}: responses.{{ titleCase $func.Response.Name }} { {{- range $i,$reply := $test.Replies }}
+    {{ titleCase $test.Name }}: responses.{{ trim (titleCase $func.Response.Name) }} { {{- range $i,$reply := $test.Replies }}
 {{- range $value := $reply.Response}}
         {{ titleCase $value.Name }}: {{ value $value.Value $value.Type }},
 {{- end }}

@@ -258,7 +258,7 @@ func buildDecoderTestImpl(response lib.Response, test lib.ResponseTest) *ast.Blo
 }
 
 func buildExpected(response lib.Response, values []lib.Value) ast.Expr {
-	name := codegen.TitleCase(response.Name)
+	name := strings.TrimSuffix(codegen.TitleCase(response.Name), "Response")
 	fields := []ast.Expr{}
 
 	for _, field := range response.Fields {
@@ -303,7 +303,7 @@ func buildExec(response lib.Response) ast.Stmt {
 						X: &ast.Ident{Name: "Decode"},
 						Index: &ast.SelectorExpr{
 							X:   &ast.Ident{Name: "responses"},
-							Sel: &ast.Ident{Name: name},
+							Sel: &ast.Ident{Name: strings.TrimSuffix(name, "Response")},
 						},
 					},
 					Args: []ast.Expr{&ast.Ident{Name: "packet"}},

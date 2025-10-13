@@ -10,51 +10,51 @@ import (
 )
 
 var Expected = struct {
-	FindControllers          []responses.GetControllerResponse
-	GetController            responses.GetControllerResponse
-	SetIPv4                  responses.SetIPv4Response
-	GetTime                  responses.GetTimeResponse
-	SetTime                  responses.SetTimeResponse
-	GetListener              responses.GetListenerResponse
-	SetListener              responses.SetListenerResponse
-	GetListenerAddrPort      responses.GetListenerAddrPortResponse
-	SetListenerAddrPort      responses.SetListenerAddrPortResponse
-	GetDoor                  responses.GetDoorResponse
-	SetDoor                  responses.SetDoorResponse
-	SetDoorPasscodes         responses.SetDoorPasscodesResponse
-	OpenDoor                 responses.OpenDoorResponse
-	GetStatus                responses.GetStatusResponse
-	GetStatusNoEvent         responses.GetStatusResponse
-	GetCards                 responses.GetCardsResponse
-	GetCard                  responses.GetCardResponse
-	GetCardNotFound          responses.GetCardResponse
-	GetCardAtIndex           responses.GetCardAtIndexResponse
-	GetCardAtIndexNotFound   responses.GetCardAtIndexResponse
-	GetCardAtIndexDeleted    responses.GetCardAtIndexResponse
-	PutCard                  responses.PutCardResponse
-	DeleteCard               responses.DeleteCardResponse
-	DeleteAllCards           responses.DeleteAllCardsResponse
-	GetEvent                 responses.GetEventResponse
-	GetEventNotFound         responses.GetEventResponse
-	GetEventOverwritten      responses.GetEventResponse
-	GetEventIndex            responses.GetEventIndexResponse
-	SetEventIndex            responses.SetEventIndexResponse
-	RecordSpecialEvents      responses.RecordSpecialEventsResponse
-	GetTimeProfile           responses.GetTimeProfileResponse
-	SetTimeProfile           responses.SetTimeProfileResponse
-	ClearTimeProfiles        responses.ClearTimeProfilesResponse
-	AddTask                  responses.AddTaskResponse
-	RefreshTaskList          responses.RefreshTaskListResponse
-	ClearTaskList            responses.ClearTaskListResponse
-	SetPcControl             responses.SetPCControlResponse
-	SetInterlock             responses.SetInterlockResponse
-	ActivateKeypads          responses.ActivateKeypadsResponse
-	GetAntipassback          responses.GetAntiPassbackResponse
-	SetAntipassback          responses.SetAntiPassbackResponse
-	RestoreDefaultParameters responses.RestoreDefaultParametersResponse
+	FindControllers          []responses.GetController
+	GetController            responses.GetController
+	SetIPv4                  responses.SetIPv4
+	GetTime                  responses.GetTime
+	SetTime                  responses.SetTime
+	GetListener              responses.GetListener
+	SetListener              responses.SetListener
+	GetListenerAddrPort      responses.GetListenerAddrPort
+	SetListenerAddrPort      responses.SetListenerAddrPort
+	GetDoor                  responses.GetDoor
+	SetDoor                  responses.SetDoor
+	SetDoorPasscodes         responses.SetDoorPasscodes
+	OpenDoor                 responses.OpenDoor
+	GetStatus                responses.GetStatus
+	GetStatusNoEvent         responses.GetStatus
+	GetCards                 responses.GetCards
+	GetCard                  responses.GetCard
+	GetCardNotFound          responses.GetCard
+	GetCardAtIndex           responses.GetCardAtIndex
+	GetCardAtIndexNotFound   responses.GetCardAtIndex
+	GetCardAtIndexDeleted    responses.GetCardAtIndex
+	PutCard                  responses.PutCard
+	DeleteCard               responses.DeleteCard
+	DeleteAllCards           responses.DeleteAllCards
+	GetEvent                 responses.GetEvent
+	GetEventNotFound         responses.GetEvent
+	GetEventOverwritten      responses.GetEvent
+	GetEventIndex            responses.GetEventIndex
+	SetEventIndex            responses.SetEventIndex
+	RecordSpecialEvents      responses.RecordSpecialEvents
+	GetTimeProfile           responses.GetTimeProfile
+	SetTimeProfile           responses.SetTimeProfile
+	ClearTimeProfiles        responses.ClearTimeProfiles
+	AddTask                  responses.AddTask
+	RefreshTaskList          responses.RefreshTaskList
+	ClearTaskList            responses.ClearTaskList
+	SetPcControl             responses.SetPCControl
+	SetInterlock             responses.SetInterlock
+	ActivateKeypads          responses.ActivateKeypads
+	GetAntipassback          responses.GetAntiPassback
+	SetAntipassback          responses.SetAntiPassback
+	RestoreDefaultParameters responses.RestoreDefaultParameters
 }{
-	FindControllers: []responses.GetControllerResponse{
-		responses.GetControllerResponse{
+	FindControllers: []responses.GetController{
+		responses.GetController{
 			Controller: 201020304,
 			IpAddress:  netip.MustParseAddr("192.168.1.101"),
 			SubnetMask: netip.MustParseAddr("255.255.255.0"),
@@ -63,7 +63,7 @@ var Expected = struct {
 			Version:    "v6.62",
 			Date:       entities.MustParseDate("2020-01-01"),
 		},
-		responses.GetControllerResponse{
+		responses.GetController{
 			Controller: 303986753,
 			IpAddress:  netip.MustParseAddr("192.168.1.100"),
 			SubnetMask: netip.MustParseAddr("255.255.255.0"),
@@ -72,7 +72,7 @@ var Expected = struct {
 			Version:    "v8.92",
 			Date:       entities.MustParseDate("2019-08-15"),
 		},
-		responses.GetControllerResponse{
+		responses.GetController{
 			Controller: 405419896,
 			IpAddress:  netip.MustParseAddr("192.168.1.100"),
 			SubnetMask: netip.MustParseAddr("255.255.255.0"),
@@ -83,7 +83,7 @@ var Expected = struct {
 		},
 	},
 
-	GetController: responses.GetControllerResponse{
+	GetController: responses.GetController{
 		Controller: 405419896,
 		IpAddress:  netip.MustParseAddr("192.168.1.100"),
 		SubnetMask: netip.MustParseAddr("255.255.255.0"),
@@ -93,69 +93,69 @@ var Expected = struct {
 		Date:       entities.MustParseDate("2018-11-05"),
 	},
 
-	SetIPv4: responses.SetIPv4Response{
+	SetIPv4: responses.SetIPv4{
 		Controller: 405419896,
 		Ok:         true,
 	},
 
-	GetTime: responses.GetTimeResponse{
+	GetTime: responses.GetTime{
 		Controller: 405419896,
 		DateTime:   entities.MustParseDateTime("2025-11-01 12:34:56"),
 	},
 
-	SetTime: responses.SetTimeResponse{
+	SetTime: responses.SetTime{
 		Controller: 405419896,
 		DateTime:   entities.MustParseDateTime("2025-11-01 12:34:56"),
 	},
 
-	GetListener: responses.GetListenerResponse{
+	GetListener: responses.GetListener{
 		Controller: 405419896,
 		Address:    netip.MustParseAddr("192.168.1.100"),
 		Port:       60001,
 		Interval:   13,
 	},
 
-	SetListener: responses.SetListenerResponse{
+	SetListener: responses.SetListener{
 		Controller: 405419896,
 		Ok:         true,
 	},
 
-	GetListenerAddrPort: responses.GetListenerAddrPortResponse{
+	GetListenerAddrPort: responses.GetListenerAddrPort{
 		Controller: 405419897,
 		Listener:   netip.MustParseAddrPort("192.168.1.100:60001"),
 		Interval:   13,
 	},
 
-	SetListenerAddrPort: responses.SetListenerAddrPortResponse{
+	SetListenerAddrPort: responses.SetListenerAddrPort{
 		Controller: 405419897,
 		Ok:         true,
 	},
 
-	GetDoor: responses.GetDoorResponse{
+	GetDoor: responses.GetDoor{
 		Controller: 405419896,
 		Door:       4,
 		Mode:       3,
 		Delay:      7,
 	},
 
-	SetDoor: responses.SetDoorResponse{
+	SetDoor: responses.SetDoor{
 		Controller: 405419896,
 		Door:       4,
 		Mode:       2,
 		Delay:      17,
 	},
 
-	SetDoorPasscodes: responses.SetDoorPasscodesResponse{
+	SetDoorPasscodes: responses.SetDoorPasscodes{
 		Controller: 405419896,
 		Ok:         true,
 	},
 
-	OpenDoor: responses.OpenDoorResponse{
+	OpenDoor: responses.OpenDoor{
 		Controller: 405419896,
 		Ok:         true,
 	},
 
-	GetStatus: responses.GetStatusResponse{
+	GetStatus: responses.GetStatus{
 		Controller:         405419896,
 		SystemDate:         entities.MustParseDate("2022-08-23"),
 		SystemTime:         entities.MustParseTime("09:49:39"),
@@ -182,7 +182,7 @@ var Expected = struct {
 		SequenceNo:         0,
 	},
 
-	GetStatusNoEvent: responses.GetStatusResponse{
+	GetStatusNoEvent: responses.GetStatus{
 		Controller:         405419897,
 		SystemDate:         entities.MustParseDate("2025-11-23"),
 		SystemTime:         entities.MustParseTime("14:37:53"),
@@ -209,12 +209,12 @@ var Expected = struct {
 		SequenceNo:         21987,
 	},
 
-	GetCards: responses.GetCardsResponse{
+	GetCards: responses.GetCards{
 		Controller: 405419896,
 		Cards:      13579,
 	},
 
-	GetCard: responses.GetCardResponse{
+	GetCard: responses.GetCard{
 		Controller: 405419896,
 		Card:       10058400,
 		StartDate:  entities.MustParseDate("2025-01-01"),
@@ -226,7 +226,7 @@ var Expected = struct {
 		PIN:        7531,
 	},
 
-	GetCardNotFound: responses.GetCardResponse{
+	GetCardNotFound: responses.GetCard{
 		Controller: 405419896,
 		Card:       0,
 		StartDate:  entities.MustParseDate("0001-01-01"),
@@ -238,7 +238,7 @@ var Expected = struct {
 		PIN:        0,
 	},
 
-	GetCardAtIndex: responses.GetCardAtIndexResponse{
+	GetCardAtIndex: responses.GetCardAtIndex{
 		Controller: 405419896,
 		Card:       10058400,
 		StartDate:  entities.MustParseDate("2025-01-01"),
@@ -250,7 +250,7 @@ var Expected = struct {
 		PIN:        7531,
 	},
 
-	GetCardAtIndexNotFound: responses.GetCardAtIndexResponse{
+	GetCardAtIndexNotFound: responses.GetCardAtIndex{
 		Controller: 405419896,
 		Card:       0,
 		StartDate:  entities.MustParseDate("0001-01-01"),
@@ -262,7 +262,7 @@ var Expected = struct {
 		PIN:        0,
 	},
 
-	GetCardAtIndexDeleted: responses.GetCardAtIndexResponse{
+	GetCardAtIndexDeleted: responses.GetCardAtIndex{
 		Controller: 405419896,
 		Card:       4294967295,
 		StartDate:  entities.MustParseDate("0001-01-01"),
@@ -274,22 +274,22 @@ var Expected = struct {
 		PIN:        0,
 	},
 
-	PutCard: responses.PutCardResponse{
+	PutCard: responses.PutCard{
 		Controller: 405419896,
 		Ok:         true,
 	},
 
-	DeleteCard: responses.DeleteCardResponse{
+	DeleteCard: responses.DeleteCard{
 		Controller: 405419896,
 		Ok:         true,
 	},
 
-	DeleteAllCards: responses.DeleteAllCardsResponse{
+	DeleteAllCards: responses.DeleteAllCards{
 		Controller: 405419896,
 		Ok:         true,
 	},
 
-	GetEvent: responses.GetEventResponse{
+	GetEvent: responses.GetEvent{
 		Controller:    405419896,
 		Index:         13579,
 		Timestamp:     entities.MustParseDateTime("2025-11-17 12:34:56"),
@@ -301,7 +301,7 @@ var Expected = struct {
 		Reason:        21,
 	},
 
-	GetEventNotFound: responses.GetEventResponse{
+	GetEventNotFound: responses.GetEvent{
 		Controller:    405419896,
 		Index:         24680,
 		Timestamp:     entities.MustParseDateTime("0001-01-01 00:00:00"),
@@ -313,7 +313,7 @@ var Expected = struct {
 		Reason:        0,
 	},
 
-	GetEventOverwritten: responses.GetEventResponse{
+	GetEventOverwritten: responses.GetEvent{
 		Controller:    405419896,
 		Index:         98765,
 		Timestamp:     entities.MustParseDateTime("0001-01-01 00:00:00"),
@@ -325,22 +325,22 @@ var Expected = struct {
 		Reason:        0,
 	},
 
-	GetEventIndex: responses.GetEventIndexResponse{
+	GetEventIndex: responses.GetEventIndex{
 		Controller: 405419896,
 		Index:      13579,
 	},
 
-	SetEventIndex: responses.SetEventIndexResponse{
+	SetEventIndex: responses.SetEventIndex{
 		Controller: 405419896,
 		Ok:         true,
 	},
 
-	RecordSpecialEvents: responses.RecordSpecialEventsResponse{
+	RecordSpecialEvents: responses.RecordSpecialEvents{
 		Controller: 405419896,
 		Ok:         true,
 	},
 
-	GetTimeProfile: responses.GetTimeProfileResponse{
+	GetTimeProfile: responses.GetTimeProfile{
 		Controller:    405419896,
 		Profile:       37,
 		StartDate:     entities.MustParseDate("2025-11-26"),
@@ -361,57 +361,57 @@ var Expected = struct {
 		LinkedProfile: 19,
 	},
 
-	SetTimeProfile: responses.SetTimeProfileResponse{
+	SetTimeProfile: responses.SetTimeProfile{
 		Controller: 405419896,
 		Ok:         true,
 	},
 
-	ClearTimeProfiles: responses.ClearTimeProfilesResponse{
+	ClearTimeProfiles: responses.ClearTimeProfiles{
 		Controller: 405419896,
 		Ok:         true,
 	},
 
-	AddTask: responses.AddTaskResponse{
+	AddTask: responses.AddTask{
 		Controller: 405419896,
 		Ok:         true,
 	},
 
-	RefreshTaskList: responses.RefreshTaskListResponse{
+	RefreshTaskList: responses.RefreshTaskList{
 		Controller: 405419896,
 		Ok:         true,
 	},
 
-	ClearTaskList: responses.ClearTaskListResponse{
+	ClearTaskList: responses.ClearTaskList{
 		Controller: 405419896,
 		Ok:         true,
 	},
 
-	SetPcControl: responses.SetPCControlResponse{
+	SetPcControl: responses.SetPCControl{
 		Controller: 405419896,
 		Ok:         true,
 	},
 
-	SetInterlock: responses.SetInterlockResponse{
+	SetInterlock: responses.SetInterlock{
 		Controller: 405419896,
 		Ok:         true,
 	},
 
-	ActivateKeypads: responses.ActivateKeypadsResponse{
+	ActivateKeypads: responses.ActivateKeypads{
 		Controller: 405419896,
 		Ok:         true,
 	},
 
-	GetAntipassback: responses.GetAntiPassbackResponse{
+	GetAntipassback: responses.GetAntiPassback{
 		Controller:   405419896,
 		Antipassback: 2,
 	},
 
-	SetAntipassback: responses.SetAntiPassbackResponse{
+	SetAntipassback: responses.SetAntiPassback{
 		Controller: 405419896,
 		Ok:         true,
 	},
 
-	RestoreDefaultParameters: responses.RestoreDefaultParametersResponse{
+	RestoreDefaultParameters: responses.RestoreDefaultParameters{
 		Controller: 405419896,
 		Ok:         true,
 	},
