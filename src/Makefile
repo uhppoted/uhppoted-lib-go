@@ -19,7 +19,7 @@ build: format
 	cd uhppoted && go build -trimpath ./...
 
 debug: build
-	cd ../examples/cli && make set-time
+	cd ../examples/cli && make get-event
 	# go test -v -count=1 ./uhppoted/... -run TestSetTime
 	# go test -v -count=1 ./integration-tests/... -run TestInvalidResponse
 

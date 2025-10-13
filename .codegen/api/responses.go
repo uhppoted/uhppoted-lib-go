@@ -153,6 +153,9 @@ func gotype(field types.Field) string {
 	case "event-type":
 		return "entities.EventType"
 
+	case "direction":
+		return "entities.Direction"
+
 	case "version":
 		return "string"
 

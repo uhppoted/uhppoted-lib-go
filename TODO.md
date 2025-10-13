@@ -14,11 +14,11 @@
 - [x] door mode arg type
 - [x] door mode field type
 - [x] event type field type
-- [ ] event direction field type
-    - [ ] get-event
-    - [ ] get-event-record
-    - [ ] listen-event
-    - [ ] get-status
+- [x] event direction field type
+    - [x] get-event
+    - [x] get-event-record
+    - [x] listen-event
+    - [x] get-status
 - [ ] event reason field type
     - [ ] get-event
     - [ ] get-event-record

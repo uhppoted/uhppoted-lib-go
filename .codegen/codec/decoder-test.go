@@ -505,6 +505,17 @@ func makeValue(field lib.Field, value lib.Value) ast.Expr {
 			},
 		}
 
+	case "direction":
+		return &ast.CallExpr{
+			Fun: &ast.SelectorExpr{
+				X:   &ast.Ident{Name: "entities"},
+				Sel: &ast.Ident{Name: "Direction"},
+			},
+			Args: []ast.Expr{
+				&ast.BasicLit{Kind: token.INT, Value: fmt.Sprintf(`%v`, value.Value)},
+			},
+		}
+
 	default:
 		panic(fmt.Sprintf("%v", field.Type))
 	}

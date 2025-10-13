@@ -5,7 +5,7 @@ type Event struct {
 	Event         EventType `json:"event"`
 	AccessGranted bool      `json:"granted"`
 	Door          uint8     `json:"door"`
-	Direction     uint8     `json:"direction"`
+	Direction     Direction `json:"direction"`
 	Card          uint32    `json:"card"`
 	Timestamp     DateTime  `json:"timestamp"`
 	Reason        uint8     `json:"reason"`
@@ -31,6 +31,24 @@ func (e EventType) String() string {
 		return "alarm"
 	case EventOverwritten:
 		return "overwritten"
+	default:
+		return "unknown"
+	}
+}
+
+type Direction uint8
+
+const (
+	In  Direction = 1
+	Out Direction = 2
+)
+
+func (d Direction) String() string {
+	switch d {
+	case In:
+		return "in"
+	case Out:
+		return "out"
 	default:
 		return "unknown"
 	}

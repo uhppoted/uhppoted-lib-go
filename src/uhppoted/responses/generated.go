@@ -49,7 +49,7 @@ type GetStatusResponse struct {
 	EventType          entities.EventType `json:"event-type"`
 	EventAccessGranted bool               `json:"event-granted"`
 	EventDoor          uint8              `json:"event-door"`
-	EventDirection     uint8              `json:"event-direction"`
+	EventDirection     entities.Direction `json:"event-direction"`
 	EventCard          uint32             `json:"event-card"`
 	EventTimestamp     entities.DateTime  `json:"event-timestamp"`
 	EventReason        uint8              `json:"event-reason"`
@@ -240,7 +240,7 @@ type GetEventResponse struct {
 	EventType     entities.EventType `json:"event-type"`
 	AccessGranted bool               `json:"granted"`
 	Door          uint8              `json:"door"`
-	Direction     uint8              `json:"direction"`
+	Direction     entities.Direction `json:"direction"`
 	Card          uint32             `json:"card"`
 	Timestamp     entities.DateTime  `json:"timestamp"`
 	Reason        uint8              `json:"reason"`
@@ -391,7 +391,7 @@ type ListenerEvent struct {
 	EventType          entities.EventType `json:"event-type"`
 	EventAccessGranted bool               `json:"event-granted"`
 	EventDoor          uint8              `json:"event-door"`
-	EventDirection     uint8              `json:"event-direction"`
+	EventDirection     entities.Direction `json:"event-direction"`
 	EventCard          uint32             `json:"event-card"`
 	EventTimestamp     entities.DateTime  `json:"event-timestamp"`
 	EventReason        uint8              `json:"event-reason"`

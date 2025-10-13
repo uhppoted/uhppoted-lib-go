@@ -292,6 +292,7 @@ func unpack(field lib.Field) ast.Expr {
 		"pin":               "unpackPIN",
 		"mode":              "unpackMode",
 		"event-type":        "unpackEventType",
+		"direction":         "unpackDirection",
 		"version":           "unpackVersion",
 	}
 

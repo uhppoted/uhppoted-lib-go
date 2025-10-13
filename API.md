@@ -439,7 +439,7 @@ type GetStatusResponse struct {
   EventType           event-type          `json:"event-type"`     // last event type
   EventAccessGranted  bool                `json:"event-granted"`  // last event access granted
   EventDoor           uint8               `json:"event-door"`     // last event door
-  EventDirection      uint8               `json:"event-direction"` // last event door direction (0: in, 1: out)
+  EventDirection      direction           `json:"event-direction"` // last event door direction (1: in, 2: out)
   EventCard           uint32              `json:"event-card"`     // last event card number
   EventTimestamp      optional datetime   `json:"event-timestamp"` // last event timestamp
   EventReason         uint8               `json:"event-reason"`   // last event reason
@@ -599,7 +599,7 @@ type GetEventResponse struct {
   EventType           event-type          `json:"event-type"`     // event type 
   AccessGranted       bool                `json:"granted"`        // true if the door was unlocked
   Door                uint8               `json:"door"`           // door no. ([1..4]) for card and door events
-  Direction           uint8               `json:"direction"`      // direction (1:IN, 2:OUT) for card and door events
+  Direction           direction           `json:"direction"`      // direction (1:IN, 2:OUT) for card and door events
   Card                uint32              `json:"card"`           // card number (for card events)
   Timestamp           optional datetime   `json:"timestamp"`      // event timestamp
   Reason              uint8               `json:"reason"`         // reason code
