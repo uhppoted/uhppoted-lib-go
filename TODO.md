@@ -1,11 +1,6 @@
 # TODO
 
 - [x] event direction field type
-    - [x] get-event
-    - [x] get-event-record
-    - [x] listen-event
-    - [x] get-status
-
 - [ ] event reason field type
     - [ ] get-event
     - [ ] get-event-record
