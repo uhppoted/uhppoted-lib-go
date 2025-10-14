@@ -53,7 +53,7 @@ func TestDecodeGetStatusResponse(t *testing.T) {
 		0x27, 0x07, 0x09, 0x22, 0x08, 0x23, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
 	}
 
-	expected := responses.GetStatus{Controller: 405419896, SystemDate: entities.MustParseDate("2022-08-23"), SystemTime: entities.MustParseTime("09:49:39"), Door1Open: false, Door2Open: true, Door3Open: false, Door4Open: false, Door1Button: false, Door2Button: false, Door3Button: false, Door4Button: true, Relays: 7, Inputs: 9, SystemError: 3, SpecialInfo: 39, EventIndex: 78, EventType: entities.EventType(2), EventAccessGranted: true, EventDoor: 3, EventDirection: entities.Direction(1), EventCard: 8165537, EventTimestamp: entities.MustParseDateTime("2022-08-23 09:47:06"), EventReason: 44, SequenceNo: 0}
+	expected := responses.GetStatus{Controller: 405419896, SystemDate: entities.MustParseDate("2022-08-23"), SystemTime: entities.MustParseTime("09:49:39"), Door1Open: false, Door2Open: true, Door3Open: false, Door4Open: false, Door1Button: false, Door2Button: false, Door3Button: false, Door4Button: true, Relays: 7, Inputs: 9, SystemError: 3, SpecialInfo: 39, EventIndex: 78, EventType: entities.EventType(2), EventAccessGranted: true, EventDoor: 3, EventDirection: entities.Direction(1), EventCard: 8165537, EventTimestamp: entities.MustParseDateTime("2022-08-23 09:47:06"), EventReason: entities.Reason(44), SequenceNo: 0}
 
 	if response, err := Decode[responses.GetStatus](packet); err != nil {
 		t.Fatalf("%v", err)
@@ -359,7 +359,7 @@ func TestDecodeGetEventResponse(t *testing.T) {
 		0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
 	}
 
-	expected := responses.GetEvent{Controller: 405419896, Index: 13579, EventType: entities.EventType(2), AccessGranted: true, Door: 4, Direction: entities.Direction(2), Card: 10058400, Timestamp: entities.MustParseDateTime("2025-11-17 12:34:56"), Reason: 21}
+	expected := responses.GetEvent{Controller: 405419896, Index: 13579, EventType: entities.EventType(2), AccessGranted: true, Door: 4, Direction: entities.Direction(2), Card: 10058400, Timestamp: entities.MustParseDateTime("2025-11-17 12:34:56"), Reason: entities.Reason(21)}
 
 	if response, err := Decode[responses.GetEvent](packet); err != nil {
 		t.Fatalf("%v", err)
@@ -376,7 +376,7 @@ func TestDecodeGetEventNotFoundResponse(t *testing.T) {
 		0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
 	}
 
-	expected := responses.GetEvent{Controller: 405419896, Index: 24680, EventType: entities.EventType(0), AccessGranted: false, Door: 0, Direction: entities.Direction(0), Card: 0, Timestamp: entities.MustParseDateTime("0001-01-01 00:00:00"), Reason: 0}
+	expected := responses.GetEvent{Controller: 405419896, Index: 24680, EventType: entities.EventType(0), AccessGranted: false, Door: 0, Direction: entities.Direction(0), Card: 0, Timestamp: entities.MustParseDateTime("0001-01-01 00:00:00"), Reason: entities.Reason(0)}
 
 	if response, err := Decode[responses.GetEvent](packet); err != nil {
 		t.Fatalf("%v", err)
@@ -393,7 +393,7 @@ func TestDecodeGetEventOverwrittenResponse(t *testing.T) {
 		0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
 	}
 
-	expected := responses.GetEvent{Controller: 405419896, Index: 98765, EventType: entities.EventType(255), AccessGranted: false, Door: 0, Direction: entities.Direction(0), Card: 0, Timestamp: entities.MustParseDateTime("0001-01-01 00:00:00"), Reason: 0}
+	expected := responses.GetEvent{Controller: 405419896, Index: 98765, EventType: entities.EventType(255), AccessGranted: false, Door: 0, Direction: entities.Direction(0), Card: 0, Timestamp: entities.MustParseDateTime("0001-01-01 00:00:00"), Reason: entities.Reason(0)}
 
 	if response, err := Decode[responses.GetEvent](packet); err != nil {
 		t.Fatalf("%v", err)

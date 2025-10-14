@@ -156,6 +156,10 @@ func unpackDirection(packet []byte, offset uint8) entities.Direction {
 	return entities.Direction(packet[offset])
 }
 
+func unpackReason(packet []byte, offset uint8) entities.Reason {
+	return entities.Reason(packet[offset])
+}
+
 func bcd2string(bytes []byte) string {
 	BCD := hex.EncodeToString(bytes)
 

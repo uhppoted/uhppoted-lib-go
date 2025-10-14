@@ -284,6 +284,7 @@ func unpack(field lib.Field) ast.Expr {
 		"mode":              "unpackMode",
 		"event-type":        "unpackEventType",
 		"direction":         "unpackDirection",
+		"reason":            "unpackReason",
 		"version":           "unpackVersion",
 	}
 

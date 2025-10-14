@@ -61,6 +61,9 @@ type (
 	Interlock   = entities.Interlock
 	Weekdays    = entities.Weekdays
 	TimeSegment = entities.TimeSegment
+	EventType   = entities.EventType
+	Direction   = entities.Direction
+	Reason      = entities.Reason
 )
 
 // re-exported door modes
@@ -104,4 +107,46 @@ var (
 	EventDoor        = entities.EventDoor
 	EventAlarm       = entities.EventAlarm
 	EventOverwritten = entities.EventOverwritten
+)
+
+// re-exported event directions
+var (
+	In  = entities.In
+	Out = entities.Out
+)
+
+// re-exported event reasons
+var (
+	SwipeOk                        = entities.SwipeOk
+	SwipeDeniedPCControl           = entities.SwipeDeniedPCControl
+	SwipeDeniedNoAccess            = entities.SwipeDeniedNoAccess
+	SwipeDeniedPassword            = entities.SwipeDeniedPassword
+	SwipeDeniedAntiPassback        = entities.SwipeDeniedAntiPassback
+	SwipeDeniedMoreCards           = entities.SwipeDeniedMoreCards
+	SwipeDeniedFirstCardOpen       = entities.SwipeDeniedFirstCardOpen
+	SwipeDeniedDoorNormallyClosed  = entities.SwipeDeniedDoorNormallyClosed
+	SwipeDeniedInterLock           = entities.SwipeDeniedInterLock
+	SwipeDeniedTimeProfile         = entities.SwipeDeniedTimeProfile
+	SwipeDeniedTimezone            = entities.SwipeDeniedTimezone
+	SwipeDenied                    = entities.SwipeDenied
+	PushbuttonOk                   = entities.PushbuttonOk
+	DoorOpen                       = entities.DoorOpen
+	DoorClosed                     = entities.DoorClosed
+	DoorOpenPasscode               = entities.DoorOpenPasscode
+	ControllerPowerOn              = entities.ControllerPowerOn
+	ControllerReset                = entities.ControllerReset
+	PushbuttonDeniedDisabledByTask = entities.PushbuttonDeniedDisabledByTask
+	PushButtonDeniedForcedLock     = entities.PushButtonDeniedForcedLock
+	PushButtonDeniedOffline        = entities.PushButtonDeniedOffline
+	PushButtonDeniedInterLock      = entities.PushButtonDeniedInterLock
+	Threat                         = entities.Threat
+	OpenTooLong                    = entities.OpenTooLong
+	ForcedOpen                     = entities.ForcedOpen
+	Fire                           = entities.Fire
+	ForcedClose                    = entities.ForcedClose
+	TamperDetect                   = entities.TamperDetect
+	Zone24x7                       = entities.Zone24x7
+	EmergencyCall                  = entities.EmergencyCall
+	RemoteOpenDoor                 = entities.RemoteOpenDoor
+	RemoteOpenDoorUSB              = entities.RemoteOpenDoorUSB
 )

@@ -1,11 +1,11 @@
 # TODO
 
 - [x] event direction field type
-- [ ] event reason field type
-    - [ ] get-event
-    - [ ] get-event-record
-    - [ ] listen-event
-    - [ ] get-status
+- [x] event reason field type
+    - [x] get-event
+    - [x] get-event-record
+    - [x] listen-event
+    - [x] get-status
 
 - [ ] listener interface
 - [ ] godoc/examples
@@ -17,13 +17,14 @@
 
 - [ ] code generation
       - [x] remove response.XXX 'Response' suffix
+      - [ ] reformat generated responses
 
-   - [x] decoder
-       - [x] decode entities
-       - [ ] decode ListenEvent
+      - [x] decoder
+          - [x] decode entities
+          - [ ] decode ListenEvent
 
-   - [x] encode
-   - [x] encode_test
-   - [x] decode_test
-   - [x] integration tests
+      - [x] encode
+      - [x] encode_test
+      - [x] decode_test
+      - [x] integration tests
 

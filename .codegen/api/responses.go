@@ -157,6 +157,9 @@ func gotype(field types.Field) string {
 	case "direction":
 		return "entities.Direction"
 
+	case "reason":
+		return "entities.Reason"
+
 	case "version":
 		return "string"
 

@@ -52,7 +52,7 @@ type GetStatus struct {
 	EventDirection     entities.Direction `json:"event-direction"`
 	EventCard          uint32             `json:"event-card"`
 	EventTimestamp     entities.DateTime  `json:"event-timestamp"`
-	EventReason        uint8              `json:"event-reason"`
+	EventReason        entities.Reason    `json:"event-reason"`
 	SequenceNo         uint32             `json:"sequence-no"`
 }
 
@@ -243,7 +243,7 @@ type GetEvent struct {
 	Direction     entities.Direction `json:"direction"`
 	Card          uint32             `json:"card"`
 	Timestamp     entities.DateTime  `json:"timestamp"`
-	Reason        uint8              `json:"reason"`
+	Reason        entities.Reason    `json:"reason"`
 }
 
 type GetEventIndex struct {
@@ -394,6 +394,6 @@ type ListenerEvent struct {
 	EventDirection     entities.Direction `json:"event-direction"`
 	EventCard          uint32             `json:"event-card"`
 	EventTimestamp     entities.DateTime  `json:"event-timestamp"`
-	EventReason        uint8              `json:"event-reason"`
+	EventReason        entities.Reason    `json:"event-reason"`
 	SequenceNo         uint32             `json:"sequence-no"`
 }

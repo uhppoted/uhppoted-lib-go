@@ -442,7 +442,7 @@ type GetStatusResponse struct {
   EventDirection      direction           `json:"event-direction"` // last event door direction (1: in, 2: out)
   EventCard           uint32              `json:"event-card"`     // last event card number
   EventTimestamp      optional datetime   `json:"event-timestamp"` // last event timestamp
-  EventReason         uint8               `json:"event-reason"`   // last event reason
+  EventReason         reason              `json:"event-reason"`   // last event reason
   SequenceNo          uint32              `json:"sequence-no"`    // packet sequence number
 }
 ```
@@ -602,7 +602,7 @@ type GetEventResponse struct {
   Direction           direction           `json:"direction"`      // direction (1:IN, 2:OUT) for card and door events
   Card                uint32              `json:"card"`           // card number (for card events)
   Timestamp           optional datetime   `json:"timestamp"`      // event timestamp
-  Reason              uint8               `json:"reason"`         // reason code
+  Reason              reason              `json:"reason"`         // reason code
 }
 ```
 
