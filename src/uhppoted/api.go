@@ -6,7 +6,6 @@ import (
 	"time"
 
 	"github.com/uhppoted/uhppoted-lib-go/src/uhppoted/codec"
-	"github.com/uhppoted/uhppoted-lib-go/src/uhppoted/codec/decode"
 	"github.com/uhppoted/uhppoted-lib-go/src/uhppoted/codec/encode"
 	"github.com/uhppoted/uhppoted-lib-go/src/uhppoted/entities"
 	"github.com/uhppoted/uhppoted-lib-go/src/uhppoted/responses"
@@ -27,15 +26,15 @@ func FindControllers(u Uhppoted, timeout time.Duration) ([]responses.GetControll
 	} else if replies, err := u.udp.broadcast(request, timeout); err != nil {
 		return nil, err
 	} else {
-		responses := []responses.GetController{}
+		list := []responses.GetController{}
 
 		for _, reply := range replies {
-			if response, err := decode.GetControllerResponse(reply); err == nil {
-				responses = append(responses, response)
+			if response, err := codec.Decode[responses.GetController](reply); err == nil {
+				list = append(list, response)
 			}
 		}
 
-		return responses, nil
+		return list, nil
 	}
 }
 
@@ -95,7 +94,7 @@ func PutCardRecord[T TController](u Uhppoted, controller T, card entities.Card, 
 		return false, err
 	} else if reply, err := send(u, c, request, timeout); err != nil {
 		return false, err
-	} else if response, err := decode.PutCardResponse(reply); err != nil {
+	} else if response, err := codec.Decode[responses.PutCard](reply); err != nil {
 		return false, err
 	} else if !valid(response, c.ID) {
 		return false, ErrInvalidResponse
@@ -209,7 +208,7 @@ func SetTimeProfileRecord[T TController](u Uhppoted, controller T, record entiti
 		return false, err
 	} else if reply, err := send(u, c, request, timeout); err != nil {
 		return false, err
-	} else if response, err := decode.SetTimeProfileResponse(reply); err != nil {
+	} else if response, err := codec.Decode[responses.SetTimeProfile](reply); err != nil {
 		return false, err
 	} else if !valid(response, c.ID) {
 		return false, ErrInvalidResponse
@@ -258,7 +257,7 @@ func AddTaskRecord[T TController](u Uhppoted, controller T, record Task, timeout
 		return false, err
 	} else if reply, err := send(u, c, request, timeout); err != nil {
 		return false, err
-	} else if response, err := decode.AddTaskResponse(reply); err != nil {
+	} else if response, err := codec.Decode[responses.AddTask](reply); err != nil {
 		return false, err
 	} else if !valid(response, c.ID) {
 		return false, ErrInvalidResponse
@@ -284,7 +283,7 @@ loop:
 	for {
 		select {
 		case msg := <-ch:
-			if evt, err := decode.ListenerEvent(msg); err != nil {
+			if evt, err := codec.Decode[responses.ListenerEvent](msg); err != nil {
 				listener.OnError(err)
 			} else {
 				listener.OnEvent(evt)

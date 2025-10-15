@@ -9,11 +9,13 @@
     - [ ] set default handler
     - https://www.dash0.com/guides/logging-in-go-with-slog
 
-- [ ] code generation
+- [x] code generation
       - [x] reformat generated decode responses
       - [x] decoder
           - [x] decode entities
-          - [ ] decode ListenEvent
+          - [x] decode ListenerEvent
+      - [ ] replace decode hack with CommentMap
+          - https://pkg.go.dev/go/ast#NewCommentMap
 
 
 ## TODO
@@ -22,5 +24,6 @@
       - [ ] encode_test
       - [ ] decode_test
       - [ ] integration tests
+      - https://github.com/dave/dst
 
 - [ ] godoc/examples

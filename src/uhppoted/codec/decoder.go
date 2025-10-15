@@ -40,6 +40,10 @@ var decoders = map[any]func([]byte) (any, error){
 	key[entities.TimeProfile]{0x98}: func(b []byte) (any, error) {
 		return decodeTimeProfileRecord(b)
 	},
+
+	key[responses.ListenerEvent]{0x20}: func(b []byte) (any, error) {
+		return decoder.ListenerEvent(b)
+	},
 }
 
 func Decode[R any](packet []byte) (R, error) {
@@ -49,7 +53,7 @@ func Decode[R any](packet []byte) (R, error) {
 		return zero, fmt.Errorf("invalid reply packet length (%v)", len(packet))
 	}
 
-	if packet[0] != SOM {
+	if packet[0] != SOM && (packet[0] != SOM_v6_62 || packet[1] != 0x20) {
 		return zero, fmt.Errorf("invalid reply SOM byte (0x%02x)", packet[0])
 	}
 
