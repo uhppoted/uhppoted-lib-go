@@ -10,7 +10,7 @@
     - https://www.dash0.com/guides/logging-in-go-with-slog
 
 - [ ] code generation
-      - [ ] reformat generated responses
+      - [x] reformat generated decode responses
       - [x] decoder
           - [x] decode entities
           - [ ] decode ListenEvent

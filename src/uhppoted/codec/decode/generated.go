@@ -21,7 +21,14 @@ func GetControllerResponse(packet []byte) (responses.GetController, error) {
 		return responses.GetController{}, fmt.Errorf("invalid reply function code (%02x)", packet[1])
 	}
 
-	return responses.GetController{Controller: unpackUint32(packet, 4), IpAddress: unpackIPv4(packet, 8), SubnetMask: unpackIPv4(packet, 12), Gateway: unpackIPv4(packet, 16), MACAddress: unpackMAC(packet, 20), Version: unpackVersion(packet, 26), Date: unpackDate(packet, 28)}, nil
+	return responses.GetController{
+		Controller: unpackUint32(packet, 4),
+		IpAddress:  unpackIPv4(packet, 8),
+		SubnetMask: unpackIPv4(packet, 12),
+		Gateway:    unpackIPv4(packet, 16),
+		MACAddress: unpackMAC(packet, 20),
+		Version:    unpackVersion(packet, 26),
+		Date:       unpackDate(packet, 28)}, nil
 }
 
 func SetIPv4Response(packet []byte) (responses.SetIPv4, error) {
@@ -37,7 +44,9 @@ func SetIPv4Response(packet []byte) (responses.SetIPv4, error) {
 		return responses.SetIPv4{}, fmt.Errorf("invalid reply function code (%02x)", packet[1])
 	}
 
-	return responses.SetIPv4{Controller: unpackUint32(packet, 4), Ok: unpackBool(packet, 8)}, nil
+	return responses.SetIPv4{
+		Controller: unpackUint32(packet, 4),
+		Ok:         unpackBool(packet, 8)}, nil
 }
 
 func GetStatusResponse(packet []byte) (responses.GetStatus, error) {
@@ -53,7 +62,31 @@ func GetStatusResponse(packet []byte) (responses.GetStatus, error) {
 		return responses.GetStatus{}, fmt.Errorf("invalid reply function code (%02x)", packet[1])
 	}
 
-	return responses.GetStatus{Controller: unpackUint32(packet, 4), SystemDate: unpackShortDate(packet, 51), SystemTime: unpackTime(packet, 37), Door1Open: unpackBool(packet, 28), Door2Open: unpackBool(packet, 29), Door3Open: unpackBool(packet, 30), Door4Open: unpackBool(packet, 31), Door1Button: unpackBool(packet, 32), Door2Button: unpackBool(packet, 33), Door3Button: unpackBool(packet, 34), Door4Button: unpackBool(packet, 35), Relays: unpackUint8(packet, 49), Inputs: unpackUint8(packet, 50), SystemError: unpackUint8(packet, 36), SpecialInfo: unpackUint8(packet, 48), EventIndex: unpackUint32(packet, 8), EventType: unpackEventType(packet, 12), EventAccessGranted: unpackBool(packet, 13), EventDoor: unpackUint8(packet, 14), EventDirection: unpackDirection(packet, 15), EventCard: unpackUint32(packet, 16), EventTimestamp: unpackOptionalDateTime(packet, 20), EventReason: unpackReason(packet, 27), SequenceNo: unpackUint32(packet, 40)}, nil
+	return responses.GetStatus{
+		Controller:         unpackUint32(packet, 4),
+		SystemDate:         unpackShortDate(packet, 51),
+		SystemTime:         unpackTime(packet, 37),
+		Door1Open:          unpackBool(packet, 28),
+		Door2Open:          unpackBool(packet, 29),
+		Door3Open:          unpackBool(packet, 30),
+		Door4Open:          unpackBool(packet, 31),
+		Door1Button:        unpackBool(packet, 32),
+		Door2Button:        unpackBool(packet, 33),
+		Door3Button:        unpackBool(packet, 34),
+		Door4Button:        unpackBool(packet, 35),
+		Relays:             unpackUint8(packet, 49),
+		Inputs:             unpackUint8(packet, 50),
+		SystemError:        unpackUint8(packet, 36),
+		SpecialInfo:        unpackUint8(packet, 48),
+		EventIndex:         unpackUint32(packet, 8),
+		EventType:          unpackEventType(packet, 12),
+		EventAccessGranted: unpackBool(packet, 13),
+		EventDoor:          unpackUint8(packet, 14),
+		EventDirection:     unpackDirection(packet, 15),
+		EventCard:          unpackUint32(packet, 16),
+		EventTimestamp:     unpackOptionalDateTime(packet, 20),
+		EventReason:        unpackReason(packet, 27),
+		SequenceNo:         unpackUint32(packet, 40)}, nil
 }
 
 func GetTimeResponse(packet []byte) (responses.GetTime, error) {
@@ -69,7 +102,9 @@ func GetTimeResponse(packet []byte) (responses.GetTime, error) {
 		return responses.GetTime{}, fmt.Errorf("invalid reply function code (%02x)", packet[1])
 	}
 
-	return responses.GetTime{Controller: unpackUint32(packet, 4), DateTime: unpackDateTime(packet, 8)}, nil
+	return responses.GetTime{
+		Controller: unpackUint32(packet, 4),
+		DateTime:   unpackDateTime(packet, 8)}, nil
 }
 
 func SetTimeResponse(packet []byte) (responses.SetTime, error) {
@@ -85,7 +120,9 @@ func SetTimeResponse(packet []byte) (responses.SetTime, error) {
 		return responses.SetTime{}, fmt.Errorf("invalid reply function code (%02x)", packet[1])
 	}
 
-	return responses.SetTime{Controller: unpackUint32(packet, 4), DateTime: unpackDateTime(packet, 8)}, nil
+	return responses.SetTime{
+		Controller: unpackUint32(packet, 4),
+		DateTime:   unpackDateTime(packet, 8)}, nil
 }
 
 func GetListenerResponse(packet []byte) (responses.GetListener, error) {
@@ -101,7 +138,11 @@ func GetListenerResponse(packet []byte) (responses.GetListener, error) {
 		return responses.GetListener{}, fmt.Errorf("invalid reply function code (%02x)", packet[1])
 	}
 
-	return responses.GetListener{Controller: unpackUint32(packet, 4), Address: unpackIPv4(packet, 8), Port: unpackUint16(packet, 12), Interval: unpackUint8(packet, 14)}, nil
+	return responses.GetListener{
+		Controller: unpackUint32(packet, 4),
+		Address:    unpackIPv4(packet, 8),
+		Port:       unpackUint16(packet, 12),
+		Interval:   unpackUint8(packet, 14)}, nil
 }
 
 func SetListenerResponse(packet []byte) (responses.SetListener, error) {
@@ -117,7 +158,9 @@ func SetListenerResponse(packet []byte) (responses.SetListener, error) {
 		return responses.SetListener{}, fmt.Errorf("invalid reply function code (%02x)", packet[1])
 	}
 
-	return responses.SetListener{Controller: unpackUint32(packet, 4), Ok: unpackBool(packet, 8)}, nil
+	return responses.SetListener{
+		Controller: unpackUint32(packet, 4),
+		Ok:         unpackBool(packet, 8)}, nil
 }
 
 func GetListenerAddrPortResponse(packet []byte) (responses.GetListenerAddrPort, error) {
@@ -133,7 +176,10 @@ func GetListenerAddrPortResponse(packet []byte) (responses.GetListenerAddrPort, 
 		return responses.GetListenerAddrPort{}, fmt.Errorf("invalid reply function code (%02x)", packet[1])
 	}
 
-	return responses.GetListenerAddrPort{Controller: unpackUint32(packet, 4), Listener: unpackAddrPort(packet, 8), Interval: unpackUint8(packet, 14)}, nil
+	return responses.GetListenerAddrPort{
+		Controller: unpackUint32(packet, 4),
+		Listener:   unpackAddrPort(packet, 8),
+		Interval:   unpackUint8(packet, 14)}, nil
 }
 
 func SetListenerAddrPortResponse(packet []byte) (responses.SetListenerAddrPort, error) {
@@ -149,7 +195,9 @@ func SetListenerAddrPortResponse(packet []byte) (responses.SetListenerAddrPort, 
 		return responses.SetListenerAddrPort{}, fmt.Errorf("invalid reply function code (%02x)", packet[1])
 	}
 
-	return responses.SetListenerAddrPort{Controller: unpackUint32(packet, 4), Ok: unpackBool(packet, 8)}, nil
+	return responses.SetListenerAddrPort{
+		Controller: unpackUint32(packet, 4),
+		Ok:         unpackBool(packet, 8)}, nil
 }
 
 func GetDoorResponse(packet []byte) (responses.GetDoor, error) {
@@ -165,7 +213,11 @@ func GetDoorResponse(packet []byte) (responses.GetDoor, error) {
 		return responses.GetDoor{}, fmt.Errorf("invalid reply function code (%02x)", packet[1])
 	}
 
-	return responses.GetDoor{Controller: unpackUint32(packet, 4), Door: unpackUint8(packet, 8), Mode: unpackMode(packet, 9), Delay: unpackUint8(packet, 10)}, nil
+	return responses.GetDoor{
+		Controller: unpackUint32(packet, 4),
+		Door:       unpackUint8(packet, 8),
+		Mode:       unpackMode(packet, 9),
+		Delay:      unpackUint8(packet, 10)}, nil
 }
 
 func SetDoorResponse(packet []byte) (responses.SetDoor, error) {
@@ -181,7 +233,11 @@ func SetDoorResponse(packet []byte) (responses.SetDoor, error) {
 		return responses.SetDoor{}, fmt.Errorf("invalid reply function code (%02x)", packet[1])
 	}
 
-	return responses.SetDoor{Controller: unpackUint32(packet, 4), Door: unpackUint8(packet, 8), Mode: unpackUint8(packet, 9), Delay: unpackUint8(packet, 10)}, nil
+	return responses.SetDoor{
+		Controller: unpackUint32(packet, 4),
+		Door:       unpackUint8(packet, 8),
+		Mode:       unpackUint8(packet, 9),
+		Delay:      unpackUint8(packet, 10)}, nil
 }
 
 func SetDoorPasscodesResponse(packet []byte) (responses.SetDoorPasscodes, error) {
@@ -197,7 +253,9 @@ func SetDoorPasscodesResponse(packet []byte) (responses.SetDoorPasscodes, error)
 		return responses.SetDoorPasscodes{}, fmt.Errorf("invalid reply function code (%02x)", packet[1])
 	}
 
-	return responses.SetDoorPasscodes{Controller: unpackUint32(packet, 4), Ok: unpackBool(packet, 8)}, nil
+	return responses.SetDoorPasscodes{
+		Controller: unpackUint32(packet, 4),
+		Ok:         unpackBool(packet, 8)}, nil
 }
 
 func OpenDoorResponse(packet []byte) (responses.OpenDoor, error) {
@@ -213,7 +271,9 @@ func OpenDoorResponse(packet []byte) (responses.OpenDoor, error) {
 		return responses.OpenDoor{}, fmt.Errorf("invalid reply function code (%02x)", packet[1])
 	}
 
-	return responses.OpenDoor{Controller: unpackUint32(packet, 4), Ok: unpackBool(packet, 8)}, nil
+	return responses.OpenDoor{
+		Controller: unpackUint32(packet, 4),
+		Ok:         unpackBool(packet, 8)}, nil
 }
 
 func GetCardsResponse(packet []byte) (responses.GetCards, error) {
@@ -229,7 +289,9 @@ func GetCardsResponse(packet []byte) (responses.GetCards, error) {
 		return responses.GetCards{}, fmt.Errorf("invalid reply function code (%02x)", packet[1])
 	}
 
-	return responses.GetCards{Controller: unpackUint32(packet, 4), Cards: unpackUint32(packet, 8)}, nil
+	return responses.GetCards{
+		Controller: unpackUint32(packet, 4),
+		Cards:      unpackUint32(packet, 8)}, nil
 }
 
 func GetCardResponse(packet []byte) (responses.GetCard, error) {
@@ -245,7 +307,16 @@ func GetCardResponse(packet []byte) (responses.GetCard, error) {
 		return responses.GetCard{}, fmt.Errorf("invalid reply function code (%02x)", packet[1])
 	}
 
-	return responses.GetCard{Controller: unpackUint32(packet, 4), Card: unpackUint32(packet, 8), StartDate: unpackOptionalDate(packet, 12), EndDate: unpackOptionalDate(packet, 16), Door1: unpackUint8(packet, 20), Door2: unpackUint8(packet, 21), Door3: unpackUint8(packet, 22), Door4: unpackUint8(packet, 23), PIN: unpackPIN(packet, 24)}, nil
+	return responses.GetCard{
+		Controller: unpackUint32(packet, 4),
+		Card:       unpackUint32(packet, 8),
+		StartDate:  unpackOptionalDate(packet, 12),
+		EndDate:    unpackOptionalDate(packet, 16),
+		Door1:      unpackUint8(packet, 20),
+		Door2:      unpackUint8(packet, 21),
+		Door3:      unpackUint8(packet, 22),
+		Door4:      unpackUint8(packet, 23),
+		PIN:        unpackPIN(packet, 24)}, nil
 }
 
 func GetCardAtIndexResponse(packet []byte) (responses.GetCardAtIndex, error) {
@@ -261,7 +332,16 @@ func GetCardAtIndexResponse(packet []byte) (responses.GetCardAtIndex, error) {
 		return responses.GetCardAtIndex{}, fmt.Errorf("invalid reply function code (%02x)", packet[1])
 	}
 
-	return responses.GetCardAtIndex{Controller: unpackUint32(packet, 4), Card: unpackUint32(packet, 8), StartDate: unpackOptionalDate(packet, 12), EndDate: unpackOptionalDate(packet, 16), Door1: unpackUint8(packet, 20), Door2: unpackUint8(packet, 21), Door3: unpackUint8(packet, 22), Door4: unpackUint8(packet, 23), PIN: unpackPIN(packet, 24)}, nil
+	return responses.GetCardAtIndex{
+		Controller: unpackUint32(packet, 4),
+		Card:       unpackUint32(packet, 8),
+		StartDate:  unpackOptionalDate(packet, 12),
+		EndDate:    unpackOptionalDate(packet, 16),
+		Door1:      unpackUint8(packet, 20),
+		Door2:      unpackUint8(packet, 21),
+		Door3:      unpackUint8(packet, 22),
+		Door4:      unpackUint8(packet, 23),
+		PIN:        unpackPIN(packet, 24)}, nil
 }
 
 func PutCardResponse(packet []byte) (responses.PutCard, error) {
@@ -277,7 +357,9 @@ func PutCardResponse(packet []byte) (responses.PutCard, error) {
 		return responses.PutCard{}, fmt.Errorf("invalid reply function code (%02x)", packet[1])
 	}
 
-	return responses.PutCard{Controller: unpackUint32(packet, 4), Ok: unpackBool(packet, 8)}, nil
+	return responses.PutCard{
+		Controller: unpackUint32(packet, 4),
+		Ok:         unpackBool(packet, 8)}, nil
 }
 
 func DeleteCardResponse(packet []byte) (responses.DeleteCard, error) {
@@ -293,7 +375,9 @@ func DeleteCardResponse(packet []byte) (responses.DeleteCard, error) {
 		return responses.DeleteCard{}, fmt.Errorf("invalid reply function code (%02x)", packet[1])
 	}
 
-	return responses.DeleteCard{Controller: unpackUint32(packet, 4), Ok: unpackBool(packet, 8)}, nil
+	return responses.DeleteCard{
+		Controller: unpackUint32(packet, 4),
+		Ok:         unpackBool(packet, 8)}, nil
 }
 
 func DeleteAllCardsResponse(packet []byte) (responses.DeleteAllCards, error) {
@@ -309,7 +393,9 @@ func DeleteAllCardsResponse(packet []byte) (responses.DeleteAllCards, error) {
 		return responses.DeleteAllCards{}, fmt.Errorf("invalid reply function code (%02x)", packet[1])
 	}
 
-	return responses.DeleteAllCards{Controller: unpackUint32(packet, 4), Ok: unpackBool(packet, 8)}, nil
+	return responses.DeleteAllCards{
+		Controller: unpackUint32(packet, 4),
+		Ok:         unpackBool(packet, 8)}, nil
 }
 
 func GetEventResponse(packet []byte) (responses.GetEvent, error) {
@@ -325,7 +411,16 @@ func GetEventResponse(packet []byte) (responses.GetEvent, error) {
 		return responses.GetEvent{}, fmt.Errorf("invalid reply function code (%02x)", packet[1])
 	}
 
-	return responses.GetEvent{Controller: unpackUint32(packet, 4), Index: unpackUint32(packet, 8), EventType: unpackEventType(packet, 12), AccessGranted: unpackBool(packet, 13), Door: unpackUint8(packet, 14), Direction: unpackDirection(packet, 15), Card: unpackUint32(packet, 16), Timestamp: unpackOptionalDateTime(packet, 20), Reason: unpackReason(packet, 27)}, nil
+	return responses.GetEvent{
+		Controller:    unpackUint32(packet, 4),
+		Index:         unpackUint32(packet, 8),
+		EventType:     unpackEventType(packet, 12),
+		AccessGranted: unpackBool(packet, 13),
+		Door:          unpackUint8(packet, 14),
+		Direction:     unpackDirection(packet, 15),
+		Card:          unpackUint32(packet, 16),
+		Timestamp:     unpackOptionalDateTime(packet, 20),
+		Reason:        unpackReason(packet, 27)}, nil
 }
 
 func GetEventIndexResponse(packet []byte) (responses.GetEventIndex, error) {
@@ -341,7 +436,9 @@ func GetEventIndexResponse(packet []byte) (responses.GetEventIndex, error) {
 		return responses.GetEventIndex{}, fmt.Errorf("invalid reply function code (%02x)", packet[1])
 	}
 
-	return responses.GetEventIndex{Controller: unpackUint32(packet, 4), Index: unpackUint32(packet, 8)}, nil
+	return responses.GetEventIndex{
+		Controller: unpackUint32(packet, 4),
+		Index:      unpackUint32(packet, 8)}, nil
 }
 
 func SetEventIndexResponse(packet []byte) (responses.SetEventIndex, error) {
@@ -357,7 +454,9 @@ func SetEventIndexResponse(packet []byte) (responses.SetEventIndex, error) {
 		return responses.SetEventIndex{}, fmt.Errorf("invalid reply function code (%02x)", packet[1])
 	}
 
-	return responses.SetEventIndex{Controller: unpackUint32(packet, 4), Ok: unpackBool(packet, 8)}, nil
+	return responses.SetEventIndex{
+		Controller: unpackUint32(packet, 4),
+		Ok:         unpackBool(packet, 8)}, nil
 }
 
 func RecordSpecialEventsResponse(packet []byte) (responses.RecordSpecialEvents, error) {
@@ -373,7 +472,9 @@ func RecordSpecialEventsResponse(packet []byte) (responses.RecordSpecialEvents, 
 		return responses.RecordSpecialEvents{}, fmt.Errorf("invalid reply function code (%02x)", packet[1])
 	}
 
-	return responses.RecordSpecialEvents{Controller: unpackUint32(packet, 4), Ok: unpackBool(packet, 8)}, nil
+	return responses.RecordSpecialEvents{
+		Controller: unpackUint32(packet, 4),
+		Ok:         unpackBool(packet, 8)}, nil
 }
 
 func GetTimeProfileResponse(packet []byte) (responses.GetTimeProfile, error) {
@@ -389,7 +490,25 @@ func GetTimeProfileResponse(packet []byte) (responses.GetTimeProfile, error) {
 		return responses.GetTimeProfile{}, fmt.Errorf("invalid reply function code (%02x)", packet[1])
 	}
 
-	return responses.GetTimeProfile{Controller: unpackUint32(packet, 4), Profile: unpackUint8(packet, 8), StartDate: unpackOptionalDate(packet, 9), EndDate: unpackOptionalDate(packet, 13), Monday: unpackBool(packet, 17), Tuesday: unpackBool(packet, 18), Wednesday: unpackBool(packet, 19), Thursday: unpackBool(packet, 20), Friday: unpackBool(packet, 21), Saturday: unpackBool(packet, 22), Sunday: unpackBool(packet, 23), Segment1Start: unpackHHmm(packet, 24), Segment1End: unpackHHmm(packet, 26), Segment2Start: unpackHHmm(packet, 28), Segment2End: unpackHHmm(packet, 30), Segment3Start: unpackHHmm(packet, 32), Segment3End: unpackHHmm(packet, 34), LinkedProfile: unpackUint8(packet, 36)}, nil
+	return responses.GetTimeProfile{
+		Controller:    unpackUint32(packet, 4),
+		Profile:       unpackUint8(packet, 8),
+		StartDate:     unpackOptionalDate(packet, 9),
+		EndDate:       unpackOptionalDate(packet, 13),
+		Monday:        unpackBool(packet, 17),
+		Tuesday:       unpackBool(packet, 18),
+		Wednesday:     unpackBool(packet, 19),
+		Thursday:      unpackBool(packet, 20),
+		Friday:        unpackBool(packet, 21),
+		Saturday:      unpackBool(packet, 22),
+		Sunday:        unpackBool(packet, 23),
+		Segment1Start: unpackHHmm(packet, 24),
+		Segment1End:   unpackHHmm(packet, 26),
+		Segment2Start: unpackHHmm(packet, 28),
+		Segment2End:   unpackHHmm(packet, 30),
+		Segment3Start: unpackHHmm(packet, 32),
+		Segment3End:   unpackHHmm(packet, 34),
+		LinkedProfile: unpackUint8(packet, 36)}, nil
 }
 
 func SetTimeProfileResponse(packet []byte) (responses.SetTimeProfile, error) {
@@ -405,7 +524,9 @@ func SetTimeProfileResponse(packet []byte) (responses.SetTimeProfile, error) {
 		return responses.SetTimeProfile{}, fmt.Errorf("invalid reply function code (%02x)", packet[1])
 	}
 
-	return responses.SetTimeProfile{Controller: unpackUint32(packet, 4), Ok: unpackBool(packet, 8)}, nil
+	return responses.SetTimeProfile{
+		Controller: unpackUint32(packet, 4),
+		Ok:         unpackBool(packet, 8)}, nil
 }
 
 func ClearTimeProfilesResponse(packet []byte) (responses.ClearTimeProfiles, error) {
@@ -421,7 +542,9 @@ func ClearTimeProfilesResponse(packet []byte) (responses.ClearTimeProfiles, erro
 		return responses.ClearTimeProfiles{}, fmt.Errorf("invalid reply function code (%02x)", packet[1])
 	}
 
-	return responses.ClearTimeProfiles{Controller: unpackUint32(packet, 4), Ok: unpackBool(packet, 8)}, nil
+	return responses.ClearTimeProfiles{
+		Controller: unpackUint32(packet, 4),
+		Ok:         unpackBool(packet, 8)}, nil
 }
 
 func AddTaskResponse(packet []byte) (responses.AddTask, error) {
@@ -437,7 +560,9 @@ func AddTaskResponse(packet []byte) (responses.AddTask, error) {
 		return responses.AddTask{}, fmt.Errorf("invalid reply function code (%02x)", packet[1])
 	}
 
-	return responses.AddTask{Controller: unpackUint32(packet, 4), Ok: unpackBool(packet, 8)}, nil
+	return responses.AddTask{
+		Controller: unpackUint32(packet, 4),
+		Ok:         unpackBool(packet, 8)}, nil
 }
 
 func RefreshTaskListResponse(packet []byte) (responses.RefreshTaskList, error) {
@@ -453,7 +578,9 @@ func RefreshTaskListResponse(packet []byte) (responses.RefreshTaskList, error) {
 		return responses.RefreshTaskList{}, fmt.Errorf("invalid reply function code (%02x)", packet[1])
 	}
 
-	return responses.RefreshTaskList{Controller: unpackUint32(packet, 4), Ok: unpackBool(packet, 8)}, nil
+	return responses.RefreshTaskList{
+		Controller: unpackUint32(packet, 4),
+		Ok:         unpackBool(packet, 8)}, nil
 }
 
 func ClearTaskListResponse(packet []byte) (responses.ClearTaskList, error) {
@@ -469,7 +596,9 @@ func ClearTaskListResponse(packet []byte) (responses.ClearTaskList, error) {
 		return responses.ClearTaskList{}, fmt.Errorf("invalid reply function code (%02x)", packet[1])
 	}
 
-	return responses.ClearTaskList{Controller: unpackUint32(packet, 4), Ok: unpackBool(packet, 8)}, nil
+	return responses.ClearTaskList{
+		Controller: unpackUint32(packet, 4),
+		Ok:         unpackBool(packet, 8)}, nil
 }
 
 func SetPCControlResponse(packet []byte) (responses.SetPCControl, error) {
@@ -485,7 +614,9 @@ func SetPCControlResponse(packet []byte) (responses.SetPCControl, error) {
 		return responses.SetPCControl{}, fmt.Errorf("invalid reply function code (%02x)", packet[1])
 	}
 
-	return responses.SetPCControl{Controller: unpackUint32(packet, 4), Ok: unpackBool(packet, 8)}, nil
+	return responses.SetPCControl{
+		Controller: unpackUint32(packet, 4),
+		Ok:         unpackBool(packet, 8)}, nil
 }
 
 func SetInterlockResponse(packet []byte) (responses.SetInterlock, error) {
@@ -501,7 +632,9 @@ func SetInterlockResponse(packet []byte) (responses.SetInterlock, error) {
 		return responses.SetInterlock{}, fmt.Errorf("invalid reply function code (%02x)", packet[1])
 	}
 
-	return responses.SetInterlock{Controller: unpackUint32(packet, 4), Ok: unpackBool(packet, 8)}, nil
+	return responses.SetInterlock{
+		Controller: unpackUint32(packet, 4),
+		Ok:         unpackBool(packet, 8)}, nil
 }
 
 func ActivateKeypadsResponse(packet []byte) (responses.ActivateKeypads, error) {
@@ -517,7 +650,9 @@ func ActivateKeypadsResponse(packet []byte) (responses.ActivateKeypads, error) {
 		return responses.ActivateKeypads{}, fmt.Errorf("invalid reply function code (%02x)", packet[1])
 	}
 
-	return responses.ActivateKeypads{Controller: unpackUint32(packet, 4), Ok: unpackBool(packet, 8)}, nil
+	return responses.ActivateKeypads{
+		Controller: unpackUint32(packet, 4),
+		Ok:         unpackBool(packet, 8)}, nil
 }
 
 func GetAntiPassbackResponse(packet []byte) (responses.GetAntiPassback, error) {
@@ -533,7 +668,9 @@ func GetAntiPassbackResponse(packet []byte) (responses.GetAntiPassback, error) {
 		return responses.GetAntiPassback{}, fmt.Errorf("invalid reply function code (%02x)", packet[1])
 	}
 
-	return responses.GetAntiPassback{Controller: unpackUint32(packet, 4), Antipassback: unpackUint8(packet, 8)}, nil
+	return responses.GetAntiPassback{
+		Controller:   unpackUint32(packet, 4),
+		Antipassback: unpackUint8(packet, 8)}, nil
 }
 
 func SetAntiPassbackResponse(packet []byte) (responses.SetAntiPassback, error) {
@@ -549,7 +686,9 @@ func SetAntiPassbackResponse(packet []byte) (responses.SetAntiPassback, error) {
 		return responses.SetAntiPassback{}, fmt.Errorf("invalid reply function code (%02x)", packet[1])
 	}
 
-	return responses.SetAntiPassback{Controller: unpackUint32(packet, 4), Ok: unpackBool(packet, 8)}, nil
+	return responses.SetAntiPassback{
+		Controller: unpackUint32(packet, 4),
+		Ok:         unpackBool(packet, 8)}, nil
 }
 
 func RestoreDefaultParametersResponse(packet []byte) (responses.RestoreDefaultParameters, error) {
@@ -565,7 +704,9 @@ func RestoreDefaultParametersResponse(packet []byte) (responses.RestoreDefaultPa
 		return responses.RestoreDefaultParameters{}, fmt.Errorf("invalid reply function code (%02x)", packet[1])
 	}
 
-	return responses.RestoreDefaultParameters{Controller: unpackUint32(packet, 4), Ok: unpackBool(packet, 8)}, nil
+	return responses.RestoreDefaultParameters{
+		Controller: unpackUint32(packet, 4),
+		Ok:         unpackBool(packet, 8)}, nil
 }
 
 func ListenerEvent(packet []byte) (responses.ListenerEvent, error) {
@@ -581,5 +722,29 @@ func ListenerEvent(packet []byte) (responses.ListenerEvent, error) {
 		return responses.ListenerEvent{}, fmt.Errorf("invalid reply function code (%02x)", packet[1])
 	}
 
-	return responses.ListenerEvent{Controller: unpackUint32(packet, 4), SystemDate: unpackShortDate(packet, 51), SystemTime: unpackTime(packet, 37), Door1Open: unpackBool(packet, 28), Door2Open: unpackBool(packet, 29), Door3Open: unpackBool(packet, 30), Door4Open: unpackBool(packet, 31), Door1Button: unpackBool(packet, 32), Door2Button: unpackBool(packet, 33), Door3Button: unpackBool(packet, 34), Door4Button: unpackBool(packet, 35), Relays: unpackUint8(packet, 49), Inputs: unpackUint8(packet, 50), SystemError: unpackUint8(packet, 36), SpecialInfo: unpackUint8(packet, 48), EventIndex: unpackUint32(packet, 8), EventType: unpackEventType(packet, 12), EventAccessGranted: unpackBool(packet, 13), EventDoor: unpackUint8(packet, 14), EventDirection: unpackDirection(packet, 15), EventCard: unpackUint32(packet, 16), EventTimestamp: unpackOptionalDateTime(packet, 20), EventReason: unpackReason(packet, 27), SequenceNo: unpackUint32(packet, 40)}, nil
+	return responses.ListenerEvent{
+		Controller:         unpackUint32(packet, 4),
+		SystemDate:         unpackShortDate(packet, 51),
+		SystemTime:         unpackTime(packet, 37),
+		Door1Open:          unpackBool(packet, 28),
+		Door2Open:          unpackBool(packet, 29),
+		Door3Open:          unpackBool(packet, 30),
+		Door4Open:          unpackBool(packet, 31),
+		Door1Button:        unpackBool(packet, 32),
+		Door2Button:        unpackBool(packet, 33),
+		Door3Button:        unpackBool(packet, 34),
+		Door4Button:        unpackBool(packet, 35),
+		Relays:             unpackUint8(packet, 49),
+		Inputs:             unpackUint8(packet, 50),
+		SystemError:        unpackUint8(packet, 36),
+		SpecialInfo:        unpackUint8(packet, 48),
+		EventIndex:         unpackUint32(packet, 8),
+		EventType:          unpackEventType(packet, 12),
+		EventAccessGranted: unpackBool(packet, 13),
+		EventDoor:          unpackUint8(packet, 14),
+		EventDirection:     unpackDirection(packet, 15),
+		EventCard:          unpackUint32(packet, 16),
+		EventTimestamp:     unpackOptionalDateTime(packet, 20),
+		EventReason:        unpackReason(packet, 27),
+		SequenceNo:         unpackUint32(packet, 40)}, nil
 }

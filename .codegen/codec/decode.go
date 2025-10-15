@@ -293,7 +293,7 @@ func unpack(field lib.Field) ast.Expr {
 	} else {
 		return &ast.KeyValueExpr{
 			Key: &ast.Ident{
-				Name: codegen.TitleCase(field.Name),
+				Name: "\n" + codegen.TitleCase(field.Name), // *SUCH* a hack - prepend '\n' just to get the generated code formatted reasonably
 			},
 			Value: &ast.CallExpr{
 				Fun: &ast.Ident{Name: f},
