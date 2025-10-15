@@ -267,9 +267,15 @@ func AddTaskRecord[T TController](u Uhppoted, controller T, record Task, timeout
 	}
 }
 
+// Interface definition for access event consumers.
+type IListener interface {
+	OnEvent(ListenerEvent)
+	OnError(error)
+}
+
 // Listens for access controller events sent to the listen address:port and routes received events
 // to the events channel. Terminates on any signal sent to the interrupt channel.
-func Listen(u Uhppoted, events chan ListenerEvent, errors chan error, interrupt chan os.Signal) error {
+func Listen(u Uhppoted, listener IListener, interrupt chan os.Signal) error {
 	ch := make(chan []uint8)
 
 	go u.udp.listen(ch)
@@ -279,9 +285,9 @@ loop:
 		select {
 		case msg := <-ch:
 			if evt, err := decode.ListenerEvent(msg); err != nil {
-				errors <- err
+				listener.OnError(err)
 			} else {
-				events <- evt
+				listener.OnEvent(evt)
 			}
 
 		case <-interrupt:

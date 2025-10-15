@@ -324,6 +324,19 @@ func TestAddTaskRecord(t *testing.T) {
 	}
 }
 
+type listener struct {
+	events []lib.ListenerEvent
+	errors []error
+}
+
+func (l *listener) OnEvent(evt lib.ListenerEvent) {
+	l.events = append(l.events, evt)
+}
+
+func (l *listener) OnError(err error) {
+	l.errors = append(l.errors, err)
+}
+
 func TestListen(t *testing.T) {
 	expected := struct {
 		events []lib.ListenerEvent
@@ -340,30 +353,11 @@ func TestListen(t *testing.T) {
 		}
 	}
 
-	events := make(chan lib.ListenerEvent)
-	errors := make(chan error)
 	interrupt := make(chan os.Signal, 1)
 
-	defer close(events)
-	defer close(errors)
 	defer close(interrupt)
 
-	received := struct {
-		events []lib.ListenerEvent
-		errors []error
-	}{}
-
-	go func() {
-		for evt := range events {
-			received.events = append(received.events, evt)
-		}
-	}()
-
-	go func() {
-		for err := range errors {
-			received.errors = append(received.errors, err)
-		}
-	}()
+	l := listener{}
 
 	go func() {
 		for _, v := range test.Events {
@@ -385,20 +379,20 @@ func TestListen(t *testing.T) {
 		interrupt <- syscall.SIGINT
 	}()
 
-	if err := lib.Listen(u, events, errors, interrupt); err != nil {
+	if err := lib.Listen(u, &l, interrupt); err != nil {
 		t.Fatalf("%v", err)
 	}
 
-	if !slices.EqualFunc(received.events, expected.events, func(p lib.ListenerEvent, q lib.ListenerEvent) bool {
+	if !slices.EqualFunc(l.events, expected.events, func(p lib.ListenerEvent, q lib.ListenerEvent) bool {
 		return reflect.DeepEqual(p, q)
 	}) {
-		t.Errorf("event listen error\n   expected: %v\n   got:      %v", expected.events, received.events)
+		t.Errorf("event listen error\n   expected: %v\n   got:      %v", expected.events, l.events)
 	}
 
-	if !slices.EqualFunc(received.errors, expected.errors, func(p error, q error) bool {
+	if !slices.EqualFunc(l.errors, expected.errors, func(p error, q error) bool {
 		return reflect.DeepEqual(p, q)
 	}) {
-		t.Errorf("event listen error\n   expected: %v\n   got:      %v", expected.errors, received.errors)
+		t.Errorf("event listen error\n   expected: %v\n   got:      %v", expected.errors, l.errors)
 	}
 }
 

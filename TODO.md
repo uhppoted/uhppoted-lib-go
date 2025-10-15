@@ -2,13 +2,7 @@
 
 - [x] event direction field type
 - [x] event reason field type
-    - [x] get-event
-    - [x] get-event-record
-    - [x] listen-event
-    - [x] get-status
-
-- [ ] listener interface
-- [ ] godoc/examples
+- [x] listener interface
 - [ ] README
 
 - [x] logging
@@ -16,15 +10,17 @@
     - https://www.dash0.com/guides/logging-in-go-with-slog
 
 - [ ] code generation
-      - [x] remove response.XXX 'Response' suffix
       - [ ] reformat generated responses
-
       - [x] decoder
           - [x] decode entities
           - [ ] decode ListenEvent
 
-      - [x] encode
-      - [x] encode_test
-      - [x] decode_test
-      - [x] integration tests
 
+## TODO
+- [ ] AST code generation
+      - [ ] encode
+      - [ ] encode_test
+      - [ ] decode_test
+      - [ ] integration tests
+
+- [ ] godoc/examples

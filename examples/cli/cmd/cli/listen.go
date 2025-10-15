@@ -10,6 +10,19 @@ import (
 	lib "github.com/uhppoted/uhppoted-lib-go/src/uhppoted"
 )
 
+type listener struct {
+	events chan lib.ListenerEvent
+	errors chan error
+}
+
+func (l listener) OnEvent(evt lib.ListenerEvent) {
+	l.events <- evt
+}
+
+func (l listener) OnError(err error) {
+	l.errors <- err
+}
+
 func listen(u lib.Uhppoted, args []string) error {
 	events := make(chan lib.ListenerEvent)
 	errors := make(chan error)
@@ -37,7 +50,12 @@ func listen(u lib.Uhppoted, args []string) error {
 		}
 	}()
 
-	if err := lib.Listen(u, events, errors, interrupt); err != nil {
+	l := listener{
+		events: events,
+		errors: errors,
+	}
+
+	if err := lib.Listen(u, l, interrupt); err != nil {
 		return err
 	}
 
