@@ -3,6 +3,9 @@
 
 .DEFAULT_GOAL := build
 
+clean:
+	cd src && make clean
+
 regenerate:
 	cd .codegen          && make build
 	cd src               && make regenerate
@@ -40,7 +43,7 @@ build-all:
 	cd src          && make build-all
 	cd examples/cli && make build
 
-# release: clean build-all
+release: clean build-all
 
 # publish: release
 # 	echo "Releasing version $(VERSION)"

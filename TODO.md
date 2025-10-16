@@ -3,7 +3,7 @@
 - [x] event direction field type
 - [x] event reason field type
 - [x] listener interface
-- [ ] README
+- [x] README
 
 - [x] logging
     - [ ] set default handler
@@ -12,8 +12,6 @@
 - [x] code generation
       - [x] reformat generated decode responses
       - [x] decoder
-          - [x] decode entities
-          - [x] decode ListenerEvent
       - [ ] replace decode hack with CommentMap
           - https://pkg.go.dev/go/ast#NewCommentMap
 
