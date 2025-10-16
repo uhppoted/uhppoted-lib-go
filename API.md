@@ -1148,14 +1148,20 @@ Listen(u, events chan ListenerEvent, errors chan error, interrupt chan os.Signal
 
 where:
 - u          Uhppoted            Uhppoted struct initialised with the bind address, broadcast address, etc
-- events     chan ListenerEvent  events channel
-- errors     chan error          errors channel
+- listener   Listener            implementation of the IListener interface
 - interrupt  chan os.Signal      interrupts channel
+
+type IListener interface {
+  OnEvent(ListenerEvent)
+  OnError(error)
+}
 ```
 
-- received events are posted to the _events_ channel
-- non-fatal errors are posted to the _errors_ channel
+- received events invoke the listener `OnEvent` function
+- non-fatal errors invoke the listener `OnError` function
 - signals posted on the interrupts channel cause the event listener to close and return
+
+The example _CLI_ and the integration tests demonstrate implementations of IListener using channels and callbacks respectively.
 
 ```
 type ListenerEvent struct { 
