@@ -16,7 +16,7 @@ import (
 )
 
 func decode() {
-	file := filepath.Join("decode", "generated.go")
+	file := filepath.Join("codec", "decode", "generated.go")
 
 	imports := [][]string{
 		[]string{

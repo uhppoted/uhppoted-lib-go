@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"log"
 	"os"
+	"path/filepath"
 	"regexp"
 	"slices"
 	"strings"
@@ -20,7 +21,7 @@ import (
 )
 
 func decoderTest() {
-	const output = "generated_test.go"
+	output := filepath.Join("codec", "generated_test.go")
 
 	f, err := os.Create(output)
 	if err != nil {

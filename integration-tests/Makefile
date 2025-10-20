@@ -14,7 +14,7 @@ update:
 	go mod tidy
 
 regenerate:
-	../.codegen/bin/codegen integration-tests
+	../.codegen/bin/codegen integration-tests  && go fmt ./...
 
 format: 
 	go fmt ./...

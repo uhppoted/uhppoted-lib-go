@@ -4,6 +4,7 @@ import (
 	_ "embed"
 	"log"
 	"os"
+	"path/filepath"
 	"text/template"
 
 	lib "github.com/uhppoted/uhppoted-codegen/model/types"
@@ -35,7 +36,7 @@ func Codec() {
 }
 
 func encode() {
-	const output = "encode/generated.go"
+	output := filepath.Join("codec", "encode", "generated.go")
 
 	f, err := os.Create(output)
 	if err != nil {
@@ -52,7 +53,7 @@ func encode() {
 }
 
 func encodeTest() {
-	const output = "encode/encode_test.go"
+	output := filepath.Join("codec", "encode", "encode_test.go")
 
 	f, err := os.Create(output)
 	if err != nil {
@@ -69,7 +70,7 @@ func encodeTest() {
 }
 
 func decodeTest() {
-	const output = "decode/decode_test.go"
+	output := filepath.Join("codec", "decode", "decode_test.go")
 
 	f, err := os.Create(output)
 	if err != nil {

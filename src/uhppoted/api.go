@@ -319,7 +319,3 @@ func convert[R convertable](t any) R {
 
 	panic(fmt.Sprintf("unsupported conversion from %T to %T", t, zero))
 }
-
-//go:generate ../../.codegen/bin/codegen API
-//go:generate ../../.codegen/bin/codegen responses
-//go:generate ../../.codegen/bin/codegen README
