@@ -85,7 +85,6 @@ func (a AST) Generate(file string) error {
 			Tabwidth: 4,
 		}
 
-		// printer.Fprint(&b, fileset, a.file)
 		cfg.Fprint(&b, fileset, a.file)
 
 		// ... remove 'lines intentionally left blank'

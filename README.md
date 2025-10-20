@@ -36,7 +36,7 @@ the library from source requires the executables in `.codegen/bin`:
 cd .codegen && go build -trimpath -o bin ./...
 ```
 
-(the `Makefile` targets build this automatically).
+(the `Makefile` _regenerate_ and _build-all_ targets build this automatically).
 
 
 ### Building from source
