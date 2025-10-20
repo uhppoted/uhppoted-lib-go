@@ -7,9 +7,7 @@
 - [x] code generation
       - [x] reformat generated decode responses
       - [x] decoder
-      - [ ] replace decode hack with CommentMap
-          - https://pkg.go.dev/go/ast#NewCommentMap
-
+      - [x] ~~replace decode hack with CommentMap~~
 
 ## TODO
 - [ ] AST code generation
