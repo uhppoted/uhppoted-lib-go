@@ -10,9 +10,12 @@ import (
 	"slices"
 	"strings"
 
-	"go/ast"
+	// "go/format"
 	"go/printer"
 	"go/token"
+
+	"github.com/dave/dst"
+	"github.com/dave/dst/decorator"
 
 	lib "github.com/uhppoted/uhppoted-codegen/model/types"
 
@@ -31,29 +34,40 @@ func decoderTest() {
 
 	decl := buildDecoderTest()
 
-	// ... pretty print
-	b := bytes.Buffer{}
-
-	printer.Fprint(&b, token.NewFileSet(), decl)
-
-	// ... format
-	lines := strings.Split(b.String(), "\n")
-
-	// ... reformat message packets and response structs
-	re := map[string]*regexp.Regexp{
-		"packet":   regexp.MustCompile(`^(\s*packet\s+:=\s+\[\]byte\s*{)(.*?)}\s*$`),
-		"expected": regexp.MustCompile(`^(\s*expected\s+:=\s+responses\.(?:.*?)Response\s*{)(.*?)(}$)`),
+	// .. convert dst → ast
+	fset, astFile, err := decorator.RestoreFile(decl)
+	if err != nil {
+		log.Fatalf("Error converting dst to ast (%v)", err)
 	}
 
-	// ... 'generated code' warning
+	// ... pretty print Go source
+	var buf bytes.Buffer
+	if err := printer.Fprint(&buf, fset, astFile); err != nil {
+		log.Fatalf("Error pretty-printing generated code (%v)", err)
+	}
+
+	// // --- gofmt the result ---
+	// formatted, err := format.Source(buf.Bytes())
+	// if err != nil {
+	// 	log.Fatalf("Error formatting generated code (%v)", err)
+	// }
+
+	lines := strings.Split(string(buf.Bytes()), "\n")
+
+	// --- regex transforms ---
+	re := map[string]*regexp.Regexp{
+		"packet": regexp.MustCompile(`^(\s*packet\s+:=\s+\[\]byte\s*{)(.*?)}\s*$`),
+		// 	"expected": regexp.MustCompile(`^(\s*expected\s+:=\s+responses\.(?:.*?)Response\s*{)(.*?)(}$)`),
+	}
+
+	// --- header comment ---
 	writeln(f, "// generated code - ** DO NOT EDIT **")
 	writeln(f, "")
 
 	for _, line := range lines {
-		// ... reformat message packet?
+		// reformat message packet?
 		if match := re["packet"].FindStringSubmatch(line); len(match) > 1 {
 			hex := match[2]
-
 			writeln(f, match[1])
 			for len(hex) > 96 {
 				writeln(f, "		"+hex[:96])
@@ -64,60 +78,48 @@ func decoderTest() {
 			continue
 		}
 
-		// ... reformat response struct ?
-		if match := re["expected"].FindStringSubmatch(line); match != nil {
-			fields := strings.Split(match[2], ",")
-
-			writeln(f, match[1])
-			for _, field := range fields {
-				writeln(f, "		"+strings.Trim(field, " ")+",")
-			}
-			writeln(f, "	"+strings.Trim(match[3], " "))
-			continue
-		}
-
-		// ... same old, same old
+		// default
 		writeln(f, line)
 	}
 }
 
-func buildDecoderTest() *ast.File {
-	imports := &ast.GenDecl{
+func buildDecoderTest() *dst.File {
+	imports := &dst.GenDecl{
 		Tok: token.IMPORT,
-		Specs: []ast.Spec{
-			&ast.ImportSpec{
-				Path: &ast.BasicLit{
+		Specs: []dst.Spec{
+			&dst.ImportSpec{
+				Path: &dst.BasicLit{
 					Kind:  token.STRING,
 					Value: `"net/netip"`,
 				},
 			},
 
-			&ast.ImportSpec{
-				Path: &ast.BasicLit{
+			&dst.ImportSpec{
+				Path: &dst.BasicLit{
 					Kind:  token.STRING,
 					Value: `"reflect"`,
 				},
 			},
 
-			&ast.ImportSpec{
-				Path: &ast.BasicLit{
+			&dst.ImportSpec{
+				Path: &dst.BasicLit{
 					Kind:  token.STRING,
 					Value: `"testing"`,
 				},
 			},
-			&ast.ImportSpec{
-				Path: &ast.BasicLit{
+			&dst.ImportSpec{
+				Path: &dst.BasicLit{
 					Kind: token.STRING,
 				},
 			},
-			&ast.ImportSpec{
-				Path: &ast.BasicLit{
+			&dst.ImportSpec{
+				Path: &dst.BasicLit{
 					Kind:  token.STRING,
 					Value: `"github.com/uhppoted/uhppoted-lib-go/src/uhppoted/entities"`,
 				},
 			},
-			&ast.ImportSpec{
-				Path: &ast.BasicLit{
+			&dst.ImportSpec{
+				Path: &dst.BasicLit{
 					Kind:  token.STRING,
 					Value: `"github.com/uhppoted/uhppoted-lib-go/src/uhppoted/responses"`,
 				},
@@ -125,7 +127,7 @@ func buildDecoderTest() *ast.File {
 		},
 	}
 
-	tests := []ast.Decl{}
+	tests := []dst.Decl{}
 	excluded := []*lib.Response{}
 	responses := model.Responses
 	for _, response := range responses {
@@ -141,53 +143,56 @@ func buildDecoderTest() *ast.File {
 		}
 	}
 
-	return &ast.File{
-		Name: ast.NewIdent("codec"),
+	file := &dst.File{
+		Name: dst.NewIdent("codec"),
 
-		Imports: []*ast.ImportSpec{
+		Imports: []*dst.ImportSpec{
 			{
-				Path: &ast.BasicLit{
+				Path: &dst.BasicLit{
 					Kind:  token.STRING,
 					Value: `"net/netip"`,
 				},
 			},
 			{
-				Path: &ast.BasicLit{
+				Path: &dst.BasicLit{
 					Kind:  token.STRING,
 					Value: `"reflect"`,
 				},
 			},
 			{
-				Path: &ast.BasicLit{
+				Path: &dst.BasicLit{
 					Kind:  token.STRING,
 					Value: `"testing"`,
 				},
 			},
 			{
-				Path: &ast.BasicLit{
+				Path: &dst.BasicLit{
 					Kind:  token.STRING,
 					Value: `"github.com/uhppoted/uhppoted-lib-go/src/uhppoted/responses"`,
 				},
 			},
 		},
 
-		Decls: append([]ast.Decl{imports}, tests...),
+		Decls: append([]dst.Decl{imports}, tests...),
 	}
+
+	return file
 }
 
-func buildDecoderTestFunc(response lib.Response, test lib.ResponseTest) *ast.FuncDecl {
+func buildDecoderTestFunc(response lib.Response, test lib.ResponseTest) *dst.FuncDecl {
 	name := fmt.Sprintf("TestDecode%vResponse", codegen.TitleCase(test.Name))
-	return &ast.FuncDecl{
-		Name: ast.NewIdent(name),
-		Type: &ast.FuncType{
-			Params: &ast.FieldList{
-				List: []*ast.Field{
+
+	f := &dst.FuncDecl{
+		Name: dst.NewIdent(name),
+		Type: &dst.FuncType{
+			Params: &dst.FieldList{
+				List: []*dst.Field{
 					{
-						Names: []*ast.Ident{ast.NewIdent("t")},
-						Type: &ast.StarExpr{
-							X: &ast.SelectorExpr{
-								X:   &ast.Ident{Name: "testing"},
-								Sel: &ast.Ident{Name: "T"},
+						Names: []*dst.Ident{dst.NewIdent("t")},
+						Type: &dst.StarExpr{
+							X: &dst.SelectorExpr{
+								X:   &dst.Ident{Name: "testing"},
+								Sel: &dst.Ident{Name: "T"},
 							},
 						},
 					},
@@ -195,32 +200,35 @@ func buildDecoderTestFunc(response lib.Response, test lib.ResponseTest) *ast.Fun
 			},
 		},
 		Body: buildDecoderTestImpl(response, test),
-		Doc:  &ast.CommentGroup{},
 	}
+
+	f.Decs.After = dst.EmptyLine
+
+	return f
 }
 
-func buildDecoderTestImpl(response lib.Response, test lib.ResponseTest) *ast.BlockStmt {
-	packet := make([]ast.Expr, 64)
+func buildDecoderTestImpl(response lib.Response, test lib.ResponseTest) *dst.BlockStmt {
+	packet := make([]dst.Expr, 64)
 	for i, b := range test.Response {
-		packet[i] = &ast.BasicLit{
+		packet[i] = &dst.BasicLit{
 			Kind:  token.INT,
 			Value: fmt.Sprintf("0x%02x", b),
 		}
 	}
 
-	return &ast.BlockStmt{
-		List: []ast.Stmt{
+	return &dst.BlockStmt{
+		List: []dst.Stmt{
 			// packet := []byte{...}
-			&ast.AssignStmt{
-				Lhs: []ast.Expr{
-					ast.NewIdent("packet"),
+			&dst.AssignStmt{
+				Lhs: []dst.Expr{
+					dst.NewIdent("packet"),
 				},
 				Tok: token.DEFINE,
-				Rhs: []ast.Expr{
-					&ast.CompositeLit{
-						Type: &ast.ArrayType{
+				Rhs: []dst.Expr{
+					&dst.CompositeLit{
+						Type: &dst.ArrayType{
 							Len: nil,
-							Elt: ast.NewIdent("byte"),
+							Elt: dst.NewIdent("byte"),
 						},
 						Elts: packet,
 					},
@@ -228,26 +236,26 @@ func buildDecoderTestImpl(response lib.Response, test lib.ResponseTest) *ast.Blo
 			},
 
 			// blank line
-			&ast.ExprStmt{
-				X: &ast.BasicLit{
+			&dst.ExprStmt{
+				X: &dst.BasicLit{
 					Kind: token.STRING,
 				},
 			},
 
 			// expected := ...
-			&ast.AssignStmt{
-				Lhs: []ast.Expr{
-					&ast.Ident{Name: "expected"},
+			&dst.AssignStmt{
+				Lhs: []dst.Expr{
+					&dst.Ident{Name: "expected"},
 				},
 				Tok: token.DEFINE,
-				Rhs: []ast.Expr{
+				Rhs: []dst.Expr{
 					buildExpected(response, test.Expected),
 				},
 			},
 
 			// blank line
-			&ast.ExprStmt{
-				X: &ast.BasicLit{
+			&dst.ExprStmt{
+				X: &dst.BasicLit{
 					Kind: token.STRING,
 				},
 			},
@@ -258,9 +266,9 @@ func buildDecoderTestImpl(response lib.Response, test lib.ResponseTest) *ast.Blo
 	}
 }
 
-func buildExpected(response lib.Response, values []lib.Value) ast.Expr {
+func buildExpected(response lib.Response, values []lib.Value) dst.Expr {
 	name := strings.TrimSuffix(codegen.TitleCase(response.Name), "Response")
-	fields := []ast.Expr{}
+	fields := []dst.Expr{}
 
 	for _, field := range response.Fields {
 		name := codegen.TitleCase(field.Name)
@@ -269,98 +277,107 @@ func buildExpected(response lib.Response, values []lib.Value) ast.Expr {
 			if v.Name == field.Name {
 				value := makeValue(field, v)
 
-				f := ast.KeyValueExpr{
-					Key:   &ast.Ident{Name: name},
+				f := dst.KeyValueExpr{
+					Key:   &dst.Ident{Name: name},
 					Value: value,
 				}
+
+				f.Decs.Before = dst.NewLine
 
 				fields = append(fields, &f)
 			}
 		}
 	}
 
-	return &ast.CompositeLit{
-		Type: &ast.SelectorExpr{
-			X:   &ast.Ident{Name: "responses"},
-			Sel: &ast.Ident{Name: name},
+	if len(fields) > 0 {
+		last := fields[len(fields)-1].(*dst.KeyValueExpr)
+		last.Decs.After = dst.NewLine
+	}
+
+	composite := &dst.CompositeLit{
+		Type: &dst.SelectorExpr{
+			X:   &dst.Ident{Name: "responses"},
+			Sel: &dst.Ident{Name: name},
 		},
 		Elts: fields,
 	}
+
+	return composite
 }
 
-func buildExec(response lib.Response) ast.Stmt {
+func buildExec(response lib.Response) dst.Stmt {
 	name := codegen.TitleCase(response.Name)
 
-	return &ast.IfStmt{
-		Init: &ast.AssignStmt{
-			Lhs: []ast.Expr{
-				&ast.Ident{Name: "response"},
-				&ast.Ident{Name: "err"},
+	return &dst.IfStmt{
+		Init: &dst.AssignStmt{
+			Lhs: []dst.Expr{
+				&dst.Ident{Name: "response"},
+				&dst.Ident{Name: "err"},
 			},
 			Tok: token.DEFINE,
-			Rhs: []ast.Expr{
-				&ast.CallExpr{
-					Fun: &ast.IndexExpr{
-						X: &ast.Ident{Name: "Decode"},
-						Index: &ast.SelectorExpr{
-							X:   &ast.Ident{Name: "responses"},
-							Sel: &ast.Ident{Name: strings.TrimSuffix(name, "Response")},
+			Rhs: []dst.Expr{
+				&dst.CallExpr{
+					Fun: &dst.IndexExpr{
+						X: &dst.Ident{Name: "Decode"},
+						Index: &dst.SelectorExpr{
+							X:   &dst.Ident{Name: "responses"},
+							Sel: &dst.Ident{Name: strings.TrimSuffix(name, "Response")},
 						},
 					},
-					Args: []ast.Expr{&ast.Ident{Name: "packet"}},
+					Args: []dst.Expr{&dst.Ident{Name: "packet"}},
 				},
 			},
 		},
-		Cond: &ast.BinaryExpr{
-			X:  &ast.Ident{Name: "err"},
+		Cond: &dst.BinaryExpr{
+			X:  &dst.Ident{Name: "err"},
 			Op: token.NEQ,
-			Y:  &ast.Ident{Name: "nil"},
+			Y:  &dst.Ident{Name: "nil"},
 		},
-		Body: &ast.BlockStmt{
-			List: []ast.Stmt{
-				&ast.ExprStmt{
-					X: &ast.CallExpr{
-						Fun: &ast.SelectorExpr{
-							X:   &ast.Ident{Name: "t"},
-							Sel: &ast.Ident{Name: "Fatalf"},
+		Body: &dst.BlockStmt{
+			List: []dst.Stmt{
+				&dst.ExprStmt{
+					X: &dst.CallExpr{
+						Fun: &dst.SelectorExpr{
+							X:   &dst.Ident{Name: "t"},
+							Sel: &dst.Ident{Name: "Fatalf"},
 						},
-						Args: []ast.Expr{
-							&ast.BasicLit{Kind: token.STRING, Value: `"%v"`},
-							&ast.Ident{Name: "err"},
+						Args: []dst.Expr{
+							&dst.BasicLit{Kind: token.STRING, Value: `"%v"`},
+							&dst.Ident{Name: "err"},
 						},
 					},
 				},
 			},
 		},
-		Else: &ast.IfStmt{
-			Cond: &ast.UnaryExpr{
+		Else: &dst.IfStmt{
+			Cond: &dst.UnaryExpr{
 				Op: token.NOT,
-				X: &ast.CallExpr{
-					Fun: &ast.SelectorExpr{
-						X:   &ast.Ident{Name: "reflect"},
-						Sel: &ast.Ident{Name: "DeepEqual"},
+				X: &dst.CallExpr{
+					Fun: &dst.SelectorExpr{
+						X:   &dst.Ident{Name: "reflect"},
+						Sel: &dst.Ident{Name: "DeepEqual"},
 					},
-					Args: []ast.Expr{
-						&ast.Ident{Name: "response"},
-						&ast.Ident{Name: "expected"},
+					Args: []dst.Expr{
+						&dst.Ident{Name: "response"},
+						&dst.Ident{Name: "expected"},
 					},
 				},
 			},
-			Body: &ast.BlockStmt{
-				List: []ast.Stmt{
-					&ast.ExprStmt{
-						X: &ast.CallExpr{
-							Fun: &ast.SelectorExpr{
-								X:   &ast.Ident{Name: "t"},
-								Sel: &ast.Ident{Name: "Errorf"},
+			Body: &dst.BlockStmt{
+				List: []dst.Stmt{
+					&dst.ExprStmt{
+						X: &dst.CallExpr{
+							Fun: &dst.SelectorExpr{
+								X:   &dst.Ident{Name: "t"},
+								Sel: &dst.Ident{Name: "Errorf"},
 							},
-							Args: []ast.Expr{
-								&ast.BasicLit{
+							Args: []dst.Expr{
+								&dst.BasicLit{
 									Kind:  token.STRING,
 									Value: `"incorrectly decoded response:\n   expected: %#v\n   got:      %#v"`,
 								},
-								&ast.Ident{Name: "expected"},
-								&ast.Ident{Name: "response"},
+								&dst.Ident{Name: "expected"},
+								&dst.Ident{Name: "response"},
 							},
 						},
 					},
@@ -370,161 +387,161 @@ func buildExec(response lib.Response) ast.Stmt {
 	}
 }
 
-func makeValue(field lib.Field, value lib.Value) ast.Expr {
+func makeValue(field lib.Field, value lib.Value) dst.Expr {
 	switch field.Type {
 	case "uint8":
-		return &ast.BasicLit{Kind: token.INT, Value: fmt.Sprintf("%v", value.Value)}
+		return &dst.BasicLit{Kind: token.INT, Value: fmt.Sprintf("%v", value.Value)}
 
 	case "uint16":
-		return &ast.BasicLit{Kind: token.INT, Value: fmt.Sprintf("%v", value.Value)}
+		return &dst.BasicLit{Kind: token.INT, Value: fmt.Sprintf("%v", value.Value)}
 
 	case "uint32":
-		return &ast.BasicLit{Kind: token.INT, Value: fmt.Sprintf("%v", value.Value)}
+		return &dst.BasicLit{Kind: token.INT, Value: fmt.Sprintf("%v", value.Value)}
 
 	case "bool":
-		return &ast.Ident{Name: fmt.Sprintf("%v", value.Value)}
+		return &dst.Ident{Name: fmt.Sprintf("%v", value.Value)}
 
 	case "IPv4":
-		return &ast.CallExpr{
-			Fun: &ast.SelectorExpr{
-				X:   &ast.Ident{Name: "netip"},
-				Sel: &ast.Ident{Name: "MustParseAddr"},
+		return &dst.CallExpr{
+			Fun: &dst.SelectorExpr{
+				X:   &dst.Ident{Name: "netip"},
+				Sel: &dst.Ident{Name: "MustParseAddr"},
 			},
-			Args: []ast.Expr{
-				&ast.BasicLit{Kind: token.STRING, Value: fmt.Sprintf(`"%v"`, value.Value)},
+			Args: []dst.Expr{
+				&dst.BasicLit{Kind: token.STRING, Value: fmt.Sprintf(`"%v"`, value.Value)},
 			},
 		}
 
 	case "address:port":
-		return &ast.CallExpr{
-			Fun: &ast.SelectorExpr{
-				X:   &ast.Ident{Name: "netip"},
-				Sel: &ast.Ident{Name: "MustParseAddrPort"},
+		return &dst.CallExpr{
+			Fun: &dst.SelectorExpr{
+				X:   &dst.Ident{Name: "netip"},
+				Sel: &dst.Ident{Name: "MustParseAddrPort"},
 			},
-			Args: []ast.Expr{
-				&ast.BasicLit{Kind: token.STRING, Value: fmt.Sprintf(`"%v"`, value.Value)},
+			Args: []dst.Expr{
+				&dst.BasicLit{Kind: token.STRING, Value: fmt.Sprintf(`"%v"`, value.Value)},
 			},
 		}
 
 	case "date":
-		return &ast.CallExpr{
-			Fun: &ast.SelectorExpr{
-				X:   &ast.Ident{Name: "entities"},
-				Sel: &ast.Ident{Name: "MustParseDate"},
+		return &dst.CallExpr{
+			Fun: &dst.SelectorExpr{
+				X:   &dst.Ident{Name: "entities"},
+				Sel: &dst.Ident{Name: "MustParseDate"},
 			},
-			Args: []ast.Expr{
-				&ast.BasicLit{Kind: token.STRING, Value: fmt.Sprintf(`"%v"`, value.Value)},
+			Args: []dst.Expr{
+				&dst.BasicLit{Kind: token.STRING, Value: fmt.Sprintf(`"%v"`, value.Value)},
 			},
 		}
 
 	case "shortdate":
-		return &ast.CallExpr{
-			Fun: &ast.SelectorExpr{
-				X:   &ast.Ident{Name: "entities"},
-				Sel: &ast.Ident{Name: "MustParseDate"},
+		return &dst.CallExpr{
+			Fun: &dst.SelectorExpr{
+				X:   &dst.Ident{Name: "entities"},
+				Sel: &dst.Ident{Name: "MustParseDate"},
 			},
-			Args: []ast.Expr{
-				&ast.BasicLit{Kind: token.STRING, Value: fmt.Sprintf(`"%v"`, value.Value)},
+			Args: []dst.Expr{
+				&dst.BasicLit{Kind: token.STRING, Value: fmt.Sprintf(`"%v"`, value.Value)},
 			},
 		}
 
 	case "optional date":
-		return &ast.CallExpr{
-			Fun: &ast.SelectorExpr{
-				X:   &ast.Ident{Name: "entities"},
-				Sel: &ast.Ident{Name: "MustParseDate"},
+		return &dst.CallExpr{
+			Fun: &dst.SelectorExpr{
+				X:   &dst.Ident{Name: "entities"},
+				Sel: &dst.Ident{Name: "MustParseDate"},
 			},
-			Args: []ast.Expr{
-				&ast.BasicLit{Kind: token.STRING, Value: fmt.Sprintf(`"%v"`, value.Value)},
+			Args: []dst.Expr{
+				&dst.BasicLit{Kind: token.STRING, Value: fmt.Sprintf(`"%v"`, value.Value)},
 			},
 		}
 
 	case "time":
-		return &ast.CallExpr{
-			Fun: &ast.SelectorExpr{
-				X:   &ast.Ident{Name: "entities"},
-				Sel: &ast.Ident{Name: "MustParseTime"},
+		return &dst.CallExpr{
+			Fun: &dst.SelectorExpr{
+				X:   &dst.Ident{Name: "entities"},
+				Sel: &dst.Ident{Name: "MustParseTime"},
 			},
-			Args: []ast.Expr{
-				&ast.BasicLit{Kind: token.STRING, Value: fmt.Sprintf(`"%v"`, value.Value)},
+			Args: []dst.Expr{
+				&dst.BasicLit{Kind: token.STRING, Value: fmt.Sprintf(`"%v"`, value.Value)},
 			},
 		}
 
 	case "HHmm":
-		return &ast.CallExpr{
-			Fun: &ast.SelectorExpr{
-				X:   &ast.Ident{Name: "entities"},
-				Sel: &ast.Ident{Name: "MustParseHHmm"},
+		return &dst.CallExpr{
+			Fun: &dst.SelectorExpr{
+				X:   &dst.Ident{Name: "entities"},
+				Sel: &dst.Ident{Name: "MustParseHHmm"},
 			},
-			Args: []ast.Expr{
-				&ast.BasicLit{Kind: token.STRING, Value: fmt.Sprintf(`"%v"`, value.Value)},
+			Args: []dst.Expr{
+				&dst.BasicLit{Kind: token.STRING, Value: fmt.Sprintf(`"%v"`, value.Value)},
 			},
 		}
 
 	case "datetime":
-		return &ast.CallExpr{
-			Fun: &ast.SelectorExpr{
-				X:   &ast.Ident{Name: "entities"},
-				Sel: &ast.Ident{Name: "MustParseDateTime"},
+		return &dst.CallExpr{
+			Fun: &dst.SelectorExpr{
+				X:   &dst.Ident{Name: "entities"},
+				Sel: &dst.Ident{Name: "MustParseDateTime"},
 			},
-			Args: []ast.Expr{
-				&ast.BasicLit{Kind: token.STRING, Value: fmt.Sprintf(`"%v"`, value.Value)},
+			Args: []dst.Expr{
+				&dst.BasicLit{Kind: token.STRING, Value: fmt.Sprintf(`"%v"`, value.Value)},
 			},
 		}
 
 	case "optional datetime":
-		return &ast.CallExpr{
-			Fun: &ast.SelectorExpr{
-				X:   &ast.Ident{Name: "entities"},
-				Sel: &ast.Ident{Name: "MustParseDateTime"},
+		return &dst.CallExpr{
+			Fun: &dst.SelectorExpr{
+				X:   &dst.Ident{Name: "entities"},
+				Sel: &dst.Ident{Name: "MustParseDateTime"},
 			},
-			Args: []ast.Expr{
-				&ast.BasicLit{Kind: token.STRING, Value: fmt.Sprintf(`"%v"`, value.Value)},
+			Args: []dst.Expr{
+				&dst.BasicLit{Kind: token.STRING, Value: fmt.Sprintf(`"%v"`, value.Value)},
 			},
 		}
 
 	case "MAC":
-		return &ast.BasicLit{Kind: token.STRING, Value: fmt.Sprintf(`"%v"`, value.Value)}
+		return &dst.BasicLit{Kind: token.STRING, Value: fmt.Sprintf(`"%v"`, value.Value)}
 
 	case "version":
-		return &ast.BasicLit{Kind: token.STRING, Value: fmt.Sprintf(`"%v"`, value.Value)}
+		return &dst.BasicLit{Kind: token.STRING, Value: fmt.Sprintf(`"%v"`, value.Value)}
 
 	case "pin":
-		return &ast.BasicLit{Kind: token.INT, Value: fmt.Sprintf("%v", value.Value)}
+		return &dst.BasicLit{Kind: token.INT, Value: fmt.Sprintf("%v", value.Value)}
 
 	case "mode":
-		return &ast.BasicLit{Kind: token.INT, Value: fmt.Sprintf("%v", value.Value)}
+		return &dst.BasicLit{Kind: token.INT, Value: fmt.Sprintf("%v", value.Value)}
 
 	case "event-type":
-		return &ast.CallExpr{
-			Fun: &ast.SelectorExpr{
-				X:   &ast.Ident{Name: "entities"},
-				Sel: &ast.Ident{Name: "EventType"},
+		return &dst.CallExpr{
+			Fun: &dst.SelectorExpr{
+				X:   &dst.Ident{Name: "entities"},
+				Sel: &dst.Ident{Name: "EventType"},
 			},
-			Args: []ast.Expr{
-				&ast.BasicLit{Kind: token.INT, Value: fmt.Sprintf(`%v`, value.Value)},
+			Args: []dst.Expr{
+				&dst.BasicLit{Kind: token.INT, Value: fmt.Sprintf(`%v`, value.Value)},
 			},
 		}
 
 	case "direction":
-		return &ast.CallExpr{
-			Fun: &ast.SelectorExpr{
-				X:   &ast.Ident{Name: "entities"},
-				Sel: &ast.Ident{Name: "Direction"},
+		return &dst.CallExpr{
+			Fun: &dst.SelectorExpr{
+				X:   &dst.Ident{Name: "entities"},
+				Sel: &dst.Ident{Name: "Direction"},
 			},
-			Args: []ast.Expr{
-				&ast.BasicLit{Kind: token.INT, Value: fmt.Sprintf(`%v`, value.Value)},
+			Args: []dst.Expr{
+				&dst.BasicLit{Kind: token.INT, Value: fmt.Sprintf(`%v`, value.Value)},
 			},
 		}
 
 	case "reason":
-		return &ast.CallExpr{
-			Fun: &ast.SelectorExpr{
-				X:   &ast.Ident{Name: "entities"},
-				Sel: &ast.Ident{Name: "Reason"},
+		return &dst.CallExpr{
+			Fun: &dst.SelectorExpr{
+				X:   &dst.Ident{Name: "entities"},
+				Sel: &dst.Ident{Name: "Reason"},
 			},
-			Args: []ast.Expr{
-				&ast.BasicLit{Kind: token.INT, Value: fmt.Sprintf(`%v`, value.Value)},
+			Args: []dst.Expr{
+				&dst.BasicLit{Kind: token.INT, Value: fmt.Sprintf(`%v`, value.Value)},
 			},
 		}
 
