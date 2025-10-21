@@ -6,11 +6,9 @@ import (
 	"log"
 	"os"
 	"path/filepath"
-	"regexp"
 	"slices"
 	"strings"
 
-	// "go/format"
 	"go/printer"
 	"go/token"
 
@@ -40,47 +38,16 @@ func decoderTest() {
 		log.Fatalf("Error converting dst to ast (%v)", err)
 	}
 
-	// ... pretty print Go source
+	// ... pretty print
 	var buf bytes.Buffer
 	if err := printer.Fprint(&buf, fset, astFile); err != nil {
 		log.Fatalf("Error pretty-printing generated code (%v)", err)
 	}
 
-	// // --- gofmt the result ---
-	// formatted, err := format.Source(buf.Bytes())
-	// if err != nil {
-	// 	log.Fatalf("Error formatting generated code (%v)", err)
-	// }
-
-	lines := strings.Split(string(buf.Bytes()), "\n")
-
-	// --- regex transforms ---
-	re := map[string]*regexp.Regexp{
-		"packet": regexp.MustCompile(`^(\s*packet\s+:=\s+\[\]byte\s*{)(.*?)}\s*$`),
-		// 	"expected": regexp.MustCompile(`^(\s*expected\s+:=\s+responses\.(?:.*?)Response\s*{)(.*?)(}$)`),
-	}
-
-	// --- header comment ---
+	// ... header comment
 	writeln(f, "// generated code - ** DO NOT EDIT **")
 	writeln(f, "")
-
-	for _, line := range lines {
-		// reformat message packet?
-		if match := re["packet"].FindStringSubmatch(line); len(match) > 1 {
-			hex := match[2]
-			writeln(f, match[1])
-			for len(hex) > 96 {
-				writeln(f, "		"+hex[:96])
-				hex = hex[96:]
-			}
-			writeln(f, "		"+hex+",")
-			writeln(f, "	}")
-			continue
-		}
-
-		// default
-		writeln(f, line)
-	}
+	writeln(f, buf.String())
 }
 
 func buildDecoderTest() *dst.File {
@@ -210,10 +177,20 @@ func buildDecoderTestFunc(response lib.Response, test lib.ResponseTest) *dst.Fun
 func buildDecoderTestImpl(response lib.Response, test lib.ResponseTest) *dst.BlockStmt {
 	packet := make([]dst.Expr, 64)
 	for i, b := range test.Response {
-		packet[i] = &dst.BasicLit{
+		xx := &dst.BasicLit{
 			Kind:  token.INT,
 			Value: fmt.Sprintf("0x%02x", b),
 		}
+
+		if i%16 == 0 {
+			xx.Decs.Before = dst.NewLine
+		}
+
+		if i == 63 {
+			xx.Decs.After = dst.NewLine
+		}
+
+		packet[i] = xx
 	}
 
 	return &dst.BlockStmt{
