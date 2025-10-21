@@ -1,13 +1,7 @@
 # TODO
 
-- [x] logging
-    - [ ] set default handler
-    - https://www.dash0.com/guides/logging-in-go-with-slog
-
+- [x] set default handler in example
 - [x] code generation
-      - [x] reformat generated decode responses
-      - [x] decoder
-      - [x] ~~replace decode hack with CommentMap~~
 
 ## TODO
 - [ ] AST code generation

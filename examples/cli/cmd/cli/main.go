@@ -3,6 +3,7 @@ package main
 import (
 	"flag"
 	"fmt"
+	"log/slog"
 	"maps"
 	"net/netip"
 	"os"
@@ -27,6 +28,14 @@ var options = struct {
 }
 
 func main() {
+	// ... initialise log handler
+	h := handler{}
+	logger := slog.New(&h)
+
+	slog.SetDefault(logger)
+	slog.SetLogLoggerLevel(slog.LevelDebug)
+
+	// ... parse command line
 	flag.StringVar(&options.bind, "bind", options.bind, "Sets the local IP address and port to which to bind (e.g. 192.168.0.100)")
 	flag.StringVar(&options.broadcast, "broadcast", options.broadcast, "Sets the IP address and port for UDP broadcast (e.g. 192.168.0.255:60000)")
 	flag.StringVar(&options.listen, "listen", options.listen, "Sets the local IP address and port to which to bind for events (e.g. 192.168.0.100:60001)")

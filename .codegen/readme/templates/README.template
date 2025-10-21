@@ -20,7 +20,7 @@ folder.
 
 #### Current Release
 
-** IN DEVELOPMENT **
+** PENDING RELEASE **
 
 ## Installation
 
@@ -30,13 +30,13 @@ go get github.com/uhppoted/uhppoted-lib-go/src/uhppoted
 
 ## Development
 
-A significant part of the library is code generated from the models in [uhppoted-codegen](https://github.com/uhppoted/uhppoted-codegen). Building
-the library from source requires the executables in `.codegen/bin`:
+A significant part of the library is code generated from the models in [uhppoted-codegen](https://github.com/uhppoted/uhppoted-codegen) and 
+building the library from source requires the executables in `.codegen/bin`:
 ```
 cd .codegen && go build -trimpath -o bin ./...
 ```
 
-(the `Makefile` _regenerate_ and _build-all_ targets build this automatically).
+(the `Makefile` _regenerate_ and _build-all_ targets build this automatically). 
 
 
 ### Building from source
@@ -61,7 +61,8 @@ cd examples/cli      && go build -trimpath -o bin ./...
 
 ## API
 
-**API**
+The API is documented in the [API.md](API.md) file - for convenience the available functions are listed below:
+
 {{ range $func := . }}
 - [`{{ titleCase $func.Name }}`](API.md#{{ clean $func.Name }}){{ end }}
 - [`GetCardRecord`](API.md#getcardrecord)
