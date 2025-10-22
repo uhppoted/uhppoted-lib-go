@@ -45,6 +45,8 @@ func decoder() {
 		writeln(f, "// generated code - ** DO NOT EDIT **")
 		writeln(f, "")
 		writeln(f, buf.String())
+
+		f.Close()
 	}
 }
 

@@ -75,7 +75,7 @@ func buildResponses() *dst.File {
 	}
 
 	for _, response := range model.Responses {
-		if t := typedef(*response); typedef != nil {
+		if t := typedef(*response); t != nil {
 			impl = append(impl, t)
 		}
 	}
@@ -104,7 +104,6 @@ func buildResponses() *dst.File {
 
 		Decls: impl,
 	}
-
 }
 
 func typedef(r types.Response) *dst.GenDecl {

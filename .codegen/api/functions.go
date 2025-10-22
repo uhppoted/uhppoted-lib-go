@@ -1,15 +1,19 @@
 package api
 
 import (
+	"bytes"
 	"fmt"
 	"log"
+	"os"
 	"path/filepath"
 	"regexp"
-	"slices"
 	"strings"
 
-	"go/ast"
+	"go/printer"
 	"go/token"
+
+	"github.com/dave/dst"
+	"github.com/dave/dst/decorator"
 
 	lib "github.com/uhppoted/uhppoted-codegen/model/types"
 
@@ -18,57 +22,173 @@ import (
 )
 
 func API() {
-	const file = "generated.go"
+	outfile := filepath.Join("generated.go")
+	decl := buildAPI()
 
-	imports := [][]string{
-		[]string{
-			"net/netip",
-			"time",
-		},
-		[]string{
-			"github.com/uhppoted/uhppoted-lib-go/src/uhppoted/codec/encode",
-			"github.com/uhppoted/uhppoted-lib-go/src/uhppoted/entities",
-			"github.com/uhppoted/uhppoted-lib-go/src/uhppoted/responses",
-		},
+	// .. convert dst to ast
+	fset, file, err := decorator.RestoreFile(decl)
+	if err != nil {
+		log.Fatalf("error converting dst to ast (%v)", err)
 	}
 
-	types := []*ast.GenDecl{}
-	functions := []*ast.FuncDecl{}
-	excluded := []*lib.Function{}
-
-	for _, f := range model.API[1:] {
-		if slices.Contains(excluded, f) {
-			log.Printf("skipping %v (excluded)", f.Name)
-			continue
-		}
-
-		functions = append(functions, function(*f))
+	// ... pretty print
+	var buf bytes.Buffer
+	if err := printer.Fprint(&buf, fset, file); err != nil {
+		log.Fatalf("error pretty-printing generated code (%v)", err)
 	}
 
-	AST := codegen.NewAST("uhppoted", imports, types, functions)
-
-	if err := AST.Generate(file); err != nil {
-		log.Fatalf("error generating %v (%v)", file, err)
+	// ... write to file
+	if f, err := os.Create(outfile); err != nil {
+		log.Fatalf("error creating file %s (%v)", outfile, err)
 	} else {
-		log.Printf("... generated %s", filepath.Base(file))
+		defer f.Close()
+
+		writeln(f, "// generated code - ** DO NOT EDIT **")
+		writeln(f, "")
+		writeln(f, buf.String())
+
+		f.Close()
 	}
 }
 
-func function(f lib.Function) *ast.FuncDecl {
+func buildAPI() *dst.File {
+	impl := []dst.Decl{
+		&dst.GenDecl{
+			Tok: token.IMPORT,
+			Specs: []dst.Spec{
+				&dst.ImportSpec{
+					Path: &dst.BasicLit{
+						Kind:  token.STRING,
+						Value: `"net/netip"`,
+					},
+				},
+				&dst.ImportSpec{
+					Path: &dst.BasicLit{
+						Kind:  token.STRING,
+						Value: `"time"`,
+					},
+				},
+				&dst.ImportSpec{
+					Path: &dst.BasicLit{
+						Kind: token.STRING,
+					},
+				},
+				&dst.ImportSpec{
+					Path: &dst.BasicLit{
+						Kind:  token.STRING,
+						Value: `"github.com/uhppoted/uhppoted-lib-go/src/uhppoted/codec/encode"`,
+					},
+				},
+				&dst.ImportSpec{
+					Path: &dst.BasicLit{
+						Kind:  token.STRING,
+						Value: `"github.com/uhppoted/uhppoted-lib-go/src/uhppoted/entities"`,
+					},
+				},
+				&dst.ImportSpec{
+					Path: &dst.BasicLit{
+						Kind:  token.STRING,
+						Value: `"github.com/uhppoted/uhppoted-lib-go/src/uhppoted/responses"`,
+					},
+				},
+			},
+		},
+	}
+
+	for _, api := range model.API[1:] {
+		if f := buildFunction(*api); f != nil {
+			impl = append(impl, f)
+		}
+	}
+
+	return &dst.File{
+		Name: dst.NewIdent("uhppoted"),
+
+		Imports: []*dst.ImportSpec{
+			{
+				Path: &dst.BasicLit{
+					Kind:  token.STRING,
+					Value: `"net/netip"`,
+				},
+			},
+			{
+				Path: &dst.BasicLit{
+					Kind:  token.STRING,
+					Value: `"time"`,
+				},
+			},
+			{
+				Path: &dst.BasicLit{
+					Kind:  token.STRING,
+					Value: `"github.com/uhppoted/uhppoted-lib-go/src/uhppoted/codec/encode"`,
+				},
+			},
+			{
+				Path: &dst.BasicLit{
+					Kind:  token.STRING,
+					Value: `"github.com/uhppoted/uhppoted-lib-go/src/uhppoted/entities"`,
+				},
+			},
+			{
+				Path: &dst.BasicLit{
+					Kind:  token.STRING,
+					Value: `"github.com/uhppoted/uhppoted-lib-go/src/uhppoted/responses"`,
+				},
+			},
+		},
+
+		Decls: impl,
+	}
+
+	// imports := [][]string{
+	// 	[]string{
+	// 		"net/netip",
+	// 		"time",
+	// 	},
+	// 	[]string{
+	// 		"github.com/uhppoted/uhppoted-lib-go/src/uhppoted/codec/encode",
+	// 		"github.com/uhppoted/uhppoted-lib-go/src/uhppoted/entities",
+	// 		"github.com/uhppoted/uhppoted-lib-go/src/uhppoted/responses",
+	// 	},
+	// }
+	//
+	// types := []*dst.GenDecl{}
+	// functions := []*dst.FuncDecl{}
+	// excluded := []*lib.Function{}
+	//
+	// for _, f := range model.API[1:] {
+	// 	if slices.Contains(excluded, f) {
+	// 		log.Printf("skipping %v (excluded)", f.Name)
+	// 		continue
+	// 	}
+	//
+	// 	functions = append(functions, function(*f))
+	// }
+	//
+	// AST := codegen.NewAST("uhppoted", imports, types, functions)
+	//
+	// if err := AST.Generate(outfile); err != nil {
+	// 	log.Fatalf("error generating %v (%v)", outfile, err)
+	// } else {
+	// 	log.Printf("... generated %s", filepath.Base(outfile))
+	// }
+}
+
+func buildFunction(f lib.Function) *dst.FuncDecl {
 	name := codegen.TitleCase(f.Name)
 	response := fmt.Sprintf("responses.%v", strings.TrimSuffix(codegen.TitleCase(f.Response.Name), "Response"))
 
 	// ... function type
-	ftype := []*ast.Field{}
+	ftype := []*dst.Field{}
 	set := map[string]bool{}
 
 	for _, arg := range f.Args {
 		switch arg.Type {
 		case "controller":
 			if defined := set[arg.Type]; !defined {
-				ftype = append(ftype, &ast.Field{
-					Names: []*ast.Ident{ast.NewIdent("T")},
-					Type:  ast.NewIdent("TController"),
+				ftype = append(ftype, &dst.Field{
+					Names: []*dst.Ident{dst.NewIdent("T")},
+					Type:  dst.NewIdent("TController"),
 				})
 
 				set[arg.Type] = true
@@ -76,27 +196,27 @@ func function(f lib.Function) *ast.FuncDecl {
 
 		case "datetime":
 			if defined := set[arg.Type]; !defined {
-				ftype = append(ftype, &ast.Field{
-					Names: []*ast.Ident{ast.NewIdent("DT")},
-					Type:  ast.NewIdent("TDateTime"),
+				ftype = append(ftype, &dst.Field{
+					Names: []*dst.Ident{dst.NewIdent("DT")},
+					Type:  dst.NewIdent("TDateTime"),
 				})
 				set[arg.Type] = true
 			}
 
 		case "date":
 			if defined := set[arg.Type]; !defined {
-				ftype = append(ftype, &ast.Field{
-					Names: []*ast.Ident{ast.NewIdent("D")},
-					Type:  ast.NewIdent("TDate"),
+				ftype = append(ftype, &dst.Field{
+					Names: []*dst.Ident{dst.NewIdent("D")},
+					Type:  dst.NewIdent("TDate"),
 				})
 				set[arg.Type] = true
 			}
 
 		case "HHmm":
 			if defined := set[arg.Type]; !defined {
-				ftype = append(ftype, &ast.Field{
-					Names: []*ast.Ident{ast.NewIdent("H")},
-					Type:  ast.NewIdent("THHmm"),
+				ftype = append(ftype, &dst.Field{
+					Names: []*dst.Ident{dst.NewIdent("H")},
+					Type:  dst.NewIdent("THHmm"),
 				})
 				set[arg.Type] = true
 			}
@@ -104,12 +224,12 @@ func function(f lib.Function) *ast.FuncDecl {
 	}
 
 	// ... args
-	args := []*ast.Field{}
-	args = append(args, &ast.Field{
-		Names: []*ast.Ident{
+	args := []*dst.Field{}
+	args = append(args, &dst.Field{
+		Names: []*dst.Ident{
 			{Name: "u"},
 		},
-		Type: &ast.Ident{Name: "Uhppoted"},
+		Type: &dst.Ident{Name: "Uhppoted"},
 	})
 
 	for _, arg := range f.Args {
@@ -148,69 +268,61 @@ func function(f lib.Function) *ast.FuncDecl {
 			t = "Interlock"
 		}
 
-		args = append(args, &ast.Field{
-			Names: []*ast.Ident{
+		args = append(args, &dst.Field{
+			Names: []*dst.Ident{
 				{Name: name},
 			},
-			Type: &ast.Ident{Name: t},
+			Type: &dst.Ident{Name: t},
 		})
 	}
 
-	args = append(args, &ast.Field{
-		Names: []*ast.Ident{
+	args = append(args, &dst.Field{
+		Names: []*dst.Ident{
 			{Name: "timeout"},
 		},
-		Type: &ast.Ident{Name: "time.Duration"},
+		Type: &dst.Ident{Name: "time.Duration"},
 	})
 
-	// ... godoc
-	godoc := []*ast.Comment{
-		{Text: fmt.Sprintf("// -- line intentionally left blank --")},
-	}
-
-	for _, line := range f.Description {
-		text := fmt.Sprintf("// %v", line)
-		comment := ast.Comment{
-			Text: text,
-		}
-
-		godoc = append(godoc, &comment)
-	}
-
 	// ... compose func
-	return &ast.FuncDecl{
-		Name: ast.NewIdent(name),
-		Type: &ast.FuncType{
-			TypeParams: &ast.FieldList{
+	decl := dst.FuncDecl{
+		Name: dst.NewIdent(name),
+		Type: &dst.FuncType{
+			TypeParams: &dst.FieldList{
 				List: ftype,
 			},
-			Params: &ast.FieldList{
+			Params: &dst.FieldList{
 				List: args,
 			},
-			Results: &ast.FieldList{
-				List: []*ast.Field{
+			Results: &dst.FieldList{
+				List: []*dst.Field{
 					{
-						Type: ast.NewIdent(response),
+						Type: dst.NewIdent(response),
 					},
 					{
-						Type: ast.NewIdent("error"),
+						Type: dst.NewIdent("error"),
 					},
 				},
 			},
 		},
 		Body: impl(f),
-		Doc: &ast.CommentGroup{
-			List: godoc,
-		},
 	}
+
+	// godoc
+	for _, line := range f.Description {
+		decl.Decs.Start.Append(fmt.Sprintf("// %v", line))
+	}
+
+	decl.Decs.Before = dst.EmptyLine
+
+	return &decl
 }
 
-func impl(f lib.Function) *ast.BlockStmt {
+func impl(f lib.Function) *dst.BlockStmt {
 	request := codegen.TitleCase(f.Request.Name)
 	response := fmt.Sprintf("responses.%v", strings.TrimSuffix(codegen.TitleCase(f.Response.Name), "Response"))
 
-	args := []ast.Expr{
-		&ast.Ident{Name: "id"},
+	args := []dst.Expr{
+		&dst.Ident{Name: "id"},
 	}
 
 loop:
@@ -222,82 +334,82 @@ loop:
 			continue loop
 
 		case "datetime":
-			args = append(args, &ast.CallExpr{
-				Fun: &ast.IndexExpr{
-					X:     &ast.Ident{Name: "convert"},
-					Index: &ast.Ident{Name: "entities.DateTime"},
+			args = append(args, &dst.CallExpr{
+				Fun: &dst.IndexExpr{
+					X:     &dst.Ident{Name: "convert"},
+					Index: &dst.Ident{Name: "entities.DateTime"},
 				},
-				Args: []ast.Expr{
-					&ast.Ident{Name: name},
+				Args: []dst.Expr{
+					&dst.Ident{Name: name},
 				},
 			})
 
 		case "date":
-			args = append(args, &ast.CallExpr{
-				Fun: &ast.IndexExpr{
-					X:     &ast.Ident{Name: "convert"},
-					Index: &ast.Ident{Name: "entities.Date"},
+			args = append(args, &dst.CallExpr{
+				Fun: &dst.IndexExpr{
+					X:     &dst.Ident{Name: "convert"},
+					Index: &dst.Ident{Name: "entities.Date"},
 				},
-				Args: []ast.Expr{
-					&ast.Ident{Name: name},
+				Args: []dst.Expr{
+					&dst.Ident{Name: name},
 				},
 			})
 
 		case "HHmm":
-			args = append(args, &ast.CallExpr{
-				Fun: &ast.IndexExpr{
-					X:     &ast.Ident{Name: "convert"},
-					Index: &ast.Ident{Name: "entities.HHmm"},
+			args = append(args, &dst.CallExpr{
+				Fun: &dst.IndexExpr{
+					X:     &dst.Ident{Name: "convert"},
+					Index: &dst.Ident{Name: "entities.HHmm"},
 				},
-				Args: []ast.Expr{
-					&ast.Ident{Name: name},
+				Args: []dst.Expr{
+					&dst.Ident{Name: name},
 				},
 			})
 		default:
-			args = append(args, &ast.Ident{Name: name})
+			args = append(args, &dst.Ident{Name: name})
 		}
 	}
 
-	return &ast.BlockStmt{
-		List: []ast.Stmt{
+	return &dst.BlockStmt{
+		List: []dst.Stmt{
 			//	f := func(id uint32) ([]byte, error) {
 			//       return d.XXX(id,...)
 			//  }
-			&ast.AssignStmt{
-				Lhs: []ast.Expr{
-					&ast.Ident{Name: "f"},
+			&dst.AssignStmt{
+				Lhs: []dst.Expr{
+					&dst.Ident{Name: "f"},
 				},
 				Tok: token.DEFINE,
-				Rhs: []ast.Expr{
-					&ast.FuncLit{
-						Type: &ast.FuncType{
-							Params: &ast.FieldList{
-								List: []*ast.Field{
-									&ast.Field{
-										Names: []*ast.Ident{
+				Rhs: []dst.Expr{
+					&dst.FuncLit{
+						Type: &dst.FuncType{
+							Params: &dst.FieldList{
+								List: []*dst.Field{
+									&dst.Field{
+										Names: []*dst.Ident{
 											{Name: "id"},
 										},
-										Type: &ast.Ident{Name: "uint32"},
+										Type: &dst.Ident{Name: "uint32"},
 									},
 								},
 							},
-							Results: &ast.FieldList{
-								List: []*ast.Field{
-									{Type: &ast.ArrayType{
-										Elt: &ast.Ident{Name: "byte"},
+							Results: &dst.FieldList{
+								List: []*dst.Field{
+									{Type: &dst.ArrayType{
+										Elt: &dst.Ident{Name: "byte"},
 									}},
-									{Type: &ast.Ident{Name: "error"}},
+									{Type: &dst.Ident{Name: "error"}},
 								},
 							},
 						},
-						Body: &ast.BlockStmt{
-							List: []ast.Stmt{
-								&ast.ReturnStmt{
-									Results: []ast.Expr{
-										&ast.CallExpr{
-											Fun: &ast.SelectorExpr{
-												X:   &ast.Ident{Name: "encode"},
-												Sel: &ast.Ident{Name: request},
+						Body: &dst.BlockStmt{
+							List: []dst.Stmt{
+								&dst.ReturnStmt{
+									Results: []dst.Expr{
+										&dst.CallExpr{
+											Fun: &dst.SelectorExpr{
+												X:   &dst.Ident{Name: "encode"},
+												Sel: &dst.Ident{Name: request},
 											},
 											Args: args,
 										},
@@ -312,21 +424,21 @@ loop:
 			blankline(),
 
 			// return exec[T, R](u, controller, f, timeout)
-			&ast.ReturnStmt{
-				Results: []ast.Expr{
-					&ast.CallExpr{
-						Fun: &ast.IndexListExpr{
-							X: &ast.Ident{Name: "exec"},
-							Indices: []ast.Expr{
-								&ast.Ident{Name: "T"},
-								&ast.Ident{Name: response},
+			&dst.ReturnStmt{
+				Results: []dst.Expr{
+					&dst.CallExpr{
+						Fun: &dst.IndexListExpr{
+							X: &dst.Ident{Name: "exec"},
+							Indices: []dst.Expr{
+								&dst.Ident{Name: "T"},
+								&dst.Ident{Name: response},
 							},
 						},
-						Args: []ast.Expr{
-							&ast.Ident{Name: "u"},
-							&ast.Ident{Name: "controller"},
-							&ast.Ident{Name: "f"},
-							&ast.Ident{Name: "timeout"},
+						Args: []dst.Expr{
+							&dst.Ident{Name: "u"},
+							&dst.Ident{Name: "controller"},
+							&dst.Ident{Name: "f"},
+							&dst.Ident{Name: "timeout"},
 						},
 					},
 				},
@@ -335,9 +447,9 @@ loop:
 	}
 }
 
-func blankline() ast.Stmt {
-	return &ast.ExprStmt{
-		X: &ast.BasicLit{
+func blankline() dst.Stmt {
+	return &dst.ExprStmt{
+		X: &dst.BasicLit{
 			Kind: token.STRING,
 		},
 	}
