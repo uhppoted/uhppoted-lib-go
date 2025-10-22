@@ -5,14 +5,14 @@ import (
 	"log"
 	"os"
 	"path/filepath"
-	"regexp"
 	"slices"
 
 	"bytes"
-	"go/ast"
 	"go/printer"
 	"go/token"
-	"strings"
+
+	"github.com/dave/dst"
+	"github.com/dave/dst/decorator"
 
 	lib "github.com/uhppoted/uhppoted-codegen/model/types"
 
@@ -21,54 +21,52 @@ import (
 )
 
 func decoder() {
-	output := filepath.Join("codec", "generated.go")
-
-	f, err := os.Create(output)
-	if err != nil {
-		log.Fatalf("Failed to create file %s: %v", output, err)
-	}
-	defer f.Close()
-
+	outfile := filepath.Join("codec", "generated.go")
 	decl := buildDecoder()
 
-	// ... pretty print
-	b := bytes.Buffer{}
-
-	printer.Fprint(&b, token.NewFileSet(), decl)
-
-	// ... 'generated code' warning
-	writeln(f, "// generated code - ** DO NOT EDIT **")
-	writeln(f, "")
-
-	lines := strings.Split(b.String(), "\n")
-	for _, line := range lines {
-		// ... replace 'insert newline here'
-		re := regexp.MustCompile(`"// -- insert newline here --"[,]?`)
-		writeln(f, re.ReplaceAllString(line, "\n"))
+	// .. convert dst to ast
+	fset, file, err := decorator.RestoreFile(decl)
+	if err != nil {
+		log.Fatalf("Error converting dst to ast (%v)", err)
 	}
 
-	f.Close()
+	// ... pretty print
+	var buf bytes.Buffer
+	if err := printer.Fprint(&buf, fset, file); err != nil {
+		log.Fatalf("Error pretty-printing generated code (%v)", err)
+	}
+
+	// ... write to file
+	if f, err := os.Create(outfile); err != nil {
+		log.Fatalf("Failed to create file %s: %v", outfile, err)
+	} else {
+		defer f.Close()
+
+		writeln(f, "// generated code - ** DO NOT EDIT **")
+		writeln(f, "")
+		writeln(f, buf.String())
+	}
 }
 
-func buildDecoder() *ast.File {
-	impl := []ast.Decl{
-		&ast.GenDecl{
+func buildDecoder() *dst.File {
+	impl := []dst.Decl{
+		&dst.GenDecl{
 			Tok: token.IMPORT,
-			Specs: []ast.Spec{
-				&ast.ImportSpec{
-					Path: &ast.BasicLit{
+			Specs: []dst.Spec{
+				&dst.ImportSpec{
+					Path: &dst.BasicLit{
 						Kind:  token.STRING,
 						Value: `"fmt"`,
 					},
 				},
-				&ast.ImportSpec{
-					Path: &ast.BasicLit{
+				&dst.ImportSpec{
+					Path: &dst.BasicLit{
 						Kind: token.STRING,
 					},
 				},
-				&ast.ImportSpec{
-					Name: ast.NewIdent("decoder"),
-					Path: &ast.BasicLit{
+				&dst.ImportSpec{
+					Name: dst.NewIdent("decoder"),
+					Path: &dst.BasicLit{
 						Kind:  token.STRING,
 						Value: `"github.com/uhppoted/uhppoted-lib-go/src/uhppoted/codec/decode"`,
 					},
@@ -79,19 +77,19 @@ func buildDecoder() *ast.File {
 
 	impl = append(impl, buildDecoderFactoryFunc())
 
-	return &ast.File{
-		Name: ast.NewIdent("codec"),
+	return &dst.File{
+		Name: dst.NewIdent("codec"),
 
-		Imports: []*ast.ImportSpec{
+		Imports: []*dst.ImportSpec{
 			{
-				Path: &ast.BasicLit{
+				Path: &dst.BasicLit{
 					Kind:  token.STRING,
 					Value: `"fmt"`,
 				},
 			},
 			{
-				Name: ast.NewIdent("decoder"),
-				Path: &ast.BasicLit{
+				Name: dst.NewIdent("decoder"),
+				Path: &dst.BasicLit{
 					Kind:  token.STRING,
 					Value: `"github.com/uhppoted/uhppoted-lib-go/src/uhppoted/codec/decode"`,
 				},
@@ -102,40 +100,39 @@ func buildDecoder() *ast.File {
 	}
 }
 
-func buildDecoderFactoryFunc() *ast.FuncDecl {
-	return &ast.FuncDecl{
-		Name: ast.NewIdent("decode"),
-		Type: &ast.FuncType{
-			Params: &ast.FieldList{
-				List: []*ast.Field{
+func buildDecoderFactoryFunc() *dst.FuncDecl {
+	return &dst.FuncDecl{
+		Name: dst.NewIdent("decode"),
+		Type: &dst.FuncType{
+			Params: &dst.FieldList{
+				List: []*dst.Field{
 					{
-						Names: []*ast.Ident{ast.NewIdent("packet")},
-						Type: &ast.ArrayType{
-							Elt: ast.NewIdent("byte"),
+						Names: []*dst.Ident{dst.NewIdent("packet")},
+						Type: &dst.ArrayType{
+							Elt: dst.NewIdent("byte"),
 						},
 					},
 				},
 			},
-			Results: &ast.FieldList{
-				List: []*ast.Field{
+			Results: &dst.FieldList{
+				List: []*dst.Field{
 					{
-						Type: ast.NewIdent("any"),
+						Type: dst.NewIdent("any"),
 					},
 					{
-						Type: ast.NewIdent("error"),
+						Type: dst.NewIdent("error"),
 					},
 				},
 			},
 		},
 		Body: buildDecoderFactoryBody(),
-		Doc:  &ast.CommentGroup{},
 	}
 }
 
-func buildDecoderFactoryBody() *ast.BlockStmt {
+func buildDecoderFactoryBody() *dst.BlockStmt {
 	// switch packet[1] { ... }
-	_switch := &ast.BlockStmt{
-		List: []ast.Stmt{},
+	_switch := &dst.BlockStmt{
+		List: []dst.Stmt{},
 	}
 
 	// ... message types
@@ -152,29 +149,29 @@ func buildDecoderFactoryBody() *ast.BlockStmt {
 
 		name := fmt.Sprintf("%v", codegen.TitleCase(response.Message.Name))
 
-		clause := ast.CaseClause{
-			List: []ast.Expr{
-				&ast.BasicLit{
+		clause := dst.CaseClause{
+			List: []dst.Expr{
+				&dst.BasicLit{
 					Kind:  token.INT,
 					Value: fmt.Sprintf("0x%02x", response.Message.MsgType),
 				},
 			},
-			Body: []ast.Stmt{
+			Body: []dst.Stmt{
 				// return decode.<XXX>(packet)
-				&ast.ReturnStmt{
-					Results: []ast.Expr{
-						&ast.CallExpr{
-							Fun: &ast.SelectorExpr{
-								X:   ast.NewIdent("decoder"),
-								Sel: ast.NewIdent(name),
+				&dst.ReturnStmt{
+					Results: []dst.Expr{
+						&dst.CallExpr{
+							Fun: &dst.SelectorExpr{
+								X:   dst.NewIdent("decoder"),
+								Sel: dst.NewIdent(name),
 							},
-							Args: []ast.Expr{ast.NewIdent("packet")},
+							Args: []dst.Expr{dst.NewIdent("packet")},
 						},
 					},
 				},
 				// blank line
-				&ast.ExprStmt{
-					X: &ast.BasicLit{
+				&dst.ExprStmt{
+					X: &dst.BasicLit{
 						Kind: token.STRING,
 					},
 				},
@@ -185,25 +182,25 @@ func buildDecoderFactoryBody() *ast.BlockStmt {
 	}
 
 	// ... default
-	_switch.List = append(_switch.List, &ast.CaseClause{
+	_switch.List = append(_switch.List, &dst.CaseClause{
 		List: nil,
-		Body: []ast.Stmt{
-			&ast.ReturnStmt{
-				Results: []ast.Expr{
-					ast.NewIdent("nil"),
-					&ast.CallExpr{
-						Fun: &ast.SelectorExpr{
-							X:   ast.NewIdent("fmt"),
-							Sel: ast.NewIdent("Errorf"),
+		Body: []dst.Stmt{
+			&dst.ReturnStmt{
+				Results: []dst.Expr{
+					dst.NewIdent("nil"),
+					&dst.CallExpr{
+						Fun: &dst.SelectorExpr{
+							X:   dst.NewIdent("fmt"),
+							Sel: dst.NewIdent("Errorf"),
 						},
-						Args: []ast.Expr{
-							&ast.BasicLit{
+						Args: []dst.Expr{
+							&dst.BasicLit{
 								Kind:  token.STRING,
 								Value: `"unknown message type (0x%02x)"`,
 							},
-							&ast.IndexExpr{
-								X:     ast.NewIdent("packet"),
-								Index: &ast.BasicLit{Kind: token.INT, Value: "1"},
+							&dst.IndexExpr{
+								X:     dst.NewIdent("packet"),
+								Index: &dst.BasicLit{Kind: token.INT, Value: "1"},
 							},
 						},
 					},
@@ -212,13 +209,13 @@ func buildDecoderFactoryBody() *ast.BlockStmt {
 		},
 	})
 
-	return &ast.BlockStmt{
-		List: []ast.Stmt{
+	return &dst.BlockStmt{
+		List: []dst.Stmt{
 			// switch packet[1] { ... }
-			&ast.SwitchStmt{
-				Tag: &ast.IndexExpr{
-					X:     ast.NewIdent("packet"),
-					Index: &ast.BasicLit{Kind: token.INT, Value: "1"},
+			&dst.SwitchStmt{
+				Tag: &dst.IndexExpr{
+					X:     dst.NewIdent("packet"),
+					Index: &dst.BasicLit{Kind: token.INT, Value: "1"},
 				},
 				Body: _switch,
 			},

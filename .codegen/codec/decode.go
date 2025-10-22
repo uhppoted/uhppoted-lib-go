@@ -35,7 +35,7 @@ func decode() {
 	functions := []*ast.FuncDecl{}
 
 	for _, response := range responses {
-		if f := buildDecode(*response); f != nil {
+		if f := buildDecodeFunc(*response); f != nil {
 			functions = append(functions, f)
 		}
 	}
@@ -50,7 +50,7 @@ func decode() {
 
 }
 
-func buildDecode(r lib.Response) *ast.FuncDecl {
+func buildDecodeFunc(r lib.Response) *ast.FuncDecl {
 	name := fmt.Sprintf("%v", codegen.TitleCase(r.Name))
 	returnType := strings.TrimSuffix(name, "Response")
 	zero := ast.CompositeLit{

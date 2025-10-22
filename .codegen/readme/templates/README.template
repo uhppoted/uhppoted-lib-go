@@ -20,7 +20,7 @@ folder.
 
 #### Current Release
 
-** PENDING RELEASE **
+_PENDING RELEASE_
 
 ## Installation
 

@@ -32,15 +32,15 @@ func decoderTest() {
 
 	decl := buildDecoderTest()
 
-	// .. convert dst → ast
-	fset, astFile, err := decorator.RestoreFile(decl)
+	// .. convert dst to ast
+	fset, file, err := decorator.RestoreFile(decl)
 	if err != nil {
 		log.Fatalf("Error converting dst to ast (%v)", err)
 	}
 
 	// ... pretty print
 	var buf bytes.Buffer
-	if err := printer.Fprint(&buf, fset, astFile); err != nil {
+	if err := printer.Fprint(&buf, fset, file); err != nil {
 		log.Fatalf("Error pretty-printing generated code (%v)", err)
 	}
 
