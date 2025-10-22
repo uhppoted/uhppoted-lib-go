@@ -27,18 +27,18 @@ func decoder() {
 	// .. convert dst to ast
 	fset, file, err := decorator.RestoreFile(decl)
 	if err != nil {
-		log.Fatalf("Error converting dst to ast (%v)", err)
+		log.Fatalf("error converting dst to ast (%v)", err)
 	}
 
 	// ... pretty print
 	var buf bytes.Buffer
 	if err := printer.Fprint(&buf, fset, file); err != nil {
-		log.Fatalf("Error pretty-printing generated code (%v)", err)
+		log.Fatalf("error pretty-printing generated code (%v)", err)
 	}
 
 	// ... write to file
 	if f, err := os.Create(outfile); err != nil {
-		log.Fatalf("Failed to create file %s: %v", outfile, err)
+		log.Fatalf("error creating  file %s (%v)", outfile, err)
 	} else {
 		defer f.Close()
 

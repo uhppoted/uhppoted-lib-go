@@ -1,13 +1,18 @@
 package codec
 
 import (
+	"bytes"
 	"fmt"
 	"log"
+	"os"
 	"path/filepath"
 	"strings"
 
-	"go/ast"
+	"go/printer"
 	"go/token"
+
+	"github.com/dave/dst"
+	"github.com/dave/dst/decorator"
 
 	lib "github.com/uhppoted/uhppoted-codegen/model/types"
 
@@ -16,14 +21,56 @@ import (
 )
 
 func decode() {
-	file := filepath.Join("codec", "decode", "generated.go")
+	outfile := filepath.Join("codec", "decode", "generated.go")
+	decl := buildDecode()
 
-	imports := [][]string{
-		[]string{
-			"fmt",
-		},
-		[]string{
-			"github.com/uhppoted/uhppoted-lib-go/src/uhppoted/responses",
+	// .. convert dst to ast
+	fset, file, err := decorator.RestoreFile(decl)
+	if err != nil {
+		log.Fatalf("error converting dst to ast (%v)", err)
+	}
+
+	// ... pretty print
+	var buf bytes.Buffer
+	if err := printer.Fprint(&buf, fset, file); err != nil {
+		log.Fatalf("error pretty-printing generated code (%v)", err)
+	}
+
+	// ... write to file
+	if f, err := os.Create(outfile); err != nil {
+		log.Fatalf("error creating file %s (%v)", outfile, err)
+	} else {
+		defer f.Close()
+
+		writeln(f, "// generated code - ** DO NOT EDIT **")
+		writeln(f, "")
+		writeln(f, buf.String())
+	}
+}
+
+func buildDecode() *dst.File {
+	impl := []dst.Decl{
+		&dst.GenDecl{
+			Tok: token.IMPORT,
+			Specs: []dst.Spec{
+				&dst.ImportSpec{
+					Path: &dst.BasicLit{
+						Kind:  token.STRING,
+						Value: `"fmt"`,
+					},
+				},
+				&dst.ImportSpec{
+					Path: &dst.BasicLit{
+						Kind: token.STRING,
+					},
+				},
+				&dst.ImportSpec{
+					Path: &dst.BasicLit{
+						Kind:  token.STRING,
+						Value: `"github.com/uhppoted/uhppoted-lib-go/src/uhppoted/responses"`,
+					},
+				},
+			},
 		},
 	}
 
@@ -31,240 +78,264 @@ func decode() {
 	responses = append(responses, model.Responses...)
 	responses = append(responses, &model.ListenerEvent)
 
-	types := []*ast.GenDecl{}
-	functions := []*ast.FuncDecl{}
-
 	for _, response := range responses {
 		if f := buildDecodeFunc(*response); f != nil {
-			functions = append(functions, f)
+			impl = append(impl, f)
 		}
 	}
 
-	AST := codegen.NewAST("decode", imports, types, functions)
+	return &dst.File{
+		Name: dst.NewIdent("decode"),
 
-	if err := AST.Generate(file); err != nil {
-		log.Fatalf("error generating %v (%v)", file, err)
-	} else {
-		log.Printf("... generated %s", filepath.Base(file))
+		Imports: []*dst.ImportSpec{
+			{
+				Path: &dst.BasicLit{
+					Kind:  token.STRING,
+					Value: `"fmt"`,
+				},
+			},
+			{
+				Path: &dst.BasicLit{
+					Kind:  token.STRING,
+					Value: `"github.com/uhppoted/uhppoted-lib-go/src/uhppoted/responses"`,
+				},
+			},
+		},
+
+		Decls: impl,
 	}
-
 }
 
-func buildDecodeFunc(r lib.Response) *ast.FuncDecl {
+func buildDecodeFunc(r lib.Response) *dst.FuncDecl {
 	name := fmt.Sprintf("%v", codegen.TitleCase(r.Name))
 	returnType := strings.TrimSuffix(name, "Response")
-	zero := ast.CompositeLit{
-		Type: &ast.SelectorExpr{
-			X:   &ast.Ident{Name: "responses"},
-			Sel: &ast.Ident{Name: returnType},
-		},
-		Elts: nil,
-	}
 
-	params := ast.FieldList{
-		List: []*ast.Field{
+	params := dst.FieldList{
+		List: []*dst.Field{
 			{
-				Names: []*ast.Ident{ast.NewIdent("packet")},
-				Type: &ast.ArrayType{
-					Elt: ast.NewIdent("byte"),
+				Names: []*dst.Ident{dst.NewIdent("packet")},
+				Type: &dst.ArrayType{
+					Elt: dst.NewIdent("byte"),
 				},
 			},
 		},
 	}
 
-	results := ast.FieldList{
-		List: []*ast.Field{
+	results := dst.FieldList{
+		List: []*dst.Field{
 			{
-				Type: ast.NewIdent(fmt.Sprintf("responses.%v", returnType)),
+				Type: dst.NewIdent(fmt.Sprintf("responses.%v", returnType)),
 			},
 			{
-				Type: ast.NewIdent("error"),
+				Type: dst.NewIdent("error"),
 			},
 		},
 	}
 
-	response := []ast.Expr{}
+	response := []dst.Expr{}
 	for _, f := range r.Fields {
 		response = append(response, unpack(f))
 	}
 
-	body := ast.BlockStmt{
-		List: []ast.Stmt{
-			// if len(packet) != 64 {
-			//     return responses.<R>{}, fmt.Errorf("invalid reply packet length (%v)", len(packet))
-			// }
-			&ast.IfStmt{
-				Cond: &ast.BinaryExpr{
-					X: &ast.CallExpr{
-						Fun:  &ast.Ident{Name: "len"},
-						Args: []ast.Expr{&ast.Ident{Name: "packet"}},
-					},
-					Op: token.NEQ,
-					Y:  &ast.BasicLit{Kind: token.INT, Value: "64"},
-				},
-				Body: &ast.BlockStmt{
-					List: []ast.Stmt{
-						&ast.ReturnStmt{
-							Results: []ast.Expr{
-								&zero,
-								&ast.CallExpr{
-									Fun: &ast.Ident{Name: "fmt.Errorf"},
-									Args: []ast.Expr{
-										&ast.BasicLit{Kind: token.STRING, Value: `"invalid reply packet length (%v)"`},
-										&ast.CallExpr{
-											Fun:  &ast.Ident{Name: "len"},
-											Args: []ast.Expr{&ast.Ident{Name: "packet"}},
-										},
-									},
-								},
-							},
-						},
-					},
-				},
-			},
-
-			// blank line
-			&ast.ExprStmt{
-				X: &ast.BasicLit{
-					Kind: token.STRING,
-				},
-			},
-
-			// Ref. v6.62 firmware
-			// if packet[0] != SOM && (packet[0] != SOM_v6_62 || packet[1] != 0x20) {
-			//    return responses.<R>{}, fmt.Errorf("invalid reply start of message byte (%02x)", packet[0])
-			// }
-			&ast.IfStmt{
-				Cond: &ast.BinaryExpr{
-					Op: token.LAND, // &&
-					X: &ast.BinaryExpr{
-						Op: token.NEQ,
-						X: &ast.IndexExpr{
-							X:     &ast.Ident{Name: "packet"},
-							Index: &ast.BasicLit{Kind: token.INT, Value: "0"},
-						},
-						Y: &ast.Ident{Name: "SOM"},
-					},
-					Y: &ast.BinaryExpr{
-						Op: token.LOR, // ||
-						X: &ast.BinaryExpr{
-							Op: token.NEQ,
-							X: &ast.IndexExpr{
-								X:     &ast.Ident{Name: "packet"},
-								Index: &ast.BasicLit{Kind: token.INT, Value: "0"},
-							},
-							Y: &ast.Ident{Name: "SOM_v6_62"},
-						},
-						Y: &ast.BinaryExpr{
-							Op: token.NEQ,
-							X: &ast.IndexExpr{
-								X:     &ast.Ident{Name: "packet"},
-								Index: &ast.BasicLit{Kind: token.INT, Value: "1"},
-							},
-							Y: &ast.BasicLit{Kind: token.INT, Value: "0x20"},
-						},
-					},
-				},
-				Body: &ast.BlockStmt{
-					List: []ast.Stmt{
-						&ast.ReturnStmt{
-							Results: []ast.Expr{
-								&zero,
-								&ast.CallExpr{
-									Fun: &ast.Ident{Name: "fmt.Errorf"},
-									Args: []ast.Expr{
-										&ast.BasicLit{Kind: token.STRING, Value: `"invalid reply start of message byte (%02x)"`},
-										&ast.IndexExpr{
-											X:     &ast.Ident{Name: "packet"},
-											Index: &ast.BasicLit{Kind: token.INT, Value: "0"},
-										},
-									},
-								},
-							},
-						},
-					},
-				},
-			},
-
-			// blank line
-			&ast.ExprStmt{
-				X: &ast.BasicLit{
-					Kind: token.STRING,
-				},
-			},
-
-			// if packet[1] != <code> {
-			//     return responses.<R>{}, fmt.Errorf("invalid reply function code (%02x)", packet[1])
-			// }
-			&ast.IfStmt{
-				Cond: &ast.BinaryExpr{
-					Op: token.NEQ,
-					X: &ast.IndexExpr{
-						X:     &ast.Ident{Name: "packet"},
-						Index: &ast.BasicLit{Kind: token.INT, Value: "1"},
-					},
-					Y: &ast.BasicLit{Kind: token.INT, Value: fmt.Sprintf("0x%02x", r.MsgType)},
-				},
-				Body: &ast.BlockStmt{
-					List: []ast.Stmt{
-						&ast.ReturnStmt{
-							Results: []ast.Expr{
-								&zero,
-								&ast.CallExpr{
-									Fun: &ast.Ident{Name: "fmt.Errorf"},
-									Args: []ast.Expr{
-										&ast.BasicLit{Kind: token.STRING, Value: `"invalid reply function code (%02x)"`},
-										&ast.IndexExpr{
-											X:     &ast.Ident{Name: "packet"},
-											Index: &ast.BasicLit{Kind: token.INT, Value: "1"},
-										},
-									},
-								},
-							},
-						},
-					},
-				},
-			},
-
-			// blank line
-			&ast.ExprStmt{
-				X: &ast.BasicLit{
-					Kind: token.STRING,
-				},
-			},
+	// ... body
+	body := dst.BlockStmt{
+		List: []dst.Stmt{
+			ifPacketLengthNot64(returnType),
+			ifPacketSOMNotValid(returnType),
+			ifPacketFunctionCodeNotValid(r, returnType),
 
 			// return responses.<T>{
 			// 	...
 			// }
-			&ast.ReturnStmt{
-				Results: []ast.Expr{
-					&ast.CompositeLit{
-						Type: &ast.SelectorExpr{
-							X:   &ast.Ident{Name: "responses"},
-							Sel: &ast.Ident{Name: strings.TrimSuffix(name, "Response")},
+			&dst.ReturnStmt{
+				Results: []dst.Expr{
+					&dst.CompositeLit{
+						Type: &dst.SelectorExpr{
+							X:   &dst.Ident{Name: "responses"},
+							Sel: &dst.Ident{Name: strings.TrimSuffix(name, "Response")},
 						},
 						Elts: response,
 					},
-					&ast.Ident{Name: "nil"},
+					&dst.Ident{Name: "nil"},
 				},
 			},
 		},
 	}
 
-	doc := ast.CommentGroup{}
-
-	return &ast.FuncDecl{
-		Name: ast.NewIdent(name),
-		Type: &ast.FuncType{
+	f := dst.FuncDecl{
+		Name: dst.NewIdent(name),
+		Type: &dst.FuncType{
 			Params:  &params,
 			Results: &results,
 		},
 		Body: &body,
-		Doc:  &doc,
 	}
+
+	f.Decs.After = dst.EmptyLine
+
+	return &f
 }
 
-func unpack(field lib.Field) ast.Expr {
+//	if len(packet) != 64 {
+//	    return responses.<R>{}, fmt.Errorf("invalid reply packet length (%v)", len(packet))
+//	}
+func ifPacketLengthNot64(returnType string) *dst.IfStmt {
+	iff := dst.IfStmt{
+		Cond: &dst.BinaryExpr{
+			X: &dst.CallExpr{
+				Fun:  &dst.Ident{Name: "len"},
+				Args: []dst.Expr{&dst.Ident{Name: "packet"}},
+			},
+			Op: token.NEQ,
+			Y:  &dst.BasicLit{Kind: token.INT, Value: "64"},
+		},
+		Body: &dst.BlockStmt{
+			List: []dst.Stmt{
+				&dst.ReturnStmt{
+					Results: []dst.Expr{
+						&dst.CompositeLit{
+							Type: &dst.SelectorExpr{
+								X:   &dst.Ident{Name: "responses"},
+								Sel: &dst.Ident{Name: returnType},
+							},
+							Elts: nil,
+						},
+						&dst.CallExpr{
+							Fun: &dst.Ident{Name: "fmt.Errorf"},
+							Args: []dst.Expr{
+								&dst.BasicLit{Kind: token.STRING, Value: `"invalid reply packet length (%v)"`},
+								&dst.CallExpr{
+									Fun:  &dst.Ident{Name: "len"},
+									Args: []dst.Expr{&dst.Ident{Name: "packet"}},
+								},
+							},
+						},
+					},
+				},
+			},
+		},
+	}
+
+	iff.Decs.After = dst.EmptyLine
+
+	return &iff
+}
+
+// Ref. v6.62 firmware
+//
+//	if packet[0] != SOM && (packet[0] != SOM_v6_62 || packet[1] != 0x20) {
+//	   return responses.<R>{}, fmt.Errorf("invalid reply start of message byte (%02x)", packet[0])
+//	}
+func ifPacketSOMNotValid(returnType string) *dst.IfStmt {
+	iff := dst.IfStmt{
+		Cond: &dst.BinaryExpr{
+			Op: token.LAND, // &&
+			X: &dst.BinaryExpr{
+				Op: token.NEQ,
+				X: &dst.IndexExpr{
+					X:     &dst.Ident{Name: "packet"},
+					Index: &dst.BasicLit{Kind: token.INT, Value: "0"},
+				},
+				Y: &dst.Ident{Name: "SOM"},
+			},
+			Y: &dst.BinaryExpr{
+				Op: token.LOR, // ||
+				X: &dst.BinaryExpr{
+					Op: token.NEQ,
+					X: &dst.IndexExpr{
+						X:     &dst.Ident{Name: "packet"},
+						Index: &dst.BasicLit{Kind: token.INT, Value: "0"},
+					},
+					Y: &dst.Ident{Name: "SOM_v6_62"},
+				},
+				Y: &dst.BinaryExpr{
+					Op: token.NEQ,
+					X: &dst.IndexExpr{
+						X:     &dst.Ident{Name: "packet"},
+						Index: &dst.BasicLit{Kind: token.INT, Value: "1"},
+					},
+					Y: &dst.BasicLit{Kind: token.INT, Value: "0x20"},
+				},
+			},
+		},
+		Body: &dst.BlockStmt{
+			List: []dst.Stmt{
+				&dst.ReturnStmt{
+					Results: []dst.Expr{
+						&dst.CompositeLit{
+							Type: &dst.SelectorExpr{
+								X:   &dst.Ident{Name: "responses"},
+								Sel: &dst.Ident{Name: returnType},
+							},
+							Elts: nil,
+						},
+						&dst.CallExpr{
+							Fun: &dst.Ident{Name: "fmt.Errorf"},
+							Args: []dst.Expr{
+								&dst.BasicLit{Kind: token.STRING, Value: `"invalid reply start of message byte (%02x)"`},
+								&dst.IndexExpr{
+									X:     &dst.Ident{Name: "packet"},
+									Index: &dst.BasicLit{Kind: token.INT, Value: "0"},
+								},
+							},
+						},
+					},
+				},
+			},
+		},
+	}
+
+	iff.Decs.After = dst.EmptyLine
+
+	return &iff
+}
+
+//	if packet[1] != <code> {
+//	    return responses.<R>{}, fmt.Errorf("invalid reply function code (%02x)", packet[1])
+//	}
+func ifPacketFunctionCodeNotValid(r lib.Response, returnType string) *dst.IfStmt {
+	iff := dst.IfStmt{
+		Cond: &dst.BinaryExpr{
+			Op: token.NEQ,
+			X: &dst.IndexExpr{
+				X:     &dst.Ident{Name: "packet"},
+				Index: &dst.BasicLit{Kind: token.INT, Value: "1"},
+			},
+			Y: &dst.BasicLit{Kind: token.INT, Value: fmt.Sprintf("0x%02x", r.MsgType)},
+		},
+		Body: &dst.BlockStmt{
+			List: []dst.Stmt{
+				&dst.ReturnStmt{
+					Results: []dst.Expr{
+						&dst.CompositeLit{
+							Type: &dst.SelectorExpr{
+								X:   &dst.Ident{Name: "responses"},
+								Sel: &dst.Ident{Name: returnType},
+							},
+							Elts: nil,
+						},
+						&dst.CallExpr{
+							Fun: &dst.Ident{Name: "fmt.Errorf"},
+							Args: []dst.Expr{
+								&dst.BasicLit{Kind: token.STRING, Value: `"invalid reply function code (%02x)"`},
+								&dst.IndexExpr{
+									X:     &dst.Ident{Name: "packet"},
+									Index: &dst.BasicLit{Kind: token.INT, Value: "1"},
+								},
+							},
+						},
+					},
+				},
+			},
+		},
+	}
+
+	iff.Decs.After = dst.EmptyLine
+
+	return &iff
+}
+
+func unpack(field lib.Field) dst.Expr {
 	types := map[string]string{
 		"bool":              "unpackBool",
 		"uint8":             "unpackUint8",
@@ -291,19 +362,24 @@ func unpack(field lib.Field) ast.Expr {
 	if f, ok := types[field.Type]; !ok {
 		panic(fmt.Sprintf("unknown response field type (%v)", field.Type))
 	} else {
-		return &ast.KeyValueExpr{
-			Key: &ast.Ident{
-				Name: "\n" + codegen.TitleCase(field.Name), // *SUCH* a hack - prepend '\n' just to get the generated code formatted reasonably
+		kv := dst.KeyValueExpr{
+			Key: &dst.Ident{
+				Name: codegen.TitleCase(field.Name),
 			},
-			Value: &ast.CallExpr{
-				Fun: &ast.Ident{Name: f},
-				Args: []ast.Expr{
-					&ast.Ident{Name: "packet"},
-					&ast.BasicLit{
+			Value: &dst.CallExpr{
+				Fun: &dst.Ident{Name: f},
+				Args: []dst.Expr{
+					&dst.Ident{Name: "packet"},
+					&dst.BasicLit{
 						Kind:  token.INT,
 						Value: fmt.Sprintf("%v", field.Offset),
 					}},
 			},
 		}
+
+		kv.Decs.Before = dst.NewLine
+		kv.Decs.After = dst.NewLine
+
+		return &kv
 	}
 }

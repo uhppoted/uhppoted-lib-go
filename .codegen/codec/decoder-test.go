@@ -22,32 +22,33 @@ import (
 )
 
 func decoderTest() {
-	output := filepath.Join("codec", "generated_test.go")
-
-	f, err := os.Create(output)
-	if err != nil {
-		log.Fatalf("Failed to create file %s: %v", output, err)
-	}
-	defer f.Close()
-
+	outfile := filepath.Join("codec", "generated_test.go")
 	decl := buildDecoderTest()
 
 	// .. convert dst to ast
 	fset, file, err := decorator.RestoreFile(decl)
 	if err != nil {
-		log.Fatalf("Error converting dst to ast (%v)", err)
+		log.Fatalf("error converting dst to ast (%v)", err)
 	}
 
 	// ... pretty print
 	var buf bytes.Buffer
 	if err := printer.Fprint(&buf, fset, file); err != nil {
-		log.Fatalf("Error pretty-printing generated code (%v)", err)
+		log.Fatalf("error pretty-printing generated code (%v)", err)
 	}
 
 	// ... header comment
-	writeln(f, "// generated code - ** DO NOT EDIT **")
-	writeln(f, "")
-	writeln(f, buf.String())
+	if f, err := os.Create(outfile); err != nil {
+		log.Fatalf("error creating file %s (%v)", outfile, err)
+	} else {
+		defer f.Close()
+
+		writeln(f, "// generated code - ** DO NOT EDIT **")
+		writeln(f, "")
+		writeln(f, buf.String())
+
+		f.Close()
+	}
 }
 
 func buildDecoderTest() *dst.File {
@@ -260,15 +261,11 @@ func buildExpected(response lib.Response, values []lib.Value) dst.Expr {
 				}
 
 				f.Decs.Before = dst.NewLine
+				f.Decs.After = dst.NewLine
 
 				fields = append(fields, &f)
 			}
 		}
-	}
-
-	if len(fields) > 0 {
-		last := fields[len(fields)-1].(*dst.KeyValueExpr)
-		last.Decs.After = dst.NewLine
 	}
 
 	composite := &dst.CompositeLit{

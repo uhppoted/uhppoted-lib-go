@@ -28,7 +28,8 @@ func GetControllerResponse(packet []byte) (responses.GetController, error) {
 		Gateway:    unpackIPv4(packet, 16),
 		MACAddress: unpackMAC(packet, 20),
 		Version:    unpackVersion(packet, 26),
-		Date:       unpackDate(packet, 28)}, nil
+		Date:       unpackDate(packet, 28),
+	}, nil
 }
 
 func SetIPv4Response(packet []byte) (responses.SetIPv4, error) {
@@ -46,7 +47,8 @@ func SetIPv4Response(packet []byte) (responses.SetIPv4, error) {
 
 	return responses.SetIPv4{
 		Controller: unpackUint32(packet, 4),
-		Ok:         unpackBool(packet, 8)}, nil
+		Ok:         unpackBool(packet, 8),
+	}, nil
 }
 
 func GetStatusResponse(packet []byte) (responses.GetStatus, error) {
@@ -86,7 +88,8 @@ func GetStatusResponse(packet []byte) (responses.GetStatus, error) {
 		EventCard:          unpackUint32(packet, 16),
 		EventTimestamp:     unpackOptionalDateTime(packet, 20),
 		EventReason:        unpackReason(packet, 27),
-		SequenceNo:         unpackUint32(packet, 40)}, nil
+		SequenceNo:         unpackUint32(packet, 40),
+	}, nil
 }
 
 func GetTimeResponse(packet []byte) (responses.GetTime, error) {
@@ -104,7 +107,8 @@ func GetTimeResponse(packet []byte) (responses.GetTime, error) {
 
 	return responses.GetTime{
 		Controller: unpackUint32(packet, 4),
-		DateTime:   unpackDateTime(packet, 8)}, nil
+		DateTime:   unpackDateTime(packet, 8),
+	}, nil
 }
 
 func SetTimeResponse(packet []byte) (responses.SetTime, error) {
@@ -122,7 +126,8 @@ func SetTimeResponse(packet []byte) (responses.SetTime, error) {
 
 	return responses.SetTime{
 		Controller: unpackUint32(packet, 4),
-		DateTime:   unpackDateTime(packet, 8)}, nil
+		DateTime:   unpackDateTime(packet, 8),
+	}, nil
 }
 
 func GetListenerResponse(packet []byte) (responses.GetListener, error) {
@@ -142,7 +147,8 @@ func GetListenerResponse(packet []byte) (responses.GetListener, error) {
 		Controller: unpackUint32(packet, 4),
 		Address:    unpackIPv4(packet, 8),
 		Port:       unpackUint16(packet, 12),
-		Interval:   unpackUint8(packet, 14)}, nil
+		Interval:   unpackUint8(packet, 14),
+	}, nil
 }
 
 func SetListenerResponse(packet []byte) (responses.SetListener, error) {
@@ -160,7 +166,8 @@ func SetListenerResponse(packet []byte) (responses.SetListener, error) {
 
 	return responses.SetListener{
 		Controller: unpackUint32(packet, 4),
-		Ok:         unpackBool(packet, 8)}, nil
+		Ok:         unpackBool(packet, 8),
+	}, nil
 }
 
 func GetListenerAddrPortResponse(packet []byte) (responses.GetListenerAddrPort, error) {
@@ -179,7 +186,8 @@ func GetListenerAddrPortResponse(packet []byte) (responses.GetListenerAddrPort, 
 	return responses.GetListenerAddrPort{
 		Controller: unpackUint32(packet, 4),
 		Listener:   unpackAddrPort(packet, 8),
-		Interval:   unpackUint8(packet, 14)}, nil
+		Interval:   unpackUint8(packet, 14),
+	}, nil
 }
 
 func SetListenerAddrPortResponse(packet []byte) (responses.SetListenerAddrPort, error) {
@@ -197,7 +205,8 @@ func SetListenerAddrPortResponse(packet []byte) (responses.SetListenerAddrPort, 
 
 	return responses.SetListenerAddrPort{
 		Controller: unpackUint32(packet, 4),
-		Ok:         unpackBool(packet, 8)}, nil
+		Ok:         unpackBool(packet, 8),
+	}, nil
 }
 
 func GetDoorResponse(packet []byte) (responses.GetDoor, error) {
@@ -217,7 +226,8 @@ func GetDoorResponse(packet []byte) (responses.GetDoor, error) {
 		Controller: unpackUint32(packet, 4),
 		Door:       unpackUint8(packet, 8),
 		Mode:       unpackMode(packet, 9),
-		Delay:      unpackUint8(packet, 10)}, nil
+		Delay:      unpackUint8(packet, 10),
+	}, nil
 }
 
 func SetDoorResponse(packet []byte) (responses.SetDoor, error) {
@@ -237,7 +247,8 @@ func SetDoorResponse(packet []byte) (responses.SetDoor, error) {
 		Controller: unpackUint32(packet, 4),
 		Door:       unpackUint8(packet, 8),
 		Mode:       unpackUint8(packet, 9),
-		Delay:      unpackUint8(packet, 10)}, nil
+		Delay:      unpackUint8(packet, 10),
+	}, nil
 }
 
 func SetDoorPasscodesResponse(packet []byte) (responses.SetDoorPasscodes, error) {
@@ -255,7 +266,8 @@ func SetDoorPasscodesResponse(packet []byte) (responses.SetDoorPasscodes, error)
 
 	return responses.SetDoorPasscodes{
 		Controller: unpackUint32(packet, 4),
-		Ok:         unpackBool(packet, 8)}, nil
+		Ok:         unpackBool(packet, 8),
+	}, nil
 }
 
 func OpenDoorResponse(packet []byte) (responses.OpenDoor, error) {
@@ -273,7 +285,8 @@ func OpenDoorResponse(packet []byte) (responses.OpenDoor, error) {
 
 	return responses.OpenDoor{
 		Controller: unpackUint32(packet, 4),
-		Ok:         unpackBool(packet, 8)}, nil
+		Ok:         unpackBool(packet, 8),
+	}, nil
 }
 
 func GetCardsResponse(packet []byte) (responses.GetCards, error) {
@@ -291,7 +304,8 @@ func GetCardsResponse(packet []byte) (responses.GetCards, error) {
 
 	return responses.GetCards{
 		Controller: unpackUint32(packet, 4),
-		Cards:      unpackUint32(packet, 8)}, nil
+		Cards:      unpackUint32(packet, 8),
+	}, nil
 }
 
 func GetCardResponse(packet []byte) (responses.GetCard, error) {
@@ -316,7 +330,8 @@ func GetCardResponse(packet []byte) (responses.GetCard, error) {
 		Door2:      unpackUint8(packet, 21),
 		Door3:      unpackUint8(packet, 22),
 		Door4:      unpackUint8(packet, 23),
-		PIN:        unpackPIN(packet, 24)}, nil
+		PIN:        unpackPIN(packet, 24),
+	}, nil
 }
 
 func GetCardAtIndexResponse(packet []byte) (responses.GetCardAtIndex, error) {
@@ -341,7 +356,8 @@ func GetCardAtIndexResponse(packet []byte) (responses.GetCardAtIndex, error) {
 		Door2:      unpackUint8(packet, 21),
 		Door3:      unpackUint8(packet, 22),
 		Door4:      unpackUint8(packet, 23),
-		PIN:        unpackPIN(packet, 24)}, nil
+		PIN:        unpackPIN(packet, 24),
+	}, nil
 }
 
 func PutCardResponse(packet []byte) (responses.PutCard, error) {
@@ -359,7 +375,8 @@ func PutCardResponse(packet []byte) (responses.PutCard, error) {
 
 	return responses.PutCard{
 		Controller: unpackUint32(packet, 4),
-		Ok:         unpackBool(packet, 8)}, nil
+		Ok:         unpackBool(packet, 8),
+	}, nil
 }
 
 func DeleteCardResponse(packet []byte) (responses.DeleteCard, error) {
@@ -377,7 +394,8 @@ func DeleteCardResponse(packet []byte) (responses.DeleteCard, error) {
 
 	return responses.DeleteCard{
 		Controller: unpackUint32(packet, 4),
-		Ok:         unpackBool(packet, 8)}, nil
+		Ok:         unpackBool(packet, 8),
+	}, nil
 }
 
 func DeleteAllCardsResponse(packet []byte) (responses.DeleteAllCards, error) {
@@ -395,7 +413,8 @@ func DeleteAllCardsResponse(packet []byte) (responses.DeleteAllCards, error) {
 
 	return responses.DeleteAllCards{
 		Controller: unpackUint32(packet, 4),
-		Ok:         unpackBool(packet, 8)}, nil
+		Ok:         unpackBool(packet, 8),
+	}, nil
 }
 
 func GetEventResponse(packet []byte) (responses.GetEvent, error) {
@@ -420,7 +439,8 @@ func GetEventResponse(packet []byte) (responses.GetEvent, error) {
 		Direction:     unpackDirection(packet, 15),
 		Card:          unpackUint32(packet, 16),
 		Timestamp:     unpackOptionalDateTime(packet, 20),
-		Reason:        unpackReason(packet, 27)}, nil
+		Reason:        unpackReason(packet, 27),
+	}, nil
 }
 
 func GetEventIndexResponse(packet []byte) (responses.GetEventIndex, error) {
@@ -438,7 +458,8 @@ func GetEventIndexResponse(packet []byte) (responses.GetEventIndex, error) {
 
 	return responses.GetEventIndex{
 		Controller: unpackUint32(packet, 4),
-		Index:      unpackUint32(packet, 8)}, nil
+		Index:      unpackUint32(packet, 8),
+	}, nil
 }
 
 func SetEventIndexResponse(packet []byte) (responses.SetEventIndex, error) {
@@ -456,7 +477,8 @@ func SetEventIndexResponse(packet []byte) (responses.SetEventIndex, error) {
 
 	return responses.SetEventIndex{
 		Controller: unpackUint32(packet, 4),
-		Ok:         unpackBool(packet, 8)}, nil
+		Ok:         unpackBool(packet, 8),
+	}, nil
 }
 
 func RecordSpecialEventsResponse(packet []byte) (responses.RecordSpecialEvents, error) {
@@ -474,7 +496,8 @@ func RecordSpecialEventsResponse(packet []byte) (responses.RecordSpecialEvents, 
 
 	return responses.RecordSpecialEvents{
 		Controller: unpackUint32(packet, 4),
-		Ok:         unpackBool(packet, 8)}, nil
+		Ok:         unpackBool(packet, 8),
+	}, nil
 }
 
 func GetTimeProfileResponse(packet []byte) (responses.GetTimeProfile, error) {
@@ -508,7 +531,8 @@ func GetTimeProfileResponse(packet []byte) (responses.GetTimeProfile, error) {
 		Segment2End:   unpackHHmm(packet, 30),
 		Segment3Start: unpackHHmm(packet, 32),
 		Segment3End:   unpackHHmm(packet, 34),
-		LinkedProfile: unpackUint8(packet, 36)}, nil
+		LinkedProfile: unpackUint8(packet, 36),
+	}, nil
 }
 
 func SetTimeProfileResponse(packet []byte) (responses.SetTimeProfile, error) {
@@ -526,7 +550,8 @@ func SetTimeProfileResponse(packet []byte) (responses.SetTimeProfile, error) {
 
 	return responses.SetTimeProfile{
 		Controller: unpackUint32(packet, 4),
-		Ok:         unpackBool(packet, 8)}, nil
+		Ok:         unpackBool(packet, 8),
+	}, nil
 }
 
 func ClearTimeProfilesResponse(packet []byte) (responses.ClearTimeProfiles, error) {
@@ -544,7 +569,8 @@ func ClearTimeProfilesResponse(packet []byte) (responses.ClearTimeProfiles, erro
 
 	return responses.ClearTimeProfiles{
 		Controller: unpackUint32(packet, 4),
-		Ok:         unpackBool(packet, 8)}, nil
+		Ok:         unpackBool(packet, 8),
+	}, nil
 }
 
 func AddTaskResponse(packet []byte) (responses.AddTask, error) {
@@ -562,7 +588,8 @@ func AddTaskResponse(packet []byte) (responses.AddTask, error) {
 
 	return responses.AddTask{
 		Controller: unpackUint32(packet, 4),
-		Ok:         unpackBool(packet, 8)}, nil
+		Ok:         unpackBool(packet, 8),
+	}, nil
 }
 
 func RefreshTaskListResponse(packet []byte) (responses.RefreshTaskList, error) {
@@ -580,7 +607,8 @@ func RefreshTaskListResponse(packet []byte) (responses.RefreshTaskList, error) {
 
 	return responses.RefreshTaskList{
 		Controller: unpackUint32(packet, 4),
-		Ok:         unpackBool(packet, 8)}, nil
+		Ok:         unpackBool(packet, 8),
+	}, nil
 }
 
 func ClearTaskListResponse(packet []byte) (responses.ClearTaskList, error) {
@@ -598,7 +626,8 @@ func ClearTaskListResponse(packet []byte) (responses.ClearTaskList, error) {
 
 	return responses.ClearTaskList{
 		Controller: unpackUint32(packet, 4),
-		Ok:         unpackBool(packet, 8)}, nil
+		Ok:         unpackBool(packet, 8),
+	}, nil
 }
 
 func SetPCControlResponse(packet []byte) (responses.SetPCControl, error) {
@@ -616,7 +645,8 @@ func SetPCControlResponse(packet []byte) (responses.SetPCControl, error) {
 
 	return responses.SetPCControl{
 		Controller: unpackUint32(packet, 4),
-		Ok:         unpackBool(packet, 8)}, nil
+		Ok:         unpackBool(packet, 8),
+	}, nil
 }
 
 func SetInterlockResponse(packet []byte) (responses.SetInterlock, error) {
@@ -634,7 +664,8 @@ func SetInterlockResponse(packet []byte) (responses.SetInterlock, error) {
 
 	return responses.SetInterlock{
 		Controller: unpackUint32(packet, 4),
-		Ok:         unpackBool(packet, 8)}, nil
+		Ok:         unpackBool(packet, 8),
+	}, nil
 }
 
 func ActivateKeypadsResponse(packet []byte) (responses.ActivateKeypads, error) {
@@ -652,7 +683,8 @@ func ActivateKeypadsResponse(packet []byte) (responses.ActivateKeypads, error) {
 
 	return responses.ActivateKeypads{
 		Controller: unpackUint32(packet, 4),
-		Ok:         unpackBool(packet, 8)}, nil
+		Ok:         unpackBool(packet, 8),
+	}, nil
 }
 
 func GetAntiPassbackResponse(packet []byte) (responses.GetAntiPassback, error) {
@@ -670,7 +702,8 @@ func GetAntiPassbackResponse(packet []byte) (responses.GetAntiPassback, error) {
 
 	return responses.GetAntiPassback{
 		Controller:   unpackUint32(packet, 4),
-		Antipassback: unpackUint8(packet, 8)}, nil
+		Antipassback: unpackUint8(packet, 8),
+	}, nil
 }
 
 func SetAntiPassbackResponse(packet []byte) (responses.SetAntiPassback, error) {
@@ -688,7 +721,8 @@ func SetAntiPassbackResponse(packet []byte) (responses.SetAntiPassback, error) {
 
 	return responses.SetAntiPassback{
 		Controller: unpackUint32(packet, 4),
-		Ok:         unpackBool(packet, 8)}, nil
+		Ok:         unpackBool(packet, 8),
+	}, nil
 }
 
 func RestoreDefaultParametersResponse(packet []byte) (responses.RestoreDefaultParameters, error) {
@@ -706,7 +740,8 @@ func RestoreDefaultParametersResponse(packet []byte) (responses.RestoreDefaultPa
 
 	return responses.RestoreDefaultParameters{
 		Controller: unpackUint32(packet, 4),
-		Ok:         unpackBool(packet, 8)}, nil
+		Ok:         unpackBool(packet, 8),
+	}, nil
 }
 
 func ListenerEvent(packet []byte) (responses.ListenerEvent, error) {
@@ -746,5 +781,6 @@ func ListenerEvent(packet []byte) (responses.ListenerEvent, error) {
 		EventCard:          unpackUint32(packet, 16),
 		EventTimestamp:     unpackOptionalDateTime(packet, 20),
 		EventReason:        unpackReason(packet, 27),
-		SequenceNo:         unpackUint32(packet, 40)}, nil
+		SequenceNo:         unpackUint32(packet, 40),
+	}, nil
 }
