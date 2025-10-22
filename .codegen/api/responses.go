@@ -1,13 +1,18 @@
 package api
 
 import (
+	"bytes"
 	"fmt"
 	"log"
+	"os"
 	"path/filepath"
 	"strings"
 
-	"go/ast"
+	"go/printer"
 	"go/token"
+
+	"github.com/dave/dst"
+	"github.com/dave/dst/decorator"
 
 	"github.com/uhppoted/uhppoted-codegen/model/types"
 
@@ -16,64 +21,118 @@ import (
 )
 
 func Responses() {
-	file := filepath.Join("responses", "generated.go")
+	outfile := filepath.Join("responses", "generated.go")
+	decl := buildResponses()
 
-	imports := [][]string{
-		[]string{
-			"net/netip",
-		},
-		[]string{
-			"github.com/uhppoted/uhppoted-lib-go/src/uhppoted/entities",
-		},
+	// .. convert dst to ast
+	fset, file, err := decorator.RestoreFile(decl)
+	if err != nil {
+		log.Fatalf("error converting dst to ast (%v)", err)
 	}
 
-	types := []*ast.GenDecl{}
-	functions := []*ast.FuncDecl{}
-
-	for _, f := range model.Responses {
-		types = append(types, typedef(*f))
+	// ... pretty print
+	var buf bytes.Buffer
+	if err := printer.Fprint(&buf, fset, file); err != nil {
+		log.Fatalf("error pretty-printing generated code (%v)", err)
 	}
 
-	types = append(types, typedef(model.ListenerEvent))
-
-	AST := codegen.NewAST("responses", imports, types, functions)
-
-	if err := AST.Generate(file); err != nil {
-		log.Fatalf("error generating %v (%v)", file, err)
+	// ... write to file
+	if f, err := os.Create(outfile); err != nil {
+		log.Fatalf("error creating file %s (%v)", outfile, err)
 	} else {
-		log.Printf("... generated %s", filepath.Base(file))
+		defer f.Close()
+
+		writeln(f, "// generated code - ** DO NOT EDIT **")
+		writeln(f, "")
+		writeln(f, buf.String())
 	}
 }
 
-func typedef(r types.Response) *ast.GenDecl {
+func buildResponses() *dst.File {
+	impl := []dst.Decl{
+		&dst.GenDecl{
+			Tok: token.IMPORT,
+			Specs: []dst.Spec{
+				&dst.ImportSpec{
+					Path: &dst.BasicLit{
+						Kind:  token.STRING,
+						Value: `"net/netip"`,
+					},
+				},
+				&dst.ImportSpec{
+					Path: &dst.BasicLit{
+						Kind: token.STRING,
+					},
+				},
+				&dst.ImportSpec{
+					Path: &dst.BasicLit{
+						Kind:  token.STRING,
+						Value: `"github.com/uhppoted/uhppoted-lib-go/src/uhppoted/entities"`,
+					},
+				},
+			},
+		},
+	}
+
+	for _, response := range model.Responses {
+		if t := typedef(*response); typedef != nil {
+			impl = append(impl, t)
+		}
+	}
+
+	if t := typedef(model.ListenerEvent); t != nil {
+		impl = append(impl, t)
+	}
+
+	return &dst.File{
+		Name: dst.NewIdent("responses"),
+
+		Imports: []*dst.ImportSpec{
+			{
+				Path: &dst.BasicLit{
+					Kind:  token.STRING,
+					Value: `"net/netip"`,
+				},
+			},
+			{
+				Path: &dst.BasicLit{
+					Kind:  token.STRING,
+					Value: `"github.com/uhppoted/uhppoted-lib-go/src/uhppoted/entities"`,
+				},
+			},
+		},
+
+		Decls: impl,
+	}
+
+}
+
+func typedef(r types.Response) *dst.GenDecl {
 	name := strings.TrimSuffix(codegen.TitleCase(r.Name), "Response")
-	description := godoc(r)
-	fields := []*ast.Field{}
+	// description := godoc(r)
+	fields := []*dst.Field{}
 
 	for _, f := range r.Fields {
-		ident := ast.NewIdent(codegen.TitleCase(f.Name))
+		ident := dst.NewIdent(codegen.TitleCase(f.Name))
 		ftype := gotype(f)
 		tag := fmt.Sprintf("`json:%v`", gotag(f))
 
-		field := ast.Field{
-			Names: []*ast.Ident{ident},
-			Type:  ast.NewIdent(ftype),
-			Tag:   &ast.BasicLit{Kind: token.STRING, Value: tag},
+		field := dst.Field{
+			Names: []*dst.Ident{ident},
+			Type:  dst.NewIdent(ftype),
+			Tag:   &dst.BasicLit{Kind: token.STRING, Value: tag},
 		}
 
 		fields = append(fields, &field)
 	}
 
-	decl := ast.GenDecl{
+	decl := dst.GenDecl{
 		Tok: token.TYPE,
-		Doc: &ast.CommentGroup{
-			List: description,
-		},
-		Specs: []ast.Spec{
-			&ast.TypeSpec{
-				Name: ast.NewIdent(name),
-				Type: &ast.StructType{
-					Fields: &ast.FieldList{
+		Specs: []dst.Spec{
+			&dst.TypeSpec{
+				Name: dst.NewIdent(name),
+				Type: &dst.StructType{
+					Fields: &dst.FieldList{
 						List: fields,
 					},
 				},
@@ -81,24 +140,14 @@ func typedef(r types.Response) *ast.GenDecl {
 		},
 	}
 
-	return &decl
-}
-
-func godoc(r types.Response) []*ast.Comment {
-	doc := []*ast.Comment{
-		{Text: fmt.Sprintf("// -- line intentionally left blank --")},
-	}
-
+	// godoc
 	for _, line := range r.Description {
-		text := fmt.Sprintf("// %v", line)
-		comment := ast.Comment{
-			Text: text,
-		}
-
-		doc = append(doc, &comment)
+		decl.Decs.Start.Append(fmt.Sprintf("// %v", line))
 	}
 
-	return doc
+	decl.Decs.Before = dst.EmptyLine
+
+	return &decl
 }
 
 func gotype(field types.Field) string {

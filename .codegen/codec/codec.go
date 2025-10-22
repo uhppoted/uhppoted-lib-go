@@ -2,6 +2,7 @@ package codec
 
 import (
 	_ "embed"
+	"fmt"
 	"log"
 	"os"
 	"path/filepath"
@@ -88,4 +89,10 @@ func decodeTest() {
 	}
 
 	log.Printf("... generated %s", output)
+}
+
+func writeln(f *os.File, s string) {
+	if _, err := f.WriteString(s + "\n"); err != nil {
+		panic(fmt.Errorf("error writing to %v (%v)", f.Name(), err))
+	}
 }

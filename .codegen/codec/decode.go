@@ -74,14 +74,14 @@ func buildDecode() *dst.File {
 		},
 	}
 
-	responses := []*lib.Response{}
-	responses = append(responses, model.Responses...)
-	responses = append(responses, &model.ListenerEvent)
-
-	for _, response := range responses {
+	for _, response := range model.Responses {
 		if f := buildDecodeFunc(*response); f != nil {
 			impl = append(impl, f)
 		}
+	}
+
+	if f := buildDecodeFunc(model.ListenerEvent); f != nil {
+		impl = append(impl, f)
 	}
 
 	return &dst.File{

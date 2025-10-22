@@ -523,9 +523,3 @@ func makeValue(field lib.Field, value lib.Value) dst.Expr {
 		panic(fmt.Sprintf("%v", field.Type))
 	}
 }
-
-func writeln(f *os.File, s string) {
-	if _, err := f.WriteString(s + "\n"); err != nil {
-		panic(fmt.Errorf("error writing to %v (%v)", f.Name(), err))
-	}
-}
