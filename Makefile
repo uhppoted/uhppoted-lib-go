@@ -49,8 +49,8 @@ release: clean build-all
 # 	echo "Releasing version $(VERSION)"
 # 	gh release create "$(VERSION)" --draft --prerelease --title "$(VERSION)-beta" --notes-file release-notes.md
 
-# godoc:
-# 	godoc -http=:80	-index_interval=60s
+godoc:
+	cd src && make godoc
 
 debug: regenerate test integration-tests
 	cd src && make debug

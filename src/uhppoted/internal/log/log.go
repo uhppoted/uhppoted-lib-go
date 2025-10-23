@@ -1,3 +1,5 @@
+// The log package is an internal package that wraps the slog logging functions in
+// a convenient interface.
 package log
 
 import (

@@ -1,3 +1,5 @@
+// The codec package is an internal package that encodes and decodes the 64 byte request/response
+// messages exchanged with the controller.
 package codec
 
 // Message constants for the UHPPOTE request/response protocol.

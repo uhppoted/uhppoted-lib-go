@@ -46,6 +46,8 @@ var decoders = map[any]func([]byte) (any, error){
 	},
 }
 
+// Decode is a convenience 'factory' decoder to decode a received packet into the appropriate
+// response struct or entity.
 func Decode[R any](packet []byte) (R, error) {
 	var zero R
 

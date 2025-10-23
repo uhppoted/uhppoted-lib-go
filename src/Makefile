@@ -60,7 +60,8 @@ publish: release
 	gh release create "$(VERSION)" --draft --prerelease --title "$(VERSION)-beta" --notes-file release-notes.md
 
 godoc:
-	godoc -http=:80	-index_interval=60s
+	# cd uhppoted && godoc -http=:80	-index_interval=60s
+	cd uhppoted && pkgsite -http=:80
 
 help:
 	cd ../examples/cli && make help

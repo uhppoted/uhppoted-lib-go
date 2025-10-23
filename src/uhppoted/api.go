@@ -219,20 +219,20 @@ func SetTimeProfileRecord[T TController](u Uhppoted, controller T, record entiti
 
 // Creates a scheduled task.
 //
-// Task types
-// 0:  control door
-// 1:  unlock door
-// 2:  lock door
-// 3:  disable time profiles
-// 4:  enable time profiles
-// 5:  enable card, no password
-// 6:  enable card+IN password
-// 7:  enable card+password
-// 8:  enable more cards
-// 9:  disable more cards
-// 10: trigger once
-// 11: disable pushbutton
-// 12: enable pushbutton
+// Task types:
+//   - 0:  control door
+//   - 1:  unlock door
+//   - 2:  lock door
+//   - 3:  disable time profiles
+//   - 4:  enable time profiles
+//   - 5:  enable card, no password
+//   - 6:  enable card+IN password
+//   - 7:  enable card+password
+//   - 8:  enable more cards
+//   - 9:  disable more cards
+//   - 10: trigger once
+//   - 11: disable pushbutton
+//   - 12: enable pushbutton
 func AddTaskRecord[T TController](u Uhppoted, controller T, record Task, timeout time.Duration) (bool, error) {
 	f := func(id uint32) ([]byte, error) {
 		return encode.AddTaskRequest(id,

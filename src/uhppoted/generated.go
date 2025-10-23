@@ -203,20 +203,20 @@ func ClearTimeProfiles[T TController](u Uhppoted, controller T, timeout time.Dur
 
 // Creates a scheduled task.
 //
-// Task types
-// 0:  control door
-// 1:  unlock door
-// 2:  lock door
-// 3:  disable time profiles
-// 4:  enable time profiles
-// 5:  enable card, no password
-// 6:  enable card+IN password
-// 7:  enable card+password
-// 8:  enable more cards
-// 9:  disable more cards
-// 10: trigger once
-// 11: disable pushbutton
-// 12: enable pushbutton
+// Task types:
+//   - 0:  control door
+//   - 1:  unlock door
+//   - 2:  lock door
+//   - 3:  disable time profiles
+//   - 4:  enable time profiles
+//   - 5:  enable card, no password
+//   - 6:  enable card+IN password
+//   - 7:  enable card+password
+//   - 8:  enable more cards
+//   - 9:  disable more cards
+//   - 10: trigger once
+//   - 11: disable pushbutton
+//   - 12: enable pushbutton
 func AddTask[T TController, D TDate, H THHmm](u Uhppoted, controller T, task TaskType, startdate D, enddate D, monday bool, tuesday bool, wednesday bool, thursday bool, friday bool, saturday bool, sunday bool, starttime H, door uint8, morecards uint8, timeout time.Duration) (responses.AddTask, error) {
 	f := func(id uint32) ([]byte, error) {
 		return encode.AddTaskRequest(id, task, convert[entities.Date](startdate), convert[entities.Date](enddate), monday, tuesday, wednesday, thursday, friday, saturday, sunday, convert[entities.HHmm](starttime), door, morecards)
@@ -250,12 +250,12 @@ func SetPCControl[T TController](u Uhppoted, controller T, enabled bool, timeout
 // Sets the door interlock mode on an access controller.
 //
 // The following interlock modes are supported:
-// - 0: disabled
-// - 1: doors 1&2
-// - 2: doors 3&4
-// - 3: doors 1&2, doors 3&4
-// - 4: doors 1,2&3
-// - 8: doors 1,2,3&4
+//   - 0: disabled
+//   - 1: doors 1&2
+//   - 2: doors 3&4
+//   - 3: doors 1&2, doors 3&4
+//   - 4: doors 1,2&3
+//   - 8: doors 1,2,3&4
 func SetInterlock[T TController](u Uhppoted, controller T, interlock Interlock, timeout time.Duration) (responses.SetInterlock, error) {
 	f := func(id uint32) ([]byte, error) { return encode.SetInterlockRequest(id, interlock) }
 
@@ -273,11 +273,11 @@ func ActivateKeypads[T TController](u Uhppoted, controller T, reader1 bool, read
 
 // Retrieves the anti-passback mode for an access controller. The anti-passback mode
 // will be one of the following:
-// - 0: disabled
-// - 1: readers 1:2; 3:4 (independently)
-// - 2: readers (1,3):(2,4)
-// - 3: readers 1:(2,3)
-// - 4: readers 1:(2,3,4)
+//   - 0: disabled
+//   - 1: readers 1:2; 3:4 (independently)
+//   - 2: readers (1,3):(2,4)
+//   - 3: readers 1:(2,3)
+//   - 4: readers 1:(2,3,4)
 func GetAntiPassback[T TController](u Uhppoted, controller T, timeout time.Duration) (responses.GetAntiPassback, error) {
 	f := func(id uint32) ([]byte, error) { return encode.GetAntipassbackRequest(id) }
 
@@ -287,11 +287,11 @@ func GetAntiPassback[T TController](u Uhppoted, controller T, timeout time.Durat
 // Sets the access controller anti-passback mode.
 //
 // The following modes are supported:
-// - 0: disabled
-// - 1: doors 1&2, doors 3&4
-// - 2: doors 1&3, doors 2&4
-// - 3: door 1 & doors 2,3
-// - 4: door 1 & doors 1,2,3
+//   - 0: disabled
+//   - 1: doors 1&2, doors 3&4
+//   - 2: doors 1&3, doors 2&4
+//   - 3: door 1 & doors 2,3
+//   - 4: door 1 & doors 1,2,3
 func SetAntiPassback[T TController](u Uhppoted, controller T, antipassback uint8, timeout time.Duration) (responses.SetAntiPassback, error) {
 	f := func(id uint32) ([]byte, error) { return encode.SetAntipassbackRequest(id, antipassback) }
 

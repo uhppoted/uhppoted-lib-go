@@ -6,6 +6,7 @@ import (
 	"fmt"
 
 	lib "github.com/uhppoted/uhppoted-lib-go/src/uhppoted"
+	"github.com/uhppoted/uhppoted-lib-go/src/uhppoted/responses"
 )
 
 func getEvent(u lib.Uhppoted, args []string) error {
@@ -28,9 +29,9 @@ func getEvent(u lib.Uhppoted, args []string) error {
 
 		if v, err := exec(controller, flagset, f, g); err != nil {
 			return err
-		} else if v.(lib.GetEventResponse).EventType == 0 {
+		} else if v.(responses.GetEvent).EventType == 0 {
 			return fmt.Errorf("no event at index %v", index)
-		} else if v.(lib.GetEventResponse).EventType == 0xff {
+		} else if v.(responses.GetEvent).EventType == 0xff {
 			return fmt.Errorf("event at index %v overwritten", index)
 		} else if bytes, err := json.MarshalIndent(v, "   ", "   "); err != nil {
 			return err
