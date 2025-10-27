@@ -7,6 +7,7 @@ import (
 	"time"
 
 	lib "github.com/uhppoted/uhppoted-lib-go/src/uhppoted"
+	"github.com/uhppoted/uhppoted-lib-go/src/uhppoted/entities"
 )
 
 func setTimeProfile(u lib.Uhppoted, args []string) error {
@@ -110,11 +111,11 @@ func setTimeProfileRecord(u lib.Uhppoted, args []string) error {
 	} else if profile < 2 || profile > 254 {
 		return fmt.Errorf("invalid profile (%v)", profile)
 	} else {
-		record := lib.TimeProfile{
+		record := entities.TimeProfile{
 			Profile:   uint8(profile),
 			StartDate: startDate,
 			EndDate:   endDate,
-			Weekdays: lib.Weekdays{
+			Weekdays: entities.Weekdays{
 				Monday:    monday,
 				Tuesday:   tuesday,
 				Wednesday: wednesday,
@@ -123,7 +124,7 @@ func setTimeProfileRecord(u lib.Uhppoted, args []string) error {
 				Saturday:  saturday,
 				Sunday:    sunday,
 			},
-			Segments: []lib.TimeSegment{
+			Segments: []entities.TimeSegment{
 				{
 					Start: segment1start,
 					End:   segment1end,

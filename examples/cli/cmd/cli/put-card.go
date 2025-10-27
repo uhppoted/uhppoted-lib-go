@@ -10,6 +10,7 @@ import (
 	"time"
 
 	lib "github.com/uhppoted/uhppoted-lib-go/src/uhppoted"
+	"github.com/uhppoted/uhppoted-lib-go/src/uhppoted/entities"
 )
 
 func putCard(u lib.Uhppoted, args []string) error {
@@ -94,7 +95,7 @@ func putCardRecord(u lib.Uhppoted, args []string) error {
 	} else if PIN > 999999 {
 		return fmt.Errorf("invalid PIN (%v)", PIN)
 	} else {
-		record := lib.Card{
+		record := entities.Card{
 			Card:      uint32(card),
 			StartDate: startDate,
 			EndDate:   endDate,

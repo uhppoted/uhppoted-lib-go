@@ -7,10 +7,11 @@ import (
 	"time"
 
 	lib "github.com/uhppoted/uhppoted-lib-go/src/uhppoted"
+	"github.com/uhppoted/uhppoted-lib-go/src/uhppoted/entities"
 )
 
 func addTask(u lib.Uhppoted, args []string) error {
-	var task = lib.LockDoor
+	var task = entities.LockDoor
 	var startDate, _ = time.Parse("2006-01-02", "2025-01-01")
 	var endDate, _ = time.Parse("2006-01-02", "2025-12-31")
 	var monday = true
@@ -71,7 +72,7 @@ func addTask(u lib.Uhppoted, args []string) error {
 }
 
 func addTaskRecord(u lib.Uhppoted, args []string) error {
-	var task = lib.LockDoor
+	var task = entities.LockDoor
 	var startDate, _ = lib.ParseDate("2025-01-01")
 	var endDate, _ = lib.ParseDate("2025-12-31")
 	var startTime, _ = lib.ParseHHmm("08:30")
@@ -90,13 +91,13 @@ func addTaskRecord(u lib.Uhppoted, args []string) error {
 	if controller, err := parse(flagset, args); err != nil {
 		return err
 	} else {
-		record := lib.Task{
+		record := entities.Task{
 			Task:      task,
 			Door:      door,
 			StartDate: startDate,
 			EndDate:   endDate,
 			StartTime: startTime,
-			Weekdays: lib.Weekdays{
+			Weekdays: entities.Weekdays{
 				Monday:    monday,
 				Tuesday:   tuesday,
 				Wednesday: wednesday,

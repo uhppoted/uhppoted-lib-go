@@ -67,6 +67,12 @@ func setup() (*net.TCPListener, error) {
 	}
 }
 
+func teardown(socket *net.TCPListener) {
+	if socket != nil {
+		socket.Close()
+	}
+}
+
 func TestInvalidResponse(t *testing.T) {
 	controller := lib.Controller{
 		ID:       201020304,
@@ -90,7 +96,7 @@ func TestGetCardRecord(t *testing.T) {
 
 	card := uint32(10058400)
 
-	expected := lib.Card{
+	expected := entities.Card{
 		Card:      10058400,
 		StartDate: lib.MustParseDate("2025-01-01"),
 		EndDate:   lib.MustParseDate("2025-12-31"),
@@ -119,11 +125,11 @@ func TestGetStatusRecord(t *testing.T) {
 		Protocol: "tcp",
 	}
 
-	expected := lib.Status{
+	expected := entities.Status{
 		System: struct {
-			Time  lib.DateTime `json:"datetime"`
-			Error uint8        `json:"error"`
-			Info  uint8        `json:"info"`
+			Time  entities.DateTime `json:"datetime"`
+			Error uint8             `json:"error"`
+			Info  uint8             `json:"info"`
 		}{
 			Time:  lib.MustParseDateTime("2022-08-23 09:49:39"),
 			Error: 3,
@@ -183,9 +189,9 @@ func TestGetStatusRecord(t *testing.T) {
 			LockForced: false,
 		},
 
-		Event: lib.Event{
+		Event: entities.Event{
 			Index:         78,
-			Event:         lib.EventDoor,
+			Event:         entities.EventDoor,
 			AccessGranted: true,
 			Door:          3,
 			Direction:     1,
@@ -213,7 +219,7 @@ func TestGetEventRecord(t *testing.T) {
 
 	index := uint32(13579)
 
-	expected := lib.Event{
+	expected := entities.Event{
 		Index:         13579,
 		Timestamp:     lib.MustParseDateTime("2025-11-17 12:34:56"),
 		Event:         2,
@@ -242,11 +248,11 @@ func TestGetTimeProfileRecord(t *testing.T) {
 
 	profile := uint8(37)
 
-	expected := lib.TimeProfile{
+	expected := entities.TimeProfile{
 		Profile:   37,
 		StartDate: lib.MustParseDate("2025-11-26"),
 		EndDate:   lib.MustParseDate("2025-12-29"),
-		Weekdays: lib.Weekdays{
+		Weekdays: entities.Weekdays{
 			Monday:    true,
 			Tuesday:   true,
 			Wednesday: false,
@@ -255,7 +261,7 @@ func TestGetTimeProfileRecord(t *testing.T) {
 			Saturday:  true,
 			Sunday:    true,
 		},
-		Segments: []lib.TimeSegment{
+		Segments: []entities.TimeSegment{
 			{
 				Start: lib.MustParseHHmm("08:30"),
 				End:   lib.MustParseHHmm("09:45"),
@@ -288,11 +294,11 @@ func TestSetTimeProfileRecord(t *testing.T) {
 		Protocol: "tcp",
 	}
 
-	record := lib.TimeProfile{
+	record := entities.TimeProfile{
 		Profile:   37,
 		StartDate: lib.MustParseDate("2025-11-26"),
 		EndDate:   lib.MustParseDate("2025-12-29"),
-		Weekdays: lib.Weekdays{
+		Weekdays: entities.Weekdays{
 			Monday:    true,
 			Tuesday:   true,
 			Wednesday: false,
@@ -301,7 +307,7 @@ func TestSetTimeProfileRecord(t *testing.T) {
 			Saturday:  true,
 			Sunday:    true,
 		},
-		Segments: []lib.TimeSegment{
+		Segments: []entities.TimeSegment{
 			{
 				Start: lib.MustParseHHmm("8:30"),
 				End:   lib.MustParseHHmm("9:45"),
@@ -339,7 +345,7 @@ func TestAddTaskRecord(t *testing.T) {
 		StartDate: lib.MustParseDate("2025-01-01"),
 		EndDate:   lib.MustParseDate("2025-12-31"),
 		StartTime: lib.MustParseHHmm("08:45"),
-		Weekdays: lib.Weekdays{
+		Weekdays: entities.Weekdays{
 			Monday:    true,
 			Tuesday:   true,
 			Wednesday: false,
@@ -358,11 +364,5 @@ func TestAddTaskRecord(t *testing.T) {
 		t.Fatalf("%v", err)
 	} else if !ok {
 		t.Errorf("incorrect response\n   expected:%v\n   got:     %v", true, ok)
-	}
-}
-
-func teardown(socket *net.TCPListener) {
-	if socket != nil {
-		socket.Close()
 	}
 }

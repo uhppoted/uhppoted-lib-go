@@ -259,13 +259,13 @@ func buildFunction(f lib.Function) *dst.FuncDecl {
 			t = "uint32"
 
 		case "mode":
-			t = "DoorMode"
+			t = "entities.DoorMode"
 
 		case "task":
-			t = "TaskType"
+			t = "entities.TaskType"
 
 		case "interlock":
-			t = "Interlock"
+			t = "entities.Interlock"
 		}
 
 		args = append(args, &dst.Field{

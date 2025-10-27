@@ -11,6 +11,7 @@ import (
 
 	"github.com/uhppoted/uhppoted-lib-go/src/uhppoted/codec"
 	"github.com/uhppoted/uhppoted-lib-go/src/uhppoted/entities"
+	"github.com/uhppoted/uhppoted-lib-go/src/uhppoted/responses"
 )
 
 type Uhppoted struct {
@@ -48,6 +49,8 @@ type Controller struct {
 	Address  netip.AddrPort
 	Protocol string
 }
+
+type ListenerEvent = responses.ListenerEvent
 
 // Error constants
 var ErrInvalidResponse = errors.New("invalid response")

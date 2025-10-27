@@ -233,7 +233,7 @@ func SetTimeProfileRecord[T TController](u Uhppoted, controller T, record entiti
 //   - 10: trigger once
 //   - 11: disable pushbutton
 //   - 12: enable pushbutton
-func AddTaskRecord[T TController](u Uhppoted, controller T, record Task, timeout time.Duration) (bool, error) {
+func AddTaskRecord[T TController](u Uhppoted, controller T, record entities.Task, timeout time.Duration) (bool, error) {
 	f := func(id uint32) ([]byte, error) {
 		return encode.AddTaskRequest(id,
 			record.Task,
