@@ -7,15 +7,15 @@ import (
 	"os/signal"
 	"syscall"
 
-	lib "github.com/uhppoted/uhppoted-lib-go/src/uhppoted"
+	"github.com/uhppoted/uhppoted-lib-go/src/uhppoted"
 )
 
 type listener struct {
-	events chan lib.ListenerEvent
+	events chan uhppoted.ListenerEvent
 	errors chan error
 }
 
-func (l listener) OnEvent(evt lib.ListenerEvent) {
+func (l listener) OnEvent(evt uhppoted.ListenerEvent) {
 	l.events <- evt
 }
 
@@ -23,8 +23,8 @@ func (l listener) OnError(err error) {
 	l.errors <- err
 }
 
-func listen(u lib.Uhppoted, args []string) error {
-	events := make(chan lib.ListenerEvent)
+func listen(u uhppoted.Uhppoted, args []string) error {
+	events := make(chan uhppoted.ListenerEvent)
 	errors := make(chan error)
 	interrupt := make(chan os.Signal, 1)
 
@@ -55,7 +55,7 @@ func listen(u lib.Uhppoted, args []string) error {
 		errors: errors,
 	}
 
-	if err := lib.Listen(u, l, interrupt); err != nil {
+	if err := uhppoted.Listen(u, l, interrupt); err != nil {
 		return err
 	}
 

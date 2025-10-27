@@ -5,12 +5,12 @@ import (
 	"flag"
 	"fmt"
 
-	lib "github.com/uhppoted/uhppoted-lib-go/src/uhppoted"
+	"github.com/uhppoted/uhppoted-lib-go/src/uhppoted"
 	"github.com/uhppoted/uhppoted-lib-go/src/uhppoted/responses"
 	"github.com/uhppoted/uhppoted-lib-go/src/uhppoted/types"
 )
 
-func getEvent(u lib.Uhppoted, args []string) error {
+func getEvent(u uhppoted.Uhppoted, args []string) error {
 	var index uint
 
 	flagset := flag.NewFlagSet("get-event", flag.ExitOnError)
@@ -21,11 +21,11 @@ func getEvent(u lib.Uhppoted, args []string) error {
 		return err
 	} else {
 		f := func(c uint32) (any, error) {
-			return lib.GetEvent(u, c, uint32(index), options.timeout)
+			return uhppoted.GetEvent(u, c, uint32(index), options.timeout)
 		}
 
-		g := func(c lib.Controller) (any, error) {
-			return lib.GetEvent(u, c, uint32(index), options.timeout)
+		g := func(c uhppoted.Controller) (any, error) {
+			return uhppoted.GetEvent(u, c, uint32(index), options.timeout)
 		}
 
 		if v, err := exec(controller, flagset, f, g); err != nil {
@@ -46,7 +46,7 @@ func getEvent(u lib.Uhppoted, args []string) error {
 	}
 }
 
-func getEventRecord(u lib.Uhppoted, args []string) error {
+func getEventRecord(u uhppoted.Uhppoted, args []string) error {
 	var index uint
 
 	flagset := flag.NewFlagSet("get-event-record", flag.ExitOnError)
@@ -57,11 +57,11 @@ func getEventRecord(u lib.Uhppoted, args []string) error {
 		return err
 	} else {
 		f := func(c uint32) (any, error) {
-			return lib.GetEventRecord(u, c, uint32(index), options.timeout)
+			return uhppoted.GetEventRecord(u, c, uint32(index), options.timeout)
 		}
 
-		g := func(c lib.Controller) (any, error) {
-			return lib.GetEventRecord(u, c, uint32(index), options.timeout)
+		g := func(c uhppoted.Controller) (any, error) {
+			return uhppoted.GetEventRecord(u, c, uint32(index), options.timeout)
 		}
 
 		if v, err := exec(controller, flagset, f, g); err != nil {

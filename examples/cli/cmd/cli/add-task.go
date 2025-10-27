@@ -6,11 +6,11 @@ import (
 	"fmt"
 	"time"
 
-	lib "github.com/uhppoted/uhppoted-lib-go/src/uhppoted"
+	"github.com/uhppoted/uhppoted-lib-go/src/uhppoted"
 	"github.com/uhppoted/uhppoted-lib-go/src/uhppoted/types"
 )
 
-func addTask(u lib.Uhppoted, args []string) error {
+func addTask(u uhppoted.Uhppoted, args []string) error {
 	var task = types.LockDoor
 	var startDate, _ = time.Parse("2006-01-02", "2025-01-01")
 	var endDate, _ = time.Parse("2006-01-02", "2025-12-31")
@@ -34,7 +34,7 @@ func addTask(u lib.Uhppoted, args []string) error {
 		e := types.NewDate(2025, 11, 29)
 
 		f := func(c uint32) (any, error) {
-			return lib.AddTask(u,
+			return uhppoted.AddTask(u,
 				c,
 				task,
 				startDate, endDate,
@@ -45,8 +45,8 @@ func addTask(u lib.Uhppoted, args []string) error {
 				options.timeout)
 		}
 
-		g := func(c lib.Controller) (any, error) {
-			return lib.AddTask(u,
+		g := func(c uhppoted.Controller) (any, error) {
+			return uhppoted.AddTask(u,
 				c,
 				task,
 				d, e,
@@ -71,7 +71,7 @@ func addTask(u lib.Uhppoted, args []string) error {
 	}
 }
 
-func addTaskRecord(u lib.Uhppoted, args []string) error {
+func addTaskRecord(u uhppoted.Uhppoted, args []string) error {
 	var task = types.LockDoor
 	var startDate, _ = types.ParseDate("2025-01-01")
 	var endDate, _ = types.ParseDate("2025-12-31")
@@ -110,11 +110,11 @@ func addTaskRecord(u lib.Uhppoted, args []string) error {
 		}
 
 		f := func(c uint32) (any, error) {
-			return lib.AddTaskRecord(u, c, record, options.timeout)
+			return uhppoted.AddTaskRecord(u, c, record, options.timeout)
 		}
 
-		g := func(c lib.Controller) (any, error) {
-			return lib.AddTaskRecord(u, c, record, options.timeout)
+		g := func(c uhppoted.Controller) (any, error) {
+			return uhppoted.AddTaskRecord(u, c, record, options.timeout)
 		}
 
 		if v, err := exec(controller, flagset, f, g); err != nil {

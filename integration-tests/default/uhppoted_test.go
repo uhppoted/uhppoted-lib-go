@@ -12,7 +12,7 @@ import (
 	"testing"
 	"time"
 
-	lib "github.com/uhppoted/uhppoted-lib-go/src/uhppoted"
+	"github.com/uhppoted/uhppoted-lib-go/src/uhppoted"
 	"github.com/uhppoted/uhppoted-lib-go/src/uhppoted/types"
 	test "integration-tests"
 )
@@ -20,7 +20,7 @@ import (
 var bind = netip.MustParseAddrPort("0.0.0.0:0")
 var broadcast = netip.MustParseAddrPort("255.255.255.255:50001")
 var listen = netip.MustParseAddrPort("0.0.0.0:60005")
-var u = lib.NewUhppoted(bind, broadcast, listen, false)
+var u = uhppoted.NewUhppoted(bind, broadcast, listen, false)
 
 const timeout = 1000 * time.Millisecond
 
@@ -71,10 +71,10 @@ func teardown(socket *net.UDPConn) {
 func TestInvalidResponse(t *testing.T) {
 	controller := uint32(201020304)
 
-	_, err := lib.GetController(u, controller, timeout)
+	_, err := uhppoted.GetController(u, controller, timeout)
 
-	if err == nil || !errors.Is(err, lib.ErrInvalidResponse) {
-		t.Errorf("expected %v error, got:%v", lib.ErrInvalidResponse, err)
+	if err == nil || !errors.Is(err, uhppoted.ErrInvalidResponse) {
+		t.Errorf("expected %v error, got:%v", uhppoted.ErrInvalidResponse, err)
 	}
 }
 
@@ -95,7 +95,7 @@ func TestGetCardRecord(t *testing.T) {
 		PIN: 7531,
 	}
 
-	record, err := lib.GetCardRecord(u, controller, card, timeout)
+	record, err := uhppoted.GetCardRecord(u, controller, card, timeout)
 
 	if err != nil {
 		t.Fatalf("%v", err)
@@ -183,7 +183,7 @@ func TestGetStatusRecord(t *testing.T) {
 		},
 	}
 
-	record, err := lib.GetStatusRecord(u, controller, timeout)
+	record, err := uhppoted.GetStatusRecord(u, controller, timeout)
 
 	if err != nil {
 		t.Fatalf("%v", err)
@@ -207,7 +207,7 @@ func TestGetEventRecord(t *testing.T) {
 		Reason:        21,
 	}
 
-	record, err := lib.GetEventRecord(u, controller, index, timeout)
+	record, err := uhppoted.GetEventRecord(u, controller, index, timeout)
 
 	if err != nil {
 		t.Fatalf("%v", err)
@@ -250,7 +250,7 @@ func TestGetTimeProfileRecord(t *testing.T) {
 		LinkedProfile: 19,
 	}
 
-	record, err := lib.GetTimeProfileRecord(u, controller, profile, timeout)
+	record, err := uhppoted.GetTimeProfileRecord(u, controller, profile, timeout)
 
 	if err != nil {
 		t.Fatalf("%v", err)
@@ -292,7 +292,7 @@ func TestSetTimeProfileRecord(t *testing.T) {
 		LinkedProfile: 19,
 	}
 
-	ok, err := lib.SetTimeProfileRecord(u, controller, record, timeout)
+	ok, err := uhppoted.SetTimeProfileRecord(u, controller, record, timeout)
 
 	if err != nil {
 		t.Fatalf("%v", err)
@@ -322,7 +322,7 @@ func TestAddTaskRecord(t *testing.T) {
 		MoreCards: 7,
 	}
 
-	ok, err := lib.AddTaskRecord(u, controller, task, timeout)
+	ok, err := uhppoted.AddTaskRecord(u, controller, task, timeout)
 
 	if err != nil {
 		t.Fatalf("%v", err)
@@ -332,11 +332,11 @@ func TestAddTaskRecord(t *testing.T) {
 }
 
 type listener struct {
-	events []lib.ListenerEvent
+	events []uhppoted.ListenerEvent
 	errors []error
 }
 
-func (l *listener) OnEvent(evt lib.ListenerEvent) {
+func (l *listener) OnEvent(evt uhppoted.ListenerEvent) {
 	l.events = append(l.events, evt)
 }
 
@@ -346,7 +346,7 @@ func (l *listener) OnError(err error) {
 
 func TestListen(t *testing.T) {
 	expected := struct {
-		events []lib.ListenerEvent
+		events []uhppoted.ListenerEvent
 		errors []error
 	}{}
 
@@ -386,11 +386,11 @@ func TestListen(t *testing.T) {
 		interrupt <- syscall.SIGINT
 	}()
 
-	if err := lib.Listen(u, &l, interrupt); err != nil {
+	if err := uhppoted.Listen(u, &l, interrupt); err != nil {
 		t.Fatalf("%v", err)
 	}
 
-	if !slices.EqualFunc(l.events, expected.events, func(p lib.ListenerEvent, q lib.ListenerEvent) bool {
+	if !slices.EqualFunc(l.events, expected.events, func(p uhppoted.ListenerEvent, q uhppoted.ListenerEvent) bool {
 		return reflect.DeepEqual(p, q)
 	}) {
 		t.Errorf("event listen error\n   expected: %v\n   got:      %v", expected.events, l.events)

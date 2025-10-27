@@ -6,11 +6,11 @@ import (
 	"fmt"
 	"time"
 
-	lib "github.com/uhppoted/uhppoted-lib-go/src/uhppoted"
+	"github.com/uhppoted/uhppoted-lib-go/src/uhppoted"
 	"github.com/uhppoted/uhppoted-lib-go/src/uhppoted/types"
 )
 
-func setTimeProfile(u lib.Uhppoted, args []string) error {
+func setTimeProfile(u uhppoted.Uhppoted, args []string) error {
 	var profile uint
 	var startDate, _ = time.Parse("2006-01-02", "2025-01-01")
 	var endDate, _ = time.Parse("2006-01-02", "2025-12-31")
@@ -42,7 +42,7 @@ func setTimeProfile(u lib.Uhppoted, args []string) error {
 		e := types.NewDate(2025, 11, 29)
 
 		f := func(c uint32) (any, error) {
-			return lib.SetTimeProfile(u,
+			return uhppoted.SetTimeProfile(u,
 				c,
 				uint8(profile),
 				startDate,
@@ -55,8 +55,8 @@ func setTimeProfile(u lib.Uhppoted, args []string) error {
 				options.timeout)
 		}
 
-		g := func(c lib.Controller) (any, error) {
-			return lib.SetTimeProfile(u,
+		g := func(c uhppoted.Controller) (any, error) {
+			return uhppoted.SetTimeProfile(u,
 				c,
 				uint8(profile),
 				d,
@@ -83,7 +83,7 @@ func setTimeProfile(u lib.Uhppoted, args []string) error {
 	}
 }
 
-func setTimeProfileRecord(u lib.Uhppoted, args []string) error {
+func setTimeProfileRecord(u uhppoted.Uhppoted, args []string) error {
 	var profile uint
 	var startDate, _ = types.ParseDate("2025-01-01")
 	var endDate, _ = types.ParseDate("2025-12-31")
@@ -142,11 +142,11 @@ func setTimeProfileRecord(u lib.Uhppoted, args []string) error {
 		}
 
 		f := func(c uint32) (any, error) {
-			return lib.SetTimeProfileRecord(u, c, record, options.timeout)
+			return uhppoted.SetTimeProfileRecord(u, c, record, options.timeout)
 		}
 
-		g := func(c lib.Controller) (any, error) {
-			return lib.SetTimeProfileRecord(u, c, record, options.timeout)
+		g := func(c uhppoted.Controller) (any, error) {
+			return uhppoted.SetTimeProfileRecord(u, c, record, options.timeout)
 		}
 
 		if v, err := exec(controller, flagset, f, g); err != nil {

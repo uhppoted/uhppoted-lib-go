@@ -5,21 +5,21 @@ import (
 	"flag"
 	"fmt"
 
-	lib "github.com/uhppoted/uhppoted-lib-go/src/uhppoted"
+	"github.com/uhppoted/uhppoted-lib-go/src/uhppoted"
 )
 
-func getStatus(u lib.Uhppoted, args []string) error {
+func getStatus(u uhppoted.Uhppoted, args []string) error {
 	flagset := flag.NewFlagSet("get-status", flag.ExitOnError)
 
 	if controller, err := parse(flagset, args); err != nil {
 		return err
 	} else {
 		f := func(c uint32) (any, error) {
-			return lib.GetStatus(u, c, options.timeout)
+			return uhppoted.GetStatus(u, c, options.timeout)
 		}
 
-		g := func(c lib.Controller) (any, error) {
-			return lib.GetStatus(u, c, options.timeout)
+		g := func(c uhppoted.Controller) (any, error) {
+			return uhppoted.GetStatus(u, c, options.timeout)
 		}
 
 		if v, err := exec(controller, flagset, f, g); err != nil {
@@ -36,18 +36,18 @@ func getStatus(u lib.Uhppoted, args []string) error {
 	}
 }
 
-func getStatusRecord(u lib.Uhppoted, args []string) error {
+func getStatusRecord(u uhppoted.Uhppoted, args []string) error {
 	flagset := flag.NewFlagSet("get-status-record", flag.ExitOnError)
 
 	if controller, err := parse(flagset, args); err != nil {
 		return err
 	} else {
 		f := func(c uint32) (any, error) {
-			return lib.GetStatusRecord(u, c, options.timeout)
+			return uhppoted.GetStatusRecord(u, c, options.timeout)
 		}
 
-		g := func(c lib.Controller) (any, error) {
-			return lib.GetStatusRecord(u, c, options.timeout)
+		g := func(c uhppoted.Controller) (any, error) {
+			return uhppoted.GetStatusRecord(u, c, options.timeout)
 		}
 
 		if v, err := exec(controller, flagset, f, g); err != nil {

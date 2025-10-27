@@ -5,12 +5,12 @@ import (
 	"flag"
 	"fmt"
 
-	lib "github.com/uhppoted/uhppoted-lib-go/src/uhppoted"
+	"github.com/uhppoted/uhppoted-lib-go/src/uhppoted"
 	"github.com/uhppoted/uhppoted-lib-go/src/uhppoted/responses"
 	"github.com/uhppoted/uhppoted-lib-go/src/uhppoted/types"
 )
 
-func getCard(u lib.Uhppoted, args []string) error {
+func getCard(u uhppoted.Uhppoted, args []string) error {
 	var card uint
 
 	flagset := flag.NewFlagSet("get-card", flag.ExitOnError)
@@ -26,11 +26,11 @@ func getCard(u lib.Uhppoted, args []string) error {
 			return fmt.Errorf("invalid card (%v)", card)
 		} else {
 			f := func(c uint32) (any, error) {
-				return lib.GetCard(u, c, uint32(card), options.timeout)
+				return uhppoted.GetCard(u, c, uint32(card), options.timeout)
 			}
 
-			g := func(c lib.Controller) (any, error) {
-				return lib.GetCard(u, c, uint32(card), options.timeout)
+			g := func(c uhppoted.Controller) (any, error) {
+				return uhppoted.GetCard(u, c, uint32(card), options.timeout)
 			}
 
 			if v, err := exec(controller, flagset, f, g); err != nil {
@@ -50,7 +50,7 @@ func getCard(u lib.Uhppoted, args []string) error {
 	}
 }
 
-func getCardRecord(u lib.Uhppoted, args []string) error {
+func getCardRecord(u uhppoted.Uhppoted, args []string) error {
 	var card uint
 
 	flagset := flag.NewFlagSet("get-card", flag.ExitOnError)
@@ -66,11 +66,11 @@ func getCardRecord(u lib.Uhppoted, args []string) error {
 			return fmt.Errorf("invalid card (%v)", card)
 		} else {
 			f := func(c uint32) (any, error) {
-				return lib.GetCardRecord(u, c, uint32(card), options.timeout)
+				return uhppoted.GetCardRecord(u, c, uint32(card), options.timeout)
 			}
 
-			g := func(c lib.Controller) (any, error) {
-				return lib.GetCardRecord(u, c, uint32(card), options.timeout)
+			g := func(c uhppoted.Controller) (any, error) {
+				return uhppoted.GetCardRecord(u, c, uint32(card), options.timeout)
 			}
 
 			if v, err := exec(controller, flagset, f, g); err != nil {

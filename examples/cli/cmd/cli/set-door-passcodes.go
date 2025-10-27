@@ -5,10 +5,10 @@ import (
 	"flag"
 	"fmt"
 
-	lib "github.com/uhppoted/uhppoted-lib-go/src/uhppoted"
+	"github.com/uhppoted/uhppoted-lib-go/src/uhppoted"
 )
 
-func setDoorPasscodes(u lib.Uhppoted, args []string) error {
+func setDoorPasscodes(u uhppoted.Uhppoted, args []string) error {
 	var door uint
 	var passcodes string
 
@@ -43,11 +43,11 @@ func setDoorPasscodes(u lib.Uhppoted, args []string) error {
 		}
 
 		f := func(c uint32) (any, error) {
-			return lib.SetDoorPasscodes(u, c, uint8(door), passcode1, passcode2, passcode3, passcode4, options.timeout)
+			return uhppoted.SetDoorPasscodes(u, c, uint8(door), passcode1, passcode2, passcode3, passcode4, options.timeout)
 		}
 
-		g := func(c lib.Controller) (any, error) {
-			return lib.SetDoorPasscodes(u, c, uint8(door), passcode1, passcode2, passcode3, passcode4, options.timeout)
+		g := func(c uhppoted.Controller) (any, error) {
+			return uhppoted.SetDoorPasscodes(u, c, uint8(door), passcode1, passcode2, passcode3, passcode4, options.timeout)
 		}
 
 		if v, err := exec(controller, flagset, f, g); err != nil {

@@ -89,20 +89,20 @@ func buildDecode() *dst.File {
 	return &dst.File{
 		Name: dst.NewIdent("decode"),
 
-		Imports: []*dst.ImportSpec{
-			{
-				Path: &dst.BasicLit{
-					Kind:  token.STRING,
-					Value: `"fmt"`,
-				},
-			},
-			{
-				Path: &dst.BasicLit{
-					Kind:  token.STRING,
-					Value: `"github.com/uhppoted/uhppoted-lib-go/src/uhppoted/responses"`,
-				},
-			},
-		},
+		// Imports: []*dst.ImportSpec{
+		// 	{
+		// 		Path: &dst.BasicLit{
+		// 			Kind:  token.STRING,
+		// 			Value: `"fmt"`,
+		// 		},
+		// 	},
+		// 	{
+		// 		Path: &dst.BasicLit{
+		// 			Kind:  token.STRING,
+		// 			Value: `"github.com/uhppoted/uhppoted-lib-go/src/uhppoted/responses"`,
+		// 		},
+		// 	},
+		// },
 
 		Decls: impl,
 	}

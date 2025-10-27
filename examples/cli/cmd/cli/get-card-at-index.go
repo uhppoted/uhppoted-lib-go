@@ -5,12 +5,12 @@ import (
 	"flag"
 	"fmt"
 
-	lib "github.com/uhppoted/uhppoted-lib-go/src/uhppoted"
+	"github.com/uhppoted/uhppoted-lib-go/src/uhppoted"
 	"github.com/uhppoted/uhppoted-lib-go/src/uhppoted/responses"
 	"github.com/uhppoted/uhppoted-lib-go/src/uhppoted/types"
 )
 
-func getCardAtIndex(u lib.Uhppoted, args []string) error {
+func getCardAtIndex(u uhppoted.Uhppoted, args []string) error {
 	var index uint
 
 	flagset := flag.NewFlagSet("get-card-at-index", flag.ExitOnError)
@@ -21,11 +21,11 @@ func getCardAtIndex(u lib.Uhppoted, args []string) error {
 		return err
 	} else {
 		f := func(c uint32) (any, error) {
-			return lib.GetCardAtIndex(u, c, uint32(index), options.timeout)
+			return uhppoted.GetCardAtIndex(u, c, uint32(index), options.timeout)
 		}
 
-		g := func(c lib.Controller) (any, error) {
-			return lib.GetCardAtIndex(u, c, uint32(index), options.timeout)
+		g := func(c uhppoted.Controller) (any, error) {
+			return uhppoted.GetCardAtIndex(u, c, uint32(index), options.timeout)
 		}
 
 		if v, err := exec(controller, flagset, f, g); err != nil {
@@ -46,7 +46,7 @@ func getCardAtIndex(u lib.Uhppoted, args []string) error {
 	}
 }
 
-func getCardRecordAtIndex(u lib.Uhppoted, args []string) error {
+func getCardRecordAtIndex(u uhppoted.Uhppoted, args []string) error {
 	var index uint
 
 	flagset := flag.NewFlagSet("get-card-at-index", flag.ExitOnError)
@@ -57,11 +57,11 @@ func getCardRecordAtIndex(u lib.Uhppoted, args []string) error {
 		return err
 	} else {
 		f := func(c uint32) (any, error) {
-			return lib.GetCardRecordAtIndex(u, c, uint32(index), options.timeout)
+			return uhppoted.GetCardRecordAtIndex(u, c, uint32(index), options.timeout)
 		}
 
-		g := func(c lib.Controller) (any, error) {
-			return lib.GetCardRecordAtIndex(u, c, uint32(index), options.timeout)
+		g := func(c uhppoted.Controller) (any, error) {
+			return uhppoted.GetCardRecordAtIndex(u, c, uint32(index), options.timeout)
 		}
 
 		if v, err := exec(controller, flagset, f, g); err != nil {

@@ -8,14 +8,14 @@ import (
     "testing"
 
     test "integration-tests"
-    lib "github.com/uhppoted/uhppoted-lib-go/src/uhppoted"
+    "github.com/uhppoted/uhppoted-lib-go/src/uhppoted"
     "github.com/uhppoted/uhppoted-lib-go/src/uhppoted/types"
 )
 
 {{ range $func := . }}{{ range $test := $func.Tests }}
 func Test{{ titleCase $test.Name }}(t *testing.T) {
 {{- range $arg := $test.Args }}{{ if eq $arg.Name "controller"}}
-      controller := lib.Controller{
+      controller := uhppoted.Controller{
                         ID: {{ $arg.Value }},
                         Address:  netip.MustParseAddrPort("127.0.0.1:50003"),
                         Protocol: "tcp",
@@ -23,7 +23,7 @@ func Test{{ titleCase $test.Name }}(t *testing.T) {
 {{ end }}
 {{- range $arg := $test.Args }}{{ if ne $arg.Name "controller"}}      {{ camelCase $arg.Name }} := {{ testarg $arg }}{{ end }}
 {{ end }}
-    response, err := lib.{{ titleCase $func.Name }}(u{{ range $arg := $test.Args }}, {{ camelCase $arg.Name }}{{end }}, timeout)
+    response, err := uhppoted.{{ titleCase $func.Name }}(u{{ range $arg := $test.Args }}, {{ camelCase $arg.Name }}{{end }}, timeout)
 
     if err != nil {
         t.Fatalf("%v", err)

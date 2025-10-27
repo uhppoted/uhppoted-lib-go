@@ -6,10 +6,10 @@ import (
 	"fmt"
 	"net/netip"
 
-	lib "github.com/uhppoted/uhppoted-lib-go/src/uhppoted"
+	"github.com/uhppoted/uhppoted-lib-go/src/uhppoted"
 )
 
-func setListener(u lib.Uhppoted, args []string) error {
+func setListener(u uhppoted.Uhppoted, args []string) error {
 	var listener string
 	var interval uint
 
@@ -26,11 +26,11 @@ func setListener(u lib.Uhppoted, args []string) error {
 		return fmt.Errorf("invalid auto-send interval (%v)", interval)
 	} else {
 		f := func(c uint32) (any, error) {
-			return lib.SetListenerAddrPort(u, c, addrport, uint8(interval), options.timeout)
+			return uhppoted.SetListenerAddrPort(u, c, addrport, uint8(interval), options.timeout)
 		}
 
-		g := func(c lib.Controller) (any, error) {
-			return lib.SetListenerAddrPort(u, c, addrport, uint8(interval), options.timeout)
+		g := func(c uhppoted.Controller) (any, error) {
+			return uhppoted.SetListenerAddrPort(u, c, addrport, uint8(interval), options.timeout)
 		}
 
 		if v, err := exec(controller, flagset, f, g); err != nil {

@@ -104,38 +104,38 @@ func buildAPI() *dst.File {
 	return &dst.File{
 		Name: dst.NewIdent("uhppoted"),
 
-		Imports: []*dst.ImportSpec{
-			{
-				Path: &dst.BasicLit{
-					Kind:  token.STRING,
-					Value: `"net/netip"`,
-				},
-			},
-			{
-				Path: &dst.BasicLit{
-					Kind:  token.STRING,
-					Value: `"time"`,
-				},
-			},
-			{
-				Path: &dst.BasicLit{
-					Kind:  token.STRING,
-					Value: `"github.com/uhppoted/uhppoted-lib-go/src/uhppoted/codec/encode"`,
-				},
-			},
-			{
-				Path: &dst.BasicLit{
-					Kind:  token.STRING,
-					Value: `"github.com/uhppoted/uhppoted-lib-go/src/uhppoted/types"`,
-				},
-			},
-			{
-				Path: &dst.BasicLit{
-					Kind:  token.STRING,
-					Value: `"github.com/uhppoted/uhppoted-lib-go/src/uhppoted/responses"`,
-				},
-			},
-		},
+		// Imports: []*dst.ImportSpec{
+		// 	{
+		// 		Path: &dst.BasicLit{
+		// 			Kind:  token.STRING,
+		// 			Value: `"net/netip"`,
+		// 		},
+		// 	},
+		// 	{
+		// 		Path: &dst.BasicLit{
+		// 			Kind:  token.STRING,
+		// 			Value: `"time"`,
+		// 		},
+		// 	},
+		// 	{
+		// 		Path: &dst.BasicLit{
+		// 			Kind:  token.STRING,
+		// 			Value: `"github.com/uhppoted/uhppoted-lib-go/src/uhppoted/codec/encode"`,
+		// 		},
+		// 	},
+		// 	{
+		// 		Path: &dst.BasicLit{
+		// 			Kind:  token.STRING,
+		// 			Value: `"github.com/uhppoted/uhppoted-lib-go/src/uhppoted/types"`,
+		// 		},
+		// 	},
+		// 	{
+		// 		Path: &dst.BasicLit{
+		// 			Kind:  token.STRING,
+		// 			Value: `"github.com/uhppoted/uhppoted-lib-go/src/uhppoted/responses"`,
+		// 		},
+		// 	},
+		// },
 
 		Decls: impl,
 	}

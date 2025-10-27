@@ -5,7 +5,7 @@ import (
 	"flag"
 	"fmt"
 
-	lib "github.com/uhppoted/uhppoted-lib-go/src/uhppoted"
+	"github.com/uhppoted/uhppoted-lib-go/src/uhppoted"
 )
 
 var antipassbacks = map[string]uint8{
@@ -16,7 +16,7 @@ var antipassbacks = map[string]uint8{
 	"1:(2,3,4)":   4,
 }
 
-func setAntiPassback(u lib.Uhppoted, args []string) error {
+func setAntiPassback(u uhppoted.Uhppoted, args []string) error {
 	var antipassback string
 
 	flagset := flag.NewFlagSet("set-antipassback", flag.ExitOnError)
@@ -29,11 +29,11 @@ func setAntiPassback(u lib.Uhppoted, args []string) error {
 		return fmt.Errorf("invalid anti-passback mode (%v)", antipassback)
 	} else {
 		f := func(c uint32) (any, error) {
-			return lib.SetAntiPassback(u, c, v, options.timeout)
+			return uhppoted.SetAntiPassback(u, c, v, options.timeout)
 		}
 
-		g := func(c lib.Controller) (any, error) {
-			return lib.SetAntiPassback(u, c, v, options.timeout)
+		g := func(c uhppoted.Controller) (any, error) {
+			return uhppoted.SetAntiPassback(u, c, v, options.timeout)
 		}
 
 		if v, err := exec(controller, flagset, f, g); err != nil {

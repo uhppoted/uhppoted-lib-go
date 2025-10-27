@@ -5,10 +5,10 @@ import (
 	"flag"
 	"fmt"
 
-	lib "github.com/uhppoted/uhppoted-lib-go/src/uhppoted"
+	"github.com/uhppoted/uhppoted-lib-go/src/uhppoted"
 )
 
-func deleteCard(u lib.Uhppoted, args []string) error {
+func deleteCard(u uhppoted.Uhppoted, args []string) error {
 	var card uint
 
 	flagset := flag.NewFlagSet("delete-card", flag.ExitOnError)
@@ -24,11 +24,11 @@ func deleteCard(u lib.Uhppoted, args []string) error {
 			return fmt.Errorf("invalid card (%v)", card)
 		} else {
 			f := func(c uint32) (any, error) {
-				return lib.DeleteCard(u, c, uint32(card), options.timeout)
+				return uhppoted.DeleteCard(u, c, uint32(card), options.timeout)
 			}
 
-			g := func(c lib.Controller) (any, error) {
-				return lib.DeleteCard(u, c, uint32(card), options.timeout)
+			g := func(c uhppoted.Controller) (any, error) {
+				return uhppoted.DeleteCard(u, c, uint32(card), options.timeout)
 			}
 
 			if v, err := exec(controller, flagset, f, g); err != nil {

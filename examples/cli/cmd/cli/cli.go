@@ -5,10 +5,10 @@ import (
 	"fmt"
 	"net/netip"
 
-	lib "github.com/uhppoted/uhppoted-lib-go/src/uhppoted"
+	"github.com/uhppoted/uhppoted-lib-go/src/uhppoted"
 )
 
-var commands = map[string]func(u lib.Uhppoted, args []string) error{
+var commands = map[string]func(u uhppoted.Uhppoted, args []string) error{
 	"find-controllers":           findControllers,
 	"get-controller":             getController,
 	"set-IPv4":                   setIPv4,
@@ -54,7 +54,7 @@ var commands = map[string]func(u lib.Uhppoted, args []string) error{
 	"listen":                     listen,
 }
 
-func exec(args controller, flagset *flag.FlagSet, f func(c uint32) (any, error), g func(c lib.Controller) (any, error)) (any, error) {
+func exec(args controller, flagset *flag.FlagSet, f func(c uint32) (any, error), g func(c uhppoted.Controller) (any, error)) (any, error) {
 	if c, err := resolve(args.controller, args.dest, args.tcp); err != nil {
 		return nil, err
 	} else if c == nil {
@@ -64,13 +64,13 @@ func exec(args controller, flagset *flag.FlagSet, f func(c uint32) (any, error),
 	}
 }
 
-func resolve(controller uint, dest string, tcp bool) (*lib.Controller, error) {
+func resolve(controller uint, dest string, tcp bool) (*uhppoted.Controller, error) {
 	if dest == "" {
 		return nil, nil
 	}
 
 	if addrport, err := netip.ParseAddrPort(dest); err == nil && tcp {
-		return &lib.Controller{
+		return &uhppoted.Controller{
 			ID:       uint32(controller),
 			Address:  addrport,
 			Protocol: "tcp",
@@ -78,7 +78,7 @@ func resolve(controller uint, dest string, tcp bool) (*lib.Controller, error) {
 	}
 
 	if addrport, err := netip.ParseAddrPort(dest); err == nil {
-		return &lib.Controller{
+		return &uhppoted.Controller{
 			ID:       uint32(controller),
 			Address:  addrport,
 			Protocol: "udp",
@@ -86,7 +86,7 @@ func resolve(controller uint, dest string, tcp bool) (*lib.Controller, error) {
 	}
 
 	if addr, err := netip.ParseAddr(dest); err == nil && tcp {
-		return &lib.Controller{
+		return &uhppoted.Controller{
 			ID:       uint32(controller),
 			Address:  netip.AddrPortFrom(addr, 60000),
 			Protocol: "tcp",
@@ -94,7 +94,7 @@ func resolve(controller uint, dest string, tcp bool) (*lib.Controller, error) {
 	}
 
 	if addr, err := netip.ParseAddr(dest); err == nil {
-		return &lib.Controller{
+		return &uhppoted.Controller{
 			ID:       uint32(controller),
 			Address:  netip.AddrPortFrom(addr, 60000),
 			Protocol: "udp",

@@ -6,10 +6,10 @@ import (
 	"fmt"
 	"net/netip"
 
-	lib "github.com/uhppoted/uhppoted-lib-go/src/uhppoted"
+	"github.com/uhppoted/uhppoted-lib-go/src/uhppoted"
 )
 
-func setIPv4(u lib.Uhppoted, args []string) error {
+func setIPv4(u uhppoted.Uhppoted, args []string) error {
 	var address string
 	var netmask string
 	var gateway string
@@ -30,11 +30,11 @@ func setIPv4(u lib.Uhppoted, args []string) error {
 		return err
 	} else {
 		f := func(c uint32) (any, error) {
-			return lib.SetIPv4(u, c, addr, mask, gw, options.timeout)
+			return uhppoted.SetIPv4(u, c, addr, mask, gw, options.timeout)
 		}
 
-		g := func(c lib.Controller) (any, error) {
-			return lib.SetIPv4(u, c, addr, mask, gw, options.timeout)
+		g := func(c uhppoted.Controller) (any, error) {
+			return uhppoted.SetIPv4(u, c, addr, mask, gw, options.timeout)
 		}
 
 		if v, err := exec(controller, flagset, f, g); err != nil {

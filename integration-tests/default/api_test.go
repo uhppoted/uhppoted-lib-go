@@ -7,13 +7,13 @@ import (
 	"reflect"
 	"testing"
 
-	lib "github.com/uhppoted/uhppoted-lib-go/src/uhppoted"
+	"github.com/uhppoted/uhppoted-lib-go/src/uhppoted"
 	"github.com/uhppoted/uhppoted-lib-go/src/uhppoted/types"
 	test "integration-tests"
 )
 
 func TestFindControllers(t *testing.T) {
-	response, err := lib.FindControllers(u, timeout)
+	response, err := uhppoted.FindControllers(u, timeout)
 
 	if err != nil {
 		t.Fatalf("%v", err)
@@ -25,7 +25,7 @@ func TestFindControllers(t *testing.T) {
 func TestGetController(t *testing.T) {
 	controller := uint32(405419896)
 
-	response, err := lib.GetController(u, controller, timeout)
+	response, err := uhppoted.GetController(u, controller, timeout)
 
 	if err != nil {
 		t.Fatalf("%v", err)
@@ -41,7 +41,7 @@ func TestSetIPv4(t *testing.T) {
 	netmask := netip.MustParseAddr("255.255.255.0")
 	gateway := netip.MustParseAddr("192.168.1.1")
 
-	response, err := lib.SetIPv4(u, controller, address, netmask, gateway, timeout)
+	response, err := uhppoted.SetIPv4(u, controller, address, netmask, gateway, timeout)
 
 	if err != nil {
 		t.Fatalf("%v", err)
@@ -53,7 +53,7 @@ func TestSetIPv4(t *testing.T) {
 func TestGetTime(t *testing.T) {
 	controller := uint32(405419896)
 
-	response, err := lib.GetTime(u, controller, timeout)
+	response, err := uhppoted.GetTime(u, controller, timeout)
 
 	if err != nil {
 		t.Fatalf("%v", err)
@@ -67,7 +67,7 @@ func TestSetTime(t *testing.T) {
 
 	dateTime := types.MustParseDateTime("2025-11-04 12:34:56")
 
-	response, err := lib.SetTime(u, controller, dateTime, timeout)
+	response, err := uhppoted.SetTime(u, controller, dateTime, timeout)
 
 	if err != nil {
 		t.Fatalf("%v", err)
@@ -79,7 +79,7 @@ func TestSetTime(t *testing.T) {
 func TestGetListener(t *testing.T) {
 	controller := uint32(405419896)
 
-	response, err := lib.GetListener(u, controller, timeout)
+	response, err := uhppoted.GetListener(u, controller, timeout)
 
 	if err != nil {
 		t.Fatalf("%v", err)
@@ -95,7 +95,7 @@ func TestSetListener(t *testing.T) {
 	port := uint16(60001)
 	interval := uint8(17)
 
-	response, err := lib.SetListener(u, controller, address, port, interval, timeout)
+	response, err := uhppoted.SetListener(u, controller, address, port, interval, timeout)
 
 	if err != nil {
 		t.Fatalf("%v", err)
@@ -107,7 +107,7 @@ func TestSetListener(t *testing.T) {
 func TestGetListenerAddrPort(t *testing.T) {
 	controller := uint32(405419897)
 
-	response, err := lib.GetListenerAddrPort(u, controller, timeout)
+	response, err := uhppoted.GetListenerAddrPort(u, controller, timeout)
 
 	if err != nil {
 		t.Fatalf("%v", err)
@@ -122,7 +122,7 @@ func TestSetListenerAddrPort(t *testing.T) {
 	listener := netip.MustParseAddrPort("192.168.1.100:60001")
 	interval := uint8(17)
 
-	response, err := lib.SetListenerAddrPort(u, controller, listener, interval, timeout)
+	response, err := uhppoted.SetListenerAddrPort(u, controller, listener, interval, timeout)
 
 	if err != nil {
 		t.Fatalf("%v", err)
@@ -136,7 +136,7 @@ func TestGetDoor(t *testing.T) {
 
 	door := uint8(4)
 
-	response, err := lib.GetDoor(u, controller, door, timeout)
+	response, err := uhppoted.GetDoor(u, controller, door, timeout)
 
 	if err != nil {
 		t.Fatalf("%v", err)
@@ -152,7 +152,7 @@ func TestSetDoor(t *testing.T) {
 	mode := types.DoorMode(2)
 	delay := uint8(17)
 
-	response, err := lib.SetDoor(u, controller, door, mode, delay, timeout)
+	response, err := uhppoted.SetDoor(u, controller, door, mode, delay, timeout)
 
 	if err != nil {
 		t.Fatalf("%v", err)
@@ -170,7 +170,7 @@ func TestSetDoorPasscodes(t *testing.T) {
 	passcode3 := uint32(999999)
 	passcode4 := uint32(0)
 
-	response, err := lib.SetDoorPasscodes(u, controller, door, passcode1, passcode2, passcode3, passcode4, timeout)
+	response, err := uhppoted.SetDoorPasscodes(u, controller, door, passcode1, passcode2, passcode3, passcode4, timeout)
 
 	if err != nil {
 		t.Fatalf("%v", err)
@@ -184,7 +184,7 @@ func TestOpenDoor(t *testing.T) {
 
 	door := uint8(4)
 
-	response, err := lib.OpenDoor(u, controller, door, timeout)
+	response, err := uhppoted.OpenDoor(u, controller, door, timeout)
 
 	if err != nil {
 		t.Fatalf("%v", err)
@@ -196,7 +196,7 @@ func TestOpenDoor(t *testing.T) {
 func TestGetStatus(t *testing.T) {
 	controller := uint32(405419896)
 
-	response, err := lib.GetStatus(u, controller, timeout)
+	response, err := uhppoted.GetStatus(u, controller, timeout)
 
 	if err != nil {
 		t.Fatalf("%v", err)
@@ -208,7 +208,7 @@ func TestGetStatus(t *testing.T) {
 func TestGetStatusNoEvent(t *testing.T) {
 	controller := uint32(405419897)
 
-	response, err := lib.GetStatus(u, controller, timeout)
+	response, err := uhppoted.GetStatus(u, controller, timeout)
 
 	if err != nil {
 		t.Fatalf("%v", err)
@@ -220,7 +220,7 @@ func TestGetStatusNoEvent(t *testing.T) {
 func TestGetCards(t *testing.T) {
 	controller := uint32(405419896)
 
-	response, err := lib.GetCards(u, controller, timeout)
+	response, err := uhppoted.GetCards(u, controller, timeout)
 
 	if err != nil {
 		t.Fatalf("%v", err)
@@ -234,7 +234,7 @@ func TestGetCard(t *testing.T) {
 
 	card := uint32(10058400)
 
-	response, err := lib.GetCard(u, controller, card, timeout)
+	response, err := uhppoted.GetCard(u, controller, card, timeout)
 
 	if err != nil {
 		t.Fatalf("%v", err)
@@ -248,7 +248,7 @@ func TestGetCardNotFound(t *testing.T) {
 
 	card := uint32(10058401)
 
-	response, err := lib.GetCard(u, controller, card, timeout)
+	response, err := uhppoted.GetCard(u, controller, card, timeout)
 
 	if err != nil {
 		t.Fatalf("%v", err)
@@ -262,7 +262,7 @@ func TestGetCardAtIndex(t *testing.T) {
 
 	index := uint32(135)
 
-	response, err := lib.GetCardAtIndex(u, controller, index, timeout)
+	response, err := uhppoted.GetCardAtIndex(u, controller, index, timeout)
 
 	if err != nil {
 		t.Fatalf("%v", err)
@@ -276,7 +276,7 @@ func TestGetCardAtIndexNotFound(t *testing.T) {
 
 	index := uint32(136)
 
-	response, err := lib.GetCardAtIndex(u, controller, index, timeout)
+	response, err := uhppoted.GetCardAtIndex(u, controller, index, timeout)
 
 	if err != nil {
 		t.Fatalf("%v", err)
@@ -290,7 +290,7 @@ func TestGetCardAtIndexDeleted(t *testing.T) {
 
 	index := uint32(137)
 
-	response, err := lib.GetCardAtIndex(u, controller, index, timeout)
+	response, err := uhppoted.GetCardAtIndex(u, controller, index, timeout)
 
 	if err != nil {
 		t.Fatalf("%v", err)
@@ -311,7 +311,7 @@ func TestPutCard(t *testing.T) {
 	door4 := uint8(1)
 	PIN := uint32(999999)
 
-	response, err := lib.PutCard(u, controller, card, startDate, endDate, door1, door2, door3, door4, PIN, timeout)
+	response, err := uhppoted.PutCard(u, controller, card, startDate, endDate, door1, door2, door3, door4, PIN, timeout)
 
 	if err != nil {
 		t.Fatalf("%v", err)
@@ -325,7 +325,7 @@ func TestDeleteCard(t *testing.T) {
 
 	card := uint32(10058400)
 
-	response, err := lib.DeleteCard(u, controller, card, timeout)
+	response, err := uhppoted.DeleteCard(u, controller, card, timeout)
 
 	if err != nil {
 		t.Fatalf("%v", err)
@@ -337,7 +337,7 @@ func TestDeleteCard(t *testing.T) {
 func TestDeleteAllCards(t *testing.T) {
 	controller := uint32(405419896)
 
-	response, err := lib.DeleteAllCards(u, controller, timeout)
+	response, err := uhppoted.DeleteAllCards(u, controller, timeout)
 
 	if err != nil {
 		t.Fatalf("%v", err)
@@ -351,7 +351,7 @@ func TestGetEvent(t *testing.T) {
 
 	eventIndex := uint32(13579)
 
-	response, err := lib.GetEvent(u, controller, eventIndex, timeout)
+	response, err := uhppoted.GetEvent(u, controller, eventIndex, timeout)
 
 	if err != nil {
 		t.Fatalf("%v", err)
@@ -365,7 +365,7 @@ func TestGetEventNotFound(t *testing.T) {
 
 	eventIndex := uint32(24680)
 
-	response, err := lib.GetEvent(u, controller, eventIndex, timeout)
+	response, err := uhppoted.GetEvent(u, controller, eventIndex, timeout)
 
 	if err != nil {
 		t.Fatalf("%v", err)
@@ -379,7 +379,7 @@ func TestGetEventOverwritten(t *testing.T) {
 
 	eventIndex := uint32(98765)
 
-	response, err := lib.GetEvent(u, controller, eventIndex, timeout)
+	response, err := uhppoted.GetEvent(u, controller, eventIndex, timeout)
 
 	if err != nil {
 		t.Fatalf("%v", err)
@@ -391,7 +391,7 @@ func TestGetEventOverwritten(t *testing.T) {
 func TestGetEventIndex(t *testing.T) {
 	controller := uint32(405419896)
 
-	response, err := lib.GetEventIndex(u, controller, timeout)
+	response, err := uhppoted.GetEventIndex(u, controller, timeout)
 
 	if err != nil {
 		t.Fatalf("%v", err)
@@ -405,7 +405,7 @@ func TestSetEventIndex(t *testing.T) {
 
 	index := uint32(13579)
 
-	response, err := lib.SetEventIndex(u, controller, index, timeout)
+	response, err := uhppoted.SetEventIndex(u, controller, index, timeout)
 
 	if err != nil {
 		t.Fatalf("%v", err)
@@ -419,7 +419,7 @@ func TestRecordSpecialEvents(t *testing.T) {
 
 	enabled := true
 
-	response, err := lib.RecordSpecialEvents(u, controller, enabled, timeout)
+	response, err := uhppoted.RecordSpecialEvents(u, controller, enabled, timeout)
 
 	if err != nil {
 		t.Fatalf("%v", err)
@@ -433,7 +433,7 @@ func TestGetTimeProfile(t *testing.T) {
 
 	profile := uint8(37)
 
-	response, err := lib.GetTimeProfile(u, controller, profile, timeout)
+	response, err := uhppoted.GetTimeProfile(u, controller, profile, timeout)
 
 	if err != nil {
 		t.Fatalf("%v", err)
@@ -463,7 +463,7 @@ func TestSetTimeProfile(t *testing.T) {
 	segment3End := types.MustParseHHmm("17:59")
 	linkedProfileId := uint8(19)
 
-	response, err := lib.SetTimeProfile(u, controller, profile, startDate, endDate, monday, tuesday, wednesday, thursday, friday, saturday, sunday, segment1Start, segment1End, segment2Start, segment2End, segment3Start, segment3End, linkedProfileId, timeout)
+	response, err := uhppoted.SetTimeProfile(u, controller, profile, startDate, endDate, monday, tuesday, wednesday, thursday, friday, saturday, sunday, segment1Start, segment1End, segment2Start, segment2End, segment3Start, segment3End, linkedProfileId, timeout)
 
 	if err != nil {
 		t.Fatalf("%v", err)
@@ -475,7 +475,7 @@ func TestSetTimeProfile(t *testing.T) {
 func TestClearTimeProfiles(t *testing.T) {
 	controller := uint32(405419896)
 
-	response, err := lib.ClearTimeProfiles(u, controller, timeout)
+	response, err := uhppoted.ClearTimeProfiles(u, controller, timeout)
 
 	if err != nil {
 		t.Fatalf("%v", err)
@@ -501,7 +501,7 @@ func TestAddTask(t *testing.T) {
 	door := uint8(3)
 	moreCards := uint8(7)
 
-	response, err := lib.AddTask(u, controller, task, startDate, endDate, monday, tuesday, wednesday, thursday, friday, saturday, sunday, startTime, door, moreCards, timeout)
+	response, err := uhppoted.AddTask(u, controller, task, startDate, endDate, monday, tuesday, wednesday, thursday, friday, saturday, sunday, startTime, door, moreCards, timeout)
 
 	if err != nil {
 		t.Fatalf("%v", err)
@@ -513,7 +513,7 @@ func TestAddTask(t *testing.T) {
 func TestRefreshTaskList(t *testing.T) {
 	controller := uint32(405419896)
 
-	response, err := lib.RefreshTaskList(u, controller, timeout)
+	response, err := uhppoted.RefreshTaskList(u, controller, timeout)
 
 	if err != nil {
 		t.Fatalf("%v", err)
@@ -525,7 +525,7 @@ func TestRefreshTaskList(t *testing.T) {
 func TestClearTaskList(t *testing.T) {
 	controller := uint32(405419896)
 
-	response, err := lib.ClearTaskList(u, controller, timeout)
+	response, err := uhppoted.ClearTaskList(u, controller, timeout)
 
 	if err != nil {
 		t.Fatalf("%v", err)
@@ -539,7 +539,7 @@ func TestSetPcControl(t *testing.T) {
 
 	enabled := true
 
-	response, err := lib.SetPCControl(u, controller, enabled, timeout)
+	response, err := uhppoted.SetPCControl(u, controller, enabled, timeout)
 
 	if err != nil {
 		t.Fatalf("%v", err)
@@ -553,7 +553,7 @@ func TestSetInterlock(t *testing.T) {
 
 	interlock := types.Interlock(8)
 
-	response, err := lib.SetInterlock(u, controller, interlock, timeout)
+	response, err := uhppoted.SetInterlock(u, controller, interlock, timeout)
 
 	if err != nil {
 		t.Fatalf("%v", err)
@@ -570,7 +570,7 @@ func TestActivateKeypads(t *testing.T) {
 	reader3 := false
 	reader4 := true
 
-	response, err := lib.ActivateKeypads(u, controller, reader1, reader2, reader3, reader4, timeout)
+	response, err := uhppoted.ActivateKeypads(u, controller, reader1, reader2, reader3, reader4, timeout)
 
 	if err != nil {
 		t.Fatalf("%v", err)
@@ -582,7 +582,7 @@ func TestActivateKeypads(t *testing.T) {
 func TestGetAntipassback(t *testing.T) {
 	controller := uint32(405419896)
 
-	response, err := lib.GetAntiPassback(u, controller, timeout)
+	response, err := uhppoted.GetAntiPassback(u, controller, timeout)
 
 	if err != nil {
 		t.Fatalf("%v", err)
@@ -596,7 +596,7 @@ func TestSetAntipassback(t *testing.T) {
 
 	antipassback := uint8(2)
 
-	response, err := lib.SetAntiPassback(u, controller, antipassback, timeout)
+	response, err := uhppoted.SetAntiPassback(u, controller, antipassback, timeout)
 
 	if err != nil {
 		t.Fatalf("%v", err)
@@ -608,7 +608,7 @@ func TestSetAntipassback(t *testing.T) {
 func TestRestoreDefaultParameters(t *testing.T) {
 	controller := uint32(405419896)
 
-	response, err := lib.RestoreDefaultParameters(u, controller, timeout)
+	response, err := uhppoted.RestoreDefaultParameters(u, controller, timeout)
 
 	if err != nil {
 		t.Fatalf("%v", err)

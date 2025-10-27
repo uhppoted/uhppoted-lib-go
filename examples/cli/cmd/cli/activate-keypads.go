@@ -7,10 +7,10 @@ import (
 	"strconv"
 	"strings"
 
-	lib "github.com/uhppoted/uhppoted-lib-go/src/uhppoted"
+	"github.com/uhppoted/uhppoted-lib-go/src/uhppoted"
 )
 
-func activateKeypads(u lib.Uhppoted, args []string) error {
+func activateKeypads(u uhppoted.Uhppoted, args []string) error {
 	var keypads string
 
 	flagset := flag.NewFlagSet("activate-keypads", flag.ExitOnError)
@@ -23,11 +23,11 @@ func activateKeypads(u lib.Uhppoted, args []string) error {
 		return err
 	} else {
 		f := func(c uint32) (any, error) {
-			return lib.ActivateKeypads(u, c, v[0], v[1], v[2], v[3], options.timeout)
+			return uhppoted.ActivateKeypads(u, c, v[0], v[1], v[2], v[3], options.timeout)
 		}
 
-		g := func(c lib.Controller) (any, error) {
-			return lib.ActivateKeypads(u, c, v[0], v[1], v[2], v[3], options.timeout)
+		g := func(c uhppoted.Controller) (any, error) {
+			return uhppoted.ActivateKeypads(u, c, v[0], v[1], v[2], v[3], options.timeout)
 		}
 
 		if v, err := exec(controller, flagset, f, g); err != nil {

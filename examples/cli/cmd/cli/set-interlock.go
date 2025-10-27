@@ -5,7 +5,7 @@ import (
 	"flag"
 	"fmt"
 
-	lib "github.com/uhppoted/uhppoted-lib-go/src/uhppoted"
+	"github.com/uhppoted/uhppoted-lib-go/src/uhppoted"
 	"github.com/uhppoted/uhppoted-lib-go/src/uhppoted/types"
 )
 
@@ -18,7 +18,7 @@ var interlocks = map[string]types.Interlock{
 	"1&2&3&4":  types.Interlock1234,
 }
 
-func setInterlock(u lib.Uhppoted, args []string) error {
+func setInterlock(u uhppoted.Uhppoted, args []string) error {
 	var interlock string
 
 	flagset := flag.NewFlagSet("set-interlock", flag.ExitOnError)
@@ -31,11 +31,11 @@ func setInterlock(u lib.Uhppoted, args []string) error {
 		return fmt.Errorf("invalid interlock mode (%v)", interlock)
 	} else {
 		f := func(c uint32) (any, error) {
-			return lib.SetInterlock(u, c, v, options.timeout)
+			return uhppoted.SetInterlock(u, c, v, options.timeout)
 		}
 
-		g := func(c lib.Controller) (any, error) {
-			return lib.SetInterlock(u, c, v, options.timeout)
+		g := func(c uhppoted.Controller) (any, error) {
+			return uhppoted.SetInterlock(u, c, v, options.timeout)
 		}
 
 		if v, err := exec(controller, flagset, f, g); err != nil {

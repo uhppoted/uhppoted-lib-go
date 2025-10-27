@@ -5,10 +5,10 @@ import (
 	"flag"
 	"fmt"
 
-	lib "github.com/uhppoted/uhppoted-lib-go/src/uhppoted"
+	"github.com/uhppoted/uhppoted-lib-go/src/uhppoted"
 )
 
-func getTimeProfile(u lib.Uhppoted, args []string) error {
+func getTimeProfile(u uhppoted.Uhppoted, args []string) error {
 	var profile uint
 
 	flagset := flag.NewFlagSet("get-time-profile", flag.ExitOnError)
@@ -21,11 +21,11 @@ func getTimeProfile(u lib.Uhppoted, args []string) error {
 		return fmt.Errorf("invalid profile (%v)", profile)
 	} else {
 		f := func(c uint32) (any, error) {
-			return lib.GetTimeProfile(u, c, uint8(profile), options.timeout)
+			return uhppoted.GetTimeProfile(u, c, uint8(profile), options.timeout)
 		}
 
-		g := func(c lib.Controller) (any, error) {
-			return lib.GetTimeProfile(u, c, uint8(profile), options.timeout)
+		g := func(c uhppoted.Controller) (any, error) {
+			return uhppoted.GetTimeProfile(u, c, uint8(profile), options.timeout)
 		}
 
 		if v, err := exec(controller, flagset, f, g); err != nil {
@@ -42,7 +42,7 @@ func getTimeProfile(u lib.Uhppoted, args []string) error {
 	}
 }
 
-func getTimeProfileRecord(u lib.Uhppoted, args []string) error {
+func getTimeProfileRecord(u uhppoted.Uhppoted, args []string) error {
 	var profile uint
 
 	flagset := flag.NewFlagSet("get-time-profile-record", flag.ExitOnError)
@@ -55,11 +55,11 @@ func getTimeProfileRecord(u lib.Uhppoted, args []string) error {
 		return fmt.Errorf("invalid profile (%v)", profile)
 	} else {
 		f := func(c uint32) (any, error) {
-			return lib.GetTimeProfileRecord(u, c, uint8(profile), options.timeout)
+			return uhppoted.GetTimeProfileRecord(u, c, uint8(profile), options.timeout)
 		}
 
-		g := func(c lib.Controller) (any, error) {
-			return lib.GetTimeProfileRecord(u, c, uint8(profile), options.timeout)
+		g := func(c uhppoted.Controller) (any, error) {
+			return uhppoted.GetTimeProfileRecord(u, c, uint8(profile), options.timeout)
 		}
 
 		if v, err := exec(controller, flagset, f, g); err != nil {

@@ -87,20 +87,20 @@ func buildResponses() *dst.File {
 	return &dst.File{
 		Name: dst.NewIdent("responses"),
 
-		Imports: []*dst.ImportSpec{
-			{
-				Path: &dst.BasicLit{
-					Kind:  token.STRING,
-					Value: `"net/netip"`,
-				},
-			},
-			{
-				Path: &dst.BasicLit{
-					Kind:  token.STRING,
-					Value: `"github.com/uhppoted/uhppoted-lib-go/src/uhppoted/types"`,
-				},
-			},
-		},
+		// Imports: []*dst.ImportSpec{
+		// 	{
+		// 		Path: &dst.BasicLit{
+		// 			Kind:  token.STRING,
+		// 			Value: `"net/netip"`,
+		// 		},
+		// 	},
+		// 	{
+		// 		Path: &dst.BasicLit{
+		// 			Kind:  token.STRING,
+		// 			Value: `"github.com/uhppoted/uhppoted-lib-go/src/uhppoted/types"`,
+		// 		},
+		// 	},
+		// },
 
 		Decls: impl,
 	}

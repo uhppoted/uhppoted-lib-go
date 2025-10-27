@@ -4,11 +4,11 @@ import (
 	"encoding/json"
 	"fmt"
 
-	lib "github.com/uhppoted/uhppoted-lib-go/src/uhppoted"
+	"github.com/uhppoted/uhppoted-lib-go/src/uhppoted"
 )
 
-func findControllers(u lib.Uhppoted, args []string) error {
-	if controllers, err := lib.FindControllers(u, options.timeout); err != nil {
+func findControllers(u uhppoted.Uhppoted, args []string) error {
+	if controllers, err := uhppoted.FindControllers(u, options.timeout); err != nil {
 		return err
 	} else {
 		fmt.Printf("find-controllers\n")

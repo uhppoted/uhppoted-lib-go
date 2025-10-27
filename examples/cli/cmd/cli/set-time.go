@@ -5,10 +5,11 @@ import (
 	"flag"
 	"fmt"
 
-	lib "github.com/uhppoted/uhppoted-lib-go/src/uhppoted"
+	"github.com/uhppoted/uhppoted-lib-go/src/uhppoted"
+	"github.com/uhppoted/uhppoted-lib-go/src/uhppoted/types"
 )
 
-func setTime(u lib.Uhppoted, args []string) error {
+func setTime(u uhppoted.Uhppoted, args []string) error {
 	var datetime string
 
 	flagset := flag.NewFlagSet("set-time", flag.ExitOnError)
@@ -20,15 +21,15 @@ func setTime(u lib.Uhppoted, args []string) error {
 	} else if now, err := parseDateTime(datetime); err != nil {
 		return err
 	} else {
-		// (for demo purposes only - there is actually a lib.DateTimeFromTime helper function)
+		// (for demo purposes only - there is actually a uhppoted.DateTimeFromTime helper function)
 		dt := types.NewDateTime(uint16(now.Year()), uint8(now.Month()), uint8(now.Day()), uint8(now.Hour()), uint8(now.Minute()), uint8(now.Second()))
 
 		f := func(c uint32) (any, error) {
-			return lib.SetTime(u, c, now, options.timeout)
+			return uhppoted.SetTime(u, c, now, options.timeout)
 		}
 
-		g := func(c lib.Controller) (any, error) {
-			return lib.SetTime(u, c, dt, options.timeout)
+		g := func(c uhppoted.Controller) (any, error) {
+			return uhppoted.SetTime(u, c, dt, options.timeout)
 		}
 
 		if v, err := exec(controller, flagset, f, g); err != nil {

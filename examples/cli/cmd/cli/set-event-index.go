@@ -5,10 +5,10 @@ import (
 	"flag"
 	"fmt"
 
-	lib "github.com/uhppoted/uhppoted-lib-go/src/uhppoted"
+	"github.com/uhppoted/uhppoted-lib-go/src/uhppoted"
 )
 
-func setEventIndex(u lib.Uhppoted, args []string) error {
+func setEventIndex(u uhppoted.Uhppoted, args []string) error {
 	var index uint
 
 	flagset := flag.NewFlagSet("set-event-index", flag.ExitOnError)
@@ -19,11 +19,11 @@ func setEventIndex(u lib.Uhppoted, args []string) error {
 		return err
 	} else {
 		f := func(c uint32) (any, error) {
-			return lib.SetEventIndex(u, c, uint32(index), options.timeout)
+			return uhppoted.SetEventIndex(u, c, uint32(index), options.timeout)
 		}
 
-		g := func(c lib.Controller) (any, error) {
-			return lib.SetEventIndex(u, c, uint32(index), options.timeout)
+		g := func(c uhppoted.Controller) (any, error) {
+			return uhppoted.SetEventIndex(u, c, uint32(index), options.timeout)
 		}
 
 		if v, err := exec(controller, flagset, f, g); err != nil {

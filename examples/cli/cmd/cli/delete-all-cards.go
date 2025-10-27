@@ -5,21 +5,21 @@ import (
 	"flag"
 	"fmt"
 
-	lib "github.com/uhppoted/uhppoted-lib-go/src/uhppoted"
+	"github.com/uhppoted/uhppoted-lib-go/src/uhppoted"
 )
 
-func deleteAllCards(u lib.Uhppoted, args []string) error {
+func deleteAllCards(u uhppoted.Uhppoted, args []string) error {
 	flagset := flag.NewFlagSet("delete-all-cards", flag.ExitOnError)
 
 	if controller, err := parse(flagset, args); err != nil {
 		return err
 	} else {
 		f := func(c uint32) (any, error) {
-			return lib.DeleteAllCards(u, c, options.timeout)
+			return uhppoted.DeleteAllCards(u, c, options.timeout)
 		}
 
-		g := func(c lib.Controller) (any, error) {
-			return lib.DeleteAllCards(u, c, options.timeout)
+		g := func(c uhppoted.Controller) (any, error) {
+			return uhppoted.DeleteAllCards(u, c, options.timeout)
 		}
 
 		if v, err := exec(controller, flagset, f, g); err != nil {

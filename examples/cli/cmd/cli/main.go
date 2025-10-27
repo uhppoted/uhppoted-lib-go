@@ -10,7 +10,7 @@ import (
 	"slices"
 	"time"
 
-	lib "github.com/uhppoted/uhppoted-lib-go/src/uhppoted"
+	"github.com/uhppoted/uhppoted-lib-go/src/uhppoted"
 )
 
 var options = struct {
@@ -62,7 +62,7 @@ func main() {
 		fmt.Printf("*** ERROR invalid listen address (%v)\n\n", err)
 		os.Exit(1)
 	} else {
-		u := lib.NewUhppoted(bind, broadcast, listen, options.debug)
+		u := uhppoted.NewUhppoted(bind, broadcast, listen, options.debug)
 
 		if err := cmd(u, args[1:]); err != nil {
 			fmt.Printf("*** ERROR %v\n\n", err)

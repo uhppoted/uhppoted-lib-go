@@ -114,32 +114,32 @@ func buildDecoderTest() *dst.File {
 	file := &dst.File{
 		Name: dst.NewIdent("codec"),
 
-		Imports: []*dst.ImportSpec{
-			{
-				Path: &dst.BasicLit{
-					Kind:  token.STRING,
-					Value: `"net/netip"`,
-				},
-			},
-			{
-				Path: &dst.BasicLit{
-					Kind:  token.STRING,
-					Value: `"reflect"`,
-				},
-			},
-			{
-				Path: &dst.BasicLit{
-					Kind:  token.STRING,
-					Value: `"testing"`,
-				},
-			},
-			{
-				Path: &dst.BasicLit{
-					Kind:  token.STRING,
-					Value: `"github.com/uhppoted/uhppoted-lib-go/src/uhppoted/responses"`,
-				},
-			},
-		},
+		// Imports: []*dst.ImportSpec{
+		// 	{
+		// 		Path: &dst.BasicLit{
+		// 			Kind:  token.STRING,
+		// 			Value: `"net/netip"`,
+		// 		},
+		// 	},
+		// 	{
+		// 		Path: &dst.BasicLit{
+		// 			Kind:  token.STRING,
+		// 			Value: `"reflect"`,
+		// 		},
+		// 	},
+		// 	{
+		// 		Path: &dst.BasicLit{
+		// 			Kind:  token.STRING,
+		// 			Value: `"testing"`,
+		// 		},
+		// 	},
+		// 	{
+		// 		Path: &dst.BasicLit{
+		// 			Kind:  token.STRING,
+		// 			Value: `"github.com/uhppoted/uhppoted-lib-go/src/uhppoted/responses"`,
+		// 		},
+		// 	},
+		// },
 
 		Decls: append([]dst.Decl{imports}, tests...),
 	}

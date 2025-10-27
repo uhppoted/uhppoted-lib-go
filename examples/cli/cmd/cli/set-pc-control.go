@@ -5,10 +5,10 @@ import (
 	"flag"
 	"fmt"
 
-	lib "github.com/uhppoted/uhppoted-lib-go/src/uhppoted"
+	"github.com/uhppoted/uhppoted-lib-go/src/uhppoted"
 )
 
-func setPCControl(u lib.Uhppoted, args []string) error {
+func setPCControl(u uhppoted.Uhppoted, args []string) error {
 	var enabled bool
 
 	flagset := flag.NewFlagSet("set-pc-control", flag.ExitOnError)
@@ -19,11 +19,11 @@ func setPCControl(u lib.Uhppoted, args []string) error {
 		return err
 	} else {
 		f := func(c uint32) (any, error) {
-			return lib.SetPCControl(u, c, enabled, options.timeout)
+			return uhppoted.SetPCControl(u, c, enabled, options.timeout)
 		}
 
-		g := func(c lib.Controller) (any, error) {
-			return lib.SetPCControl(u, c, enabled, options.timeout)
+		g := func(c uhppoted.Controller) (any, error) {
+			return uhppoted.SetPCControl(u, c, enabled, options.timeout)
 		}
 
 		if v, err := exec(controller, flagset, f, g); err != nil {

@@ -9,11 +9,11 @@ import (
 	"strings"
 	"time"
 
-	lib "github.com/uhppoted/uhppoted-lib-go/src/uhppoted"
+	"github.com/uhppoted/uhppoted-lib-go/src/uhppoted"
 	"github.com/uhppoted/uhppoted-lib-go/src/uhppoted/types"
 )
 
-func putCard(u lib.Uhppoted, args []string) error {
+func putCard(u uhppoted.Uhppoted, args []string) error {
 	var card uint
 	var start string
 	var end string
@@ -41,16 +41,16 @@ func putCard(u lib.Uhppoted, args []string) error {
 	} else if PIN > 999999 {
 		return fmt.Errorf("invalid PIN (%v)", PIN)
 	} else {
-		// (for demo purposes only - there is a lib.DateFromTime helper function)
+		// (for demo purposes only - there is a uhppoted.DateFromTime helper function)
 		d := types.NewDate(uint16(startdate.Year()), uint8(startdate.Month()), uint8(startdate.Day()))
 		e := types.NewDate(uint16(enddate.Year()), uint8(enddate.Month()), uint8(enddate.Day()))
 
 		f := func(c uint32) (any, error) {
-			return lib.PutCard(u, c, uint32(card), startdate, enddate, doors[0], doors[1], doors[2], doors[3], uint32(PIN), options.timeout)
+			return uhppoted.PutCard(u, c, uint32(card), startdate, enddate, doors[0], doors[1], doors[2], doors[3], uint32(PIN), options.timeout)
 		}
 
-		g := func(c lib.Controller) (any, error) {
-			return lib.PutCard(u, c, uint32(card), d, e, doors[0], doors[1], doors[2], doors[3], uint32(PIN), options.timeout)
+		g := func(c uhppoted.Controller) (any, error) {
+			return uhppoted.PutCard(u, c, uint32(card), d, e, doors[0], doors[1], doors[2], doors[3], uint32(PIN), options.timeout)
 		}
 
 		if v, err := exec(controller, flagset, f, g); err != nil {
@@ -67,7 +67,7 @@ func putCard(u lib.Uhppoted, args []string) error {
 	}
 }
 
-func putCardRecord(u lib.Uhppoted, args []string) error {
+func putCardRecord(u uhppoted.Uhppoted, args []string) error {
 	var card uint
 	var start string
 	var end string
@@ -109,11 +109,11 @@ func putCardRecord(u lib.Uhppoted, args []string) error {
 		}
 
 		f := func(c uint32) (any, error) {
-			return lib.PutCardRecord(u, c, record, options.timeout)
+			return uhppoted.PutCardRecord(u, c, record, options.timeout)
 		}
 
-		g := func(c lib.Controller) (any, error) {
-			return lib.PutCardRecord(u, c, record, options.timeout)
+		g := func(c uhppoted.Controller) (any, error) {
+			return uhppoted.PutCardRecord(u, c, record, options.timeout)
 		}
 
 		if v, err := exec(controller, flagset, f, g); err != nil {

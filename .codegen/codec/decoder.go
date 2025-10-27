@@ -82,21 +82,21 @@ func buildDecoder() *dst.File {
 	return &dst.File{
 		Name: dst.NewIdent("codec"),
 
-		Imports: []*dst.ImportSpec{
-			{
-				Path: &dst.BasicLit{
-					Kind:  token.STRING,
-					Value: `"fmt"`,
-				},
-			},
-			{
-				Name: dst.NewIdent("decoder"),
-				Path: &dst.BasicLit{
-					Kind:  token.STRING,
-					Value: `"github.com/uhppoted/uhppoted-lib-go/src/uhppoted/codec/decode"`,
-				},
-			},
-		},
+		// Imports: []*dst.ImportSpec{
+		// 	{
+		// 		Path: &dst.BasicLit{
+		// 			Kind:  token.STRING,
+		// 			Value: `"fmt"`,
+		// 		},
+		// 	},
+		// 	{
+		// 		Name: dst.NewIdent("decoder"),
+		// 		Path: &dst.BasicLit{
+		// 			Kind:  token.STRING,
+		// 			Value: `"github.com/uhppoted/uhppoted-lib-go/src/uhppoted/codec/decode"`,
+		// 		},
+		// 	},
+		// },
 
 		Decls: impl,
 	}

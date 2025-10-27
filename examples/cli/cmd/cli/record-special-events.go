@@ -5,10 +5,10 @@ import (
 	"flag"
 	"fmt"
 
-	lib "github.com/uhppoted/uhppoted-lib-go/src/uhppoted"
+	"github.com/uhppoted/uhppoted-lib-go/src/uhppoted"
 )
 
-func recordSpecialEvents(u lib.Uhppoted, args []string) error {
+func recordSpecialEvents(u uhppoted.Uhppoted, args []string) error {
 	var enabled bool
 
 	flagset := flag.NewFlagSet("record-special-events", flag.ExitOnError)
@@ -19,11 +19,11 @@ func recordSpecialEvents(u lib.Uhppoted, args []string) error {
 		return err
 	} else {
 		f := func(c uint32) (any, error) {
-			return lib.RecordSpecialEvents(u, c, enabled, options.timeout)
+			return uhppoted.RecordSpecialEvents(u, c, enabled, options.timeout)
 		}
 
-		g := func(c lib.Controller) (any, error) {
-			return lib.RecordSpecialEvents(u, c, enabled, options.timeout)
+		g := func(c uhppoted.Controller) (any, error) {
+			return uhppoted.RecordSpecialEvents(u, c, enabled, options.timeout)
 		}
 
 		if v, err := exec(controller, flagset, f, g); err != nil {

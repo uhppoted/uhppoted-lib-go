@@ -5,10 +5,10 @@ import (
 	"flag"
 	"fmt"
 
-	lib "github.com/uhppoted/uhppoted-lib-go/src/uhppoted"
+	"github.com/uhppoted/uhppoted-lib-go/src/uhppoted"
 )
 
-func openDoor(u lib.Uhppoted, args []string) error {
+func openDoor(u uhppoted.Uhppoted, args []string) error {
 	var door uint
 
 	flagset := flag.NewFlagSet("open-door", flag.ExitOnError)
@@ -21,11 +21,11 @@ func openDoor(u lib.Uhppoted, args []string) error {
 		return fmt.Errorf("invalid door (%v)", door)
 	} else {
 		f := func(c uint32) (any, error) {
-			return lib.OpenDoor(u, c, uint8(door), options.timeout)
+			return uhppoted.OpenDoor(u, c, uint8(door), options.timeout)
 		}
 
-		g := func(c lib.Controller) (any, error) {
-			return lib.OpenDoor(u, c, uint8(door), options.timeout)
+		g := func(c uhppoted.Controller) (any, error) {
+			return uhppoted.OpenDoor(u, c, uint8(door), options.timeout)
 		}
 
 		if v, err := exec(controller, flagset, f, g); err != nil {
