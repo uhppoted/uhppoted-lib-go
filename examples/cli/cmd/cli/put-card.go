@@ -10,7 +10,7 @@ import (
 	"time"
 
 	lib "github.com/uhppoted/uhppoted-lib-go/src/uhppoted"
-	"github.com/uhppoted/uhppoted-lib-go/src/uhppoted/entities"
+	"github.com/uhppoted/uhppoted-lib-go/src/uhppoted/types"
 )
 
 func putCard(u lib.Uhppoted, args []string) error {
@@ -42,8 +42,8 @@ func putCard(u lib.Uhppoted, args []string) error {
 		return fmt.Errorf("invalid PIN (%v)", PIN)
 	} else {
 		// (for demo purposes only - there is a lib.DateFromTime helper function)
-		d := lib.NewDate(uint16(startdate.Year()), uint8(startdate.Month()), uint8(startdate.Day()))
-		e := lib.NewDate(uint16(enddate.Year()), uint8(enddate.Month()), uint8(enddate.Day()))
+		d := types.NewDate(uint16(startdate.Year()), uint8(startdate.Month()), uint8(startdate.Day()))
+		e := types.NewDate(uint16(enddate.Year()), uint8(enddate.Month()), uint8(enddate.Day()))
 
 		f := func(c uint32) (any, error) {
 			return lib.PutCard(u, c, uint32(card), startdate, enddate, doors[0], doors[1], doors[2], doors[3], uint32(PIN), options.timeout)
@@ -86,16 +86,16 @@ func putCardRecord(u lib.Uhppoted, args []string) error {
 		return err
 	} else if card == 0 || card > 25565535 {
 		return fmt.Errorf("invalid card (%v)", card)
-	} else if startDate, err := lib.ParseDate(start); err != nil {
+	} else if startDate, err := types.ParseDate(start); err != nil {
 		return fmt.Errorf("invalid start date (%v)", start)
-	} else if endDate, err := lib.ParseDate(end); err != nil {
+	} else if endDate, err := types.ParseDate(end); err != nil {
 		return fmt.Errorf("invalid end date (%v)", start)
 	} else if doors, err := parseCardPermissions(permissions); err != nil {
 		return fmt.Errorf("invalid access permissions (%v)", permissions)
 	} else if PIN > 999999 {
 		return fmt.Errorf("invalid PIN (%v)", PIN)
 	} else {
-		record := entities.Card{
+		record := types.Card{
 			Card:      uint32(card),
 			StartDate: startDate,
 			EndDate:   endDate,

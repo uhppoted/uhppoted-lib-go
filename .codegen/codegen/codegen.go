@@ -127,28 +127,28 @@ func testarg(arg lib.Arg) string {
 		return fmt.Sprintf(`netip.MustParseAddrPort("%v")`, arg.Value)
 
 	case "datetime":
-		return fmt.Sprintf(`entities.MustParseDateTime("%v")`, arg.Value)
+		return fmt.Sprintf(`types.MustParseDateTime("%v")`, arg.Value)
 
 	case "optional datetime":
-		return fmt.Sprintf(`entities.MustParseDateTime("%v")`, arg.Value)
+		return fmt.Sprintf(`types.MustParseDateTime("%v")`, arg.Value)
 
 	case "date":
-		return fmt.Sprintf(`entities.MustParseDate("%v")`, arg.Value)
+		return fmt.Sprintf(`types.MustParseDate("%v")`, arg.Value)
 
 	case "HHmm":
-		return fmt.Sprintf(`entities.MustParseHHmm("%v")`, arg.Value)
+		return fmt.Sprintf(`types.MustParseHHmm("%v")`, arg.Value)
 
 	case "pin":
 		return fmt.Sprintf(`uint32(%v)`, arg.Value)
 
 	case "mode":
-		return fmt.Sprintf(`entities.DoorMode(%v)`, arg.Value)
+		return fmt.Sprintf(`types.DoorMode(%v)`, arg.Value)
 
 	case "task":
-		return fmt.Sprintf(`entities.TaskType(%v)`, arg.Value)
+		return fmt.Sprintf(`types.TaskType(%v)`, arg.Value)
 
 	case "interlock":
-		return fmt.Sprintf(`entities.Interlock(%v)`, arg.Value)
+		return fmt.Sprintf(`types.Interlock(%v)`, arg.Value)
 
 	default:
 		return fmt.Sprintf("%v", arg.Value)
@@ -168,25 +168,25 @@ func fields2args(fields []lib.Field) string {
 			args = append(args, fmt.Sprintf("%v netip.AddrPort", name))
 
 		case "datetime":
-			args = append(args, fmt.Sprintf("%v entities.DateTime", name))
+			args = append(args, fmt.Sprintf("%v types.DateTime", name))
 
 		case "date":
-			args = append(args, fmt.Sprintf("%v entities.Date", name))
+			args = append(args, fmt.Sprintf("%v types.Date", name))
 
 		case "HHmm":
-			args = append(args, fmt.Sprintf("%v entities.HHmm", name))
+			args = append(args, fmt.Sprintf("%v types.HHmm", name))
 
 		case "pin":
 			args = append(args, fmt.Sprintf("%v uint32", name))
 
 		case "mode":
-			args = append(args, fmt.Sprintf("%v entities.DoorMode", name))
+			args = append(args, fmt.Sprintf("%v types.DoorMode", name))
 
 		case "task":
-			args = append(args, fmt.Sprintf("%v entities.TaskType", name))
+			args = append(args, fmt.Sprintf("%v types.TaskType", name))
 
 		case "interlock":
-			args = append(args, fmt.Sprintf("%v entities.Interlock", name))
+			args = append(args, fmt.Sprintf("%v types.Interlock", name))
 
 		case "magic":
 			// skip
@@ -285,31 +285,31 @@ func value(v any, vtype string) string {
 		return fmt.Sprintf(`"%v"`, v)
 
 	case "datetime":
-		return fmt.Sprintf(`entities.MustParseDateTime("%v")`, v)
+		return fmt.Sprintf(`types.MustParseDateTime("%v")`, v)
 
 	case "optional datetime":
-		return fmt.Sprintf(`entities.MustParseDateTime("%v")`, v)
+		return fmt.Sprintf(`types.MustParseDateTime("%v")`, v)
 
 	case "date":
-		return fmt.Sprintf(`entities.MustParseDate("%v")`, v)
+		return fmt.Sprintf(`types.MustParseDate("%v")`, v)
 
 	case "shortdate":
-		return fmt.Sprintf(`entities.MustParseDate("%v")`, v)
+		return fmt.Sprintf(`types.MustParseDate("%v")`, v)
 
 	case "optional date":
-		return fmt.Sprintf(`entities.MustParseDate("%v")`, v)
+		return fmt.Sprintf(`types.MustParseDate("%v")`, v)
 
 	case "time":
-		return fmt.Sprintf(`entities.MustParseTime("%v")`, v)
+		return fmt.Sprintf(`types.MustParseTime("%v")`, v)
 
 	case "HHmm":
-		return fmt.Sprintf(`entities.MustParseHHmm("%v")`, v)
+		return fmt.Sprintf(`types.MustParseHHmm("%v")`, v)
 
 	case "string":
 		return fmt.Sprintf(`"%v"`, v)
 
 	case "event-type":
-		return fmt.Sprintf(`entities.EventType(%v)`, v)
+		return fmt.Sprintf(`types.EventType(%v)`, v)
 
 	default:
 		return fmt.Sprintf("%v", v)

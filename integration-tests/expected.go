@@ -5,8 +5,8 @@ package uhppoted
 import (
 	"net/netip"
 
-	"github.com/uhppoted/uhppoted-lib-go/src/uhppoted/entities"
 	"github.com/uhppoted/uhppoted-lib-go/src/uhppoted/responses"
+	"github.com/uhppoted/uhppoted-lib-go/src/uhppoted/types"
 )
 
 var Expected = struct {
@@ -61,7 +61,7 @@ var Expected = struct {
 			Gateway:    netip.MustParseAddr("192.168.1.1"),
 			MACAddress: "52:fd:fc:07:21:82",
 			Version:    "v6.62",
-			Date:       entities.MustParseDate("2020-01-01"),
+			Date:       types.MustParseDate("2020-01-01"),
 		},
 		responses.GetController{
 			Controller: 303986753,
@@ -70,7 +70,7 @@ var Expected = struct {
 			Gateway:    netip.MustParseAddr("192.168.1.1"),
 			MACAddress: "52:fd:fc:07:21:82",
 			Version:    "v8.92",
-			Date:       entities.MustParseDate("2019-08-15"),
+			Date:       types.MustParseDate("2019-08-15"),
 		},
 		responses.GetController{
 			Controller: 405419896,
@@ -79,7 +79,7 @@ var Expected = struct {
 			Gateway:    netip.MustParseAddr("192.168.1.1"),
 			MACAddress: "00:12:23:34:45:56",
 			Version:    "v8.92",
-			Date:       entities.MustParseDate("2018-11-05"),
+			Date:       types.MustParseDate("2018-11-05"),
 		},
 	},
 
@@ -90,7 +90,7 @@ var Expected = struct {
 		Gateway:    netip.MustParseAddr("192.168.1.1"),
 		MACAddress: "00:12:23:34:45:56",
 		Version:    "v8.92",
-		Date:       entities.MustParseDate("2018-11-05"),
+		Date:       types.MustParseDate("2018-11-05"),
 	},
 
 	SetIPv4: responses.SetIPv4{
@@ -100,12 +100,12 @@ var Expected = struct {
 
 	GetTime: responses.GetTime{
 		Controller: 405419896,
-		DateTime:   entities.MustParseDateTime("2025-11-01 12:34:56"),
+		DateTime:   types.MustParseDateTime("2025-11-01 12:34:56"),
 	},
 
 	SetTime: responses.SetTime{
 		Controller: 405419896,
-		DateTime:   entities.MustParseDateTime("2025-11-01 12:34:56"),
+		DateTime:   types.MustParseDateTime("2025-11-01 12:34:56"),
 	},
 
 	GetListener: responses.GetListener{
@@ -157,8 +157,8 @@ var Expected = struct {
 
 	GetStatus: responses.GetStatus{
 		Controller:         405419896,
-		SystemDate:         entities.MustParseDate("2022-08-23"),
-		SystemTime:         entities.MustParseTime("09:49:39"),
+		SystemDate:         types.MustParseDate("2022-08-23"),
+		SystemTime:         types.MustParseTime("09:49:39"),
 		Door1Open:          false,
 		Door2Open:          true,
 		Door3Open:          false,
@@ -172,20 +172,20 @@ var Expected = struct {
 		SystemError:        3,
 		SpecialInfo:        39,
 		EventIndex:         78,
-		EventType:          entities.EventType(2),
+		EventType:          types.EventType(2),
 		EventAccessGranted: true,
 		EventDoor:          3,
 		EventDirection:     1,
 		EventCard:          8165537,
-		EventTimestamp:     entities.MustParseDateTime("2022-08-23 09:47:06"),
+		EventTimestamp:     types.MustParseDateTime("2022-08-23 09:47:06"),
 		EventReason:        44,
 		SequenceNo:         0,
 	},
 
 	GetStatusNoEvent: responses.GetStatus{
 		Controller:         405419897,
-		SystemDate:         entities.MustParseDate("2025-11-23"),
-		SystemTime:         entities.MustParseTime("14:37:53"),
+		SystemDate:         types.MustParseDate("2025-11-23"),
+		SystemTime:         types.MustParseTime("14:37:53"),
 		Door1Open:          true,
 		Door2Open:          false,
 		Door3Open:          true,
@@ -199,12 +199,12 @@ var Expected = struct {
 		SystemError:        27,
 		SpecialInfo:        39,
 		EventIndex:         0,
-		EventType:          entities.EventType(0),
+		EventType:          types.EventType(0),
 		EventAccessGranted: false,
 		EventDoor:          0,
 		EventDirection:     0,
 		EventCard:          0,
-		EventTimestamp:     entities.MustParseDateTime("0001-01-01 00:00:00"),
+		EventTimestamp:     types.MustParseDateTime("0001-01-01 00:00:00"),
 		EventReason:        0,
 		SequenceNo:         21987,
 	},
@@ -217,8 +217,8 @@ var Expected = struct {
 	GetCard: responses.GetCard{
 		Controller: 405419896,
 		Card:       10058400,
-		StartDate:  entities.MustParseDate("2025-01-01"),
-		EndDate:    entities.MustParseDate("2025-12-31"),
+		StartDate:  types.MustParseDate("2025-01-01"),
+		EndDate:    types.MustParseDate("2025-12-31"),
 		Door1:      1,
 		Door2:      0,
 		Door3:      17,
@@ -229,8 +229,8 @@ var Expected = struct {
 	GetCardNotFound: responses.GetCard{
 		Controller: 405419896,
 		Card:       0,
-		StartDate:  entities.MustParseDate("0001-01-01"),
-		EndDate:    entities.MustParseDate("0001-01-01"),
+		StartDate:  types.MustParseDate("0001-01-01"),
+		EndDate:    types.MustParseDate("0001-01-01"),
 		Door1:      0,
 		Door2:      0,
 		Door3:      0,
@@ -241,8 +241,8 @@ var Expected = struct {
 	GetCardAtIndex: responses.GetCardAtIndex{
 		Controller: 405419896,
 		Card:       10058400,
-		StartDate:  entities.MustParseDate("2025-01-01"),
-		EndDate:    entities.MustParseDate("2025-12-31"),
+		StartDate:  types.MustParseDate("2025-01-01"),
+		EndDate:    types.MustParseDate("2025-12-31"),
 		Door1:      1,
 		Door2:      0,
 		Door3:      17,
@@ -253,8 +253,8 @@ var Expected = struct {
 	GetCardAtIndexNotFound: responses.GetCardAtIndex{
 		Controller: 405419896,
 		Card:       0,
-		StartDate:  entities.MustParseDate("0001-01-01"),
-		EndDate:    entities.MustParseDate("0001-01-01"),
+		StartDate:  types.MustParseDate("0001-01-01"),
+		EndDate:    types.MustParseDate("0001-01-01"),
 		Door1:      0,
 		Door2:      0,
 		Door3:      0,
@@ -265,8 +265,8 @@ var Expected = struct {
 	GetCardAtIndexDeleted: responses.GetCardAtIndex{
 		Controller: 405419896,
 		Card:       4294967295,
-		StartDate:  entities.MustParseDate("0001-01-01"),
-		EndDate:    entities.MustParseDate("0001-01-01"),
+		StartDate:  types.MustParseDate("0001-01-01"),
+		EndDate:    types.MustParseDate("0001-01-01"),
 		Door1:      0,
 		Door2:      0,
 		Door3:      0,
@@ -292,8 +292,8 @@ var Expected = struct {
 	GetEvent: responses.GetEvent{
 		Controller:    405419896,
 		Index:         13579,
-		Timestamp:     entities.MustParseDateTime("2025-11-17 12:34:56"),
-		EventType:     entities.EventType(2),
+		Timestamp:     types.MustParseDateTime("2025-11-17 12:34:56"),
+		EventType:     types.EventType(2),
 		AccessGranted: true,
 		Door:          4,
 		Direction:     2,
@@ -304,8 +304,8 @@ var Expected = struct {
 	GetEventNotFound: responses.GetEvent{
 		Controller:    405419896,
 		Index:         24680,
-		Timestamp:     entities.MustParseDateTime("0001-01-01 00:00:00"),
-		EventType:     entities.EventType(0),
+		Timestamp:     types.MustParseDateTime("0001-01-01 00:00:00"),
+		EventType:     types.EventType(0),
 		AccessGranted: false,
 		Door:          0,
 		Direction:     0,
@@ -316,8 +316,8 @@ var Expected = struct {
 	GetEventOverwritten: responses.GetEvent{
 		Controller:    405419896,
 		Index:         98765,
-		Timestamp:     entities.MustParseDateTime("0001-01-01 00:00:00"),
-		EventType:     entities.EventType(255),
+		Timestamp:     types.MustParseDateTime("0001-01-01 00:00:00"),
+		EventType:     types.EventType(255),
 		AccessGranted: false,
 		Door:          0,
 		Direction:     0,
@@ -343,8 +343,8 @@ var Expected = struct {
 	GetTimeProfile: responses.GetTimeProfile{
 		Controller:    405419896,
 		Profile:       37,
-		StartDate:     entities.MustParseDate("2025-11-26"),
-		EndDate:       entities.MustParseDate("2025-12-29"),
+		StartDate:     types.MustParseDate("2025-11-26"),
+		EndDate:       types.MustParseDate("2025-12-29"),
 		Monday:        true,
 		Tuesday:       true,
 		Wednesday:     false,
@@ -352,12 +352,12 @@ var Expected = struct {
 		Friday:        false,
 		Saturday:      true,
 		Sunday:        true,
-		Segment1Start: entities.MustParseHHmm("08:30"),
-		Segment1End:   entities.MustParseHHmm("09:45"),
-		Segment2Start: entities.MustParseHHmm("11:35"),
-		Segment2End:   entities.MustParseHHmm("13:15"),
-		Segment3Start: entities.MustParseHHmm("14:01"),
-		Segment3End:   entities.MustParseHHmm("17:59"),
+		Segment1Start: types.MustParseHHmm("08:30"),
+		Segment1End:   types.MustParseHHmm("09:45"),
+		Segment2Start: types.MustParseHHmm("11:35"),
+		Segment2End:   types.MustParseHHmm("13:15"),
+		Segment3Start: types.MustParseHHmm("14:01"),
+		Segment3End:   types.MustParseHHmm("17:59"),
 		LinkedProfile: 19,
 	},
 

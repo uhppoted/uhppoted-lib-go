@@ -5,19 +5,19 @@ package responses
 import (
 	"net/netip"
 
-	"github.com/uhppoted/uhppoted-lib-go/src/uhppoted/entities"
+	"github.com/uhppoted/uhppoted-lib-go/src/uhppoted/types"
 )
 
 // Container struct for the response returned from an access controller when retrieving the
 // network configuration, firmware version and firmware release date.
 type GetController struct {
-	Controller uint32        `json:"controller"`
-	IpAddress  netip.Addr    `json:"ip-address"`
-	SubnetMask netip.Addr    `json:"netmask"`
-	Gateway    netip.Addr    `json:"gateway"`
-	MACAddress string        `json:"MAC"`
-	Version    string        `json:"version"`
-	Date       entities.Date `json:"date"`
+	Controller uint32     `json:"controller"`
+	IpAddress  netip.Addr `json:"ip-address"`
+	SubnetMask netip.Addr `json:"netmask"`
+	Gateway    netip.Addr `json:"gateway"`
+	MACAddress string     `json:"MAC"`
+	Version    string     `json:"version"`
+	Date       types.Date `json:"date"`
 }
 
 // SetIPv4Response is a synthesized response provided to simplify code generation. The controller
@@ -30,42 +30,42 @@ type SetIPv4 struct {
 // Container struct for the response returned from a controller when
 // retrieving the current runtime status.
 type GetStatus struct {
-	Controller         uint32             `json:"controller"`
-	SystemDate         entities.Date      `json:"system-date"`
-	SystemTime         entities.Time      `json:"system-time"`
-	Door1Open          bool               `json:"door-1-open"`
-	Door2Open          bool               `json:"door-2-open"`
-	Door3Open          bool               `json:"door-3-open"`
-	Door4Open          bool               `json:"door-4-open"`
-	Door1Button        bool               `json:"door-1-button"`
-	Door2Button        bool               `json:"door-2-button"`
-	Door3Button        bool               `json:"door-3-button"`
-	Door4Button        bool               `json:"door-4-button"`
-	Relays             uint8              `json:"relays"`
-	Inputs             uint8              `json:"alarm-inputs"`
-	SystemError        uint8              `json:"system-error"`
-	SpecialInfo        uint8              `json:"special-info"`
-	EventIndex         uint32             `json:"event-index"`
-	EventType          entities.EventType `json:"event-type"`
-	EventAccessGranted bool               `json:"event-granted"`
-	EventDoor          uint8              `json:"event-door"`
-	EventDirection     entities.Direction `json:"event-direction"`
-	EventCard          uint32             `json:"event-card"`
-	EventTimestamp     entities.DateTime  `json:"event-timestamp"`
-	EventReason        entities.Reason    `json:"event-reason"`
-	SequenceNo         uint32             `json:"sequence-no"`
+	Controller         uint32          `json:"controller"`
+	SystemDate         types.Date      `json:"system-date"`
+	SystemTime         types.Time      `json:"system-time"`
+	Door1Open          bool            `json:"door-1-open"`
+	Door2Open          bool            `json:"door-2-open"`
+	Door3Open          bool            `json:"door-3-open"`
+	Door4Open          bool            `json:"door-4-open"`
+	Door1Button        bool            `json:"door-1-button"`
+	Door2Button        bool            `json:"door-2-button"`
+	Door3Button        bool            `json:"door-3-button"`
+	Door4Button        bool            `json:"door-4-button"`
+	Relays             uint8           `json:"relays"`
+	Inputs             uint8           `json:"alarm-inputs"`
+	SystemError        uint8           `json:"system-error"`
+	SpecialInfo        uint8           `json:"special-info"`
+	EventIndex         uint32          `json:"event-index"`
+	EventType          types.EventType `json:"event-type"`
+	EventAccessGranted bool            `json:"event-granted"`
+	EventDoor          uint8           `json:"event-door"`
+	EventDirection     types.Direction `json:"event-direction"`
+	EventCard          uint32          `json:"event-card"`
+	EventTimestamp     types.DateTime  `json:"event-timestamp"`
+	EventReason        types.Reason    `json:"event-reason"`
+	SequenceNo         uint32          `json:"sequence-no"`
 }
 
 // Container struct for the response returned by a controller when retrieving the system date/time.
 type GetTime struct {
-	Controller uint32            `json:"controller"`
-	DateTime   entities.DateTime `json:"date-time"`
+	Controller uint32         `json:"controller"`
+	DateTime   types.DateTime `json:"date-time"`
 }
 
 // Container struct for the response returned by a controller after setting the system date/time.
 type SetTime struct {
-	Controller uint32            `json:"controller"`
-	DateTime   entities.DateTime `json:"date-time"`
+	Controller uint32         `json:"controller"`
+	DateTime   types.DateTime `json:"date-time"`
 }
 
 // Container struct for the response returned by a controller when retrieving
@@ -102,10 +102,10 @@ type SetListenerAddrPort struct {
 // Container struct for the response returned by a controller to a request
 // for door configuration information.
 type GetDoor struct {
-	Controller uint32            `json:"controller"`
-	Door       uint8             `json:"door"`
-	Mode       entities.DoorMode `json:"mode"`
-	Delay      uint8             `json:"delay"`
+	Controller uint32         `json:"controller"`
+	Door       uint8          `json:"door"`
+	Mode       types.DoorMode `json:"mode"`
+	Delay      uint8          `json:"delay"`
 }
 
 // Container struct for the response returned by a controller after updating
@@ -141,29 +141,29 @@ type GetCards struct {
 // Container struct for the response returned from a controller when retrieving
 // a card record stored on the controller.
 type GetCard struct {
-	Controller uint32        `json:"controller"`
-	Card       uint32        `json:"card"`
-	StartDate  entities.Date `json:"start-date"`
-	EndDate    entities.Date `json:"end-date"`
-	Door1      uint8         `json:"door-1"`
-	Door2      uint8         `json:"door-2"`
-	Door3      uint8         `json:"door-3"`
-	Door4      uint8         `json:"door-4"`
-	PIN        uint32        `json:"PIN"`
+	Controller uint32     `json:"controller"`
+	Card       uint32     `json:"card"`
+	StartDate  types.Date `json:"start-date"`
+	EndDate    types.Date `json:"end-date"`
+	Door1      uint8      `json:"door-1"`
+	Door2      uint8      `json:"door-2"`
+	Door3      uint8      `json:"door-3"`
+	Door4      uint8      `json:"door-4"`
+	PIN        uint32     `json:"PIN"`
 }
 
 // Container struct for the response returned from a controller when retrieving
 // the card record stored at an index on the controller.
 type GetCardAtIndex struct {
-	Controller uint32        `json:"controller"`
-	Card       uint32        `json:"card"`
-	StartDate  entities.Date `json:"start-date"`
-	EndDate    entities.Date `json:"end-date"`
-	Door1      uint8         `json:"door-1"`
-	Door2      uint8         `json:"door-2"`
-	Door3      uint8         `json:"door-3"`
-	Door4      uint8         `json:"door-4"`
-	PIN        uint32        `json:"PIN"`
+	Controller uint32     `json:"controller"`
+	Card       uint32     `json:"card"`
+	StartDate  types.Date `json:"start-date"`
+	EndDate    types.Date `json:"end-date"`
+	Door1      uint8      `json:"door-1"`
+	Door2      uint8      `json:"door-2"`
+	Door3      uint8      `json:"door-3"`
+	Door4      uint8      `json:"door-4"`
+	PIN        uint32     `json:"PIN"`
 }
 
 // Container struct for the response returned by a controller after adding or updating a
@@ -235,15 +235,15 @@ type DeleteAllCards struct {
 //   - 44:     remote open door
 //   - 45:     remote open door (USB reader)
 type GetEvent struct {
-	Controller    uint32             `json:"controller"`
-	Index         uint32             `json:"index"`
-	EventType     entities.EventType `json:"event-type"`
-	AccessGranted bool               `json:"granted"`
-	Door          uint8              `json:"door"`
-	Direction     entities.Direction `json:"direction"`
-	Card          uint32             `json:"card"`
-	Timestamp     entities.DateTime  `json:"timestamp"`
-	Reason        entities.Reason    `json:"reason"`
+	Controller    uint32          `json:"controller"`
+	Index         uint32          `json:"index"`
+	EventType     types.EventType `json:"event-type"`
+	AccessGranted bool            `json:"granted"`
+	Door          uint8           `json:"door"`
+	Direction     types.Direction `json:"direction"`
+	Card          uint32          `json:"card"`
+	Timestamp     types.DateTime  `json:"timestamp"`
+	Reason        types.Reason    `json:"reason"`
 }
 
 type GetEventIndex struct {
@@ -268,24 +268,24 @@ type RecordSpecialEvents struct {
 // Container struct for the response returned from an access controller when retrieving
 // an access time profile.
 type GetTimeProfile struct {
-	Controller    uint32        `json:"controller"`
-	Profile       uint8         `json:"profile"`
-	StartDate     entities.Date `json:"start-date"`
-	EndDate       entities.Date `json:"end-date"`
-	Monday        bool          `json:"monday"`
-	Tuesday       bool          `json:"tuesday"`
-	Wednesday     bool          `json:"wednesday"`
-	Thursday      bool          `json:"thursday"`
-	Friday        bool          `json:"friday"`
-	Saturday      bool          `json:"saturday"`
-	Sunday        bool          `json:"sunday"`
-	Segment1Start entities.HHmm `json:"segment1-start"`
-	Segment1End   entities.HHmm `json:"segment1-end"`
-	Segment2Start entities.HHmm `json:"segment2-start"`
-	Segment2End   entities.HHmm `json:"segment2-end"`
-	Segment3Start entities.HHmm `json:"segment3-start"`
-	Segment3End   entities.HHmm `json:"segment3-end"`
-	LinkedProfile uint8         `json:"linked-profile"`
+	Controller    uint32     `json:"controller"`
+	Profile       uint8      `json:"profile"`
+	StartDate     types.Date `json:"start-date"`
+	EndDate       types.Date `json:"end-date"`
+	Monday        bool       `json:"monday"`
+	Tuesday       bool       `json:"tuesday"`
+	Wednesday     bool       `json:"wednesday"`
+	Thursday      bool       `json:"thursday"`
+	Friday        bool       `json:"friday"`
+	Saturday      bool       `json:"saturday"`
+	Sunday        bool       `json:"sunday"`
+	Segment1Start types.HHmm `json:"segment1-start"`
+	Segment1End   types.HHmm `json:"segment1-end"`
+	Segment2Start types.HHmm `json:"segment2-start"`
+	Segment2End   types.HHmm `json:"segment2-end"`
+	Segment3Start types.HHmm `json:"segment3-start"`
+	Segment3End   types.HHmm `json:"segment3-end"`
+	LinkedProfile uint8      `json:"linked-profile"`
 }
 
 // Container struct for the response returned from an access controller when adding/updating
@@ -372,28 +372,28 @@ type RestoreDefaultParameters struct {
 
 // Container struct for an event message sent by a controller.
 type ListenerEvent struct {
-	Controller         uint32             `json:"controller"`
-	SystemDate         entities.Date      `json:"system-date"`
-	SystemTime         entities.Time      `json:"system-time"`
-	Door1Open          bool               `json:"door-1-open"`
-	Door2Open          bool               `json:"door-2-open"`
-	Door3Open          bool               `json:"door-3-open"`
-	Door4Open          bool               `json:"door-4-open"`
-	Door1Button        bool               `json:"door-1-button"`
-	Door2Button        bool               `json:"door-2-button"`
-	Door3Button        bool               `json:"door-3-button"`
-	Door4Button        bool               `json:"door-4-button"`
-	Relays             uint8              `json:"relays"`
-	Inputs             uint8              `json:"alarm-inputs"`
-	SystemError        uint8              `json:"system-error"`
-	SpecialInfo        uint8              `json:"special-info"`
-	EventIndex         uint32             `json:"event-index"`
-	EventType          entities.EventType `json:"event-type"`
-	EventAccessGranted bool               `json:"event-granted"`
-	EventDoor          uint8              `json:"event-door"`
-	EventDirection     entities.Direction `json:"event-direction"`
-	EventCard          uint32             `json:"event-card"`
-	EventTimestamp     entities.DateTime  `json:"event-timestamp"`
-	EventReason        entities.Reason    `json:"event-reason"`
-	SequenceNo         uint32             `json:"sequence-no"`
+	Controller         uint32          `json:"controller"`
+	SystemDate         types.Date      `json:"system-date"`
+	SystemTime         types.Time      `json:"system-time"`
+	Door1Open          bool            `json:"door-1-open"`
+	Door2Open          bool            `json:"door-2-open"`
+	Door3Open          bool            `json:"door-3-open"`
+	Door4Open          bool            `json:"door-4-open"`
+	Door1Button        bool            `json:"door-1-button"`
+	Door2Button        bool            `json:"door-2-button"`
+	Door3Button        bool            `json:"door-3-button"`
+	Door4Button        bool            `json:"door-4-button"`
+	Relays             uint8           `json:"relays"`
+	Inputs             uint8           `json:"alarm-inputs"`
+	SystemError        uint8           `json:"system-error"`
+	SpecialInfo        uint8           `json:"special-info"`
+	EventIndex         uint32          `json:"event-index"`
+	EventType          types.EventType `json:"event-type"`
+	EventAccessGranted bool            `json:"event-granted"`
+	EventDoor          uint8           `json:"event-door"`
+	EventDirection     types.Direction `json:"event-direction"`
+	EventCard          uint32          `json:"event-card"`
+	EventTimestamp     types.DateTime  `json:"event-timestamp"`
+	EventReason        types.Reason    `json:"event-reason"`
+	SequenceNo         uint32          `json:"sequence-no"`
 }

@@ -8,7 +8,7 @@ import (
 	"testing"
 
 	lib "github.com/uhppoted/uhppoted-lib-go/src/uhppoted"
-	"github.com/uhppoted/uhppoted-lib-go/src/uhppoted/entities"
+	"github.com/uhppoted/uhppoted-lib-go/src/uhppoted/types"
 	test "integration-tests"
 )
 
@@ -71,7 +71,7 @@ func TestSetTime(t *testing.T) {
 		Protocol: "udp",
 	}
 
-	dateTime := entities.MustParseDateTime("2025-11-04 12:34:56")
+	dateTime := types.MustParseDateTime("2025-11-04 12:34:56")
 
 	response, err := lib.SetTime(u, controller, dateTime, timeout)
 
@@ -179,7 +179,7 @@ func TestSetDoor(t *testing.T) {
 	}
 
 	door := uint8(4)
-	mode := entities.DoorMode(2)
+	mode := types.DoorMode(2)
 	delay := uint8(17)
 
 	response, err := lib.SetDoor(u, controller, door, mode, delay, timeout)
@@ -377,8 +377,8 @@ func TestPutCard(t *testing.T) {
 	}
 
 	card := uint32(10058400)
-	startDate := entities.MustParseDate("2025-01-01")
-	endDate := entities.MustParseDate("2025-12-31")
+	startDate := types.MustParseDate("2025-01-01")
+	endDate := types.MustParseDate("2025-12-31")
 	door1 := uint8(1)
 	door2 := uint8(0)
 	door3 := uint8(17)
@@ -560,8 +560,8 @@ func TestSetTimeProfile(t *testing.T) {
 	}
 
 	profile := uint8(37)
-	startDate := entities.MustParseDate("2025-11-26")
-	endDate := entities.MustParseDate("2025-12-29")
+	startDate := types.MustParseDate("2025-11-26")
+	endDate := types.MustParseDate("2025-12-29")
 	monday := true
 	tuesday := true
 	wednesday := false
@@ -569,12 +569,12 @@ func TestSetTimeProfile(t *testing.T) {
 	friday := false
 	saturday := true
 	sunday := true
-	segment1Start := entities.MustParseHHmm("8:30")
-	segment1End := entities.MustParseHHmm("9:45")
-	segment2Start := entities.MustParseHHmm("11:35")
-	segment2End := entities.MustParseHHmm("13:15")
-	segment3Start := entities.MustParseHHmm("14:01")
-	segment3End := entities.MustParseHHmm("17:59")
+	segment1Start := types.MustParseHHmm("8:30")
+	segment1End := types.MustParseHHmm("9:45")
+	segment2Start := types.MustParseHHmm("11:35")
+	segment2End := types.MustParseHHmm("13:15")
+	segment3Start := types.MustParseHHmm("14:01")
+	segment3End := types.MustParseHHmm("17:59")
 	linkedProfileId := uint8(19)
 
 	response, err := lib.SetTimeProfile(u, controller, profile, startDate, endDate, monday, tuesday, wednesday, thursday, friday, saturday, sunday, segment1Start, segment1End, segment2Start, segment2End, segment3Start, segment3End, linkedProfileId, timeout)
@@ -609,9 +609,9 @@ func TestAddTask(t *testing.T) {
 		Protocol: "udp",
 	}
 
-	task := entities.TaskType(2)
-	startDate := entities.MustParseDate("2025-01-01")
-	endDate := entities.MustParseDate("2025-12-31")
+	task := types.TaskType(2)
+	startDate := types.MustParseDate("2025-01-01")
+	endDate := types.MustParseDate("2025-12-31")
 	monday := true
 	tuesday := true
 	wednesday := false
@@ -619,7 +619,7 @@ func TestAddTask(t *testing.T) {
 	friday := false
 	saturday := true
 	sunday := true
-	startTime := entities.MustParseHHmm("08:45")
+	startTime := types.MustParseHHmm("08:45")
 	door := uint8(3)
 	moreCards := uint8(7)
 
@@ -689,7 +689,7 @@ func TestSetInterlock(t *testing.T) {
 		Protocol: "udp",
 	}
 
-	interlock := entities.Interlock(8)
+	interlock := types.Interlock(8)
 
 	response, err := lib.SetInterlock(u, controller, interlock, timeout)
 

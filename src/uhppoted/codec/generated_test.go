@@ -7,8 +7,8 @@ import (
 	"reflect"
 	"testing"
 
-	"github.com/uhppoted/uhppoted-lib-go/src/uhppoted/entities"
 	"github.com/uhppoted/uhppoted-lib-go/src/uhppoted/responses"
+	"github.com/uhppoted/uhppoted-lib-go/src/uhppoted/types"
 )
 
 func TestDecodeGetControllerResponse(t *testing.T) {
@@ -26,7 +26,7 @@ func TestDecodeGetControllerResponse(t *testing.T) {
 		Gateway:    netip.MustParseAddr("192.168.1.1"),
 		MACAddress: "00:12:23:34:45:56",
 		Version:    "v8.92",
-		Date:       entities.MustParseDate("2018-11-05"),
+		Date:       types.MustParseDate("2018-11-05"),
 	}
 
 	if response, err := Decode[responses.GetController](packet); err != nil {
@@ -66,8 +66,8 @@ func TestDecodeGetStatusResponse(t *testing.T) {
 
 	expected := responses.GetStatus{
 		Controller:         405419896,
-		SystemDate:         entities.MustParseDate("2022-08-23"),
-		SystemTime:         entities.MustParseTime("09:49:39"),
+		SystemDate:         types.MustParseDate("2022-08-23"),
+		SystemTime:         types.MustParseTime("09:49:39"),
 		Door1Open:          false,
 		Door2Open:          true,
 		Door3Open:          false,
@@ -81,13 +81,13 @@ func TestDecodeGetStatusResponse(t *testing.T) {
 		SystemError:        3,
 		SpecialInfo:        39,
 		EventIndex:         78,
-		EventType:          entities.EventType(2),
+		EventType:          types.EventType(2),
 		EventAccessGranted: true,
 		EventDoor:          3,
-		EventDirection:     entities.Direction(1),
+		EventDirection:     types.Direction(1),
 		EventCard:          8165537,
-		EventTimestamp:     entities.MustParseDateTime("2022-08-23 09:47:06"),
-		EventReason:        entities.Reason(44),
+		EventTimestamp:     types.MustParseDateTime("2022-08-23 09:47:06"),
+		EventReason:        types.Reason(44),
 		SequenceNo:         0,
 	}
 
@@ -108,7 +108,7 @@ func TestDecodeGetTimeResponse(t *testing.T) {
 
 	expected := responses.GetTime{
 		Controller: 405419896,
-		DateTime:   entities.MustParseDateTime("2025-11-01 12:34:56"),
+		DateTime:   types.MustParseDateTime("2025-11-01 12:34:56"),
 	}
 
 	if response, err := Decode[responses.GetTime](packet); err != nil {
@@ -128,7 +128,7 @@ func TestDecodeSetTimeResponse(t *testing.T) {
 
 	expected := responses.SetTime{
 		Controller: 405419896,
-		DateTime:   entities.MustParseDateTime("2025-11-01 12:34:56"),
+		DateTime:   types.MustParseDateTime("2025-11-01 12:34:56"),
 	}
 
 	if response, err := Decode[responses.SetTime](packet); err != nil {
@@ -336,8 +336,8 @@ func TestDecodeGetCardResponse(t *testing.T) {
 	expected := responses.GetCard{
 		Controller: 405419896,
 		Card:       10058400,
-		StartDate:  entities.MustParseDate("2024-01-01"),
-		EndDate:    entities.MustParseDate("2024-12-31"),
+		StartDate:  types.MustParseDate("2024-01-01"),
+		EndDate:    types.MustParseDate("2024-12-31"),
 		Door1:      1,
 		Door2:      0,
 		Door3:      17,
@@ -363,8 +363,8 @@ func TestDecodeGetCardNotFoundResponse(t *testing.T) {
 	expected := responses.GetCard{
 		Controller: 405419896,
 		Card:       0,
-		StartDate:  entities.MustParseDate("0001-01-01"),
-		EndDate:    entities.MustParseDate("0001-01-01"),
+		StartDate:  types.MustParseDate("0001-01-01"),
+		EndDate:    types.MustParseDate("0001-01-01"),
 		Door1:      0,
 		Door2:      0,
 		Door3:      0,
@@ -390,8 +390,8 @@ func TestDecodeGetCardAtIndexResponse(t *testing.T) {
 	expected := responses.GetCardAtIndex{
 		Controller: 405419896,
 		Card:       10058400,
-		StartDate:  entities.MustParseDate("2024-01-01"),
-		EndDate:    entities.MustParseDate("2024-12-31"),
+		StartDate:  types.MustParseDate("2024-01-01"),
+		EndDate:    types.MustParseDate("2024-12-31"),
 		Door1:      1,
 		Door2:      0,
 		Door3:      17,
@@ -477,13 +477,13 @@ func TestDecodeGetEventResponse(t *testing.T) {
 	expected := responses.GetEvent{
 		Controller:    405419896,
 		Index:         13579,
-		EventType:     entities.EventType(2),
+		EventType:     types.EventType(2),
 		AccessGranted: true,
 		Door:          4,
-		Direction:     entities.Direction(2),
+		Direction:     types.Direction(2),
 		Card:          10058400,
-		Timestamp:     entities.MustParseDateTime("2025-11-17 12:34:56"),
-		Reason:        entities.Reason(21),
+		Timestamp:     types.MustParseDateTime("2025-11-17 12:34:56"),
+		Reason:        types.Reason(21),
 	}
 
 	if response, err := Decode[responses.GetEvent](packet); err != nil {
@@ -504,13 +504,13 @@ func TestDecodeGetEventNotFoundResponse(t *testing.T) {
 	expected := responses.GetEvent{
 		Controller:    405419896,
 		Index:         24680,
-		EventType:     entities.EventType(0),
+		EventType:     types.EventType(0),
 		AccessGranted: false,
 		Door:          0,
-		Direction:     entities.Direction(0),
+		Direction:     types.Direction(0),
 		Card:          0,
-		Timestamp:     entities.MustParseDateTime("0001-01-01 00:00:00"),
-		Reason:        entities.Reason(0),
+		Timestamp:     types.MustParseDateTime("0001-01-01 00:00:00"),
+		Reason:        types.Reason(0),
 	}
 
 	if response, err := Decode[responses.GetEvent](packet); err != nil {
@@ -531,13 +531,13 @@ func TestDecodeGetEventOverwrittenResponse(t *testing.T) {
 	expected := responses.GetEvent{
 		Controller:    405419896,
 		Index:         98765,
-		EventType:     entities.EventType(255),
+		EventType:     types.EventType(255),
 		AccessGranted: false,
 		Door:          0,
-		Direction:     entities.Direction(0),
+		Direction:     types.Direction(0),
 		Card:          0,
-		Timestamp:     entities.MustParseDateTime("0001-01-01 00:00:00"),
-		Reason:        entities.Reason(0),
+		Timestamp:     types.MustParseDateTime("0001-01-01 00:00:00"),
+		Reason:        types.Reason(0),
 	}
 
 	if response, err := Decode[responses.GetEvent](packet); err != nil {
@@ -618,8 +618,8 @@ func TestDecodeGetTimeProfileResponse(t *testing.T) {
 	expected := responses.GetTimeProfile{
 		Controller:    405419896,
 		Profile:       37,
-		StartDate:     entities.MustParseDate("2025-11-26"),
-		EndDate:       entities.MustParseDate("2025-12-29"),
+		StartDate:     types.MustParseDate("2025-11-26"),
+		EndDate:       types.MustParseDate("2025-12-29"),
 		Monday:        true,
 		Tuesday:       true,
 		Wednesday:     false,
@@ -627,12 +627,12 @@ func TestDecodeGetTimeProfileResponse(t *testing.T) {
 		Friday:        false,
 		Saturday:      true,
 		Sunday:        true,
-		Segment1Start: entities.MustParseHHmm("08:30"),
-		Segment1End:   entities.MustParseHHmm("09:45"),
-		Segment2Start: entities.MustParseHHmm("11:35"),
-		Segment2End:   entities.MustParseHHmm("13:15"),
-		Segment3Start: entities.MustParseHHmm("14:01"),
-		Segment3End:   entities.MustParseHHmm("17:59"),
+		Segment1Start: types.MustParseHHmm("08:30"),
+		Segment1End:   types.MustParseHHmm("09:45"),
+		Segment2Start: types.MustParseHHmm("11:35"),
+		Segment2End:   types.MustParseHHmm("13:15"),
+		Segment3Start: types.MustParseHHmm("14:01"),
+		Segment3End:   types.MustParseHHmm("17:59"),
 		LinkedProfile: 19,
 	}
 

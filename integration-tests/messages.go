@@ -6,7 +6,7 @@ import (
 	"errors"
 
 	lib "github.com/uhppoted/uhppoted-lib-go/src/uhppoted"
-	"github.com/uhppoted/uhppoted-lib-go/src/uhppoted/entities"
+	"github.com/uhppoted/uhppoted-lib-go/src/uhppoted/types"
 )
 
 type message = struct {
@@ -811,8 +811,8 @@ var Events = []struct {
 		},
 		&lib.ListenerEvent{
 			Controller:         405419896,
-			SystemDate:         entities.MustParseDate("2024-11-13"),
-			SystemTime:         entities.MustParseTime("14:37:53"),
+			SystemDate:         types.MustParseDate("2024-11-13"),
+			SystemTime:         types.MustParseTime("14:37:53"),
 			Door1Open:          true,
 			Door2Open:          false,
 			Door3Open:          true,
@@ -831,7 +831,7 @@ var Events = []struct {
 			EventDoor:          4,
 			EventDirection:     2,
 			EventCard:          10058400,
-			EventTimestamp:     entities.MustParseDateTime("2024-11-10 12:34:56"),
+			EventTimestamp:     types.MustParseDateTime("2024-11-10 12:34:56"),
 			EventReason:        6,
 			SequenceNo:         21987,
 		},
@@ -848,8 +848,8 @@ var Events = []struct {
 		},
 		&lib.ListenerEvent{
 			Controller:         303986753,
-			SystemDate:         entities.MustParseDate("2024-11-13"),
-			SystemTime:         entities.MustParseTime("14:37:53"),
+			SystemDate:         types.MustParseDate("2024-11-13"),
+			SystemTime:         types.MustParseTime("14:37:53"),
 			Door1Open:          true,
 			Door2Open:          false,
 			Door3Open:          true,
@@ -868,7 +868,7 @@ var Events = []struct {
 			EventDoor:          4,
 			EventDirection:     2,
 			EventCard:          10058400,
-			EventTimestamp:     entities.MustParseDateTime("2024-11-10 12:34:56"),
+			EventTimestamp:     types.MustParseDateTime("2024-11-10 12:34:56"),
 			EventReason:        6,
 			SequenceNo:         21987,
 		},
@@ -885,8 +885,8 @@ var Events = []struct {
 		},
 		&lib.ListenerEvent{
 			Controller:         405419897,
-			SystemDate:         entities.MustParseDate("2024-11-13"),
-			SystemTime:         entities.MustParseTime("14:37:53"),
+			SystemDate:         types.MustParseDate("2024-11-13"),
+			SystemTime:         types.MustParseTime("14:37:53"),
 			Door1Open:          true,
 			Door2Open:          false,
 			Door3Open:          true,
@@ -905,7 +905,7 @@ var Events = []struct {
 			EventDoor:          0,
 			EventDirection:     0,
 			EventCard:          0,
-			EventTimestamp:     entities.MustParseDateTime("0001-01-01 00:00:00"),
+			EventTimestamp:     types.MustParseDateTime("0001-01-01 00:00:00"),
 			EventReason:        0,
 			SequenceNo:         21987,
 		},

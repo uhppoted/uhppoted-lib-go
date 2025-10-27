@@ -1,4 +1,4 @@
-package entities
+package types
 
 func minmax(v, min, max int) int {
 	if v < min {

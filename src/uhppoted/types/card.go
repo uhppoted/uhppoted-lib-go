@@ -1,4 +1,4 @@
-package entities
+package types
 
 type Card struct {
 	Card        uint32          `json:"card"`

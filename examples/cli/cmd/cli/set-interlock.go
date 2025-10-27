@@ -6,16 +6,16 @@ import (
 	"fmt"
 
 	lib "github.com/uhppoted/uhppoted-lib-go/src/uhppoted"
-	"github.com/uhppoted/uhppoted-lib-go/src/uhppoted/entities"
+	"github.com/uhppoted/uhppoted-lib-go/src/uhppoted/types"
 )
 
-var interlocks = map[string]entities.Interlock{
-	"disabled": entities.NoInterlock,
-	"1&2":      entities.Interlock12,
-	"3&4":      entities.Interlock34,
-	"1&2,3&4":  entities.Interlock12_34,
-	"1&2&3":    entities.Interlock123,
-	"1&2&3&4":  entities.Interlock1234,
+var interlocks = map[string]types.Interlock{
+	"disabled": types.NoInterlock,
+	"1&2":      types.Interlock12,
+	"3&4":      types.Interlock34,
+	"1&2,3&4":  types.Interlock12_34,
+	"1&2&3":    types.Interlock123,
+	"1&2&3&4":  types.Interlock1234,
 }
 
 func setInterlock(u lib.Uhppoted, args []string) error {

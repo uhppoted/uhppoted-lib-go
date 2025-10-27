@@ -6,7 +6,7 @@ import (
 	"fmt"
 
 	lib "github.com/uhppoted/uhppoted-lib-go/src/uhppoted"
-	"github.com/uhppoted/uhppoted-lib-go/src/uhppoted/entities"
+	"github.com/uhppoted/uhppoted-lib-go/src/uhppoted/types"
 )
 
 func setDoor(u lib.Uhppoted, args []string) error {
@@ -30,11 +30,11 @@ func setDoor(u lib.Uhppoted, args []string) error {
 		return fmt.Errorf("invalid unlock delay (%v)", delay)
 	} else {
 		f := func(c uint32) (any, error) {
-			return lib.SetDoor(u, c, uint8(door), entities.DoorMode(mode), uint8(delay), options.timeout)
+			return lib.SetDoor(u, c, uint8(door), types.DoorMode(mode), uint8(delay), options.timeout)
 		}
 
 		g := func(c lib.Controller) (any, error) {
-			return lib.SetDoor(u, c, uint8(door), entities.DoorMode(mode), uint8(delay), options.timeout)
+			return lib.SetDoor(u, c, uint8(door), types.DoorMode(mode), uint8(delay), options.timeout)
 		}
 
 		if v, err := exec(controller, flagset, f, g); err != nil {

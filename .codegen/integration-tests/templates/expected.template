@@ -6,7 +6,7 @@ import (
     "net/netip"
 
     "github.com/uhppoted/uhppoted-lib-go/src/uhppoted/responses"
-    "github.com/uhppoted/uhppoted-lib-go/src/uhppoted/entities"
+    "github.com/uhppoted/uhppoted-lib-go/src/uhppoted/types"
 )
 
 var Expected = struct { 
@@ -22,7 +22,7 @@ var Expected = struct {
             Gateway:    netip.MustParseAddr("192.168.1.1"),
             MACAddress: "52:fd:fc:07:21:82",
             Version:    "v6.62",
-            Date:       entities.MustParseDate("2020-01-01"),
+            Date:       types.MustParseDate("2020-01-01"),
         },
         responses.GetController{
             Controller: 303986753,
@@ -31,7 +31,7 @@ var Expected = struct {
             Gateway:    netip.MustParseAddr("192.168.1.1"),
             MACAddress: "52:fd:fc:07:21:82",
             Version:    "v8.92",
-            Date:       entities.MustParseDate("2019-08-15"),
+            Date:       types.MustParseDate("2019-08-15"),
         },
         responses.GetController{
             Controller: 405419896,
@@ -40,7 +40,7 @@ var Expected = struct {
             Gateway:    netip.MustParseAddr("192.168.1.1"),
             MACAddress: "00:12:23:34:45:56",
             Version:    "v8.92",
-            Date:       entities.MustParseDate("2018-11-05"),
+            Date:       types.MustParseDate("2018-11-05"),
         },
     },
 {{ range $i,$func := . }}{{ if $i }}{{ range $test := $func.Tests}}

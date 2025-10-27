@@ -11,7 +11,7 @@ import (
 	"net/netip"
 	"regexp"
 
-	"github.com/uhppoted/uhppoted-lib-go/src/uhppoted/entities"
+	"github.com/uhppoted/uhppoted-lib-go/src/uhppoted/types"
 )
 
 // Message constants for the UHPPOTE request/response protocol.
@@ -64,78 +64,78 @@ func unpackVersion(packet []byte, offset uint8) string {
 	return fmt.Sprintf("v%x.%02x", major, minor)
 }
 
-func unpackDateTime(packet []byte, offset uint8) entities.DateTime {
+func unpackDateTime(packet []byte, offset uint8) types.DateTime {
 	bcd := bcd2string(packet[offset : offset+7])
 	s := bcd[:4] + "-" + bcd[4:6] + "-" + bcd[6:8] + " " + bcd[8:10] + ":" + bcd[10:12] + ":" + bcd[12:]
 
-	if date, err := entities.ParseDateTime(s); err != nil {
-		return entities.NewDateTime(1, 1, 1, 0, 0, 0)
+	if date, err := types.ParseDateTime(s); err != nil {
+		return types.NewDateTime(1, 1, 1, 0, 0, 0)
 	} else {
 		return date
 	}
 }
 
-func unpackOptionalDateTime(packet []byte, offset uint8) entities.DateTime {
+func unpackOptionalDateTime(packet []byte, offset uint8) types.DateTime {
 	bcd := bcd2string(packet[offset : offset+7])
 	s := bcd[:4] + "-" + bcd[4:6] + "-" + bcd[6:8] + " " + bcd[8:10] + ":" + bcd[10:12] + ":" + bcd[12:]
 
-	if date, err := entities.ParseDateTime(s); err != nil {
-		return entities.NewDateTime(1, 1, 1, 0, 0, 0)
+	if date, err := types.ParseDateTime(s); err != nil {
+		return types.NewDateTime(1, 1, 1, 0, 0, 0)
 	} else {
 		return date
 	}
 }
 
-func unpackDate(packet []byte, offset uint8) entities.Date {
+func unpackDate(packet []byte, offset uint8) types.Date {
 	bcd := bcd2string(packet[offset : offset+4])
 	s := bcd[:4] + "-" + bcd[4:6] + "-" + bcd[6:]
 
-	if date, err := entities.ParseDate(s); err != nil {
-		return entities.NewDate(1, 1, 1)
+	if date, err := types.ParseDate(s); err != nil {
+		return types.NewDate(1, 1, 1)
 	} else {
 		return date
 	}
 }
 
-func unpackShortDate(packet []byte, offset uint8) entities.Date {
+func unpackShortDate(packet []byte, offset uint8) types.Date {
 	bcd := bcd2string(packet[offset : offset+3])
 	s := "20" + bcd[:2] + "-" + bcd[2:4] + "-" + bcd[4:]
 
-	if date, err := entities.ParseDate(s); err != nil {
-		return entities.NewDate(1, 1, 1)
+	if date, err := types.ParseDate(s); err != nil {
+		return types.NewDate(1, 1, 1)
 	} else {
 		return date
 	}
 }
 
-func unpackOptionalDate(packet []byte, offset uint8) entities.Date {
+func unpackOptionalDate(packet []byte, offset uint8) types.Date {
 	bcd := bcd2string(packet[offset : offset+4])
 	s := bcd[:4] + "-" + bcd[4:6] + "-" + bcd[6:]
 
-	if date, err := entities.ParseDate(s); err != nil {
-		return entities.NewDate(1, 1, 1)
+	if date, err := types.ParseDate(s); err != nil {
+		return types.NewDate(1, 1, 1)
 	} else {
 		return date
 	}
 }
 
-func unpackTime(packet []byte, offset uint8) entities.Time {
+func unpackTime(packet []byte, offset uint8) types.Time {
 	bcd := bcd2string(packet[offset : offset+3])
 	s := bcd[:2] + ":" + bcd[2:4] + ":" + bcd[4:]
 
-	if t, err := entities.ParseTime(s); err != nil {
-		return entities.Time{}
+	if t, err := types.ParseTime(s); err != nil {
+		return types.Time{}
 	} else {
 		return t
 	}
 }
 
-func unpackHHmm(packet []byte, offset uint8) entities.HHmm {
+func unpackHHmm(packet []byte, offset uint8) types.HHmm {
 	bcd := bcd2string(packet[offset : offset+2])
 	s := bcd[:2] + ":" + bcd[2:4]
 
-	if t, err := entities.ParseHHmm(s); err != nil {
-		return entities.HHmm{}
+	if t, err := types.ParseHHmm(s); err != nil {
+		return types.HHmm{}
 	} else {
 		return t
 	}
@@ -148,20 +148,20 @@ func unpackPIN(packet []byte, offset uint8) uint32 {
 	return v
 }
 
-func unpackMode(packet []byte, offset uint8) entities.DoorMode {
-	return entities.DoorMode(packet[offset])
+func unpackMode(packet []byte, offset uint8) types.DoorMode {
+	return types.DoorMode(packet[offset])
 }
 
-func unpackEventType(packet []byte, offset uint8) entities.EventType {
-	return entities.EventType(packet[offset])
+func unpackEventType(packet []byte, offset uint8) types.EventType {
+	return types.EventType(packet[offset])
 }
 
-func unpackDirection(packet []byte, offset uint8) entities.Direction {
-	return entities.Direction(packet[offset])
+func unpackDirection(packet []byte, offset uint8) types.Direction {
+	return types.Direction(packet[offset])
 }
 
-func unpackReason(packet []byte, offset uint8) entities.Reason {
-	return entities.Reason(packet[offset])
+func unpackReason(packet []byte, offset uint8) types.Reason {
+	return types.Reason(packet[offset])
 }
 
 func bcd2string(bytes []byte) string {

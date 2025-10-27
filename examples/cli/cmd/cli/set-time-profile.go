@@ -7,7 +7,7 @@ import (
 	"time"
 
 	lib "github.com/uhppoted/uhppoted-lib-go/src/uhppoted"
-	"github.com/uhppoted/uhppoted-lib-go/src/uhppoted/entities"
+	"github.com/uhppoted/uhppoted-lib-go/src/uhppoted/types"
 )
 
 func setTimeProfile(u lib.Uhppoted, args []string) error {
@@ -38,8 +38,8 @@ func setTimeProfile(u lib.Uhppoted, args []string) error {
 	} else if profile < 2 || profile > 254 {
 		return fmt.Errorf("invalid profile (%v)", profile)
 	} else {
-		d := lib.NewDate(2025, 3, 2)
-		e := lib.NewDate(2025, 11, 29)
+		d := types.NewDate(2025, 3, 2)
+		e := types.NewDate(2025, 11, 29)
 
 		f := func(c uint32) (any, error) {
 			return lib.SetTimeProfile(u,
@@ -85,8 +85,8 @@ func setTimeProfile(u lib.Uhppoted, args []string) error {
 
 func setTimeProfileRecord(u lib.Uhppoted, args []string) error {
 	var profile uint
-	var startDate, _ = lib.ParseDate("2025-01-01")
-	var endDate, _ = lib.ParseDate("2025-12-31")
+	var startDate, _ = types.ParseDate("2025-01-01")
+	var endDate, _ = types.ParseDate("2025-12-31")
 	var monday = true
 	var tuesday = true
 	var wednesday = false
@@ -94,12 +94,12 @@ func setTimeProfileRecord(u lib.Uhppoted, args []string) error {
 	var friday = true
 	var saturday = false
 	var sunday = true
-	var segment1start, _ = lib.ParseHHmm("08:30")
-	var segment1end, _ = lib.ParseHHmm("11:30")
-	var segment2start, _ = lib.ParseHHmm("12:15")
-	var segment2end, _ = lib.ParseHHmm("16:30")
-	var segment3start, _ = lib.ParseHHmm("17:45")
-	var segment3end, _ = lib.ParseHHmm("22:00")
+	var segment1start, _ = types.ParseHHmm("08:30")
+	var segment1end, _ = types.ParseHHmm("11:30")
+	var segment2start, _ = types.ParseHHmm("12:15")
+	var segment2end, _ = types.ParseHHmm("16:30")
+	var segment3start, _ = types.ParseHHmm("17:45")
+	var segment3end, _ = types.ParseHHmm("22:00")
 	var linked = uint8(33)
 
 	flagset := flag.NewFlagSet("set-time-profile", flag.ExitOnError)
@@ -111,11 +111,11 @@ func setTimeProfileRecord(u lib.Uhppoted, args []string) error {
 	} else if profile < 2 || profile > 254 {
 		return fmt.Errorf("invalid profile (%v)", profile)
 	} else {
-		record := entities.TimeProfile{
+		record := types.TimeProfile{
 			Profile:   uint8(profile),
 			StartDate: startDate,
 			EndDate:   endDate,
-			Weekdays: entities.Weekdays{
+			Weekdays: types.Weekdays{
 				Monday:    monday,
 				Tuesday:   tuesday,
 				Wednesday: wednesday,
@@ -124,7 +124,7 @@ func setTimeProfileRecord(u lib.Uhppoted, args []string) error {
 				Saturday:  saturday,
 				Sunday:    sunday,
 			},
-			Segments: []entities.TimeSegment{
+			Segments: []types.TimeSegment{
 				{
 					Start: segment1start,
 					End:   segment1end,

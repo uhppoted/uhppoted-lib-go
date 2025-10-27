@@ -7,7 +7,7 @@ import (
 	"slices"
 	"testing"
 
-	"github.com/uhppoted/uhppoted-lib-go/src/uhppoted/entities"
+	"github.com/uhppoted/uhppoted-lib-go/src/uhppoted/types"
 )
 
 func TestFindControllers(t *testing.T) {
@@ -103,7 +103,7 @@ func TestSetTime(t *testing.T) {
 		0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
 	}
 
-	packet, err := SetTimeRequest(uint32(405419896), entities.MustParseDateTime("2025-11-04 12:34:56"))
+	packet, err := SetTimeRequest(uint32(405419896), types.MustParseDateTime("2025-11-04 12:34:56"))
 
 	if err != nil {
 		t.Fatalf("%v", err)
@@ -205,7 +205,7 @@ func TestSetDoor(t *testing.T) {
 		0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
 	}
 
-	packet, err := SetDoorRequest(uint32(405419896), uint8(3), entities.DoorMode(2), uint8(17))
+	packet, err := SetDoorRequest(uint32(405419896), uint8(3), types.DoorMode(2), uint8(17))
 
 	if err != nil {
 		t.Fatalf("%v", err)
@@ -324,7 +324,7 @@ func TestPutCard(t *testing.T) {
 		0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
 	}
 
-	packet, err := PutCardRequest(uint32(405419896), uint32(10058400), entities.MustParseDate("2025-01-01"), entities.MustParseDate("2025-12-31"), uint8(1), uint8(0), uint8(17), uint8(1), uint32(999999))
+	packet, err := PutCardRequest(uint32(405419896), uint32(10058400), types.MustParseDate("2025-01-01"), types.MustParseDate("2025-12-31"), uint8(1), uint8(0), uint8(17), uint8(1), uint32(999999))
 
 	if err != nil {
 		t.Fatalf("%v", err)
@@ -460,7 +460,7 @@ func TestSetTimeProfile(t *testing.T) {
 		0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
 	}
 
-	packet, err := SetTimeProfileRequest(uint32(405419896), uint8(37), entities.MustParseDate("2025-11-26"), entities.MustParseDate("2025-12-29"), true, true, false, true, false, true, true, entities.MustParseHHmm("8:30"), entities.MustParseHHmm("9:45"), entities.MustParseHHmm("11:35"), entities.MustParseHHmm("13:15"), entities.MustParseHHmm("14:01"), entities.MustParseHHmm("17:59"), uint8(19))
+	packet, err := SetTimeProfileRequest(uint32(405419896), uint8(37), types.MustParseDate("2025-11-26"), types.MustParseDate("2025-12-29"), true, true, false, true, false, true, true, types.MustParseHHmm("8:30"), types.MustParseHHmm("9:45"), types.MustParseHHmm("11:35"), types.MustParseHHmm("13:15"), types.MustParseHHmm("14:01"), types.MustParseHHmm("17:59"), uint8(19))
 
 	if err != nil {
 		t.Fatalf("%v", err)
@@ -494,7 +494,7 @@ func TestAddTask(t *testing.T) {
 		0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
 	}
 
-	packet, err := AddTaskRequest(uint32(405419896), entities.TaskType(2), entities.MustParseDate("2025-01-01"), entities.MustParseDate("2025-12-31"), true, true, false, true, false, true, true, entities.MustParseHHmm("08:45"), uint8(3), uint8(7))
+	packet, err := AddTaskRequest(uint32(405419896), types.TaskType(2), types.MustParseDate("2025-01-01"), types.MustParseDate("2025-12-31"), true, true, false, true, false, true, true, types.MustParseHHmm("08:45"), uint8(3), uint8(7))
 
 	if err != nil {
 		t.Fatalf("%v", err)
@@ -562,7 +562,7 @@ func TestSetInterlockRequest(t *testing.T) {
 		0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
 	}
 
-	packet, err := SetInterlockRequest(uint32(405419896), entities.Interlock(8))
+	packet, err := SetInterlockRequest(uint32(405419896), types.Interlock(8))
 
 	if err != nil {
 		t.Fatalf("%v", err)

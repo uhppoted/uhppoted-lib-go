@@ -1,4 +1,4 @@
-package entities
+package types
 
 type Event struct {
 	Index         uint32    `json:"index"`

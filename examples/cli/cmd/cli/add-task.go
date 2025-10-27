@@ -7,11 +7,11 @@ import (
 	"time"
 
 	lib "github.com/uhppoted/uhppoted-lib-go/src/uhppoted"
-	"github.com/uhppoted/uhppoted-lib-go/src/uhppoted/entities"
+	"github.com/uhppoted/uhppoted-lib-go/src/uhppoted/types"
 )
 
 func addTask(u lib.Uhppoted, args []string) error {
-	var task = entities.LockDoor
+	var task = types.LockDoor
 	var startDate, _ = time.Parse("2006-01-02", "2025-01-01")
 	var endDate, _ = time.Parse("2006-01-02", "2025-12-31")
 	var monday = true
@@ -30,8 +30,8 @@ func addTask(u lib.Uhppoted, args []string) error {
 	if controller, err := parse(flagset, args); err != nil {
 		return err
 	} else {
-		d := lib.NewDate(2025, 3, 2)
-		e := lib.NewDate(2025, 11, 29)
+		d := types.NewDate(2025, 3, 2)
+		e := types.NewDate(2025, 11, 29)
 
 		f := func(c uint32) (any, error) {
 			return lib.AddTask(u,
@@ -72,10 +72,10 @@ func addTask(u lib.Uhppoted, args []string) error {
 }
 
 func addTaskRecord(u lib.Uhppoted, args []string) error {
-	var task = entities.LockDoor
-	var startDate, _ = lib.ParseDate("2025-01-01")
-	var endDate, _ = lib.ParseDate("2025-12-31")
-	var startTime, _ = lib.ParseHHmm("08:30")
+	var task = types.LockDoor
+	var startDate, _ = types.ParseDate("2025-01-01")
+	var endDate, _ = types.ParseDate("2025-12-31")
+	var startTime, _ = types.ParseHHmm("08:30")
 	var monday = true
 	var tuesday = true
 	var wednesday = false
@@ -91,13 +91,13 @@ func addTaskRecord(u lib.Uhppoted, args []string) error {
 	if controller, err := parse(flagset, args); err != nil {
 		return err
 	} else {
-		record := entities.Task{
+		record := types.Task{
 			Task:      task,
 			Door:      door,
 			StartDate: startDate,
 			EndDate:   endDate,
 			StartTime: startTime,
-			Weekdays: entities.Weekdays{
+			Weekdays: types.Weekdays{
 				Monday:    monday,
 				Tuesday:   tuesday,
 				Wednesday: wednesday,

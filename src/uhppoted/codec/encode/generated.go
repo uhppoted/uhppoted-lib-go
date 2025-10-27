@@ -5,7 +5,7 @@ package encode
 import (
 	"net/netip"
 
-	"github.com/uhppoted/uhppoted-lib-go/src/uhppoted/entities"
+	"github.com/uhppoted/uhppoted-lib-go/src/uhppoted/types"
 )
 
 // Encodes a get-controller-request.
@@ -96,7 +96,7 @@ func GetTimeRequest(controller uint32) ([]byte, error) {
 //
 //	Returns:
 //	    64 byte packet.
-func SetTimeRequest(controller uint32, datetime entities.DateTime) ([]byte, error) {
+func SetTimeRequest(controller uint32, datetime types.DateTime) ([]byte, error) {
 	packet := make([]byte, 64)
 
 	packet[0] = SOM
@@ -220,7 +220,7 @@ func GetDoorRequest(controller uint32, door uint8) ([]byte, error) {
 //
 //	Returns:
 //	    64 byte packet.
-func SetDoorRequest(controller uint32, door uint8, mode entities.DoorMode, delay uint8) ([]byte, error) {
+func SetDoorRequest(controller uint32, door uint8, mode types.DoorMode, delay uint8) ([]byte, error) {
 	packet := make([]byte, 64)
 
 	packet[0] = SOM
@@ -355,7 +355,7 @@ func GetCardAtIndexRequest(controller uint32, index uint32) ([]byte, error) {
 //
 //	Returns:
 //	    64 byte packet.
-func PutCardRequest(controller uint32, card uint32, startdate entities.Date, enddate entities.Date, door1 uint8, door2 uint8, door3 uint8, door4 uint8, PIN uint32) ([]byte, error) {
+func PutCardRequest(controller uint32, card uint32, startdate types.Date, enddate types.Date, door1 uint8, door2 uint8, door3 uint8, door4 uint8, PIN uint32) ([]byte, error) {
 	packet := make([]byte, 64)
 
 	packet[0] = SOM
@@ -538,7 +538,7 @@ func GetTimeProfileRequest(controller uint32, profile uint8) ([]byte, error) {
 //
 //	Returns:
 //	    64 byte packet.
-func SetTimeProfileRequest(controller uint32, profile uint8, startdate entities.Date, enddate entities.Date, monday bool, tuesday bool, wednesday bool, thursday bool, friday bool, saturday bool, sunday bool, segment1start entities.HHmm, segment1end entities.HHmm, segment2start entities.HHmm, segment2end entities.HHmm, segment3start entities.HHmm, segment3end entities.HHmm, linkedprofileid uint8) ([]byte, error) {
+func SetTimeProfileRequest(controller uint32, profile uint8, startdate types.Date, enddate types.Date, monday bool, tuesday bool, wednesday bool, thursday bool, friday bool, saturday bool, sunday bool, segment1start types.HHmm, segment1end types.HHmm, segment2start types.HHmm, segment2end types.HHmm, segment3start types.HHmm, segment3end types.HHmm, linkedprofileid uint8) ([]byte, error) {
 	packet := make([]byte, 64)
 
 	packet[0] = SOM
@@ -606,7 +606,7 @@ func ClearTimeProfilesRequest(controller uint32) ([]byte, error) {
 //
 //	Returns:
 //	    64 byte packet.
-func AddTaskRequest(controller uint32, task entities.TaskType, startdate entities.Date, enddate entities.Date, monday bool, tuesday bool, wednesday bool, thursday bool, friday bool, saturday bool, sunday bool, starttime entities.HHmm, door uint8, morecards uint8) ([]byte, error) {
+func AddTaskRequest(controller uint32, task types.TaskType, startdate types.Date, enddate types.Date, monday bool, tuesday bool, wednesday bool, thursday bool, friday bool, saturday bool, sunday bool, starttime types.HHmm, door uint8, morecards uint8) ([]byte, error) {
 	packet := make([]byte, 64)
 
 	packet[0] = SOM
@@ -700,7 +700,7 @@ func SetPCControlRequest(controller uint32, enabled bool) ([]byte, error) {
 //
 //	Returns:
 //	    64 byte packet.
-func SetInterlockRequest(controller uint32, interlock entities.Interlock) ([]byte, error) {
+func SetInterlockRequest(controller uint32, interlock types.Interlock) ([]byte, error) {
 	packet := make([]byte, 64)
 
 	packet[0] = SOM

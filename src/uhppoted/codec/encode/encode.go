@@ -12,7 +12,7 @@ import (
 	"fmt"
 	"net/netip"
 
-	"github.com/uhppoted/uhppoted-lib-go/src/uhppoted/entities"
+	"github.com/uhppoted/uhppoted-lib-go/src/uhppoted/types"
 )
 
 // Message constants for the UHPPOTE request/response protocol.
@@ -98,7 +98,7 @@ func packAddrPort(v netip.AddrPort, packet []byte, offset int) {
 //	   v      (time.Time)  date/time.
 //	   packet (bytearray)  64 byte array.
 //	   offset (int)        Value location in array.
-func packDateTime(v entities.DateTime, packet []byte, offset int) {
+func packDateTime(v types.DateTime, packet []byte, offset int) {
 	s := fmt.Sprintf("%04v%02v%02v%02v%02v%02v", v.Year(), uint8(v.Month()), v.Day(), v.Hour(), v.Minute(), v.Second())
 
 	bytes := string2bcd(s)
@@ -111,7 +111,7 @@ func packDateTime(v entities.DateTime, packet []byte, offset int) {
 //	   v      (time.Time)  date/time.
 //	   packet (bytearray)  64 byte array.
 //	   offset (int)        Value location in array.
-func packDate(v entities.Date, packet []byte, offset int) {
+func packDate(v types.Date, packet []byte, offset int) {
 	s := fmt.Sprintf("%04v%02v%02v", v.Year(), uint8(v.Month()), v.Day())
 
 	bytes := string2bcd(s)
@@ -124,7 +124,7 @@ func packDate(v entities.Date, packet []byte, offset int) {
 //	   v      (time.Time)  date/time.
 //	   packet (bytearray)  64 byte array.
 //	   offset (int)        Value location in array.
-func packHHmm(v entities.HHmm, packet []byte, offset uint8) {
+func packHHmm(v types.HHmm, packet []byte, offset uint8) {
 	s := fmt.Sprintf("%02v%02v", v.Hour(), v.Minute())
 	bytes := string2bcd(s)
 
@@ -157,7 +157,7 @@ func packPIN(v uint32, packet []byte, offset uint8) error {
 //	   v      (DoorMode)   'door mode' value to encode.
 //	   packet (bytearray)  64 byte array.
 //	   offset (int)        Value location in array.
-func packMode(v entities.DoorMode, packet []byte, offset int) {
+func packMode(v types.DoorMode, packet []byte, offset int) {
 	packet[offset] = uint8(v)
 }
 
@@ -167,7 +167,7 @@ func packMode(v entities.DoorMode, packet []byte, offset int) {
 //	   v      (Task)      'task' value to encode.
 //	   packet (bytearray)  64 byte array.
 //	   offset (int)        Value location in array.
-func packTaskType(v entities.TaskType, packet []byte, offset int) {
+func packTaskType(v types.TaskType, packet []byte, offset int) {
 	packet[offset] = uint8(v)
 }
 
@@ -177,7 +177,7 @@ func packTaskType(v entities.TaskType, packet []byte, offset int) {
 //	   v      (Interlock)  'interlock' value to encode.
 //	   packet (bytearray)  64 byte array.
 //	   offset (int)        Value location in array.
-func packInterlock(v entities.Interlock, packet []byte, offset int) {
+func packInterlock(v types.Interlock, packet []byte, offset int) {
 	packet[offset] = uint8(v)
 }
 

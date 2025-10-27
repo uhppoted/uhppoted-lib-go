@@ -6,8 +6,8 @@ import (
 	"fmt"
 
 	lib "github.com/uhppoted/uhppoted-lib-go/src/uhppoted"
-	"github.com/uhppoted/uhppoted-lib-go/src/uhppoted/entities"
 	"github.com/uhppoted/uhppoted-lib-go/src/uhppoted/responses"
+	"github.com/uhppoted/uhppoted-lib-go/src/uhppoted/types"
 )
 
 func getCardAtIndex(u lib.Uhppoted, args []string) error {
@@ -66,9 +66,9 @@ func getCardRecordAtIndex(u lib.Uhppoted, args []string) error {
 
 		if v, err := exec(controller, flagset, f, g); err != nil {
 			return err
-		} else if v.(entities.Card).Card == 0 {
+		} else if v.(types.Card).Card == 0 {
 			return fmt.Errorf("no card at index %v", index)
-		} else if v.(entities.Card).Card == 0xffffff {
+		} else if v.(types.Card).Card == 0xffffff {
 			return fmt.Errorf("card at index %v deleted", index)
 		} else if bytes, err := json.MarshalIndent(v, "   ", "   "); err != nil {
 			return err

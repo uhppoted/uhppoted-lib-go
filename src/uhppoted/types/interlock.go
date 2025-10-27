@@ -1,4 +1,4 @@
-package entities
+package types
 
 type Interlock uint8
 

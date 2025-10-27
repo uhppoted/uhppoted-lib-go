@@ -7,8 +7,8 @@ import (
 	"reflect"
 	"testing"
 
-	"github.com/uhppoted/uhppoted-lib-go/src/uhppoted/entities"
 	"github.com/uhppoted/uhppoted-lib-go/src/uhppoted/responses"
+	"github.com/uhppoted/uhppoted-lib-go/src/uhppoted/types"
 )
 
 func TestGetController(t *testing.T) {
@@ -26,7 +26,7 @@ func TestGetController(t *testing.T) {
 		Gateway:    netip.MustParseAddr("192.168.1.1"),
 		MACAddress: "00:12:23:34:45:56",
 		Version:    "v8.92",
-		Date:       entities.MustParseDate("2018-11-05"),
+		Date:       types.MustParseDate("2018-11-05"),
 	}
 
 	response, err := GetControllerResponse(packet)
@@ -70,8 +70,8 @@ func TestGetStatus(t *testing.T) {
 
 	expected := responses.GetStatus{
 		Controller:         405419896,
-		SystemDate:         entities.MustParseDate("2022-08-23"),
-		SystemTime:         entities.MustParseTime("09:49:39"),
+		SystemDate:         types.MustParseDate("2022-08-23"),
+		SystemTime:         types.MustParseTime("09:49:39"),
 		Door1Open:          false,
 		Door2Open:          true,
 		Door3Open:          false,
@@ -85,12 +85,12 @@ func TestGetStatus(t *testing.T) {
 		SystemError:        3,
 		SpecialInfo:        39,
 		EventIndex:         78,
-		EventType:          entities.EventType(2),
+		EventType:          types.EventType(2),
 		EventAccessGranted: true,
 		EventDoor:          3,
 		EventDirection:     1,
 		EventCard:          8165537,
-		EventTimestamp:     entities.MustParseDateTime("2022-08-23 09:47:06"),
+		EventTimestamp:     types.MustParseDateTime("2022-08-23 09:47:06"),
 		EventReason:        44,
 		SequenceNo:         0,
 	}
@@ -114,7 +114,7 @@ func TestGetTime(t *testing.T) {
 
 	expected := responses.GetTime{
 		Controller: 405419896,
-		DateTime:   entities.MustParseDateTime("2025-11-01 12:34:56"),
+		DateTime:   types.MustParseDateTime("2025-11-01 12:34:56"),
 	}
 
 	response, err := GetTimeResponse(packet)
@@ -136,7 +136,7 @@ func TestSetTime(t *testing.T) {
 
 	expected := responses.SetTime{
 		Controller: 405419896,
-		DateTime:   entities.MustParseDateTime("2025-11-01 12:34:56"),
+		DateTime:   types.MustParseDateTime("2025-11-01 12:34:56"),
 	}
 
 	response, err := SetTimeResponse(packet)
@@ -364,8 +364,8 @@ func TestGetCard(t *testing.T) {
 	expected := responses.GetCard{
 		Controller: 405419896,
 		Card:       10058400,
-		StartDate:  entities.MustParseDate("2024-01-01"),
-		EndDate:    entities.MustParseDate("2024-12-31"),
+		StartDate:  types.MustParseDate("2024-01-01"),
+		EndDate:    types.MustParseDate("2024-12-31"),
 		Door1:      1,
 		Door2:      0,
 		Door3:      17,
@@ -393,8 +393,8 @@ func TestGetCardNotFound(t *testing.T) {
 	expected := responses.GetCard{
 		Controller: 405419896,
 		Card:       0,
-		StartDate:  entities.MustParseDate("0001-01-01"),
-		EndDate:    entities.MustParseDate("0001-01-01"),
+		StartDate:  types.MustParseDate("0001-01-01"),
+		EndDate:    types.MustParseDate("0001-01-01"),
 		Door1:      0,
 		Door2:      0,
 		Door3:      0,
@@ -422,8 +422,8 @@ func TestGetCardAtIndex(t *testing.T) {
 	expected := responses.GetCardAtIndex{
 		Controller: 405419896,
 		Card:       10058400,
-		StartDate:  entities.MustParseDate("2024-01-01"),
-		EndDate:    entities.MustParseDate("2024-12-31"),
+		StartDate:  types.MustParseDate("2024-01-01"),
+		EndDate:    types.MustParseDate("2024-12-31"),
 		Door1:      1,
 		Door2:      0,
 		Door3:      17,
@@ -517,8 +517,8 @@ func TestGetEvent(t *testing.T) {
 	expected := responses.GetEvent{
 		Controller:    405419896,
 		Index:         13579,
-		Timestamp:     entities.MustParseDateTime("2025-11-17 12:34:56"),
-		EventType:     entities.EventType(2),
+		Timestamp:     types.MustParseDateTime("2025-11-17 12:34:56"),
+		EventType:     types.EventType(2),
 		AccessGranted: true,
 		Door:          4,
 		Direction:     2,
@@ -546,7 +546,7 @@ func TestGetEventNotFound(t *testing.T) {
 	expected := responses.GetEvent{
 		Controller:    405419896,
 		Index:         24680,
-		Timestamp:     entities.MustParseDateTime("0001-01-01 00:00:00"),
+		Timestamp:     types.MustParseDateTime("0001-01-01 00:00:00"),
 		EventType:     0,
 		AccessGranted: false,
 		Door:          0,
@@ -575,7 +575,7 @@ func TestGetEventOverwritten(t *testing.T) {
 	expected := responses.GetEvent{
 		Controller:    405419896,
 		Index:         98765,
-		Timestamp:     entities.MustParseDateTime("0001-01-01 00:00:00"),
+		Timestamp:     types.MustParseDateTime("0001-01-01 00:00:00"),
 		EventType:     255,
 		AccessGranted: false,
 		Door:          0,
@@ -670,8 +670,8 @@ func TestGetTimeProfile(t *testing.T) {
 	expected := responses.GetTimeProfile{
 		Controller:    405419896,
 		Profile:       37,
-		StartDate:     entities.MustParseDate("2025-11-26"),
-		EndDate:       entities.MustParseDate("2025-12-29"),
+		StartDate:     types.MustParseDate("2025-11-26"),
+		EndDate:       types.MustParseDate("2025-12-29"),
 		Monday:        true,
 		Tuesday:       true,
 		Wednesday:     false,
@@ -679,12 +679,12 @@ func TestGetTimeProfile(t *testing.T) {
 		Friday:        false,
 		Saturday:      true,
 		Sunday:        true,
-		Segment1Start: entities.MustParseHHmm("08:30"),
-		Segment1End:   entities.MustParseHHmm("09:45"),
-		Segment2Start: entities.MustParseHHmm("11:35"),
-		Segment2End:   entities.MustParseHHmm("13:15"),
-		Segment3Start: entities.MustParseHHmm("14:01"),
-		Segment3End:   entities.MustParseHHmm("17:59"),
+		Segment1Start: types.MustParseHHmm("08:30"),
+		Segment1End:   types.MustParseHHmm("09:45"),
+		Segment2Start: types.MustParseHHmm("11:35"),
+		Segment2End:   types.MustParseHHmm("13:15"),
+		Segment3Start: types.MustParseHHmm("14:01"),
+		Segment3End:   types.MustParseHHmm("17:59"),
 		LinkedProfile: 19,
 	}
 
@@ -949,8 +949,8 @@ func TestListenerEvent(t *testing.T) {
 
 	expected := responses.ListenerEvent{
 		Controller:         405419896,
-		SystemDate:         entities.MustParseDate("2022-08-23"),
-		SystemTime:         entities.MustParseTime("09:49:39"),
+		SystemDate:         types.MustParseDate("2022-08-23"),
+		SystemTime:         types.MustParseTime("09:49:39"),
 		Door1Open:          false,
 		Door2Open:          true,
 		Door3Open:          false,
@@ -964,12 +964,12 @@ func TestListenerEvent(t *testing.T) {
 		SystemError:        3,
 		SpecialInfo:        39,
 		EventIndex:         78,
-		EventType:          entities.EventType(2),
+		EventType:          types.EventType(2),
 		EventAccessGranted: true,
 		EventDoor:          3,
 		EventDirection:     1,
 		EventCard:          8165537,
-		EventTimestamp:     entities.MustParseDateTime("2022-08-23 09:47:06"),
+		EventTimestamp:     types.MustParseDateTime("2022-08-23 09:47:06"),
 		EventReason:        44,
 		SequenceNo:         0,
 	}
@@ -993,8 +993,8 @@ func TestListenerEventV6_62(t *testing.T) {
 
 	expected := responses.ListenerEvent{
 		Controller:         405419896,
-		SystemDate:         entities.MustParseDate("2022-08-23"),
-		SystemTime:         entities.MustParseTime("09:49:39"),
+		SystemDate:         types.MustParseDate("2022-08-23"),
+		SystemTime:         types.MustParseTime("09:49:39"),
 		Door1Open:          false,
 		Door2Open:          true,
 		Door3Open:          false,
@@ -1008,12 +1008,12 @@ func TestListenerEventV6_62(t *testing.T) {
 		SystemError:        3,
 		SpecialInfo:        39,
 		EventIndex:         78,
-		EventType:          entities.EventType(2),
+		EventType:          types.EventType(2),
 		EventAccessGranted: true,
 		EventDoor:          3,
 		EventDirection:     1,
 		EventCard:          8165537,
-		EventTimestamp:     entities.MustParseDateTime("2022-08-23 09:47:06"),
+		EventTimestamp:     types.MustParseDateTime("2022-08-23 09:47:06"),
 		EventReason:        44,
 		SequenceNo:         0,
 	}

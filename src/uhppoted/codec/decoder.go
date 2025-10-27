@@ -4,8 +4,8 @@ import (
 	"fmt"
 
 	decoder "github.com/uhppoted/uhppoted-lib-go/src/uhppoted/codec/decode"
-	"github.com/uhppoted/uhppoted-lib-go/src/uhppoted/entities"
 	"github.com/uhppoted/uhppoted-lib-go/src/uhppoted/responses"
+	"github.com/uhppoted/uhppoted-lib-go/src/uhppoted/types"
 )
 
 type key[R any] struct {
@@ -21,23 +21,23 @@ var decoders = map[any]func([]byte) (any, error){
 		return decoder.SetListenerAddrPortResponse(b)
 	},
 
-	key[entities.Card]{0x5a}: func(b []byte) (any, error) {
+	key[types.Card]{0x5a}: func(b []byte) (any, error) {
 		return decodeCardRecord(b)
 	},
 
-	key[entities.Card]{0x5c}: func(b []byte) (any, error) {
+	key[types.Card]{0x5c}: func(b []byte) (any, error) {
 		return decodeCardRecordAtIndex(b)
 	},
 
-	key[entities.Status]{0x20}: func(b []byte) (any, error) {
+	key[types.Status]{0x20}: func(b []byte) (any, error) {
 		return decodeStatusRecord(b)
 	},
 
-	key[entities.Event]{0xb0}: func(b []byte) (any, error) {
+	key[types.Event]{0xb0}: func(b []byte) (any, error) {
 		return decodeEventRecord(b)
 	},
 
-	key[entities.TimeProfile]{0x98}: func(b []byte) (any, error) {
+	key[types.TimeProfile]{0x98}: func(b []byte) (any, error) {
 		return decodeTimeProfileRecord(b)
 	},
 
@@ -74,11 +74,11 @@ func Decode[R any](packet []byte) (R, error) {
 	}
 }
 
-func decodeCardRecord(packet []byte) (entities.Card, error) {
+func decodeCardRecord(packet []byte) (types.Card, error) {
 	if response, err := decoder.GetCardResponse(packet); err != nil {
-		return entities.Card{}, err
+		return types.Card{}, err
 	} else {
-		return entities.Card{
+		return types.Card{
 			Card:      response.Card,
 			StartDate: response.StartDate,
 			EndDate:   response.EndDate,
@@ -93,11 +93,11 @@ func decodeCardRecord(packet []byte) (entities.Card, error) {
 	}
 }
 
-func decodeCardRecordAtIndex(packet []byte) (entities.Card, error) {
+func decodeCardRecordAtIndex(packet []byte) (types.Card, error) {
 	if response, err := decoder.GetCardAtIndexResponse(packet); err != nil {
-		return entities.Card{}, err
+		return types.Card{}, err
 	} else {
-		return entities.Card{
+		return types.Card{
 			Card:      response.Card,
 			StartDate: response.StartDate,
 			EndDate:   response.EndDate,
@@ -112,11 +112,11 @@ func decodeCardRecordAtIndex(packet []byte) (entities.Card, error) {
 	}
 }
 
-func decodeStatusRecord(packet []byte) (entities.Status, error) {
+func decodeStatusRecord(packet []byte) (types.Status, error) {
 	if response, err := decoder.GetStatusResponse(packet); err != nil {
-		return entities.Status{}, err
+		return types.Status{}, err
 	} else {
-		datetime := entities.NewDateTime(
+		datetime := types.NewDateTime(
 			response.SystemDate.Year(),
 			response.SystemDate.Month(),
 			response.SystemDate.Day(),
@@ -124,11 +124,11 @@ func decodeStatusRecord(packet []byte) (entities.Status, error) {
 			response.SystemTime.Minute(),
 			response.SystemTime.Second())
 
-		return entities.Status{
+		return types.Status{
 			System: struct {
-				Time  entities.DateTime `json:"datetime"`
-				Error uint8             `json:"error"`
-				Info  uint8             `json:"info"`
+				Time  types.DateTime `json:"datetime"`
+				Error uint8          `json:"error"`
+				Info  uint8          `json:"info"`
 			}{
 				Time:  datetime,
 				Error: response.SystemError,
@@ -188,12 +188,12 @@ func decodeStatusRecord(packet []byte) (entities.Status, error) {
 				LockForced: response.Inputs&0x02 == 0x02,
 			},
 
-			Event: entities.Event{
+			Event: types.Event{
 				Index:         response.EventIndex,
-				Event:         entities.EventType(response.EventType),
+				Event:         types.EventType(response.EventType),
 				AccessGranted: response.EventAccessGranted,
 				Door:          response.EventDoor,
-				Direction:     entities.Direction(response.EventDirection),
+				Direction:     types.Direction(response.EventDirection),
 				Card:          response.EventCard,
 				Timestamp:     response.EventTimestamp,
 				Reason:        response.EventReason,
@@ -202,16 +202,16 @@ func decodeStatusRecord(packet []byte) (entities.Status, error) {
 	}
 }
 
-func decodeEventRecord(packet []byte) (entities.Event, error) {
+func decodeEventRecord(packet []byte) (types.Event, error) {
 	if response, err := decoder.GetEventResponse(packet); err != nil {
-		return entities.Event{}, err
+		return types.Event{}, err
 	} else {
-		return entities.Event{
+		return types.Event{
 			Index:         response.Index,
-			Event:         entities.EventType(response.EventType),
+			Event:         types.EventType(response.EventType),
 			AccessGranted: response.AccessGranted,
 			Door:          response.Door,
-			Direction:     entities.Direction(response.Direction),
+			Direction:     types.Direction(response.Direction),
 			Card:          response.Card,
 			Timestamp:     response.Timestamp,
 			Reason:        response.Reason,
@@ -219,15 +219,15 @@ func decodeEventRecord(packet []byte) (entities.Event, error) {
 	}
 }
 
-func decodeTimeProfileRecord(packet []byte) (entities.TimeProfile, error) {
+func decodeTimeProfileRecord(packet []byte) (types.TimeProfile, error) {
 	if response, err := decoder.GetTimeProfileResponse(packet); err != nil {
-		return entities.TimeProfile{}, err
+		return types.TimeProfile{}, err
 	} else {
-		return entities.TimeProfile{
+		return types.TimeProfile{
 			Profile:   response.Profile,
 			StartDate: response.StartDate,
 			EndDate:   response.EndDate,
-			Weekdays: entities.Weekdays{
+			Weekdays: types.Weekdays{
 				Monday:    response.Monday,
 				Tuesday:   response.Tuesday,
 				Wednesday: response.Wednesday,
@@ -236,7 +236,7 @@ func decodeTimeProfileRecord(packet []byte) (entities.TimeProfile, error) {
 				Saturday:  response.Saturday,
 				Sunday:    response.Sunday,
 			},
-			Segments: []entities.TimeSegment{
+			Segments: []types.TimeSegment{
 				{
 					Start: response.Segment1Start,
 					End:   response.Segment1End,

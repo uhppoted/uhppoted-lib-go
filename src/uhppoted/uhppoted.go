@@ -10,8 +10,8 @@ import (
 	"time"
 
 	"github.com/uhppoted/uhppoted-lib-go/src/uhppoted/codec"
-	"github.com/uhppoted/uhppoted-lib-go/src/uhppoted/entities"
 	"github.com/uhppoted/uhppoted-lib-go/src/uhppoted/responses"
+	"github.com/uhppoted/uhppoted-lib-go/src/uhppoted/types"
 )
 
 type Uhppoted struct {
@@ -29,19 +29,19 @@ type TController interface {
 }
 
 type TDateTime interface {
-	time.Time | entities.DateTime
+	time.Time | types.DateTime
 }
 
 type TDate interface {
-	time.Time | entities.Date
+	time.Time | types.Date
 }
 
 type TTime interface {
-	time.Time | entities.Time
+	time.Time | types.Time
 }
 
 type THHmm interface {
-	time.Time | entities.HHmm
+	time.Time | types.HHmm
 }
 
 type Controller struct {

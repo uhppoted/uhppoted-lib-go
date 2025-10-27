@@ -7,12 +7,12 @@ import (
 
 	"github.com/uhppoted/uhppoted-lib-go/src/uhppoted/codec"
 	"github.com/uhppoted/uhppoted-lib-go/src/uhppoted/codec/encode"
-	"github.com/uhppoted/uhppoted-lib-go/src/uhppoted/entities"
 	"github.com/uhppoted/uhppoted-lib-go/src/uhppoted/responses"
+	"github.com/uhppoted/uhppoted-lib-go/src/uhppoted/types"
 )
 
 type convertable interface {
-	entities.DateTime | entities.Date | entities.HHmm
+	types.DateTime | types.Date | types.HHmm
 }
 
 // FindControllers retrieves a list of all UHPPOTE controllers accessible on the local LAN.
@@ -39,8 +39,8 @@ func FindControllers(u Uhppoted, timeout time.Duration) ([]responses.GetControll
 }
 
 // Retrieves the card record for a given card number.
-func GetCardRecord[T TController](u Uhppoted, controller T, cardnumber uint32, timeout time.Duration) (entities.Card, error) {
-	var zero entities.Card
+func GetCardRecord[T TController](u Uhppoted, controller T, cardnumber uint32, timeout time.Duration) (types.Card, error) {
+	var zero types.Card
 
 	if c, err := resolve(controller); err != nil {
 		return zero, err
@@ -50,7 +50,7 @@ func GetCardRecord[T TController](u Uhppoted, controller T, cardnumber uint32, t
 		return zero, err
 	} else if !valid(reply, c.ID) {
 		return zero, ErrInvalidResponse
-	} else if record, err := codec.Decode[entities.Card](reply); err != nil {
+	} else if record, err := codec.Decode[types.Card](reply); err != nil {
 		return zero, err
 	} else {
 		return record, nil
@@ -58,8 +58,8 @@ func GetCardRecord[T TController](u Uhppoted, controller T, cardnumber uint32, t
 }
 
 // Retrieves the card record stored at a given index.
-func GetCardRecordAtIndex[T TController](u Uhppoted, controller T, index uint32, timeout time.Duration) (entities.Card, error) {
-	var zero entities.Card
+func GetCardRecordAtIndex[T TController](u Uhppoted, controller T, index uint32, timeout time.Duration) (types.Card, error) {
+	var zero types.Card
 
 	if c, err := resolve(controller); err != nil {
 		return zero, err
@@ -69,7 +69,7 @@ func GetCardRecordAtIndex[T TController](u Uhppoted, controller T, index uint32,
 		return zero, err
 	} else if !valid(reply, c.ID) {
 		return zero, ErrInvalidResponse
-	} else if record, err := codec.Decode[entities.Card](reply); err != nil {
+	} else if record, err := codec.Decode[types.Card](reply); err != nil {
 		return zero, err
 	} else {
 		return record, nil
@@ -77,7 +77,7 @@ func GetCardRecordAtIndex[T TController](u Uhppoted, controller T, index uint32,
 }
 
 // Creates or updates a card record stored on an access controller.
-func PutCardRecord[T TController](u Uhppoted, controller T, card entities.Card, timeout time.Duration) (bool, error) {
+func PutCardRecord[T TController](u Uhppoted, controller T, card types.Card, timeout time.Duration) (bool, error) {
 	permissions := map[uint8]uint8{}
 	if card.Permissions != nil {
 		permissions = card.Permissions
@@ -104,8 +104,8 @@ func PutCardRecord[T TController](u Uhppoted, controller T, card entities.Card, 
 }
 
 // Retrieves a controller status record.
-func GetStatusRecord[T TController](u Uhppoted, controller T, timeout time.Duration) (entities.Status, error) {
-	var zero entities.Status
+func GetStatusRecord[T TController](u Uhppoted, controller T, timeout time.Duration) (types.Status, error) {
+	var zero types.Status
 
 	if c, err := resolve(controller); err != nil {
 		return zero, err
@@ -115,7 +115,7 @@ func GetStatusRecord[T TController](u Uhppoted, controller T, timeout time.Durat
 		return zero, err
 	} else if !valid(reply, c.ID) {
 		return zero, ErrInvalidResponse
-	} else if record, err := codec.Decode[entities.Status](reply); err != nil {
+	} else if record, err := codec.Decode[types.Status](reply); err != nil {
 		return zero, err
 	} else {
 		return record, nil
@@ -123,8 +123,8 @@ func GetStatusRecord[T TController](u Uhppoted, controller T, timeout time.Durat
 }
 
 // Retrieves the event record for the even at an index.
-func GetEventRecord[T TController](u Uhppoted, controller T, index uint32, timeout time.Duration) (entities.Event, error) {
-	var zero entities.Event
+func GetEventRecord[T TController](u Uhppoted, controller T, index uint32, timeout time.Duration) (types.Event, error) {
+	var zero types.Event
 
 	if c, err := resolve(controller); err != nil {
 		return zero, err
@@ -134,7 +134,7 @@ func GetEventRecord[T TController](u Uhppoted, controller T, index uint32, timeo
 		return zero, err
 	} else if !valid(reply, c.ID) {
 		return zero, ErrInvalidResponse
-	} else if record, err := codec.Decode[entities.Event](reply); err != nil {
+	} else if record, err := codec.Decode[types.Event](reply); err != nil {
 		return zero, err
 	} else {
 		return record, nil
@@ -142,8 +142,8 @@ func GetEventRecord[T TController](u Uhppoted, controller T, index uint32, timeo
 }
 
 // Retrieves the requested access time profile record from a controller.
-func GetTimeProfileRecord[T TController](u Uhppoted, controller T, profile uint8, timeout time.Duration) (entities.TimeProfile, error) {
-	var zero entities.TimeProfile
+func GetTimeProfileRecord[T TController](u Uhppoted, controller T, profile uint8, timeout time.Duration) (types.TimeProfile, error) {
+	var zero types.TimeProfile
 
 	if c, err := resolve(controller); err != nil {
 		return zero, err
@@ -153,7 +153,7 @@ func GetTimeProfileRecord[T TController](u Uhppoted, controller T, profile uint8
 		return zero, err
 	} else if !valid(reply, c.ID) {
 		return zero, ErrInvalidResponse
-	} else if record, err := codec.Decode[entities.TimeProfile](reply); err != nil {
+	} else if record, err := codec.Decode[types.TimeProfile](reply); err != nil {
 		return zero, err
 	} else {
 		return record, nil
@@ -161,14 +161,14 @@ func GetTimeProfileRecord[T TController](u Uhppoted, controller T, profile uint8
 }
 
 // Adds or updates an access time profile record stored on a controller.
-func SetTimeProfileRecord[T TController](u Uhppoted, controller T, record entities.TimeProfile, timeout time.Duration) (bool, error) {
+func SetTimeProfileRecord[T TController](u Uhppoted, controller T, record types.TimeProfile, timeout time.Duration) (bool, error) {
 	f := func(id uint32) ([]byte, error) {
-		segment1start := entities.HHmm{}
-		segment1end := entities.HHmm{}
-		segment2start := entities.HHmm{}
-		segment2end := entities.HHmm{}
-		segment3start := entities.HHmm{}
-		segment3end := entities.HHmm{}
+		segment1start := types.HHmm{}
+		segment1end := types.HHmm{}
+		segment2start := types.HHmm{}
+		segment2end := types.HHmm{}
+		segment3start := types.HHmm{}
+		segment3end := types.HHmm{}
 
 		if len(record.Segments) > 0 {
 			segment1start = record.Segments[0].Start
@@ -233,7 +233,7 @@ func SetTimeProfileRecord[T TController](u Uhppoted, controller T, record entiti
 //   - 10: trigger once
 //   - 11: disable pushbutton
 //   - 12: enable pushbutton
-func AddTaskRecord[T TController](u Uhppoted, controller T, record entities.Task, timeout time.Duration) (bool, error) {
+func AddTaskRecord[T TController](u Uhppoted, controller T, record types.Task, timeout time.Duration) (bool, error) {
 	f := func(id uint32) ([]byte, error) {
 		return encode.AddTaskRequest(id,
 			record.Task,
@@ -306,14 +306,14 @@ func convert[R convertable](t any) R {
 
 	case time.Time:
 		switch any(zero).(type) {
-		case entities.DateTime:
-			return any(entities.DateTimeFromTime(v)).(R)
+		case types.DateTime:
+			return any(types.DateTimeFromTime(v)).(R)
 
-		case entities.Date:
-			return any(entities.DateFromTime(v)).(R)
+		case types.Date:
+			return any(types.DateFromTime(v)).(R)
 
-		case entities.HHmm:
-			return any(entities.HHmmFromTime(v)).(R)
+		case types.HHmm:
+			return any(types.HHmmFromTime(v)).(R)
 		}
 	}
 

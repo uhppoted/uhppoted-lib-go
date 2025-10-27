@@ -1,4 +1,4 @@
-package entities
+package types
 
 type Status struct {
 	System struct {

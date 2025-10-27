@@ -67,7 +67,7 @@ func buildResponses() *dst.File {
 				&dst.ImportSpec{
 					Path: &dst.BasicLit{
 						Kind:  token.STRING,
-						Value: `"github.com/uhppoted/uhppoted-lib-go/src/uhppoted/entities"`,
+						Value: `"github.com/uhppoted/uhppoted-lib-go/src/uhppoted/types"`,
 					},
 				},
 			},
@@ -97,7 +97,7 @@ func buildResponses() *dst.File {
 			{
 				Path: &dst.BasicLit{
 					Kind:  token.STRING,
-					Value: `"github.com/uhppoted/uhppoted-lib-go/src/uhppoted/entities"`,
+					Value: `"github.com/uhppoted/uhppoted-lib-go/src/uhppoted/types"`,
 				},
 			},
 		},
@@ -164,25 +164,25 @@ func gotype(field types.Field) string {
 		return "uint32"
 
 	case "datetime":
-		return "entities.DateTime"
+		return "types.DateTime"
 
 	case "optional datetime":
-		return "entities.DateTime"
+		return "types.DateTime"
 
 	case "date":
-		return "entities.Date"
+		return "types.Date"
 
 	case "shortdate":
-		return "entities.Date"
+		return "types.Date"
 
 	case "optional date":
-		return "entities.Date"
+		return "types.Date"
 
 	case "time":
-		return "entities.Time"
+		return "types.Time"
 
 	case "HHmm":
-		return "entities.HHmm"
+		return "types.HHmm"
 
 	case "IPv4":
 		return "netip.Addr"
@@ -197,16 +197,16 @@ func gotype(field types.Field) string {
 		return "uint32"
 
 	case "mode":
-		return "entities.DoorMode"
+		return "types.DoorMode"
 
 	case "event-type":
-		return "entities.EventType"
+		return "types.EventType"
 
 	case "direction":
-		return "entities.Direction"
+		return "types.Direction"
 
 	case "reason":
-		return "entities.Reason"
+		return "types.Reason"
 
 	case "version":
 		return "string"

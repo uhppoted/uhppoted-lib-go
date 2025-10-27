@@ -83,7 +83,7 @@ func buildDecoderTest() *dst.File {
 			&dst.ImportSpec{
 				Path: &dst.BasicLit{
 					Kind:  token.STRING,
-					Value: `"github.com/uhppoted/uhppoted-lib-go/src/uhppoted/entities"`,
+					Value: `"github.com/uhppoted/uhppoted-lib-go/src/uhppoted/types"`,
 				},
 			},
 			&dst.ImportSpec{
@@ -400,7 +400,7 @@ func makeValue(field lib.Field, value lib.Value) dst.Expr {
 	case "date":
 		return &dst.CallExpr{
 			Fun: &dst.SelectorExpr{
-				X:   &dst.Ident{Name: "entities"},
+				X:   &dst.Ident{Name: "types"},
 				Sel: &dst.Ident{Name: "MustParseDate"},
 			},
 			Args: []dst.Expr{
@@ -411,7 +411,7 @@ func makeValue(field lib.Field, value lib.Value) dst.Expr {
 	case "shortdate":
 		return &dst.CallExpr{
 			Fun: &dst.SelectorExpr{
-				X:   &dst.Ident{Name: "entities"},
+				X:   &dst.Ident{Name: "types"},
 				Sel: &dst.Ident{Name: "MustParseDate"},
 			},
 			Args: []dst.Expr{
@@ -422,7 +422,7 @@ func makeValue(field lib.Field, value lib.Value) dst.Expr {
 	case "optional date":
 		return &dst.CallExpr{
 			Fun: &dst.SelectorExpr{
-				X:   &dst.Ident{Name: "entities"},
+				X:   &dst.Ident{Name: "types"},
 				Sel: &dst.Ident{Name: "MustParseDate"},
 			},
 			Args: []dst.Expr{
@@ -433,7 +433,7 @@ func makeValue(field lib.Field, value lib.Value) dst.Expr {
 	case "time":
 		return &dst.CallExpr{
 			Fun: &dst.SelectorExpr{
-				X:   &dst.Ident{Name: "entities"},
+				X:   &dst.Ident{Name: "types"},
 				Sel: &dst.Ident{Name: "MustParseTime"},
 			},
 			Args: []dst.Expr{
@@ -444,7 +444,7 @@ func makeValue(field lib.Field, value lib.Value) dst.Expr {
 	case "HHmm":
 		return &dst.CallExpr{
 			Fun: &dst.SelectorExpr{
-				X:   &dst.Ident{Name: "entities"},
+				X:   &dst.Ident{Name: "types"},
 				Sel: &dst.Ident{Name: "MustParseHHmm"},
 			},
 			Args: []dst.Expr{
@@ -455,7 +455,7 @@ func makeValue(field lib.Field, value lib.Value) dst.Expr {
 	case "datetime":
 		return &dst.CallExpr{
 			Fun: &dst.SelectorExpr{
-				X:   &dst.Ident{Name: "entities"},
+				X:   &dst.Ident{Name: "types"},
 				Sel: &dst.Ident{Name: "MustParseDateTime"},
 			},
 			Args: []dst.Expr{
@@ -466,7 +466,7 @@ func makeValue(field lib.Field, value lib.Value) dst.Expr {
 	case "optional datetime":
 		return &dst.CallExpr{
 			Fun: &dst.SelectorExpr{
-				X:   &dst.Ident{Name: "entities"},
+				X:   &dst.Ident{Name: "types"},
 				Sel: &dst.Ident{Name: "MustParseDateTime"},
 			},
 			Args: []dst.Expr{
@@ -489,7 +489,7 @@ func makeValue(field lib.Field, value lib.Value) dst.Expr {
 	case "event-type":
 		return &dst.CallExpr{
 			Fun: &dst.SelectorExpr{
-				X:   &dst.Ident{Name: "entities"},
+				X:   &dst.Ident{Name: "types"},
 				Sel: &dst.Ident{Name: "EventType"},
 			},
 			Args: []dst.Expr{
@@ -500,7 +500,7 @@ func makeValue(field lib.Field, value lib.Value) dst.Expr {
 	case "direction":
 		return &dst.CallExpr{
 			Fun: &dst.SelectorExpr{
-				X:   &dst.Ident{Name: "entities"},
+				X:   &dst.Ident{Name: "types"},
 				Sel: &dst.Ident{Name: "Direction"},
 			},
 			Args: []dst.Expr{
@@ -511,7 +511,7 @@ func makeValue(field lib.Field, value lib.Value) dst.Expr {
 	case "reason":
 		return &dst.CallExpr{
 			Fun: &dst.SelectorExpr{
-				X:   &dst.Ident{Name: "entities"},
+				X:   &dst.Ident{Name: "types"},
 				Sel: &dst.Ident{Name: "Reason"},
 			},
 			Args: []dst.Expr{

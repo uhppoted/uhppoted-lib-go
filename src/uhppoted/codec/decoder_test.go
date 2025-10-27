@@ -5,8 +5,8 @@ import (
 	"reflect"
 	"testing"
 
-	"github.com/uhppoted/uhppoted-lib-go/src/uhppoted/entities"
 	"github.com/uhppoted/uhppoted-lib-go/src/uhppoted/responses"
+	"github.com/uhppoted/uhppoted-lib-go/src/uhppoted/types"
 )
 
 func TestInvalidPacket(t *testing.T) {
@@ -62,10 +62,10 @@ func TestDecodeGetCardRecord(t *testing.T) {
 		0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
 	}
 
-	expected := entities.Card{
+	expected := types.Card{
 		Card:      10058400,
-		StartDate: entities.MustParseDate("2024-01-01"),
-		EndDate:   entities.MustParseDate("2024-12-31"),
+		StartDate: types.MustParseDate("2024-01-01"),
+		EndDate:   types.MustParseDate("2024-12-31"),
 		Permissions: map[uint8]uint8{
 			1: 1,
 			2: 0,
@@ -75,7 +75,7 @@ func TestDecodeGetCardRecord(t *testing.T) {
 		PIN: 999999,
 	}
 
-	if response, err := Decode[entities.Card](packet); err != nil {
+	if response, err := Decode[types.Card](packet); err != nil {
 		t.Fatalf("%v", err)
 	} else if !reflect.DeepEqual(response, expected) {
 		t.Errorf("incorrectly decoded response:\n   expected: %#v\n   got:      %#v", expected, response)
@@ -90,10 +90,10 @@ func TestDecodeGetCardRecordAtIndex(t *testing.T) {
 		0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
 	}
 
-	expected := entities.Card{
+	expected := types.Card{
 		Card:      10058400,
-		StartDate: entities.MustParseDate("2024-01-01"),
-		EndDate:   entities.MustParseDate("2024-12-31"),
+		StartDate: types.MustParseDate("2024-01-01"),
+		EndDate:   types.MustParseDate("2024-12-31"),
 		Permissions: map[uint8]uint8{
 			1: 1,
 			2: 0,
@@ -103,7 +103,7 @@ func TestDecodeGetCardRecordAtIndex(t *testing.T) {
 		PIN: 999999,
 	}
 
-	if response, err := Decode[entities.Card](packet); err != nil {
+	if response, err := Decode[types.Card](packet); err != nil {
 		t.Fatalf("%v", err)
 	} else if !reflect.DeepEqual(response, expected) {
 		t.Errorf("incorrectly decoded response:\n   expected: %#v\n   got:      %#v", expected, response)
@@ -118,13 +118,13 @@ func TestDecodeGetStatusRecord(t *testing.T) {
 		0x27, 0x07, 0x09, 0x22, 0x08, 0x23, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
 	}
 
-	expected := entities.Status{
+	expected := types.Status{
 		System: struct {
-			Time  entities.DateTime `json:"datetime"`
-			Error uint8             `json:"error"`
-			Info  uint8             `json:"info"`
+			Time  types.DateTime `json:"datetime"`
+			Error uint8          `json:"error"`
+			Info  uint8          `json:"info"`
 		}{
-			Time:  entities.MustParseDateTime("2022-08-23 09:49:39"),
+			Time:  types.MustParseDateTime("2022-08-23 09:49:39"),
 			Error: 3,
 			Info:  39,
 		},
@@ -182,19 +182,19 @@ func TestDecodeGetStatusRecord(t *testing.T) {
 			LockForced: false,
 		},
 
-		Event: entities.Event{
+		Event: types.Event{
 			Index:         78,
-			Event:         entities.EventDoor,
+			Event:         types.EventDoor,
 			AccessGranted: true,
 			Door:          3,
 			Direction:     1,
 			Card:          8165537,
-			Timestamp:     entities.MustParseDateTime("2022-08-23 09:47:06"),
+			Timestamp:     types.MustParseDateTime("2022-08-23 09:47:06"),
 			Reason:        44,
 		},
 	}
 
-	if response, err := Decode[entities.Status](packet); err != nil {
+	if response, err := Decode[types.Status](packet); err != nil {
 		t.Fatalf("%v", err)
 	} else if !reflect.DeepEqual(response, expected) {
 		t.Errorf("incorrectly decoded response:\n   expected: %#v\n   got:      %#v", expected, response)
@@ -209,18 +209,18 @@ func TestDecodeGetEventRecord(t *testing.T) {
 		0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
 	}
 
-	expected := entities.Event{
+	expected := types.Event{
 		Index:         13579,
-		Event:         entities.EventType(2),
+		Event:         types.EventType(2),
 		AccessGranted: true,
 		Door:          4,
 		Direction:     2,
 		Card:          10058400,
-		Timestamp:     entities.MustParseDateTime("2025-11-17 12:34:56"),
+		Timestamp:     types.MustParseDateTime("2025-11-17 12:34:56"),
 		Reason:        21,
 	}
 
-	if response, err := Decode[entities.Event](packet); err != nil {
+	if response, err := Decode[types.Event](packet); err != nil {
 		t.Fatalf("%v", err)
 	} else if !reflect.DeepEqual(response, expected) {
 		t.Errorf("incorrectly decoded response:\n   expected: %#v\n   got:      %#v", expected, response)
@@ -235,11 +235,11 @@ func TestDecodeGetTimeProfileRecord(t *testing.T) {
 		0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
 	}
 
-	expected := entities.TimeProfile{
+	expected := types.TimeProfile{
 		Profile:   37,
-		StartDate: entities.MustParseDate("2025-11-26"),
-		EndDate:   entities.MustParseDate("2025-12-29"),
-		Weekdays: entities.Weekdays{
+		StartDate: types.MustParseDate("2025-11-26"),
+		EndDate:   types.MustParseDate("2025-12-29"),
+		Weekdays: types.Weekdays{
 			Monday:    true,
 			Tuesday:   true,
 			Wednesday: false,
@@ -248,24 +248,24 @@ func TestDecodeGetTimeProfileRecord(t *testing.T) {
 			Saturday:  true,
 			Sunday:    true,
 		},
-		Segments: []entities.TimeSegment{
+		Segments: []types.TimeSegment{
 			{
-				Start: entities.MustParseHHmm("08:30"),
-				End:   entities.MustParseHHmm("09:45"),
+				Start: types.MustParseHHmm("08:30"),
+				End:   types.MustParseHHmm("09:45"),
 			},
 			{
-				Start: entities.MustParseHHmm("11:35"),
-				End:   entities.MustParseHHmm("13:15"),
+				Start: types.MustParseHHmm("11:35"),
+				End:   types.MustParseHHmm("13:15"),
 			},
 			{
-				Start: entities.MustParseHHmm("14:01"),
-				End:   entities.MustParseHHmm("17:59"),
+				Start: types.MustParseHHmm("14:01"),
+				End:   types.MustParseHHmm("17:59"),
 			},
 		},
 		LinkedProfile: 19,
 	}
 
-	if response, err := Decode[entities.TimeProfile](packet); err != nil {
+	if response, err := Decode[types.TimeProfile](packet); err != nil {
 		t.Fatalf("%v", err)
 	} else if !reflect.DeepEqual(response, expected) {
 		t.Errorf("incorrectly decoded response:\n   expected: %#v\n   got:      %#v", expected, response)
@@ -282,8 +282,8 @@ func TestDecodeListenerEvent(t *testing.T) {
 
 	expected := responses.ListenerEvent{
 		Controller:         405419896,
-		SystemDate:         entities.MustParseDate("2022-08-23"),
-		SystemTime:         entities.MustParseTime("09:49:39"),
+		SystemDate:         types.MustParseDate("2022-08-23"),
+		SystemTime:         types.MustParseTime("09:49:39"),
 		Door1Open:          false,
 		Door2Open:          true,
 		Door3Open:          false,
@@ -297,12 +297,12 @@ func TestDecodeListenerEvent(t *testing.T) {
 		SystemError:        3,
 		SpecialInfo:        39,
 		EventIndex:         78,
-		EventType:          entities.EventType(2),
+		EventType:          types.EventType(2),
 		EventAccessGranted: true,
 		EventDoor:          3,
 		EventDirection:     1,
 		EventCard:          8165537,
-		EventTimestamp:     entities.MustParseDateTime("2022-08-23 09:47:06"),
+		EventTimestamp:     types.MustParseDateTime("2022-08-23 09:47:06"),
 		EventReason:        44,
 		SequenceNo:         0,
 	}
@@ -324,8 +324,8 @@ func TestDecodeListenerEventV6_62(t *testing.T) {
 
 	expected := responses.ListenerEvent{
 		Controller:         405419896,
-		SystemDate:         entities.MustParseDate("2022-08-23"),
-		SystemTime:         entities.MustParseTime("09:49:39"),
+		SystemDate:         types.MustParseDate("2022-08-23"),
+		SystemTime:         types.MustParseTime("09:49:39"),
 		Door1Open:          false,
 		Door2Open:          true,
 		Door3Open:          false,
@@ -339,12 +339,12 @@ func TestDecodeListenerEventV6_62(t *testing.T) {
 		SystemError:        3,
 		SpecialInfo:        39,
 		EventIndex:         78,
-		EventType:          entities.EventType(2),
+		EventType:          types.EventType(2),
 		EventAccessGranted: true,
 		EventDoor:          3,
 		EventDirection:     1,
 		EventCard:          8165537,
-		EventTimestamp:     entities.MustParseDateTime("2022-08-23 09:47:06"),
+		EventTimestamp:     types.MustParseDateTime("2022-08-23 09:47:06"),
 		EventReason:        44,
 		SequenceNo:         0,
 	}

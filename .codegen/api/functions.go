@@ -82,7 +82,7 @@ func buildAPI() *dst.File {
 				&dst.ImportSpec{
 					Path: &dst.BasicLit{
 						Kind:  token.STRING,
-						Value: `"github.com/uhppoted/uhppoted-lib-go/src/uhppoted/entities"`,
+						Value: `"github.com/uhppoted/uhppoted-lib-go/src/uhppoted/types"`,
 					},
 				},
 				&dst.ImportSpec{
@@ -126,7 +126,7 @@ func buildAPI() *dst.File {
 			{
 				Path: &dst.BasicLit{
 					Kind:  token.STRING,
-					Value: `"github.com/uhppoted/uhppoted-lib-go/src/uhppoted/entities"`,
+					Value: `"github.com/uhppoted/uhppoted-lib-go/src/uhppoted/types"`,
 				},
 			},
 			{
@@ -259,13 +259,13 @@ func buildFunction(f lib.Function) *dst.FuncDecl {
 			t = "uint32"
 
 		case "mode":
-			t = "entities.DoorMode"
+			t = "types.DoorMode"
 
 		case "task":
-			t = "entities.TaskType"
+			t = "types.TaskType"
 
 		case "interlock":
-			t = "entities.Interlock"
+			t = "types.Interlock"
 		}
 
 		args = append(args, &dst.Field{
@@ -337,7 +337,7 @@ loop:
 			args = append(args, &dst.CallExpr{
 				Fun: &dst.IndexExpr{
 					X:     &dst.Ident{Name: "convert"},
-					Index: &dst.Ident{Name: "entities.DateTime"},
+					Index: &dst.Ident{Name: "types.DateTime"},
 				},
 				Args: []dst.Expr{
 					&dst.Ident{Name: name},
@@ -348,7 +348,7 @@ loop:
 			args = append(args, &dst.CallExpr{
 				Fun: &dst.IndexExpr{
 					X:     &dst.Ident{Name: "convert"},
-					Index: &dst.Ident{Name: "entities.Date"},
+					Index: &dst.Ident{Name: "types.Date"},
 				},
 				Args: []dst.Expr{
 					&dst.Ident{Name: name},
@@ -359,7 +359,7 @@ loop:
 			args = append(args, &dst.CallExpr{
 				Fun: &dst.IndexExpr{
 					X:     &dst.Ident{Name: "convert"},
-					Index: &dst.Ident{Name: "entities.HHmm"},
+					Index: &dst.Ident{Name: "types.HHmm"},
 				},
 				Args: []dst.Expr{
 					&dst.Ident{Name: name},

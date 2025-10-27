@@ -1,4 +1,4 @@
-package entities
+package types
 
 type TimeProfile struct {
 	Profile       uint8         `json:"profile"`

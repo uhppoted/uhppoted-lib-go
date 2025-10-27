@@ -21,7 +21,7 @@ func setTime(u lib.Uhppoted, args []string) error {
 		return err
 	} else {
 		// (for demo purposes only - there is actually a lib.DateTimeFromTime helper function)
-		dt := lib.NewDateTime(uint16(now.Year()), uint8(now.Month()), uint8(now.Day()), uint8(now.Hour()), uint8(now.Minute()), uint8(now.Second()))
+		dt := types.NewDateTime(uint16(now.Year()), uint8(now.Month()), uint8(now.Day()), uint8(now.Hour()), uint8(now.Minute()), uint8(now.Second()))
 
 		f := func(c uint32) (any, error) {
 			return lib.SetTime(u, c, now, options.timeout)
