@@ -102,76 +102,9 @@ func buildAPI() *dst.File {
 	}
 
 	return &dst.File{
-		Name: dst.NewIdent("uhppoted"),
-
-		// Imports: []*dst.ImportSpec{
-		// 	{
-		// 		Path: &dst.BasicLit{
-		// 			Kind:  token.STRING,
-		// 			Value: `"net/netip"`,
-		// 		},
-		// 	},
-		// 	{
-		// 		Path: &dst.BasicLit{
-		// 			Kind:  token.STRING,
-		// 			Value: `"time"`,
-		// 		},
-		// 	},
-		// 	{
-		// 		Path: &dst.BasicLit{
-		// 			Kind:  token.STRING,
-		// 			Value: `"github.com/uhppoted/uhppoted-lib-go/src/uhppoted/codec/encode"`,
-		// 		},
-		// 	},
-		// 	{
-		// 		Path: &dst.BasicLit{
-		// 			Kind:  token.STRING,
-		// 			Value: `"github.com/uhppoted/uhppoted-lib-go/src/uhppoted/types"`,
-		// 		},
-		// 	},
-		// 	{
-		// 		Path: &dst.BasicLit{
-		// 			Kind:  token.STRING,
-		// 			Value: `"github.com/uhppoted/uhppoted-lib-go/src/uhppoted/responses"`,
-		// 		},
-		// 	},
-		// },
-
+		Name:  dst.NewIdent("uhppoted"),
 		Decls: impl,
 	}
-
-	// imports := [][]string{
-	// 	[]string{
-	// 		"net/netip",
-	// 		"time",
-	// 	},
-	// 	[]string{
-	// 		"github.com/uhppoted/uhppoted-lib-go/src/uhppoted/codec/encode",
-	// 		"github.com/uhppoted/uhppoted-lib-go/src/uhppoted/entities",
-	// 		"github.com/uhppoted/uhppoted-lib-go/src/uhppoted/responses",
-	// 	},
-	// }
-	//
-	// types := []*dst.GenDecl{}
-	// functions := []*dst.FuncDecl{}
-	// excluded := []*lib.Function{}
-	//
-	// for _, f := range model.API[1:] {
-	// 	if slices.Contains(excluded, f) {
-	// 		log.Printf("skipping %v (excluded)", f.Name)
-	// 		continue
-	// 	}
-	//
-	// 	functions = append(functions, function(*f))
-	// }
-	//
-	// AST := codegen.NewAST("uhppoted", imports, types, functions)
-	//
-	// if err := AST.Generate(outfile); err != nil {
-	// 	log.Fatalf("error generating %v (%v)", outfile, err)
-	// } else {
-	// 	log.Printf("... generated %s", filepath.Base(outfile))
-	// }
 }
 
 func buildFunction(f lib.Function) *dst.FuncDecl {
