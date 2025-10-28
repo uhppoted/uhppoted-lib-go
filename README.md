@@ -2,7 +2,7 @@
 
 # uhppoted-lib-go
 
-**IN DEVELOPMENT**
+**PENDING RELEASE**
 
 Standalone Go library for the UHPPOTE access controllers.
 
@@ -19,8 +19,6 @@ folder.
 ## Release Notes
 
 #### Current Release
-
-_PENDING RELEASE_
 
 ## Installation
 
