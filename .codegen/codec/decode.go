@@ -157,7 +157,11 @@ func buildDecodeFunc(r lib.Response) *dst.FuncDecl {
 		Body: &body,
 	}
 
+	f.Decs.Before = dst.EmptyLine
 	f.Decs.After = dst.EmptyLine
+
+	// godoc
+	f.Decs.Start.Append(fmt.Sprintf("// Decodes a %v from a 64 byte response packet.", name))
 
 	return &f
 }

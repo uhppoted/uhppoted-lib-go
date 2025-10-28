@@ -8,6 +8,7 @@ import (
 	"github.com/uhppoted/uhppoted-lib-go/src/uhppoted/responses"
 )
 
+// Decodes a GetControllerResponse from a 64 byte response packet.
 func GetControllerResponse(packet []byte) (responses.GetController, error) {
 	if len(packet) != 64 {
 		return responses.GetController{}, fmt.Errorf("invalid reply packet length (%v)", len(packet))
@@ -32,6 +33,7 @@ func GetControllerResponse(packet []byte) (responses.GetController, error) {
 	}, nil
 }
 
+// Decodes a SetIPv4Response from a 64 byte response packet.
 func SetIPv4Response(packet []byte) (responses.SetIPv4, error) {
 	if len(packet) != 64 {
 		return responses.SetIPv4{}, fmt.Errorf("invalid reply packet length (%v)", len(packet))
@@ -51,6 +53,7 @@ func SetIPv4Response(packet []byte) (responses.SetIPv4, error) {
 	}, nil
 }
 
+// Decodes a GetStatusResponse from a 64 byte response packet.
 func GetStatusResponse(packet []byte) (responses.GetStatus, error) {
 	if len(packet) != 64 {
 		return responses.GetStatus{}, fmt.Errorf("invalid reply packet length (%v)", len(packet))
@@ -92,6 +95,7 @@ func GetStatusResponse(packet []byte) (responses.GetStatus, error) {
 	}, nil
 }
 
+// Decodes a GetTimeResponse from a 64 byte response packet.
 func GetTimeResponse(packet []byte) (responses.GetTime, error) {
 	if len(packet) != 64 {
 		return responses.GetTime{}, fmt.Errorf("invalid reply packet length (%v)", len(packet))
@@ -111,6 +115,7 @@ func GetTimeResponse(packet []byte) (responses.GetTime, error) {
 	}, nil
 }
 
+// Decodes a SetTimeResponse from a 64 byte response packet.
 func SetTimeResponse(packet []byte) (responses.SetTime, error) {
 	if len(packet) != 64 {
 		return responses.SetTime{}, fmt.Errorf("invalid reply packet length (%v)", len(packet))
@@ -130,6 +135,7 @@ func SetTimeResponse(packet []byte) (responses.SetTime, error) {
 	}, nil
 }
 
+// Decodes a GetListenerResponse from a 64 byte response packet.
 func GetListenerResponse(packet []byte) (responses.GetListener, error) {
 	if len(packet) != 64 {
 		return responses.GetListener{}, fmt.Errorf("invalid reply packet length (%v)", len(packet))
@@ -151,6 +157,7 @@ func GetListenerResponse(packet []byte) (responses.GetListener, error) {
 	}, nil
 }
 
+// Decodes a SetListenerResponse from a 64 byte response packet.
 func SetListenerResponse(packet []byte) (responses.SetListener, error) {
 	if len(packet) != 64 {
 		return responses.SetListener{}, fmt.Errorf("invalid reply packet length (%v)", len(packet))
@@ -170,6 +177,7 @@ func SetListenerResponse(packet []byte) (responses.SetListener, error) {
 	}, nil
 }
 
+// Decodes a GetListenerAddrPortResponse from a 64 byte response packet.
 func GetListenerAddrPortResponse(packet []byte) (responses.GetListenerAddrPort, error) {
 	if len(packet) != 64 {
 		return responses.GetListenerAddrPort{}, fmt.Errorf("invalid reply packet length (%v)", len(packet))
@@ -190,6 +198,7 @@ func GetListenerAddrPortResponse(packet []byte) (responses.GetListenerAddrPort, 
 	}, nil
 }
 
+// Decodes a SetListenerAddrPortResponse from a 64 byte response packet.
 func SetListenerAddrPortResponse(packet []byte) (responses.SetListenerAddrPort, error) {
 	if len(packet) != 64 {
 		return responses.SetListenerAddrPort{}, fmt.Errorf("invalid reply packet length (%v)", len(packet))
@@ -209,6 +218,7 @@ func SetListenerAddrPortResponse(packet []byte) (responses.SetListenerAddrPort, 
 	}, nil
 }
 
+// Decodes a GetDoorResponse from a 64 byte response packet.
 func GetDoorResponse(packet []byte) (responses.GetDoor, error) {
 	if len(packet) != 64 {
 		return responses.GetDoor{}, fmt.Errorf("invalid reply packet length (%v)", len(packet))
@@ -230,6 +240,7 @@ func GetDoorResponse(packet []byte) (responses.GetDoor, error) {
 	}, nil
 }
 
+// Decodes a SetDoorResponse from a 64 byte response packet.
 func SetDoorResponse(packet []byte) (responses.SetDoor, error) {
 	if len(packet) != 64 {
 		return responses.SetDoor{}, fmt.Errorf("invalid reply packet length (%v)", len(packet))
@@ -251,6 +262,7 @@ func SetDoorResponse(packet []byte) (responses.SetDoor, error) {
 	}, nil
 }
 
+// Decodes a SetDoorPasscodesResponse from a 64 byte response packet.
 func SetDoorPasscodesResponse(packet []byte) (responses.SetDoorPasscodes, error) {
 	if len(packet) != 64 {
 		return responses.SetDoorPasscodes{}, fmt.Errorf("invalid reply packet length (%v)", len(packet))
@@ -270,6 +282,7 @@ func SetDoorPasscodesResponse(packet []byte) (responses.SetDoorPasscodes, error)
 	}, nil
 }
 
+// Decodes a OpenDoorResponse from a 64 byte response packet.
 func OpenDoorResponse(packet []byte) (responses.OpenDoor, error) {
 	if len(packet) != 64 {
 		return responses.OpenDoor{}, fmt.Errorf("invalid reply packet length (%v)", len(packet))
@@ -289,6 +302,7 @@ func OpenDoorResponse(packet []byte) (responses.OpenDoor, error) {
 	}, nil
 }
 
+// Decodes a GetCardsResponse from a 64 byte response packet.
 func GetCardsResponse(packet []byte) (responses.GetCards, error) {
 	if len(packet) != 64 {
 		return responses.GetCards{}, fmt.Errorf("invalid reply packet length (%v)", len(packet))
@@ -308,6 +322,7 @@ func GetCardsResponse(packet []byte) (responses.GetCards, error) {
 	}, nil
 }
 
+// Decodes a GetCardResponse from a 64 byte response packet.
 func GetCardResponse(packet []byte) (responses.GetCard, error) {
 	if len(packet) != 64 {
 		return responses.GetCard{}, fmt.Errorf("invalid reply packet length (%v)", len(packet))
@@ -334,6 +349,7 @@ func GetCardResponse(packet []byte) (responses.GetCard, error) {
 	}, nil
 }
 
+// Decodes a GetCardAtIndexResponse from a 64 byte response packet.
 func GetCardAtIndexResponse(packet []byte) (responses.GetCardAtIndex, error) {
 	if len(packet) != 64 {
 		return responses.GetCardAtIndex{}, fmt.Errorf("invalid reply packet length (%v)", len(packet))
@@ -360,6 +376,7 @@ func GetCardAtIndexResponse(packet []byte) (responses.GetCardAtIndex, error) {
 	}, nil
 }
 
+// Decodes a PutCardResponse from a 64 byte response packet.
 func PutCardResponse(packet []byte) (responses.PutCard, error) {
 	if len(packet) != 64 {
 		return responses.PutCard{}, fmt.Errorf("invalid reply packet length (%v)", len(packet))
@@ -379,6 +396,7 @@ func PutCardResponse(packet []byte) (responses.PutCard, error) {
 	}, nil
 }
 
+// Decodes a DeleteCardResponse from a 64 byte response packet.
 func DeleteCardResponse(packet []byte) (responses.DeleteCard, error) {
 	if len(packet) != 64 {
 		return responses.DeleteCard{}, fmt.Errorf("invalid reply packet length (%v)", len(packet))
@@ -398,6 +416,7 @@ func DeleteCardResponse(packet []byte) (responses.DeleteCard, error) {
 	}, nil
 }
 
+// Decodes a DeleteAllCardsResponse from a 64 byte response packet.
 func DeleteAllCardsResponse(packet []byte) (responses.DeleteAllCards, error) {
 	if len(packet) != 64 {
 		return responses.DeleteAllCards{}, fmt.Errorf("invalid reply packet length (%v)", len(packet))
@@ -417,6 +436,7 @@ func DeleteAllCardsResponse(packet []byte) (responses.DeleteAllCards, error) {
 	}, nil
 }
 
+// Decodes a GetEventResponse from a 64 byte response packet.
 func GetEventResponse(packet []byte) (responses.GetEvent, error) {
 	if len(packet) != 64 {
 		return responses.GetEvent{}, fmt.Errorf("invalid reply packet length (%v)", len(packet))
@@ -443,6 +463,7 @@ func GetEventResponse(packet []byte) (responses.GetEvent, error) {
 	}, nil
 }
 
+// Decodes a GetEventIndexResponse from a 64 byte response packet.
 func GetEventIndexResponse(packet []byte) (responses.GetEventIndex, error) {
 	if len(packet) != 64 {
 		return responses.GetEventIndex{}, fmt.Errorf("invalid reply packet length (%v)", len(packet))
@@ -462,6 +483,7 @@ func GetEventIndexResponse(packet []byte) (responses.GetEventIndex, error) {
 	}, nil
 }
 
+// Decodes a SetEventIndexResponse from a 64 byte response packet.
 func SetEventIndexResponse(packet []byte) (responses.SetEventIndex, error) {
 	if len(packet) != 64 {
 		return responses.SetEventIndex{}, fmt.Errorf("invalid reply packet length (%v)", len(packet))
@@ -481,6 +503,7 @@ func SetEventIndexResponse(packet []byte) (responses.SetEventIndex, error) {
 	}, nil
 }
 
+// Decodes a RecordSpecialEventsResponse from a 64 byte response packet.
 func RecordSpecialEventsResponse(packet []byte) (responses.RecordSpecialEvents, error) {
 	if len(packet) != 64 {
 		return responses.RecordSpecialEvents{}, fmt.Errorf("invalid reply packet length (%v)", len(packet))
@@ -500,6 +523,7 @@ func RecordSpecialEventsResponse(packet []byte) (responses.RecordSpecialEvents, 
 	}, nil
 }
 
+// Decodes a GetTimeProfileResponse from a 64 byte response packet.
 func GetTimeProfileResponse(packet []byte) (responses.GetTimeProfile, error) {
 	if len(packet) != 64 {
 		return responses.GetTimeProfile{}, fmt.Errorf("invalid reply packet length (%v)", len(packet))
@@ -535,6 +559,7 @@ func GetTimeProfileResponse(packet []byte) (responses.GetTimeProfile, error) {
 	}, nil
 }
 
+// Decodes a SetTimeProfileResponse from a 64 byte response packet.
 func SetTimeProfileResponse(packet []byte) (responses.SetTimeProfile, error) {
 	if len(packet) != 64 {
 		return responses.SetTimeProfile{}, fmt.Errorf("invalid reply packet length (%v)", len(packet))
@@ -554,6 +579,7 @@ func SetTimeProfileResponse(packet []byte) (responses.SetTimeProfile, error) {
 	}, nil
 }
 
+// Decodes a ClearTimeProfilesResponse from a 64 byte response packet.
 func ClearTimeProfilesResponse(packet []byte) (responses.ClearTimeProfiles, error) {
 	if len(packet) != 64 {
 		return responses.ClearTimeProfiles{}, fmt.Errorf("invalid reply packet length (%v)", len(packet))
@@ -573,6 +599,7 @@ func ClearTimeProfilesResponse(packet []byte) (responses.ClearTimeProfiles, erro
 	}, nil
 }
 
+// Decodes a AddTaskResponse from a 64 byte response packet.
 func AddTaskResponse(packet []byte) (responses.AddTask, error) {
 	if len(packet) != 64 {
 		return responses.AddTask{}, fmt.Errorf("invalid reply packet length (%v)", len(packet))
@@ -592,6 +619,7 @@ func AddTaskResponse(packet []byte) (responses.AddTask, error) {
 	}, nil
 }
 
+// Decodes a RefreshTaskListResponse from a 64 byte response packet.
 func RefreshTaskListResponse(packet []byte) (responses.RefreshTaskList, error) {
 	if len(packet) != 64 {
 		return responses.RefreshTaskList{}, fmt.Errorf("invalid reply packet length (%v)", len(packet))
@@ -611,6 +639,7 @@ func RefreshTaskListResponse(packet []byte) (responses.RefreshTaskList, error) {
 	}, nil
 }
 
+// Decodes a ClearTaskListResponse from a 64 byte response packet.
 func ClearTaskListResponse(packet []byte) (responses.ClearTaskList, error) {
 	if len(packet) != 64 {
 		return responses.ClearTaskList{}, fmt.Errorf("invalid reply packet length (%v)", len(packet))
@@ -630,6 +659,7 @@ func ClearTaskListResponse(packet []byte) (responses.ClearTaskList, error) {
 	}, nil
 }
 
+// Decodes a SetPCControlResponse from a 64 byte response packet.
 func SetPCControlResponse(packet []byte) (responses.SetPCControl, error) {
 	if len(packet) != 64 {
 		return responses.SetPCControl{}, fmt.Errorf("invalid reply packet length (%v)", len(packet))
@@ -649,6 +679,7 @@ func SetPCControlResponse(packet []byte) (responses.SetPCControl, error) {
 	}, nil
 }
 
+// Decodes a SetInterlockResponse from a 64 byte response packet.
 func SetInterlockResponse(packet []byte) (responses.SetInterlock, error) {
 	if len(packet) != 64 {
 		return responses.SetInterlock{}, fmt.Errorf("invalid reply packet length (%v)", len(packet))
@@ -668,6 +699,7 @@ func SetInterlockResponse(packet []byte) (responses.SetInterlock, error) {
 	}, nil
 }
 
+// Decodes a ActivateKeypadsResponse from a 64 byte response packet.
 func ActivateKeypadsResponse(packet []byte) (responses.ActivateKeypads, error) {
 	if len(packet) != 64 {
 		return responses.ActivateKeypads{}, fmt.Errorf("invalid reply packet length (%v)", len(packet))
@@ -687,6 +719,7 @@ func ActivateKeypadsResponse(packet []byte) (responses.ActivateKeypads, error) {
 	}, nil
 }
 
+// Decodes a GetAntiPassbackResponse from a 64 byte response packet.
 func GetAntiPassbackResponse(packet []byte) (responses.GetAntiPassback, error) {
 	if len(packet) != 64 {
 		return responses.GetAntiPassback{}, fmt.Errorf("invalid reply packet length (%v)", len(packet))
@@ -706,6 +739,7 @@ func GetAntiPassbackResponse(packet []byte) (responses.GetAntiPassback, error) {
 	}, nil
 }
 
+// Decodes a SetAntiPassbackResponse from a 64 byte response packet.
 func SetAntiPassbackResponse(packet []byte) (responses.SetAntiPassback, error) {
 	if len(packet) != 64 {
 		return responses.SetAntiPassback{}, fmt.Errorf("invalid reply packet length (%v)", len(packet))
@@ -725,6 +759,7 @@ func SetAntiPassbackResponse(packet []byte) (responses.SetAntiPassback, error) {
 	}, nil
 }
 
+// Decodes a RestoreDefaultParametersResponse from a 64 byte response packet.
 func RestoreDefaultParametersResponse(packet []byte) (responses.RestoreDefaultParameters, error) {
 	if len(packet) != 64 {
 		return responses.RestoreDefaultParameters{}, fmt.Errorf("invalid reply packet length (%v)", len(packet))
@@ -744,6 +779,7 @@ func RestoreDefaultParametersResponse(packet []byte) (responses.RestoreDefaultPa
 	}, nil
 }
 
+// Decodes a ListenerEvent from a 64 byte response packet.
 func ListenerEvent(packet []byte) (responses.ListenerEvent, error) {
 	if len(packet) != 64 {
 		return responses.ListenerEvent{}, fmt.Errorf("invalid reply packet length (%v)", len(packet))
