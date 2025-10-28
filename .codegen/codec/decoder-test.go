@@ -458,6 +458,9 @@ func makeValue(field lib.Field, value lib.Value) dst.Expr {
 	case "mode":
 		return &dst.BasicLit{Kind: token.INT, Value: fmt.Sprintf("%v", value.Value)}
 
+	case "anti-passback":
+		return &dst.BasicLit{Kind: token.INT, Value: fmt.Sprintf("%v", value.Value)}
+
 	case "event-type":
 		return &dst.CallExpr{
 			Fun: &dst.SelectorExpr{

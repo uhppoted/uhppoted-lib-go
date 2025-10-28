@@ -6,14 +6,15 @@ import (
 	"fmt"
 
 	"github.com/uhppoted/uhppoted-lib-go/src/uhppoted"
+	"github.com/uhppoted/uhppoted-lib-go/src/uhppoted/types"
 )
 
-var antipassbacks = map[string]uint8{
-	"disabled":    0,
-	"(1:2);(3:4)": 1,
-	"(1,3):(2,4)": 2,
-	"1:(2,3)":     3,
-	"1:(2,3,4)":   4,
+var antipassbacks = map[string]types.AntiPassback{
+	"disabled":    types.NoAntiPassback,
+	"(1:2);(3:4)": types.Readers12_34,
+	"(1,3):(2,4)": types.Readers13_24,
+	"1:(2,3)":     types.Readers1_23,
+	"1:(2,3,4)":   types.Readers1_234,
 }
 
 func setAntiPassback(u uhppoted.Uhppoted, args []string) error {

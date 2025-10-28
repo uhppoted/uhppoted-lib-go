@@ -152,6 +152,10 @@ func unpackMode(packet []byte, offset uint8) types.DoorMode {
 	return types.DoorMode(packet[offset])
 }
 
+func unpackAntiPassback(packet []byte, offset uint8) types.AntiPassback {
+	return types.AntiPassback(packet[offset])
+}
+
 func unpackEventType(packet []byte, offset uint8) types.EventType {
 	return types.EventType(packet[offset])
 }

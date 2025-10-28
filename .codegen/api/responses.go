@@ -183,6 +183,9 @@ func gotype(field types.Field) string {
 	case "mode":
 		return "types.DoorMode"
 
+	case "anti-passback":
+		return "types.AntiPassback"
+
 	case "event-type":
 		return "types.EventType"
 

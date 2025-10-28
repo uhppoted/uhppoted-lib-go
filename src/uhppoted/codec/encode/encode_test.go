@@ -613,7 +613,7 @@ func TestSetAntipassack(t *testing.T) {
 		0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
 	}
 
-	packet, err := SetAntipassbackRequest(uint32(405419896), uint8(2))
+	packet, err := SetAntipassbackRequest(uint32(405419896), types.AntiPassback(2))
 
 	if err != nil {
 		t.Fatalf("%v", err)

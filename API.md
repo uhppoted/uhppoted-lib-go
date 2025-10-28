@@ -921,7 +921,7 @@ Returns a `GetAntiPassbackResponse`:
 ```
 type GetAntiPassbackResponse struct { 
   Controller          uint32              `json:"controller"`     // controller serial number
-  Antipassback        uint8               `json:"antipassback"`   // anti-passback mode
+  Antipassback        anti-passback       `json:"antipassback"`   // anti-passback mode
 }
 ```
 
@@ -940,7 +940,7 @@ SetAntiPassback(u, controller, antipassback, timeout)
 where:
 - u             Uhppoted        Uhppoted struct initialised with the bind address, broadcast address, etc
 - controller    controller      uint32|Controller controller serial number or {id, address, protocol} Controller struct
-- antipassback  uint8           anti-passback mode
+- antipassback  anti-passback   anti-passback mode
 - timeout       time.Duration   maximum time to wait for a response from a controller
 ```
 Returns a `SetAntiPassbackResponse`:

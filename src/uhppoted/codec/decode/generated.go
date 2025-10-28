@@ -735,7 +735,7 @@ func GetAntiPassbackResponse(packet []byte) (responses.GetAntiPassback, error) {
 
 	return responses.GetAntiPassback{
 		Controller:   unpackUint32(packet, 4),
-		Antipassback: unpackUint8(packet, 8),
+		Antipassback: unpackAntiPassback(packet, 8),
 	}, nil
 }
 

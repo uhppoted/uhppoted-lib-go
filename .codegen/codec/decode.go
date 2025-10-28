@@ -343,6 +343,7 @@ func unpack(field lib.Field) dst.Expr {
 		"MAC":               "unpackMAC",
 		"pin":               "unpackPIN",
 		"mode":              "unpackMode",
+		"anti-passback":     "unpackAntiPassback",
 		"event-type":        "unpackEventType",
 		"direction":         "unpackDirection",
 		"reason":            "unpackReason",

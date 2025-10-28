@@ -6,6 +6,8 @@
 - [x] rethink re-exporting the entities etc.
 - [x] remove parameters/return from encode godoc
 - [x] godoc for decode funcs
+- [x] antipassback type
+- [ ] godoc: LICENSE
 
 ## TODO
 - [ ] AST code generation

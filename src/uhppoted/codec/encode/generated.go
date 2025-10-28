@@ -482,14 +482,14 @@ func GetAntipassbackRequest(controller uint32) ([]byte, error) {
 }
 
 // Encodes a SetAntipassbackRequest.
-func SetAntipassbackRequest(controller uint32, antipassback uint8) ([]byte, error) {
+func SetAntipassbackRequest(controller uint32, antipassback types.AntiPassback) ([]byte, error) {
 	packet := make([]byte, 64)
 
 	packet[0] = SOM
 	packet[1] = 132
 
 	packUint32(controller, packet, 4)
-	packUint8(antipassback, packet, 8)
+	packAntiPassback(antipassback, packet, 8)
 
 	return packet, nil
 }

@@ -3,9 +3,14 @@ package types
 type DoorMode uint8
 
 const (
-	NormallyOpen   DoorMode = 0x01
+	// normally open
+	NormallyOpen DoorMode = 0x01
+
+	// normally closed
 	NormallyClosed DoorMode = 0x02
-	Controlled     DoorMode = 0x03
+
+	// controlled
+	Controlled DoorMode = 0x03
 )
 
 func (m DoorMode) String() string {

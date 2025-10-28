@@ -290,7 +290,7 @@ func GetAntiPassback[T TController](u Uhppoted, controller T, timeout time.Durat
 //   - 2: doors 1&3, doors 2&4
 //   - 3: door 1 & doors 2,3
 //   - 4: door 1 & doors 1,2,3
-func SetAntiPassback[T TController](u Uhppoted, controller T, antipassback uint8, timeout time.Duration) (responses.SetAntiPassback, error) {
+func SetAntiPassback[T TController](u Uhppoted, controller T, antipassback types.AntiPassback, timeout time.Duration) (responses.SetAntiPassback, error) {
 	f := func(id uint32) ([]byte, error) { return encode.SetAntipassbackRequest(id, antipassback) }
 
 	return exec[T, responses.SetAntiPassback](u, controller, f, timeout)

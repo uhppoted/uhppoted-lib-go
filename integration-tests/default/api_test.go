@@ -594,7 +594,7 @@ func TestGetAntipassback(t *testing.T) {
 func TestSetAntipassback(t *testing.T) {
 	controller := uint32(405419896)
 
-	antipassback := uint8(2)
+	antipassback := types.AntiPassback(2)
 
 	response, err := uhppoted.SetAntiPassback(u, controller, antipassback, timeout)
 

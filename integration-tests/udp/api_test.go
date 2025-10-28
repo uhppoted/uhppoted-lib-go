@@ -744,7 +744,7 @@ func TestSetAntipassback(t *testing.T) {
 		Protocol: "udp",
 	}
 
-	antipassback := uint8(2)
+	antipassback := types.AntiPassback(2)
 
 	response, err := uhppoted.SetAntiPassback(u, controller, antipassback, timeout)
 

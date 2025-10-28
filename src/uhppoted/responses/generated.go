@@ -352,8 +352,8 @@ type ActivateKeypads struct {
 //   - 3: readers 1:(2,3)
 //   - 4: readers 1:(2,3,4)
 type GetAntiPassback struct {
-	Controller   uint32 `json:"controller"`
-	Antipassback uint8  `json:"antipassback"`
+	Controller   uint32             `json:"controller"`
+	Antipassback types.AntiPassback `json:"antipassback"`
 }
 
 // Container struct for the response returned by a controller when setting

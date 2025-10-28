@@ -181,6 +181,16 @@ func packInterlock(v types.Interlock, packet []byte, offset int) {
 	packet[offset] = uint8(v)
 }
 
+// Packs an AntiPassback value 'in-place' as a 1-byte value into the packet at the offset.
+//
+//	Parameters:
+//	   v      (AntiPassback)  'antipassback' value to encode.
+//	   packet (bytearray)     64 byte array.
+//	   offset (int)           Value location in array.
+func packAntiPassback(v types.AntiPassback, packet []byte, offset int) {
+	packet[offset] = uint8(v)
+}
+
 // Converts a string of digits to packed BCD. Invalid characters (non-digits) are silently
 // discarded.
 func string2bcd(s string) []byte {

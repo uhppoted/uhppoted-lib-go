@@ -150,6 +150,9 @@ func testarg(arg lib.Arg) string {
 	case "interlock":
 		return fmt.Sprintf(`types.Interlock(%v)`, arg.Value)
 
+	case "anti-passback":
+		return fmt.Sprintf(`types.AntiPassback(%v)`, arg.Value)
+
 	default:
 		return fmt.Sprintf("%v", arg.Value)
 	}
@@ -187,6 +190,9 @@ func fields2args(fields []lib.Field) string {
 
 		case "interlock":
 			args = append(args, fmt.Sprintf("%v types.Interlock", name))
+
+		case "anti-passback":
+			args = append(args, fmt.Sprintf("%v types.AntiPassback", name))
 
 		case "magic":
 			// skip
@@ -241,6 +247,9 @@ func pack(field lib.Field) string {
 
 	case "interlock":
 		return fmt.Sprintf("packInterlock(%v, packet, %v)", name, field.Offset)
+
+	case "anti-passback":
+		return fmt.Sprintf("packAntiPassback(%v, packet, %v)", name, field.Offset)
 
 	case "passcode":
 		return fmt.Sprintf("packPasscode(%v, packet, %v)", name, field.Offset)

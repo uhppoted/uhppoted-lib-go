@@ -199,6 +199,9 @@ func buildFunction(f lib.Function) *dst.FuncDecl {
 
 		case "interlock":
 			t = "types.Interlock"
+
+		case "anti-passback":
+			t = "types.AntiPassback"
 		}
 
 		args = append(args, &dst.Field{
