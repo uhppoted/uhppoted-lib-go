@@ -9,13 +9,7 @@ import (
 )
 
 {{ range $rq := . }}
-// Encodes a {{ hyphenate $rq.Name }}.
-//
-//  Parameters:
-{{ range $field := $rq.Fields }}//      {{ describe $field }}
-{{ end }}//
-//  Returns:
-//      64 byte packet.
+// Encodes a {{ titleCase $rq.Name }}.
 func {{ titleCase $rq.Name }}({{- fields2args $rq.Fields }}) ([]byte, error) {
     packet := make([]byte, 64)
 

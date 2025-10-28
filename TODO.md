@@ -4,7 +4,7 @@
 - [x] code generation
 - [x] mark 'log' internal (or make it _log)
 - [x] rethink re-exporting the entities etc.
-- [ ] remove parameters/return from encode godoc
+- [x] remove parameters/return from encode godoc
 - [ ] godoc for decode funcs
 
 ## TODO
