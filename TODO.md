@@ -7,7 +7,7 @@
 - [x] remove parameters/return from encode godoc
 - [x] godoc for decode funcs
 - [x] antipassback type
-- [ ] godoc: LICENSE
+- [x] godoc: LICENSE
 
 ## TODO
 - [ ] AST code generation
