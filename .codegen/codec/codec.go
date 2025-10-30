@@ -26,6 +26,7 @@ var decodeTestTemplate string
 var functions = codegen.Functions
 
 func Codec() {
+	encodeAST()
 	encode()
 	encodeTest()
 

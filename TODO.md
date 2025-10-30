@@ -1,14 +1,5 @@
 # TODO
 
-- [x] set default handler in example
-- [x] code generation
-- [x] mark 'log' internal (or make it _log)
-- [x] rethink re-exporting the entities etc.
-- [x] remove parameters/return from encode godoc
-- [x] godoc for decode funcs
-- [x] antipassback type
-- [x] godoc: LICENSE
-
 ## TODO
 - [ ] AST code generation
       - [ ] encode
