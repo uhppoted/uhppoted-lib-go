@@ -6,6 +6,7 @@ import (
 	"log"
 	"os"
 	"path/filepath"
+	"regexp"
 	"strings"
 
 	"go/printer"
@@ -90,20 +91,137 @@ func buildEncode() *dst.File {
 
 func buildEncodeFunc(r lib.Request) *dst.FuncDecl {
 	name := strings.TrimSuffix(fmt.Sprintf("%v", codegen.TitleCase(r.Name)), "Request")
+	params := encodeParams(r)
 
-	params := dst.FieldList{
+	results := dst.FieldList{
 		List: []*dst.Field{
-			// {
-			// 	Names: []*dst.Ident{dst.NewIdent("packet")},
-			// 	Type: &dst.ArrayType{
-			// 		Elt: dst.NewIdent("byte"),
-			// 	},
-			// },
+			{
+				Type: &dst.ArrayType{
+					Elt: dst.NewIdent("byte"),
+				},
+			},
+			{
+				Type: dst.NewIdent("error"),
+			},
 		},
 	}
 
-	//	packet := make([]byte, 64)
-	makePacket := dst.AssignStmt{
+	// ... body
+	body := []dst.Stmt{
+		makePacket(),
+		setSOM(),
+		setMsgType(r),
+	}
+
+	for _, f := range r.Fields {
+		body = append(body, pack(f))
+	}
+
+	// return packet,nil
+	body = append(body, &dst.ReturnStmt{
+		Results: []dst.Expr{
+			&dst.Ident{
+				Name: "packet",
+			},
+			&dst.Ident{
+				Name: "nil",
+			},
+		},
+
+		Decs: dst.ReturnStmtDecorations{
+			NodeDecs: dst.NodeDecs{
+				Before: dst.EmptyLine,
+			},
+		},
+	})
+
+	// ... assemble func
+	f := dst.FuncDecl{
+		Name: dst.NewIdent(name),
+		Type: &dst.FuncType{
+			Params:  &params,
+			Results: &results,
+		},
+
+		Body: &dst.BlockStmt{
+			List: body,
+		},
+
+		Decs: dst.FuncDeclDecorations{
+			NodeDecs: dst.NodeDecs{
+				Before: dst.EmptyLine,
+				After:  dst.EmptyLine,
+			},
+		},
+	}
+
+	// godoc
+	f.Decs.Start.Append(fmt.Sprintf("// Encodes a %v request to a 64 byte packet.", name))
+
+	return &f
+}
+
+func encodeParams(r lib.Request) dst.FieldList {
+	args := []*dst.Field{}
+
+	for _, arg := range r.Fields {
+		name := regexp.MustCompile(`[ \-]+`).ReplaceAllString(arg.Name, "")
+		t := arg.Type
+
+		switch arg.Type {
+		case "controller":
+			t = "T"
+
+		case "IPv4":
+			t = "netip.Addr"
+
+		case "address:port":
+			t = "netip.AddrPort"
+
+		case "date":
+			t = "D"
+
+		case "datetime":
+			t = "DT"
+
+		case "HHmm":
+			t = "H"
+
+		case "pin":
+			t = "uint32"
+
+		case "mode":
+			t = "types.DoorMode"
+
+		case "task":
+			t = "types.TaskType"
+
+		case "interlock":
+			t = "types.Interlock"
+
+		case "anti-passback":
+			t = "types.AntiPassback"
+
+		case "magic":
+			continue
+		}
+
+		args = append(args, &dst.Field{
+			Names: []*dst.Ident{
+				{Name: name},
+			},
+			Type: &dst.Ident{Name: t},
+		})
+	}
+
+	return dst.FieldList{
+		List: args,
+	}
+}
+
+// packet := make([]byte, 64)
+func makePacket() *dst.AssignStmt {
+	stmt := dst.AssignStmt{
 		Lhs: []dst.Expr{
 			&dst.Ident{
 				Name: "packet",
@@ -131,11 +249,15 @@ func buildEncodeFunc(r lib.Request) *dst.FuncDecl {
 		},
 	}
 
-	makePacket.Decs.Before = dst.NewLine
-	makePacket.Decs.After = dst.EmptyLine
+	stmt.Decs.Before = dst.NewLine
+	stmt.Decs.After = dst.EmptyLine
 
-	// packet[0] = SOM
-	SOM := dst.AssignStmt{
+	return &stmt
+}
+
+// packet[0] = SOM
+func setSOM() *dst.AssignStmt {
+	stmt := dst.AssignStmt{
 		Lhs: []dst.Expr{
 			&dst.IndexExpr{
 				X: &dst.Ident{
@@ -155,8 +277,12 @@ func buildEncodeFunc(r lib.Request) *dst.FuncDecl {
 		},
 	}
 
-	// packet[1] = <msgtype>
-	msgType := dst.AssignStmt{
+	return &stmt
+}
+
+// packet[1] = <msgtype>
+func setMsgType(r lib.Request) *dst.AssignStmt {
+	stmt := dst.AssignStmt{
 		Lhs: []dst.Expr{
 			&dst.IndexExpr{
 				X: &dst.Ident{
@@ -174,62 +300,104 @@ func buildEncodeFunc(r lib.Request) *dst.FuncDecl {
 		},
 	}
 
-	msgType.Decs.After = dst.EmptyLine
+	stmt.Decs.After = dst.EmptyLine
 
-	results := dst.FieldList{
-		List: []*dst.Field{
-			{
-				Type: &dst.ArrayType{
-					Elt: dst.NewIdent("byte"),
+	return &stmt
+}
+
+// packXXX()
+func pack(field lib.Field) *dst.ExprStmt {
+	f := func(fn string) *dst.ExprStmt {
+		return &dst.ExprStmt{
+			X: &dst.CallExpr{
+				Fun: &dst.Ident{
+					Name: fn,
 				},
-			},
-			{
-				Type: dst.NewIdent("error"),
-			},
-		},
-	}
-
-	// request := []dst.Expr{}
-	// request = append(request, makePacket)
-	// for _, f := range r.Fields {
-	// 	request = append(request, pack(f))
-	// }
-
-	// ... body
-	body := dst.BlockStmt{
-		List: []dst.Stmt{
-			&makePacket,
-			&SOM,
-			&msgType,
-
-			// return packet,nil
-			&dst.ReturnStmt{
-				Results: []dst.Expr{
+				Args: []dst.Expr{
+					&dst.Ident{
+						Name: field.Name,
+					},
 					&dst.Ident{
 						Name: "packet",
 					},
-					&dst.Ident{
-						Name: "nil",
+					&dst.BasicLit{
+						Kind:  token.INT,
+						Value: fmt.Sprintf("%v", field.Offset),
 					},
 				},
 			},
-		},
+		}
 	}
 
-	f := dst.FuncDecl{
-		Name: dst.NewIdent(name),
-		Type: &dst.FuncType{
-			Params:  &params,
-			Results: &results,
-		},
-		Body: &body,
+	switch field.Type {
+	case "bool":
+		return f("packBool")
+
+	case "uint8":
+		return f("packUint8")
+
+	case "uint16":
+		return f("packUint16")
+
+	case "uint32":
+		return f("packUint32")
+
+	case "IPv4":
+		return f("packIPv4")
+
+	case "address:port":
+		return f("packAddrPort")
+
+	case "datetime":
+		return f("packDateTime")
+
+	case "date":
+		return f("packDate")
+
+	case "HHmm":
+		return f("packHHmm")
+
+	case "pin":
+		return f("packPIN")
+
+	case "mode":
+		return f("packMode")
+
+	case "task":
+		return f("packTaskType")
+
+	case "interlock":
+		return f("packInterlock")
+
+	case "anti-passback":
+		return f("packAntiPassback")
+
+	// case "passcode":
+	// 	return fmt.Sprintf("packPasscode(%v, packet, %v)", name, field.Offset)
+
+	case "magic":
+		return &dst.ExprStmt{
+			X: &dst.CallExpr{
+				Fun: &dst.Ident{
+					Name: "packUint32",
+				},
+				Args: []dst.Expr{
+					&dst.BasicLit{
+						Kind:  token.INT,
+						Value: "0x55aaaa55",
+					},
+					&dst.Ident{
+						Name: "packet",
+					},
+					&dst.BasicLit{
+						Kind:  token.INT,
+						Value: fmt.Sprintf("%v", field.Offset),
+					},
+				},
+			},
+		}
+
+	default:
+		panic(fmt.Sprintf("*** unsupported field type (%v)", field.Type))
 	}
-
-	f.Decs.Before = dst.EmptyLine
-	f.Decs.After = dst.EmptyLine
-
-	// godoc
-	f.Decs.Start.Append(fmt.Sprintf("// Encodes a %v request to a 64 byte packet.", name))
-
-	return &f
 }
