@@ -21,7 +21,6 @@ var Functions = template.FuncMap{
 	"testargs":    testargs,
 	"testarg":     testarg,
 	"fields2args": fields2args,
-	"pack":        pack,
 	"describe":    describe,
 	"includes":    includes,
 	"value":       value,
@@ -203,63 +202,6 @@ func fields2args(fields []lib.Field) string {
 	}
 
 	return strings.Join(args, ", ")
-}
-
-func pack(field lib.Field) string {
-	name := regexp.MustCompile(`\s+`).ReplaceAllString(field.Name, "")
-
-	switch field.Type {
-	case "bool":
-		return fmt.Sprintf("packBool(%v, packet, %v)", name, field.Offset)
-
-	case "uint8":
-		return fmt.Sprintf("packUint8(%v, packet, %v)", name, field.Offset)
-
-	case "uint16":
-		return fmt.Sprintf("packUint16(%v, packet, %v)", name, field.Offset)
-
-	case "uint32":
-		return fmt.Sprintf("packUint32(%v, packet, %v)", name, field.Offset)
-
-	case "IPv4":
-		return fmt.Sprintf("packIPv4(%v, packet, %v)", name, field.Offset)
-
-	case "address:port":
-		return fmt.Sprintf("packAddrPort(%v, packet, %v)", name, field.Offset)
-
-	case "datetime":
-		return fmt.Sprintf("packDateTime(%v, packet, %v)", name, field.Offset)
-
-	case "date":
-		return fmt.Sprintf("packDate(%v, packet, %v)", name, field.Offset)
-
-	case "HHmm":
-		return fmt.Sprintf("packHHmm(%v, packet, %v)", name, field.Offset)
-
-	case "pin":
-		return fmt.Sprintf("packPIN(%v, packet, %v)", name, field.Offset)
-
-	case "mode":
-		return fmt.Sprintf("packMode(%v, packet, %v)", name, field.Offset)
-
-	case "task":
-		return fmt.Sprintf("packTaskType(%v, packet, %v)", name, field.Offset)
-
-	case "interlock":
-		return fmt.Sprintf("packInterlock(%v, packet, %v)", name, field.Offset)
-
-	case "anti-passback":
-		return fmt.Sprintf("packAntiPassback(%v, packet, %v)", name, field.Offset)
-
-	case "passcode":
-		return fmt.Sprintf("packPasscode(%v, packet, %v)", name, field.Offset)
-
-	case "magic":
-		return fmt.Sprintf("packUint32(0x55aaaa55, packet, %v)", field.Offset)
-
-	default:
-		panic(fmt.Sprintf("*** ERROR unsupported field type (%v)", field.Type))
-	}
 }
 
 func describe(field lib.Field) string {
