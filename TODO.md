@@ -2,8 +2,7 @@
 
 ## TODO
 - [ ] AST code generation
-      - [ ] encode
-          - passcode ??
+      - [x] encode
       - [ ] encode_test
       - [ ] decode_test
       - [ ] integration tests

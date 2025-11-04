@@ -7,7 +7,6 @@ import (
 	"os"
 	"path/filepath"
 	"regexp"
-	"strings"
 
 	"go/printer"
 	"go/token"
@@ -22,7 +21,7 @@ import (
 )
 
 func encodeAST() {
-	outfile := filepath.Join("codec", "encode", "_generated.go")
+	outfile := filepath.Join("codec", "encode", "generated.go")
 	decl := buildEncode()
 
 	// .. convert dst to ast
@@ -59,7 +58,7 @@ func buildEncode() *dst.File {
 				&dst.ImportSpec{
 					Path: &dst.BasicLit{
 						Kind:  token.STRING,
-						Value: `"fmt"`,
+						Value: `"net/netip"`,
 					},
 				},
 				&dst.ImportSpec{
@@ -90,7 +89,7 @@ func buildEncode() *dst.File {
 }
 
 func buildEncodeFunc(r lib.Request) *dst.FuncDecl {
-	name := strings.TrimSuffix(fmt.Sprintf("%v", codegen.TitleCase(r.Name)), "Request")
+	name := fmt.Sprintf("%v", codegen.TitleCase(r.Name))
 	params := encodeParams(r)
 
 	results := dst.FieldList{
@@ -179,13 +178,13 @@ func encodeParams(r lib.Request) dst.FieldList {
 			t = "netip.AddrPort"
 
 		case "date":
-			t = "D"
+			t = "types.Date"
 
 		case "datetime":
-			t = "DT"
+			t = "types.DateTime"
 
 		case "HHmm":
-			t = "H"
+			t = "types.HHmm"
 
 		case "pin":
 			t = "uint32"
@@ -308,6 +307,8 @@ func setMsgType(r lib.Request) *dst.AssignStmt {
 // packXXX()
 func pack(field lib.Field) *dst.ExprStmt {
 	f := func(fn string) *dst.ExprStmt {
+		name := regexp.MustCompile(`[ \-]+`).ReplaceAllString(field.Name, "")
+
 		return &dst.ExprStmt{
 			X: &dst.CallExpr{
 				Fun: &dst.Ident{
@@ -315,7 +316,7 @@ func pack(field lib.Field) *dst.ExprStmt {
 				},
 				Args: []dst.Expr{
 					&dst.Ident{
-						Name: field.Name,
+						Name: name,
 					},
 					&dst.Ident{
 						Name: "packet",
@@ -371,9 +372,6 @@ func pack(field lib.Field) *dst.ExprStmt {
 
 	case "anti-passback":
 		return f("packAntiPassback")
-
-	// case "passcode":
-	// 	return fmt.Sprintf("packPasscode(%v, packet, %v)", name, field.Offset)
 
 	case "magic":
 		return &dst.ExprStmt{

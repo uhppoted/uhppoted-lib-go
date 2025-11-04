@@ -38,7 +38,7 @@ func Codec() {
 }
 
 func encode() {
-	output := filepath.Join("codec", "encode", "generated.go")
+	output := filepath.Join("codec", "encode", "_generated.go")
 
 	f, err := os.Create(output)
 	if err != nil {

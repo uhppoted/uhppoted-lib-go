@@ -8,24 +8,24 @@ import (
 	"github.com/uhppoted/uhppoted-lib-go/src/uhppoted/types"
 )
 
-// Encodes a GetControllerRequest.
+// Encodes a GetControllerRequest request to a 64 byte packet.
 func GetControllerRequest(controller uint32) ([]byte, error) {
 	packet := make([]byte, 64)
 
 	packet[0] = SOM
-	packet[1] = 148
+	packet[1] = 0x94
 
 	packUint32(controller, packet, 4)
 
 	return packet, nil
 }
 
-// Encodes a SetIPv4Request.
+// Encodes a SetIPv4Request request to a 64 byte packet.
 func SetIPv4Request(controller uint32, address netip.Addr, netmask netip.Addr, gateway netip.Addr) ([]byte, error) {
 	packet := make([]byte, 64)
 
 	packet[0] = SOM
-	packet[1] = 150
+	packet[1] = 0x96
 
 	packUint32(controller, packet, 4)
 	packIPv4(address, packet, 8)
@@ -36,36 +36,36 @@ func SetIPv4Request(controller uint32, address netip.Addr, netmask netip.Addr, g
 	return packet, nil
 }
 
-// Encodes a GetStatusRequest.
+// Encodes a GetStatusRequest request to a 64 byte packet.
 func GetStatusRequest(controller uint32) ([]byte, error) {
 	packet := make([]byte, 64)
 
 	packet[0] = SOM
-	packet[1] = 32
+	packet[1] = 0x20
 
 	packUint32(controller, packet, 4)
 
 	return packet, nil
 }
 
-// Encodes a GetTimeRequest.
+// Encodes a GetTimeRequest request to a 64 byte packet.
 func GetTimeRequest(controller uint32) ([]byte, error) {
 	packet := make([]byte, 64)
 
 	packet[0] = SOM
-	packet[1] = 50
+	packet[1] = 0x32
 
 	packUint32(controller, packet, 4)
 
 	return packet, nil
 }
 
-// Encodes a SetTimeRequest.
+// Encodes a SetTimeRequest request to a 64 byte packet.
 func SetTimeRequest(controller uint32, datetime types.DateTime) ([]byte, error) {
 	packet := make([]byte, 64)
 
 	packet[0] = SOM
-	packet[1] = 48
+	packet[1] = 0x30
 
 	packUint32(controller, packet, 4)
 	packDateTime(datetime, packet, 8)
@@ -73,24 +73,24 @@ func SetTimeRequest(controller uint32, datetime types.DateTime) ([]byte, error) 
 	return packet, nil
 }
 
-// Encodes a GetListenerRequest.
+// Encodes a GetListenerRequest request to a 64 byte packet.
 func GetListenerRequest(controller uint32) ([]byte, error) {
 	packet := make([]byte, 64)
 
 	packet[0] = SOM
-	packet[1] = 146
+	packet[1] = 0x92
 
 	packUint32(controller, packet, 4)
 
 	return packet, nil
 }
 
-// Encodes a SetListenerRequest.
+// Encodes a SetListenerRequest request to a 64 byte packet.
 func SetListenerRequest(controller uint32, address netip.Addr, port uint16, interval uint8) ([]byte, error) {
 	packet := make([]byte, 64)
 
 	packet[0] = SOM
-	packet[1] = 144
+	packet[1] = 0x90
 
 	packUint32(controller, packet, 4)
 	packIPv4(address, packet, 8)
@@ -100,24 +100,24 @@ func SetListenerRequest(controller uint32, address netip.Addr, port uint16, inte
 	return packet, nil
 }
 
-// Encodes a GetListenerAddrPortRequest.
+// Encodes a GetListenerAddrPortRequest request to a 64 byte packet.
 func GetListenerAddrPortRequest(controller uint32) ([]byte, error) {
 	packet := make([]byte, 64)
 
 	packet[0] = SOM
-	packet[1] = 146
+	packet[1] = 0x92
 
 	packUint32(controller, packet, 4)
 
 	return packet, nil
 }
 
-// Encodes a SetListenerAddrPortRequest.
+// Encodes a SetListenerAddrPortRequest request to a 64 byte packet.
 func SetListenerAddrPortRequest(controller uint32, listener netip.AddrPort, interval uint8) ([]byte, error) {
 	packet := make([]byte, 64)
 
 	packet[0] = SOM
-	packet[1] = 144
+	packet[1] = 0x90
 
 	packUint32(controller, packet, 4)
 	packAddrPort(listener, packet, 8)
@@ -126,12 +126,12 @@ func SetListenerAddrPortRequest(controller uint32, listener netip.AddrPort, inte
 	return packet, nil
 }
 
-// Encodes a GetDoorRequest.
+// Encodes a GetDoorRequest request to a 64 byte packet.
 func GetDoorRequest(controller uint32, door uint8) ([]byte, error) {
 	packet := make([]byte, 64)
 
 	packet[0] = SOM
-	packet[1] = 130
+	packet[1] = 0x82
 
 	packUint32(controller, packet, 4)
 	packUint8(door, packet, 8)
@@ -139,12 +139,12 @@ func GetDoorRequest(controller uint32, door uint8) ([]byte, error) {
 	return packet, nil
 }
 
-// Encodes a SetDoorRequest.
+// Encodes a SetDoorRequest request to a 64 byte packet.
 func SetDoorRequest(controller uint32, door uint8, mode types.DoorMode, delay uint8) ([]byte, error) {
 	packet := make([]byte, 64)
 
 	packet[0] = SOM
-	packet[1] = 128
+	packet[1] = 0x80
 
 	packUint32(controller, packet, 4)
 	packUint8(door, packet, 8)
@@ -154,12 +154,12 @@ func SetDoorRequest(controller uint32, door uint8, mode types.DoorMode, delay ui
 	return packet, nil
 }
 
-// Encodes a SetDoorPasscodesRequest.
+// Encodes a SetDoorPasscodesRequest request to a 64 byte packet.
 func SetDoorPasscodesRequest(controller uint32, door uint8, passcode1 uint32, passcode2 uint32, passcode3 uint32, passcode4 uint32) ([]byte, error) {
 	packet := make([]byte, 64)
 
 	packet[0] = SOM
-	packet[1] = 140
+	packet[1] = 0x8c
 
 	packUint32(controller, packet, 4)
 	packUint8(door, packet, 8)
@@ -171,12 +171,12 @@ func SetDoorPasscodesRequest(controller uint32, door uint8, passcode1 uint32, pa
 	return packet, nil
 }
 
-// Encodes a OpenDoorRequest.
+// Encodes a OpenDoorRequest request to a 64 byte packet.
 func OpenDoorRequest(controller uint32, door uint8) ([]byte, error) {
 	packet := make([]byte, 64)
 
 	packet[0] = SOM
-	packet[1] = 64
+	packet[1] = 0x40
 
 	packUint32(controller, packet, 4)
 	packUint8(door, packet, 8)
@@ -184,24 +184,24 @@ func OpenDoorRequest(controller uint32, door uint8) ([]byte, error) {
 	return packet, nil
 }
 
-// Encodes a GetCardsRequest.
+// Encodes a GetCardsRequest request to a 64 byte packet.
 func GetCardsRequest(controller uint32) ([]byte, error) {
 	packet := make([]byte, 64)
 
 	packet[0] = SOM
-	packet[1] = 88
+	packet[1] = 0x58
 
 	packUint32(controller, packet, 4)
 
 	return packet, nil
 }
 
-// Encodes a GetCardRequest.
+// Encodes a GetCardRequest request to a 64 byte packet.
 func GetCardRequest(controller uint32, cardnumber uint32) ([]byte, error) {
 	packet := make([]byte, 64)
 
 	packet[0] = SOM
-	packet[1] = 90
+	packet[1] = 0x5a
 
 	packUint32(controller, packet, 4)
 	packUint32(cardnumber, packet, 8)
@@ -209,12 +209,12 @@ func GetCardRequest(controller uint32, cardnumber uint32) ([]byte, error) {
 	return packet, nil
 }
 
-// Encodes a GetCardAtIndexRequest.
+// Encodes a GetCardAtIndexRequest request to a 64 byte packet.
 func GetCardAtIndexRequest(controller uint32, index uint32) ([]byte, error) {
 	packet := make([]byte, 64)
 
 	packet[0] = SOM
-	packet[1] = 92
+	packet[1] = 0x5c
 
 	packUint32(controller, packet, 4)
 	packUint32(index, packet, 8)
@@ -222,12 +222,12 @@ func GetCardAtIndexRequest(controller uint32, index uint32) ([]byte, error) {
 	return packet, nil
 }
 
-// Encodes a PutCardRequest.
+// Encodes a PutCardRequest request to a 64 byte packet.
 func PutCardRequest(controller uint32, card uint32, startdate types.Date, enddate types.Date, door1 uint8, door2 uint8, door3 uint8, door4 uint8, PIN uint32) ([]byte, error) {
 	packet := make([]byte, 64)
 
 	packet[0] = SOM
-	packet[1] = 80
+	packet[1] = 0x50
 
 	packUint32(controller, packet, 4)
 	packUint32(card, packet, 8)
@@ -242,12 +242,12 @@ func PutCardRequest(controller uint32, card uint32, startdate types.Date, enddat
 	return packet, nil
 }
 
-// Encodes a DeleteCardRequest.
+// Encodes a DeleteCardRequest request to a 64 byte packet.
 func DeleteCardRequest(controller uint32, cardnumber uint32) ([]byte, error) {
 	packet := make([]byte, 64)
 
 	packet[0] = SOM
-	packet[1] = 82
+	packet[1] = 0x52
 
 	packUint32(controller, packet, 4)
 	packUint32(cardnumber, packet, 8)
@@ -255,12 +255,12 @@ func DeleteCardRequest(controller uint32, cardnumber uint32) ([]byte, error) {
 	return packet, nil
 }
 
-// Encodes a DeleteCardsRequest.
+// Encodes a DeleteCardsRequest request to a 64 byte packet.
 func DeleteCardsRequest(controller uint32) ([]byte, error) {
 	packet := make([]byte, 64)
 
 	packet[0] = SOM
-	packet[1] = 84
+	packet[1] = 0x54
 
 	packUint32(controller, packet, 4)
 	packUint32(0x55aaaa55, packet, 8)
@@ -268,12 +268,12 @@ func DeleteCardsRequest(controller uint32) ([]byte, error) {
 	return packet, nil
 }
 
-// Encodes a GetEventRequest.
+// Encodes a GetEventRequest request to a 64 byte packet.
 func GetEventRequest(controller uint32, eventindex uint32) ([]byte, error) {
 	packet := make([]byte, 64)
 
 	packet[0] = SOM
-	packet[1] = 176
+	packet[1] = 0xb0
 
 	packUint32(controller, packet, 4)
 	packUint32(eventindex, packet, 8)
@@ -281,24 +281,24 @@ func GetEventRequest(controller uint32, eventindex uint32) ([]byte, error) {
 	return packet, nil
 }
 
-// Encodes a GetEventIndexRequest.
+// Encodes a GetEventIndexRequest request to a 64 byte packet.
 func GetEventIndexRequest(controller uint32) ([]byte, error) {
 	packet := make([]byte, 64)
 
 	packet[0] = SOM
-	packet[1] = 180
+	packet[1] = 0xb4
 
 	packUint32(controller, packet, 4)
 
 	return packet, nil
 }
 
-// Encodes a SetEventIndexRequest.
+// Encodes a SetEventIndexRequest request to a 64 byte packet.
 func SetEventIndexRequest(controller uint32, eventindex uint32) ([]byte, error) {
 	packet := make([]byte, 64)
 
 	packet[0] = SOM
-	packet[1] = 178
+	packet[1] = 0xb2
 
 	packUint32(controller, packet, 4)
 	packUint32(eventindex, packet, 8)
@@ -307,12 +307,12 @@ func SetEventIndexRequest(controller uint32, eventindex uint32) ([]byte, error) 
 	return packet, nil
 }
 
-// Encodes a RecordSpecialEventsRequest.
+// Encodes a RecordSpecialEventsRequest request to a 64 byte packet.
 func RecordSpecialEventsRequest(controller uint32, enabled bool) ([]byte, error) {
 	packet := make([]byte, 64)
 
 	packet[0] = SOM
-	packet[1] = 142
+	packet[1] = 0x8e
 
 	packUint32(controller, packet, 4)
 	packBool(enabled, packet, 8)
@@ -320,12 +320,12 @@ func RecordSpecialEventsRequest(controller uint32, enabled bool) ([]byte, error)
 	return packet, nil
 }
 
-// Encodes a GetTimeProfileRequest.
+// Encodes a GetTimeProfileRequest request to a 64 byte packet.
 func GetTimeProfileRequest(controller uint32, profile uint8) ([]byte, error) {
 	packet := make([]byte, 64)
 
 	packet[0] = SOM
-	packet[1] = 152
+	packet[1] = 0x98
 
 	packUint32(controller, packet, 4)
 	packUint8(profile, packet, 8)
@@ -333,12 +333,12 @@ func GetTimeProfileRequest(controller uint32, profile uint8) ([]byte, error) {
 	return packet, nil
 }
 
-// Encodes a SetTimeProfileRequest.
+// Encodes a SetTimeProfileRequest request to a 64 byte packet.
 func SetTimeProfileRequest(controller uint32, profile uint8, startdate types.Date, enddate types.Date, monday bool, tuesday bool, wednesday bool, thursday bool, friday bool, saturday bool, sunday bool, segment1start types.HHmm, segment1end types.HHmm, segment2start types.HHmm, segment2end types.HHmm, segment3start types.HHmm, segment3end types.HHmm, linkedprofileid uint8) ([]byte, error) {
 	packet := make([]byte, 64)
 
 	packet[0] = SOM
-	packet[1] = 136
+	packet[1] = 0x88
 
 	packUint32(controller, packet, 4)
 	packUint8(profile, packet, 8)
@@ -362,12 +362,12 @@ func SetTimeProfileRequest(controller uint32, profile uint8, startdate types.Dat
 	return packet, nil
 }
 
-// Encodes a ClearTimeProfilesRequest.
+// Encodes a ClearTimeProfilesRequest request to a 64 byte packet.
 func ClearTimeProfilesRequest(controller uint32) ([]byte, error) {
 	packet := make([]byte, 64)
 
 	packet[0] = SOM
-	packet[1] = 138
+	packet[1] = 0x8a
 
 	packUint32(controller, packet, 4)
 	packUint32(0x55aaaa55, packet, 8)
@@ -375,12 +375,12 @@ func ClearTimeProfilesRequest(controller uint32) ([]byte, error) {
 	return packet, nil
 }
 
-// Encodes a AddTaskRequest.
+// Encodes a AddTaskRequest request to a 64 byte packet.
 func AddTaskRequest(controller uint32, task types.TaskType, startdate types.Date, enddate types.Date, monday bool, tuesday bool, wednesday bool, thursday bool, friday bool, saturday bool, sunday bool, starttime types.HHmm, door uint8, morecards uint8) ([]byte, error) {
 	packet := make([]byte, 64)
 
 	packet[0] = SOM
-	packet[1] = 168
+	packet[1] = 0xa8
 
 	packUint32(controller, packet, 4)
 	packTaskType(task, packet, 26)
@@ -400,12 +400,12 @@ func AddTaskRequest(controller uint32, task types.TaskType, startdate types.Date
 	return packet, nil
 }
 
-// Encodes a RefreshTaskListRequest.
+// Encodes a RefreshTaskListRequest request to a 64 byte packet.
 func RefreshTaskListRequest(controller uint32) ([]byte, error) {
 	packet := make([]byte, 64)
 
 	packet[0] = SOM
-	packet[1] = 172
+	packet[1] = 0xac
 
 	packUint32(controller, packet, 4)
 	packUint32(0x55aaaa55, packet, 8)
@@ -413,12 +413,12 @@ func RefreshTaskListRequest(controller uint32) ([]byte, error) {
 	return packet, nil
 }
 
-// Encodes a ClearTasklistRequest.
+// Encodes a ClearTasklistRequest request to a 64 byte packet.
 func ClearTasklistRequest(controller uint32) ([]byte, error) {
 	packet := make([]byte, 64)
 
 	packet[0] = SOM
-	packet[1] = 166
+	packet[1] = 0xa6
 
 	packUint32(controller, packet, 4)
 	packUint32(0x55aaaa55, packet, 8)
@@ -426,12 +426,12 @@ func ClearTasklistRequest(controller uint32) ([]byte, error) {
 	return packet, nil
 }
 
-// Encodes a SetPCControlRequest.
+// Encodes a SetPCControlRequest request to a 64 byte packet.
 func SetPCControlRequest(controller uint32, enabled bool) ([]byte, error) {
 	packet := make([]byte, 64)
 
 	packet[0] = SOM
-	packet[1] = 160
+	packet[1] = 0xa0
 
 	packUint32(controller, packet, 4)
 	packUint32(0x55aaaa55, packet, 8)
@@ -440,12 +440,12 @@ func SetPCControlRequest(controller uint32, enabled bool) ([]byte, error) {
 	return packet, nil
 }
 
-// Encodes a SetInterlockRequest.
+// Encodes a SetInterlockRequest request to a 64 byte packet.
 func SetInterlockRequest(controller uint32, interlock types.Interlock) ([]byte, error) {
 	packet := make([]byte, 64)
 
 	packet[0] = SOM
-	packet[1] = 162
+	packet[1] = 0xa2
 
 	packUint32(controller, packet, 4)
 	packInterlock(interlock, packet, 8)
@@ -453,12 +453,12 @@ func SetInterlockRequest(controller uint32, interlock types.Interlock) ([]byte, 
 	return packet, nil
 }
 
-// Encodes a ActivateKeypadsRequest.
+// Encodes a ActivateKeypadsRequest request to a 64 byte packet.
 func ActivateKeypadsRequest(controller uint32, reader1 bool, reader2 bool, reader3 bool, reader4 bool) ([]byte, error) {
 	packet := make([]byte, 64)
 
 	packet[0] = SOM
-	packet[1] = 164
+	packet[1] = 0xa4
 
 	packUint32(controller, packet, 4)
 	packBool(reader1, packet, 8)
@@ -469,24 +469,24 @@ func ActivateKeypadsRequest(controller uint32, reader1 bool, reader2 bool, reade
 	return packet, nil
 }
 
-// Encodes a GetAntipassbackRequest.
+// Encodes a GetAntipassbackRequest request to a 64 byte packet.
 func GetAntipassbackRequest(controller uint32) ([]byte, error) {
 	packet := make([]byte, 64)
 
 	packet[0] = SOM
-	packet[1] = 134
+	packet[1] = 0x86
 
 	packUint32(controller, packet, 4)
 
 	return packet, nil
 }
 
-// Encodes a SetAntipassbackRequest.
+// Encodes a SetAntipassbackRequest request to a 64 byte packet.
 func SetAntipassbackRequest(controller uint32, antipassback types.AntiPassback) ([]byte, error) {
 	packet := make([]byte, 64)
 
 	packet[0] = SOM
-	packet[1] = 132
+	packet[1] = 0x84
 
 	packUint32(controller, packet, 4)
 	packAntiPassback(antipassback, packet, 8)
@@ -494,12 +494,12 @@ func SetAntipassbackRequest(controller uint32, antipassback types.AntiPassback) 
 	return packet, nil
 }
 
-// Encodes a RestoreDefaultParametersRequest.
+// Encodes a RestoreDefaultParametersRequest request to a 64 byte packet.
 func RestoreDefaultParametersRequest(controller uint32) ([]byte, error) {
 	packet := make([]byte, 64)
 
 	packet[0] = SOM
-	packet[1] = 200
+	packet[1] = 0xc8
 
 	packUint32(controller, packet, 4)
 	packUint32(0x55aaaa55, packet, 8)
