@@ -20,7 +20,7 @@ import (
 	"codegen/model"
 )
 
-func encodeAST() {
+func encode() {
 	outfile := filepath.Join("codec", "encode", "generated.go")
 	decl := buildEncode()
 

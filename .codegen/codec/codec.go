@@ -14,9 +14,6 @@ import (
 	"codegen/model"
 )
 
-//go:embed templates/encode.template
-var encodeTemplate string
-
 //go:embed templates/encode_test.template
 var encodeTestTemplate string
 
@@ -26,7 +23,6 @@ var decodeTestTemplate string
 var functions = codegen.Functions
 
 func Codec() {
-	encodeAST()
 	encode()
 	encodeTest()
 
@@ -35,23 +31,6 @@ func Codec() {
 
 	decoder()
 	decoderTest()
-}
-
-func encode() {
-	output := filepath.Join("codec", "encode", "_generated.go")
-
-	f, err := os.Create(output)
-	if err != nil {
-		log.Fatalf("Failed to create file %s: %v", output, err)
-	}
-	defer f.Close()
-
-	tmpl := template.Must(template.New("encode").Funcs(functions).Parse(encodeTemplate))
-	if err := tmpl.Execute(f, model.Requests); err != nil {
-		log.Fatalf("Failed to execute template: %v", err)
-	}
-
-	log.Printf("... generated %s", output)
 }
 
 func encodeTest() {
