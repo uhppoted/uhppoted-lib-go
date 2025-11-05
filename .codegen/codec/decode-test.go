@@ -20,9 +20,9 @@ import (
 	"codegen/model"
 )
 
-func decoderTest() {
-	outfile := filepath.Join("codec", "generated_test.go")
-	decl := buildDecoderTest()
+func decodeTestAST() {
+	outfile := filepath.Join("codec", "decode", "generated_test.go")
+	decl := buildDecodeTest()
 
 	// .. convert dst to ast
 	fset, file, err := decorator.RestoreFile(decl)
@@ -50,7 +50,7 @@ func decoderTest() {
 	}
 }
 
-func buildDecoderTest() *dst.File {
+func buildDecodeTest() *dst.File {
 	imports := &dst.GenDecl{
 		Tok: token.IMPORT,
 		Specs: []dst.Spec{
@@ -82,13 +82,13 @@ func buildDecoderTest() *dst.File {
 			&dst.ImportSpec{
 				Path: &dst.BasicLit{
 					Kind:  token.STRING,
-					Value: `"github.com/uhppoted/uhppoted-lib-go/src/uhppoted/types"`,
+					Value: `"github.com/uhppoted/uhppoted-lib-go/src/uhppoted/responses"`,
 				},
 			},
 			&dst.ImportSpec{
 				Path: &dst.BasicLit{
 					Kind:  token.STRING,
-					Value: `"github.com/uhppoted/uhppoted-lib-go/src/uhppoted/responses"`,
+					Value: `"github.com/uhppoted/uhppoted-lib-go/src/uhppoted/types"`,
 				},
 			},
 		},
@@ -98,22 +98,22 @@ func buildDecoderTest() *dst.File {
 	responses := model.Responses
 	for _, response := range responses {
 		for _, test := range response.Tests {
-			f := buildDecoderTestFunc(*response, test)
+			f := buildDecodeTestFunc(*response, test)
 
 			tests = append(tests, f)
 		}
 	}
 
 	file := &dst.File{
-		Name:  dst.NewIdent("codec"),
+		Name:  dst.NewIdent("decode"),
 		Decls: append([]dst.Decl{imports}, tests...),
 	}
 
 	return file
 }
 
-func buildDecoderTestFunc(response lib.Response, test lib.ResponseTest) *dst.FuncDecl {
-	name := fmt.Sprintf("TestDecode%vResponse", codegen.TitleCase(test.Name))
+func buildDecodeTestFunc(response lib.Response, test lib.ResponseTest) *dst.FuncDecl {
+	name := fmt.Sprintf("Test%vResponse", codegen.TitleCase(test.Name))
 
 	f := &dst.FuncDecl{
 		Name: dst.NewIdent(name),
@@ -132,7 +132,7 @@ func buildDecoderTestFunc(response lib.Response, test lib.ResponseTest) *dst.Fun
 				},
 			},
 		},
-		Body: buildDecoderTestImpl(response, test),
+		Body: buildDecodeTestImpl(response, test),
 	}
 
 	f.Decs.After = dst.EmptyLine
@@ -140,7 +140,7 @@ func buildDecoderTestFunc(response lib.Response, test lib.ResponseTest) *dst.Fun
 	return f
 }
 
-func buildDecoderTestImpl(response lib.Response, test lib.ResponseTest) *dst.BlockStmt {
+func buildDecodeTestImpl(response lib.Response, test lib.ResponseTest) *dst.BlockStmt {
 	packet := make([]dst.Expr, 64)
 	for i, b := range test.Response {
 		xx := &dst.BasicLit{
@@ -176,12 +176,11 @@ func buildDecoderTestImpl(response lib.Response, test lib.ResponseTest) *dst.Blo
 						Elts: packet,
 					},
 				},
-			},
 
-			// blank line
-			&dst.ExprStmt{
-				X: &dst.BasicLit{
-					Kind: token.STRING,
+				Decs: dst.AssignStmtDecorations{
+					NodeDecs: dst.NodeDecs{
+						After: dst.EmptyLine,
+					},
 				},
 			},
 
@@ -192,24 +191,17 @@ func buildDecoderTestImpl(response lib.Response, test lib.ResponseTest) *dst.Blo
 				},
 				Tok: token.DEFINE,
 				Rhs: []dst.Expr{
-					buildDecoderTestExpected(response, test.Expected),
+					buildDecodeTestExpected(response, test.Expected),
 				},
 			},
 
-			// blank line
-			&dst.ExprStmt{
-				X: &dst.BasicLit{
-					Kind: token.STRING,
-				},
-			},
-
-			// (exec)
-			buildDecoderTestExec(response),
+			buildDecodeTestExec(response),
+			buildDecodeTestValidate(response),
 		},
 	}
 }
 
-func buildDecoderTestExpected(response lib.Response, values []lib.Value) dst.Expr {
+func buildDecodeTestExpected(response lib.Response, values []lib.Value) dst.Expr {
 	name := strings.TrimSuffix(codegen.TitleCase(response.Name), "Response")
 	fields := []dst.Expr{}
 
@@ -239,34 +231,48 @@ func buildDecoderTestExpected(response lib.Response, values []lib.Value) dst.Exp
 			Sel: &dst.Ident{Name: name},
 		},
 		Elts: fields,
+
+		Decs: dst.CompositeLitDecorations{
+			NodeDecs: dst.NodeDecs{
+				After: dst.EmptyLine,
+			},
+		},
 	}
 
 	return composite
 }
 
-func buildDecoderTestExec(response lib.Response) dst.Stmt {
+func buildDecodeTestExec(response lib.Response) dst.Stmt {
 	name := codegen.TitleCase(response.Name)
 
-	return &dst.IfStmt{
-		Init: &dst.AssignStmt{
-			Lhs: []dst.Expr{
-				&dst.Ident{Name: "response"},
-				&dst.Ident{Name: "err"},
-			},
-			Tok: token.DEFINE,
-			Rhs: []dst.Expr{
-				&dst.CallExpr{
-					Fun: &dst.IndexExpr{
-						X: &dst.Ident{Name: "Decode"},
-						Index: &dst.SelectorExpr{
-							X:   &dst.Ident{Name: "responses"},
-							Sel: &dst.Ident{Name: strings.TrimSuffix(name, "Response")},
-						},
-					},
-					Args: []dst.Expr{&dst.Ident{Name: "packet"}},
+	// response, err := XXXResponse(packet)
+	assign := dst.AssignStmt{
+		Lhs: []dst.Expr{
+			&dst.Ident{Name: "response"},
+			&dst.Ident{Name: "err"},
+		},
+		Tok: token.DEFINE,
+		Rhs: []dst.Expr{
+			&dst.CallExpr{
+				Fun: &dst.Ident{Name: name},
+				Args: []dst.Expr{
+					&dst.Ident{Name: "packet"},
 				},
 			},
 		},
+
+		Decs: dst.AssignStmtDecorations{
+			NodeDecs: dst.NodeDecs{
+				After: dst.EmptyLine,
+			},
+		},
+	}
+
+	return &assign
+}
+
+func buildDecodeTestValidate(response lib.Response) dst.Stmt {
+	return &dst.IfStmt{
 		Cond: &dst.BinaryExpr{
 			X:  &dst.Ident{Name: "err"},
 			Op: token.NEQ,
