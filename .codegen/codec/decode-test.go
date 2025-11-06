@@ -20,7 +20,7 @@ import (
 	"codegen/model"
 )
 
-func decodeTestAST() {
+func decodeTest() {
 	outfile := filepath.Join("codec", "decode", "generated_test.go")
 	decl := buildDecodeTest()
 
@@ -95,13 +95,15 @@ func buildDecodeTest() *dst.File {
 	}
 
 	tests := []dst.Decl{}
-	responses := model.Responses
-	for _, response := range responses {
-		for _, test := range response.Tests {
-			f := buildDecodeTestFunc(*response, test)
 
-			tests = append(tests, f)
+	for _, response := range model.Responses {
+		for _, test := range response.Tests {
+			tests = append(tests, buildDecodeTestFunc(*response, test))
 		}
+	}
+
+	for _, test := range model.ListenerEvent.Tests {
+		tests = append(tests, buildDecodeTestFunc(model.ListenerEvent, test))
 	}
 
 	file := &dst.File{

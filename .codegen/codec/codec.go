@@ -21,9 +21,6 @@ import (
 //go:embed templates/encode_test.template
 var encodeTestTemplate string
 
-//go:embed templates/decode_test.template
-var decodeTestTemplate string
-
 var functions = codegen.Functions
 
 func Codec() {
@@ -32,7 +29,6 @@ func Codec() {
 
 	decode()
 	decodeTest()
-	decodeTestAST()
 
 	decoder()
 	decoderTest()
@@ -49,27 +45,6 @@ func encodeTest() {
 
 	tmpl := template.Must(template.New("encode_test").Funcs(functions).Parse(encodeTestTemplate))
 	if err := tmpl.Execute(f, model.Requests); err != nil {
-		log.Fatalf("Failed to execute template: %v", err)
-	}
-
-	log.Printf("... generated %s", output)
-}
-
-func decodeTest() {
-	output := filepath.Join("codec", "decode", "decode_test.go")
-
-	f, err := os.Create(output)
-	if err != nil {
-		log.Fatalf("Failed to create file %s: %v", output, err)
-	}
-	defer f.Close()
-
-	responses := []*lib.Response{}
-	responses = append(responses, model.Responses...)
-	responses = append(responses, &model.ListenerEvent)
-
-	tmpl := template.Must(template.New("decode_test").Funcs(functions).Parse(decodeTestTemplate))
-	if err := tmpl.Execute(f, responses); err != nil {
 		log.Fatalf("Failed to execute template: %v", err)
 	}
 
