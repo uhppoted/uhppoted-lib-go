@@ -26,6 +26,7 @@ var functions = codegen.Functions
 func Codec() {
 	encode()
 	encodeTest()
+	encodeTestAST()
 
 	decode()
 	decodeTest()
