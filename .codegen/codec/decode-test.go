@@ -244,11 +244,11 @@ func buildDecodeTestExpected(response lib.Response, values []lib.Value) dst.Expr
 	return composite
 }
 
+// response, err := <T>Response(packet)
 func buildDecodeTestExec(response lib.Response) dst.Stmt {
 	name := codegen.TitleCase(response.Name)
 
-	// response, err := XXXResponse(packet)
-	assign := dst.AssignStmt{
+	return &dst.AssignStmt{
 		Lhs: []dst.Expr{
 			&dst.Ident{Name: "response"},
 			&dst.Ident{Name: "err"},
@@ -269,8 +269,6 @@ func buildDecodeTestExec(response lib.Response) dst.Stmt {
 			},
 		},
 	}
-
-	return &assign
 }
 
 func buildDecodeTestValidate(response lib.Response) dst.Stmt {

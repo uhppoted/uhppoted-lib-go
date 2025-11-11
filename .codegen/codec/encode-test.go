@@ -19,7 +19,7 @@ import (
 )
 
 func encodeTestAST() {
-	outfile := filepath.Join("codec", "encode", "_generated_test.go")
+	outfile := filepath.Join("codec", "encode", "generated_test.go")
 	decl := buildEncodeTest()
 
 	// .. convert dst to ast
@@ -62,7 +62,7 @@ func buildEncodeTest() *dst.File {
 			&dst.ImportSpec{
 				Path: &dst.BasicLit{
 					Kind:  token.STRING,
-					Value: `"reflect"`,
+					Value: `"slices"`,
 				},
 			},
 
@@ -103,7 +103,7 @@ func buildEncodeTest() *dst.File {
 }
 
 func buildEncodeTestFunc(request lib.Request, test lib.RequestTest) *dst.FuncDecl {
-	name := fmt.Sprintf("Test%vRequest", codegen.TitleCase(test.Name))
+	name := fmt.Sprintf("Test%v", codegen.TitleCase(test.Name))
 
 	f := &dst.FuncDecl{
 		Name: dst.NewIdent(name),
@@ -134,7 +134,7 @@ func buildEncodeTestImpl(request lib.Request, test lib.RequestTest) *dst.BlockSt
 	return &dst.BlockStmt{
 		List: []dst.Stmt{
 			buildEncodeTestExpected(test),
-			buildEncodeTestExec(request),
+			buildEncodeTestExec(request, test),
 			buildEncodeTestValidate(request),
 		},
 	}
@@ -185,11 +185,16 @@ func buildEncodeTestExpected(test lib.RequestTest) dst.Stmt {
 	return &assign
 }
 
-// packet, err := <T>Request(packet)
-func buildEncodeTestExec(request lib.Request) dst.Stmt {
+// packet, err := <T>Request(...)
+func buildEncodeTestExec(request lib.Request, test lib.RequestTest) dst.Stmt {
 	name := codegen.TitleCase(request.Name)
 
-	assign := dst.AssignStmt{
+	args := []dst.Expr{}
+	for _, arg := range test.Args {
+		args = append(args, buildEncodeTestArg(arg))
+	}
+
+	return &dst.AssignStmt{
 		Lhs: []dst.Expr{
 			&dst.Ident{Name: "packet"},
 			&dst.Ident{Name: "err"},
@@ -198,9 +203,7 @@ func buildEncodeTestExec(request lib.Request) dst.Stmt {
 		Rhs: []dst.Expr{
 			&dst.CallExpr{
 				Fun:  &dst.Ident{Name: name},
-				Args: []dst.Expr{
-					// &dst.Ident{Name: "packet"},
-				},
+				Args: args,
 			},
 		},
 
@@ -210,8 +213,142 @@ func buildEncodeTestExec(request lib.Request) dst.Stmt {
 			},
 		},
 	}
+}
 
-	return &assign
+func buildEncodeTestArg(arg lib.Arg) dst.Expr {
+	switch arg.Type {
+	case "bool":
+		return &dst.BasicLit{
+			Kind:  token.IDENT,
+			Value: fmt.Sprintf(`%v`, arg.Value),
+		}
+
+	case "uint8":
+		return &dst.BasicLit{
+			Kind:  token.INT,
+			Value: fmt.Sprintf(`%v`, arg.Value),
+		}
+
+	case "uint16":
+		return &dst.BasicLit{
+			Kind:  token.INT,
+			Value: fmt.Sprintf(`%v`, arg.Value),
+		}
+
+	case "uint32":
+		return &dst.BasicLit{
+			Kind:  token.INT,
+			Value: fmt.Sprintf(`%v`, arg.Value),
+		}
+
+	case "IPv4":
+		return &dst.CallExpr{
+			Fun: &dst.Ident{Name: "netip.MustParseAddr"},
+			Args: []dst.Expr{
+				&dst.BasicLit{
+					Kind:  token.STRING,
+					Value: fmt.Sprintf(`"%v"`, arg.Value),
+				},
+			},
+		}
+
+	case "address:port":
+		return &dst.CallExpr{
+			Fun: &dst.Ident{Name: "netip.MustParseAddrPort"},
+			Args: []dst.Expr{
+				&dst.BasicLit{
+					Kind:  token.STRING,
+					Value: fmt.Sprintf(`"%v"`, arg.Value),
+				},
+			},
+		}
+
+	case "datetime":
+		return &dst.CallExpr{
+			Fun: &dst.Ident{Name: "types.MustParseDateTime"},
+			Args: []dst.Expr{
+				&dst.BasicLit{
+					Kind:  token.STRING,
+					Value: fmt.Sprintf(`"%v"`, arg.Value),
+				},
+			},
+		}
+
+	case "date":
+		return &dst.CallExpr{
+			Fun: &dst.Ident{Name: "types.MustParseDate"},
+			Args: []dst.Expr{
+				&dst.BasicLit{
+					Kind:  token.STRING,
+					Value: fmt.Sprintf(`"%v"`, arg.Value),
+				},
+			},
+		}
+
+	case "HHmm":
+		return &dst.CallExpr{
+			Fun: &dst.Ident{Name: "types.MustParseHHmm"},
+			Args: []dst.Expr{
+				&dst.BasicLit{
+					Kind:  token.STRING,
+					Value: fmt.Sprintf(`"%v"`, arg.Value),
+				},
+			},
+		}
+
+	case "pin":
+		return &dst.BasicLit{
+			Kind:  token.INT,
+			Value: fmt.Sprintf(`%v`, arg.Value),
+		}
+
+	case "mode":
+		return &dst.CallExpr{
+			Fun: &dst.Ident{Name: "types.DoorMode"},
+			Args: []dst.Expr{
+				&dst.BasicLit{
+					Kind:  token.INT,
+					Value: fmt.Sprintf(`%v`, arg.Value),
+				},
+			},
+		}
+
+	case "task":
+		return &dst.CallExpr{
+			Fun: &dst.Ident{Name: "types.TaskType"},
+			Args: []dst.Expr{
+				&dst.BasicLit{
+					Kind:  token.INT,
+					Value: fmt.Sprintf(`%v`, arg.Value),
+				},
+			},
+		}
+
+	case "interlock":
+		return &dst.CallExpr{
+			Fun: &dst.Ident{Name: "types.Interlock"},
+			Args: []dst.Expr{
+				&dst.BasicLit{
+					Kind:  token.INT,
+					Value: fmt.Sprintf(`%v`, arg.Value),
+				},
+			},
+		}
+
+	case "anti-passback":
+		return &dst.CallExpr{
+			Fun: &dst.Ident{Name: "types.AntiPassback"},
+			Args: []dst.Expr{
+				&dst.BasicLit{
+					Kind:  token.INT,
+					Value: fmt.Sprintf(`%v`, arg.Value),
+				},
+			},
+		}
+
+	default:
+		panic(fmt.Sprintf("unknown arg type '%v'", arg.Type))
+	}
 }
 
 //	if err != nil {
