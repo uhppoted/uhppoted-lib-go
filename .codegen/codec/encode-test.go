@@ -18,7 +18,7 @@ import (
 	lib "github.com/uhppoted/uhppoted-codegen/model/types"
 )
 
-func encodeTestAST() {
+func encodeTest() {
 	outfile := filepath.Join("codec", "encode", "generated_test.go")
 	decl := buildEncodeTest()
 

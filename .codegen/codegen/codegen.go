@@ -12,20 +12,17 @@ import (
 )
 
 var Functions = template.FuncMap{
-	"titleCase":   TitleCase,
-	"camelCase":   camelCase,
-	"hyphenate":   hyphenate,
-	"trim":        trim,
-	"clean":       clean,
-	"hex":         hex,
-	"testargs":    testargs,
-	"testarg":     testarg,
-	"fields2args": fields2args,
-	"describe":    describe,
-	"includes":    includes,
-	"value":       value,
-	"rpad":        rpad,
-	"article":     article,
+	"titleCase": TitleCase,
+	"camelCase": camelCase,
+	"hyphenate": hyphenate,
+	"trim":      trim,
+	"clean":     clean,
+	"hex":       hex,
+	"testargs":  testargs,
+	"testarg":   testarg,
+	"value":     value,
+	"rpad":      rpad,
+	"article":   article,
 }
 
 func TitleCase(s string) string {
@@ -155,67 +152,6 @@ func testarg(arg lib.Arg) string {
 	default:
 		return fmt.Sprintf("%v", arg.Value)
 	}
-}
-
-func fields2args(fields []lib.Field) string {
-	var args []string
-	for _, f := range fields {
-		name := regexp.MustCompile(`\s+`).ReplaceAllString(f.Name, "")
-
-		switch f.Type {
-		case "IPv4":
-			args = append(args, fmt.Sprintf("%v netip.Addr", name))
-
-		case "address:port":
-			args = append(args, fmt.Sprintf("%v netip.AddrPort", name))
-
-		case "datetime":
-			args = append(args, fmt.Sprintf("%v types.DateTime", name))
-
-		case "date":
-			args = append(args, fmt.Sprintf("%v types.Date", name))
-
-		case "HHmm":
-			args = append(args, fmt.Sprintf("%v types.HHmm", name))
-
-		case "pin":
-			args = append(args, fmt.Sprintf("%v uint32", name))
-
-		case "mode":
-			args = append(args, fmt.Sprintf("%v types.DoorMode", name))
-
-		case "task":
-			args = append(args, fmt.Sprintf("%v types.TaskType", name))
-
-		case "interlock":
-			args = append(args, fmt.Sprintf("%v types.Interlock", name))
-
-		case "anti-passback":
-			args = append(args, fmt.Sprintf("%v types.AntiPassback", name))
-
-		case "magic":
-			// skip
-
-		default:
-			args = append(args, fmt.Sprintf("%v %v", name, f.Type))
-		}
-	}
-
-	return strings.Join(args, ", ")
-}
-
-func describe(field lib.Field) string {
-	return fmt.Sprintf("%v  (%v)  %v", field.Name, field.Type, field.Description)
-}
-
-func includes(list []string, item string) bool {
-	for _, v := range list {
-		if v == item {
-			return true
-		}
-	}
-
-	return false
 }
 
 func value(v any, vtype string) string {

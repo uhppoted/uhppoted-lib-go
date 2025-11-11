@@ -3,10 +3,7 @@ package codec
 import (
 	_ "embed"
 	"fmt"
-	"log"
 	"os"
-	"path/filepath"
-	"text/template"
 
 	"go/token"
 
@@ -15,41 +12,19 @@ import (
 	lib "github.com/uhppoted/uhppoted-codegen/model/types"
 
 	"codegen/codegen"
-	"codegen/model"
 )
-
-//go:embed templates/encode_test.template
-var encodeTestTemplate string
 
 var functions = codegen.Functions
 
 func Codec() {
 	encode()
 	encodeTest()
-	encodeTestAST()
 
 	decode()
 	decodeTest()
 
 	decoder()
 	decoderTest()
-}
-
-func encodeTest() {
-	output := filepath.Join("codec", "encode", "encode_test.go")
-
-	f, err := os.Create(output)
-	if err != nil {
-		log.Fatalf("Failed to create file %s: %v", output, err)
-	}
-	defer f.Close()
-
-	tmpl := template.Must(template.New("encode_test").Funcs(functions).Parse(encodeTestTemplate))
-	if err := tmpl.Execute(f, model.Requests); err != nil {
-		log.Fatalf("Failed to execute template: %v", err)
-	}
-
-	log.Printf("... generated %s", output)
 }
 
 func writeln(f *os.File, s string) {
