@@ -2,6 +2,7 @@ package integration_tests
 
 import (
 	_ "embed"
+	"fmt"
 	"log"
 	"os"
 	"path/filepath"
@@ -30,6 +31,8 @@ var functions = codegen.Functions
 
 func IntegrationTests() {
 	messages()
+	messagesAST()
+
 	expected()
 	broadcast()
 	udp()
@@ -121,4 +124,10 @@ func tcp() {
 	}
 
 	log.Printf("... generated %s", filepath.Base(output))
+}
+
+func writeln(f *os.File, s string) {
+	if _, err := f.WriteString(s + "\n"); err != nil {
+		panic(fmt.Errorf("error writing to %v (%v)", f.Name(), err))
+	}
 }

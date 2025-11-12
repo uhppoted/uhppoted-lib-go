@@ -1,10 +1,11 @@
 # TODO
 
 ## TODO
-- [ ] AST code generation
-      - [x] encode
-      - [ ] encode_test
-      - [x] decode_test
-      - [ ] integration tests
+- [ ] integration tests: AST codegen
+    - [ ] messages
+    - [ ] expected
+    - [ ] default
+    - [ ] udp
+    - [ ] tcp
 
 - [ ] godoc/examples
