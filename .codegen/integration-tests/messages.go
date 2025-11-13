@@ -14,12 +14,11 @@ import (
 	"github.com/dave/dst/decorator"
 	lib "github.com/uhppoted/uhppoted-codegen/model/types"
 
-	// "codegen/codegen"
 	"codegen/model"
 )
 
-func messagesAST() {
-	outfile := filepath.Join(".", "_messages.go")
+func messages() {
+	outfile := filepath.Join(".", "messages.go")
 	decl := buildMessages()
 
 	// .. convert dst to ast
@@ -49,53 +48,9 @@ func messagesAST() {
 }
 
 func buildMessages() *dst.File {
-	imports := &dst.GenDecl{
-		Tok: token.IMPORT,
-		Specs: []dst.Spec{
-			&dst.ImportSpec{
-				Path: &dst.BasicLit{
-					Kind:  token.STRING,
-					Value: `"net/netip"`,
-				},
-			},
-
-			&dst.ImportSpec{
-				Path: &dst.BasicLit{
-					Kind:  token.STRING,
-					Value: `"reflect"`,
-				},
-			},
-
-			&dst.ImportSpec{
-				Path: &dst.BasicLit{
-					Kind:  token.STRING,
-					Value: `"testing"`,
-				},
-			},
-			&dst.ImportSpec{
-				Path: &dst.BasicLit{
-					Kind: token.STRING,
-				},
-			},
-			&dst.ImportSpec{
-				Path: &dst.BasicLit{
-					Kind:  token.STRING,
-					Value: `"github.com/uhppoted/uhppoted-lib-go/src/uhppoted"`,
-				},
-			},
-			&dst.ImportSpec{
-				Path: &dst.BasicLit{
-					Kind:  token.STRING,
-					Value: `"github.com/uhppoted/uhppoted-lib-go/src/uhppoted/types"`,
-				},
-			},
-		},
-	}
-
 	file := &dst.File{
 		Name: dst.NewIdent("uhppoted"),
 		Decls: []dst.Decl{
-			imports,
 			buildMessageStruct(),
 			buildMessagesList(),
 		},
@@ -155,6 +110,8 @@ func buildMessagesList() dst.Decl {
 		}
 	}
 
+	messages = append(messages, buildInvalidResponseMessage())
+
 	return &dst.GenDecl{
 		Tok: token.VAR,
 		Specs: []dst.Spec{
@@ -186,74 +143,14 @@ func buildMessagesList() dst.Decl {
 //		},
 //	},
 func buildMessage(test lib.FuncTest, comment string) dst.Expr {
-	request := make([]dst.Expr, 64)
-	for i, b := range test.Request {
-		xx := &dst.BasicLit{
-			Kind:  token.INT,
-			Value: fmt.Sprintf("0x%02x", b),
-		}
-
-		if i%16 == 0 {
-			xx.Decs.Before = dst.NewLine
-		}
-
-		if i == 63 {
-			xx.Decs.After = dst.NewLine
-		}
-
-		request[i] = xx
-	}
-
 	responses := []dst.Expr{}
 	for _, reply := range test.Replies {
-		response := make([]dst.Expr, 64)
-		for i, b := range reply.Message {
-			xx := &dst.BasicLit{
-				Kind:  token.INT,
-				Value: fmt.Sprintf("0x%02x", b),
-			}
-
-			if i%16 == 0 {
-				xx.Decs.Before = dst.NewLine
-			}
-
-			if i == 63 {
-				xx.Decs.After = dst.NewLine
-			}
-
-			response[i] = xx
-		}
-
-		responses = append(responses, &dst.CompositeLit{
-			Type: &dst.ArrayType{
-				Elt: dst.NewIdent("byte"),
-			},
-			Elts: response,
-			Decs: dst.CompositeLitDecorations{
-				NodeDecs: dst.NodeDecs{
-					Before: dst.NewLine,
-					After:  dst.NewLine,
-				},
-			},
-		})
+		responses = append(responses, buildResponseMessage(reply.Message))
 	}
 
 	return &dst.CompositeLit{
 		Elts: []dst.Expr{
-			&dst.KeyValueExpr{
-				Key: dst.NewIdent("Request"),
-				Value: &dst.CompositeLit{
-					Type: &dst.ArrayType{
-						Elt: dst.NewIdent("byte"),
-					},
-					Elts: request,
-				},
-				Decs: dst.KeyValueExprDecorations{
-					NodeDecs: dst.NodeDecs{
-						Before: dst.NewLine,
-					},
-				},
-			},
+			buildRequestMessage(test.Request),
 
 			// Response: [][]byte{ ... }
 			&dst.KeyValueExpr{
@@ -281,6 +178,137 @@ func buildMessage(test lib.FuncTest, comment string) dst.Expr {
 				Before: dst.NewLine,
 				After:  dst.EmptyLine,
 				Start:  []string{comment},
+			},
+		},
+	}
+}
+
+// invalid response
+func buildInvalidResponseMessage() dst.Expr {
+	comment := "// invalid response"
+
+	request := []byte{
+		0x17, 0x94, 0x00, 0x00, 0x90, 0x53, 0xfb, 0x0b, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+		0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+		0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+		0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+	}
+
+	replies := [][]byte{
+		[]byte{
+			0x17, 0x94, 0x00, 0x00, 0x78, 0x37, 0x2a, 0x18, 0xc0, 0xa8, 0x01, 0x64, 0xff, 0xff, 0xff, 0x00,
+			0xc0, 0xa8, 0x01, 0x01, 0x00, 0x12, 0x23, 0x34, 0x45, 0x56, 0x08, 0x92, 0x20, 0x18, 0x11, 0x05,
+			0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+			0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+		},
+	}
+
+	responses := []dst.Expr{}
+	for _, reply := range replies {
+		responses = append(responses, buildResponseMessage(reply))
+	}
+
+	return &dst.CompositeLit{
+		Elts: []dst.Expr{
+			buildRequestMessage(request),
+
+			// Response: [][]byte{ ... }
+			&dst.KeyValueExpr{
+				Key: dst.NewIdent("Response"),
+				Value: &dst.CompositeLit{
+					Type: &dst.ArrayType{
+						Elt: &dst.ArrayType{
+							Elt: dst.NewIdent("byte"),
+						},
+					},
+					Elts: responses,
+				},
+
+				Decs: dst.KeyValueExprDecorations{
+					NodeDecs: dst.NodeDecs{
+						Before: dst.NewLine,
+						After:  dst.NewLine,
+					},
+				},
+			},
+		},
+
+		Decs: dst.CompositeLitDecorations{
+			NodeDecs: dst.NodeDecs{
+				Before: dst.NewLine,
+				After:  dst.EmptyLine,
+				Start:  []string{comment},
+			},
+		},
+	}
+}
+
+// Request: []byte{ ... }
+func buildRequestMessage(bytes []byte) dst.Expr {
+	request := make([]dst.Expr, 64)
+
+	for i, b := range bytes {
+		xx := &dst.BasicLit{
+			Kind:  token.INT,
+			Value: fmt.Sprintf("0x%02x", b),
+		}
+
+		if i%16 == 0 {
+			xx.Decs.Before = dst.NewLine
+		}
+
+		if i == 63 {
+			xx.Decs.After = dst.NewLine
+		}
+
+		request[i] = xx
+	}
+
+	return &dst.KeyValueExpr{
+		Key: dst.NewIdent("Request"),
+		Value: &dst.CompositeLit{
+			Type: &dst.ArrayType{
+				Elt: dst.NewIdent("byte"),
+			},
+			Elts: request,
+		},
+		Decs: dst.KeyValueExprDecorations{
+			NodeDecs: dst.NodeDecs{
+				Before: dst.NewLine,
+			},
+		},
+	}
+}
+
+// []byte{ ... }
+func buildResponseMessage(reply []byte) dst.Expr {
+	response := make([]dst.Expr, 64)
+	for i, b := range reply {
+		xx := &dst.BasicLit{
+			Kind:  token.INT,
+			Value: fmt.Sprintf("0x%02x", b),
+		}
+
+		if i%16 == 0 {
+			xx.Decs.Before = dst.NewLine
+		}
+
+		if i == 63 {
+			xx.Decs.After = dst.NewLine
+		}
+
+		response[i] = xx
+	}
+
+	return &dst.CompositeLit{
+		Type: &dst.ArrayType{
+			Elt: dst.NewIdent("byte"),
+		},
+		Elts: response,
+		Decs: dst.CompositeLitDecorations{
+			NodeDecs: dst.NodeDecs{
+				Before: dst.NewLine,
+				After:  dst.NewLine,
 			},
 		},
 	}

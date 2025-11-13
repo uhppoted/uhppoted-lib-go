@@ -12,9 +12,6 @@ import (
 	"codegen/model"
 )
 
-//go:embed templates/messages.template
-var messagesTemplate string
-
 //go:embed templates/expected.template
 var expectedTemplate string
 
@@ -31,31 +28,11 @@ var functions = codegen.Functions
 
 func IntegrationTests() {
 	messages()
-	messagesAST()
 
 	expected()
 	broadcast()
 	udp()
 	tcp()
-}
-
-func messages() {
-	const output = "messages.go"
-
-	f, err := os.Create(output)
-	if err != nil {
-		log.Fatalf("Failed to create file %s: %v", output, err)
-	}
-	defer f.Close()
-
-	var API = model.API
-
-	tmpl := template.Must(template.New("encode").Funcs(functions).Parse(messagesTemplate))
-	if err := tmpl.Execute(f, API); err != nil {
-		log.Fatalf("Failed to execute template: %v", err)
-	}
-
-	log.Printf("... generated %s", filepath.Base(output))
 }
 
 func expected() {
