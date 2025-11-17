@@ -30,6 +30,8 @@ func IntegrationTests() {
 	messages()
 
 	expected()
+	expectedAST()
+
 	broadcast()
 	udp()
 	tcp()
