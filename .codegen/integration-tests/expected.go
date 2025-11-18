@@ -2,6 +2,7 @@ package integration_tests
 
 import (
 	"bytes"
+	"fmt"
 	"log"
 	"os"
 	"path/filepath"
@@ -94,10 +95,9 @@ func buildExpected() *dst.File {
 func buildExpectedVar() dst.Decl {
 	// ... struct fields
 	fields := []*dst.Field{}
-
-	for _, f := range model.API {
-		for _, test := range f.Tests {
-			field := buildStructField(*f, test)
+	for _, fn := range model.API {
+		for _, test := range fn.Tests {
+			field := buildStructField(*fn, test)
 
 			fields = append(fields, &field)
 		}
@@ -105,54 +105,13 @@ func buildExpectedVar() dst.Decl {
 
 	// ... struct initialisation
 	values := []dst.Expr{}
+	for _, fn := range model.API[1:] {
+		for _, test := range fn.Tests {
+			value := buildStructValue(*fn, test)
 
-	value := dst.CompositeLit{
-		Type: &dst.SelectorExpr{
-			X:   dst.NewIdent("responses"),
-			Sel: dst.NewIdent("GetController"),
-		},
-
-		Elts: []dst.Expr{
-			&dst.KeyValueExpr{
-				Key:   dst.NewIdent("Controller"),
-				Value: &dst.BasicLit{Kind: token.INT, Value: "303986753"},
-				Decs: dst.KeyValueExprDecorations{
-					NodeDecs: dst.NodeDecs{
-						Before: dst.NewLine,
-						After:  dst.NewLine,
-					},
-				},
-			},
-
-			&dst.KeyValueExpr{
-				Key: dst.NewIdent("IpAddress"),
-				Value: &dst.CallExpr{
-					Fun: &dst.SelectorExpr{
-						X:   dst.NewIdent("netip"),
-						Sel: dst.NewIdent("MustParseAddr"),
-					},
-					Args: []dst.Expr{
-						&dst.BasicLit{Kind: token.STRING, Value: "\"192.168.1.100\""},
-					},
-				},
-				Decs: dst.KeyValueExprDecorations{
-					NodeDecs: dst.NodeDecs{
-						Before: dst.NewLine,
-						After:  dst.NewLine,
-					},
-				},
-			},
-		},
-
-		Decs: dst.CompositeLitDecorations{
-			NodeDecs: dst.NodeDecs{
-				Before: dst.NewLine,
-				After:  dst.EmptyLine,
-			},
-		},
+			values = append(values, &value)
+		}
 	}
-
-	values = append(values, &value)
 
 	return &dst.GenDecl{
 		Tok: token.VAR,
@@ -202,5 +161,278 @@ func buildStructField(fn lib.Function, test lib.FuncTest) dst.Field {
 			X:   dst.NewIdent("responses"),
 			Sel: dst.NewIdent(response),
 		},
+	}
+}
+
+func buildStructValue(fn lib.Function, test lib.FuncTest) dst.KeyValueExpr {
+	name := codegen.TitleCase(test.Name)
+	response := codegen.TitleCase(fn.Response.Name)
+	fields := []dst.Expr{}
+
+	if len(test.Replies) > 1 {
+		panic("not expecting more than one response")
+	}
+
+	for _, reply := range test.Replies[:1] {
+		for _, v := range reply.Response {
+			ident := codegen.TitleCase(v.Name)
+
+			e := dst.KeyValueExpr{
+				Key:   dst.NewIdent(ident),
+				Value: buildFieldValue(v),
+				Decs: dst.KeyValueExprDecorations{
+					NodeDecs: dst.NodeDecs{
+						Before: dst.NewLine,
+						After:  dst.NewLine,
+					},
+				},
+			}
+
+			fields = append(fields, &e)
+		}
+	}
+
+	value := dst.CompositeLit{
+		Type: &dst.SelectorExpr{
+			X:   dst.NewIdent("responses"),
+			Sel: dst.NewIdent(response),
+		},
+
+		Elts: fields,
+
+		Decs: dst.CompositeLitDecorations{
+			NodeDecs: dst.NodeDecs{
+				Before: dst.NewLine,
+				After:  dst.EmptyLine,
+			},
+		},
+	}
+
+	return dst.KeyValueExpr{
+		Key:   dst.NewIdent(name),
+		Value: &value,
+		Decs: dst.KeyValueExprDecorations{
+			NodeDecs: dst.NodeDecs{
+				Before: dst.NewLine,
+				After:  dst.EmptyLine,
+			},
+		},
+	}
+}
+
+func buildFieldValue(value lib.Value) dst.Expr {
+	switch value.Type {
+	case "bool":
+		return &dst.Ident{
+			Name: fmt.Sprintf("%v", value.Value),
+		}
+
+	case "uint8":
+		return &dst.BasicLit{
+			Kind:  token.INT,
+			Value: fmt.Sprintf("%v", value.Value),
+		}
+
+	case "uint16":
+		return &dst.BasicLit{
+			Kind:  token.INT,
+			Value: fmt.Sprintf("%v", value.Value),
+		}
+
+	case "uint32":
+		return &dst.BasicLit{
+			Kind:  token.INT,
+			Value: fmt.Sprintf("%v", value.Value),
+		}
+
+	case "IPv4":
+		return &dst.CallExpr{
+			Fun: &dst.Ident{Name: "netip.MustParseAddr"},
+			Args: []dst.Expr{
+				&dst.BasicLit{
+					Kind:  token.STRING,
+					Value: fmt.Sprintf(`"%v"`, value.Value),
+				},
+			},
+		}
+
+	case "address:port":
+		return &dst.CallExpr{
+			Fun: &dst.Ident{Name: "netip.MustParseAddrPort"},
+			Args: []dst.Expr{
+				&dst.BasicLit{
+					Kind:  token.STRING,
+					Value: fmt.Sprintf(`"%v"`, value.Value),
+				},
+			},
+		}
+
+	case "datetime":
+		return &dst.CallExpr{
+			Fun: &dst.SelectorExpr{
+				X:   &dst.Ident{Name: "types"},
+				Sel: &dst.Ident{Name: "MustParseDateTime"},
+			},
+			Args: []dst.Expr{
+				&dst.BasicLit{
+					Kind:  token.STRING,
+					Value: fmt.Sprintf(`"%v"`, value.Value)},
+			},
+		}
+
+	case "optional datetime":
+		return &dst.CallExpr{
+			Fun: &dst.SelectorExpr{
+				X:   &dst.Ident{Name: "types"},
+				Sel: &dst.Ident{Name: "MustParseDateTime"},
+			},
+			Args: []dst.Expr{
+				&dst.BasicLit{
+					Kind:  token.STRING,
+					Value: fmt.Sprintf(`"%v"`, value.Value)},
+			},
+		}
+
+	case "date":
+		return &dst.CallExpr{
+			Fun: &dst.SelectorExpr{
+				X:   &dst.Ident{Name: "types"},
+				Sel: &dst.Ident{Name: "MustParseDate"},
+			},
+			Args: []dst.Expr{
+				&dst.BasicLit{
+					Kind:  token.STRING,
+					Value: fmt.Sprintf(`"%v"`, value.Value)},
+			},
+		}
+
+	case "shortdate":
+		return &dst.CallExpr{
+			Fun: &dst.SelectorExpr{
+				X:   &dst.Ident{Name: "types"},
+				Sel: &dst.Ident{Name: "MustParseDate"},
+			},
+			Args: []dst.Expr{
+				&dst.BasicLit{
+					Kind:  token.STRING,
+					Value: fmt.Sprintf(`"%v"`, value.Value)},
+			},
+		}
+
+	case "optional date":
+		return &dst.CallExpr{
+			Fun: &dst.SelectorExpr{
+				X:   &dst.Ident{Name: "types"},
+				Sel: &dst.Ident{Name: "MustParseDate"},
+			},
+			Args: []dst.Expr{
+				&dst.BasicLit{
+					Kind:  token.STRING,
+					Value: fmt.Sprintf(`"%v"`, value.Value)},
+			},
+		}
+
+	case "time":
+		return &dst.CallExpr{
+			Fun: &dst.SelectorExpr{
+				X:   &dst.Ident{Name: "types"},
+				Sel: &dst.Ident{Name: "MustParseTime"},
+			},
+			Args: []dst.Expr{
+				&dst.BasicLit{
+					Kind:  token.STRING,
+					Value: fmt.Sprintf(`"%v"`, value.Value)},
+			},
+		}
+
+	case "HHmm":
+		return &dst.CallExpr{
+			Fun: &dst.SelectorExpr{
+				X:   &dst.Ident{Name: "types"},
+				Sel: &dst.Ident{Name: "MustParseHHmm"},
+			},
+			Args: []dst.Expr{
+				&dst.BasicLit{
+					Kind:  token.STRING,
+					Value: fmt.Sprintf(`"%v"`, value.Value),
+				},
+			},
+		}
+
+	case "MAC":
+		return &dst.BasicLit{
+			Kind:  token.STRING,
+			Value: fmt.Sprintf(`"%v"`, value.Value),
+		}
+
+	case "version":
+		return &dst.BasicLit{
+			Kind:  token.STRING,
+			Value: fmt.Sprintf(`"%v"`, value.Value),
+		}
+
+	case "pin":
+		return &dst.BasicLit{
+			Kind:  token.INT,
+			Value: fmt.Sprintf("%v", value.Value),
+		}
+
+	case "mode":
+		return &dst.CallExpr{
+			Fun: &dst.SelectorExpr{
+				X:   &dst.Ident{Name: "types"},
+				Sel: &dst.Ident{Name: "DoorMode"},
+			},
+			Args: []dst.Expr{
+				&dst.BasicLit{Kind: token.INT, Value: fmt.Sprintf(`%v`, value.Value)},
+			},
+		}
+
+	case "anti-passback":
+		return &dst.CallExpr{
+			Fun: &dst.SelectorExpr{
+				X:   &dst.Ident{Name: "types"},
+				Sel: &dst.Ident{Name: "AntiPassback"},
+			},
+			Args: []dst.Expr{
+				&dst.BasicLit{Kind: token.INT, Value: fmt.Sprintf(`%v`, value.Value)},
+			},
+		}
+
+	case "event-type":
+		return &dst.CallExpr{
+			Fun: &dst.SelectorExpr{
+				X:   &dst.Ident{Name: "types"},
+				Sel: &dst.Ident{Name: "EventType"},
+			},
+			Args: []dst.Expr{
+				&dst.BasicLit{Kind: token.INT, Value: fmt.Sprintf(`%v`, value.Value)},
+			},
+		}
+
+	case "direction":
+		return &dst.CallExpr{
+			Fun: &dst.SelectorExpr{
+				X:   &dst.Ident{Name: "types"},
+				Sel: &dst.Ident{Name: "Direction"},
+			},
+			Args: []dst.Expr{
+				&dst.BasicLit{Kind: token.INT, Value: fmt.Sprintf(`%v`, value.Value)},
+			},
+		}
+
+	case "reason":
+		return &dst.CallExpr{
+			Fun: &dst.SelectorExpr{
+				X:   &dst.Ident{Name: "types"},
+				Sel: &dst.Ident{Name: "Reason"},
+			},
+			Args: []dst.Expr{
+				&dst.BasicLit{Kind: token.INT, Value: fmt.Sprintf(`%v`, value.Value)},
+			},
+		}
+
+	default:
+		panic(fmt.Sprintf("unknown response field type (%v)", value.Type))
 	}
 }
