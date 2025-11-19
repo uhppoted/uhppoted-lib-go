@@ -105,7 +105,16 @@ func buildExpectedVar() dst.Decl {
 
 	// ... struct initialisation
 	values := []dst.Expr{}
-	for _, fn := range model.API[1:] {
+	for _, fn := range model.API {
+		if fn.Name == "find-controllers" {
+			for _, test := range fn.Tests {
+				value := buildFindControllers(*fn, test)
+				values = append(values, &value)
+			}
+
+			continue
+		}
+
 		for _, test := range fn.Tests {
 			value := buildStructValue(*fn, test)
 
@@ -160,6 +169,71 @@ func buildStructField(fn lib.Function, test lib.FuncTest) dst.Field {
 		Type: &dst.SelectorExpr{
 			X:   dst.NewIdent("responses"),
 			Sel: dst.NewIdent(response),
+		},
+	}
+}
+
+func buildFindControllers(fn lib.Function, test lib.FuncTest) dst.KeyValueExpr {
+	name := codegen.TitleCase(test.Name)
+	values := []dst.Expr{}
+
+	for _, reply := range test.Replies {
+		fields := []dst.Expr{}
+		for _, v := range reply.Response {
+			ident := codegen.TitleCase(v.Name)
+
+			e := dst.KeyValueExpr{
+				Key:   dst.NewIdent(ident),
+				Value: buildFieldValue(v),
+				Decs: dst.KeyValueExprDecorations{
+					NodeDecs: dst.NodeDecs{
+						Before: dst.NewLine,
+						After:  dst.NewLine,
+					},
+				},
+			}
+
+			fields = append(fields, &e)
+		}
+
+		value := dst.CompositeLit{
+			Type: &dst.SelectorExpr{
+				X:   dst.NewIdent("responses"),
+				Sel: dst.NewIdent("GetController"), // NTS: codegen Function doesn't currently support multiple returns
+			},
+
+			Elts: fields,
+
+			Decs: dst.CompositeLitDecorations{
+				NodeDecs: dst.NodeDecs{
+					Before: dst.NewLine,
+					After:  dst.NewLine,
+				},
+			},
+		}
+
+		values = append(values, &value)
+	}
+
+	array := dst.CompositeLit{
+		Type: &dst.ArrayType{
+			Len: nil,
+			Elt: &dst.SelectorExpr{
+				X:   dst.NewIdent("responses"),
+				Sel: dst.NewIdent("GetController"), // NTS: codegen Function doesn't currently support multiple returns
+			},
+		},
+		Elts: values,
+	}
+
+	return dst.KeyValueExpr{
+		Key:   dst.NewIdent(name),
+		Value: &array,
+		Decs: dst.KeyValueExprDecorations{
+			NodeDecs: dst.NodeDecs{
+				Before: dst.NewLine,
+				After:  dst.EmptyLine,
+			},
 		},
 	}
 }
