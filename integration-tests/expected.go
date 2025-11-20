@@ -134,14 +134,14 @@ var Expected = struct {
 	GetDoor: responses.GetDoor{
 		Controller: 405419896,
 		Door:       4,
-		Mode:       3,
+		Mode:       types.DoorMode(3),
 		Delay:      7,
 	},
 
 	SetDoor: responses.SetDoor{
 		Controller: 405419896,
 		Door:       4,
-		Mode:       2,
+		Mode:       types.DoorMode(2),
 		Delay:      17,
 	},
 
@@ -175,10 +175,10 @@ var Expected = struct {
 		EventType:          types.EventType(2),
 		EventAccessGranted: true,
 		EventDoor:          3,
-		EventDirection:     1,
+		EventDirection:     types.Direction(1),
 		EventCard:          8165537,
 		EventTimestamp:     types.MustParseDateTime("2022-08-23 09:47:06"),
-		EventReason:        44,
+		EventReason:        types.Reason(44),
 		SequenceNo:         0,
 	},
 
@@ -202,10 +202,10 @@ var Expected = struct {
 		EventType:          types.EventType(0),
 		EventAccessGranted: false,
 		EventDoor:          0,
-		EventDirection:     0,
+		EventDirection:     types.Direction(0),
 		EventCard:          0,
 		EventTimestamp:     types.MustParseDateTime("0001-01-01 00:00:00"),
-		EventReason:        0,
+		EventReason:        types.Reason(0),
 		SequenceNo:         21987,
 	},
 
@@ -296,9 +296,9 @@ var Expected = struct {
 		EventType:     types.EventType(2),
 		AccessGranted: true,
 		Door:          4,
-		Direction:     2,
+		Direction:     types.Direction(2),
 		Card:          10058400,
-		Reason:        21,
+		Reason:        types.Reason(21),
 	},
 
 	GetEventNotFound: responses.GetEvent{
@@ -308,9 +308,9 @@ var Expected = struct {
 		EventType:     types.EventType(0),
 		AccessGranted: false,
 		Door:          0,
-		Direction:     0,
+		Direction:     types.Direction(0),
 		Card:          0,
-		Reason:        0,
+		Reason:        types.Reason(0),
 	},
 
 	GetEventOverwritten: responses.GetEvent{
@@ -320,9 +320,9 @@ var Expected = struct {
 		EventType:     types.EventType(255),
 		AccessGranted: false,
 		Door:          0,
-		Direction:     0,
+		Direction:     types.Direction(0),
 		Card:          0,
-		Reason:        0,
+		Reason:        types.Reason(0),
 	},
 
 	GetEventIndex: responses.GetEventIndex{

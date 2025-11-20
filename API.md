@@ -360,7 +360,7 @@ Returns a `SetDoorResponse`:
 type SetDoorResponse struct { 
   Controller          uint32              `json:"controller"`     // controller serial number
   Door                uint8               `json:"door"`           // 
-  Mode                uint8               `json:"mode"`           // 
+  Mode                mode                `json:"mode"`           // 
   Delay               uint8               `json:"delay"`          // 
 }
 ```
@@ -753,20 +753,20 @@ type ClearTimeProfilesResponse struct {
 ### `AddTask`
 Creates a scheduled task.
 
-Task types:
- - 0:  control door
- - 1:  unlock door
- - 2:  lock door
- - 3:  disable time profiles
- - 4:  enable time profiles
- - 5:  enable card, no password
- - 6:  enable card+IN password
- - 7:  enable card+password
- - 8:  enable more cards
- - 9:  disable more cards
- - 10: trigger once
- - 11: disable pushbutton
- - 12: enable pushbutton
+Task types
+0:  control door
+1:  unlock door
+2:  lock door
+3:  disable time profiles
+4:  enable time profiles
+5:  enable card, no password
+6:  enable card+IN password
+7:  enable card+password
+8:  enable more cards
+9:  disable more cards
+10: trigger once
+11: disable pushbutton
+12: enable pushbutton
 ```
 AddTask(u, controller, task, start date, end date, monday, tuesday, wednesday, thursday, friday, saturday, sunday, start time, door, more cards, timeout)
 
@@ -856,12 +856,12 @@ type SetPCControlResponse struct {
 Sets the door interlock mode on an access controller.
 
 The following interlock modes are supported:
- - 0: disabled
- - 1: doors 1&2
- - 2: doors 3&4
- - 3: doors 1&2, doors 3&4
- - 4: doors 1,2&3
- - 8: doors 1,2,3&4
+- 0: disabled
+- 1: doors 1&2
+- 2: doors 3&4
+- 3: doors 1&2, doors 3&4
+- 4: doors 1,2&3
+- 8: doors 1,2,3&4
 ```
 SetInterlock(u, controller, interlock, timeout)
 
@@ -904,11 +904,11 @@ type ActivateKeypadsResponse struct {
 ### `GetAntiPassback`
 Retrieves the anti-passback mode for an access controller. The anti-passback mode
 will be one of the following:
- - 0: disabled
- - 1: readers 1:2; 3:4 (independently)
- - 2: readers (1,3):(2,4)
- - 3: readers 1:(2,3)
- - 4: readers 1:(2,3,4)
+- 0: disabled
+- 1: readers 1:2; 3:4 (independently)
+- 2: readers (1,3):(2,4)
+- 3: readers 1:(2,3)
+- 4: readers 1:(2,3,4)
 ```
 GetAntiPassback(u, controller, timeout)
 
@@ -929,11 +929,11 @@ type GetAntiPassbackResponse struct {
 Sets the access controller anti-passback mode.
 
 The following modes are supported:
- - 0: disabled
- - 1: doors 1&2, doors 3&4
- - 2: doors 1&3, doors 2&4
- - 3: door 1 & doors 2,3
- - 4: door 1 & doors 1,2,3
+- 0: disabled
+- 1: doors 1&2, doors 3&4
+- 2: doors 1&3, doors 2&4
+- 3: door 1 & doors 2,3
+- 4: door 1 & doors 1,2,3
 ```
 SetAntiPassback(u, controller, antipassback, timeout)
 

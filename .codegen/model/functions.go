@@ -146,13 +146,13 @@ var FindControllers = types.Function{
 						0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
 					},
 					Response: []types.Value{
-						{"controller", "uint32", 405419896},
-						{"ip address", "IPv4", "192.168.1.100"},
+						{"controller", "uint32", 201020304},
+						{"ip address", "IPv4", "192.168.1.101"},
 						{"subnet mask", "IPv4", "255.255.255.0"},
 						{"gateway", "IPv4", "192.168.1.1"},
-						{"MAC address", "MAC", "00:12:23:34:45:56"},
-						{"version", "version", "v8.92"},
-						{"date", "date", "2018-11-05"},
+						{"MAC address", "MAC", "52:fd:fc:07:21:82"},
+						{"version", "version", "v6.62"},
+						{"date", "date", "2020-01-01"},
 					},
 				},
 				{

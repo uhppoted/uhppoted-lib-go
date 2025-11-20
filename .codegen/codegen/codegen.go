@@ -198,6 +198,18 @@ func value(v any, vtype string) string {
 	case "event-type":
 		return fmt.Sprintf(`types.EventType(%v)`, v)
 
+	case "mode":
+		return fmt.Sprintf(`types.DoorMode(%v)`, v)
+
+	case "direction":
+		return fmt.Sprintf(`types.Direction(%v)`, v)
+
+	case "reason":
+		return fmt.Sprintf(`types.Reason(%v)`, v)
+
+	case "anti-passback":
+		return fmt.Sprintf(`types.AntiPassback(%v)`, v)
+
 	default:
 		return fmt.Sprintf("%v", v)
 	}

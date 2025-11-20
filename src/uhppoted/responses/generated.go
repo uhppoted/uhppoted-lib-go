@@ -111,10 +111,10 @@ type GetDoor struct {
 // Container struct for the response returned by a controller after updating
 // a door configuration.
 type SetDoor struct {
-	Controller uint32 `json:"controller"`
-	Door       uint8  `json:"door"`
-	Mode       uint8  `json:"mode"`
-	Delay      uint8  `json:"delay"`
+	Controller uint32         `json:"controller"`
+	Door       uint8          `json:"door"`
+	Mode       types.DoorMode `json:"mode"`
+	Delay      uint8          `json:"delay"`
 }
 
 // Container struct for the response returned by a controller after setting the
@@ -189,51 +189,51 @@ type DeleteAllCards struct {
 // Container struct for the response returned from a controller for an event record request.
 //
 // Event types:
-//   - 0:   unknown
-//   - 1:   card
-//   - 2:   door
-//   - 3:   alarm
-//   - 4:   system
-//   - 255: overwritten
+// - 0:   unknown
+// - 1:   card
+// - 2:   door
+// - 3:   alarm
+// - 4:   system
+// - 255: overwritten
 //
 // Direction:
-//   - 1: in
-//   - 2: out
+// - 1: in
+// - 2: out
 //
 // Reasons:
-//   - 0:      unknown
-//   - 1:      card ok
-//   - 5:      card denied (PC control)
-//   - 6:      card denied (no access)
-//   - 7:      card denied (invalid password)
-//   - 8:      card denied (anti-passback)
-//   - 9:      card denied (more cards)
-//   - 10:     card denied (first card open)
-//   - 11:     card denied (door normally closed)
-//   - 12:     card denied (door interlock)
-//   - 13:     card denied (limited times)
-//   - 15:     card denied (invalid timezone)
-//   - 18:     card denied
-//   - 20:     door pushbutton
-//   - 23:     door open
-//   - 24:     door closed
-//   - 25:     door supervisor password open
-//   - 28:     controller power on
-//   - 29:     controller reset
-//   - 30:     pushbutton denied (disabled by task)
-//   - 31:     pushbutton denied (forced lock)
-//   - 32:     pushbutton denied (not online)
-//   - 33:     pushbutton denied (door interlock
-//   - 34:     alarm (threat)
-//   - 37:     alarm (open too long)
-//   - 38:     alarm (forced open)
-//   - 39:     alarm (fire)
-//   - 40:     alarm (forced close)
-//   - 41:     alarm (tamper detect)
-//   - 42:     alarm (24x7 zone)
-//   - 43:     alarm (emergency call)
-//   - 44:     remote open door
-//   - 45:     remote open door (USB reader)
+// 0:      unknown
+// 1:      card ok
+// 5:      card denied (PC control)
+// 6:      card denied (no access)
+// 7:      card denied (invalid password)
+// 8:      card denied (anti-passback)
+// 9:      card denied (more cards)
+// 10:     card denied (first card open)
+// 11:     card denied (door normally closed)
+// 12:     card denied (door interlock)
+// 13:     card denied (limited times)
+// 15:     card denied (invalid timezone)
+// 18:     card denied
+// 20:     door pushbutton
+// 23:     door open
+// 24:     door closed
+// 25:     door supervisor password open
+// 28:     controller power on
+// 29:     controller reset
+// 30:     pushbutton denied (disabled by task)
+// 31:     pushbutton denied (forced lock)
+// 32:     pushbutton denied (not online)
+// 33:     pushbutton denied (door interlock
+// 34:     alarm (threat)
+// 37:     alarm (open too long)
+// 38:     alarm (forced open)
+// 39:     alarm (fire)
+// 40:     alarm (forced close)
+// 41:     alarm (tamper detect)
+// 42:     alarm (24x7 zone)
+// 43:     alarm (emergency call)
+// 44:     remote open door
+// 45:     remote open door (USB reader)
 type GetEvent struct {
 	Controller    uint32          `json:"controller"`
 	Index         uint32          `json:"index"`
@@ -346,11 +346,11 @@ type ActivateKeypads struct {
 
 // Container struct for the response returned from to a request for the current
 // anti-passback mode:
-//   - 0: disabled
-//   - 1: readers 1:2; 3:4 (independently)
-//   - 2: readers (1,3):(2,4)
-//   - 3: readers 1:(2,3)
-//   - 4: readers 1:(2,3,4)
+// - 0: disabled
+// - 1: readers 1:2; 3:4 (independently)
+// - 2: readers (1,3):(2,4)
+// - 3: readers 1:(2,3)
+// - 4: readers 1:(2,3,4)
 type GetAntiPassback struct {
 	Controller   uint32             `json:"controller"`
 	Antipassback types.AntiPassback `json:"antipassback"`

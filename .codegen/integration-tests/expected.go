@@ -6,6 +6,7 @@ import (
 	"log"
 	"os"
 	"path/filepath"
+	"strings"
 
 	"go/printer"
 	"go/token"
@@ -20,7 +21,7 @@ import (
 )
 
 func expectedAST() {
-	outfile := filepath.Join(".", "_expected.go")
+	outfile := filepath.Join(".", "expected.go")
 	decl := buildExpected()
 
 	// .. convert dst to ast
@@ -168,7 +169,7 @@ func buildStructField(fn lib.Function, test lib.FuncTest) dst.Field {
 		},
 		Type: &dst.SelectorExpr{
 			X:   dst.NewIdent("responses"),
-			Sel: dst.NewIdent(response),
+			Sel: dst.NewIdent(strings.TrimSuffix(response, "Response")),
 		},
 	}
 }
@@ -269,7 +270,7 @@ func buildStructValue(fn lib.Function, test lib.FuncTest) dst.KeyValueExpr {
 	value := dst.CompositeLit{
 		Type: &dst.SelectorExpr{
 			X:   dst.NewIdent("responses"),
-			Sel: dst.NewIdent(response),
+			Sel: dst.NewIdent(strings.TrimSuffix(response, "Response")),
 		},
 
 		Elts: fields,

@@ -38,7 +38,7 @@ func IntegrationTests() {
 }
 
 func expected() {
-	const output = "expected.go"
+	const output = "_expected.go"
 
 	f, err := os.Create(output)
 	if err != nil {

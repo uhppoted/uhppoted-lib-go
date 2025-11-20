@@ -9,7 +9,7 @@ import (
     "github.com/uhppoted/uhppoted-lib-go/src/uhppoted/types"
 )
 
-var Expected = struct { 
+var ExpectedX = struct { 
     FindControllers []responses.GetController
 {{- range $i,$func := . }}{{ if $i }}{{ range $test := $func.Tests}}
     {{ titleCase $test.Name }} responses.{{ trim (titleCase $func.Response.Name) }}{{ end }}{{ end }}{{end}}
