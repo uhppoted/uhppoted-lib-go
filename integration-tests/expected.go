@@ -403,7 +403,7 @@ var Expected = struct {
 
 	GetAntipassback: responses.GetAntiPassback{
 		Controller:   405419896,
-		Antipassback: 2,
+		Antipassback: types.AntiPassback(2),
 	},
 
 	SetAntipassback: responses.SetAntiPassback{

@@ -1,4 +1,4 @@
-CMD   = ./bin/cli --debug --bind 0.0.0.0 --broadcast 255.255.255.255:60000 --listen 0.0.0.0:60001
+CMD   = ./bin/cli --debug --bind 0.0.0.0 --broadcast 192.168.1.255:60000 --listen 0.0.0.0:60001
 CONTROLLER = 405419896
 DOOR = 3
 CARD = 10058400
