@@ -12,9 +12,6 @@ import (
 	"codegen/model"
 )
 
-//go:embed templates/expected.template
-var expectedTemplate string
-
 //go:embed templates/default.template
 var defaultTemplate string
 
@@ -30,28 +27,10 @@ func IntegrationTests() {
 	messages()
 
 	expected()
-	expectedAST()
 
 	broadcast()
 	udp()
 	tcp()
-}
-
-func expected() {
-	const output = "_expected.go"
-
-	f, err := os.Create(output)
-	if err != nil {
-		log.Fatalf("Failed to create file %s: %v", output, err)
-	}
-	defer f.Close()
-
-	tmpl := template.Must(template.New("encode").Funcs(functions).Parse(expectedTemplate))
-	if err := tmpl.Execute(f, model.API); err != nil {
-		log.Fatalf("Failed to execute template: %v", err)
-	}
-
-	log.Printf("... generated %s", filepath.Base(output))
 }
 
 func broadcast() {

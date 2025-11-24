@@ -20,7 +20,7 @@ import (
 	"codegen/model"
 )
 
-func expectedAST() {
+func expected() {
 	outfile := filepath.Join(".", "expected.go")
 	decl := buildExpected()
 
