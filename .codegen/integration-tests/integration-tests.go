@@ -25,10 +25,10 @@ var functions = codegen.Functions
 
 func IntegrationTests() {
 	messages()
-
 	expected()
 
 	broadcast()
+	broadcastAST()
 	udp()
 	tcp()
 }
