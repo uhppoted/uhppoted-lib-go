@@ -25,16 +25,16 @@ var functions = codegen.Functions
 
 func IntegrationTests() {
 	messages()
-
 	expected()
 
 	broadcast()
+	broadcastAST()
 	udp()
 	tcp()
 }
 
 func broadcast() {
-	const output = "default/api_test.go"
+	const output = "default/_api_test.go"
 
 	f, err := os.Create(output)
 	if err != nil {

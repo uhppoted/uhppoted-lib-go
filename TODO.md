@@ -3,8 +3,8 @@
 ## TODO
 - [ ] integration tests: AST codegen
     - [x] messages
-    - [ ] expected
-    - [ ] default
+    - [x] expected
+    - [x] default
     - [ ] udp
     - [ ] tcp
 

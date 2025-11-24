@@ -76,19 +76,20 @@ func buildDecoderTest() *dst.File {
 			},
 			&dst.ImportSpec{
 				Path: &dst.BasicLit{
-					Kind: token.STRING,
+					Kind:  token.STRING,
+					Value: `"github.com/uhppoted/uhppoted-lib-go/src/uhppoted/responses"`,
+				},
+
+				Decs: dst.ImportSpecDecorations{
+					NodeDecs: dst.NodeDecs{
+						Before: dst.EmptyLine,
+					},
 				},
 			},
 			&dst.ImportSpec{
 				Path: &dst.BasicLit{
 					Kind:  token.STRING,
 					Value: `"github.com/uhppoted/uhppoted-lib-go/src/uhppoted/types"`,
-				},
-			},
-			&dst.ImportSpec{
-				Path: &dst.BasicLit{
-					Kind:  token.STRING,
-					Value: `"github.com/uhppoted/uhppoted-lib-go/src/uhppoted/responses"`,
 				},
 			},
 		},

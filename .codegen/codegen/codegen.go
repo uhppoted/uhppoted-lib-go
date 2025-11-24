@@ -13,7 +13,7 @@ import (
 
 var Functions = template.FuncMap{
 	"titleCase": TitleCase,
-	"camelCase": camelCase,
+	"camelCase": CamelCase,
 	"hyphenate": hyphenate,
 	"trim":      trim,
 	"clean":     clean,
@@ -35,7 +35,7 @@ func TitleCase(s string) string {
 	return strings.Join(parts, "")
 }
 
-func camelCase(s string) string {
+func CamelCase(s string) string {
 	tokens := regexp.MustCompile(`[ \-:]+`).Split(s, -1)
 
 	for i, token := range tokens[1:] {

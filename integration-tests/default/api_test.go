@@ -9,34 +9,40 @@ import (
 
 	"github.com/uhppoted/uhppoted-lib-go/src/uhppoted"
 	"github.com/uhppoted/uhppoted-lib-go/src/uhppoted/types"
+
 	test "integration-tests"
 )
 
-func TestFindControllers(t *testing.T) {
+func TestFindControllersX(t *testing.T) {
+	expected := test.Expected.FindControllers
+
 	response, err := uhppoted.FindControllers(u, timeout)
 
 	if err != nil {
 		t.Fatalf("%v", err)
-	} else if !reflect.DeepEqual(response, test.Expected.FindControllers) {
-		t.Errorf("incorrect response\n   expected:%#v\n   got:     %#v", test.Expected.FindControllers, response)
+	} else if !reflect.DeepEqual(response, expected) {
+		t.Errorf("incorrect response\n   expected:%#v\n   got:     %#v", expected, response)
 	}
 }
 
-func TestGetController(t *testing.T) {
+func TestGetControllerX(t *testing.T) {
+	expected := test.Expected.GetController
+
 	controller := uint32(405419896)
 
 	response, err := uhppoted.GetController(u, controller, timeout)
 
 	if err != nil {
 		t.Fatalf("%v", err)
-	} else if !reflect.DeepEqual(response, test.Expected.GetController) {
-		t.Errorf("incorrect response\n   expected:%#v\n   got:     %#v", test.Expected.GetController, response)
+	} else if !reflect.DeepEqual(response, expected) {
+		t.Errorf("incorrect response\n   expected:%#v\n   got:     %#v", expected, response)
 	}
 }
 
-func TestSetIPv4(t *testing.T) {
-	controller := uint32(405419896)
+func TestSetIPv4X(t *testing.T) {
+	expected := test.Expected.SetIPv4
 
+	controller := uint32(405419896)
 	address := netip.MustParseAddr("192.168.1.125")
 	netmask := netip.MustParseAddr("255.255.255.0")
 	gateway := netip.MustParseAddr("192.168.1.1")
@@ -45,52 +51,58 @@ func TestSetIPv4(t *testing.T) {
 
 	if err != nil {
 		t.Fatalf("%v", err)
-	} else if !reflect.DeepEqual(response, test.Expected.SetIPv4) {
-		t.Errorf("incorrect response\n   expected:%#v\n   got:     %#v", test.Expected.SetIPv4, response)
+	} else if !reflect.DeepEqual(response, expected) {
+		t.Errorf("incorrect response\n   expected:%#v\n   got:     %#v", expected, response)
 	}
 }
 
-func TestGetTime(t *testing.T) {
+func TestGetTimeX(t *testing.T) {
+	expected := test.Expected.GetTime
+
 	controller := uint32(405419896)
 
 	response, err := uhppoted.GetTime(u, controller, timeout)
 
 	if err != nil {
 		t.Fatalf("%v", err)
-	} else if !reflect.DeepEqual(response, test.Expected.GetTime) {
-		t.Errorf("incorrect response\n   expected:%#v\n   got:     %#v", test.Expected.GetTime, response)
+	} else if !reflect.DeepEqual(response, expected) {
+		t.Errorf("incorrect response\n   expected:%#v\n   got:     %#v", expected, response)
 	}
 }
 
-func TestSetTime(t *testing.T) {
-	controller := uint32(405419896)
+func TestSetTimeX(t *testing.T) {
+	expected := test.Expected.SetTime
 
+	controller := uint32(405419896)
 	dateTime := types.MustParseDateTime("2025-11-04 12:34:56")
 
 	response, err := uhppoted.SetTime(u, controller, dateTime, timeout)
 
 	if err != nil {
 		t.Fatalf("%v", err)
-	} else if !reflect.DeepEqual(response, test.Expected.SetTime) {
-		t.Errorf("incorrect response\n   expected:%#v\n   got:     %#v", test.Expected.SetTime, response)
+	} else if !reflect.DeepEqual(response, expected) {
+		t.Errorf("incorrect response\n   expected:%#v\n   got:     %#v", expected, response)
 	}
 }
 
-func TestGetListener(t *testing.T) {
+func TestGetListenerX(t *testing.T) {
+	expected := test.Expected.GetListener
+
 	controller := uint32(405419896)
 
 	response, err := uhppoted.GetListener(u, controller, timeout)
 
 	if err != nil {
 		t.Fatalf("%v", err)
-	} else if !reflect.DeepEqual(response, test.Expected.GetListener) {
-		t.Errorf("incorrect response\n   expected:%#v\n   got:     %#v", test.Expected.GetListener, response)
+	} else if !reflect.DeepEqual(response, expected) {
+		t.Errorf("incorrect response\n   expected:%#v\n   got:     %#v", expected, response)
 	}
 }
 
-func TestSetListener(t *testing.T) {
-	controller := uint32(405419896)
+func TestSetListenerX(t *testing.T) {
+	expected := test.Expected.SetListener
 
+	controller := uint32(405419896)
 	address := netip.MustParseAddr("192.168.1.100")
 	port := uint16(60001)
 	interval := uint8(17)
@@ -99,26 +111,29 @@ func TestSetListener(t *testing.T) {
 
 	if err != nil {
 		t.Fatalf("%v", err)
-	} else if !reflect.DeepEqual(response, test.Expected.SetListener) {
-		t.Errorf("incorrect response\n   expected:%#v\n   got:     %#v", test.Expected.SetListener, response)
+	} else if !reflect.DeepEqual(response, expected) {
+		t.Errorf("incorrect response\n   expected:%#v\n   got:     %#v", expected, response)
 	}
 }
 
-func TestGetListenerAddrPort(t *testing.T) {
+func TestGetListenerAddrPortX(t *testing.T) {
+	expected := test.Expected.GetListenerAddrPort
+
 	controller := uint32(405419897)
 
 	response, err := uhppoted.GetListenerAddrPort(u, controller, timeout)
 
 	if err != nil {
 		t.Fatalf("%v", err)
-	} else if !reflect.DeepEqual(response, test.Expected.GetListenerAddrPort) {
-		t.Errorf("incorrect response\n   expected:%#v\n   got:     %#v", test.Expected.GetListenerAddrPort, response)
+	} else if !reflect.DeepEqual(response, expected) {
+		t.Errorf("incorrect response\n   expected:%#v\n   got:     %#v", expected, response)
 	}
 }
 
-func TestSetListenerAddrPort(t *testing.T) {
-	controller := uint32(405419897)
+func TestSetListenerAddrPortX(t *testing.T) {
+	expected := test.Expected.SetListenerAddrPort
 
+	controller := uint32(405419897)
 	listener := netip.MustParseAddrPort("192.168.1.100:60001")
 	interval := uint8(17)
 
@@ -126,28 +141,30 @@ func TestSetListenerAddrPort(t *testing.T) {
 
 	if err != nil {
 		t.Fatalf("%v", err)
-	} else if !reflect.DeepEqual(response, test.Expected.SetListenerAddrPort) {
-		t.Errorf("incorrect response\n   expected:%#v\n   got:     %#v", test.Expected.SetListenerAddrPort, response)
+	} else if !reflect.DeepEqual(response, expected) {
+		t.Errorf("incorrect response\n   expected:%#v\n   got:     %#v", expected, response)
 	}
 }
 
-func TestGetDoor(t *testing.T) {
-	controller := uint32(405419896)
+func TestGetDoorX(t *testing.T) {
+	expected := test.Expected.GetDoor
 
+	controller := uint32(405419896)
 	door := uint8(4)
 
 	response, err := uhppoted.GetDoor(u, controller, door, timeout)
 
 	if err != nil {
 		t.Fatalf("%v", err)
-	} else if !reflect.DeepEqual(response, test.Expected.GetDoor) {
-		t.Errorf("incorrect response\n   expected:%#v\n   got:     %#v", test.Expected.GetDoor, response)
+	} else if !reflect.DeepEqual(response, expected) {
+		t.Errorf("incorrect response\n   expected:%#v\n   got:     %#v", expected, response)
 	}
 }
 
-func TestSetDoor(t *testing.T) {
-	controller := uint32(405419896)
+func TestSetDoorX(t *testing.T) {
+	expected := test.Expected.SetDoor
 
+	controller := uint32(405419896)
 	door := uint8(4)
 	mode := types.DoorMode(2)
 	delay := uint8(17)
@@ -156,14 +173,15 @@ func TestSetDoor(t *testing.T) {
 
 	if err != nil {
 		t.Fatalf("%v", err)
-	} else if !reflect.DeepEqual(response, test.Expected.SetDoor) {
-		t.Errorf("incorrect response\n   expected:%#v\n   got:     %#v", test.Expected.SetDoor, response)
+	} else if !reflect.DeepEqual(response, expected) {
+		t.Errorf("incorrect response\n   expected:%#v\n   got:     %#v", expected, response)
 	}
 }
 
-func TestSetDoorPasscodes(t *testing.T) {
-	controller := uint32(405419896)
+func TestSetDoorPasscodesX(t *testing.T) {
+	expected := test.Expected.SetDoorPasscodes
 
+	controller := uint32(405419896)
 	door := uint8(4)
 	passcode1 := uint32(12345)
 	passcode2 := uint32(54321)
@@ -174,134 +192,147 @@ func TestSetDoorPasscodes(t *testing.T) {
 
 	if err != nil {
 		t.Fatalf("%v", err)
-	} else if !reflect.DeepEqual(response, test.Expected.SetDoorPasscodes) {
-		t.Errorf("incorrect response\n   expected:%#v\n   got:     %#v", test.Expected.SetDoorPasscodes, response)
+	} else if !reflect.DeepEqual(response, expected) {
+		t.Errorf("incorrect response\n   expected:%#v\n   got:     %#v", expected, response)
 	}
 }
 
-func TestOpenDoor(t *testing.T) {
-	controller := uint32(405419896)
+func TestOpenDoorX(t *testing.T) {
+	expected := test.Expected.OpenDoor
 
+	controller := uint32(405419896)
 	door := uint8(4)
 
 	response, err := uhppoted.OpenDoor(u, controller, door, timeout)
 
 	if err != nil {
 		t.Fatalf("%v", err)
-	} else if !reflect.DeepEqual(response, test.Expected.OpenDoor) {
-		t.Errorf("incorrect response\n   expected:%#v\n   got:     %#v", test.Expected.OpenDoor, response)
+	} else if !reflect.DeepEqual(response, expected) {
+		t.Errorf("incorrect response\n   expected:%#v\n   got:     %#v", expected, response)
 	}
 }
 
-func TestGetStatus(t *testing.T) {
+func TestGetStatusX(t *testing.T) {
+	expected := test.Expected.GetStatus
+
 	controller := uint32(405419896)
 
 	response, err := uhppoted.GetStatus(u, controller, timeout)
 
 	if err != nil {
 		t.Fatalf("%v", err)
-	} else if !reflect.DeepEqual(response, test.Expected.GetStatus) {
-		t.Errorf("incorrect response\n   expected:%#v\n   got:     %#v", test.Expected.GetStatus, response)
+	} else if !reflect.DeepEqual(response, expected) {
+		t.Errorf("incorrect response\n   expected:%#v\n   got:     %#v", expected, response)
 	}
 }
 
-func TestGetStatusNoEvent(t *testing.T) {
+func TestGetStatusNoEventX(t *testing.T) {
+	expected := test.Expected.GetStatusNoEvent
+
 	controller := uint32(405419897)
 
 	response, err := uhppoted.GetStatus(u, controller, timeout)
 
 	if err != nil {
 		t.Fatalf("%v", err)
-	} else if !reflect.DeepEqual(response, test.Expected.GetStatusNoEvent) {
-		t.Errorf("incorrect response\n   expected:%#v\n   got:     %#v", test.Expected.GetStatusNoEvent, response)
+	} else if !reflect.DeepEqual(response, expected) {
+		t.Errorf("incorrect response\n   expected:%#v\n   got:     %#v", expected, response)
 	}
 }
 
-func TestGetCards(t *testing.T) {
+func TestGetCardsX(t *testing.T) {
+	expected := test.Expected.GetCards
+
 	controller := uint32(405419896)
 
 	response, err := uhppoted.GetCards(u, controller, timeout)
 
 	if err != nil {
 		t.Fatalf("%v", err)
-	} else if !reflect.DeepEqual(response, test.Expected.GetCards) {
-		t.Errorf("incorrect response\n   expected:%#v\n   got:     %#v", test.Expected.GetCards, response)
+	} else if !reflect.DeepEqual(response, expected) {
+		t.Errorf("incorrect response\n   expected:%#v\n   got:     %#v", expected, response)
 	}
 }
 
-func TestGetCard(t *testing.T) {
-	controller := uint32(405419896)
+func TestGetCardX(t *testing.T) {
+	expected := test.Expected.GetCard
 
+	controller := uint32(405419896)
 	card := uint32(10058400)
 
 	response, err := uhppoted.GetCard(u, controller, card, timeout)
 
 	if err != nil {
 		t.Fatalf("%v", err)
-	} else if !reflect.DeepEqual(response, test.Expected.GetCard) {
-		t.Errorf("incorrect response\n   expected:%#v\n   got:     %#v", test.Expected.GetCard, response)
+	} else if !reflect.DeepEqual(response, expected) {
+		t.Errorf("incorrect response\n   expected:%#v\n   got:     %#v", expected, response)
 	}
 }
 
-func TestGetCardNotFound(t *testing.T) {
-	controller := uint32(405419896)
+func TestGetCardNotFoundX(t *testing.T) {
+	expected := test.Expected.GetCardNotFound
 
+	controller := uint32(405419896)
 	card := uint32(10058401)
 
 	response, err := uhppoted.GetCard(u, controller, card, timeout)
 
 	if err != nil {
 		t.Fatalf("%v", err)
-	} else if !reflect.DeepEqual(response, test.Expected.GetCardNotFound) {
-		t.Errorf("incorrect response\n   expected:%#v\n   got:     %#v", test.Expected.GetCardNotFound, response)
+	} else if !reflect.DeepEqual(response, expected) {
+		t.Errorf("incorrect response\n   expected:%#v\n   got:     %#v", expected, response)
 	}
 }
 
-func TestGetCardAtIndex(t *testing.T) {
-	controller := uint32(405419896)
+func TestGetCardAtIndexX(t *testing.T) {
+	expected := test.Expected.GetCardAtIndex
 
+	controller := uint32(405419896)
 	index := uint32(135)
 
 	response, err := uhppoted.GetCardAtIndex(u, controller, index, timeout)
 
 	if err != nil {
 		t.Fatalf("%v", err)
-	} else if !reflect.DeepEqual(response, test.Expected.GetCardAtIndex) {
-		t.Errorf("incorrect response\n   expected:%#v\n   got:     %#v", test.Expected.GetCardAtIndex, response)
+	} else if !reflect.DeepEqual(response, expected) {
+		t.Errorf("incorrect response\n   expected:%#v\n   got:     %#v", expected, response)
 	}
 }
 
-func TestGetCardAtIndexNotFound(t *testing.T) {
-	controller := uint32(405419896)
+func TestGetCardAtIndexNotFoundX(t *testing.T) {
+	expected := test.Expected.GetCardAtIndexNotFound
 
+	controller := uint32(405419896)
 	index := uint32(136)
 
 	response, err := uhppoted.GetCardAtIndex(u, controller, index, timeout)
 
 	if err != nil {
 		t.Fatalf("%v", err)
-	} else if !reflect.DeepEqual(response, test.Expected.GetCardAtIndexNotFound) {
-		t.Errorf("incorrect response\n   expected:%#v\n   got:     %#v", test.Expected.GetCardAtIndexNotFound, response)
+	} else if !reflect.DeepEqual(response, expected) {
+		t.Errorf("incorrect response\n   expected:%#v\n   got:     %#v", expected, response)
 	}
 }
 
-func TestGetCardAtIndexDeleted(t *testing.T) {
-	controller := uint32(405419896)
+func TestGetCardAtIndexDeletedX(t *testing.T) {
+	expected := test.Expected.GetCardAtIndexDeleted
 
+	controller := uint32(405419896)
 	index := uint32(137)
 
 	response, err := uhppoted.GetCardAtIndex(u, controller, index, timeout)
 
 	if err != nil {
 		t.Fatalf("%v", err)
-	} else if !reflect.DeepEqual(response, test.Expected.GetCardAtIndexDeleted) {
-		t.Errorf("incorrect response\n   expected:%#v\n   got:     %#v", test.Expected.GetCardAtIndexDeleted, response)
+	} else if !reflect.DeepEqual(response, expected) {
+		t.Errorf("incorrect response\n   expected:%#v\n   got:     %#v", expected, response)
 	}
 }
 
-func TestPutCard(t *testing.T) {
-	controller := uint32(405419896)
+func TestPutCardX(t *testing.T) {
+	expected := test.Expected.PutCard
 
+	controller := uint32(405419896)
 	card := uint32(10058400)
 	startDate := types.MustParseDate("2025-01-01")
 	endDate := types.MustParseDate("2025-12-31")
@@ -315,136 +346,148 @@ func TestPutCard(t *testing.T) {
 
 	if err != nil {
 		t.Fatalf("%v", err)
-	} else if !reflect.DeepEqual(response, test.Expected.PutCard) {
-		t.Errorf("incorrect response\n   expected:%#v\n   got:     %#v", test.Expected.PutCard, response)
+	} else if !reflect.DeepEqual(response, expected) {
+		t.Errorf("incorrect response\n   expected:%#v\n   got:     %#v", expected, response)
 	}
 }
 
-func TestDeleteCard(t *testing.T) {
-	controller := uint32(405419896)
+func TestDeleteCardX(t *testing.T) {
+	expected := test.Expected.DeleteCard
 
+	controller := uint32(405419896)
 	card := uint32(10058400)
 
 	response, err := uhppoted.DeleteCard(u, controller, card, timeout)
 
 	if err != nil {
 		t.Fatalf("%v", err)
-	} else if !reflect.DeepEqual(response, test.Expected.DeleteCard) {
-		t.Errorf("incorrect response\n   expected:%#v\n   got:     %#v", test.Expected.DeleteCard, response)
+	} else if !reflect.DeepEqual(response, expected) {
+		t.Errorf("incorrect response\n   expected:%#v\n   got:     %#v", expected, response)
 	}
 }
 
-func TestDeleteAllCards(t *testing.T) {
+func TestDeleteAllCardsX(t *testing.T) {
+	expected := test.Expected.DeleteAllCards
+
 	controller := uint32(405419896)
 
 	response, err := uhppoted.DeleteAllCards(u, controller, timeout)
 
 	if err != nil {
 		t.Fatalf("%v", err)
-	} else if !reflect.DeepEqual(response, test.Expected.DeleteAllCards) {
-		t.Errorf("incorrect response\n   expected:%#v\n   got:     %#v", test.Expected.DeleteAllCards, response)
+	} else if !reflect.DeepEqual(response, expected) {
+		t.Errorf("incorrect response\n   expected:%#v\n   got:     %#v", expected, response)
 	}
 }
 
-func TestGetEvent(t *testing.T) {
-	controller := uint32(405419896)
+func TestGetEventX(t *testing.T) {
+	expected := test.Expected.GetEvent
 
+	controller := uint32(405419896)
 	eventIndex := uint32(13579)
 
 	response, err := uhppoted.GetEvent(u, controller, eventIndex, timeout)
 
 	if err != nil {
 		t.Fatalf("%v", err)
-	} else if !reflect.DeepEqual(response, test.Expected.GetEvent) {
-		t.Errorf("incorrect response\n   expected:%#v\n   got:     %#v", test.Expected.GetEvent, response)
+	} else if !reflect.DeepEqual(response, expected) {
+		t.Errorf("incorrect response\n   expected:%#v\n   got:     %#v", expected, response)
 	}
 }
 
-func TestGetEventNotFound(t *testing.T) {
-	controller := uint32(405419896)
+func TestGetEventNotFoundX(t *testing.T) {
+	expected := test.Expected.GetEventNotFound
 
+	controller := uint32(405419896)
 	eventIndex := uint32(24680)
 
 	response, err := uhppoted.GetEvent(u, controller, eventIndex, timeout)
 
 	if err != nil {
 		t.Fatalf("%v", err)
-	} else if !reflect.DeepEqual(response, test.Expected.GetEventNotFound) {
-		t.Errorf("incorrect response\n   expected:%#v\n   got:     %#v", test.Expected.GetEventNotFound, response)
+	} else if !reflect.DeepEqual(response, expected) {
+		t.Errorf("incorrect response\n   expected:%#v\n   got:     %#v", expected, response)
 	}
 }
 
-func TestGetEventOverwritten(t *testing.T) {
-	controller := uint32(405419896)
+func TestGetEventOverwrittenX(t *testing.T) {
+	expected := test.Expected.GetEventOverwritten
 
+	controller := uint32(405419896)
 	eventIndex := uint32(98765)
 
 	response, err := uhppoted.GetEvent(u, controller, eventIndex, timeout)
 
 	if err != nil {
 		t.Fatalf("%v", err)
-	} else if !reflect.DeepEqual(response, test.Expected.GetEventOverwritten) {
-		t.Errorf("incorrect response\n   expected:%#v\n   got:     %#v", test.Expected.GetEventOverwritten, response)
+	} else if !reflect.DeepEqual(response, expected) {
+		t.Errorf("incorrect response\n   expected:%#v\n   got:     %#v", expected, response)
 	}
 }
 
-func TestGetEventIndex(t *testing.T) {
+func TestGetEventIndexX(t *testing.T) {
+	expected := test.Expected.GetEventIndex
+
 	controller := uint32(405419896)
 
 	response, err := uhppoted.GetEventIndex(u, controller, timeout)
 
 	if err != nil {
 		t.Fatalf("%v", err)
-	} else if !reflect.DeepEqual(response, test.Expected.GetEventIndex) {
-		t.Errorf("incorrect response\n   expected:%#v\n   got:     %#v", test.Expected.GetEventIndex, response)
+	} else if !reflect.DeepEqual(response, expected) {
+		t.Errorf("incorrect response\n   expected:%#v\n   got:     %#v", expected, response)
 	}
 }
 
-func TestSetEventIndex(t *testing.T) {
-	controller := uint32(405419896)
+func TestSetEventIndexX(t *testing.T) {
+	expected := test.Expected.SetEventIndex
 
+	controller := uint32(405419896)
 	index := uint32(13579)
 
 	response, err := uhppoted.SetEventIndex(u, controller, index, timeout)
 
 	if err != nil {
 		t.Fatalf("%v", err)
-	} else if !reflect.DeepEqual(response, test.Expected.SetEventIndex) {
-		t.Errorf("incorrect response\n   expected:%#v\n   got:     %#v", test.Expected.SetEventIndex, response)
+	} else if !reflect.DeepEqual(response, expected) {
+		t.Errorf("incorrect response\n   expected:%#v\n   got:     %#v", expected, response)
 	}
 }
 
-func TestRecordSpecialEvents(t *testing.T) {
-	controller := uint32(405419896)
+func TestRecordSpecialEventsX(t *testing.T) {
+	expected := test.Expected.RecordSpecialEvents
 
+	controller := uint32(405419896)
 	enabled := true
 
 	response, err := uhppoted.RecordSpecialEvents(u, controller, enabled, timeout)
 
 	if err != nil {
 		t.Fatalf("%v", err)
-	} else if !reflect.DeepEqual(response, test.Expected.RecordSpecialEvents) {
-		t.Errorf("incorrect response\n   expected:%#v\n   got:     %#v", test.Expected.RecordSpecialEvents, response)
+	} else if !reflect.DeepEqual(response, expected) {
+		t.Errorf("incorrect response\n   expected:%#v\n   got:     %#v", expected, response)
 	}
 }
 
-func TestGetTimeProfile(t *testing.T) {
-	controller := uint32(405419896)
+func TestGetTimeProfileX(t *testing.T) {
+	expected := test.Expected.GetTimeProfile
 
+	controller := uint32(405419896)
 	profile := uint8(37)
 
 	response, err := uhppoted.GetTimeProfile(u, controller, profile, timeout)
 
 	if err != nil {
 		t.Fatalf("%v", err)
-	} else if !reflect.DeepEqual(response, test.Expected.GetTimeProfile) {
-		t.Errorf("incorrect response\n   expected:%#v\n   got:     %#v", test.Expected.GetTimeProfile, response)
+	} else if !reflect.DeepEqual(response, expected) {
+		t.Errorf("incorrect response\n   expected:%#v\n   got:     %#v", expected, response)
 	}
 }
 
-func TestSetTimeProfile(t *testing.T) {
-	controller := uint32(405419896)
+func TestSetTimeProfileX(t *testing.T) {
+	expected := test.Expected.SetTimeProfile
 
+	controller := uint32(405419896)
 	profile := uint8(37)
 	startDate := types.MustParseDate("2025-11-26")
 	endDate := types.MustParseDate("2025-12-29")
@@ -467,26 +510,29 @@ func TestSetTimeProfile(t *testing.T) {
 
 	if err != nil {
 		t.Fatalf("%v", err)
-	} else if !reflect.DeepEqual(response, test.Expected.SetTimeProfile) {
-		t.Errorf("incorrect response\n   expected:%#v\n   got:     %#v", test.Expected.SetTimeProfile, response)
+	} else if !reflect.DeepEqual(response, expected) {
+		t.Errorf("incorrect response\n   expected:%#v\n   got:     %#v", expected, response)
 	}
 }
 
-func TestClearTimeProfiles(t *testing.T) {
+func TestClearTimeProfilesX(t *testing.T) {
+	expected := test.Expected.ClearTimeProfiles
+
 	controller := uint32(405419896)
 
 	response, err := uhppoted.ClearTimeProfiles(u, controller, timeout)
 
 	if err != nil {
 		t.Fatalf("%v", err)
-	} else if !reflect.DeepEqual(response, test.Expected.ClearTimeProfiles) {
-		t.Errorf("incorrect response\n   expected:%#v\n   got:     %#v", test.Expected.ClearTimeProfiles, response)
+	} else if !reflect.DeepEqual(response, expected) {
+		t.Errorf("incorrect response\n   expected:%#v\n   got:     %#v", expected, response)
 	}
 }
 
-func TestAddTask(t *testing.T) {
-	controller := uint32(405419896)
+func TestAddTaskX(t *testing.T) {
+	expected := test.Expected.AddTask
 
+	controller := uint32(405419896)
 	task := types.TaskType(2)
 	startDate := types.MustParseDate("2025-01-01")
 	endDate := types.MustParseDate("2025-12-31")
@@ -505,66 +551,73 @@ func TestAddTask(t *testing.T) {
 
 	if err != nil {
 		t.Fatalf("%v", err)
-	} else if !reflect.DeepEqual(response, test.Expected.AddTask) {
-		t.Errorf("incorrect response\n   expected:%#v\n   got:     %#v", test.Expected.AddTask, response)
+	} else if !reflect.DeepEqual(response, expected) {
+		t.Errorf("incorrect response\n   expected:%#v\n   got:     %#v", expected, response)
 	}
 }
 
-func TestRefreshTaskList(t *testing.T) {
+func TestRefreshTaskListX(t *testing.T) {
+	expected := test.Expected.RefreshTaskList
+
 	controller := uint32(405419896)
 
 	response, err := uhppoted.RefreshTaskList(u, controller, timeout)
 
 	if err != nil {
 		t.Fatalf("%v", err)
-	} else if !reflect.DeepEqual(response, test.Expected.RefreshTaskList) {
-		t.Errorf("incorrect response\n   expected:%#v\n   got:     %#v", test.Expected.RefreshTaskList, response)
+	} else if !reflect.DeepEqual(response, expected) {
+		t.Errorf("incorrect response\n   expected:%#v\n   got:     %#v", expected, response)
 	}
 }
 
-func TestClearTaskList(t *testing.T) {
+func TestClearTaskListX(t *testing.T) {
+	expected := test.Expected.ClearTaskList
+
 	controller := uint32(405419896)
 
 	response, err := uhppoted.ClearTaskList(u, controller, timeout)
 
 	if err != nil {
 		t.Fatalf("%v", err)
-	} else if !reflect.DeepEqual(response, test.Expected.ClearTaskList) {
-		t.Errorf("incorrect response\n   expected:%#v\n   got:     %#v", test.Expected.ClearTaskList, response)
+	} else if !reflect.DeepEqual(response, expected) {
+		t.Errorf("incorrect response\n   expected:%#v\n   got:     %#v", expected, response)
 	}
 }
 
-func TestSetPcControl(t *testing.T) {
-	controller := uint32(405419896)
+func TestSetPcControlX(t *testing.T) {
+	expected := test.Expected.SetPcControl
 
+	controller := uint32(405419896)
 	enabled := true
 
 	response, err := uhppoted.SetPCControl(u, controller, enabled, timeout)
 
 	if err != nil {
 		t.Fatalf("%v", err)
-	} else if !reflect.DeepEqual(response, test.Expected.SetPcControl) {
-		t.Errorf("incorrect response\n   expected:%#v\n   got:     %#v", test.Expected.SetPcControl, response)
+	} else if !reflect.DeepEqual(response, expected) {
+		t.Errorf("incorrect response\n   expected:%#v\n   got:     %#v", expected, response)
 	}
 }
 
-func TestSetInterlock(t *testing.T) {
-	controller := uint32(405419896)
+func TestSetInterlockX(t *testing.T) {
+	expected := test.Expected.SetInterlock
 
+	controller := uint32(405419896)
 	interlock := types.Interlock(8)
 
 	response, err := uhppoted.SetInterlock(u, controller, interlock, timeout)
 
 	if err != nil {
 		t.Fatalf("%v", err)
-	} else if !reflect.DeepEqual(response, test.Expected.SetInterlock) {
-		t.Errorf("incorrect response\n   expected:%#v\n   got:     %#v", test.Expected.SetInterlock, response)
+	} else if !reflect.DeepEqual(response, expected) {
+		t.Errorf("incorrect response\n   expected:%#v\n   got:     %#v", expected, response)
 	}
 }
 
-func TestActivateKeypads(t *testing.T) {
-	controller := uint32(405419896)
+func TestActivateKeypadsX(t *testing.T) {
+	expected := test.Expected.ActivateKeypads
 
+	controller := uint32(405419896)
 	reader1 := true
 	reader2 := true
 	reader3 := false
@@ -574,45 +627,50 @@ func TestActivateKeypads(t *testing.T) {
 
 	if err != nil {
 		t.Fatalf("%v", err)
-	} else if !reflect.DeepEqual(response, test.Expected.ActivateKeypads) {
-		t.Errorf("incorrect response\n   expected:%#v\n   got:     %#v", test.Expected.ActivateKeypads, response)
+	} else if !reflect.DeepEqual(response, expected) {
+		t.Errorf("incorrect response\n   expected:%#v\n   got:     %#v", expected, response)
 	}
 }
 
-func TestGetAntipassback(t *testing.T) {
+func TestGetAntipassbackX(t *testing.T) {
+	expected := test.Expected.GetAntipassback
+
 	controller := uint32(405419896)
 
 	response, err := uhppoted.GetAntiPassback(u, controller, timeout)
 
 	if err != nil {
 		t.Fatalf("%v", err)
-	} else if !reflect.DeepEqual(response, test.Expected.GetAntipassback) {
-		t.Errorf("incorrect response\n   expected:%#v\n   got:     %#v", test.Expected.GetAntipassback, response)
+	} else if !reflect.DeepEqual(response, expected) {
+		t.Errorf("incorrect response\n   expected:%#v\n   got:     %#v", expected, response)
 	}
 }
 
-func TestSetAntipassback(t *testing.T) {
-	controller := uint32(405419896)
+func TestSetAntipassbackX(t *testing.T) {
+	expected := test.Expected.SetAntipassback
 
+	controller := uint32(405419896)
 	antipassback := types.AntiPassback(2)
 
 	response, err := uhppoted.SetAntiPassback(u, controller, antipassback, timeout)
 
 	if err != nil {
 		t.Fatalf("%v", err)
-	} else if !reflect.DeepEqual(response, test.Expected.SetAntipassback) {
-		t.Errorf("incorrect response\n   expected:%#v\n   got:     %#v", test.Expected.SetAntipassback, response)
+	} else if !reflect.DeepEqual(response, expected) {
+		t.Errorf("incorrect response\n   expected:%#v\n   got:     %#v", expected, response)
 	}
 }
 
-func TestRestoreDefaultParameters(t *testing.T) {
+func TestRestoreDefaultParametersX(t *testing.T) {
+	expected := test.Expected.RestoreDefaultParameters
+
 	controller := uint32(405419896)
 
 	response, err := uhppoted.RestoreDefaultParameters(u, controller, timeout)
 
 	if err != nil {
 		t.Fatalf("%v", err)
-	} else if !reflect.DeepEqual(response, test.Expected.RestoreDefaultParameters) {
-		t.Errorf("incorrect response\n   expected:%#v\n   got:     %#v", test.Expected.RestoreDefaultParameters, response)
+	} else if !reflect.DeepEqual(response, expected) {
+		t.Errorf("incorrect response\n   expected:%#v\n   got:     %#v", expected, response)
 	}
 }
