@@ -20,7 +20,7 @@ import (
 )
 
 func broadcastAST() {
-	outfile := filepath.Join(".", "default", "_api_test.go")
+	outfile := filepath.Join(".", "default", "api_test.go")
 	decl := buildBroadcast()
 
 	// .. convert dst to ast
@@ -76,14 +76,14 @@ func buildBroadcast() *dst.File {
 
 			&dst.ImportSpec{
 				Path: &dst.BasicLit{
-					Kind: token.STRING,
-				},
-			},
-
-			&dst.ImportSpec{
-				Path: &dst.BasicLit{
 					Kind:  token.STRING,
 					Value: `"github.com/uhppoted/uhppoted-lib-go/src/uhppoted"`,
+				},
+
+				Decs: dst.ImportSpecDecorations{
+					NodeDecs: dst.NodeDecs{
+						Before: dst.EmptyLine,
+					},
 				},
 			},
 			&dst.ImportSpec{
@@ -94,16 +94,16 @@ func buildBroadcast() *dst.File {
 			},
 
 			&dst.ImportSpec{
-				Path: &dst.BasicLit{
-					Kind: token.STRING,
-				},
-			},
-
-			&dst.ImportSpec{
-				Name: dst.NewIdent("tests"),
+				Name: dst.NewIdent("test"),
 				Path: &dst.BasicLit{
 					Kind:  token.STRING,
-					Value: `"github.com/uhppoted/uhppoted-lib-go/src/uhppoted/integration-tests"`,
+					Value: `"integration-tests"`,
+				},
+
+				Decs: dst.ImportSpecDecorations{
+					NodeDecs: dst.NodeDecs{
+						Before: dst.EmptyLine,
+					},
 				},
 			},
 		},
@@ -132,7 +132,7 @@ func buildBroadcast() *dst.File {
 }
 
 func buildBroadcastTestFunc(fn lib.Function, test lib.FuncTest) *dst.FuncDecl {
-	name := fmt.Sprintf("Test%v", codegen.TitleCase(test.Name))
+	name := fmt.Sprintf("Test%vX", codegen.TitleCase(test.Name))
 
 	f := &dst.FuncDecl{
 		Name: dst.NewIdent(name),
@@ -164,43 +164,36 @@ func buildBroadcastTestFunc(fn lib.Function, test lib.FuncTest) *dst.FuncDecl {
 }
 
 func buildBroadcastTestImpl(fn lib.Function, test lib.FuncTest) *dst.BlockStmt {
-	if fn.Name == "find-controllers" {
-		return &dst.BlockStmt{
-			List: []dst.Stmt{
-				buildBroadcastTestExpected(fn, test),
-				buildBroadcastTestValidate(fn, test),
-			},
-		}
-	} else {
-		return &dst.BlockStmt{
-			List: []dst.Stmt{
-				buildBroadcastTestController(fn, test),
-				buildBroadcastTestExpected(fn, test),
-				buildBroadcastTestValidate(fn, test),
-			},
-		}
-
+	block := &dst.BlockStmt{
+		List: []dst.Stmt{},
 	}
+
+	block.List = append(block.List, buildBroadcastTestExpected(fn, test))
+	block.List = append(block.List, buildBroadcastTestArgs(fn, test)...)
+	block.List = append(block.List, buildBroadcastTestExec(fn, test))
+	block.List = append(block.List, buildBroadcastTestValidate(fn, test))
+
+	return block
 }
 
-func buildBroadcastTestController(fn lib.Function, test lib.FuncTest) dst.Stmt {
-	controller := dst.AssignStmt{
-		Lhs: []dst.Expr{dst.NewIdent("controller")},
-		Tok: token.DEFINE,
-		Rhs: []dst.Expr{
-			&dst.CallExpr{
-				Fun: &dst.Ident{Name: "uint32"},
-				Args: []dst.Expr{
-					&dst.BasicLit{Kind: token.INT, Value: "405419896"}},
-			},
-		},
+func buildBroadcastTestArgs(fn lib.Function, test lib.FuncTest) []dst.Stmt {
+	args := []dst.Stmt{}
 
-		Decs: dst.AssignStmtDecorations{
-			NodeDecs: dst.NodeDecs{After: dst.EmptyLine},
-		},
+	for _, arg := range test.Args {
+		name := codegen.CamelCase(arg.Name)
+
+		args = append(args, &dst.AssignStmt{
+			Lhs: []dst.Expr{
+				dst.NewIdent(name),
+			},
+			Tok: token.DEFINE,
+			Rhs: []dst.Expr{
+				buildBroadcastTestArg(arg),
+			},
+		})
 	}
 
-	return &controller
+	return args
 }
 
 func buildBroadcastTestExpected(fn lib.Function, test lib.FuncTest) dst.Stmt {
@@ -221,7 +214,209 @@ func buildBroadcastTestExpected(fn lib.Function, test lib.FuncTest) dst.Stmt {
 		},
 
 		Decs: dst.AssignStmtDecorations{
-			NodeDecs: dst.NodeDecs{After: dst.EmptyLine},
+			NodeDecs: dst.NodeDecs{
+				After: dst.EmptyLine,
+			},
+		},
+	}
+}
+
+func buildBroadcastTestArg(arg lib.Arg) dst.Expr {
+	switch arg.Type {
+	case "bool":
+		return &dst.BasicLit{
+			Kind:  token.IDENT,
+			Value: fmt.Sprintf(`%v`, arg.Value),
+		}
+
+	case "uint8":
+		return &dst.CallExpr{
+			Fun: &dst.Ident{Name: "uint8"},
+			Args: []dst.Expr{
+				&dst.BasicLit{
+					Kind:  token.STRING,
+					Value: fmt.Sprintf(`%v`, arg.Value),
+				},
+			},
+		}
+
+	case "uint16":
+		return &dst.CallExpr{
+			Fun: &dst.Ident{Name: "uint16"},
+			Args: []dst.Expr{
+				&dst.BasicLit{
+					Kind:  token.STRING,
+					Value: fmt.Sprintf(`%v`, arg.Value),
+				},
+			},
+		}
+
+	case "uint32":
+		return &dst.CallExpr{
+			Fun: &dst.Ident{Name: "uint32"},
+			Args: []dst.Expr{
+				&dst.BasicLit{
+					Kind:  token.STRING,
+					Value: fmt.Sprintf(`%v`, arg.Value),
+				},
+			},
+		}
+
+	case "IPv4":
+		return &dst.CallExpr{
+			Fun: &dst.Ident{Name: "netip.MustParseAddr"},
+			Args: []dst.Expr{
+				&dst.BasicLit{
+					Kind:  token.STRING,
+					Value: fmt.Sprintf(`"%v"`, arg.Value),
+				},
+			},
+		}
+
+	case "address:port":
+		return &dst.CallExpr{
+			Fun: &dst.Ident{Name: "netip.MustParseAddrPort"},
+			Args: []dst.Expr{
+				&dst.BasicLit{
+					Kind:  token.STRING,
+					Value: fmt.Sprintf(`"%v"`, arg.Value),
+				},
+			},
+		}
+
+	case "datetime":
+		return &dst.CallExpr{
+			Fun: &dst.Ident{Name: "types.MustParseDateTime"},
+			Args: []dst.Expr{
+				&dst.BasicLit{
+					Kind:  token.STRING,
+					Value: fmt.Sprintf(`"%v"`, arg.Value),
+				},
+			},
+		}
+
+	case "date":
+		return &dst.CallExpr{
+			Fun: &dst.Ident{Name: "types.MustParseDate"},
+			Args: []dst.Expr{
+				&dst.BasicLit{
+					Kind:  token.STRING,
+					Value: fmt.Sprintf(`"%v"`, arg.Value),
+				},
+			},
+		}
+
+	case "HHmm":
+		return &dst.CallExpr{
+			Fun: &dst.Ident{Name: "types.MustParseHHmm"},
+			Args: []dst.Expr{
+				&dst.BasicLit{
+					Kind:  token.STRING,
+					Value: fmt.Sprintf(`"%v"`, arg.Value),
+				},
+			},
+		}
+
+	case "pin":
+		return &dst.CallExpr{
+			Fun: &dst.Ident{Name: "uint32"},
+			Args: []dst.Expr{
+				&dst.BasicLit{
+					Kind:  token.STRING,
+					Value: fmt.Sprintf(`%v`, arg.Value),
+				},
+			},
+		}
+
+	case "mode":
+		return &dst.CallExpr{
+			Fun: &dst.Ident{Name: "types.DoorMode"},
+			Args: []dst.Expr{
+				&dst.BasicLit{
+					Kind:  token.INT,
+					Value: fmt.Sprintf(`%v`, arg.Value),
+				},
+			},
+		}
+
+	case "task":
+		return &dst.CallExpr{
+			Fun: &dst.Ident{Name: "types.TaskType"},
+			Args: []dst.Expr{
+				&dst.BasicLit{
+					Kind:  token.INT,
+					Value: fmt.Sprintf(`%v`, arg.Value),
+				},
+			},
+		}
+
+	case "interlock":
+		return &dst.CallExpr{
+			Fun: &dst.Ident{Name: "types.Interlock"},
+			Args: []dst.Expr{
+				&dst.BasicLit{
+					Kind:  token.INT,
+					Value: fmt.Sprintf(`%v`, arg.Value),
+				},
+			},
+		}
+
+	case "anti-passback":
+		return &dst.CallExpr{
+			Fun: &dst.Ident{Name: "types.AntiPassback"},
+			Args: []dst.Expr{
+				&dst.BasicLit{
+					Kind:  token.INT,
+					Value: fmt.Sprintf(`%v`, arg.Value),
+				},
+			},
+		}
+
+	default:
+		panic(fmt.Sprintf("unknown arg type '%v'", arg.Type))
+	}
+}
+
+func buildBroadcastTestExec(fn lib.Function, test lib.FuncTest) dst.Stmt {
+	name := codegen.TitleCase(fn.Name)
+
+	args := []dst.Expr{
+		&dst.Ident{
+			Name: "u",
+		},
+	}
+
+	for _, arg := range test.Args {
+		args = append(args, &dst.Ident{
+			Name: codegen.CamelCase(arg.Name),
+		})
+	}
+
+	args = append(args, &dst.Ident{
+		Name: "timeout",
+	})
+
+	return &dst.AssignStmt{
+		Lhs: []dst.Expr{
+			dst.NewIdent("response"),
+			dst.NewIdent("err"),
+		},
+		Tok: token.DEFINE,
+		Rhs: []dst.Expr{
+			&dst.CallExpr{
+				Fun: &dst.SelectorExpr{
+					X:   dst.NewIdent("uhppoted"),
+					Sel: dst.NewIdent(name),
+				},
+				Args: args,
+			},
+		},
+
+		Decs: dst.AssignStmtDecorations{
+			NodeDecs: dst.NodeDecs{
+				Before: dst.EmptyLine,
+				After:  dst.EmptyLine,
+			},
 		},
 	}
 }
@@ -274,7 +469,7 @@ func buildBroadcastTestValidate(fn lib.Function, test lib.FuncTest) dst.Stmt {
 							Args: []dst.Expr{
 								&dst.BasicLit{
 									Kind:  token.STRING,
-									Value: `"incorrect response:\n   expected: %#v\n   got:      %#v"`,
+									Value: `"incorrect response\n   expected:%#v\n   got:     %#v"`,
 								},
 								&dst.Ident{Name: "expected"},
 								&dst.Ident{Name: "response"},

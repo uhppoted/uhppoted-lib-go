@@ -4,7 +4,7 @@
 - [ ] integration tests: AST codegen
     - [x] messages
     - [x] expected
-    - [ ] default
+    - [x] default
     - [ ] udp
     - [ ] tcp
 

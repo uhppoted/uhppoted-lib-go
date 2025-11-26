@@ -9,10 +9,11 @@ import (
 
 	"github.com/uhppoted/uhppoted-lib-go/src/uhppoted"
 	"github.com/uhppoted/uhppoted-lib-go/src/uhppoted/types"
+
 	test "integration-tests"
 )
 
-func TestFindControllers(t *testing.T) {
+func TestFindControllersX(t *testing.T) {
 	expected := test.Expected.FindControllers
 
 	response, err := uhppoted.FindControllers(u, timeout)
@@ -24,10 +25,10 @@ func TestFindControllers(t *testing.T) {
 	}
 }
 
-func TestGetController(t *testing.T) {
-	controller := uint32(405419896)
-
+func TestGetControllerX(t *testing.T) {
 	expected := test.Expected.GetController
+
+	controller := uint32(405419896)
 
 	response, err := uhppoted.GetController(u, controller, timeout)
 
@@ -38,14 +39,13 @@ func TestGetController(t *testing.T) {
 	}
 }
 
-func TestSetIPv4(t *testing.T) {
-	controller := uint32(405419896)
+func TestSetIPv4X(t *testing.T) {
+	expected := test.Expected.SetIPv4
 
+	controller := uint32(405419896)
 	address := netip.MustParseAddr("192.168.1.125")
 	netmask := netip.MustParseAddr("255.255.255.0")
 	gateway := netip.MustParseAddr("192.168.1.1")
-
-	expected := test.Expected.SetIPv4
 
 	response, err := uhppoted.SetIPv4(u, controller, address, netmask, gateway, timeout)
 
@@ -56,10 +56,10 @@ func TestSetIPv4(t *testing.T) {
 	}
 }
 
-func TestGetTime(t *testing.T) {
-	controller := uint32(405419896)
-
+func TestGetTimeX(t *testing.T) {
 	expected := test.Expected.GetTime
+
+	controller := uint32(405419896)
 
 	response, err := uhppoted.GetTime(u, controller, timeout)
 
@@ -70,12 +70,11 @@ func TestGetTime(t *testing.T) {
 	}
 }
 
-func TestSetTime(t *testing.T) {
-	controller := uint32(405419896)
-
-	dateTime := types.MustParseDateTime("2025-11-04 12:34:56")
-
+func TestSetTimeX(t *testing.T) {
 	expected := test.Expected.SetTime
+
+	controller := uint32(405419896)
+	dateTime := types.MustParseDateTime("2025-11-04 12:34:56")
 
 	response, err := uhppoted.SetTime(u, controller, dateTime, timeout)
 
@@ -86,10 +85,10 @@ func TestSetTime(t *testing.T) {
 	}
 }
 
-func TestGetListener(t *testing.T) {
-	controller := uint32(405419896)
-
+func TestGetListenerX(t *testing.T) {
 	expected := test.Expected.GetListener
+
+	controller := uint32(405419896)
 
 	response, err := uhppoted.GetListener(u, controller, timeout)
 
@@ -100,14 +99,13 @@ func TestGetListener(t *testing.T) {
 	}
 }
 
-func TestSetListener(t *testing.T) {
-	controller := uint32(405419896)
+func TestSetListenerX(t *testing.T) {
+	expected := test.Expected.SetListener
 
+	controller := uint32(405419896)
 	address := netip.MustParseAddr("192.168.1.100")
 	port := uint16(60001)
 	interval := uint8(17)
-
-	expected := test.Expected.SetListener
 
 	response, err := uhppoted.SetListener(u, controller, address, port, interval, timeout)
 
@@ -118,10 +116,10 @@ func TestSetListener(t *testing.T) {
 	}
 }
 
-func TestGetListenerAddrPort(t *testing.T) {
-	controller := uint32(405419897)
-
+func TestGetListenerAddrPortX(t *testing.T) {
 	expected := test.Expected.GetListenerAddrPort
+
+	controller := uint32(405419897)
 
 	response, err := uhppoted.GetListenerAddrPort(u, controller, timeout)
 
@@ -132,13 +130,12 @@ func TestGetListenerAddrPort(t *testing.T) {
 	}
 }
 
-func TestSetListenerAddrPort(t *testing.T) {
-	controller := uint32(405419897)
+func TestSetListenerAddrPortX(t *testing.T) {
+	expected := test.Expected.SetListenerAddrPort
 
+	controller := uint32(405419897)
 	listener := netip.MustParseAddrPort("192.168.1.100:60001")
 	interval := uint8(17)
-
-	expected := test.Expected.SetListenerAddrPort
 
 	response, err := uhppoted.SetListenerAddrPort(u, controller, listener, interval, timeout)
 
@@ -149,12 +146,11 @@ func TestSetListenerAddrPort(t *testing.T) {
 	}
 }
 
-func TestGetDoor(t *testing.T) {
-	controller := uint32(405419896)
-
-	door := uint8(4)
-
+func TestGetDoorX(t *testing.T) {
 	expected := test.Expected.GetDoor
+
+	controller := uint32(405419896)
+	door := uint8(4)
 
 	response, err := uhppoted.GetDoor(u, controller, door, timeout)
 
@@ -165,14 +161,13 @@ func TestGetDoor(t *testing.T) {
 	}
 }
 
-func TestSetDoor(t *testing.T) {
-	controller := uint32(405419896)
+func TestSetDoorX(t *testing.T) {
+	expected := test.Expected.SetDoor
 
+	controller := uint32(405419896)
 	door := uint8(4)
 	mode := types.DoorMode(2)
 	delay := uint8(17)
-
-	expected := test.Expected.SetDoor
 
 	response, err := uhppoted.SetDoor(u, controller, door, mode, delay, timeout)
 
@@ -183,16 +178,15 @@ func TestSetDoor(t *testing.T) {
 	}
 }
 
-func TestSetDoorPasscodes(t *testing.T) {
-	controller := uint32(405419896)
+func TestSetDoorPasscodesX(t *testing.T) {
+	expected := test.Expected.SetDoorPasscodes
 
+	controller := uint32(405419896)
 	door := uint8(4)
 	passcode1 := uint32(12345)
 	passcode2 := uint32(54321)
 	passcode3 := uint32(999999)
 	passcode4 := uint32(0)
-
-	expected := test.Expected.SetDoorPasscodes
 
 	response, err := uhppoted.SetDoorPasscodes(u, controller, door, passcode1, passcode2, passcode3, passcode4, timeout)
 
@@ -203,12 +197,11 @@ func TestSetDoorPasscodes(t *testing.T) {
 	}
 }
 
-func TestOpenDoor(t *testing.T) {
-	controller := uint32(405419896)
-
-	door := uint8(4)
-
+func TestOpenDoorX(t *testing.T) {
 	expected := test.Expected.OpenDoor
+
+	controller := uint32(405419896)
+	door := uint8(4)
 
 	response, err := uhppoted.OpenDoor(u, controller, door, timeout)
 
@@ -219,38 +212,38 @@ func TestOpenDoor(t *testing.T) {
 	}
 }
 
-func TestGetStatus(t *testing.T) {
-	controller := uint32(405419896)
-
+func TestGetStatusX(t *testing.T) {
 	expected := test.Expected.GetStatus
 
-	response, err := uhppoted.GetStatus(u, controller, timeout)
-
-	if err != nil {
-		t.Fatalf("%v", err)
-	} else if !reflect.DeepEqual(response, expected) {
-		t.Errorf("incorrect response\n   expected:%#v\n   got:     %#v", expected, response)
-	}
-}
-
-func TestGetStatusNoEvent(t *testing.T) {
-	controller := uint32(405419897)
-
-	expected := test.Expected.GetStatusNoEvent
-
-	response, err := uhppoted.GetStatus(u, controller, timeout)
-
-	if err != nil {
-		t.Fatalf("%v", err)
-	} else if !reflect.DeepEqual(response, expected) {
-		t.Errorf("incorrect response\n   expected:%#v\n   got:     %#v", expected, response)
-	}
-}
-
-func TestGetCards(t *testing.T) {
 	controller := uint32(405419896)
 
+	response, err := uhppoted.GetStatus(u, controller, timeout)
+
+	if err != nil {
+		t.Fatalf("%v", err)
+	} else if !reflect.DeepEqual(response, expected) {
+		t.Errorf("incorrect response\n   expected:%#v\n   got:     %#v", expected, response)
+	}
+}
+
+func TestGetStatusNoEventX(t *testing.T) {
+	expected := test.Expected.GetStatusNoEvent
+
+	controller := uint32(405419897)
+
+	response, err := uhppoted.GetStatus(u, controller, timeout)
+
+	if err != nil {
+		t.Fatalf("%v", err)
+	} else if !reflect.DeepEqual(response, expected) {
+		t.Errorf("incorrect response\n   expected:%#v\n   got:     %#v", expected, response)
+	}
+}
+
+func TestGetCardsX(t *testing.T) {
 	expected := test.Expected.GetCards
+
+	controller := uint32(405419896)
 
 	response, err := uhppoted.GetCards(u, controller, timeout)
 
@@ -261,13 +254,12 @@ func TestGetCards(t *testing.T) {
 	}
 }
 
-func TestGetCard(t *testing.T) {
-	controller := uint32(405419896)
-
-	card := uint32(10058400)
-
+func TestGetCardX(t *testing.T) {
 	expected := test.Expected.GetCard
 
+	controller := uint32(405419896)
+	card := uint32(10058400)
+
 	response, err := uhppoted.GetCard(u, controller, card, timeout)
 
 	if err != nil {
@@ -277,13 +269,12 @@ func TestGetCard(t *testing.T) {
 	}
 }
 
-func TestGetCardNotFound(t *testing.T) {
-	controller := uint32(405419896)
-
-	card := uint32(10058401)
-
+func TestGetCardNotFoundX(t *testing.T) {
 	expected := test.Expected.GetCardNotFound
 
+	controller := uint32(405419896)
+	card := uint32(10058401)
+
 	response, err := uhppoted.GetCard(u, controller, card, timeout)
 
 	if err != nil {
@@ -293,13 +284,12 @@ func TestGetCardNotFound(t *testing.T) {
 	}
 }
 
-func TestGetCardAtIndex(t *testing.T) {
-	controller := uint32(405419896)
-
-	index := uint32(135)
-
+func TestGetCardAtIndexX(t *testing.T) {
 	expected := test.Expected.GetCardAtIndex
 
+	controller := uint32(405419896)
+	index := uint32(135)
+
 	response, err := uhppoted.GetCardAtIndex(u, controller, index, timeout)
 
 	if err != nil {
@@ -309,13 +299,12 @@ func TestGetCardAtIndex(t *testing.T) {
 	}
 }
 
-func TestGetCardAtIndexNotFound(t *testing.T) {
-	controller := uint32(405419896)
-
-	index := uint32(136)
-
+func TestGetCardAtIndexNotFoundX(t *testing.T) {
 	expected := test.Expected.GetCardAtIndexNotFound
 
+	controller := uint32(405419896)
+	index := uint32(136)
+
 	response, err := uhppoted.GetCardAtIndex(u, controller, index, timeout)
 
 	if err != nil {
@@ -325,13 +314,12 @@ func TestGetCardAtIndexNotFound(t *testing.T) {
 	}
 }
 
-func TestGetCardAtIndexDeleted(t *testing.T) {
-	controller := uint32(405419896)
-
-	index := uint32(137)
-
+func TestGetCardAtIndexDeletedX(t *testing.T) {
 	expected := test.Expected.GetCardAtIndexDeleted
 
+	controller := uint32(405419896)
+	index := uint32(137)
+
 	response, err := uhppoted.GetCardAtIndex(u, controller, index, timeout)
 
 	if err != nil {
@@ -341,9 +329,10 @@ func TestGetCardAtIndexDeleted(t *testing.T) {
 	}
 }
 
-func TestPutCard(t *testing.T) {
-	controller := uint32(405419896)
+func TestPutCardX(t *testing.T) {
+	expected := test.Expected.PutCard
 
+	controller := uint32(405419896)
 	card := uint32(10058400)
 	startDate := types.MustParseDate("2025-01-01")
 	endDate := types.MustParseDate("2025-12-31")
@@ -352,8 +341,6 @@ func TestPutCard(t *testing.T) {
 	door3 := uint8(17)
 	door4 := uint8(1)
 	PIN := uint32(999999)
-
-	expected := test.Expected.PutCard
 
 	response, err := uhppoted.PutCard(u, controller, card, startDate, endDate, door1, door2, door3, door4, PIN, timeout)
 
@@ -364,12 +351,11 @@ func TestPutCard(t *testing.T) {
 	}
 }
 
-func TestDeleteCard(t *testing.T) {
-	controller := uint32(405419896)
-
-	card := uint32(10058400)
-
+func TestDeleteCardX(t *testing.T) {
 	expected := test.Expected.DeleteCard
+
+	controller := uint32(405419896)
+	card := uint32(10058400)
 
 	response, err := uhppoted.DeleteCard(u, controller, card, timeout)
 
@@ -380,10 +366,10 @@ func TestDeleteCard(t *testing.T) {
 	}
 }
 
-func TestDeleteAllCards(t *testing.T) {
-	controller := uint32(405419896)
-
+func TestDeleteAllCardsX(t *testing.T) {
 	expected := test.Expected.DeleteAllCards
+
+	controller := uint32(405419896)
 
 	response, err := uhppoted.DeleteAllCards(u, controller, timeout)
 
@@ -394,13 +380,12 @@ func TestDeleteAllCards(t *testing.T) {
 	}
 }
 
-func TestGetEvent(t *testing.T) {
-	controller := uint32(405419896)
-
-	eventIndex := uint32(13579)
-
+func TestGetEventX(t *testing.T) {
 	expected := test.Expected.GetEvent
 
+	controller := uint32(405419896)
+	eventIndex := uint32(13579)
+
 	response, err := uhppoted.GetEvent(u, controller, eventIndex, timeout)
 
 	if err != nil {
@@ -410,13 +395,12 @@ func TestGetEvent(t *testing.T) {
 	}
 }
 
-func TestGetEventNotFound(t *testing.T) {
-	controller := uint32(405419896)
-
-	eventIndex := uint32(24680)
-
+func TestGetEventNotFoundX(t *testing.T) {
 	expected := test.Expected.GetEventNotFound
 
+	controller := uint32(405419896)
+	eventIndex := uint32(24680)
+
 	response, err := uhppoted.GetEvent(u, controller, eventIndex, timeout)
 
 	if err != nil {
@@ -426,13 +410,12 @@ func TestGetEventNotFound(t *testing.T) {
 	}
 }
 
-func TestGetEventOverwritten(t *testing.T) {
-	controller := uint32(405419896)
-
-	eventIndex := uint32(98765)
-
+func TestGetEventOverwrittenX(t *testing.T) {
 	expected := test.Expected.GetEventOverwritten
 
+	controller := uint32(405419896)
+	eventIndex := uint32(98765)
+
 	response, err := uhppoted.GetEvent(u, controller, eventIndex, timeout)
 
 	if err != nil {
@@ -442,10 +425,10 @@ func TestGetEventOverwritten(t *testing.T) {
 	}
 }
 
-func TestGetEventIndex(t *testing.T) {
-	controller := uint32(405419896)
-
+func TestGetEventIndexX(t *testing.T) {
 	expected := test.Expected.GetEventIndex
+
+	controller := uint32(405419896)
 
 	response, err := uhppoted.GetEventIndex(u, controller, timeout)
 
@@ -456,12 +439,11 @@ func TestGetEventIndex(t *testing.T) {
 	}
 }
 
-func TestSetEventIndex(t *testing.T) {
-	controller := uint32(405419896)
-
-	index := uint32(13579)
-
+func TestSetEventIndexX(t *testing.T) {
 	expected := test.Expected.SetEventIndex
+
+	controller := uint32(405419896)
+	index := uint32(13579)
 
 	response, err := uhppoted.SetEventIndex(u, controller, index, timeout)
 
@@ -472,12 +454,11 @@ func TestSetEventIndex(t *testing.T) {
 	}
 }
 
-func TestRecordSpecialEvents(t *testing.T) {
-	controller := uint32(405419896)
-
-	enabled := true
-
+func TestRecordSpecialEventsX(t *testing.T) {
 	expected := test.Expected.RecordSpecialEvents
+
+	controller := uint32(405419896)
+	enabled := true
 
 	response, err := uhppoted.RecordSpecialEvents(u, controller, enabled, timeout)
 
@@ -488,12 +469,11 @@ func TestRecordSpecialEvents(t *testing.T) {
 	}
 }
 
-func TestGetTimeProfile(t *testing.T) {
-	controller := uint32(405419896)
-
-	profile := uint8(37)
-
+func TestGetTimeProfileX(t *testing.T) {
 	expected := test.Expected.GetTimeProfile
+
+	controller := uint32(405419896)
+	profile := uint8(37)
 
 	response, err := uhppoted.GetTimeProfile(u, controller, profile, timeout)
 
@@ -504,9 +484,10 @@ func TestGetTimeProfile(t *testing.T) {
 	}
 }
 
-func TestSetTimeProfile(t *testing.T) {
-	controller := uint32(405419896)
+func TestSetTimeProfileX(t *testing.T) {
+	expected := test.Expected.SetTimeProfile
 
+	controller := uint32(405419896)
 	profile := uint8(37)
 	startDate := types.MustParseDate("2025-11-26")
 	endDate := types.MustParseDate("2025-12-29")
@@ -525,8 +506,6 @@ func TestSetTimeProfile(t *testing.T) {
 	segment3End := types.MustParseHHmm("17:59")
 	linkedProfileId := uint8(19)
 
-	expected := test.Expected.SetTimeProfile
-
 	response, err := uhppoted.SetTimeProfile(u, controller, profile, startDate, endDate, monday, tuesday, wednesday, thursday, friday, saturday, sunday, segment1Start, segment1End, segment2Start, segment2End, segment3Start, segment3End, linkedProfileId, timeout)
 
 	if err != nil {
@@ -536,10 +515,10 @@ func TestSetTimeProfile(t *testing.T) {
 	}
 }
 
-func TestClearTimeProfiles(t *testing.T) {
-	controller := uint32(405419896)
-
+func TestClearTimeProfilesX(t *testing.T) {
 	expected := test.Expected.ClearTimeProfiles
+
+	controller := uint32(405419896)
 
 	response, err := uhppoted.ClearTimeProfiles(u, controller, timeout)
 
@@ -550,9 +529,10 @@ func TestClearTimeProfiles(t *testing.T) {
 	}
 }
 
-func TestAddTask(t *testing.T) {
-	controller := uint32(405419896)
+func TestAddTaskX(t *testing.T) {
+	expected := test.Expected.AddTask
 
+	controller := uint32(405419896)
 	task := types.TaskType(2)
 	startDate := types.MustParseDate("2025-01-01")
 	endDate := types.MustParseDate("2025-12-31")
@@ -567,8 +547,6 @@ func TestAddTask(t *testing.T) {
 	door := uint8(3)
 	moreCards := uint8(7)
 
-	expected := test.Expected.AddTask
-
 	response, err := uhppoted.AddTask(u, controller, task, startDate, endDate, monday, tuesday, wednesday, thursday, friday, saturday, sunday, startTime, door, moreCards, timeout)
 
 	if err != nil {
@@ -578,10 +556,10 @@ func TestAddTask(t *testing.T) {
 	}
 }
 
-func TestRefreshTaskList(t *testing.T) {
-	controller := uint32(405419896)
-
+func TestRefreshTaskListX(t *testing.T) {
 	expected := test.Expected.RefreshTaskList
+
+	controller := uint32(405419896)
 
 	response, err := uhppoted.RefreshTaskList(u, controller, timeout)
 
@@ -592,10 +570,10 @@ func TestRefreshTaskList(t *testing.T) {
 	}
 }
 
-func TestClearTaskList(t *testing.T) {
-	controller := uint32(405419896)
-
+func TestClearTaskListX(t *testing.T) {
 	expected := test.Expected.ClearTaskList
+
+	controller := uint32(405419896)
 
 	response, err := uhppoted.ClearTaskList(u, controller, timeout)
 
@@ -606,12 +584,11 @@ func TestClearTaskList(t *testing.T) {
 	}
 }
 
-func TestSetPcControl(t *testing.T) {
-	controller := uint32(405419896)
-
-	enabled := true
-
+func TestSetPcControlX(t *testing.T) {
 	expected := test.Expected.SetPcControl
+
+	controller := uint32(405419896)
+	enabled := true
 
 	response, err := uhppoted.SetPCControl(u, controller, enabled, timeout)
 
@@ -622,12 +599,11 @@ func TestSetPcControl(t *testing.T) {
 	}
 }
 
-func TestSetInterlock(t *testing.T) {
-	controller := uint32(405419896)
-
-	interlock := types.Interlock(8)
-
+func TestSetInterlockX(t *testing.T) {
 	expected := test.Expected.SetInterlock
+
+	controller := uint32(405419896)
+	interlock := types.Interlock(8)
 
 	response, err := uhppoted.SetInterlock(u, controller, interlock, timeout)
 
@@ -638,15 +614,14 @@ func TestSetInterlock(t *testing.T) {
 	}
 }
 
-func TestActivateKeypads(t *testing.T) {
-	controller := uint32(405419896)
+func TestActivateKeypadsX(t *testing.T) {
+	expected := test.Expected.ActivateKeypads
 
+	controller := uint32(405419896)
 	reader1 := true
 	reader2 := true
 	reader3 := false
 	reader4 := true
-
-	expected := test.Expected.ActivateKeypads
 
 	response, err := uhppoted.ActivateKeypads(u, controller, reader1, reader2, reader3, reader4, timeout)
 
@@ -657,10 +632,10 @@ func TestActivateKeypads(t *testing.T) {
 	}
 }
 
-func TestGetAntipassback(t *testing.T) {
-	controller := uint32(405419896)
-
+func TestGetAntipassbackX(t *testing.T) {
 	expected := test.Expected.GetAntipassback
+
+	controller := uint32(405419896)
 
 	response, err := uhppoted.GetAntiPassback(u, controller, timeout)
 
@@ -671,12 +646,11 @@ func TestGetAntipassback(t *testing.T) {
 	}
 }
 
-func TestSetAntipassback(t *testing.T) {
-	controller := uint32(405419896)
-
-	antipassback := types.AntiPassback(2)
-
+func TestSetAntipassbackX(t *testing.T) {
 	expected := test.Expected.SetAntipassback
+
+	controller := uint32(405419896)
+	antipassback := types.AntiPassback(2)
 
 	response, err := uhppoted.SetAntiPassback(u, controller, antipassback, timeout)
 
@@ -687,10 +661,10 @@ func TestSetAntipassback(t *testing.T) {
 	}
 }
 
-func TestRestoreDefaultParameters(t *testing.T) {
-	controller := uint32(405419896)
-
+func TestRestoreDefaultParametersX(t *testing.T) {
 	expected := test.Expected.RestoreDefaultParameters
+
+	controller := uint32(405419896)
 
 	response, err := uhppoted.RestoreDefaultParameters(u, controller, timeout)
 
