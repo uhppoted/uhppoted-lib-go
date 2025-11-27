@@ -92,7 +92,6 @@ func buildResponses() *dst.File {
 
 func typedef(r types.Response) *dst.GenDecl {
 	name := strings.TrimSuffix(codegen.TitleCase(r.Name), "Response")
-	// description := godoc(r)
 	fields := []*dst.Field{}
 
 	for _, f := range r.Fields {
