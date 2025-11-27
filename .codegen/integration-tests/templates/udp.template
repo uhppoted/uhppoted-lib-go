@@ -7,9 +7,10 @@ import (
     "reflect"
     "testing"
 
-    test "integration-tests"
     "github.com/uhppoted/uhppoted-lib-go/src/uhppoted"
     "github.com/uhppoted/uhppoted-lib-go/src/uhppoted/types"
+
+    test "integration-tests"
 )
 
 {{ range $func := . }}{{ range $test := $func.Tests }}
@@ -23,12 +24,14 @@ func Test{{ titleCase $test.Name }}(t *testing.T) {
 {{ end }}
 {{- range $arg := $test.Args }}{{ if ne $arg.Name "controller"}}      {{ camelCase $arg.Name }} := {{ testarg $arg }}{{ end }}
 {{ end }}
+    expected := test.Expected.{{ titleCase $test.Name }}
+
     response, err := uhppoted.{{ titleCase $func.Name }}(u{{ range $arg := $test.Args }}, {{ camelCase $arg.Name }}{{end }}, timeout)
 
     if err != nil {
         t.Fatalf("%v", err)
-    } else if !reflect.DeepEqual(response, test.Expected.{{ titleCase $test.Name }}) {
-        t.Errorf("incorrect response\n   expected:%#v\n   got:     %#v", test.Expected.{{ titleCase $test.Name }}, response)
+    } else if !reflect.DeepEqual(response, expected) {
+        t.Errorf("incorrect response\n   expected:%#v\n   got:     %#v", expected, response)
     }
 }
 {{ end }}{{ end }}

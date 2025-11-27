@@ -5,7 +5,7 @@
     - [x] messages
     - [x] expected
     - [x] default
-    - [ ] udp
+    - [x] udp
     - [ ] tcp
 
 - [ ] godoc/examples

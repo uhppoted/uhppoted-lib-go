@@ -13,7 +13,7 @@ import (
 	test "integration-tests"
 )
 
-func TestFindControllersX(t *testing.T) {
+func TestFindControllers(t *testing.T) {
 	expected := test.Expected.FindControllers
 
 	response, err := uhppoted.FindControllers(u, timeout)
@@ -25,7 +25,7 @@ func TestFindControllersX(t *testing.T) {
 	}
 }
 
-func TestGetControllerX(t *testing.T) {
+func TestGetController(t *testing.T) {
 	expected := test.Expected.GetController
 
 	controller := uint32(405419896)
@@ -39,7 +39,7 @@ func TestGetControllerX(t *testing.T) {
 	}
 }
 
-func TestSetIPv4X(t *testing.T) {
+func TestSetIPv4(t *testing.T) {
 	expected := test.Expected.SetIPv4
 
 	controller := uint32(405419896)
@@ -56,7 +56,7 @@ func TestSetIPv4X(t *testing.T) {
 	}
 }
 
-func TestGetTimeX(t *testing.T) {
+func TestGetTime(t *testing.T) {
 	expected := test.Expected.GetTime
 
 	controller := uint32(405419896)
@@ -70,7 +70,7 @@ func TestGetTimeX(t *testing.T) {
 	}
 }
 
-func TestSetTimeX(t *testing.T) {
+func TestSetTime(t *testing.T) {
 	expected := test.Expected.SetTime
 
 	controller := uint32(405419896)
@@ -85,7 +85,7 @@ func TestSetTimeX(t *testing.T) {
 	}
 }
 
-func TestGetListenerX(t *testing.T) {
+func TestGetListener(t *testing.T) {
 	expected := test.Expected.GetListener
 
 	controller := uint32(405419896)
@@ -99,7 +99,7 @@ func TestGetListenerX(t *testing.T) {
 	}
 }
 
-func TestSetListenerX(t *testing.T) {
+func TestSetListener(t *testing.T) {
 	expected := test.Expected.SetListener
 
 	controller := uint32(405419896)
@@ -116,7 +116,7 @@ func TestSetListenerX(t *testing.T) {
 	}
 }
 
-func TestGetListenerAddrPortX(t *testing.T) {
+func TestGetListenerAddrPort(t *testing.T) {
 	expected := test.Expected.GetListenerAddrPort
 
 	controller := uint32(405419897)
@@ -130,7 +130,7 @@ func TestGetListenerAddrPortX(t *testing.T) {
 	}
 }
 
-func TestSetListenerAddrPortX(t *testing.T) {
+func TestSetListenerAddrPort(t *testing.T) {
 	expected := test.Expected.SetListenerAddrPort
 
 	controller := uint32(405419897)
@@ -146,7 +146,7 @@ func TestSetListenerAddrPortX(t *testing.T) {
 	}
 }
 
-func TestGetDoorX(t *testing.T) {
+func TestGetDoor(t *testing.T) {
 	expected := test.Expected.GetDoor
 
 	controller := uint32(405419896)
@@ -161,7 +161,7 @@ func TestGetDoorX(t *testing.T) {
 	}
 }
 
-func TestSetDoorX(t *testing.T) {
+func TestSetDoor(t *testing.T) {
 	expected := test.Expected.SetDoor
 
 	controller := uint32(405419896)
@@ -178,7 +178,7 @@ func TestSetDoorX(t *testing.T) {
 	}
 }
 
-func TestSetDoorPasscodesX(t *testing.T) {
+func TestSetDoorPasscodes(t *testing.T) {
 	expected := test.Expected.SetDoorPasscodes
 
 	controller := uint32(405419896)
@@ -197,7 +197,7 @@ func TestSetDoorPasscodesX(t *testing.T) {
 	}
 }
 
-func TestOpenDoorX(t *testing.T) {
+func TestOpenDoor(t *testing.T) {
 	expected := test.Expected.OpenDoor
 
 	controller := uint32(405419896)
@@ -212,7 +212,7 @@ func TestOpenDoorX(t *testing.T) {
 	}
 }
 
-func TestGetStatusX(t *testing.T) {
+func TestGetStatus(t *testing.T) {
 	expected := test.Expected.GetStatus
 
 	controller := uint32(405419896)
@@ -226,7 +226,7 @@ func TestGetStatusX(t *testing.T) {
 	}
 }
 
-func TestGetStatusNoEventX(t *testing.T) {
+func TestGetStatusNoEvent(t *testing.T) {
 	expected := test.Expected.GetStatusNoEvent
 
 	controller := uint32(405419897)
@@ -240,7 +240,7 @@ func TestGetStatusNoEventX(t *testing.T) {
 	}
 }
 
-func TestGetCardsX(t *testing.T) {
+func TestGetCards(t *testing.T) {
 	expected := test.Expected.GetCards
 
 	controller := uint32(405419896)
@@ -254,7 +254,7 @@ func TestGetCardsX(t *testing.T) {
 	}
 }
 
-func TestGetCardX(t *testing.T) {
+func TestGetCard(t *testing.T) {
 	expected := test.Expected.GetCard
 
 	controller := uint32(405419896)
@@ -269,7 +269,7 @@ func TestGetCardX(t *testing.T) {
 	}
 }
 
-func TestGetCardNotFoundX(t *testing.T) {
+func TestGetCardNotFound(t *testing.T) {
 	expected := test.Expected.GetCardNotFound
 
 	controller := uint32(405419896)
@@ -284,7 +284,7 @@ func TestGetCardNotFoundX(t *testing.T) {
 	}
 }
 
-func TestGetCardAtIndexX(t *testing.T) {
+func TestGetCardAtIndex(t *testing.T) {
 	expected := test.Expected.GetCardAtIndex
 
 	controller := uint32(405419896)
@@ -299,7 +299,7 @@ func TestGetCardAtIndexX(t *testing.T) {
 	}
 }
 
-func TestGetCardAtIndexNotFoundX(t *testing.T) {
+func TestGetCardAtIndexNotFound(t *testing.T) {
 	expected := test.Expected.GetCardAtIndexNotFound
 
 	controller := uint32(405419896)
@@ -314,7 +314,7 @@ func TestGetCardAtIndexNotFoundX(t *testing.T) {
 	}
 }
 
-func TestGetCardAtIndexDeletedX(t *testing.T) {
+func TestGetCardAtIndexDeleted(t *testing.T) {
 	expected := test.Expected.GetCardAtIndexDeleted
 
 	controller := uint32(405419896)
@@ -329,7 +329,7 @@ func TestGetCardAtIndexDeletedX(t *testing.T) {
 	}
 }
 
-func TestPutCardX(t *testing.T) {
+func TestPutCard(t *testing.T) {
 	expected := test.Expected.PutCard
 
 	controller := uint32(405419896)
@@ -351,7 +351,7 @@ func TestPutCardX(t *testing.T) {
 	}
 }
 
-func TestDeleteCardX(t *testing.T) {
+func TestDeleteCard(t *testing.T) {
 	expected := test.Expected.DeleteCard
 
 	controller := uint32(405419896)
@@ -366,7 +366,7 @@ func TestDeleteCardX(t *testing.T) {
 	}
 }
 
-func TestDeleteAllCardsX(t *testing.T) {
+func TestDeleteAllCards(t *testing.T) {
 	expected := test.Expected.DeleteAllCards
 
 	controller := uint32(405419896)
@@ -380,7 +380,7 @@ func TestDeleteAllCardsX(t *testing.T) {
 	}
 }
 
-func TestGetEventX(t *testing.T) {
+func TestGetEvent(t *testing.T) {
 	expected := test.Expected.GetEvent
 
 	controller := uint32(405419896)
@@ -395,7 +395,7 @@ func TestGetEventX(t *testing.T) {
 	}
 }
 
-func TestGetEventNotFoundX(t *testing.T) {
+func TestGetEventNotFound(t *testing.T) {
 	expected := test.Expected.GetEventNotFound
 
 	controller := uint32(405419896)
@@ -410,7 +410,7 @@ func TestGetEventNotFoundX(t *testing.T) {
 	}
 }
 
-func TestGetEventOverwrittenX(t *testing.T) {
+func TestGetEventOverwritten(t *testing.T) {
 	expected := test.Expected.GetEventOverwritten
 
 	controller := uint32(405419896)
@@ -425,7 +425,7 @@ func TestGetEventOverwrittenX(t *testing.T) {
 	}
 }
 
-func TestGetEventIndexX(t *testing.T) {
+func TestGetEventIndex(t *testing.T) {
 	expected := test.Expected.GetEventIndex
 
 	controller := uint32(405419896)
@@ -439,7 +439,7 @@ func TestGetEventIndexX(t *testing.T) {
 	}
 }
 
-func TestSetEventIndexX(t *testing.T) {
+func TestSetEventIndex(t *testing.T) {
 	expected := test.Expected.SetEventIndex
 
 	controller := uint32(405419896)
@@ -454,7 +454,7 @@ func TestSetEventIndexX(t *testing.T) {
 	}
 }
 
-func TestRecordSpecialEventsX(t *testing.T) {
+func TestRecordSpecialEvents(t *testing.T) {
 	expected := test.Expected.RecordSpecialEvents
 
 	controller := uint32(405419896)
@@ -469,7 +469,7 @@ func TestRecordSpecialEventsX(t *testing.T) {
 	}
 }
 
-func TestGetTimeProfileX(t *testing.T) {
+func TestGetTimeProfile(t *testing.T) {
 	expected := test.Expected.GetTimeProfile
 
 	controller := uint32(405419896)
@@ -484,7 +484,7 @@ func TestGetTimeProfileX(t *testing.T) {
 	}
 }
 
-func TestSetTimeProfileX(t *testing.T) {
+func TestSetTimeProfile(t *testing.T) {
 	expected := test.Expected.SetTimeProfile
 
 	controller := uint32(405419896)
@@ -515,7 +515,7 @@ func TestSetTimeProfileX(t *testing.T) {
 	}
 }
 
-func TestClearTimeProfilesX(t *testing.T) {
+func TestClearTimeProfiles(t *testing.T) {
 	expected := test.Expected.ClearTimeProfiles
 
 	controller := uint32(405419896)
@@ -529,7 +529,7 @@ func TestClearTimeProfilesX(t *testing.T) {
 	}
 }
 
-func TestAddTaskX(t *testing.T) {
+func TestAddTask(t *testing.T) {
 	expected := test.Expected.AddTask
 
 	controller := uint32(405419896)
@@ -556,7 +556,7 @@ func TestAddTaskX(t *testing.T) {
 	}
 }
 
-func TestRefreshTaskListX(t *testing.T) {
+func TestRefreshTaskList(t *testing.T) {
 	expected := test.Expected.RefreshTaskList
 
 	controller := uint32(405419896)
@@ -570,7 +570,7 @@ func TestRefreshTaskListX(t *testing.T) {
 	}
 }
 
-func TestClearTaskListX(t *testing.T) {
+func TestClearTaskList(t *testing.T) {
 	expected := test.Expected.ClearTaskList
 
 	controller := uint32(405419896)
@@ -584,7 +584,7 @@ func TestClearTaskListX(t *testing.T) {
 	}
 }
 
-func TestSetPcControlX(t *testing.T) {
+func TestSetPcControl(t *testing.T) {
 	expected := test.Expected.SetPcControl
 
 	controller := uint32(405419896)
@@ -599,7 +599,7 @@ func TestSetPcControlX(t *testing.T) {
 	}
 }
 
-func TestSetInterlockX(t *testing.T) {
+func TestSetInterlock(t *testing.T) {
 	expected := test.Expected.SetInterlock
 
 	controller := uint32(405419896)
@@ -614,7 +614,7 @@ func TestSetInterlockX(t *testing.T) {
 	}
 }
 
-func TestActivateKeypadsX(t *testing.T) {
+func TestActivateKeypads(t *testing.T) {
 	expected := test.Expected.ActivateKeypads
 
 	controller := uint32(405419896)
@@ -632,7 +632,7 @@ func TestActivateKeypadsX(t *testing.T) {
 	}
 }
 
-func TestGetAntipassbackX(t *testing.T) {
+func TestGetAntipassback(t *testing.T) {
 	expected := test.Expected.GetAntipassback
 
 	controller := uint32(405419896)
@@ -646,7 +646,7 @@ func TestGetAntipassbackX(t *testing.T) {
 	}
 }
 
-func TestSetAntipassbackX(t *testing.T) {
+func TestSetAntipassback(t *testing.T) {
 	expected := test.Expected.SetAntipassback
 
 	controller := uint32(405419896)
@@ -661,7 +661,7 @@ func TestSetAntipassbackX(t *testing.T) {
 	}
 }
 
-func TestRestoreDefaultParametersX(t *testing.T) {
+func TestRestoreDefaultParameters(t *testing.T) {
 	expected := test.Expected.RestoreDefaultParameters
 
 	controller := uint32(405419896)
