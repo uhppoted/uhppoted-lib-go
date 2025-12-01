@@ -34,6 +34,7 @@ func IntegrationTests() {
 	udpAST()
 
 	tcp()
+	tcpAST()
 }
 
 func broadcast() {
@@ -71,7 +72,7 @@ func udp() {
 }
 
 func tcp() {
-	const output = "tcp/api_test.go"
+	const output = "tcp/_api_test.go"
 
 	f, err := os.Create(output)
 	if err != nil {

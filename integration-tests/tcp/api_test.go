@@ -9,10 +9,13 @@ import (
 
 	"github.com/uhppoted/uhppoted-lib-go/src/uhppoted"
 	"github.com/uhppoted/uhppoted-lib-go/src/uhppoted/types"
+
 	test "integration-tests"
 )
 
 func TestGetController(t *testing.T) {
+	expected := test.Expected.GetController
+
 	controller := uhppoted.Controller{
 		ID:       405419896,
 		Address:  netip.MustParseAddrPort("127.0.0.1:50003"),
@@ -23,12 +26,14 @@ func TestGetController(t *testing.T) {
 
 	if err != nil {
 		t.Fatalf("%v", err)
-	} else if !reflect.DeepEqual(response, test.Expected.GetController) {
-		t.Errorf("incorrect response\n   expected:%#v\n   got:     %#v", test.Expected.GetController, response)
+	} else if !reflect.DeepEqual(response, expected) {
+		t.Errorf("incorrect response\n   expected:%#v\n   got:     %#v", expected, response)
 	}
 }
 
 func TestSetIPv4(t *testing.T) {
+	expected := test.Expected.SetIPv4
+
 	controller := uhppoted.Controller{
 		ID:       405419896,
 		Address:  netip.MustParseAddrPort("127.0.0.1:50003"),
@@ -43,12 +48,14 @@ func TestSetIPv4(t *testing.T) {
 
 	if err != nil {
 		t.Fatalf("%v", err)
-	} else if !reflect.DeepEqual(response, test.Expected.SetIPv4) {
-		t.Errorf("incorrect response\n   expected:%#v\n   got:     %#v", test.Expected.SetIPv4, response)
+	} else if !reflect.DeepEqual(response, expected) {
+		t.Errorf("incorrect response\n   expected:%#v\n   got:     %#v", expected, response)
 	}
 }
 
 func TestGetTime(t *testing.T) {
+	expected := test.Expected.GetTime
+
 	controller := uhppoted.Controller{
 		ID:       405419896,
 		Address:  netip.MustParseAddrPort("127.0.0.1:50003"),
@@ -59,12 +66,14 @@ func TestGetTime(t *testing.T) {
 
 	if err != nil {
 		t.Fatalf("%v", err)
-	} else if !reflect.DeepEqual(response, test.Expected.GetTime) {
-		t.Errorf("incorrect response\n   expected:%#v\n   got:     %#v", test.Expected.GetTime, response)
+	} else if !reflect.DeepEqual(response, expected) {
+		t.Errorf("incorrect response\n   expected:%#v\n   got:     %#v", expected, response)
 	}
 }
 
 func TestSetTime(t *testing.T) {
+	expected := test.Expected.SetTime
+
 	controller := uhppoted.Controller{
 		ID:       405419896,
 		Address:  netip.MustParseAddrPort("127.0.0.1:50003"),
@@ -77,12 +86,14 @@ func TestSetTime(t *testing.T) {
 
 	if err != nil {
 		t.Fatalf("%v", err)
-	} else if !reflect.DeepEqual(response, test.Expected.SetTime) {
-		t.Errorf("incorrect response\n   expected:%#v\n   got:     %#v", test.Expected.SetTime, response)
+	} else if !reflect.DeepEqual(response, expected) {
+		t.Errorf("incorrect response\n   expected:%#v\n   got:     %#v", expected, response)
 	}
 }
 
 func TestGetListener(t *testing.T) {
+	expected := test.Expected.GetListener
+
 	controller := uhppoted.Controller{
 		ID:       405419896,
 		Address:  netip.MustParseAddrPort("127.0.0.1:50003"),
@@ -93,12 +104,14 @@ func TestGetListener(t *testing.T) {
 
 	if err != nil {
 		t.Fatalf("%v", err)
-	} else if !reflect.DeepEqual(response, test.Expected.GetListener) {
-		t.Errorf("incorrect response\n   expected:%#v\n   got:     %#v", test.Expected.GetListener, response)
+	} else if !reflect.DeepEqual(response, expected) {
+		t.Errorf("incorrect response\n   expected:%#v\n   got:     %#v", expected, response)
 	}
 }
 
 func TestSetListener(t *testing.T) {
+	expected := test.Expected.SetListener
+
 	controller := uhppoted.Controller{
 		ID:       405419896,
 		Address:  netip.MustParseAddrPort("127.0.0.1:50003"),
@@ -113,12 +126,14 @@ func TestSetListener(t *testing.T) {
 
 	if err != nil {
 		t.Fatalf("%v", err)
-	} else if !reflect.DeepEqual(response, test.Expected.SetListener) {
-		t.Errorf("incorrect response\n   expected:%#v\n   got:     %#v", test.Expected.SetListener, response)
+	} else if !reflect.DeepEqual(response, expected) {
+		t.Errorf("incorrect response\n   expected:%#v\n   got:     %#v", expected, response)
 	}
 }
 
 func TestGetListenerAddrPort(t *testing.T) {
+	expected := test.Expected.GetListenerAddrPort
+
 	controller := uhppoted.Controller{
 		ID:       405419897,
 		Address:  netip.MustParseAddrPort("127.0.0.1:50003"),
@@ -129,12 +144,14 @@ func TestGetListenerAddrPort(t *testing.T) {
 
 	if err != nil {
 		t.Fatalf("%v", err)
-	} else if !reflect.DeepEqual(response, test.Expected.GetListenerAddrPort) {
-		t.Errorf("incorrect response\n   expected:%#v\n   got:     %#v", test.Expected.GetListenerAddrPort, response)
+	} else if !reflect.DeepEqual(response, expected) {
+		t.Errorf("incorrect response\n   expected:%#v\n   got:     %#v", expected, response)
 	}
 }
 
 func TestSetListenerAddrPort(t *testing.T) {
+	expected := test.Expected.SetListenerAddrPort
+
 	controller := uhppoted.Controller{
 		ID:       405419897,
 		Address:  netip.MustParseAddrPort("127.0.0.1:50003"),
@@ -148,12 +165,14 @@ func TestSetListenerAddrPort(t *testing.T) {
 
 	if err != nil {
 		t.Fatalf("%v", err)
-	} else if !reflect.DeepEqual(response, test.Expected.SetListenerAddrPort) {
-		t.Errorf("incorrect response\n   expected:%#v\n   got:     %#v", test.Expected.SetListenerAddrPort, response)
+	} else if !reflect.DeepEqual(response, expected) {
+		t.Errorf("incorrect response\n   expected:%#v\n   got:     %#v", expected, response)
 	}
 }
 
 func TestGetDoor(t *testing.T) {
+	expected := test.Expected.GetDoor
+
 	controller := uhppoted.Controller{
 		ID:       405419896,
 		Address:  netip.MustParseAddrPort("127.0.0.1:50003"),
@@ -166,12 +185,14 @@ func TestGetDoor(t *testing.T) {
 
 	if err != nil {
 		t.Fatalf("%v", err)
-	} else if !reflect.DeepEqual(response, test.Expected.GetDoor) {
-		t.Errorf("incorrect response\n   expected:%#v\n   got:     %#v", test.Expected.GetDoor, response)
+	} else if !reflect.DeepEqual(response, expected) {
+		t.Errorf("incorrect response\n   expected:%#v\n   got:     %#v", expected, response)
 	}
 }
 
 func TestSetDoor(t *testing.T) {
+	expected := test.Expected.SetDoor
+
 	controller := uhppoted.Controller{
 		ID:       405419896,
 		Address:  netip.MustParseAddrPort("127.0.0.1:50003"),
@@ -186,12 +207,14 @@ func TestSetDoor(t *testing.T) {
 
 	if err != nil {
 		t.Fatalf("%v", err)
-	} else if !reflect.DeepEqual(response, test.Expected.SetDoor) {
-		t.Errorf("incorrect response\n   expected:%#v\n   got:     %#v", test.Expected.SetDoor, response)
+	} else if !reflect.DeepEqual(response, expected) {
+		t.Errorf("incorrect response\n   expected:%#v\n   got:     %#v", expected, response)
 	}
 }
 
 func TestSetDoorPasscodes(t *testing.T) {
+	expected := test.Expected.SetDoorPasscodes
+
 	controller := uhppoted.Controller{
 		ID:       405419896,
 		Address:  netip.MustParseAddrPort("127.0.0.1:50003"),
@@ -208,12 +231,14 @@ func TestSetDoorPasscodes(t *testing.T) {
 
 	if err != nil {
 		t.Fatalf("%v", err)
-	} else if !reflect.DeepEqual(response, test.Expected.SetDoorPasscodes) {
-		t.Errorf("incorrect response\n   expected:%#v\n   got:     %#v", test.Expected.SetDoorPasscodes, response)
+	} else if !reflect.DeepEqual(response, expected) {
+		t.Errorf("incorrect response\n   expected:%#v\n   got:     %#v", expected, response)
 	}
 }
 
 func TestOpenDoor(t *testing.T) {
+	expected := test.Expected.OpenDoor
+
 	controller := uhppoted.Controller{
 		ID:       405419896,
 		Address:  netip.MustParseAddrPort("127.0.0.1:50003"),
@@ -226,12 +251,14 @@ func TestOpenDoor(t *testing.T) {
 
 	if err != nil {
 		t.Fatalf("%v", err)
-	} else if !reflect.DeepEqual(response, test.Expected.OpenDoor) {
-		t.Errorf("incorrect response\n   expected:%#v\n   got:     %#v", test.Expected.OpenDoor, response)
+	} else if !reflect.DeepEqual(response, expected) {
+		t.Errorf("incorrect response\n   expected:%#v\n   got:     %#v", expected, response)
 	}
 }
 
 func TestGetStatus(t *testing.T) {
+	expected := test.Expected.GetStatus
+
 	controller := uhppoted.Controller{
 		ID:       405419896,
 		Address:  netip.MustParseAddrPort("127.0.0.1:50003"),
@@ -242,12 +269,14 @@ func TestGetStatus(t *testing.T) {
 
 	if err != nil {
 		t.Fatalf("%v", err)
-	} else if !reflect.DeepEqual(response, test.Expected.GetStatus) {
-		t.Errorf("incorrect response\n   expected:%#v\n   got:     %#v", test.Expected.GetStatus, response)
+	} else if !reflect.DeepEqual(response, expected) {
+		t.Errorf("incorrect response\n   expected:%#v\n   got:     %#v", expected, response)
 	}
 }
 
 func TestGetStatusNoEvent(t *testing.T) {
+	expected := test.Expected.GetStatusNoEvent
+
 	controller := uhppoted.Controller{
 		ID:       405419897,
 		Address:  netip.MustParseAddrPort("127.0.0.1:50003"),
@@ -258,12 +287,14 @@ func TestGetStatusNoEvent(t *testing.T) {
 
 	if err != nil {
 		t.Fatalf("%v", err)
-	} else if !reflect.DeepEqual(response, test.Expected.GetStatusNoEvent) {
-		t.Errorf("incorrect response\n   expected:%#v\n   got:     %#v", test.Expected.GetStatusNoEvent, response)
+	} else if !reflect.DeepEqual(response, expected) {
+		t.Errorf("incorrect response\n   expected:%#v\n   got:     %#v", expected, response)
 	}
 }
 
 func TestGetCards(t *testing.T) {
+	expected := test.Expected.GetCards
+
 	controller := uhppoted.Controller{
 		ID:       405419896,
 		Address:  netip.MustParseAddrPort("127.0.0.1:50003"),
@@ -274,12 +305,14 @@ func TestGetCards(t *testing.T) {
 
 	if err != nil {
 		t.Fatalf("%v", err)
-	} else if !reflect.DeepEqual(response, test.Expected.GetCards) {
-		t.Errorf("incorrect response\n   expected:%#v\n   got:     %#v", test.Expected.GetCards, response)
+	} else if !reflect.DeepEqual(response, expected) {
+		t.Errorf("incorrect response\n   expected:%#v\n   got:     %#v", expected, response)
 	}
 }
 
 func TestGetCard(t *testing.T) {
+	expected := test.Expected.GetCard
+
 	controller := uhppoted.Controller{
 		ID:       405419896,
 		Address:  netip.MustParseAddrPort("127.0.0.1:50003"),
@@ -292,12 +325,14 @@ func TestGetCard(t *testing.T) {
 
 	if err != nil {
 		t.Fatalf("%v", err)
-	} else if !reflect.DeepEqual(response, test.Expected.GetCard) {
-		t.Errorf("incorrect response\n   expected:%#v\n   got:     %#v", test.Expected.GetCard, response)
+	} else if !reflect.DeepEqual(response, expected) {
+		t.Errorf("incorrect response\n   expected:%#v\n   got:     %#v", expected, response)
 	}
 }
 
 func TestGetCardNotFound(t *testing.T) {
+	expected := test.Expected.GetCardNotFound
+
 	controller := uhppoted.Controller{
 		ID:       405419896,
 		Address:  netip.MustParseAddrPort("127.0.0.1:50003"),
@@ -310,12 +345,14 @@ func TestGetCardNotFound(t *testing.T) {
 
 	if err != nil {
 		t.Fatalf("%v", err)
-	} else if !reflect.DeepEqual(response, test.Expected.GetCardNotFound) {
-		t.Errorf("incorrect response\n   expected:%#v\n   got:     %#v", test.Expected.GetCardNotFound, response)
+	} else if !reflect.DeepEqual(response, expected) {
+		t.Errorf("incorrect response\n   expected:%#v\n   got:     %#v", expected, response)
 	}
 }
 
 func TestGetCardAtIndex(t *testing.T) {
+	expected := test.Expected.GetCardAtIndex
+
 	controller := uhppoted.Controller{
 		ID:       405419896,
 		Address:  netip.MustParseAddrPort("127.0.0.1:50003"),
@@ -328,12 +365,14 @@ func TestGetCardAtIndex(t *testing.T) {
 
 	if err != nil {
 		t.Fatalf("%v", err)
-	} else if !reflect.DeepEqual(response, test.Expected.GetCardAtIndex) {
-		t.Errorf("incorrect response\n   expected:%#v\n   got:     %#v", test.Expected.GetCardAtIndex, response)
+	} else if !reflect.DeepEqual(response, expected) {
+		t.Errorf("incorrect response\n   expected:%#v\n   got:     %#v", expected, response)
 	}
 }
 
 func TestGetCardAtIndexNotFound(t *testing.T) {
+	expected := test.Expected.GetCardAtIndexNotFound
+
 	controller := uhppoted.Controller{
 		ID:       405419896,
 		Address:  netip.MustParseAddrPort("127.0.0.1:50003"),
@@ -346,12 +385,14 @@ func TestGetCardAtIndexNotFound(t *testing.T) {
 
 	if err != nil {
 		t.Fatalf("%v", err)
-	} else if !reflect.DeepEqual(response, test.Expected.GetCardAtIndexNotFound) {
-		t.Errorf("incorrect response\n   expected:%#v\n   got:     %#v", test.Expected.GetCardAtIndexNotFound, response)
+	} else if !reflect.DeepEqual(response, expected) {
+		t.Errorf("incorrect response\n   expected:%#v\n   got:     %#v", expected, response)
 	}
 }
 
 func TestGetCardAtIndexDeleted(t *testing.T) {
+	expected := test.Expected.GetCardAtIndexDeleted
+
 	controller := uhppoted.Controller{
 		ID:       405419896,
 		Address:  netip.MustParseAddrPort("127.0.0.1:50003"),
@@ -364,12 +405,14 @@ func TestGetCardAtIndexDeleted(t *testing.T) {
 
 	if err != nil {
 		t.Fatalf("%v", err)
-	} else if !reflect.DeepEqual(response, test.Expected.GetCardAtIndexDeleted) {
-		t.Errorf("incorrect response\n   expected:%#v\n   got:     %#v", test.Expected.GetCardAtIndexDeleted, response)
+	} else if !reflect.DeepEqual(response, expected) {
+		t.Errorf("incorrect response\n   expected:%#v\n   got:     %#v", expected, response)
 	}
 }
 
 func TestPutCard(t *testing.T) {
+	expected := test.Expected.PutCard
+
 	controller := uhppoted.Controller{
 		ID:       405419896,
 		Address:  netip.MustParseAddrPort("127.0.0.1:50003"),
@@ -389,12 +432,14 @@ func TestPutCard(t *testing.T) {
 
 	if err != nil {
 		t.Fatalf("%v", err)
-	} else if !reflect.DeepEqual(response, test.Expected.PutCard) {
-		t.Errorf("incorrect response\n   expected:%#v\n   got:     %#v", test.Expected.PutCard, response)
+	} else if !reflect.DeepEqual(response, expected) {
+		t.Errorf("incorrect response\n   expected:%#v\n   got:     %#v", expected, response)
 	}
 }
 
 func TestDeleteCard(t *testing.T) {
+	expected := test.Expected.DeleteCard
+
 	controller := uhppoted.Controller{
 		ID:       405419896,
 		Address:  netip.MustParseAddrPort("127.0.0.1:50003"),
@@ -407,12 +452,14 @@ func TestDeleteCard(t *testing.T) {
 
 	if err != nil {
 		t.Fatalf("%v", err)
-	} else if !reflect.DeepEqual(response, test.Expected.DeleteCard) {
-		t.Errorf("incorrect response\n   expected:%#v\n   got:     %#v", test.Expected.DeleteCard, response)
+	} else if !reflect.DeepEqual(response, expected) {
+		t.Errorf("incorrect response\n   expected:%#v\n   got:     %#v", expected, response)
 	}
 }
 
 func TestDeleteAllCards(t *testing.T) {
+	expected := test.Expected.DeleteAllCards
+
 	controller := uhppoted.Controller{
 		ID:       405419896,
 		Address:  netip.MustParseAddrPort("127.0.0.1:50003"),
@@ -423,12 +470,14 @@ func TestDeleteAllCards(t *testing.T) {
 
 	if err != nil {
 		t.Fatalf("%v", err)
-	} else if !reflect.DeepEqual(response, test.Expected.DeleteAllCards) {
-		t.Errorf("incorrect response\n   expected:%#v\n   got:     %#v", test.Expected.DeleteAllCards, response)
+	} else if !reflect.DeepEqual(response, expected) {
+		t.Errorf("incorrect response\n   expected:%#v\n   got:     %#v", expected, response)
 	}
 }
 
 func TestGetEvent(t *testing.T) {
+	expected := test.Expected.GetEvent
+
 	controller := uhppoted.Controller{
 		ID:       405419896,
 		Address:  netip.MustParseAddrPort("127.0.0.1:50003"),
@@ -441,12 +490,14 @@ func TestGetEvent(t *testing.T) {
 
 	if err != nil {
 		t.Fatalf("%v", err)
-	} else if !reflect.DeepEqual(response, test.Expected.GetEvent) {
-		t.Errorf("incorrect response\n   expected:%#v\n   got:     %#v", test.Expected.GetEvent, response)
+	} else if !reflect.DeepEqual(response, expected) {
+		t.Errorf("incorrect response\n   expected:%#v\n   got:     %#v", expected, response)
 	}
 }
 
 func TestGetEventNotFound(t *testing.T) {
+	expected := test.Expected.GetEventNotFound
+
 	controller := uhppoted.Controller{
 		ID:       405419896,
 		Address:  netip.MustParseAddrPort("127.0.0.1:50003"),
@@ -459,12 +510,14 @@ func TestGetEventNotFound(t *testing.T) {
 
 	if err != nil {
 		t.Fatalf("%v", err)
-	} else if !reflect.DeepEqual(response, test.Expected.GetEventNotFound) {
-		t.Errorf("incorrect response\n   expected:%#v\n   got:     %#v", test.Expected.GetEventNotFound, response)
+	} else if !reflect.DeepEqual(response, expected) {
+		t.Errorf("incorrect response\n   expected:%#v\n   got:     %#v", expected, response)
 	}
 }
 
 func TestGetEventOverwritten(t *testing.T) {
+	expected := test.Expected.GetEventOverwritten
+
 	controller := uhppoted.Controller{
 		ID:       405419896,
 		Address:  netip.MustParseAddrPort("127.0.0.1:50003"),
@@ -477,12 +530,14 @@ func TestGetEventOverwritten(t *testing.T) {
 
 	if err != nil {
 		t.Fatalf("%v", err)
-	} else if !reflect.DeepEqual(response, test.Expected.GetEventOverwritten) {
-		t.Errorf("incorrect response\n   expected:%#v\n   got:     %#v", test.Expected.GetEventOverwritten, response)
+	} else if !reflect.DeepEqual(response, expected) {
+		t.Errorf("incorrect response\n   expected:%#v\n   got:     %#v", expected, response)
 	}
 }
 
 func TestGetEventIndex(t *testing.T) {
+	expected := test.Expected.GetEventIndex
+
 	controller := uhppoted.Controller{
 		ID:       405419896,
 		Address:  netip.MustParseAddrPort("127.0.0.1:50003"),
@@ -493,12 +548,14 @@ func TestGetEventIndex(t *testing.T) {
 
 	if err != nil {
 		t.Fatalf("%v", err)
-	} else if !reflect.DeepEqual(response, test.Expected.GetEventIndex) {
-		t.Errorf("incorrect response\n   expected:%#v\n   got:     %#v", test.Expected.GetEventIndex, response)
+	} else if !reflect.DeepEqual(response, expected) {
+		t.Errorf("incorrect response\n   expected:%#v\n   got:     %#v", expected, response)
 	}
 }
 
 func TestSetEventIndex(t *testing.T) {
+	expected := test.Expected.SetEventIndex
+
 	controller := uhppoted.Controller{
 		ID:       405419896,
 		Address:  netip.MustParseAddrPort("127.0.0.1:50003"),
@@ -511,12 +568,14 @@ func TestSetEventIndex(t *testing.T) {
 
 	if err != nil {
 		t.Fatalf("%v", err)
-	} else if !reflect.DeepEqual(response, test.Expected.SetEventIndex) {
-		t.Errorf("incorrect response\n   expected:%#v\n   got:     %#v", test.Expected.SetEventIndex, response)
+	} else if !reflect.DeepEqual(response, expected) {
+		t.Errorf("incorrect response\n   expected:%#v\n   got:     %#v", expected, response)
 	}
 }
 
 func TestRecordSpecialEvents(t *testing.T) {
+	expected := test.Expected.RecordSpecialEvents
+
 	controller := uhppoted.Controller{
 		ID:       405419896,
 		Address:  netip.MustParseAddrPort("127.0.0.1:50003"),
@@ -529,12 +588,14 @@ func TestRecordSpecialEvents(t *testing.T) {
 
 	if err != nil {
 		t.Fatalf("%v", err)
-	} else if !reflect.DeepEqual(response, test.Expected.RecordSpecialEvents) {
-		t.Errorf("incorrect response\n   expected:%#v\n   got:     %#v", test.Expected.RecordSpecialEvents, response)
+	} else if !reflect.DeepEqual(response, expected) {
+		t.Errorf("incorrect response\n   expected:%#v\n   got:     %#v", expected, response)
 	}
 }
 
 func TestGetTimeProfile(t *testing.T) {
+	expected := test.Expected.GetTimeProfile
+
 	controller := uhppoted.Controller{
 		ID:       405419896,
 		Address:  netip.MustParseAddrPort("127.0.0.1:50003"),
@@ -547,12 +608,14 @@ func TestGetTimeProfile(t *testing.T) {
 
 	if err != nil {
 		t.Fatalf("%v", err)
-	} else if !reflect.DeepEqual(response, test.Expected.GetTimeProfile) {
-		t.Errorf("incorrect response\n   expected:%#v\n   got:     %#v", test.Expected.GetTimeProfile, response)
+	} else if !reflect.DeepEqual(response, expected) {
+		t.Errorf("incorrect response\n   expected:%#v\n   got:     %#v", expected, response)
 	}
 }
 
 func TestSetTimeProfile(t *testing.T) {
+	expected := test.Expected.SetTimeProfile
+
 	controller := uhppoted.Controller{
 		ID:       405419896,
 		Address:  netip.MustParseAddrPort("127.0.0.1:50003"),
@@ -581,12 +644,14 @@ func TestSetTimeProfile(t *testing.T) {
 
 	if err != nil {
 		t.Fatalf("%v", err)
-	} else if !reflect.DeepEqual(response, test.Expected.SetTimeProfile) {
-		t.Errorf("incorrect response\n   expected:%#v\n   got:     %#v", test.Expected.SetTimeProfile, response)
+	} else if !reflect.DeepEqual(response, expected) {
+		t.Errorf("incorrect response\n   expected:%#v\n   got:     %#v", expected, response)
 	}
 }
 
 func TestClearTimeProfiles(t *testing.T) {
+	expected := test.Expected.ClearTimeProfiles
+
 	controller := uhppoted.Controller{
 		ID:       405419896,
 		Address:  netip.MustParseAddrPort("127.0.0.1:50003"),
@@ -597,12 +662,14 @@ func TestClearTimeProfiles(t *testing.T) {
 
 	if err != nil {
 		t.Fatalf("%v", err)
-	} else if !reflect.DeepEqual(response, test.Expected.ClearTimeProfiles) {
-		t.Errorf("incorrect response\n   expected:%#v\n   got:     %#v", test.Expected.ClearTimeProfiles, response)
+	} else if !reflect.DeepEqual(response, expected) {
+		t.Errorf("incorrect response\n   expected:%#v\n   got:     %#v", expected, response)
 	}
 }
 
 func TestAddTask(t *testing.T) {
+	expected := test.Expected.AddTask
+
 	controller := uhppoted.Controller{
 		ID:       405419896,
 		Address:  netip.MustParseAddrPort("127.0.0.1:50003"),
@@ -627,12 +694,14 @@ func TestAddTask(t *testing.T) {
 
 	if err != nil {
 		t.Fatalf("%v", err)
-	} else if !reflect.DeepEqual(response, test.Expected.AddTask) {
-		t.Errorf("incorrect response\n   expected:%#v\n   got:     %#v", test.Expected.AddTask, response)
+	} else if !reflect.DeepEqual(response, expected) {
+		t.Errorf("incorrect response\n   expected:%#v\n   got:     %#v", expected, response)
 	}
 }
 
 func TestRefreshTaskList(t *testing.T) {
+	expected := test.Expected.RefreshTaskList
+
 	controller := uhppoted.Controller{
 		ID:       405419896,
 		Address:  netip.MustParseAddrPort("127.0.0.1:50003"),
@@ -643,12 +712,14 @@ func TestRefreshTaskList(t *testing.T) {
 
 	if err != nil {
 		t.Fatalf("%v", err)
-	} else if !reflect.DeepEqual(response, test.Expected.RefreshTaskList) {
-		t.Errorf("incorrect response\n   expected:%#v\n   got:     %#v", test.Expected.RefreshTaskList, response)
+	} else if !reflect.DeepEqual(response, expected) {
+		t.Errorf("incorrect response\n   expected:%#v\n   got:     %#v", expected, response)
 	}
 }
 
 func TestClearTaskList(t *testing.T) {
+	expected := test.Expected.ClearTaskList
+
 	controller := uhppoted.Controller{
 		ID:       405419896,
 		Address:  netip.MustParseAddrPort("127.0.0.1:50003"),
@@ -659,12 +730,14 @@ func TestClearTaskList(t *testing.T) {
 
 	if err != nil {
 		t.Fatalf("%v", err)
-	} else if !reflect.DeepEqual(response, test.Expected.ClearTaskList) {
-		t.Errorf("incorrect response\n   expected:%#v\n   got:     %#v", test.Expected.ClearTaskList, response)
+	} else if !reflect.DeepEqual(response, expected) {
+		t.Errorf("incorrect response\n   expected:%#v\n   got:     %#v", expected, response)
 	}
 }
 
 func TestSetPcControl(t *testing.T) {
+	expected := test.Expected.SetPcControl
+
 	controller := uhppoted.Controller{
 		ID:       405419896,
 		Address:  netip.MustParseAddrPort("127.0.0.1:50003"),
@@ -677,12 +750,14 @@ func TestSetPcControl(t *testing.T) {
 
 	if err != nil {
 		t.Fatalf("%v", err)
-	} else if !reflect.DeepEqual(response, test.Expected.SetPcControl) {
-		t.Errorf("incorrect response\n   expected:%#v\n   got:     %#v", test.Expected.SetPcControl, response)
+	} else if !reflect.DeepEqual(response, expected) {
+		t.Errorf("incorrect response\n   expected:%#v\n   got:     %#v", expected, response)
 	}
 }
 
 func TestSetInterlock(t *testing.T) {
+	expected := test.Expected.SetInterlock
+
 	controller := uhppoted.Controller{
 		ID:       405419896,
 		Address:  netip.MustParseAddrPort("127.0.0.1:50003"),
@@ -695,12 +770,14 @@ func TestSetInterlock(t *testing.T) {
 
 	if err != nil {
 		t.Fatalf("%v", err)
-	} else if !reflect.DeepEqual(response, test.Expected.SetInterlock) {
-		t.Errorf("incorrect response\n   expected:%#v\n   got:     %#v", test.Expected.SetInterlock, response)
+	} else if !reflect.DeepEqual(response, expected) {
+		t.Errorf("incorrect response\n   expected:%#v\n   got:     %#v", expected, response)
 	}
 }
 
 func TestActivateKeypads(t *testing.T) {
+	expected := test.Expected.ActivateKeypads
+
 	controller := uhppoted.Controller{
 		ID:       405419896,
 		Address:  netip.MustParseAddrPort("127.0.0.1:50003"),
@@ -716,12 +793,14 @@ func TestActivateKeypads(t *testing.T) {
 
 	if err != nil {
 		t.Fatalf("%v", err)
-	} else if !reflect.DeepEqual(response, test.Expected.ActivateKeypads) {
-		t.Errorf("incorrect response\n   expected:%#v\n   got:     %#v", test.Expected.ActivateKeypads, response)
+	} else if !reflect.DeepEqual(response, expected) {
+		t.Errorf("incorrect response\n   expected:%#v\n   got:     %#v", expected, response)
 	}
 }
 
 func TestGetAntipassback(t *testing.T) {
+	expected := test.Expected.GetAntipassback
+
 	controller := uhppoted.Controller{
 		ID:       405419896,
 		Address:  netip.MustParseAddrPort("127.0.0.1:50003"),
@@ -732,12 +811,14 @@ func TestGetAntipassback(t *testing.T) {
 
 	if err != nil {
 		t.Fatalf("%v", err)
-	} else if !reflect.DeepEqual(response, test.Expected.GetAntipassback) {
-		t.Errorf("incorrect response\n   expected:%#v\n   got:     %#v", test.Expected.GetAntipassback, response)
+	} else if !reflect.DeepEqual(response, expected) {
+		t.Errorf("incorrect response\n   expected:%#v\n   got:     %#v", expected, response)
 	}
 }
 
 func TestSetAntipassback(t *testing.T) {
+	expected := test.Expected.SetAntipassback
+
 	controller := uhppoted.Controller{
 		ID:       405419896,
 		Address:  netip.MustParseAddrPort("127.0.0.1:50003"),
@@ -750,12 +831,14 @@ func TestSetAntipassback(t *testing.T) {
 
 	if err != nil {
 		t.Fatalf("%v", err)
-	} else if !reflect.DeepEqual(response, test.Expected.SetAntipassback) {
-		t.Errorf("incorrect response\n   expected:%#v\n   got:     %#v", test.Expected.SetAntipassback, response)
+	} else if !reflect.DeepEqual(response, expected) {
+		t.Errorf("incorrect response\n   expected:%#v\n   got:     %#v", expected, response)
 	}
 }
 
 func TestRestoreDefaultParameters(t *testing.T) {
+	expected := test.Expected.RestoreDefaultParameters
+
 	controller := uhppoted.Controller{
 		ID:       405419896,
 		Address:  netip.MustParseAddrPort("127.0.0.1:50003"),
@@ -766,7 +849,7 @@ func TestRestoreDefaultParameters(t *testing.T) {
 
 	if err != nil {
 		t.Fatalf("%v", err)
-	} else if !reflect.DeepEqual(response, test.Expected.RestoreDefaultParameters) {
-		t.Errorf("incorrect response\n   expected:%#v\n   got:     %#v", test.Expected.RestoreDefaultParameters, response)
+	} else if !reflect.DeepEqual(response, expected) {
+		t.Errorf("incorrect response\n   expected:%#v\n   got:     %#v", expected, response)
 	}
 }

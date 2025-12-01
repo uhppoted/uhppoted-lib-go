@@ -6,6 +6,7 @@
     - [x] expected
     - [x] default
     - [x] udp
-    - [ ] tcp
+    - [x] tcp
+    - [ ] remove template generation
 
 - [ ] godoc/examples
