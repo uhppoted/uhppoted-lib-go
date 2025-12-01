@@ -19,9 +19,9 @@ import (
 	"codegen/model"
 )
 
-func broadcastAST() {
-	outfile := filepath.Join(".", "default", "api_test.go")
-	decl := buildBroadcast()
+func tcpAST() {
+	outfile := filepath.Join(".", "tcp", "api_test.go")
+	decl := buildTCP()
 
 	// .. convert dst to ast
 	fset, file, err := decorator.RestoreFile(decl)
@@ -49,7 +49,7 @@ func broadcastAST() {
 	}
 }
 
-func buildBroadcast() *dst.File {
+func buildTCP() *dst.File {
 	imports := &dst.GenDecl{
 		Tok: token.IMPORT,
 		Specs: []dst.Spec{
@@ -112,8 +112,12 @@ func buildBroadcast() *dst.File {
 	tests := []dst.Decl{}
 
 	for _, fn := range model.API {
+		if fn.Name == "find-controllers" {
+			continue
+		}
+
 		for _, test := range fn.Tests {
-			if test := buildBroadcastTestFunc(*fn, test); test != nil {
+			if test := buildTCPTestFunc(*fn, test); test != nil {
 				tests = append(tests, test)
 			}
 		}
@@ -131,7 +135,7 @@ func buildBroadcast() *dst.File {
 	return file
 }
 
-func buildBroadcastTestFunc(fn lib.Function, test lib.FuncTest) *dst.FuncDecl {
+func buildTCPTestFunc(fn lib.Function, test lib.FuncTest) *dst.FuncDecl {
 	name := fmt.Sprintf("Test%v", codegen.TitleCase(test.Name))
 
 	f := &dst.FuncDecl{
@@ -151,7 +155,7 @@ func buildBroadcastTestFunc(fn lib.Function, test lib.FuncTest) *dst.FuncDecl {
 				},
 			},
 		},
-		Body: buildBroadcastTestImpl(fn, test),
+		Body: buildTCPTestImpl(fn, test),
 
 		Decs: dst.FuncDeclDecorations{
 			NodeDecs: dst.NodeDecs{
@@ -163,20 +167,20 @@ func buildBroadcastTestFunc(fn lib.Function, test lib.FuncTest) *dst.FuncDecl {
 	return f
 }
 
-func buildBroadcastTestImpl(fn lib.Function, test lib.FuncTest) *dst.BlockStmt {
+func buildTCPTestImpl(fn lib.Function, test lib.FuncTest) *dst.BlockStmt {
 	block := &dst.BlockStmt{
 		List: []dst.Stmt{},
 	}
 
 	block.List = append(block.List, buildAPITestExpected(fn, test))
-	block.List = append(block.List, buildBroadcastTestArgs(fn, test)...)
+	block.List = append(block.List, buildTCPTestArgs(fn, test)...)
 	block.List = append(block.List, buildAPITestExec(fn, test))
 	block.List = append(block.List, buildAPITestValidate(fn, test))
 
 	return block
 }
 
-func buildBroadcastTestArgs(fn lib.Function, test lib.FuncTest) []dst.Stmt {
+func buildTCPTestArgs(fn lib.Function, test lib.FuncTest) []dst.Stmt {
 	args := []dst.Stmt{}
 
 	for _, arg := range test.Args {
@@ -189,7 +193,7 @@ func buildBroadcastTestArgs(fn lib.Function, test lib.FuncTest) []dst.Stmt {
 				},
 				Tok: token.DEFINE,
 				Rhs: []dst.Expr{
-					buildBroadcastTestController(arg),
+					buildTCPTestController(arg),
 				},
 			})
 		} else {
@@ -208,13 +212,76 @@ func buildBroadcastTestArgs(fn lib.Function, test lib.FuncTest) []dst.Stmt {
 	return args
 }
 
-func buildBroadcastTestController(arg lib.Arg) dst.Expr {
-	return &dst.CallExpr{
-		Fun: &dst.Ident{Name: "uint32"},
-		Args: []dst.Expr{
-			&dst.BasicLit{
-				Kind:  token.STRING,
-				Value: fmt.Sprintf(`%v`, arg.Value),
+func buildTCPTestController(arg lib.Arg) dst.Expr {
+	controller := dst.KeyValueExpr{
+		Key: &dst.Ident{
+			Name: "ID",
+		},
+		Value: &dst.BasicLit{
+			Kind:  token.INT,
+			Value: fmt.Sprintf(`%v`, arg.Value),
+		},
+		Decs: dst.KeyValueExprDecorations{
+			NodeDecs: dst.NodeDecs{
+				Before: dst.NewLine,
+				After:  dst.NewLine,
+			},
+		},
+	}
+
+	address := dst.KeyValueExpr{
+		Key: &dst.Ident{
+			Name: "Address",
+		},
+		Value: &dst.CallExpr{
+			Fun: &dst.SelectorExpr{
+				X:   &dst.Ident{Name: "netip"},
+				Sel: &dst.Ident{Name: "MustParseAddrPort"},
+			},
+			Args: []dst.Expr{
+				&dst.BasicLit{
+					Kind:  token.STRING,
+					Value: `"127.0.0.1:50003"`,
+				},
+			},
+		},
+		Decs: dst.KeyValueExprDecorations{
+			NodeDecs: dst.NodeDecs{
+				Before: dst.NewLine,
+				After:  dst.NewLine,
+			},
+		},
+	}
+
+	protocol := dst.KeyValueExpr{
+		Key: &dst.Ident{
+			Name: "Protocol",
+		},
+		Value: &dst.BasicLit{
+			Kind:  token.STRING,
+			Value: `"tcp"`,
+		},
+		Decs: dst.KeyValueExprDecorations{
+			NodeDecs: dst.NodeDecs{
+				Before: dst.NewLine,
+				After:  dst.NewLine,
+			},
+		},
+	}
+
+	return &dst.CompositeLit{
+		Type: &dst.SelectorExpr{
+			X:   &dst.Ident{Name: "uhppoted"},
+			Sel: &dst.Ident{Name: "Controller"},
+		},
+		Elts: []dst.Expr{
+			&controller,
+			&address,
+			&protocol,
+		},
+		Decs: dst.CompositeLitDecorations{
+			NodeDecs: dst.NodeDecs{
+				After: dst.EmptyLine,
 			},
 		},
 	}
