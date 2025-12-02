@@ -19,7 +19,7 @@ import (
 	"codegen/model"
 )
 
-func tcpAST() {
+func tcp() {
 	outfile := filepath.Join(".", "tcp", "api_test.go")
 	decl := buildTCP()
 

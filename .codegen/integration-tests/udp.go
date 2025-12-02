@@ -19,7 +19,7 @@ import (
 	"codegen/model"
 )
 
-func udpAST() {
+func udp() {
 	outfile := filepath.Join(".", "udp", "api_test.go")
 	decl := buildUDP()
 

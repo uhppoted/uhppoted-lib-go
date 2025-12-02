@@ -19,7 +19,7 @@ import (
 	"codegen/model"
 )
 
-func broadcastAST() {
+func broadcast() {
 	outfile := filepath.Join(".", "default", "api_test.go")
 	decl := buildBroadcast()
 
