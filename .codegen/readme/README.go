@@ -1,9 +1,11 @@
 package readme
 
 import (
+	"bytes"
 	_ "embed"
 	"log"
 	"os"
+	"regexp"
 	"text/template"
 
 	"codegen/codegen"
@@ -11,24 +13,43 @@ import (
 )
 
 //go:embed templates/README.template
-var readmeTemplate string
+var readme string
 
 func README() {
-	const file = "../../README.md"
+	var b bytes.Buffer
 
-	f, err := os.Create(file)
+	// ... load README.md
+	src, err := os.ReadFile("../../README.md")
 	if err != nil {
-		log.Fatalf("Failed to create file %s: %v", file, err)
-	}
-	defer f.Close()
-
-	var API = model.API
-
-	tmpl := template.Must(template.New("encode").Funcs(codegen.Functions).Parse(readmeTemplate))
-	if err := tmpl.Execute(f, API); err != nil {
 		log.Fatalf("Failed to execute template: %v", err)
 	}
 
-	log.Printf("... generated %s", file)
+	// ... generate API section
+	var API = model.API
 
+	tmpl := template.Must(template.New("encode").Funcs(codegen.Functions).Parse(readme))
+	if err := tmpl.Execute(&b, API); err != nil {
+		log.Fatalf("Failed to execute template: %v", err)
+	}
+
+	// ... update API section of README
+
+	re := regexp.MustCompile(`(?s)(.*?\n## API)(.*?)(\n## License.*)`)
+	replace := "$1\n" + b.String() + "\n$3"
+	updated := re.ReplaceAllString(string(src), replace)
+
+	// ... (conditionally) write to _README.md
+	if string(src) != updated {
+		const file = "../../_README.md"
+
+		f, err := os.Create(file)
+		if err != nil {
+			log.Fatalf("Failed to create file %s: %v", file, err)
+		}
+		defer f.Close()
+
+		f.Write([]byte(updated))
+
+		log.Printf("**** WARNING: README.md updated")
+	}
 }

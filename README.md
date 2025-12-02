@@ -61,7 +61,6 @@ cd examples/cli      && go build -trimpath -o bin ./...
 
 The API is documented in the [API.md](API.md) file - for convenience the available functions are listed below:
 
-
 - [`FindControllers`](API.md#findcontrollers)
 - [`GetController`](API.md#getcontroller)
 - [`SetIPv4`](API.md#setipv4)
@@ -107,3 +106,10 @@ The API is documented in the [API.md](API.md) file - for convenience the availab
 - [`SetTimeProfileRecord`](API.md#settimeprofilerecord)
 - [`AddTaskRecord`](API.md#addtaskrecord)
 - [`Listen`](API.md#listen)
+
+
+## License
+
+[MIT](https://github.com/uhppoted/uhpoted-lib-go/blob/master/LICENSE). 
+
+
