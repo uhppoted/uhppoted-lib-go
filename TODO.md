@@ -1,12 +1,6 @@
 # TODO
 
 ## TODO
-- [ ] integration tests: AST codegen
-    - [x] messages
-    - [x] expected
-    - [x] default
-    - [x] udp
-    - [x] tcp
-    - [ ] remove template generation
-
+- [x] integration tests: AST codegen
+- [x] codegen: merge API with README
 - [ ] godoc/examples
