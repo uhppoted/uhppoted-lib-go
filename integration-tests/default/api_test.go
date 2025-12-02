@@ -43,7 +43,6 @@ func TestSetIPv4(t *testing.T) {
 	expected := test.Expected.SetIPv4
 
 	controller := uint32(405419896)
-
 	address := netip.MustParseAddr("192.168.1.125")
 	netmask := netip.MustParseAddr("255.255.255.0")
 	gateway := netip.MustParseAddr("192.168.1.1")
@@ -75,7 +74,6 @@ func TestSetTime(t *testing.T) {
 	expected := test.Expected.SetTime
 
 	controller := uint32(405419896)
-
 	dateTime := types.MustParseDateTime("2025-11-04 12:34:56")
 
 	response, err := uhppoted.SetTime(u, controller, dateTime, timeout)
@@ -105,7 +103,6 @@ func TestSetListener(t *testing.T) {
 	expected := test.Expected.SetListener
 
 	controller := uint32(405419896)
-
 	address := netip.MustParseAddr("192.168.1.100")
 	port := uint16(60001)
 	interval := uint8(17)
@@ -137,7 +134,6 @@ func TestSetListenerAddrPort(t *testing.T) {
 	expected := test.Expected.SetListenerAddrPort
 
 	controller := uint32(405419897)
-
 	listener := netip.MustParseAddrPort("192.168.1.100:60001")
 	interval := uint8(17)
 
@@ -154,7 +150,6 @@ func TestGetDoor(t *testing.T) {
 	expected := test.Expected.GetDoor
 
 	controller := uint32(405419896)
-
 	door := uint8(4)
 
 	response, err := uhppoted.GetDoor(u, controller, door, timeout)
@@ -170,7 +165,6 @@ func TestSetDoor(t *testing.T) {
 	expected := test.Expected.SetDoor
 
 	controller := uint32(405419896)
-
 	door := uint8(4)
 	mode := types.DoorMode(2)
 	delay := uint8(17)
@@ -188,7 +182,6 @@ func TestSetDoorPasscodes(t *testing.T) {
 	expected := test.Expected.SetDoorPasscodes
 
 	controller := uint32(405419896)
-
 	door := uint8(4)
 	passcode1 := uint32(12345)
 	passcode2 := uint32(54321)
@@ -208,7 +201,6 @@ func TestOpenDoor(t *testing.T) {
 	expected := test.Expected.OpenDoor
 
 	controller := uint32(405419896)
-
 	door := uint8(4)
 
 	response, err := uhppoted.OpenDoor(u, controller, door, timeout)
@@ -266,7 +258,6 @@ func TestGetCard(t *testing.T) {
 	expected := test.Expected.GetCard
 
 	controller := uint32(405419896)
-
 	card := uint32(10058400)
 
 	response, err := uhppoted.GetCard(u, controller, card, timeout)
@@ -282,7 +273,6 @@ func TestGetCardNotFound(t *testing.T) {
 	expected := test.Expected.GetCardNotFound
 
 	controller := uint32(405419896)
-
 	card := uint32(10058401)
 
 	response, err := uhppoted.GetCard(u, controller, card, timeout)
@@ -298,7 +288,6 @@ func TestGetCardAtIndex(t *testing.T) {
 	expected := test.Expected.GetCardAtIndex
 
 	controller := uint32(405419896)
-
 	index := uint32(135)
 
 	response, err := uhppoted.GetCardAtIndex(u, controller, index, timeout)
@@ -314,7 +303,6 @@ func TestGetCardAtIndexNotFound(t *testing.T) {
 	expected := test.Expected.GetCardAtIndexNotFound
 
 	controller := uint32(405419896)
-
 	index := uint32(136)
 
 	response, err := uhppoted.GetCardAtIndex(u, controller, index, timeout)
@@ -330,7 +318,6 @@ func TestGetCardAtIndexDeleted(t *testing.T) {
 	expected := test.Expected.GetCardAtIndexDeleted
 
 	controller := uint32(405419896)
-
 	index := uint32(137)
 
 	response, err := uhppoted.GetCardAtIndex(u, controller, index, timeout)
@@ -346,7 +333,6 @@ func TestPutCard(t *testing.T) {
 	expected := test.Expected.PutCard
 
 	controller := uint32(405419896)
-
 	card := uint32(10058400)
 	startDate := types.MustParseDate("2025-01-01")
 	endDate := types.MustParseDate("2025-12-31")
@@ -369,7 +355,6 @@ func TestDeleteCard(t *testing.T) {
 	expected := test.Expected.DeleteCard
 
 	controller := uint32(405419896)
-
 	card := uint32(10058400)
 
 	response, err := uhppoted.DeleteCard(u, controller, card, timeout)
@@ -399,7 +384,6 @@ func TestGetEvent(t *testing.T) {
 	expected := test.Expected.GetEvent
 
 	controller := uint32(405419896)
-
 	eventIndex := uint32(13579)
 
 	response, err := uhppoted.GetEvent(u, controller, eventIndex, timeout)
@@ -415,7 +399,6 @@ func TestGetEventNotFound(t *testing.T) {
 	expected := test.Expected.GetEventNotFound
 
 	controller := uint32(405419896)
-
 	eventIndex := uint32(24680)
 
 	response, err := uhppoted.GetEvent(u, controller, eventIndex, timeout)
@@ -431,7 +414,6 @@ func TestGetEventOverwritten(t *testing.T) {
 	expected := test.Expected.GetEventOverwritten
 
 	controller := uint32(405419896)
-
 	eventIndex := uint32(98765)
 
 	response, err := uhppoted.GetEvent(u, controller, eventIndex, timeout)
@@ -461,7 +443,6 @@ func TestSetEventIndex(t *testing.T) {
 	expected := test.Expected.SetEventIndex
 
 	controller := uint32(405419896)
-
 	index := uint32(13579)
 
 	response, err := uhppoted.SetEventIndex(u, controller, index, timeout)
@@ -477,7 +458,6 @@ func TestRecordSpecialEvents(t *testing.T) {
 	expected := test.Expected.RecordSpecialEvents
 
 	controller := uint32(405419896)
-
 	enabled := true
 
 	response, err := uhppoted.RecordSpecialEvents(u, controller, enabled, timeout)
@@ -493,7 +473,6 @@ func TestGetTimeProfile(t *testing.T) {
 	expected := test.Expected.GetTimeProfile
 
 	controller := uint32(405419896)
-
 	profile := uint8(37)
 
 	response, err := uhppoted.GetTimeProfile(u, controller, profile, timeout)
@@ -509,7 +488,6 @@ func TestSetTimeProfile(t *testing.T) {
 	expected := test.Expected.SetTimeProfile
 
 	controller := uint32(405419896)
-
 	profile := uint8(37)
 	startDate := types.MustParseDate("2025-11-26")
 	endDate := types.MustParseDate("2025-12-29")
@@ -555,7 +533,6 @@ func TestAddTask(t *testing.T) {
 	expected := test.Expected.AddTask
 
 	controller := uint32(405419896)
-
 	task := types.TaskType(2)
 	startDate := types.MustParseDate("2025-01-01")
 	endDate := types.MustParseDate("2025-12-31")
@@ -611,7 +588,6 @@ func TestSetPcControl(t *testing.T) {
 	expected := test.Expected.SetPcControl
 
 	controller := uint32(405419896)
-
 	enabled := true
 
 	response, err := uhppoted.SetPCControl(u, controller, enabled, timeout)
@@ -627,7 +603,6 @@ func TestSetInterlock(t *testing.T) {
 	expected := test.Expected.SetInterlock
 
 	controller := uint32(405419896)
-
 	interlock := types.Interlock(8)
 
 	response, err := uhppoted.SetInterlock(u, controller, interlock, timeout)
@@ -643,7 +618,6 @@ func TestActivateKeypads(t *testing.T) {
 	expected := test.Expected.ActivateKeypads
 
 	controller := uint32(405419896)
-
 	reader1 := true
 	reader2 := true
 	reader3 := false
@@ -676,7 +650,6 @@ func TestSetAntipassback(t *testing.T) {
 	expected := test.Expected.SetAntipassback
 
 	controller := uint32(405419896)
-
 	antipassback := types.AntiPassback(2)
 
 	response, err := uhppoted.SetAntiPassback(u, controller, antipassback, timeout)
