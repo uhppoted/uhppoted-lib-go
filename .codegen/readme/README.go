@@ -38,9 +38,9 @@ func README() {
 	replace := "$1\n" + b.String() + "\n$3"
 	updated := re.ReplaceAllString(string(src), replace)
 
-	// ... (conditionally) write to _README.md
+	// ... (conditionally) write to README.md
 	if string(src) != updated {
-		const file = "../../_README.md"
+		const file = "../../README.md"
 
 		f, err := os.Create(file)
 		if err != nil {
