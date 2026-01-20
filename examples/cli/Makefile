@@ -88,7 +88,7 @@ get-listener: build
 	$(CMD) get-listener --controller $(CONTROLLER) $(DEST) $(TCP)
 
 set-listener: build
-	$(CMD) set-listener --controller $(CONTROLLER) $(DEST) $(TCP) --listener 192.168.1.100:60001 --interval 5
+	$(CMD) set-listener --controller $(CONTROLLER) $(DEST) $(TCP) --listener 192.168.1.125:60001 --interval 5
 
 get-door: build
 	$(CMD) get-door --controller $(CONTROLLER) $(DEST) $(TCP) --door $(DOOR)
