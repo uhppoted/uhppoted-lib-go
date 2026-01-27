@@ -45,9 +45,9 @@ build-all:
 
 release: clean build-all
 
-# publish: release
-# 	echo "Releasing version $(VERSION)"
-# 	gh release create "$(VERSION)" --draft --prerelease --title "$(VERSION)-beta" --notes-file release-notes.md
+publish: release
+	echo "Releasing version $(VERSION)"
+	gh release create "$(VERSION)" --draft --prerelease --title "$(VERSION)-beta" --notes-file release-notes.md
 
 godoc:
 	cd src && make godoc
