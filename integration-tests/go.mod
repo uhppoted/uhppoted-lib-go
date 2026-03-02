@@ -1,5 +1,5 @@
 module integration-tests
 
-go 1.25.4
+go 1.26
 
-require github.com/uhppoted/uhppoted-lib-go/src/uhppoted v0.0.0-20260120173848-18575cda3187
+require github.com/uhppoted/uhppoted-lib-go/src/uhppoted v0.0.0-20260127224454-ab23815ef44a

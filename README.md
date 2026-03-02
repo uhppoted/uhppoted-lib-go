@@ -2,8 +2,6 @@
 
 # uhppoted-lib-go
 
-**PENDING RELEASE**
-
 Standalone Go library for the UHPPOTE access controllers.
 
 _uhppoted-lib-go_ supersedes [_uhppote-core_](https://github.com/uhppoted/uhppote-core) for external use:
