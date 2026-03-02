@@ -52,8 +52,8 @@ func parseKeypads(s string) ([]bool, error) {
 		4: false,
 	}
 
-	tokens := strings.Split(s, ",")
-	for _, token := range tokens {
+	tokens := strings.SplitSeq(s, ",")
+	for token := range tokens {
 		if keypad, err := strconv.ParseUint(token, 10, 8); err == nil {
 			keypads[uint8(keypad)] = true
 		}

@@ -12,10 +12,12 @@ clean:
 update:
 	go get -u github.com/uhppoted/uhppoted-codegen@main
 	go mod tidy
+	go fix ./...
 
 update-release:
 	go get -u github.com/uhppoted/uhppoted-codegen
 	go mod tidy
+	go fix ./...
 
 format: 
 	go fmt ./...

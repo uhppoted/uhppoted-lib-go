@@ -11,7 +11,7 @@ func dump(tag string, description string, packet []byte) {
 	lines := []string{description}
 	hex := "%02x %02x %02x %02x %02x %02x %02x %02x"
 
-	for i := 0; i < 4; i++ {
+	for i := range 4 {
 		offset := i * 16
 		u := packet[offset : offset+8]
 		v := packet[offset+8 : offset+16]

@@ -79,7 +79,7 @@ func hex(bytes []byte) string {
 	lines := []string{}
 	hex := "0x%02x, 0x%02x, 0x%02x, 0x%02x, 0x%02x, 0x%02x, 0x%02x, 0x%02x,"
 
-	for i := 0; i < 4; i++ {
+	for i := range 4 {
 		offset := i * 16
 		u := bytes[offset : offset+8]
 		v := bytes[offset+8 : offset+16]

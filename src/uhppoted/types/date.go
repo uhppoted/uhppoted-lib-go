@@ -14,10 +14,7 @@ type Date struct {
 
 // Constructs a new Date struct with minimal validation.
 func NewDate(year uint16, month uint8, day uint8) Date {
-	yyyy := year
-	if yyyy < 1 {
-		yyyy = 1
-	}
+	yyyy := max(year, 1)
 
 	mm := month
 	if mm < 1 {
@@ -26,10 +23,7 @@ func NewDate(year uint16, month uint8, day uint8) Date {
 		mm = 12
 	}
 
-	dd := day
-	if dd < 1 {
-		dd = 1
-	}
+	dd := max(day, 1)
 
 	return Date{
 		year:  yyyy,

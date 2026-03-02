@@ -15,6 +15,7 @@ clean:
 update:
 	go get -u github.com/uhppoted/uhppoted-lib-go/src/uhppoted
 	go mod tidy
+	go fix ./...
 
 format: 
 	go fmt ./...

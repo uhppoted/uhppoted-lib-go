@@ -39,9 +39,9 @@ func parseDateTime(v string) (time.Time, error) {
 
 func parsePasscodes(v string) []uint32 {
 	passcodes := []uint32{}
-	tokens := strings.Split(v, ",")
+	tokens := strings.SplitSeq(v, ",")
 
-	for _, token := range tokens {
+	for token := range tokens {
 		if u32, err := strconv.ParseUint(token, 10, 32); err == nil && u32 < 1000000 {
 			passcodes = append(passcodes, uint32(u32))
 		}

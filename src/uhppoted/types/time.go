@@ -13,15 +13,9 @@ type Time struct {
 }
 
 func NewTime(hour uint8, minute uint8, second uint8) Time {
-	ss := second
-	if ss > 59 {
-		ss = 59
-	}
+	ss := min(second, 59)
 
-	mm := minute
-	if mm > 59 {
-		mm = 59
-	}
+	mm := min(minute, 59)
 
 	hh := hour
 	if hh >= 24 {

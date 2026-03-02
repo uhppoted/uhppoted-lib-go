@@ -12,10 +12,7 @@ type HHmm struct {
 }
 
 func NewHHmm(hour uint8, minute uint8) HHmm {
-	mm := minute
-	if mm > 59 {
-		mm = 59
-	}
+	mm := min(minute, 59)
 
 	hh := hour
 	if hh >= 24 {

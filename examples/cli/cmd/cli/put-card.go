@@ -134,8 +134,8 @@ func parseCardPermissions(v string) ([]uint8, error) {
 	doors := []uint8{0, 0, 0, 0}
 
 	re := regexp.MustCompile("([1234])(:([0-9]+))?")
-	tokens := strings.Split(v, ",")
-	for _, token := range tokens {
+	tokens := strings.SplitSeq(v, ",")
+	for token := range tokens {
 		match := re.FindStringSubmatch(token)
 
 		if len(match) > 0 {

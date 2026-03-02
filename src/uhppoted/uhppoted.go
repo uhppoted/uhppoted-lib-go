@@ -140,7 +140,7 @@ func resolve[T TController](controller T) (Controller, error) {
 
 func valid[R any](response R, controller uint32) bool {
 	r := reflect.ValueOf(response)
-	if r.Kind() == reflect.Ptr && !r.IsNil() {
+	if r.Kind() == reflect.Pointer && !r.IsNil() {
 		r = r.Elem()
 	}
 

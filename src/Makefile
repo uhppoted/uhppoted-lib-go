@@ -12,6 +12,14 @@ clean:
 regenerate:
 	cd uhppoted && go generate ./... && go fmt ./...
 
+update:
+	cd uhppoted && go mod tidy
+	cd uhppoted && go fix ./...
+
+update-release:
+	cd uhppoted && go mod tidy
+	cd uhppoted && go fix ./...
+
 format: 
 	cd uhppoted && go fmt ./...
 

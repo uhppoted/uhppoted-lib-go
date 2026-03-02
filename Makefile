@@ -12,13 +12,14 @@ regenerate:
 	cd integration-tests && make regenerate
 
 update:
+	cd src               && make update
 	cd .codegen          && make update
 	cd integration-tests && make update
 	cd examples/cli      && make update
 
 update-release:
 	cd .codegen && make update-release
-	go mod tidy
+	cd src      && make update-release
 
 build: 
 	cd src && make build
