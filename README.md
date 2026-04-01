@@ -40,14 +40,14 @@ cd .codegen && go build -trimpath -o bin ./...
 Assuming you have `Go` and `make` installed:
 
 ```
-git clone https://github.com/uhppoted/uhppoted-lib-go/uhppoted-lib-goi.git
+git clone https://github.com/uhppoted/uhppoted-lib-go/uhppoted-lib-go.git
 cd uhppoted-lib-go
 make build-all
 ```
 
 If you prefer building manually:
 ```
-git clone https://github.com/uhppoted/uhppoted-lib-go/uhppoted-lib-goi.git
+git clone https://github.com/uhppoted/uhppoted-lib-go/uhppoted-lib-go.git
 cd uhppoted-lib-go
 cd .codegen          && go build -trimpath -o bin ./...
 cd src/uhppoted      && go build -trimpath ./... && go test ./...
