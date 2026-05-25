@@ -1,9 +1,12 @@
 CMD   = ./bin/cli --debug --bind 0.0.0.0 --broadcast 192.168.1.255:60000 --listen 0.0.0.0:60001
-CONTROLLER = 405419896
-DOOR = 3
-CARD = 10058400
+
+CONTROLLER ?= 405419896
+DOOR ?= 3
+CARD ?= 10058400
 DEST ?= 
 TCP  ?= 
+
+FIRSTCARD ?= 08:30,16:45,normally open, firstcard only, [Mon,Tues,Fri]
 
 .DEFAULT_GOAL := build
 
@@ -189,6 +192,9 @@ get-antipassback: build
 
 set-antipassback: build
 	$(CMD) set-antipassback --controller $(CONTROLLER) $(DEST) $(TCP) --anti-passback "(1:2);(3:4)"
+
+set-firstcard: build
+	$(CMD) set-firstcard --controller $(CONTROLLER) $(DEST) $(TCP) --door $(DOOR) --firstcard "$(FIRSTCARD)"
 
 restore-default-parameters: build
 	$(CMD) restore-default-parameters --controller $(CONTROLLER) $(DEST) $(TCP)

@@ -106,6 +106,9 @@ func decode(packet []byte) (any, error) {
 	case 0x84:
 		return decoder.SetAntiPassbackResponse(packet)
 
+	case 0xaa:
+		return decoder.SetFirstCardResponse(packet)
+
 	case 0xc8:
 		return decoder.RestoreDefaultParametersResponse(packet)
 

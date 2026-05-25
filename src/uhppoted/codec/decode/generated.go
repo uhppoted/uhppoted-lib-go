@@ -759,6 +759,26 @@ func SetAntiPassbackResponse(packet []byte) (responses.SetAntiPassback, error) {
 	}, nil
 }
 
+// Decodes a SetFirstCardResponse from a 64 byte response packet.
+func SetFirstCardResponse(packet []byte) (responses.SetFirstCard, error) {
+	if len(packet) != 64 {
+		return responses.SetFirstCard{}, fmt.Errorf("invalid reply packet length (%v)", len(packet))
+	}
+
+	if packet[0] != SOM && (packet[0] != SOM_v6_62 || packet[1] != 0x20) {
+		return responses.SetFirstCard{}, fmt.Errorf("invalid reply start of message byte (%02x)", packet[0])
+	}
+
+	if packet[1] != 0xaa {
+		return responses.SetFirstCard{}, fmt.Errorf("invalid reply function code (%02x)", packet[1])
+	}
+
+	return responses.SetFirstCard{
+		Controller: unpackUint32(packet, 4),
+		Ok:         unpackBool(packet, 8),
+	}, nil
+}
+
 // Decodes a RestoreDefaultParametersResponse from a 64 byte response packet.
 func RestoreDefaultParametersResponse(packet []byte) (responses.RestoreDefaultParameters, error) {
 	if len(packet) != 64 {

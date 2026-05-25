@@ -6,7 +6,6 @@ import (
 	"log"
 	"os"
 	"path/filepath"
-	"regexp"
 	"strings"
 
 	"go/printer"
@@ -166,7 +165,7 @@ func buildFunction(f lib.Function) *dst.FuncDecl {
 	})
 
 	for _, arg := range f.Args {
-		name := regexp.MustCompile(`[ \-]+`).ReplaceAllString(arg.Name, "")
+		name := codegen.CamelCase(arg.Name)
 		t := arg.Type
 
 		switch arg.Type {
@@ -263,7 +262,7 @@ func impl(f lib.Function) *dst.BlockStmt {
 
 loop:
 	for _, arg := range f.Request.Fields[1:] {
-		name := regexp.MustCompile(`\s+`).ReplaceAllString(arg.Name, "")
+		name := codegen.CamelCase(arg.Name)
 
 		switch arg.Type {
 		case "magic":

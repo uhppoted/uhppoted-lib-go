@@ -11,6 +11,9 @@ const (
 
 	// controlled
 	Controlled DoorMode = 0x03
+
+	// firstcard only
+	FirstCardOnly DoorMode = 0x04
 )
 
 func (m DoorMode) String() string {
@@ -21,6 +24,8 @@ func (m DoorMode) String() string {
 		return "normally closed"
 	case Controlled:
 		return "controlled"
+	case FirstCardOnly:
+		return "firstcard only"
 	default:
 		return "unknown"
 	}

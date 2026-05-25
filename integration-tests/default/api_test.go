@@ -74,9 +74,9 @@ func TestSetTime(t *testing.T) {
 	expected := test.Expected.SetTime
 
 	controller := uint32(405419896)
-	dateTime := types.MustParseDateTime("2025-11-04 12:34:56")
+	datetime := types.MustParseDateTime("2025-11-04 12:34:56")
 
-	response, err := uhppoted.SetTime(u, controller, dateTime, timeout)
+	response, err := uhppoted.SetTime(u, controller, datetime, timeout)
 
 	if err != nil {
 		t.Fatalf("%v", err)

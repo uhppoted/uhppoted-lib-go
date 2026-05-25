@@ -41,6 +41,7 @@ var API = []*types.Function{
 	&ActivateKeypads,
 	&GetAntiPassback,
 	&SetAntiPassback,
+	//  &SetFirstCard,  // NTS: too complicated to codegen weird door control modes
 	&RestoreDefaultParameters,
 }
 
@@ -79,6 +80,7 @@ var UDP = []*types.Function{
 	&ActivateKeypads,
 	&GetAntiPassback,
 	&SetAntiPassback,
+	//  &SetFirstCard,  // NTS: too complicated to codegen weird door control modes
 	&RestoreDefaultParameters,
 }
 
@@ -117,6 +119,7 @@ var TCP = []*types.Function{
 	&ActivateKeypads,
 	&GetAntiPassback,
 	&SetAntiPassback,
+	//  &SetFirstCard,  // NTS: too complicated to codegen weird door control modes
 	&RestoreDefaultParameters,
 }
 
@@ -228,4 +231,5 @@ var SetInterlock = lib.SetInterlock
 var ActivateKeypads = lib.ActivateKeypads
 var GetAntiPassback = lib.GetAntiPassback
 var SetAntiPassback = lib.SetAntiPassback
+var SetFirstCard = lib.SetFirstCard
 var RestoreDefaultParameters = lib.RestoreDefaultParameters

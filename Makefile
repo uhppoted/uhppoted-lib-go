@@ -1,3 +1,6 @@
+DOOR ?= 3
+FIRSTCARD ?= 08:30,16:45,normally open, firstcard only, [Mon,Tues,Fri]
+
 .PHONY: regenerate
 .PHONY: integration-tests
 
@@ -230,7 +233,7 @@ clear-tasklist: build
 set-pc-control: build
 	cd examples/cli && make set-pc-control
 	cd examples/cli && make set-pc-control DEST="--dest 127.0.0.1"
-	cd examples/cli && make set-pc-control DEST="--dest 127.0.0.1" DEST="--dest 127.0.0.1" TCP="--tcp""
+	cd examples/cli && make set-pc-control DEST="--dest 127.0.0.1" DEST="--dest 127.0.0.1" TCP="--tcp"
 
 set-interlock: build
 	cd examples/cli && make set-interlock
@@ -251,6 +254,11 @@ set-antipassback: build
 	cd examples/cli && make set-antipassback
 	cd examples/cli && make set-antipassback DEST="--dest 127.0.0.1"
 	cd examples/cli && make set-antipassback DEST="--dest 127.0.0.1" DEST="--dest 127.0.0.1" TCP="--tcp"
+
+set-firstcard: build
+	cd examples/cli && make set-firstcard DOOR=$(DOOR) FIRSTCARD="$(FIRSTCARD)"
+	cd examples/cli && make set-firstcard DEST="--dest 127.0.0.1" DOOR=$(DOOR) FIRSTCARD="$(FIRSTCARD)"
+	cd examples/cli && make set-firstcard DEST="--dest 127.0.0.1" DEST="--dest 127.0.0.1" TCP="--tcp" DOOR=$(DOOR) FIRSTCARD="$(FIRSTCARD)"
 
 restore-default-parameters: build
 	cd examples/cli && make restore-default-parameters

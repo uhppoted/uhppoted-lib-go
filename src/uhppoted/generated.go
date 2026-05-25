@@ -112,8 +112,8 @@ func GetCards[T TController](u Uhppoted, controller T, timeout time.Duration) (r
 }
 
 // Retrieves the card information for a given card number.
-func GetCard[T TController](u Uhppoted, controller T, cardnumber uint32, timeout time.Duration) (responses.GetCard, error) {
-	f := func(id uint32) ([]byte, error) { return encode.GetCardRequest(id, cardnumber) }
+func GetCard[T TController](u Uhppoted, controller T, cardNumber uint32, timeout time.Duration) (responses.GetCard, error) {
+	f := func(id uint32) ([]byte, error) { return encode.GetCardRequest(id, cardNumber) }
 
 	return exec[T, responses.GetCard](u, controller, f, timeout)
 }
@@ -126,17 +126,17 @@ func GetCardAtIndex[T TController](u Uhppoted, controller T, index uint32, timeo
 }
 
 // Creates or updates the card information stored on an access controller.
-func PutCard[T TController, D TDate](u Uhppoted, controller T, card uint32, startdate D, enddate D, door1 uint8, door2 uint8, door3 uint8, door4 uint8, PIN uint32, timeout time.Duration) (responses.PutCard, error) {
+func PutCard[T TController, D TDate](u Uhppoted, controller T, card uint32, startDate D, endDate D, door1 uint8, door2 uint8, door3 uint8, door4 uint8, PIN uint32, timeout time.Duration) (responses.PutCard, error) {
 	f := func(id uint32) ([]byte, error) {
-		return encode.PutCardRequest(id, card, convert[types.Date](startdate), convert[types.Date](enddate), door1, door2, door3, door4, PIN)
+		return encode.PutCardRequest(id, card, convert[types.Date](startDate), convert[types.Date](endDate), door1, door2, door3, door4, PIN)
 	}
 
 	return exec[T, responses.PutCard](u, controller, f, timeout)
 }
 
 // Removes a card record stored on a controller.
-func DeleteCard[T TController](u Uhppoted, controller T, cardnumber uint32, timeout time.Duration) (responses.DeleteCard, error) {
-	f := func(id uint32) ([]byte, error) { return encode.DeleteCardRequest(id, cardnumber) }
+func DeleteCard[T TController](u Uhppoted, controller T, cardNumber uint32, timeout time.Duration) (responses.DeleteCard, error) {
+	f := func(id uint32) ([]byte, error) { return encode.DeleteCardRequest(id, cardNumber) }
 
 	return exec[T, responses.DeleteCard](u, controller, f, timeout)
 }
@@ -149,8 +149,8 @@ func DeleteAllCards[T TController](u Uhppoted, controller T, timeout time.Durati
 }
 
 // Retrieves an event record stored on an access controller.
-func GetEvent[T TController](u Uhppoted, controller T, eventindex uint32, timeout time.Duration) (responses.GetEvent, error) {
-	f := func(id uint32) ([]byte, error) { return encode.GetEventRequest(id, eventindex) }
+func GetEvent[T TController](u Uhppoted, controller T, eventIndex uint32, timeout time.Duration) (responses.GetEvent, error) {
+	f := func(id uint32) ([]byte, error) { return encode.GetEventRequest(id, eventIndex) }
 
 	return exec[T, responses.GetEvent](u, controller, f, timeout)
 }
@@ -163,8 +163,8 @@ func GetEventIndex[T TController](u Uhppoted, controller T, timeout time.Duratio
 }
 
 // Sets the downloaded event index on an access controller.
-func SetEventIndex[T TController](u Uhppoted, controller T, eventindex uint32, timeout time.Duration) (responses.SetEventIndex, error) {
-	f := func(id uint32) ([]byte, error) { return encode.SetEventIndexRequest(id, eventindex) }
+func SetEventIndex[T TController](u Uhppoted, controller T, eventIndex uint32, timeout time.Duration) (responses.SetEventIndex, error) {
+	f := func(id uint32) ([]byte, error) { return encode.SetEventIndexRequest(id, eventIndex) }
 
 	return exec[T, responses.SetEventIndex](u, controller, f, timeout)
 }
@@ -184,9 +184,9 @@ func GetTimeProfile[T TController](u Uhppoted, controller T, profile uint8, time
 }
 
 // Adds or updates an access time profile stored on a controller.
-func SetTimeProfile[T TController, D TDate, H THHmm](u Uhppoted, controller T, profile uint8, startdate D, enddate D, monday bool, tuesday bool, wednesday bool, thursday bool, friday bool, saturday bool, sunday bool, segment1start H, segment1end H, segment2start H, segment2end H, segment3start H, segment3end H, linkedprofileid uint8, timeout time.Duration) (responses.SetTimeProfile, error) {
+func SetTimeProfile[T TController, D TDate, H THHmm](u Uhppoted, controller T, profile uint8, startDate D, endDate D, monday bool, tuesday bool, wednesday bool, thursday bool, friday bool, saturday bool, sunday bool, segment1Start H, segment1End H, segment2Start H, segment2End H, segment3Start H, segment3End H, linkedProfileId uint8, timeout time.Duration) (responses.SetTimeProfile, error) {
 	f := func(id uint32) ([]byte, error) {
-		return encode.SetTimeProfileRequest(id, profile, convert[types.Date](startdate), convert[types.Date](enddate), monday, tuesday, wednesday, thursday, friday, saturday, sunday, convert[types.HHmm](segment1start), convert[types.HHmm](segment1end), convert[types.HHmm](segment2start), convert[types.HHmm](segment2end), convert[types.HHmm](segment3start), convert[types.HHmm](segment3end), linkedprofileid)
+		return encode.SetTimeProfileRequest(id, profile, convert[types.Date](startDate), convert[types.Date](endDate), monday, tuesday, wednesday, thursday, friday, saturday, sunday, convert[types.HHmm](segment1Start), convert[types.HHmm](segment1End), convert[types.HHmm](segment2Start), convert[types.HHmm](segment2End), convert[types.HHmm](segment3Start), convert[types.HHmm](segment3End), linkedProfileId)
 	}
 
 	return exec[T, responses.SetTimeProfile](u, controller, f, timeout)
@@ -215,9 +215,9 @@ func ClearTimeProfiles[T TController](u Uhppoted, controller T, timeout time.Dur
 //   - 10: trigger once
 //   - 11: disable pushbutton
 //   - 12: enable pushbutton
-func AddTask[T TController, D TDate, H THHmm](u Uhppoted, controller T, task types.TaskType, startdate D, enddate D, monday bool, tuesday bool, wednesday bool, thursday bool, friday bool, saturday bool, sunday bool, starttime H, door uint8, morecards uint8, timeout time.Duration) (responses.AddTask, error) {
+func AddTask[T TController, D TDate, H THHmm](u Uhppoted, controller T, task types.TaskType, startDate D, endDate D, monday bool, tuesday bool, wednesday bool, thursday bool, friday bool, saturday bool, sunday bool, startTime H, door uint8, moreCards uint8, timeout time.Duration) (responses.AddTask, error) {
 	f := func(id uint32) ([]byte, error) {
-		return encode.AddTaskRequest(id, task, convert[types.Date](startdate), convert[types.Date](enddate), monday, tuesday, wednesday, thursday, friday, saturday, sunday, convert[types.HHmm](starttime), door, morecards)
+		return encode.AddTaskRequest(id, task, convert[types.Date](startDate), convert[types.Date](endDate), monday, tuesday, wednesday, thursday, friday, saturday, sunday, convert[types.HHmm](startTime), door, moreCards)
 	}
 
 	return exec[T, responses.AddTask](u, controller, f, timeout)
@@ -232,7 +232,7 @@ func RefreshTaskList[T TController](u Uhppoted, controller T, timeout time.Durat
 
 // Removes all scheduled tasks.
 func ClearTaskList[T TController](u Uhppoted, controller T, timeout time.Duration) (responses.ClearTaskList, error) {
-	f := func(id uint32) ([]byte, error) { return encode.ClearTasklistRequest(id) }
+	f := func(id uint32) ([]byte, error) { return encode.ClearTaskListRequest(id) }
 
 	return exec[T, responses.ClearTaskList](u, controller, f, timeout)
 }

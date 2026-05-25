@@ -50,6 +50,7 @@ var commands = map[string]func(u uhppoted.Uhppoted, args []string) error{
 	"activate-keypads":           activateKeypads,
 	"get-antipassback":           getAntiPassback,
 	"set-antipassback":           setAntiPassback,
+	"set-firstcard":              setFirstCard,
 	"restore-default-parameters": restoreDefaultParameters,
 	"listen":                     listen,
 }

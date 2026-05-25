@@ -266,6 +266,61 @@ func AddTaskRecord[T TController](u Uhppoted, controller T, record types.Task, t
 	}
 }
 
+// Sets the first card configuration for a access controller managed door.
+func SetFirstCard[T TController](u Uhppoted, controller T, door uint8, firstcard types.FirstCard, timeout time.Duration) (bool, error) {
+	f := func(id uint32) ([]byte, error) {
+		activeMode := uint8(0)
+		inactiveMode := uint8(0)
+
+		switch firstcard.ActiveMode {
+		case types.Controlled:
+			activeMode = 0
+		case types.NormallyOpen:
+			activeMode = 1
+		case types.NormallyClosed:
+			activeMode = 2
+		}
+
+		switch firstcard.InactiveMode {
+		case types.Controlled:
+			inactiveMode = 0
+		case types.NormallyOpen:
+			inactiveMode = 1
+		case types.NormallyClosed:
+			inactiveMode = 2
+		case types.FirstCardOnly:
+			inactiveMode = 3
+		}
+
+		return encode.SetFirstCardRequest(id, door,
+			convert[types.HHmm](firstcard.StartTime),
+			convert[types.HHmm](firstcard.EndTime),
+			activeMode,
+			inactiveMode,
+			firstcard.Weekdays.Monday,
+			firstcard.Weekdays.Tuesday,
+			firstcard.Weekdays.Wednesday,
+			firstcard.Weekdays.Thursday,
+			firstcard.Weekdays.Friday,
+			firstcard.Weekdays.Saturday,
+			firstcard.Weekdays.Sunday)
+	}
+
+	if c, err := resolve(controller); err != nil {
+		return false, err
+	} else if request, err := f(c.ID); err != nil {
+		return false, err
+	} else if reply, err := send(u, c, request, timeout); err != nil {
+		return false, err
+	} else if response, err := codec.Decode[responses.SetFirstCard](reply); err != nil {
+		return false, err
+	} else if !valid(response, c.ID) {
+		return false, ErrInvalidResponse
+	} else {
+		return response.Ok, nil
+	}
+}
+
 // Interface definition for access event consumers.
 type IListener interface {
 	OnEvent(ListenerEvent)

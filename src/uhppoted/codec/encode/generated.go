@@ -413,8 +413,8 @@ func RefreshTaskListRequest(controller uint32) ([]byte, error) {
 	return packet, nil
 }
 
-// Encodes a ClearTasklistRequest request to a 64 byte packet.
-func ClearTasklistRequest(controller uint32) ([]byte, error) {
+// Encodes a ClearTaskListRequest request to a 64 byte packet.
+func ClearTaskListRequest(controller uint32) ([]byte, error) {
 	packet := make([]byte, 64)
 
 	packet[0] = SOM
@@ -490,6 +490,30 @@ func SetAntipassbackRequest(controller uint32, antipassback types.AntiPassback) 
 
 	packUint32(controller, packet, 4)
 	packAntiPassback(antipassback, packet, 8)
+
+	return packet, nil
+}
+
+// Encodes a SetFirstCardRequest request to a 64 byte packet.
+func SetFirstCardRequest(controller uint32, door uint8, starttime types.HHmm, endtime types.HHmm, activemode uint8, inactivemode uint8, monday bool, tuesday bool, wednesday bool, thursday bool, friday bool, saturday bool, sunday bool) ([]byte, error) {
+	packet := make([]byte, 64)
+
+	packet[0] = SOM
+	packet[1] = 0xaa
+
+	packUint32(controller, packet, 4)
+	packUint8(door, packet, 8)
+	packHHmm(starttime, packet, 9)
+	packHHmm(endtime, packet, 12)
+	packUint8(activemode, packet, 11)
+	packUint8(inactivemode, packet, 14)
+	packBool(monday, packet, 15)
+	packBool(tuesday, packet, 16)
+	packBool(wednesday, packet, 17)
+	packBool(thursday, packet, 18)
+	packBool(friday, packet, 19)
+	packBool(saturday, packet, 20)
+	packBool(sunday, packet, 21)
 
 	return packet, nil
 }
