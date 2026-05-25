@@ -4,7 +4,7 @@ go 1.26
 
 require (
 	github.com/dave/dst v0.27.3
-	github.com/uhppoted/uhppoted-codegen v0.9.1-0.20260519150929-5c4dbd801abc
+	github.com/uhppoted/uhppoted-codegen v0.9.1-0.20260525195205-2c45fe918da2
 )
 
 require (

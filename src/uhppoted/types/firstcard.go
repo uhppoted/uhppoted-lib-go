@@ -10,7 +10,7 @@ type FirstCard struct {
 	EndTime      HHmm     `json:"end-time"`
 	ActiveMode   DoorMode `json:"active-mode"`
 	InactiveMode DoorMode `json:"inactive-mode"`
-	Weekdays     Weekdays `json:"weekdays,omitempty"`
+	Weekdays     Weekdays `json:"weekdays"`
 }
 
 func (f FirstCard) String() string {

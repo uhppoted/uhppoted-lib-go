@@ -103,7 +103,6 @@ The API is documented in the [API.md](API.md) file - for convenience the availab
 - [`GetTimeProfileRecord`](API.md#gettimeprofilerecord)
 - [`SetTimeProfileRecord`](API.md#settimeprofilerecord)
 - [`AddTaskRecord`](API.md#addtaskrecord)
-- [`SetFirstCard`](API.md#setfirstcard)
 - [`Listen`](API.md#listen)
 
 
