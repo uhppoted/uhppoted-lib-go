@@ -23,7 +23,7 @@ type convertable interface {
 func FindControllers(u Uhppoted, timeout time.Duration) ([]responses.GetController, error) {
 	if request, err := encode.GetControllerRequest(0); err != nil {
 		return nil, err
-	} else if replies, err := u.udp.broadcast(request, timeout); err != nil {
+	} else if replies, err := u.udp.Broadcast(request, timeout); err != nil {
 		return nil, err
 	} else {
 		list := []responses.GetController{}
@@ -332,7 +332,7 @@ type IListener interface {
 func Listen(u Uhppoted, listener IListener, interrupt chan os.Signal) error {
 	ch := make(chan []uint8)
 
-	go u.udp.listen(ch)
+	go u.udp.Listen(ch)
 
 loop:
 	for {

@@ -4,12 +4,13 @@ import (
 	"encoding/binary"
 	"errors"
 	"fmt"
-	"net"
+	// "net"
 	"net/netip"
 	"reflect"
 	"time"
 
 	"github.com/uhppoted/uhppoted-lib-go/src/uhppoted/codec"
+	"github.com/uhppoted/uhppoted-lib-go/src/uhppoted/net"
 	"github.com/uhppoted/uhppoted-lib-go/src/uhppoted/responses"
 	"github.com/uhppoted/uhppoted-lib-go/src/uhppoted/types"
 )
@@ -20,8 +21,8 @@ type Uhppoted struct {
 	listenAddr    netip.AddrPort
 	debug         bool
 
-	udp udp
-	tcp tcp
+	udp net.UDP
+	tcp net.TCP
 }
 
 type TController interface {
@@ -68,17 +69,8 @@ func NewUhppoted(bind, broadcast, listen netip.AddrPort, debug bool) Uhppoted {
 		listenAddr:    listen,
 		debug:         debug,
 
-		udp: udp{
-			bindAddr:      net.UDPAddrFromAddrPort(bind),
-			broadcastAddr: net.UDPAddrFromAddrPort(broadcast),
-			listenAddr:    net.UDPAddrFromAddrPort(listen),
-			debug:         debug,
-		},
-
-		tcp: tcp{
-			bindAddr: net.TCPAddrFromAddrPort(bind),
-			debug:    debug,
-		},
+		udp: net.MakeUDP(bind, broadcast, listen, debug),
+		tcp: net.MakeTCP(bind, debug),
 	}
 }
 
@@ -100,17 +92,31 @@ func exec[T TController, R any](u Uhppoted, controller T, encode func(id uint32)
 	}
 }
 
+func (u Uhppoted) Send(controller Controller, request []byte, timeout time.Duration) ([]byte, error) {
+	zero := netip.AddrPort{}
+
+	if controller.Address != zero && !controller.Address.IsValid() {
+		return nil, fmt.Errorf("invalid address (%v)", controller.Address)
+	} else if controller.Address != zero && controller.Protocol == "tcp" {
+		return u.tcp.SendTo(request, controller.Address, timeout)
+	} else if controller.Address != zero {
+		return u.udp.SendTo(request, controller.Address, timeout)
+	} else {
+		return u.udp.BroadcastTo(request, timeout)
+	}
+}
+
 func send(u Uhppoted, controller Controller, request []byte, timeout time.Duration) ([]byte, error) {
 	zero := netip.AddrPort{}
 
 	if controller.Address != zero && !controller.Address.IsValid() {
 		return nil, fmt.Errorf("invalid address (%v)", controller.Address)
 	} else if controller.Address != zero && controller.Protocol == "tcp" {
-		return u.tcp.sendTo(request, controller.Address, timeout)
+		return u.tcp.SendTo(request, controller.Address, timeout)
 	} else if controller.Address != zero {
-		return u.udp.sendTo(request, controller.Address, timeout)
+		return u.udp.SendTo(request, controller.Address, timeout)
 	} else {
-		return u.udp.broadcastTo(request, timeout)
+		return u.udp.BroadcastTo(request, timeout)
 	}
 }
 

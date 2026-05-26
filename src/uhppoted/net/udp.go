@@ -1,4 +1,4 @@
-package uhppoted
+package net
 
 import (
 	"fmt"
@@ -7,14 +7,23 @@ import (
 	"time"
 )
 
-type udp struct {
+type UDP struct {
 	bindAddr      *net.UDPAddr
 	broadcastAddr *net.UDPAddr
 	listenAddr    *net.UDPAddr
 	debug         bool
 }
 
-func (u udp) broadcast(request []byte, timeout time.Duration) ([][]byte, error) {
+func MakeUDP(bind, broadcast, listen netip.AddrPort, debug bool) UDP {
+	return UDP{
+		bindAddr:      net.UDPAddrFromAddrPort(bind),
+		broadcastAddr: net.UDPAddrFromAddrPort(broadcast),
+		listenAddr:    net.UDPAddrFromAddrPort(listen),
+		debug:         debug,
+	}
+}
+
+func (u UDP) Broadcast(request []byte, timeout time.Duration) ([][]byte, error) {
 	replies := [][]byte{}
 
 	if socket, err := net.ListenUDP("udp", u.bindAddr); err != nil {
@@ -62,7 +71,7 @@ func (u udp) broadcast(request []byte, timeout time.Duration) ([][]byte, error) 
 	}
 }
 
-func (u udp) broadcastTo(request []byte, timeout time.Duration) ([]byte, error) {
+func (u UDP) BroadcastTo(request []byte, timeout time.Duration) ([]byte, error) {
 	if socket, err := net.ListenUDP("udp", u.bindAddr); err != nil {
 		return nil, err
 	} else {
@@ -123,7 +132,7 @@ func (u udp) broadcastTo(request []byte, timeout time.Duration) ([]byte, error) 
 	}
 }
 
-func (u udp) sendTo(request []byte, dest netip.AddrPort, timeout time.Duration) ([]byte, error) {
+func (u UDP) SendTo(request []byte, dest netip.AddrPort, timeout time.Duration) ([]byte, error) {
 	addr := net.UDPAddrFromAddrPort(dest)
 
 	if socket, err := net.DialUDP("udp", u.bindAddr, addr); err != nil {
@@ -186,7 +195,7 @@ func (u udp) sendTo(request []byte, dest netip.AddrPort, timeout time.Duration) 
 	}
 }
 
-func (u udp) listen(ch chan []byte) error {
+func (u UDP) Listen(ch chan []byte) error {
 	socket, err := net.ListenUDP("udp", u.listenAddr)
 	if err != nil {
 		return err

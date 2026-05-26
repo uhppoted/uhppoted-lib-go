@@ -1,4 +1,4 @@
-package uhppoted
+package net
 
 import (
 	"fmt"
@@ -7,12 +7,19 @@ import (
 	"time"
 )
 
-type tcp struct {
+type TCP struct {
 	bindAddr *net.TCPAddr
 	debug    bool
 }
 
-func (t tcp) sendTo(request []byte, dest netip.AddrPort, timeout time.Duration) ([]byte, error) {
+func MakeTCP(bind netip.AddrPort, debug bool) TCP {
+	return TCP{
+		bindAddr: net.TCPAddrFromAddrPort(bind),
+		debug:    debug,
+	}
+}
+
+func (t TCP) SendTo(request []byte, dest netip.AddrPort, timeout time.Duration) ([]byte, error) {
 	addr := net.TCPAddrFromAddrPort(dest)
 
 	if socket, err := net.DialTCP("tcp", t.bindAddr, addr); err != nil {

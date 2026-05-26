@@ -3,7 +3,7 @@
 ## Unreleased
 
 ### Added
-1. _SetFirstCard_ API function.
+1. _SetFirstCard_ API function and low-level _io_ function.
 
 ### Updated
 1. Updated to Go v1.26.
