@@ -112,6 +112,11 @@ func buildBroadcast() *dst.File {
 	tests := []dst.Decl{}
 
 	for _, fn := range model.API {
+		// ... skip
+		if fn == &model.SetFirstCard {
+			continue
+		}
+
 		for _, test := range fn.Tests {
 			if test := buildBroadcastTestFunc(*fn, test); test != nil {
 				tests = append(tests, test)

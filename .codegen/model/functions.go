@@ -41,7 +41,7 @@ var API = []*types.Function{
 	&ActivateKeypads,
 	&GetAntiPassback,
 	&SetAntiPassback,
-	//  &SetFirstCard,  // NTS: too complicated to codegen weird door control modes
+	&SetFirstCard,
 	&RestoreDefaultParameters,
 }
 

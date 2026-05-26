@@ -362,3 +362,37 @@ func TestAddTaskRecord(t *testing.T) {
 		t.Errorf("incorrect response\n   expected:%v\n   got:     %v", true, ok)
 	}
 }
+
+func TestSetFirstCard(t *testing.T) {
+	controller := uhppoted.Controller{
+		ID:       405419896,
+		Address:  netip.MustParseAddrPort("127.0.0.1:50002"),
+		Protocol: "udp",
+	}
+
+	door := uint8(3)
+
+	firstcard := types.FirstCard{
+		StartTime:    types.MustParseHHmm("08:30"),
+		EndTime:      types.MustParseHHmm("17:45"),
+		ActiveMode:   types.NormallyOpen,
+		InactiveMode: types.NormallyClosed,
+		Weekdays: types.Weekdays{
+			Monday:    true,
+			Tuesday:   true,
+			Wednesday: false,
+			Thursday:  true,
+			Friday:    false,
+			Saturday:  true,
+			Sunday:    true,
+		},
+	}
+
+	ok, err := uhppoted.SetFirstCard(u, controller, door, firstcard, timeout)
+
+	if err != nil {
+		t.Fatalf("%v", err)
+	} else if !ok {
+		t.Errorf("incorrect response\n   expected:%v\n   got:     %v", true, ok)
+	}
+}

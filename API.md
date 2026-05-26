@@ -36,6 +36,7 @@
 - [`ActivateKeypads`](#activatekeypads)
 - [`GetAntiPassback`](#getantipassback)
 - [`SetAntiPassback`](#setantipassback)
+- [`SetFirstCard`](#setfirstcard)
 - [`RestoreDefaultParameters`](#restoredefaultparameters)
 - [`GetCardRecord`](#getcardrecord)
 - [`GetCardRecordAtIndex`](#getcardrecordatindex)
@@ -946,6 +947,36 @@ where:
 Returns a `SetAntiPassbackResponse`:
 ```
 type SetAntiPassbackResponse struct { 
+  Controller          uint32              `json:"controller"`     // controller serial number
+  Ok                  bool                `json:"ok"`             // succeeded/failed
+}
+```
+
+### `SetFirstCard`
+Sets the first card configuration for a access controller managed door.
+```
+SetFirstCard(u, controller, door, start-time, end-time, active-mode, inactive-mode, monday, tuesday, wednesday, thursday, friday, saturday, sunday, timeout)
+
+where:
+- u             Uhppoted        Uhppoted struct initialised with the bind address, broadcast address, etc
+- controller    controller      uint32|Controller controller serial number or {id, address, protocol} Controller struct
+- door          uint8           door ID ([1..4])
+- start-time    HHmm            time from which first card can be activated
+- end-time      HHmm            time after which first card is deactivated
+- active-mode   uint8           control mode (0:normally open, 1:normally closed, 2:controlled)
+- inactive-mode  uint8           control mode (0:normally open, 1:normally closed, 2:controlled, 3:first-card only)
+- monday        bool            frist-card enabled on Monday if true
+- tuesday       bool            frist-card enabled on Tuesday if true
+- wednesday     bool            frist-card enabled on Wednesday if true
+- thursday      bool            frist-card enabled on Thursday if true
+- friday        bool            frist-card enabled on Friday if true
+- saturday      bool            frist-card enabled on Saturday if true
+- sunday        bool            frist-card enabled on Sunday if true
+- timeout       time.Duration   maximum time to wait for a response from a controller
+```
+Returns a `SetFirstCardResponse`:
+```
+type SetFirstCardResponse struct { 
   Controller          uint32              `json:"controller"`     // controller serial number
   Ok                  bool                `json:"ok"`             // succeeded/failed
 }

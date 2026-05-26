@@ -95,6 +95,11 @@ func buildAPI() *dst.File {
 	}
 
 	for _, api := range model.API[1:] {
+		// ... skip
+		if api == &model.SetFirstCard {
+			continue
+		}
+
 		if f := buildFunction(*api); f != nil {
 			impl = append(impl, f)
 		}

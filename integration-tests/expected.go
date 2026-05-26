@@ -51,6 +51,7 @@ var Expected = struct {
 	ActivateKeypads          responses.ActivateKeypads
 	GetAntipassback          responses.GetAntiPassback
 	SetAntipassback          responses.SetAntiPassback
+	SetFirstCard             responses.SetFirstCard
 	RestoreDefaultParameters responses.RestoreDefaultParameters
 }{
 	FindControllers: []responses.GetController{
@@ -407,6 +408,11 @@ var Expected = struct {
 	},
 
 	SetAntipassback: responses.SetAntiPassback{
+		Controller: 405419896,
+		Ok:         true,
+	},
+
+	SetFirstCard: responses.SetFirstCard{
 		Controller: 405419896,
 		Ok:         true,
 	},

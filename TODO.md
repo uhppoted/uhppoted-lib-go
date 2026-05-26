@@ -4,7 +4,7 @@
    - [x] API function
    - [x] CLI command
    - [ ] _io_ function
-   - [ ] integration tests
+   - [x] integration tests
    - [x] README
    - [x] CHANGELOG
 

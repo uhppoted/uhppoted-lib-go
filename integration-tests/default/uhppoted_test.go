@@ -331,6 +331,35 @@ func TestAddTaskRecord(t *testing.T) {
 	}
 }
 
+func TestSetFirstCard(t *testing.T) {
+	controller := uint32(405419896)
+	door := uint8(3)
+
+	firstcard := types.FirstCard{
+		StartTime:    types.MustParseHHmm("08:30"),
+		EndTime:      types.MustParseHHmm("17:45"),
+		ActiveMode:   types.NormallyOpen,
+		InactiveMode: types.NormallyClosed,
+		Weekdays: types.Weekdays{
+			Monday:    true,
+			Tuesday:   true,
+			Wednesday: false,
+			Thursday:  true,
+			Friday:    false,
+			Saturday:  true,
+			Sunday:    true,
+		},
+	}
+
+	ok, err := uhppoted.SetFirstCard(u, controller, door, firstcard, timeout)
+
+	if err != nil {
+		t.Fatalf("%v", err)
+	} else if !ok {
+		t.Errorf("incorrect response\n   expected:%v\n   got:     %v", true, ok)
+	}
+}
+
 type listener struct {
 	events []uhppoted.ListenerEvent
 	errors []error

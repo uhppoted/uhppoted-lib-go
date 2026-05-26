@@ -112,7 +112,12 @@ func buildUDP() *dst.File {
 	tests := []dst.Decl{}
 
 	for _, fn := range model.API {
+		// ... skip
 		if fn.Name == "find-controllers" {
+			continue
+		}
+
+		if fn == &model.SetFirstCard {
 			continue
 		}
 
