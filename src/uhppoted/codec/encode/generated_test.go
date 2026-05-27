@@ -630,7 +630,7 @@ func TestSetFirstCard(t *testing.T) {
 		0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
 	}
 
-	packet, err := SetFirstCardRequest(405419896, 3, types.MustParseHHmm("8:30"), types.MustParseHHmm("17:45"), types.DoorMode(1), types.DoorMode(2), true, true, false, true, false, true, true)
+	packet, err := SetFirstCardRequest(405419896, 3, types.MustParseHHmm("8:30"), types.MustParseHHmm("17:45"), 1, 2, true, true, false, true, false, true, true)
 
 	if err != nil {
 		t.Fatalf("%v", err)
