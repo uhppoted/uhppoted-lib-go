@@ -495,7 +495,7 @@ func SetAntipassbackRequest(controller uint32, antipassback types.AntiPassback) 
 }
 
 // Encodes a SetFirstCardRequest request to a 64 byte packet.
-func SetFirstCardRequest(controller uint32, door uint8, starttime types.HHmm, endtime types.HHmm, activemode uint8, inactivemode uint8, monday bool, tuesday bool, wednesday bool, thursday bool, friday bool, saturday bool, sunday bool) ([]byte, error) {
+func SetFirstCardRequest(controller uint32, door uint8, starttime types.HHmm, endtime types.HHmm, activemode types.DoorMode, inactivemode types.DoorMode, monday bool, tuesday bool, wednesday bool, thursday bool, friday bool, saturday bool, sunday bool) ([]byte, error) {
 	packet := make([]byte, 64)
 
 	packet[0] = SOM
@@ -505,8 +505,8 @@ func SetFirstCardRequest(controller uint32, door uint8, starttime types.HHmm, en
 	packUint8(door, packet, 8)
 	packHHmm(starttime, packet, 9)
 	packHHmm(endtime, packet, 12)
-	packUint8(activemode, packet, 11)
-	packUint8(inactivemode, packet, 14)
+	packMode(activemode, packet, 11)
+	packMode(inactivemode, packet, 14)
 	packBool(monday, packet, 15)
 	packBool(tuesday, packet, 16)
 	packBool(wednesday, packet, 17)

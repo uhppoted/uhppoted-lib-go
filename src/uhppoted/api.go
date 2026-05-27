@@ -269,27 +269,27 @@ func AddTaskRecord[T TController](u Uhppoted, controller T, record types.Task, t
 // Sets the first card configuration for a access controller managed door.
 func SetFirstCard[T TController](u Uhppoted, controller T, door uint8, firstcard types.FirstCard, timeout time.Duration) (bool, error) {
 	f := func(id uint32) ([]byte, error) {
-		activeMode := uint8(0)
-		inactiveMode := uint8(0)
+		activeMode := types.DoorMode(0)
+		inactiveMode := types.DoorMode(0)
 
 		switch firstcard.ActiveMode {
 		case types.Controlled:
-			activeMode = 0
+			activeMode = types.DoorMode(0)
 		case types.NormallyOpen:
-			activeMode = 1
+			activeMode = types.DoorMode(1)
 		case types.NormallyClosed:
-			activeMode = 2
+			activeMode = types.DoorMode(2)
 		}
 
 		switch firstcard.InactiveMode {
 		case types.Controlled:
-			inactiveMode = 0
+			inactiveMode = types.DoorMode(0)
 		case types.NormallyOpen:
-			inactiveMode = 1
+			inactiveMode = types.DoorMode(1)
 		case types.NormallyClosed:
-			inactiveMode = 2
+			inactiveMode = types.DoorMode(2)
 		case types.FirstCardOnly:
-			inactiveMode = 3
+			inactiveMode = types.DoorMode(3)
 		}
 
 		return encode.SetFirstCardRequest(id, door,

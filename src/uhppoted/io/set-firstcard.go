@@ -21,27 +21,27 @@ func SetFirstCard[T uhppoted.TController](
 	timeout time.Duration) (responses.SetFirstCard, error) {
 
 	f := func(id uint32) ([]byte, error) {
-		active := uint8(0)
-		inactive := uint8(0)
+		active := types.DoorMode(0)
+		inactive := types.DoorMode(0)
 
 		switch activeMode {
 		case types.Controlled:
-			active = 0
+			active = types.DoorMode(0)
 		case types.NormallyOpen:
-			active = 1
+			active = types.DoorMode(1)
 		case types.NormallyClosed:
-			active = 2
+			active = types.DoorMode(2)
 		}
 
 		switch inactiveMode {
 		case types.Controlled:
-			inactive = 0
+			inactive = types.DoorMode(0)
 		case types.NormallyOpen:
-			inactive = 1
+			inactive = types.DoorMode(1)
 		case types.NormallyClosed:
-			inactive = 2
+			inactive = types.DoorMode(2)
 		case types.FirstCardOnly:
-			inactive = 3
+			inactive = types.DoorMode(3)
 		}
 
 		return encode.SetFirstCardRequest(
