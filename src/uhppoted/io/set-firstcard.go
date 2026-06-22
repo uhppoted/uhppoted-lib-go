@@ -21,36 +21,13 @@ func SetFirstCard[T uhppoted.TController](
 	timeout time.Duration) (responses.SetFirstCard, error) {
 
 	f := func(id uint32) ([]byte, error) {
-		active := uint8(0)
-		inactive := uint8(0)
-
-		switch activeMode {
-		case types.Controlled:
-			active = uint8(0)
-		case types.NormallyOpen:
-			active = uint8(1)
-		case types.NormallyClosed:
-			active = uint8(2)
-		}
-
-		switch inactiveMode {
-		case types.Controlled:
-			inactive = uint8(0)
-		case types.NormallyOpen:
-			inactive = uint8(1)
-		case types.NormallyClosed:
-			inactive = uint8(2)
-		case types.FirstCardOnly:
-			inactive = uint8(3)
-		}
-
 		return encode.SetFirstCardRequest(
 			id,
 			door,
 			convert[types.HHmm](startTime),
 			convert[types.HHmm](endTime),
-			active,
-			inactive,
+			activeMode,
+			inactiveMode,
 			monday,
 			tuesday,
 			wednesday,

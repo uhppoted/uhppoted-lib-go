@@ -19,6 +19,70 @@ import (
 const SOM byte = 0x17
 const SOM_v6_62 byte = 0x19
 
+// Encodes a SetFirstCardRequest request to a 64 byte packet.
+func SetFirstCardRequest(controller uint32,
+	door uint8,
+	starttime types.HHmm,
+	endtime types.HHmm,
+	activeMode types.DoorMode,
+	inactiveMode types.DoorMode,
+	monday bool,
+	tuesday bool,
+	wednesday bool,
+	thursday bool,
+	friday bool,
+	saturday bool,
+	sunday bool) ([]byte, error) {
+
+	active := uint8(0)
+	inactive := uint8(0)
+
+	switch activeMode {
+	case types.Controlled:
+		active = 0
+	case types.NormallyOpen:
+		active = 1
+	case types.NormallyClosed:
+		active = 2
+	default:
+		return nil, fmt.Errorf("invalid 'active' mode (%v)", activeMode)
+	}
+
+	switch inactiveMode {
+	case types.Controlled:
+		inactive = 0
+	case types.NormallyOpen:
+		inactive = 1
+	case types.NormallyClosed:
+		inactive = 2
+	case types.FirstCardOnly:
+		inactive = 3
+	default:
+		return nil, fmt.Errorf("invalid 'inactive' mode (%v)", inactiveMode)
+	}
+
+	packet := make([]byte, 64)
+
+	packet[0] = SOM
+	packet[1] = 0xaa
+
+	packUint32(controller, packet, 4)
+	packUint8(door, packet, 8)
+	packHHmm(starttime, packet, 9)
+	packHHmm(endtime, packet, 12)
+	packUint8(active, packet, 11)
+	packUint8(inactive, packet, 14)
+	packBool(monday, packet, 15)
+	packBool(tuesday, packet, 16)
+	packBool(wednesday, packet, 17)
+	packBool(thursday, packet, 18)
+	packBool(friday, packet, 19)
+	packBool(saturday, packet, 20)
+	packBool(sunday, packet, 21)
+
+	return packet, nil
+}
+
 // Packs a boolean value 'in-place' as a 1-byte true (0x01) or false (0x00) value
 // into the packet at the offset.
 //

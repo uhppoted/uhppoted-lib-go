@@ -6,6 +6,7 @@ import (
 	"log"
 	"os"
 	"path/filepath"
+	"reflect"
 	"regexp"
 
 	"go/printer"
@@ -77,6 +78,11 @@ func buildEncode() *dst.File {
 	}
 
 	for _, request := range model.Requests {
+		// ... skip?
+		if reflect.DeepEqual(request, model.SetFirstCardRequest) {
+			continue
+		}
+
 		if f := buildEncodeFunc(request); f != nil {
 			impl = append(impl, f)
 		}
