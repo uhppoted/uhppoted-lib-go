@@ -1,12 +1,7 @@
 # TODO
 
 - [x] 'first card' API (cf. https://github.com/uhppoted/uhppoted/issues/82)
-   - [x] API function
-   - [x] CLI command
-   - [x] _io_ function
-   - [x] integration tests
-   - [x] README
-   - [x] CHANGELOG
+- [x] UDP broadcast fails randomly (cf. https://github.com/uhppoted/uhppoted-lib-python/issues/21)
 
 ## TODO
 - [ ] godoc/examples

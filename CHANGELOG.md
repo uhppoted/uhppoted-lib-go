@@ -8,6 +8,7 @@
 ### Updated
 1. Updated to Go v1.26.
 2. Updated to _modern_ Go with 'go fix'.
+2. Retries when ephemeral UDP port collides with broadcast port.
 
 
 ## [0.9.0](https://github.com/uhppoted/uhppoted-lib-go/releases/tag/v0.9.0) - 2026-01-27
