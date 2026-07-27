@@ -13,9 +13,9 @@ import (
 	"github.com/dave/dst"
 	"github.com/dave/dst/decorator"
 
+	lib "codeberg.org/uhppoted/uhppoted-codegen/model/types"
 	"codegen/codegen"
 	"codegen/model"
-	lib "codeberg.org/uhppoted/uhppoted-codegen/model/types"
 )
 
 func encodeTest() {

@@ -10,9 +10,9 @@ import (
 	"go/printer"
 	"go/token"
 
+	lib "codeberg.org/uhppoted/uhppoted-codegen/model/types"
 	"github.com/dave/dst"
 	"github.com/dave/dst/decorator"
-	lib "codeberg.org/uhppoted/uhppoted-codegen/model/types"
 
 	"codegen/model"
 )
