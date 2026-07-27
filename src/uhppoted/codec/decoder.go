@@ -3,9 +3,9 @@ package codec
 import (
 	"fmt"
 
-	decoder "github.com/uhppoted/uhppoted-lib-go/src/uhppoted/codec/decode"
-	"github.com/uhppoted/uhppoted-lib-go/src/uhppoted/responses"
-	"github.com/uhppoted/uhppoted-lib-go/src/uhppoted/types"
+	decoder "codeberg.org/uhppoted/uhppoted-lib-go/src/uhppoted/codec/decode"
+	"codeberg.org/uhppoted/uhppoted-lib-go/src/uhppoted/responses"
+	"codeberg.org/uhppoted/uhppoted-lib-go/src/uhppoted/types"
 )
 
 type key[R any] struct {

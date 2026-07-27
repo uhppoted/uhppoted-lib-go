@@ -5,8 +5,8 @@ import (
 	"flag"
 	"fmt"
 
-	"github.com/uhppoted/uhppoted-lib-go/src/uhppoted"
-	"github.com/uhppoted/uhppoted-lib-go/src/uhppoted/types"
+	"codeberg.org/uhppoted/uhppoted-lib-go/src/uhppoted"
+	"codeberg.org/uhppoted/uhppoted-lib-go/src/uhppoted/types"
 )
 
 func setTime(u uhppoted.Uhppoted, args []string) error {

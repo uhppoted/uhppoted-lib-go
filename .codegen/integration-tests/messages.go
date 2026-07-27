@@ -12,7 +12,7 @@ import (
 
 	"github.com/dave/dst"
 	"github.com/dave/dst/decorator"
-	lib "github.com/uhppoted/uhppoted-codegen/model/types"
+	lib "codeberg.org/uhppoted/uhppoted-codegen/model/types"
 
 	"codegen/model"
 )

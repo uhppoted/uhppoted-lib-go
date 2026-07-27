@@ -69,7 +69,7 @@ import (
     "fmt"
     "net/netip"
 
-    lib "github.com/uhppoted/uhppoted-lib-go/src/uhppoted"
+    lib "codeberg.org/uhppoted/uhppoted-lib-go/src/uhppoted"
 )
 
 ...

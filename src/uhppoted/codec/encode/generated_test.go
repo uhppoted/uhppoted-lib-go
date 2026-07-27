@@ -7,7 +7,7 @@ import (
 	"slices"
 	"testing"
 
-	"github.com/uhppoted/uhppoted-lib-go/src/uhppoted/types"
+	"codeberg.org/uhppoted/uhppoted-lib-go/src/uhppoted/types"
 )
 
 func TestFindControllers(t *testing.T) {

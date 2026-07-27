@@ -5,7 +5,7 @@ import (
 	"fmt"
 	"net/netip"
 
-	"github.com/uhppoted/uhppoted-lib-go/src/uhppoted"
+	"codeberg.org/uhppoted/uhppoted-lib-go/src/uhppoted"
 )
 
 var commands = map[string]func(u uhppoted.Uhppoted, args []string) error{

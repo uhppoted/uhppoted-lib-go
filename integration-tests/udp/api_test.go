@@ -7,8 +7,8 @@ import (
 	"reflect"
 	"testing"
 
-	"github.com/uhppoted/uhppoted-lib-go/src/uhppoted"
-	"github.com/uhppoted/uhppoted-lib-go/src/uhppoted/types"
+	"codeberg.org/uhppoted/uhppoted-lib-go/src/uhppoted"
+	"codeberg.org/uhppoted/uhppoted-lib-go/src/uhppoted/types"
 
 	test "integration-tests"
 )

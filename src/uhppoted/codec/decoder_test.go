@@ -5,8 +5,8 @@ import (
 	"reflect"
 	"testing"
 
-	"github.com/uhppoted/uhppoted-lib-go/src/uhppoted/responses"
-	"github.com/uhppoted/uhppoted-lib-go/src/uhppoted/types"
+	"codeberg.org/uhppoted/uhppoted-lib-go/src/uhppoted/responses"
+	"codeberg.org/uhppoted/uhppoted-lib-go/src/uhppoted/types"
 )
 
 func TestInvalidPacket(t *testing.T) {

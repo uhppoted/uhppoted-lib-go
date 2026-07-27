@@ -5,9 +5,9 @@ import (
 	"flag"
 	"fmt"
 
-	"github.com/uhppoted/uhppoted-lib-go/src/uhppoted"
-	"github.com/uhppoted/uhppoted-lib-go/src/uhppoted/responses"
-	"github.com/uhppoted/uhppoted-lib-go/src/uhppoted/types"
+	"codeberg.org/uhppoted/uhppoted-lib-go/src/uhppoted"
+	"codeberg.org/uhppoted/uhppoted-lib-go/src/uhppoted/responses"
+	"codeberg.org/uhppoted/uhppoted-lib-go/src/uhppoted/types"
 )
 
 func getCard(u uhppoted.Uhppoted, args []string) error {

@@ -5,7 +5,7 @@ package responses
 import (
 	"net/netip"
 
-	"github.com/uhppoted/uhppoted-lib-go/src/uhppoted/types"
+	"codeberg.org/uhppoted/uhppoted-lib-go/src/uhppoted/types"
 )
 
 // Container struct for the response returned from an access controller when retrieving the

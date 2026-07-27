@@ -7,7 +7,7 @@ import (
 	"os/signal"
 	"syscall"
 
-	"github.com/uhppoted/uhppoted-lib-go/src/uhppoted"
+	"codeberg.org/uhppoted/uhppoted-lib-go/src/uhppoted"
 )
 
 type listener struct {

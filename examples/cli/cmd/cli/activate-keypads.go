@@ -7,7 +7,7 @@ import (
 	"strconv"
 	"strings"
 
-	"github.com/uhppoted/uhppoted-lib-go/src/uhppoted"
+	"codeberg.org/uhppoted/uhppoted-lib-go/src/uhppoted"
 )
 
 func activateKeypads(u uhppoted.Uhppoted, args []string) error {

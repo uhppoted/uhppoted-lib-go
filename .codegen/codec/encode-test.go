@@ -15,7 +15,7 @@ import (
 
 	"codegen/codegen"
 	"codegen/model"
-	lib "github.com/uhppoted/uhppoted-codegen/model/types"
+	lib "codeberg.org/uhppoted/uhppoted-codegen/model/types"
 )
 
 func encodeTest() {
@@ -80,7 +80,7 @@ func buildEncodeTest() *dst.File {
 			&dst.ImportSpec{
 				Path: &dst.BasicLit{
 					Kind:  token.STRING,
-					Value: `"github.com/uhppoted/uhppoted-lib-go/src/uhppoted/types"`,
+					Value: `"codeberg.org/uhppoted/uhppoted-lib-go/src/uhppoted/types"`,
 				},
 			},
 		},

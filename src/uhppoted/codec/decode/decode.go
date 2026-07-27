@@ -11,7 +11,7 @@ import (
 	"net/netip"
 	"regexp"
 
-	"github.com/uhppoted/uhppoted-lib-go/src/uhppoted/types"
+	"codeberg.org/uhppoted/uhppoted-lib-go/src/uhppoted/types"
 )
 
 // Message constants for the UHPPOTE request/response protocol.

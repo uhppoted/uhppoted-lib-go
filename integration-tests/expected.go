@@ -5,8 +5,8 @@ package uhppoted
 import (
 	"net/netip"
 
-	"github.com/uhppoted/uhppoted-lib-go/src/uhppoted/responses"
-	"github.com/uhppoted/uhppoted-lib-go/src/uhppoted/types"
+	"codeberg.org/uhppoted/uhppoted-lib-go/src/uhppoted/responses"
+	"codeberg.org/uhppoted/uhppoted-lib-go/src/uhppoted/types"
 )
 
 var Expected = struct {

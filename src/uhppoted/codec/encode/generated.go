@@ -5,7 +5,7 @@ package encode
 import (
 	"net/netip"
 
-	"github.com/uhppoted/uhppoted-lib-go/src/uhppoted/types"
+	"codeberg.org/uhppoted/uhppoted-lib-go/src/uhppoted/types"
 )
 
 // Encodes a GetControllerRequest request to a 64 byte packet.

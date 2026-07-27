@@ -1,3 +1,3 @@
-module github.com/uhppoted/uhppoted-lib-go/src/uhppoted
+module codeberg.org/uhppoted/uhppoted-lib-go/src/uhppoted
 
 go 1.26

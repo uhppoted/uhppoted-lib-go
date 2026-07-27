@@ -7,7 +7,7 @@ import (
 
 	"github.com/dave/dst"
 
-	lib "github.com/uhppoted/uhppoted-codegen/model/types"
+	lib "codeberg.org/uhppoted/uhppoted-codegen/model/types"
 
 	"codegen/codegen"
 )

@@ -7,8 +7,8 @@ import (
 	"iter"
 	"strings"
 
-	"github.com/uhppoted/uhppoted-lib-go/src/uhppoted"
-	"github.com/uhppoted/uhppoted-lib-go/src/uhppoted/types"
+	"codeberg.org/uhppoted/uhppoted-lib-go/src/uhppoted"
+	"codeberg.org/uhppoted/uhppoted-lib-go/src/uhppoted/types"
 )
 
 func setFirstCard(u uhppoted.Uhppoted, args []string) error {

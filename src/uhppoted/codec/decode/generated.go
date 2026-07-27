@@ -5,7 +5,7 @@ package decode
 import (
 	"fmt"
 
-	"github.com/uhppoted/uhppoted-lib-go/src/uhppoted/responses"
+	"codeberg.org/uhppoted/uhppoted-lib-go/src/uhppoted/responses"
 )
 
 // Decodes a GetControllerResponse from a 64 byte response packet.

@@ -10,7 +10,7 @@ import (
 	"slices"
 	"time"
 
-	"github.com/uhppoted/uhppoted-lib-go/src/uhppoted"
+	"codeberg.org/uhppoted/uhppoted-lib-go/src/uhppoted"
 )
 
 var options = struct {

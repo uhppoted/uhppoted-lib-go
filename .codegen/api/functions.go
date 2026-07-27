@@ -14,7 +14,7 @@ import (
 	"github.com/dave/dst"
 	"github.com/dave/dst/decorator"
 
-	lib "github.com/uhppoted/uhppoted-codegen/model/types"
+	lib "codeberg.org/uhppoted/uhppoted-codegen/model/types"
 
 	"codegen/codegen"
 	"codegen/model"
@@ -75,19 +75,19 @@ func buildAPI() *dst.File {
 				&dst.ImportSpec{
 					Path: &dst.BasicLit{
 						Kind:  token.STRING,
-						Value: `"github.com/uhppoted/uhppoted-lib-go/src/uhppoted/codec/encode"`,
+						Value: `"codeberg.org/uhppoted/uhppoted-lib-go/src/uhppoted/codec/encode"`,
 					},
 				},
 				&dst.ImportSpec{
 					Path: &dst.BasicLit{
 						Kind:  token.STRING,
-						Value: `"github.com/uhppoted/uhppoted-lib-go/src/uhppoted/types"`,
+						Value: `"codeberg.org/uhppoted/uhppoted-lib-go/src/uhppoted/types"`,
 					},
 				},
 				&dst.ImportSpec{
 					Path: &dst.BasicLit{
 						Kind:  token.STRING,
-						Value: `"github.com/uhppoted/uhppoted-lib-go/src/uhppoted/responses"`,
+						Value: `"codeberg.org/uhppoted/uhppoted-lib-go/src/uhppoted/responses"`,
 					},
 				},
 			},

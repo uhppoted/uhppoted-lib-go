@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"strings"
 
-	"github.com/uhppoted/uhppoted-lib-go/src/uhppoted/internal/log"
+	"codeberg.org/uhppoted/uhppoted-lib-go/src/uhppoted/internal/log"
 )
 
 func dump(tag string, description string, packet []byte) {

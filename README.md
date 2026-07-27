@@ -4,14 +4,14 @@
 
 Standalone Go library for the UHPPOTE access controllers.
 
-_uhppoted-lib-go_ supersedes [_uhppote-core_](https://github.com/uhppoted/uhppote-core) for external use:
+_uhppoted-lib-go_ supersedes [_uhppote-core_](https://codeberg.org/uhppoted/uhppoted-core) for external use:
 
-- _uhppote-core_ was developed a **long** time ago, long before generics and other modern constructs were available in Go and is 
+- _uhppoted-core_ was developed a **long** time ago, long before generics and other modern constructs were available in Go and is 
 starting to show its age
 - the _uhppoted-lib-go_ API conforms to the informal conventions of the other _uhppoted-lib-xxx_ projects
 - the implementation is considerably simpler and easier to understand and maintain
 
-A basic example CLI illustrating the use of the library can be found in the [examples](https://github.com/uhppoted/uhppoted-lib-go/tree/main/examples)
+A basic example CLI illustrating the use of the library can be found in the [examples](https://codeberg.org/uhppoted/uhppoted-lib-go/tree/main/examples)
 folder.
 
 ## Release Notes
@@ -21,12 +21,12 @@ folder.
 ## Installation
 
 ```
-go get github.com/uhppoted/uhppoted-lib-go/src/uhppoted
+go get codeberg.org/uhppoted/uhppoted-lib-go/src/uhppoted
 ```
 
 ## Development
 
-A significant part of the library is code generated from the models in [uhppoted-codegen](https://github.com/uhppoted/uhppoted-codegen) and 
+A significant part of the library is code generated from the models in [uhppoted-codegen](https://codeberg.org/uhppoted/uhppoted-codegen) and 
 building the library from source requires the executables in `.codegen/bin`:
 ```
 cd .codegen && go build -trimpath -o bin ./...
@@ -40,14 +40,14 @@ cd .codegen && go build -trimpath -o bin ./...
 Assuming you have `Go` and `make` installed:
 
 ```
-git clone https://github.com/uhppoted/uhppoted-lib-go/uhppoted-lib-go.git
+git clone https://codeberg.org/uhppoted/uhppoted-lib-go/uhppoted-lib-go.git
 cd uhppoted-lib-go
 make build-all
 ```
 
 If you prefer building manually:
 ```
-git clone https://github.com/uhppoted/uhppoted-lib-go/uhppoted-lib-go.git
+git clone https://codeberg.org/uhppoted/uhppoted-lib-go/uhppoted-lib-go.git
 cd uhppoted-lib-go
 cd .codegen          && go build -trimpath -o bin ./...
 cd src/uhppoted      && go build -trimpath ./... && go test ./...
@@ -109,6 +109,6 @@ The API is documented in the [API.md](API.md) file - for convenience the availab
 
 ## License
 
-[MIT](https://github.com/uhppoted/uhpoted-lib-go/blob/master/LICENSE). 
+[MIT](https://codeberg.org/uhppoted/uhpoted-lib-go/blob/main/LICENSE). 
 
 
