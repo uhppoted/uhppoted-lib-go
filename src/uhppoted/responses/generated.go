@@ -150,6 +150,7 @@ type GetCard struct {
 	Door3      uint8      `json:"door-3"`
 	Door4      uint8      `json:"door-4"`
 	PIN        uint32     `json:"PIN"`
+	FirstCard  uint8      `json:"firstcard"`
 }
 
 // Container struct for the response returned from a controller when retrieving
@@ -164,6 +165,7 @@ type GetCardAtIndex struct {
 	Door3      uint8      `json:"door-3"`
 	Door4      uint8      `json:"door-4"`
 	PIN        uint32     `json:"PIN"`
+	FirstCard  uint8      `json:"firstcard"`
 }
 
 // Container struct for the response returned by a controller after adding or updating a

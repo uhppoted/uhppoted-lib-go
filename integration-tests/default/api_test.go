@@ -341,8 +341,9 @@ func TestPutCard(t *testing.T) {
 	door3 := uint8(17)
 	door4 := uint8(1)
 	PIN := uint32(999999)
+	firstCard := uint8(12)
 
-	response, err := uhppoted.PutCard(u, controller, card, startDate, endDate, door1, door2, door3, door4, PIN, timeout)
+	response, err := uhppoted.PutCard(u, controller, card, startDate, endDate, door1, door2, door3, door4, PIN, firstCard, timeout)
 
 	if err != nil {
 		t.Fatalf("%v", err)

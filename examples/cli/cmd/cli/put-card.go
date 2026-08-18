@@ -19,14 +19,16 @@ func putCard(u uhppoted.Uhppoted, args []string) error {
 	var end string
 	var permissions string
 	var PIN uint
+	var firstcard string
 
 	flagset := flag.NewFlagSet("put-card", flag.ExitOnError)
 
 	flagset.UintVar(&card, "card", 0, "card number")
 	flagset.StringVar(&start, "start-date", "", "card 'valid from' date e.g. 2025-01-01")
 	flagset.StringVar(&end, "end-date", "", "card 'valid until' date e.g. 2025-12-31")
-	flagset.StringVar(&permissions, "doors", "", "card access permissions e.g. 1,3:17,4 allows access to doors 1 and 4, door 3 access is managed by time profile 17")
+	flagset.StringVar(&permissions, "doors", "", "card access permissions (e.g. 1,3:17,4 grants access to doors 1 and 4 while door 3 access is managed by time profile 17)")
 	flagset.UintVar(&PIN, "PIN", 0, "(optional) PIN code [0..99999]")
+	flagset.StringVar(&firstcard, "first-card", "", "card first-card privileges (e.g. 1,4) grants the first-card privilege for doors 1 and 4)")
 
 	if controller, err := parse(flagset, args); err != nil {
 		return err
@@ -40,17 +42,19 @@ func putCard(u uhppoted.Uhppoted, args []string) error {
 		return fmt.Errorf("invalid access permissions (%v)", permissions)
 	} else if PIN > 999999 {
 		return fmt.Errorf("invalid PIN (%v)", PIN)
+	} else if firstCard, err := parseCardFirstCard(firstcard); err != nil {
+		return fmt.Errorf("invalid first-card privileges (%v)", firstcard)
 	} else {
 		// (for demo purposes only - there is a uhppoted.DateFromTime helper function)
 		d := types.NewDate(uint16(startdate.Year()), uint8(startdate.Month()), uint8(startdate.Day()))
 		e := types.NewDate(uint16(enddate.Year()), uint8(enddate.Month()), uint8(enddate.Day()))
 
 		f := func(c uint32) (any, error) {
-			return uhppoted.PutCard(u, c, uint32(card), startdate, enddate, doors[0], doors[1], doors[2], doors[3], uint32(PIN), options.timeout)
+			return uhppoted.PutCard(u, c, uint32(card), startdate, enddate, doors[0], doors[1], doors[2], doors[3], uint32(PIN), firstCard, options.timeout)
 		}
 
 		g := func(c uhppoted.Controller) (any, error) {
-			return uhppoted.PutCard(u, c, uint32(card), d, e, doors[0], doors[1], doors[2], doors[3], uint32(PIN), options.timeout)
+			return uhppoted.PutCard(u, c, uint32(card), d, e, doors[0], doors[1], doors[2], doors[3], uint32(PIN), firstCard, options.timeout)
 		}
 
 		if v, err := exec(controller, flagset, f, g); err != nil {
@@ -73,6 +77,7 @@ func putCardRecord(u uhppoted.Uhppoted, args []string) error {
 	var end string
 	var permissions string
 	var PIN uint
+	var firstcard string
 
 	flagset := flag.NewFlagSet("put-card", flag.ExitOnError)
 
@@ -81,6 +86,7 @@ func putCardRecord(u uhppoted.Uhppoted, args []string) error {
 	flagset.StringVar(&end, "end-date", "", "card 'valid until' date e.g. 2025-12-31")
 	flagset.StringVar(&permissions, "doors", "", "card access permissions e.g. 1,3:17,4 allows access to doors 1 and 4, door 3 access is managed by time profile 17")
 	flagset.UintVar(&PIN, "PIN", 0, "(optional) PIN code [0..99999]")
+	flagset.StringVar(&firstcard, "first-card", "", "card first-card privileges (e.g. 1,4) grants the first-card privilege for doors 1 and 4)")
 
 	if controller, err := parse(flagset, args); err != nil {
 		return err
@@ -94,6 +100,8 @@ func putCardRecord(u uhppoted.Uhppoted, args []string) error {
 		return fmt.Errorf("invalid access permissions (%v)", permissions)
 	} else if PIN > 999999 {
 		return fmt.Errorf("invalid PIN (%v)", PIN)
+	} else if firstCard, err := parseCardFirstCard(firstcard); err != nil {
+		return fmt.Errorf("invalid first-card privileges (%v)", firstcard)
 	} else {
 		record := types.Card{
 			Card:      uint32(card),
@@ -106,6 +114,12 @@ func putCardRecord(u uhppoted.Uhppoted, args []string) error {
 				4: doors[3],
 			},
 			PIN: uint32(PIN),
+			FirstCard: map[uint8]bool{
+				1: firstCard&0x01 == 0x01,
+				2: firstCard&0x02 == 0x02,
+				3: firstCard&0x04 == 0x04,
+				4: firstCard&0x08 == 0x08,
+			},
 		}
 
 		f := func(c uint32) (any, error) {
@@ -154,4 +168,30 @@ func parseCardPermissions(v string) ([]uint8, error) {
 	}
 
 	return doors, nil
+}
+
+func parseCardFirstCard(v string) (uint8, error) {
+	firstcard := uint8(0)
+
+	re := regexp.MustCompile("([1234])")
+	tokens := strings.SplitSeq(v, ",")
+	for token := range tokens {
+		match := re.FindStringSubmatch(token)
+
+		if len(match) > 0 {
+			if door, err := strconv.ParseUint(match[1], 10, 8); err != nil {
+				return firstcard, err
+			} else if door == 1 {
+				firstcard |= 0x01
+			} else if door == 2 {
+				firstcard |= 0x02
+			} else if door == 3 {
+				firstcard |= 0x04
+			} else if door == 4 {
+				firstcard |= 0x08
+			}
+		}
+	}
+
+	return firstcard, nil
 }

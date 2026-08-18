@@ -103,6 +103,12 @@ func TestGetCardRecord(t *testing.T) {
 			4: 1,
 		},
 		PIN: 7531,
+		FirstCard: map[uint8]bool{
+			1: false,
+			2: false,
+			3: true,
+			4: true,
+		},
 	}
 
 	record, err := uhppoted.GetCardRecord(u, controller, card, timeout)

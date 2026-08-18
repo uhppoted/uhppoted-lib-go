@@ -223,7 +223,7 @@ func GetCardAtIndexRequest(controller uint32, index uint32) ([]byte, error) {
 }
 
 // Encodes a PutCardRequest request to a 64 byte packet.
-func PutCardRequest(controller uint32, card uint32, startdate types.Date, enddate types.Date, door1 uint8, door2 uint8, door3 uint8, door4 uint8, PIN uint32) ([]byte, error) {
+func PutCardRequest(controller uint32, card uint32, startdate types.Date, enddate types.Date, door1 uint8, door2 uint8, door3 uint8, door4 uint8, PIN uint32, firstcard uint8) ([]byte, error) {
 	packet := make([]byte, 64)
 
 	packet[0] = SOM
@@ -238,6 +238,7 @@ func PutCardRequest(controller uint32, card uint32, startdate types.Date, enddat
 	packUint8(door3, packet, 22)
 	packUint8(door4, packet, 23)
 	packPIN(PIN, packet, 24)
+	packUint8(firstcard, packet, 27)
 
 	return packet, nil
 }

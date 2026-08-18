@@ -346,6 +346,7 @@ func GetCardResponse(packet []byte) (responses.GetCard, error) {
 		Door3:      unpackUint8(packet, 22),
 		Door4:      unpackUint8(packet, 23),
 		PIN:        unpackPIN(packet, 24),
+		FirstCard:  unpackUint8(packet, 27),
 	}, nil
 }
 
@@ -373,6 +374,7 @@ func GetCardAtIndexResponse(packet []byte) (responses.GetCardAtIndex, error) {
 		Door3:      unpackUint8(packet, 22),
 		Door4:      unpackUint8(packet, 23),
 		PIN:        unpackPIN(packet, 24),
+		FirstCard:  unpackUint8(packet, 27),
 	}, nil
 }
 

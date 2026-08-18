@@ -225,6 +225,7 @@ var Expected = struct {
 		Door3:      17,
 		Door4:      1,
 		PIN:        7531,
+		FirstCard:  12,
 	},
 
 	GetCardNotFound: responses.GetCard{
@@ -237,6 +238,7 @@ var Expected = struct {
 		Door3:      0,
 		Door4:      0,
 		PIN:        0,
+		FirstCard:  0,
 	},
 
 	GetCardAtIndex: responses.GetCardAtIndex{
@@ -249,6 +251,7 @@ var Expected = struct {
 		Door3:      17,
 		Door4:      1,
 		PIN:        7531,
+		FirstCard:  11,
 	},
 
 	GetCardAtIndexNotFound: responses.GetCardAtIndex{
@@ -261,6 +264,7 @@ var Expected = struct {
 		Door3:      0,
 		Door4:      0,
 		PIN:        0,
+		FirstCard:  0,
 	},
 
 	GetCardAtIndexDeleted: responses.GetCardAtIndex{
@@ -273,6 +277,7 @@ var Expected = struct {
 		Door3:      0,
 		Door4:      0,
 		PIN:        0,
+		FirstCard:  0,
 	},
 
 	PutCard: responses.PutCard{

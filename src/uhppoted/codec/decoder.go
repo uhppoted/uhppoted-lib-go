@@ -89,6 +89,12 @@ func decodeCardRecord(packet []byte) (types.Card, error) {
 				4: response.Door4,
 			},
 			PIN: response.PIN,
+			FirstCard: map[uint8]bool{
+				1: response.FirstCard&0x01 == 0x01,
+				2: response.FirstCard&0x02 == 0x02,
+				3: response.FirstCard&0x04 == 0x04,
+				4: response.FirstCard&0x08 == 0x08,
+			},
 		}, nil
 	}
 }
@@ -108,6 +114,12 @@ func decodeCardRecordAtIndex(packet []byte) (types.Card, error) {
 				4: response.Door4,
 			},
 			PIN: response.PIN,
+			FirstCard: map[uint8]bool{
+				1: response.FirstCard&0x01 == 0x01,
+				2: response.FirstCard&0x02 == 0x02,
+				3: response.FirstCard&0x04 == 0x04,
+				4: response.FirstCard&0x08 == 0x08,
+			},
 		}, nil
 	}
 }

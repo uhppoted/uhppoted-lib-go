@@ -489,6 +489,7 @@ type GetCardResponse struct {
   Door3               uint8               `json:"door-3"`         // access permissions for door 3
   Door4               uint8               `json:"door-4"`         // access permissions for door 4
   PIN                 pin                 `json:"PIN"`            // (optional) PIN code [0..999999], 0 for none
+  FirstCard           uint8               `json:"firstcard"`      // (optional) first-card privileges bitmask (bit 0: door 1, bit 1: door 2, bit 3: door 3, bit 4: door 4)
 }
 ```
 
@@ -515,13 +516,14 @@ type GetCardAtIndexResponse struct {
   Door3               uint8               `json:"door-3"`         // access permissions for door 3
   Door4               uint8               `json:"door-4"`         // access permissions for door 4
   PIN                 pin                 `json:"PIN"`            // (optional) PIN code [0..999999], 0 for none
+  FirstCard           uint8               `json:"firstcard"`      // (optional) first-card privileges bitmask (bit 0: door 1, bit 1: door 2, bit 3: door 3, bit 4: door 4)
 }
 ```
 
 ### `PutCard`
 Creates or updates the card information stored on an access controller.
 ```
-PutCard(u, controller, card, start date, end date, door 1, door 2, door 3, door 4, PIN, timeout)
+PutCard(u, controller, card, start date, end date, door 1, door 2, door 3, door 4, PIN, first card, timeout)
 
 where:
 - u             Uhppoted        Uhppoted struct initialised with the bind address, broadcast address, etc
@@ -534,6 +536,7 @@ where:
 - door 3        uint8           access permissions for door 3 (0: no access, 1: 24/7 access, [2..253] time profile)
 - door 4        uint8           access permissions for door 4 (0: no access, 1: 24/7 access, [2..253] time profile)
 - PIN           pin             optional PIN code [0..999999] (0 for none)
+- first card    uint8           (optional) first-card privileges bitmask (bit 0: door 1, bit 1: door 2, bit 3: door 3, bit 4: door 4)
 - timeout       time.Duration   maximum time to wait for a response from a controller
 ```
 Returns a `PutCardResponse`:

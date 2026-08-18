@@ -88,9 +88,26 @@ func PutCardRecord[T TController](u Uhppoted, controller T, card types.Card, tim
 	door3 := permissions[3]
 	door4 := permissions[4]
 
+	firstcard := uint8(0)
+	if v, ok := card.FirstCard[1]; v && ok {
+		firstcard |= 0x01
+	}
+
+	if v, ok := card.FirstCard[2]; v && ok {
+		firstcard |= 0x02
+	}
+
+	if v, ok := card.FirstCard[3]; v && ok {
+		firstcard |= 0x04
+	}
+
+	if v, ok := card.FirstCard[4]; v && ok {
+		firstcard |= 0x08
+	}
+
 	if c, err := resolve(controller); err != nil {
 		return false, err
-	} else if request, err := encode.PutCardRequest(c.ID, card.Card, card.StartDate, card.EndDate, door1, door2, door3, door4, card.PIN); err != nil {
+	} else if request, err := encode.PutCardRequest(c.ID, card.Card, card.StartDate, card.EndDate, door1, door2, door3, door4, card.PIN, firstcard); err != nil {
 		return false, err
 	} else if reply, err := send(u, c, request, timeout); err != nil {
 		return false, err

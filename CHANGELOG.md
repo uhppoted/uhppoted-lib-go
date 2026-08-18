@@ -4,6 +4,7 @@
 
 ### Added
 1. _SetFirstCard_ API function and low-level _io_ function.
+2. Add first-card privilege to `get-card` and `put-card` APIs.
 
 ### Updated
 1. Updated to Go v1.26.

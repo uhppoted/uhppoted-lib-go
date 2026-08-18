@@ -128,7 +128,7 @@ get-card-record-at-index: build
 	$(CMD) get-card-record-at-index --controller $(CONTROLLER) $(DEST) $(TCP) --index 3
 
 put-card: build
-	$(CMD) put-card-record --controller $(CONTROLLER) $(DEST) $(TCP) --card $(CARD) --start-date "2025-01-01" --end-date "2025-12-31" --doors 1,3:17,4 --PIN 987654
+	$(CMD) put-card-record --controller $(CONTROLLER) $(DEST) $(TCP) --card $(CARD) --start-date "2026-01-01" --end-date "2026-12-31" --doors 1,3:17,4 --PIN 987654 --first-card 2,3
 
 delete-card: build
 	$(CMD) delete-card --controller $(CONTROLLER) $(DEST) $(TCP) --card $(CARD)

@@ -6,4 +6,5 @@ type Card struct {
 	EndDate     Date            `json:"end-date"`
 	Permissions map[uint8]uint8 `json:"permissions"`
 	PIN         uint32          `json:"PIN"`
+	FirstCard   map[uint8]bool  `json:"first-card,omitempty"`
 }

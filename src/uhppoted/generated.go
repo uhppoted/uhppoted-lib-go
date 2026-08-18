@@ -126,9 +126,9 @@ func GetCardAtIndex[T TController](u Uhppoted, controller T, index uint32, timeo
 }
 
 // Creates or updates the card information stored on an access controller.
-func PutCard[T TController, D TDate](u Uhppoted, controller T, card uint32, startDate D, endDate D, door1 uint8, door2 uint8, door3 uint8, door4 uint8, PIN uint32, timeout time.Duration) (responses.PutCard, error) {
+func PutCard[T TController, D TDate](u Uhppoted, controller T, card uint32, startDate D, endDate D, door1 uint8, door2 uint8, door3 uint8, door4 uint8, PIN uint32, firstCard uint8, timeout time.Duration) (responses.PutCard, error) {
 	f := func(id uint32) ([]byte, error) {
-		return encode.PutCardRequest(id, card, convert[types.Date](startDate), convert[types.Date](endDate), door1, door2, door3, door4, PIN)
+		return encode.PutCardRequest(id, card, convert[types.Date](startDate), convert[types.Date](endDate), door1, door2, door3, door4, PIN, firstCard)
 	}
 
 	return exec[T, responses.PutCard](u, controller, f, timeout)
