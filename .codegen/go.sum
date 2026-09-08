@@ -1,5 +1,5 @@
-codeberg.org/uhppoted/uhppoted-codegen v0.9.1-0.20260818162758-dcd221acbb98 h1:ntqJmVLP5PunahXiKfx436Y//GjjEAq+ePV7xP7PrDI=
-codeberg.org/uhppoted/uhppoted-codegen v0.9.1-0.20260818162758-dcd221acbb98/go.mod h1:rLMivA2nlC1ubDVN59ZoO9V9rljZgPzXMuVJp34t0d8=
+codeberg.org/uhppoted/uhppoted-codegen v0.9.1-0.20260907164819-f5d6c27de730 h1:XUknHX6E2CFdwJCAzerCnTqpqkxNHxMjkamY9n/Xdxw=
+codeberg.org/uhppoted/uhppoted-codegen v0.9.1-0.20260907164819-f5d6c27de730/go.mod h1:NZozBL8enzdfO+VBCBY3TvZucyCRXGCp7YsiAVzLLrU=
 github.com/dave/dst v0.27.3 h1:P1HPoMza3cMEquVf9kKy8yXsFirry4zEnWOdYPOoIzY=
 github.com/dave/dst v0.27.3/go.mod h1:jHh6EOibnHgcUW3WjKHisiooEkYwqpHLBSX1iOBhEyc=
 github.com/dave/jennifer v1.5.0 h1:HmgPN93bVDpkQyYbqhCHj5QlgvUkvEOzMyEvKLgCRrg=

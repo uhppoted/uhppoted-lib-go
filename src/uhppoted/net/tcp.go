@@ -20,13 +20,50 @@ func MakeTCP(bind netip.AddrPort, debug bool) TCP {
 }
 
 func (t TCP) SendTo(request []byte, dest netip.AddrPort, timeout time.Duration) ([]byte, error) {
+	sockets := []*net.TCPConn{}
+
+	defer func() {
+		for _, sock := range sockets {
+			sock.Close()
+		}
+	}()
+
 	addr := net.TCPAddrFromAddrPort(dest)
 
 	if socket, err := net.DialTCP("tcp", t.bindAddr, addr); err != nil {
 		return nil, err
 	} else {
-		defer socket.Close()
+		sockets = append(sockets, socket)
 
+		// broadcast-to-self
+		//
+		// If the bind port is 0, retries (up to 5 times) until the OS binds to a port that is not the
+		// destination port. The interim sockets are retained to prevent the OS from reusing the invalid
+		// port, which it will happily do if the socket is closed immediately (hence the defer())
+		//
+		// This should check the destination address as well as the port but multiple network cards, etc
+		// make that complicated.
+		endpoint := socket.LocalAddr().(*net.TCPAddr)
+		if endpoint.Port == int(dest.Port()) && t.bindAddr.Port != 0 {
+			return nil, fmt.Errorf("TCP bind address: port %v reserved for broadcast", endpoint.Port)
+		}
+
+		retries := 0
+		for endpoint.Port == int(dest.Port()) {
+			if retries >= 5 {
+				return nil, fmt.Errorf("OS bound TCP socket to port %v reserved for broadcast", endpoint.Port)
+			} else if socket, err := net.DialTCP("tcp", t.bindAddr, addr); err != nil {
+				return nil, err
+			} else {
+				sockets = append(sockets, socket)
+
+				endpoint = socket.LocalAddr().(*net.TCPAddr)
+			}
+
+			retries++
+		}
+
+		// ... good to go!
 		if N, err := socket.Write(request); err != nil {
 			return nil, err
 		} else if t.debug {

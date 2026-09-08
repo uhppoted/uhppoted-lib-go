@@ -3,7 +3,7 @@ module codegen
 go 1.26
 
 require (
-	codeberg.org/uhppoted/uhppoted-codegen v0.9.1-0.20260818162758-dcd221acbb98
+	codeberg.org/uhppoted/uhppoted-codegen v0.9.1-0.20260907164819-f5d6c27de730
 	github.com/dave/dst v0.27.3
 )
 

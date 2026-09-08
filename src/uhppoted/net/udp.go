@@ -24,36 +24,47 @@ func MakeUDP(bind, broadcast, listen netip.AddrPort, debug bool) UDP {
 }
 
 func (u UDP) Broadcast(request []byte, timeout time.Duration) ([][]byte, error) {
+	sockets := []*net.UDPConn{}
+
+	defer func() {
+		for _, sock := range sockets {
+			sock.Close()
+		}
+	}()
+
 	socket, err := net.ListenUDP("udp", u.bindAddr)
 	if err != nil {
 		return [][]byte{}, err
 	}
 
-	defer socket.Close()
+	sockets = append(sockets, socket)
 
-	// NTS: avoid broadcast-to-self
+	// broadcast-to-self
+	//
+	// If the bind port is 0, retries (up to 5 times) until the OS binds to a port that is not the
+	// destination port. The interim sockets are retained to prevent the OS from reusing the invalid
+	// port, which it will happily do if the socket is closed immediately (hence the defer())
 	endpoint := socket.LocalAddr().(*net.UDPAddr)
 	if endpoint.Port == u.broadcastAddr.Port && u.bindAddr.Port != 0 {
-		return [][]byte{}, fmt.Errorf("invalid UDP bind address: port %v reserved for broadcast", endpoint.Port)
+		return [][]byte{}, fmt.Errorf("UDP bind address: port %v reserved for broadcast", endpoint.Port)
 	}
 
-	if endpoint.Port == u.broadcastAddr.Port {
-		retries := 0
+	retries := 0
+	for endpoint.Port == u.broadcastAddr.Port {
+		if retries >= 5 {
+			return [][]byte{}, fmt.Errorf("OS bound UDP socket to port %v reserved for broadcast", endpoint.Port)
+		} else if socket, err = net.ListenUDP("udp", u.bindAddr); err != nil {
+			return [][]byte{}, err
+		} else {
+			sockets = append(sockets, socket)
 
-		for endpoint.Port == u.broadcastAddr.Port {
-			retries++
-			if retries > 5 {
-				return [][]byte{}, fmt.Errorf("OS returned UDP bind socket with port %v reserved for broadcast)", endpoint.Port)
-			} else if socket, err = net.ListenUDP("udp", u.bindAddr); err != nil {
-				return [][]byte{}, err
-			} else {
-				defer socket.Close()
-
-				endpoint = socket.LocalAddr().(*net.UDPAddr)
-			}
+			endpoint = socket.LocalAddr().(*net.UDPAddr)
 		}
+
+		retries++
 	}
 
+	// ... good to go!
 	if N, err := socket.WriteToUDP(request, u.broadcastAddr); err != nil {
 		return nil, err
 	} else if u.debug {
@@ -89,36 +100,47 @@ func (u UDP) Broadcast(request []byte, timeout time.Duration) ([][]byte, error) 
 }
 
 func (u UDP) BroadcastTo(request []byte, timeout time.Duration) ([]byte, error) {
+	sockets := []*net.UDPConn{}
+
+	defer func() {
+		for _, sock := range sockets {
+			sock.Close()
+		}
+	}()
+
 	socket, err := net.ListenUDP("udp", u.bindAddr)
 	if err != nil {
 		return nil, err
 	}
 
-	defer socket.Close()
+	sockets = append(sockets, socket)
 
-	// NTS: avoid broadcast-to-self
+	// broadcast-to-self
+	//
+	// If the bind port is 0, retries (up to 5 times) until the OS binds to a port that is not the
+	// destination port. The interim sockets are retained to prevent the OS from reusing the invalid
+	// port, which it will happily do if the socket is closed immediately (hence the defer())
 	endpoint := socket.LocalAddr().(*net.UDPAddr)
 	if endpoint.Port == u.broadcastAddr.Port && u.bindAddr.Port != 0 {
-		return nil, fmt.Errorf("invalid UDP bind address: port %v reserved for broadcast", endpoint.Port)
+		return nil, fmt.Errorf("UDP bind address: port %v reserved for broadcast", endpoint.Port)
 	}
 
-	if endpoint.Port == u.broadcastAddr.Port {
-		retries := 0
+	retries := 0
+	for endpoint.Port == u.broadcastAddr.Port {
+		if retries >= 5 {
+			return nil, fmt.Errorf("OS bound UDP socket to port %v reserved for broadcast", endpoint.Port)
+		} else if socket, err = net.ListenUDP("udp", u.bindAddr); err != nil {
+			return nil, err
+		} else {
+			sockets = append(sockets, socket)
 
-		for endpoint.Port == u.broadcastAddr.Port {
-			retries++
-			if retries > 5 {
-				return nil, fmt.Errorf("OS returned UDP bind socket with port %v reserved for broadcast)", endpoint.Port)
-			} else if socket, err = net.ListenUDP("udp", u.bindAddr); err != nil {
-				return nil, err
-			} else {
-				defer socket.Close()
-
-				endpoint = socket.LocalAddr().(*net.UDPAddr)
-			}
+			endpoint = socket.LocalAddr().(*net.UDPAddr)
 		}
+
+		retries++
 	}
 
+	// ... good to go!
 	if N, err := socket.WriteToUDP(request, u.broadcastAddr); err != nil {
 		return nil, err
 	} else if u.debug {
@@ -169,6 +191,14 @@ func (u UDP) BroadcastTo(request []byte, timeout time.Duration) ([]byte, error) 
 }
 
 func (u UDP) SendTo(request []byte, dest netip.AddrPort, timeout time.Duration) ([]byte, error) {
+	sockets := []*net.UDPConn{}
+
+	defer func() {
+		for _, sock := range sockets {
+			sock.Close()
+		}
+	}()
+
 	addr := net.UDPAddrFromAddrPort(dest)
 
 	socket, err := net.DialUDP("udp", u.bindAddr, addr)
@@ -176,31 +206,37 @@ func (u UDP) SendTo(request []byte, dest netip.AddrPort, timeout time.Duration) 
 		return nil, err
 	}
 
-	defer socket.Close()
+	sockets = append(sockets, socket)
 
-	// NTS: avoid send-to-self
+	// broadcast-to-self
+	//
+	// If the bind port is 0, retries (up to 5 times) until the OS binds to a port that is not the
+	// destination port. The interim sockets are retained to prevent the OS from reusing the invalid
+	// port, which it will happily do if the socket is closed immediately (hence the defer())
+	//
+	// This should check the destination address as well as the port but multiple network cards, etc
+	// make that complicated.
 	endpoint := socket.LocalAddr().(*net.UDPAddr)
 	if endpoint.Port == u.broadcastAddr.Port && u.bindAddr.Port != 0 {
-		return nil, fmt.Errorf("invalid UDP bind address: port %v reserved for broadcast", endpoint.Port)
+		return nil, fmt.Errorf("UDP bind address: port %v reserved for broadcast", endpoint.Port)
 	}
 
-	if endpoint.Port == u.broadcastAddr.Port {
-		retries := 0
+	retries := 0
+	for endpoint.Port == u.broadcastAddr.Port {
+		if retries >= 5 {
+			return nil, fmt.Errorf("OS bound UDP socket to port %v reserved for broadcast", endpoint.Port)
+		} else if socket, err := net.DialUDP("udp", u.bindAddr, addr); err != nil {
+			return nil, err
+		} else {
+			sockets = append(sockets, socket)
 
-		for endpoint.Port == u.broadcastAddr.Port {
-			retries++
-			if retries > 5 {
-				return nil, fmt.Errorf("OS returned UDP bind socket with port %v reserved for broadcast)", endpoint.Port)
-			} else if socket, err = net.ListenUDP("udp", u.bindAddr); err != nil {
-				return nil, err
-			} else {
-				defer socket.Close()
-
-				endpoint = socket.LocalAddr().(*net.UDPAddr)
-			}
+			endpoint = socket.LocalAddr().(*net.UDPAddr)
 		}
+
+		retries++
 	}
 
+	// ... good to go!
 	if N, err := socket.Write(request); err != nil {
 		return nil, err
 	} else if u.debug {
