@@ -46,7 +46,7 @@ func (u UDP) Broadcast(request []byte, timeout time.Duration) ([][]byte, error) 
 	// port, which it will happily do if the socket is closed immediately (hence the defer())
 	endpoint := socket.LocalAddr().(*net.UDPAddr)
 	if endpoint.Port == u.broadcastAddr.Port && u.bindAddr.Port != 0 {
-		return [][]byte{}, fmt.Errorf("UDP bind address: port %v reserved for broadcast", endpoint.Port)
+		return [][]byte{}, fmt.Errorf("UDP bind address:port %v reserved for broadcast", endpoint.Port)
 	}
 
 	retries := 0
@@ -122,7 +122,7 @@ func (u UDP) BroadcastTo(request []byte, timeout time.Duration) ([]byte, error) 
 	// port, which it will happily do if the socket is closed immediately (hence the defer())
 	endpoint := socket.LocalAddr().(*net.UDPAddr)
 	if endpoint.Port == u.broadcastAddr.Port && u.bindAddr.Port != 0 {
-		return nil, fmt.Errorf("UDP bind address: port %v reserved for broadcast", endpoint.Port)
+		return nil, fmt.Errorf("UDP bind address:port %v reserved for broadcast", endpoint.Port)
 	}
 
 	retries := 0
@@ -218,7 +218,7 @@ func (u UDP) SendTo(request []byte, dest netip.AddrPort, timeout time.Duration) 
 	// make that complicated.
 	endpoint := socket.LocalAddr().(*net.UDPAddr)
 	if endpoint.Port == u.broadcastAddr.Port && u.bindAddr.Port != 0 {
-		return nil, fmt.Errorf("UDP bind address: port %v reserved for broadcast", endpoint.Port)
+		return nil, fmt.Errorf("UDP bind address:port %v reserved for broadcast", endpoint.Port)
 	}
 
 	retries := 0

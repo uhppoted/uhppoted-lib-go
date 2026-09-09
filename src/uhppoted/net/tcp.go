@@ -45,7 +45,7 @@ func (t TCP) SendTo(request []byte, dest netip.AddrPort, timeout time.Duration) 
 		// make that complicated.
 		endpoint := socket.LocalAddr().(*net.TCPAddr)
 		if endpoint.Port == int(dest.Port()) && t.bindAddr.Port != 0 {
-			return nil, fmt.Errorf("TCP bind address: port %v reserved for broadcast", endpoint.Port)
+			return nil, fmt.Errorf("TCP bind address:port %v reserved for broadcast", endpoint.Port)
 		}
 
 		retries := 0
