@@ -7,7 +7,7 @@
 2. Add first-card privilege to `get-card` and `put-card` APIs.
 
 ### Updated
-1. Updated to Go v1.26.
+1. Updated to Go v1.27.
 2. Updated to _modern_ Go with 'go fix'.
 3. Retries when ephemeral UDP port collides with broadcast port.
 4. Migrated from _github.com/uhppoted/uhppoted-lib-go_ to _codeberg.org/uhppoted/uhppoted-lib-go_.
