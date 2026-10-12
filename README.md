@@ -19,6 +19,15 @@ folder.
 
 #### Current Release
 
+## [0.9.1](https://github.com/uhppoted/uhppoted-lib-go/releases/tag/v0.9.1) - 2026-10-12
+
+1. Migrated from _github_ to _codeberg_.
+2. Updated to Go v1.27.
+3. Added _SetFirstCard_ API function and low-level _io_ function.
+4. Added first-card privilege to `get-card` and `put-card` APIs.
+5. Implemented retries when ephemeral UDP/TCP port collides with broadcast port.
+
+
 ## Installation
 
 ```
