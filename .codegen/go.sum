@@ -1,5 +1,5 @@
-codeberg.org/uhppoted/uhppoted-codegen v0.9.1-0.20261012173239-11bef7d5d794 h1:YGHDz4Uhnh1PCqr16O/VnU5HRPsozTSZI3jQZRPBExU=
-codeberg.org/uhppoted/uhppoted-codegen v0.9.1-0.20261012173239-11bef7d5d794/go.mod h1:fogXBqC9y200JjxpzAI0QGkbzsuX/Reirn9aO668bIQ=
+codeberg.org/uhppoted/uhppoted-codegen v0.9.1-0.20261019153411-00f5973353a9 h1:W3XPNYsJme/yC6DF6YVlUYmu/A8OIUU6ZQCmj71AM90=
+codeberg.org/uhppoted/uhppoted-codegen v0.9.1-0.20261019153411-00f5973353a9/go.mod h1:E/5mB8KoHjSKwcTDrpxa8IXGbxYtaIkc/171e7S+iHM=
 github.com/dave/dst v0.27.3 h1:P1HPoMza3cMEquVf9kKy8yXsFirry4zEnWOdYPOoIzY=
 github.com/dave/dst v0.27.3/go.mod h1:jHh6EOibnHgcUW3WjKHisiooEkYwqpHLBSX1iOBhEyc=
 github.com/dave/jennifer v1.5.0 h1:HmgPN93bVDpkQyYbqhCHj5QlgvUkvEOzMyEvKLgCRrg=
@@ -8,7 +8,7 @@ github.com/sergi/go-diff v1.2.0 h1:XU+rvMAioB0UC3q1MFrIQy4Vo5/4VsRDQQXHsEya6xQ=
 github.com/sergi/go-diff v1.2.0/go.mod h1:STckp+ISIX8hZLjrqAeVduY0gWCT9IjLuqbuNXdaHfM=
 golang.org/x/mod v0.6.0-dev.0.20220419223038-86c51ed26bb4 h1:6zppjxzCulZykYSLyVDYbneBfbaBIQPYMevg0bEwv2s=
 golang.org/x/mod v0.6.0-dev.0.20220419223038-86c51ed26bb4/go.mod h1:jJ57K6gSWd91VN4djpZkiMVwK6gcyfeH4XE8wZrZaV4=
-golang.org/x/sys v0.48.0 h1:bbX/i/6MgT9BVLM9RT1thmxL04yeTAhbEz4SyadbXoo=
-golang.org/x/sys v0.48.0/go.mod h1:hNLxWAXmnKAxqDtdwIYC4bM9oQPEecfsnNMuSxOs3og=
+golang.org/x/sys v0.49.0 h1:XbzkgYJHdqh/8m2Uu0W/dQv8nktxx4BFHp1M0gROTXA=
+golang.org/x/sys v0.49.0/go.mod h1:hNLxWAXmnKAxqDtdwIYC4bM9oQPEecfsnNMuSxOs3og=
 golang.org/x/tools v0.1.12 h1:VveCTK38A2rkS8ZqFY25HIDFscX5X9OoEhJd3quQmXU=
 golang.org/x/tools v0.1.12/go.mod h1:hNGJHUnrk76NpqgfD5Aqm5Crs+Hm0VOH/i9J2+nxYbc=
