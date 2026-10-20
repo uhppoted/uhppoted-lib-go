@@ -1,5 +1,8 @@
 # CHANGELOG
 
+## Unreleased
+
+
 ## [0.9.1](https://github.com/uhppoted/uhppoted-lib-go/releases/tag/v0.9.1) - 2026-10-12
 
 ### Added
