@@ -1,6 +1,15 @@
 ![build](https://github.com/uhppoted/uhppoted-lib-go/workflows/build/badge.svg)
 
 
+<div align="center">
+
+_The primary repository for this project is hosted on codeberg: https://codeberg.org/uhppoted/uhppoted-lib-go_
+
+_The [github repository](https://github.com/uhppoted/uhppoted-lib-go) will be kept up to date and maintained as a courtesy and for archival
+releases but please use _codeberg_ for reporting issues, etc._
+</div>
+
+
 # uhppoted-lib-go
 
 Standalone Go library for the UHPPOTE access controllers.
